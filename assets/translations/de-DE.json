@@ -1,0 +1,31 @@
+{
+   "error_title": "Fehler",
+   "loading": "Lade...",
+   "error": "Fehler: {}",
+   "approve": "Ok",
+   
+   "auth": {
+       "host": {
+           "header": "Verbinde dich mit dienem Homeserver",
+           "body": "Bitte wähle einen Matrix Homeserver.",
+            "inputs": {
+                "homeserver_label": "Adresse deines Homeserver"
+            },
+            "buttons": {
+                "login_label": "Login"
+            }
+       },
+        "login": {
+            "loading": "Du wirst eingeloggt...",
+            "header": "Login",
+            "body": "Bitte logge dich mit deinen Benutzerdaten ein.",
+            "inputs": {
+                "username_label": "Benutzername",
+                "password_label": "Passwort"
+            },
+            "buttons": {
+                "login_label": "Login"
+            }
+       }
+   }
+}
