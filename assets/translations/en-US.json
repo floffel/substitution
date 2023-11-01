@@ -21,7 +21,7 @@
             "body": "Please login with your credentials.",
             "inputs": {
                 "username_label": "Username",
-                "password_label": "Password",
+                "password_label": "Password"
             },
             "buttons": {
                 "login_label": "Login"
