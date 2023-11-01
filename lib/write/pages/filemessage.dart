@@ -211,12 +211,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                           inReplyTo: answerEvent);
 
                       if (ret == null) {
+                        // TODO: inform the user, handle error...
                         debugPrint("Upload failed!");
                       }
 
-                      answerEvent = Event.fromMatrixEvent(
-                          await client.getOneRoomEvent(widget.roomId, (ret!)),
-                          room!);
+                      //answerEvent = Event.fromMatrixEvent(
+                      //    await client.getOneRoomEvent(widget.roomId, (ret!)),
+                      //    room!);
                     }
 
                     //ret = await room!.sendFileEvent(); // TODO: HIER WEITER
@@ -230,10 +231,16 @@ class FileMessageWriteState extends State<FileMessageWrite> {
 /*
                 debugPrint("send message complete with ret ${ret}...");*/
                     // todo: show complete action and route to home or so
-                    context.go(
-                        "/"); // todo: go to the room feed where one posted the new message
+                    if (!mounted) return;
+                    if (answerEvent != null) {
+                      context.go("/post/${answerEvent.eventId}");
+                    } else if (room != null) {
+                      context.go("/feed/${room!.id}");
+                    } else {
+                      context.go("/");
+                    }
                   },
-                  icon: Icon(Icons.send))
+                  icon: const Icon(Icons.send))
             ])
           ])),
       endDrawer: const Menu(),

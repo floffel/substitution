@@ -103,8 +103,9 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                   return PostWidget(
                       event: (snapshot.data!.event),
                       displayEvent: (snapshot.data!.displayEvent));
-                } else
+                } else {
                   return Text("loading...");
+                }
               }),
         ],
         if (room != null) ...[
@@ -127,7 +128,10 @@ class TextMessageWriteState extends State<TextMessageWrite> {
           child: Column(
             children: [
               const quill.QuillToolbar(),
-              Expanded(
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minHeight: 100,
+                ),
                 child: quill.QuillEditor.basic(
                   configurations: const quill.QuillEditorConfigurations(
                     readOnly: false, // true for view only mode
@@ -137,13 +141,8 @@ class TextMessageWriteState extends State<TextMessageWrite> {
             ],
           ),
         ),
-
-        /*quill.QuillEditor.basic(
-          controller: _controller,
-          readOnly: false, // true for view only mode
-        ),*/
         Row(children: [
-          Spacer(),
+          const Spacer(),
           IconButton(
               onPressed: () async {
                 // send text
@@ -177,11 +176,17 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 }, threadRootEventId: eventThreadId, inReplyTo: await event);
 
                 debugPrint("send message complete with ret ${ret}...");
-                // todo: show complete action and route to home or so
-                context.go(
-                    "/feed/"); // todo: go to the room feed where one posted the new message
+
+                if (!mounted) return;
+                if (eventThreadId != null) {
+                  context.go("/post/${eventThreadId}");
+                } else if (room != null) {
+                  context.go("/feed/${room!.id}");
+                } else {
+                  context.go("/");
+                }
               },
-              icon: Icon(Icons.send))
+              icon: const Icon(Icons.send))
         ])
       ]),
       endDrawer: const Menu(),
