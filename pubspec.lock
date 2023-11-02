@@ -228,10 +228,9 @@ packages:
   emoji_selector:
     dependency: "direct main"
     description:
-      name: emoji_selector
-      sha256: "6b549cf4dd3848f30cfe5907c81d49760a78094300534c50cb90db581d61182a"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../flutter-emoji-selector"
+      relative: true
+    source: path
     version: "0.0.6"
   enhanced_enum:
     dependency: transitive
@@ -576,10 +575,9 @@ packages:
   introduction_screen:
     dependency: "direct main"
     description:
-      name: introduction_screen
-      sha256: "72d25ceb71471773783f72783608e17585af93d4bc6474df577fcfe9e7842852"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../introduction_screen"
+      relative: true
+    source: path
     version: "3.1.12"
   js:
     dependency: transitive

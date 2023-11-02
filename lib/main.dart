@@ -212,10 +212,11 @@ class _IntroductionState extends State<IntroductionPage> {
         PageViewModel(
           title: "Welcome to Substitution...",
           // todo: remove string and include the svg as an asset
-          image:  Image(image: AssetImage('assets/icon/logo.png')),
+          image: Image(image: AssetImage('assets/icon/logo.png')),
           bodyWidget: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("...dem [neuen] soziale Netzwerk auf Basis von Matrix"), // todo: intl
+              const Text(
+                  "...dem [neuen] soziale Netzwerk auf Basis von Matrix"), // todo: intl
             ]),
           ]),
           //image: const Center(child: Icon(Icons.android)),
