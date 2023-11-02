@@ -125,6 +125,14 @@ class SubstitutionApp extends StatelessWidget {
               builder: (context, state) => const IntroductionPage(),
             ),
             GoRoute(
+              redirect: (BuildContext context, GoRouterState state) async {
+                if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                    (await _getJoinedRooms()).isEmpty) {
+                  return '/intro';
+                } else {
+                  return null;
+                }
+              },
               path: '/feed/:roomId',
               builder: (context, state) =>
                   state.pathParameters['roomId']!.startsWith("!")
@@ -132,6 +140,14 @@ class SubstitutionApp extends StatelessWidget {
                       : Feed(roomId: "#${state.pathParameters['roomId']!}"),
             ),
             GoRoute(
+              redirect: (BuildContext context, GoRouterState state) async {
+                if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                    (await _getJoinedRooms()).isEmpty) {
+                  return '/intro';
+                } else {
+                  return null;
+                }
+              },
               path: '/post/:id',
               builder: (context, state) {
                 final eventId = state.pathParameters['id']!;
@@ -140,11 +156,27 @@ class SubstitutionApp extends StatelessWidget {
               },
             ),
             GoRoute(
+                redirect: (BuildContext context, GoRouterState state) async {
+                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                      (await _getJoinedRooms()).isEmpty) {
+                    return '/intro';
+                  } else {
+                    return null;
+                  }
+                },
                 path: '/write/select/room',
                 builder: (context, state) {
                   return const RoomSelectPage();
                 }),
             GoRoute(
+                redirect: (BuildContext context, GoRouterState state) async {
+                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                      (await _getJoinedRooms()).isEmpty) {
+                    return '/intro';
+                  } else {
+                    return null;
+                  }
+                },
                 path: '/write/:roomid',
                 builder: (contxt, state) {
                   final String? eventId = state.uri.queryParameters['event'];
@@ -152,6 +184,14 @@ class SubstitutionApp extends StatelessWidget {
                   return TextMessageWrite(eventId: eventId, roomId: roomId);
                 }),
             GoRoute(
+                redirect: (BuildContext context, GoRouterState state) async {
+                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                      (await _getJoinedRooms()).isEmpty) {
+                    return '/intro';
+                  } else {
+                    return null;
+                  }
+                },
                 path: '/file/:roomid',
                 builder: (contxt, state) {
                   final String? eventId = state.uri.queryParameters['event'];
@@ -167,6 +207,14 @@ class SubstitutionApp extends StatelessWidget {
                 builder: (context, state) =>
                     const AuthFlow(authPageRoute: 'login')),
             GoRoute(
+                redirect: (BuildContext context, GoRouterState state) async {
+                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
+                      (await _getJoinedRooms()).isEmpty) {
+                    return '/intro';
+                  } else {
+                    return null;
+                  }
+                },
                 path: '/settings/feed',
                 builder: (context, state) => const FollowFeedSettings()),
           ],
@@ -203,7 +251,7 @@ class IntroductionPage extends StatefulWidget {
 class _IntroductionState extends State<IntroductionPage> {
   late final Client client = Provider.of<Client>(context, listen: false);
   final _introKey = GlobalKey<IntroductionScreenState>();
-  
+
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(

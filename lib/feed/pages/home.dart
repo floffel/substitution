@@ -35,15 +35,6 @@ class HomePageState extends State<HomePage> {
 
   Client get client => Provider.of<Client>(context, listen: false);
 
-  // hier brauchen wir natürlich noch das gleiche für alle Server, denen man folgt...
-  // ausserdem muss man vmtl. noch checken, ob der archiviert ist etc.
-  List<dynamic>? get spaces =>
-      client.getRoomByAlias("#substitution:matrix.org")?.spaceChildren;
-
-  List<Room>? get roomsbak => spaces
-      ?.map((element) => Room(id: element.roomId, client: client))
-      .toList();
-
   // TODO: rooms muss jetzt alle gefolgten rooms zurückgeben, die in substitution angezeigt werden sollen
   // abgewandelte form von followfeeds.dart, TODO: impl. it as one function, somehow
 
@@ -53,15 +44,12 @@ class HomePageState extends State<HomePage> {
     if (widget.roomId != null) {
       String roomId = widget.roomId!;
 
-      if (widget.roomId!.startsWith("#")) {
+      if (roomId.startsWith("#")) {
         debugPrint("client: $client");
-        debugPrint("getting roomIdByAlias fpr RoomId ${widget.roomId}");
-        final resp = await client.getRoomIdByAlias(widget.roomId!);
+        debugPrint("getting roomIdByAlias fpr RoomId ${roomId}");
+        //final resp = await client.getRoomIdByAlias(roomId);
 
-        debugPrint(
-            "resp: ${resp}, resp.roomId: ${resp?.roomId}, resp.servers: ${resp?.servers}");
-
-        roomId = (await client.getRoomIdByAlias(widget.roomId!)).roomId!;
+        roomId = (await client.getRoomIdByAlias(roomId)).roomId!;
         debugPrint("roomId: $roomId");
       }
 
@@ -74,6 +62,8 @@ class HomePageState extends State<HomePage> {
         filter: jsonEncode(StateFilter(lazyLoadMembers: true)
             .toJson()), // for getting state events (e.g. power levels of posters)
       );
+
+      debugPrint("getRoomEvents finished");
 
       //this.prev_batch = resp.end;
       Room r = Room(id: roomId, client: client, prev_batch: resp.end);
