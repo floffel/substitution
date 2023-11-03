@@ -1,7 +1,7 @@
 ![substitution logo](https://raw.githubusercontent.com/floffel/substitution/main/assets/icon/logo.svg "Substitution")
 
 # Welcome to the substitution 
-This is an art project to substitute the social networks with an real social network.
+This is an art project to substitute the social networks with a real social network.
 Substitution is a static web (and soon android/ios) app, based on the matrix protocol.
 
 ## Main feature:
@@ -19,16 +19,16 @@ Substitution is a static web (and soon android/ios) app, based on the matrix pro
 * Follow any room on any server
 * Search for rooms on servers
 
-For a first expressions, look at: https://app.substitution.art/#/feed/photo_art:matrix.org (you have to be logged in first)
+For a first expression, look at: https://app.substitution.art/#/feed/photo_art:matrix.org (you have to be logged in first)
 
-## Developement
+## Development
 ### Big TODOs:
 - Fix inline todos
 - Implement more features
 - Rewrite translations to use singular or plural, not both/mixed
 - Release on Android and IOS
 
-### Prerequirements for run/build:
+### Pre-Requirements for run/build:
 On gentoo, it requires dev-libs/olm to run.
 ```
 git clone https://github.com/floffel/flutter-emoji-selector     # until changes merged
