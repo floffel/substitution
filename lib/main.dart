@@ -102,8 +102,7 @@ class SubstitutionApp extends StatelessWidget {
             GoRoute(
               path: '/',
               redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                    (await _getJoinedRooms()).isEmpty) {
+                if (!Provider.of<Client>(context, listen: false).isLogged()) {
                   return '/intro';
                 } else {
                   return null;
@@ -119,8 +118,7 @@ class SubstitutionApp extends StatelessWidget {
             ),
             GoRoute(
               redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                    (await _getJoinedRooms()).isEmpty) {
+                if (!Provider.of<Client>(context, listen: false).isLogged()) {
                   return '/intro';
                 } else {
                   return null;
@@ -134,8 +132,7 @@ class SubstitutionApp extends StatelessWidget {
             ),
             GoRoute(
               redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                    (await _getJoinedRooms()).isEmpty) {
+                if (!Provider.of<Client>(context, listen: false).isLogged()) {
                   return '/intro';
                 } else {
                   return null;
@@ -150,8 +147,7 @@ class SubstitutionApp extends StatelessWidget {
             ),
             GoRoute(
                 redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                      (await _getJoinedRooms()).isEmpty) {
+                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
                     return '/intro';
                   } else {
                     return null;
@@ -163,8 +159,7 @@ class SubstitutionApp extends StatelessWidget {
                 }),
             GoRoute(
                 redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                      (await _getJoinedRooms()).isEmpty) {
+                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
                     return '/intro';
                   } else {
                     return null;
@@ -179,8 +174,7 @@ class SubstitutionApp extends StatelessWidget {
             GoRoute(
                 // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
                 redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                      (await _getJoinedRooms()).isEmpty) {
+                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
                     return '/intro';
                   } else {
                     return null;
@@ -202,8 +196,7 @@ class SubstitutionApp extends StatelessWidget {
                     const AuthFlow(authPageRoute: 'login')),
             GoRoute(
                 redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged() ||
-                      (await _getJoinedRooms()).isEmpty) {
+                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
                     return '/intro';
                   } else {
                     return null;

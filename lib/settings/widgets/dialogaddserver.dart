@@ -23,8 +23,14 @@ class _DialogAddServerState extends State<DialogAddServer> {
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
   // TODO: this throws an exception if the account data is not valid!
   // so we have to ensure, that the account data exists!
-  Future<Map<String, Object?>> get accountData async =>
-      await client.getAccountData(client.userID!, "substitution.servers");
+  Future<Map<String, Object?>> get accountData async {
+      try { 
+        return await client.getAccountData(client.userID!, "substitution.servers");
+      } catch(e) {
+        // no account data (e.g. no server is set)
+        return {};
+      }
+  }
 
   Future checkHost(String serverAddr) async {
     // TODO: this could possibly go wrong, if two validations occour and the second one is faster than the first one... sudo fix this!
