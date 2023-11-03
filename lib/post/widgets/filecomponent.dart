@@ -198,7 +198,7 @@ class FileComponentState extends State<FileComponent> {
                                         Navigator.pop(context);
                                       },
                                       child: const Text(
-                                              "post.widget.filecomponent.button.close")
+                                              "post.widgets.filecomponent.button.close")
                                           .tr(),
                                     ),
                                   ],
