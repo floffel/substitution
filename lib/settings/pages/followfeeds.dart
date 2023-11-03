@@ -1,16 +1,14 @@
-import 'package:substitution/settings/widgets/menu.dart';
+import '/settings/widgets/menu.dart';
+import '/settings/widgets/dialogaddserver.dart';
+import '/settings/widgets/dialogdeleteserver.dart';
+import '/settings/widgets/roomwidget.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-
-import 'package:substitution/settings/widgets/dialogaddserver.dart';
-import 'package:substitution/settings/widgets/dialogdeleteserver.dart';
-import 'package:substitution/settings/widgets/roomwidget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class FollowFeedSettings extends StatefulWidget {
@@ -268,8 +266,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    //accountData.then((a) => {debugPrint("Returned account data: ${a}")});
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -291,9 +287,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       body: Container(
           alignment: Alignment.center,
           child: Column(children: [
-            Text("Server zum filtern auswählen, oder einen neuen hinzufügen:"),
+            const Text("settings.followfeeds.filter_server_header").tr(),
             Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: FutureBuilder(
                     future: accountData,
                     builder: (ctx, snapshot) {
@@ -317,54 +313,24 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                                         onLongPress: () async =>
                                             await showDeleteDialog(s.key))) ??
                                 [],
-
-                            /*ChoiceChip(
-                    label: Text('server.matrix.org'),
-                    selected: true, // todo
-                    /*todo onSelected: (bool selected) {
-                      setState(() {
-                        _value = selected ? index : null;
-                      });
-                    },*/
-                  ),
-                  ChoiceChip(
-                    label: Text('other-server.matrix.org'),
-                    selected: false, // todo
-
-                    /*todo onSelected: (bool selected) {
-                      setState(() {
-                        _value = selected ? index : null;
-                      });
-                    },*/
-                  ),
-                  */
-
                             ActionChip(
-                              avatar: Icon(Icons.add),
-                              label: const Text('add a new server'),
+                              avatar: const Icon(Icons.add),
+                              label: const Text(
+                                      "settings.followfeeds.buttons.add_server")
+                                  .tr(),
                               onPressed: () async => await showAddDialog(),
                             )
                           ]);
                     })),
-
-            // TODO: wir können es doch open für alles machen!
-            // wir können einmal in account_data reinschreiben, welche server wir konfiguriert haben
-            // und pro room noch einmal in account_data reinschreiben, dass wir hier gejoined sind für substitution!
-            // das wird automatisch synchronisiert mit client.setAccountData und getAccountData und getAccountDataPerRoom oder getRoomTags
-            // mann kann auch auf servern nach public räumen suchen per client.getPublicRooms (das könnte man auch zur verifizierung nehmen)
-
-            // todo client.getJoinedRooms sollte als erstes auch ohne suchauswahl kommen, dait man schnell sieht, welchen man folgt
-            // leaveRoom fürs leaven
-
             Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(children: [
-                  const Text(
-                      "Suche nach einem Raum, um ihm zu folgen oder zu entfolgen:"),
+                  const Text("settings.followfeeds.filter_rooms_header").tr(),
                   TextFormField(
                       controller: roomSearchContrainer,
                       decoration: InputDecoration(
-                        labelText: "Roomname",
+                        labelText:
+                            "settings.followfeeds.roomname_placeholder".tr(),
                       ),
                       onChanged: (String text) => {
                             setState(() {
@@ -373,149 +339,17 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                             })
                           }),
                 ])),
-
-            //if (searchText != null) ...[
-
-            // todo: joined rooms für den jeweiligen room hier am anfang anstellen!
-
-            // todo: auslagern in ein extra widget, weil wir es ja zwei mal brauchen!
             Expanded(
                 // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
                 child: PagedListView.separated(
                     pagingController: _pagingController,
                     separatorBuilder: (context, index) => const Divider(),
-                    builderDelegate: PagedChildBuilderDelegate<
-                            Map<String, dynamic>>(
-                        itemBuilder: (context, item, index) => RoomWidget(
-                            items: item,
-                            leaveRoom: _leaveRoom,
-                            joinRoom: _joinRoom)
-
-                        /*ListTile(
-                        title: Text(
-                            'Raum: ${item["name"]}, joined: ${item["joined"]}, isInsideSubstitution: ${item["isInsideSubstitution"]}'),
-                        subtitle: Text(item["id"]),
-                        leading: item["avatarUrl"] != null
-                            ? Image.network(item["avatarUrl"])
-                            : const Text("no img"),
-                        trailing:
-                            (item["isInsideSubstitution"] && item["joined"])
-                                ? IconButton(
-                                    icon: const Icon(Icons.person_remove),
-                                    tooltip: 'leave',
-                                    onPressed: () async {
-                                      // todo: loading animation
-                                      await _leaveRoom(item["id"]);
-
-                                      setState(() {});
-                                    },
-                                  )
-                                : IconButton(
-                                    icon: const Icon(Icons.person_add),
-                                    tooltip: 'join',
-                                    onPressed: () async {
-                                      // todo: loading animation
-                                      await _joinRoom(item["id"]);
-
-                                      setState(() {});
-                                    },
-                                  ),
-                      ),*/
-
-                        ))),
-
-            /*
-        Padding(
-            padding: EdgeInsets.all(16.0),
-            child: SearchAnchor(
-                builder: (BuildContext context, SearchController controller) {
-              return SearchBar(
-                controller: controller,
-                padding: const MaterialStatePropertyAll<EdgeInsets>(
-                    EdgeInsets.symmetric(horizontal: 16.0)),
-                onTap: () {
-                  controller.openView();
-                },
-                onChanged: (_) {
-                  controller.openView();
-                },
-                leading: const Icon(Icons.search),
-                trailing: <Widget>[
-                  // TODO: group_add nur machen, wenn man noch nicht folgt, sonst group_off machen!
-                  Tooltip(
-                    message: 'Follow room',
-                    child: IconButton(
-                      //isSelected: isDark,
-                      onPressed: () {
-                        //setState(() {
-                        //isDark = !isDark;
-                        //}
-                        //);
-                      },
-                      icon: const Icon(Icons.group_add),
-                    ),
-                  ),
-                  Tooltip(
-                    message: 'Unfollow room',
-                    child: IconButton(
-                      //isSelected: isDark,
-                      onPressed: () {
-                        //setState(() {
-                        //isDark = !isDark;
-                        //}
-                        //);
-                      },
-                      icon: const Icon(Icons.group_off),
-                    ),
-                  )
-                ],
-              );
-            }, suggestionsBuilder:
-                    (BuildContext context, SearchController controller) {
-              // hier nehmen wir für alle server einfach
-
-              // hier brauchen wir natürlich noch das gleiche für alle Server, denen man folgt...
-              /*  // ausserdem muss man vmtl. noch checken, ob der archiviert ist etc.
-                          List<dynamic>? get spaces => Provider.of<Client>(context, listen: false)
-                              .getRoomByAlias("#substitution:matrix.org")
-                              ?.spaceChildren;
-                        
-                          List<Room>? get rooms => spaces
-                              ?.map((element) => Room(
-                                  id: element.roomId,
-                                  client: Provider.of<Client>(context, listen: false)))
-                              .toList();
-                              */
-
-              return List<ListTile>.generate(5, (int index) {
-                final String item = 'item $index';
-                return ListTile(
-                  title: Text(item),
-                  onTap: () {
-                    setState(() {
-                      controller.closeView(item);
-                    });
-                  },
-                );
-              });
-            })),
-            */
-
-            /*List<ListTile>.generate(5, (int index) {
-                final String item = 'item $index';
-                return ListTile(
-                  title: Text(item),
-                  onTap: () {
-                    setState(() {
-                     // controller.closeView(item);
-                    });
-                  },
-                );
-              }),*/
-
-            // TODO: hier was zum adden/suchen von neuen räumen hinzufügen, auch von servern
-            // das hier am besten nach servern aufteilen. Vielleicht auch nach servern filtern?
-            //ListView(children: [])
+                    builderDelegate:
+                        PagedChildBuilderDelegate<Map<String, dynamic>>(
+                            itemBuilder: (context, item, index) => RoomWidget(
+                                items: item,
+                                leaveRoom: _leaveRoom,
+                                joinRoom: _joinRoom)))),
           ])),
       endDrawer: const Menu(),
     );

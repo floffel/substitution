@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:matrix/matrix.dart';
-
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Define a custom Form widget.
 class DialogDeleteServer extends StatefulWidget {
@@ -32,15 +30,15 @@ class _DialogDeleteServerState extends State<DialogDeleteServer> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text('Delete ${widget.server}?'),
-        content: Text("Delete ${widget.server}?"),
+        title: const Text("settings.dialog.delete.title")
+            .tr(args: [widget.server]), //Delete ${widget.server}?'),
+        content: const Text("settings.dialog.delete.desc")
+            .tr(args: [widget.server]), // Delete ${widget.server}?"),
         actions: <Widget>[
           TextButton(
-              child: const Text('Delete'),
+              child: const Text("settings.dialog.delete.button.submit").tr(),
               onPressed: () async {
                 var navState = Navigator.of(context);
-
-                // todo: leave the rooms and delete the substitution flag, so we really clean up
                 // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
                 //       so we can just delete the substition flag and don't leave the room
                 // todo: display loading animation or smthg. while leaving the rooms and deleting the keys
@@ -54,12 +52,12 @@ class _DialogDeleteServerState extends State<DialogDeleteServer> {
                 navState.pop(true);
               }),
           TextButton(
-              child: const Text('Cancel'),
+              child: const Text("settings.dialog.delete.button.cancel").tr(),
               onPressed: () {
                 var navState = Navigator.of(context);
 
                 navState.pop();
               })
-        ]); // TODO: leave all rooms where the local substitution flag is set and delete this flag
+        ]);
   }
 }

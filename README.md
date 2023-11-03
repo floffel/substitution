@@ -4,25 +4,24 @@ Substitution is a static web (and soon android/ios) app, based on the matrix pro
 
 Its main feature:
 => decentralized servers
+=> e2e encrypted rooms are possible (though no metadata encryption, the server owner will see the rooms you joined, not the posts you send/read)
 
 For content creators:
 => Fine graded posting control: Only Accounts with power level > 50 can post
 => Post images, videos and html with a wysiwyg editor (and more to come)
 => Link to your room via https://app.substitution.art/#/feed/:roomId where :roomId is the room id or alias (last one without the leading #)
+   (users have to be logged in though, this is a limitation by the matrix protocol)
 
 For followers:
+=> Comment and React on Posts and Comments
 => Follow any room on any server
 => Search for rooms on servers
 
-For anyone:
-=> Link to any room on any matrix server:
-https://app.substitution.art/#/room/:roomId
-
-For first expressions, look at: https://app.substitution.art/#/feed/photo_art:matrix.org
+For first expressions, look at: https://app.substitution.art/#/feed/photo_art:matrix.org (you have to be logged in first)
 
 # Big TODOs:
 - Fix 
-- Translations
+- Rewrite translations to use singular or plural, not both/mixed
 
 # Prerequirements for run/build:
 On gentoo, it requires dev-libs/olm to run.

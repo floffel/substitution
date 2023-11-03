@@ -1,19 +1,13 @@
-import 'package:substitution/settings/widgets/menu.dart';
+import '/settings/widgets/menu.dart';
+import '/post/widgets/post.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-
-import 'package:substitution/post/widgets/post.dart';
-
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
-
-// hier will ich eigentlich als übergabe einen raum haben
-// optional ein post oder kommentar, den ich dann darüber anzeige, zum antworten
-// und dann da eine neue Text-Message reinsenden
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class TextMessageWrite extends StatefulWidget {
@@ -93,7 +87,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
       ),
       body: ListView(children: [
         if (widget.eventId != null) ...[
-          Text("Antwort auf:"),
+          const Text("write.answer").tr(),
 
           //eventTuple
           FutureBuilder(
@@ -104,22 +98,22 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                       event: (snapshot.data!.event),
                       displayEvent: (snapshot.data!.displayEvent));
                 } else {
-                  return Text("loading...");
+                  return const Text("loading").tr();
                 }
               }),
         ],
         if (room != null) ...[
-          Text("Raum:"),
+          const Text("write.roomheader").tr(args: [""]),
           ListTile(
-            title: Text('Raum: ${room!.name}'),
+            title: const Text('write.roomheader').tr(args: [room!.name]),
             subtitle: Text(room!.id),
             leading: room!.avatar != null
                 ? Image.network(
                     room!.avatar!.getDownloadLink(client).toString())
-                : const Text("no img"),
+                : const Text("error_no_image").tr(),
           )
         ],
-        Text("Antwort eingeben:"),
+        const Text("write.textmessage.answer_promt").tr(),
         quill.QuillProvider(
           configurations: quill.QuillConfigurations(
             controller: _controller,
@@ -133,9 +127,8 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                   minHeight: 100,
                 ),
                 child: quill.QuillEditor.basic(
-                  configurations: const quill.QuillEditorConfigurations(
-                    readOnly: false, // true for view only mode
-                  ),
+                  configurations: quill.QuillEditorConfigurations(
+                      placeholder: "write.textmessage.input_placeholder".tr()),
                 ),
               )
             ],
@@ -179,7 +172,16 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
                 if (!mounted) return;
                 if (eventThreadId != null) {
-                  context.go("/post/${eventThreadId}");
+                  Event answerEvent = Event.fromMatrixEvent(
+                      await client.getOneRoomEvent(
+                          widget.roomId, (eventThreadId)),
+                      room!);
+                  if (!mounted) return;
+
+                  context.go(Uri(
+                          path: "/post/${answerEvent.eventId}",
+                          queryParameters: {'room': answerEvent.room.id})
+                      .toString());
                 } else if (room != null) {
                   context.go("/feed/${room!.id}");
                 } else {

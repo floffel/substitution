@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Define a custom Form widget.
 class DialogAddServer extends StatefulWidget {
@@ -92,26 +92,20 @@ class _DialogAddServerState extends State<DialogAddServer> {
         server: _matrixServerAdressContrainer.text, limit: 1);
 
     if ((resp.totalRoomCountEstimate ?? 0) > 0) {
-      // TODO: add this to the account data
-
-      //setAccountData
-      // todo: userId is only valid if user is logged in, we have to ensure that this function ist only
-      // available to logged in users!
-      // TODO: we have to append it, so we have to get the account data beforehand!
-
-      client.setAccountData(client.userID!, "substitution.servers",
-          {_matrixServerAdressContrainer.text: null, ...await accountData});
-
       // TODO: show loading animation
 
-      scavMsg.showSnackBar(const SnackBar(
-        content: Text("Server added"), // todo intl
+      await client.setAccountData(client.userID!, "substitution.servers",
+          {_matrixServerAdressContrainer.text: null, ...await accountData});
+
+      scavMsg.showSnackBar(SnackBar(
+        content: const Text("settings.dialog.add.snackbar.success").tr(),
       ));
 
       navState.pop(true);
     } else {
-      scavMsg.showSnackBar(const SnackBar(
-        content: Text("No valid homeserver provided"), // todo intl
+      scavMsg.showSnackBar(SnackBar(
+        content: const Text("settings.dialog.add.snackbar.error_homeserver")
+            .tr(), // todo intl
       ));
       navState.pop(false);
     }
@@ -125,7 +119,7 @@ class _DialogAddServerState extends State<DialogAddServer> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('Add a new server'),
+        title: const Text('settings.dialog.add.title').tr(),
         content: Form(
           key: _matrixServerPopupFormKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -134,7 +128,7 @@ class _DialogAddServerState extends State<DialogAddServer> {
             decoration: InputDecoration(
               prefixText: 'https://',
               icon: const Icon(Icons.dns),
-              labelText: "Server eingeben...",
+              labelText: "settings.dialog.add.input_placeholder".tr(),
               /*suffixIcon: Icon(
                                               (_matrixServerPopupFormKey
                                                               .currentState !=
@@ -152,7 +146,7 @@ class _DialogAddServerState extends State<DialogAddServer> {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Hinzufügen'),
+            child: const Text('settings.dialog.add.button.submit').tr(),
             onPressed: () async => await addRoom(),
           ),
         ]);

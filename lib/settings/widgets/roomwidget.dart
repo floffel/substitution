@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // like post but smaller
 class RoomWidget extends StatefulWidget {
@@ -29,16 +30,15 @@ class RoomWidgetState extends State<RoomWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-          'Raum: ${widget.items["name"]}, joined: ${widget.items["joined"]}, isInsideSubstitution: ${widget.items["isInsideSubstitution"]}'),
+      title: const Text('settings.room.desc').tr(args: [widget.items["name"]]),
       subtitle: Text(widget.items["id"]),
       leading: widget.items["avatarUrl"] != null
           ? Image.network(widget.items["avatarUrl"])
-          : const Text("no img"),
+          : const Text("error_no_image").tr(),
       trailing: showLeaveRoom
           ? IconButton(
               icon: const Icon(Icons.person_remove),
-              tooltip: 'leave',
+              tooltip: 'settings.room.leave'.tr(),
               onPressed: () async {
                 await widget.leaveRoom!(widget.items["id"]);
               },
@@ -46,12 +46,13 @@ class RoomWidgetState extends State<RoomWidget> {
           : showJoinRoom
               ? IconButton(
                   icon: const Icon(Icons.person_add),
-                  tooltip: 'join',
+                  tooltip: 'settings.room.join'.tr(),
                   onPressed: () async {
                     await widget.joinRoom!(widget.items["id"]);
                   },
                 )
-              : const Text(""),
+              : const Text(
+                  ""), // todo: find a better solution. Be aware: substitutiong Text("") with Cointainer() breaks!
     );
   }
 }

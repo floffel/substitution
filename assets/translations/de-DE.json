@@ -1,20 +1,129 @@
 {
-   "error_title": "Fehler",
-   "loading": "Lade...",
-   "error": "Fehler: {}",
-   "approve": "Ok",
-   
-   "auth": {
-       "host": {
-           "header": "Verbinde dich mit dienem Homeserver",
-           "body": "Bitte wähle einen Matrix Homeserver.",
+    "error_title": "Fehler",
+    "loading": "Lade...",
+    "error": "Fehler: {}",
+    "approve": "Ok",
+    "error_no_image": "Ohne Bild",
+    "feed": {
+        "pages": {
+            "home": {
+                "roomlabel": "Raumübersicht: {}"
+            }
+        }
+    },
+    "post": {
+        "pages": {
+            "post": {
+                "no_comments": "Keine Kommentare vorhanden."
+            }
+        },
+        "mixins": {
+            "iconpicker": {
+                "title": "Icon auswählen"
+            }  
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "Schließen"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Datei wird gerade entschlüsselt",
+                "video_desktop_error": "Auf Linux, Windows und MacOS können (noch) keine Videos abgespielt werden. Contribute das Feature doch auf Github!"
+            },
+            "reaction": {
+                "unknown_sender": "Unbekannt",
+                "sent_by": "Gesendet von {}"
+            },
+            "videoplayercontrol": {
+                "play": "Abspielen",
+                "caption_offset": "Untertietelverzögerung",
+                "playback_speed": "Abspielgeschwindigkeit"
+            }
+        }
+    },
+    "settings": {
+        "followfeeds": {
+            "filter_server_header": "Server zum filtern auswählen, oder einen neuen hinzufügen:",
+            "filter_rooms_header": "Suche nach einem Raum, um ihm zu folgen oder zu entfolgen:",
+            "roomname_placeholder": "Raumname eingeben",
+            "buttons": {
+                "add_server": "Server hinzufügen"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Eingeloggt als {}",
+            "logout": "Ausloggen",
+            "login": "Jetzt einloggen",
+            "home_site_label": "Home",
+            "feeds_site_label": "Feeds/Räume"
+        },
+        "room": {
+            "desc": "Raumname: {}",
+            "leave": "Raum verlassen",
+            "join": "Raum betreten und zu substitution hinzufügen"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Raum {} verlassen",
+                "desc": "Möchtest du Raum {} wirklich verlassen?",
+                "button": {
+                    "submit": "Ja, Raum verlassen",
+                    "cancel": "Nein, abbrechen"
+                }
+            },
+            "add": {
+                "title": "Neuen Server hinzufügen",
+                "input_placeholder": "Server eingeben...",
+                "button": {
+                    "submit": "Hinzufügen"
+                },
+                "snackbar": {
+                    "success": "Server hinzugefügt",
+                    "error_homeserver": "Angegebener Homeserver ist nicht gültig"
+                }
+            }
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Super, du bist eingelogged. \nFahre einfach mit demnächsten Schritt fort",
+        "isNotLoggedIn": "Bitte logge dich erst ein",
+        "buttons": {
+            "next": "Weiter",
+            "back": "Zurück"
+        },
+        "welcome": {
+            "title": "Willkommen zu Substitution",
+            "desc": "...dem [neuen] soziale Netzwerk auf Basis von Matrix"
+        },
+        "account": {
+            "title": "Matrix Accounts",
+            "desc": "Um diese App nutzen zu können, brauchst du einen Matrix Account. Solltest du nicht wissen, was das ist, oder einen brauchen, besuche bitte die folgende Seite: https://matrix.org/"
+        },
+        "host": {
+            "title": "Host auswählen"
+        },
+        "login": {
+            "title": "Login"
+        },
+        "finished": {
+            "title": "Los gehts",
+            "desc": "Super, du hast dich erfolgreich eingeloggt. Es kann losgehen. Viel Spass!",
+            "button": "Los gehts!"
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Verbinde dich mit dienem Homeserver",
+            "body": "Bitte wähle einen Matrix Homeserver.",
             "inputs": {
                 "homeserver_label": "Adresse deines Homeserver"
             },
             "buttons": {
                 "login_label": "Login"
             }
-       },
+        },
         "login": {
             "loading": "Du wirst eingeloggt...",
             "header": "Login",
@@ -26,6 +135,23 @@
             "buttons": {
                 "login_label": "Login"
             }
-       }
-   }
+        }
+    },
+    "write": {
+        "answer": "Antworte auf:",     
+        "roomheader": "Raum: {}", 
+        "filemessage": {
+            "upload_files": "Neue Dateien zum upload hinzufügen",
+            "title_header": "Titel:"
+        },
+        "roomselect": {
+          "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
+          "room_prompt": "Bitte den Raum auswählen, in den gepostet werden soll:",
+          "error_no_rooms": "Es konnten noch keine Räume gefunden werden, bitte füge erst welche hinzu"
+        },
+        "textmessage": {
+            "answer_promt": "Antwort eingeben:",
+            "input_placeholder": "Gib hier deinen Text ein"
+        }
+    }
 }

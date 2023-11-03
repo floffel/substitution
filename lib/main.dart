@@ -1,27 +1,20 @@
-import 'package:substitution/auth/auth.dart'; // auth subroute
-import 'package:substitution/feed/feed.dart'; // feed subroute
-import 'package:substitution/post/post.dart'; // post subroute
-import 'package:substitution/settings/pages/followfeeds.dart'; // feedsettings subroute
-import 'package:substitution/write/pages/textmessage.dart';
-import 'package:substitution/write/pages/filemessage.dart';
-import 'package:substitution/write/pages/roomselect.dart';
+import '/auth/auth.dart'; // auth subroute
+import '/feed/feed.dart'; // feed subroute
+import '/post/post.dart'; // post subroute
+import '/settings/pages/followfeeds.dart'; // feedsettings subroute
+import '/write/pages/textmessage.dart';
+import '/write/pages/filemessage.dart';
+import '/write/pages/roomselect.dart';
+import '/auth/pages/host.dart';
+import '/auth/pages/login.dart';
 
 import 'package:flutter/material.dart';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
-
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
-
 import 'package:introduction_screen/introduction_screen.dart';
-
-import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:substitution/auth/pages/host.dart';
-import 'package:substitution/auth/pages/login.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
@@ -184,6 +177,7 @@ class SubstitutionApp extends StatelessWidget {
                   return TextMessageWrite(eventId: eventId, roomId: roomId);
                 }),
             GoRoute(
+                // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
                 redirect: (BuildContext context, GoRouterState state) async {
                   if (!Provider.of<Client>(context, listen: false).isLogged() ||
                       (await _getJoinedRooms()).isEmpty) {
@@ -258,32 +252,25 @@ class _IntroductionState extends State<IntroductionPage> {
       key: _introKey,
       pages: [
         PageViewModel(
-          title: "Welcome to Substitution...",
-          // todo: remove string and include the svg as an asset
-          image: Image(image: AssetImage('assets/icon/logo.png')),
+          title: "intro.welcome.title".tr(),
+          image: const Image(image: AssetImage('assets/icon/logo.png')),
           bodyWidget: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text(
-                  "...dem [neuen] soziale Netzwerk auf Basis von Matrix"), // todo: intl
+              const Text("intro.welcome.desc").tr(),
             ]),
           ]),
-          //image: const Center(child: Icon(Icons.android)),
         ),
         PageViewModel(
-          title: "Matrix Accounts",
+          title: "intro.account.title".tr(),
           bodyWidget: Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                Text(
-                    "Um zu speichern, welchen Räumen du beigetreten bist wird ein Account bei einem der vielen Anbieter für Matrix verwendet. \nBitte logge dich im folgenden Schritt ein. \n\nUm mehr über Matrix Server zu erfahren, [klicke hier]. Für eine Liste von Servern [klicke hier]."),
-                const SizedBox(height: 10),
-                Text(
-                    "Tipps:\n- Du kannst von jedem Server auf jeden anderen Zugreifen (Stichwort federation) \n- Das spätere Übertragen von Benutzerinformationen ist noch nicht möglich, an diesem Feature wird jedoch gearbeitet [siehe hier]."),
+                const Text("intro.account.desc").tr(),
               ]),
         ),
         PageViewModel(
-            title: "Choose Host",
+            title: "intro.host.title".tr(),
             bodyWidget: Column(children: [
               if (client.isLogged()) ...[
                 //Spacer(),
@@ -298,14 +285,13 @@ class _IntroductionState extends State<IntroductionPage> {
                     child:
                         Icon(Icons.check, size: 60, color: Colors.grey[800])),
                 const SizedBox(height: 30),
-                Text("Super, du bist eingelogged."),
-                Text("Fahre einfach mit demnächsten Schritt fort")
+                const Text("intro.isLoggedIn").tr()
               ] else ...[
                 HostPage(onComplete: () => {_introKey.currentState?.next()})
               ],
             ])),
         PageViewModel(
-          title: "Login",
+          title: "intro.login.title".tr(),
           bodyWidget: Column(children: [
             if (client.isLogged()) ...[
               //Spacer(),
@@ -319,8 +305,7 @@ class _IntroductionState extends State<IntroductionPage> {
                   ),
                   child: Icon(Icons.check, size: 60, color: Colors.grey[800])),
               const SizedBox(height: 30),
-              Text("Super, du bist eingelogged."),
-              Text("Fahre einfach mit demnächsten Schritt fort")
+              const Text("intro.isLoggedIn").tr()
             ] else
               LoginPage(onComplete: () {
                 _introKey.currentState?.next();
@@ -329,22 +314,18 @@ class _IntroductionState extends State<IntroductionPage> {
           ]),
         ),
         PageViewModel(
-          title: "Los gehts",
+          title: "intro.finished.title".tr(),
           bodyWidget: Column(children: [
             if (!client.isLogged()) ...[
-              Text("Bitte logge dich erst ein")
+              const Text("intro.isNotLoggedIn").tr()
             ] else ...[
-              Text("Super! Es bleibt der letzte Schritt:"),
-              Text(
-                  "Du wirst dem Raum #.... beigetreten werden, damit es nicht so leer aussieht."),
-              Text("Anschließend kommst du auf die Startseite."),
-              Text("Viel Spass mit [...]!"),
-              SizedBox(height: 20),
+              const Text("intro.finished.desc").tr(),
+              const SizedBox(height: 20),
               FilledButton(
                 // todo: nicer button...
                 onPressed: () async {
                   // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
-                  String id =
+                  /*String id =
                       "#photo_art:matrix.org"; // TODO: change this to a real starting room
 
                   try {
@@ -356,11 +337,14 @@ class _IntroductionState extends State<IntroductionPage> {
 
                     if (!mounted) return;
                   } catch (e) {} // TODO: error handling...
+                  */
 
                   context.go("/");
                 },
-                child:
-                    Row(children: [const Icon(Icons.east), Text("Let's go")]),
+                child: Row(children: [
+                  const Icon(Icons.east),
+                  const Text("intro.finished.button").tr()
+                ]),
               ),
             ],
           ]),
@@ -384,8 +368,8 @@ class _IntroductionState extends State<IntroductionPage> {
       showNextButton: true,
       showBackButton: true,
       showDoneButton: false,
-      next: const Text("Next"), // TODO intl
-      back: const Text("Back"),
+      next: const Text("intro.buttons.next").tr(),
+      back: const Text("intro.buttons.back").tr(),
       onDone: () {
         context.go("/");
       },

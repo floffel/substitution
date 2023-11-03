@@ -1,18 +1,14 @@
+import '/post/widgets/filecomponent.dart';
+import '/post/widgets/reactionscomponent.dart';
+import '/post/mixins/iconpicker.dart';
+import '/post/interfaces/ievent.dart';
+
 import 'package:flutter/material.dart';
-import 'package:substitution/post/widgets/filecomponent.dart';
-
 import 'package:matrix/matrix.dart';
-
 import 'package:provider/provider.dart';
-import 'package:substitution/post/interfaces/ievent.dart';
-
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter_html/flutter_html.dart';
-
-import 'package:substitution/post/widgets/reactionscomponent.dart';
-
-import 'package:substitution/post/mixins/iconpicker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // like post but smaller
 class CommentWidget extends IEventWidget {
@@ -37,8 +33,9 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: a lot is duplicated from post.dart. Would be nice to have it in one widget or extend one or so...
     return Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: !showComment
             ? BoxDecoration(
                 color: Colors.grey[100]!,
@@ -48,24 +45,33 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
           GestureDetector(
               onTap: () => setState(() {
                     showComment = !showComment;
-                  }), //Navigator.of(context, rootNavigator: true).pushNamed('/post/', arguments: (fes.$1, fes.$2)),
+                  }),
               child: Row(children: [
                 widget.hasAvatarURL(widget
                         .displayEvent) // TODO: refactor to hasAvatarURL be a get
                     ? Image.network(
-                        width: 40,
-                        height: 40,
                         widget
-                            .avatarURL(widget
-                                .displayEvent)! // TODO: refactor to avatarURL be a get
+                            .avatarURL((widget.displayEvent))!
                             .getDownloadLink(client)
-                            .toString())
+                            .toString(),
+                        width: 40,
+                        height: 40, errorBuilder: (ctx, obj, stack) {
+                        // todo: find a way to check if we have a svg beforehand!
+                        return SvgPicture.network(
+                          widget
+                              .avatarURL((widget.displayEvent))!
+                              .getDownloadLink(client)
+                              .toString(),
+                          width: 40,
+                          height: 40,
+                        );
+                      })
                     : CircleAvatar(
                         child: Text(widget.username(widget.displayEvent)[
                             0])), // // TODO: refactor to username be a get
                 Expanded(
                     child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(widget.username(widget.displayEvent)))),
                 IconButton(
                   onPressed: () async => {
@@ -86,7 +92,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
             GestureDetector(
               onTap: () => setState(() {
                 showComment = !showComment;
-              }), //Navigator.of(context, rootNavigator: true).pushNamed('/post/', arguments: (fes.$1, fes.$2)),
+              }),
               child: (widget.displayEvent).messageType == MessageTypes.Text
                   ? Row(children: [
                       Expanded(
@@ -110,7 +116,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                 child: FutureBuilder(
                     future: widget.comments,
                     builder: (ctx, snapshot) {
-                      return /* Expanded( child:*/ Column(
+                      return Column(
                           children: ListTile.divideTiles(
                               context: context,
                               tiles: <Widget>[

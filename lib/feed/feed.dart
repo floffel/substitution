@@ -1,5 +1,5 @@
-import 'package:substitution/feed/pages/home.dart';
-import 'package:substitution/settings/widgets/menu.dart';
+import '/feed/pages/home.dart';
+import '/settings/widgets/menu.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,8 +27,7 @@ class FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -49,7 +48,7 @@ class FeedState extends State<Feed> {
         ],
       ),
       body: HomePage(roomId: widget.roomId),
-      endDrawer: Menu(),
+      endDrawer: const Menu(),
     );
   }
 }

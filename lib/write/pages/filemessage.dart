@@ -1,21 +1,18 @@
-import 'package:substitution/settings/widgets/menu.dart';
-
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
-
-import 'package:substitution/post/widgets/post.dart';
-
-import 'package:file_selector/file_selector.dart';
+import '/settings/widgets/menu.dart';
+import '/post/widgets/post.dart';
 
 import 'dart:io' show File;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:matrix/matrix.dart';
+import 'package:file_selector/file_selector.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class FileMessageWrite extends StatefulWidget {
-  FileMessageWrite({super.key, required this.roomId, this.eventId});
+  const FileMessageWrite({super.key, required this.roomId, this.eventId});
 
   final String roomId;
   final String? eventId;
@@ -86,33 +83,35 @@ class FileMessageWriteState extends State<FileMessageWrite> {
           )
         ],
       ),
+      // todo: filemessage and textmessage have a lot of exact same components, so make them widgets wich get imported
       body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ListView(children: [
             if (widget.eventId != null) ...[
-              Text("Antwort auf:"),
+              const Text("write.answer").tr(),
 
               //eventTuple
               FutureBuilder(
                   future: eventTuple,
                   builder: (ctx, snapshot) {
-                    if (snapshot.data != null) {
-                      return PostWidget(
-                          event: (snapshot.data!.event),
-                          displayEvent: (snapshot.data!.displayEvent));
-                    } else
-                      return Text("loading...");
+                    if (!snapshot.hasData) {
+                      return const Text("loading").tr();
+                    }
+
+                    return PostWidget(
+                        event: (snapshot.data!.event),
+                        displayEvent: (snapshot.data!.displayEvent));
                   }),
             ],
             if (room != null) ...[
-              Text("Raum:"),
+              const Text("write.roomheader").tr(),
               ListTile(
-                title: Text('Raum: ${room!.name}'),
+                title: const Text('write.roomheader').tr(args: [room!.name]),
                 subtitle: Text(room!.id),
                 leading: room!.avatar != null
                     ? Image.network(
                         room!.avatar!.getDownloadLink(client).toString())
-                    : const Text("no img"),
+                    : const Text("error_no_image").tr(),
               )
             ],
             // hier will ich ein upload bt und dann die liste um den dateien Titel (namen) zu geben
@@ -146,11 +145,11 @@ class FileMessageWriteState extends State<FileMessageWrite> {
               },
               // todo: nicer design...
               child: Row(children: [
-                Spacer(),
-                Icon(Icons.add),
-                Spacer(),
-                Text("Neue Dateien zum upload hinzufügen"),
-                Spacer()
+                const Spacer(),
+                const Icon(Icons.add),
+                const Spacer(),
+                const Text("write.filemessage.upload_files").tr(),
+                const Spacer()
               ]),
             ),
             if (files != []) ...[
@@ -158,9 +157,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                     TextFormField(
                         controller: f.textEditController,
                         decoration: InputDecoration(
-                          labelText: "Titel: ",
-                          //labelText: AppLocalizations.of(context)!
-                          //    .authHostHomeserverInputLabel,
+                          labelText: "write.filemessage.title_header".tr(),
                         )),
 
                     //Text("Name: ${f.name}, ${f.file.mimeType}"),
@@ -170,13 +167,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                           ? Image.network(f.file.path)
                           : Image.file(File(f.file.path)),
                     ] else ...[
-                      Text("movie"),
+                      Text("movie"), // todo implement this...
                     ]
                   ])),
             ],
 
             Row(children: [
-              Spacer(),
+              const Spacer(),
               IconButton(
                   onPressed: () async {
                     // many of this is equivalent to the textmessage widget, so we should make it a mixin
@@ -233,7 +230,10 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                     // todo: show complete action and route to home or so
                     if (!mounted) return;
                     if (answerEvent != null) {
-                      context.go("/post/${answerEvent.eventId}");
+                      context.go(Uri(
+                              path: "/post/${answerEvent.eventId}",
+                              queryParameters: {'room': answerEvent.room.id})
+                          .toString());
                     } else if (room != null) {
                       context.go("/feed/${room!.id}");
                     } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // TODO rename to ReactionsDisplay or smthg.
 class ReactionsComponent extends StatefulWidget {
@@ -46,17 +47,12 @@ class ReactionsComponentState extends State<ReactionsComponent> {
         ret[smiley] = (
           userNames: [
             ...(ret[smiley]?.userNames ?? []),
-            sender.displayName ?? 'unknown'
+            sender.displayName ?? "post.widget.reactions.unknown_sender".tr()
           ],
           isOwnSmiley: isOwnSmiley
         );
       }
     }
-
-    // TODO: set the length so we can prevent scrolling issues when scrolling up with the sized box
-    /*setState((){
-      numReactions = ret.length;      
-    });*/
 
     return ret;
   }
@@ -69,8 +65,8 @@ class ReactionsComponentState extends State<ReactionsComponent> {
           return Wrap(spacing: 1.0, runSpacing: 4.0, children: [
             ...snapshot.data?.entries.map((var e) {
                   return Tooltip(
-                      message:
-                          "send by ${e.value.userNames.join(', ')}", // todo int
+                      message: "post.widgets.reaction.sent_by"
+                          .tr(args: [e.value.userNames.join(', ')]),
                       child: Container(
                           margin: const EdgeInsets.all(2.0),
                           decoration: e.value.isOwnSmiley

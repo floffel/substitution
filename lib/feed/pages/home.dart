@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
+import '/post/widgets/post.dart';
+
 import 'dart:convert'; // for json
-
+import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:matrix/matrix.dart';
-
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
-// post widget
-import 'package:substitution/post/widgets/post.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, this.roomId}) : super(key: key);
@@ -387,45 +384,12 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
         body: RefreshIndicator(
             onRefresh: () async {
-              // Replace this delay with the code to be executed during refresh
-              // and return asynchronous code
               await _fetchFutureEvents();
-              //return Future<void>.delayed(const Duration(seconds: 3));
             },
-
-            //TODO: hier weiter: das scrollen implementieren!
-            // quasi immer alle laden, bis auf die, deren post der älteste ist, den quasi aussparen oderso...
-            // muss ich mir noch überlegen, weil es sollen ja immer alle geordnet sein
-
-            // erstmal 10 nachrichten von jedem server bekommen
-            // die dann ordnen. Aber bei der nachricht stoppen, bei dem die 10. nachricht eines servers verarbeitet
-            // wurde, da da ja eine kommt, die älter als die 10 nachricht ist aber es könnte sein, dass die neuer
-            // ist als die, die ich danach eigentlich anhängen würde.
-
-            /*child: FutureBuilder(
-                future: events,
-                builder: (ctx, snapshot) {
-                  return ListView(
-                      children: ListTile.divideTiles(
-                              context: context,
-                              tiles: snapshot.data?.map((var fes) {
-                                    return GestureDetector(
-                                        onTap: () => context.push(Uri(
-                                                    path: "/post/${fes.$1.eventId}",
-                                                    queryParameters: {
-                                                  'room': fes.$1.roomId
-                                                })
-                                                .toString()), //Navigator.of(context, rootNavigator: true).pushNamed('/post/', arguments: (fes.$1, fes.$2)),
-                                        child: PostWidget(
-                                            event: fes.$1, timeline: fes.$2));
-                                  }).toList() ??
-                                  [] // todo: sehr cool eigentlich... statt [] könnte man hier ein widget hinzufügen, was sagt "hier ist noch nichts, geh und folge ein paar servern/räumen"
-                              )
-                          .toList());
-                })));*/
             child: Column(children: [
               if (widget.roomId != null) ...[
-                Text("Raumübersicht: ${widget.roomId}")
+                const Text("feed.pages.home.roomlabel")
+                    .tr(args: [widget.roomId!])
               ],
               Expanded(
                   child: PagedListView.separated(
@@ -433,17 +397,15 @@ class HomePageState extends State<HomePage> {
                       separatorBuilder: (context, index) => const Divider(),
                       builderDelegate: PagedChildBuilderDelegate<
                               ({Event origEvent, Event displayEvent})>(
-                          itemBuilder: (context, item, index) =>
-                              GestureDetector(
-                                  onTap: () => context.push(Uri(
-                                              path: "/post/${item.origEvent.eventId}",
-                                              queryParameters: {
-                                            'room': item.origEvent.roomId
-                                          })
-                                          .toString()), //Navigator.of(context, rootNavigator: true).pushNamed('/post/', arguments: (fes.$1, fes.$2)),
-                                  child: PostWidget(
-                                      event: item.origEvent,
-                                      displayEvent: item.displayEvent)))))
+                          itemBuilder: (context, item, index) => GestureDetector(
+                              onTap: () => context.push(Uri(
+                                      path: "/post/${item.origEvent.eventId}",
+                                      queryParameters: {
+                                        'room': item.origEvent.roomId
+                                      }).toString()),
+                              child: PostWidget(
+                                  event: item.origEvent,
+                                  displayEvent: item.displayEvent)))))
             ])));
   }
 }

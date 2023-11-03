@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO: in most cases, we don't need a 404 but rather a "loading" page. Implement that one and use it wherever a 404 is not applicable
+
 @immutable
 class Error404Page extends StatefulWidget {
   const Error404Page({super.key});

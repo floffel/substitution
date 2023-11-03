@@ -3,6 +3,8 @@ import 'package:matrix/matrix.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Define a custom Form widget.
 class Menu extends StatefulWidget {
@@ -29,28 +31,21 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return NavigationDrawer(
-        onDestinationSelected: (int index) => {
-              if (index == 0 && !client.isLogged())
-                {
-                  // login
-                  context.push("/auth/host")
-                }
-              else if (index == 1)
-                {
-                  // Home
-                  context.go("/")
-                }
-              else if (index == 2)
-                {
-                  // Feeds/Räume
-                  context.push("/settings/feed")
-                }
-              else if (index == 3)
-                {
-                  // Settings
-                  context.push("/settings/")
-                }
-            },
+        onDestinationSelected: (int index) {
+          if (index == 0 && !client.isLogged()) {
+            // login
+            context.push("/auth/host");
+          } else if (index == 1) {
+            // Home
+            context.go("/");
+          } else if (index == 2) {
+            // Feeds/Räume
+            context.push("/settings/feed");
+          } else if (index == 3) {
+            // Settings
+            context.push("/settings/");
+          }
+        },
         children: [
           const SizedBox(height: 22),
           if (client.isLogged()) ...[
@@ -59,30 +54,42 @@ class _MenuState extends State<Menu> {
                   child: FutureBuilder(
                       future: profile,
                       builder: (ctx, snapshot) {
-                        if (snapshot.data == null) {
-                          return const Text("...");
+                        if (!snapshot.hasData) {
+                          return const Text("loading").tr();
                         }
                         // TODO: check if image is svg
                         return snapshot.data?.avatarUrl == null
                             ? Text(snapshot.data!.displayName![0])
-                            : Image.network(snapshot.data!.avatarUrl!
-                                .getDownloadLink(client)
-                                .toString());
+                            : Image.network(
+                                snapshot.data!.avatarUrl!
+                                    .getDownloadLink(client)
+                                    .toString(),
+                                width: 40,
+                                height: 40, errorBuilder: (ctx, obj, stack) {
+                                // todo: find a way to check if we have a svg beforehand!
+                                return SvgPicture.network(
+                                  snapshot.data!.avatarUrl!
+                                      .getDownloadLink(client)
+                                      .toString(),
+                                  width: 40,
+                                  height: 40,
+                                );
+                              });
                       })),
               label: Flex(direction: Axis.vertical, children: [
                 const Spacer(),
                 FutureBuilder(
                     future: profile,
                     builder: (ctx, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text("loading...");
+                      if (!snapshot.hasData) {
+                        return const Text("loading").tr();
                       }
 
-                      return Text(
-                          'Eingeloggt als ${snapshot.data!.displayName}');
+                      return const Text("settings.menu.logged_in_as")
+                          .tr(args: [snapshot.data!.displayName!]);
                     }),
                 TextButton(
-                  child: const Text("ausloggen"),
+                  child: const Text("settings.menu.logout").tr(),
                   onPressed: () async {
                     await client.logoutAll();
                     if (!mounted) return;
@@ -94,23 +101,23 @@ class _MenuState extends State<Menu> {
             )
           ] else ...[
             NavigationDrawerDestination(
-              icon: CircleAvatar(
+              icon: const CircleAvatar(
                 child: Icon(Icons
                     .public_off_outlined), //widget.hasAvatarURL ? Image.network(widget.avatarURL!) : Text(widget.username[0])
               ),
-              label: Text("Jetzt einloggen"),
+              label: const Text("settings.menu.login").tr(),
             ),
           ],
           const SizedBox(height: 22),
           NavigationDrawerDestination(
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home),
-            label: Text('Home'),
+            label: const Text('settings.menu.home_site_label').tr(),
           ),
           NavigationDrawerDestination(
             icon: const Icon(Icons.signpost_outlined),
             selectedIcon: const Icon(Icons.signpost),
-            label: Text('Feeds/Räume'),
+            label: const Text('settings.menu.feeds_site_label').tr(),
           ),
           /*const SizedBox(height: 22),
           NavigationDrawerDestination(

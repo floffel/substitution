@@ -1,4 +1,5 @@
-import 'package:substitution/settings/widgets/menu.dart';
+import '/settings/widgets/menu.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 

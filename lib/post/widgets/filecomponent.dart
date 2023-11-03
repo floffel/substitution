@@ -1,22 +1,14 @@
+import 'package:substitution/post/widgets/filedisplay.dart';
+
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:matrix/matrix.dart';
-
 import 'package:video_player/video_player.dart';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
-//import 'package:flutter_html/flutter_html.dart';
 import 'package:universal_html/html.dart' as html;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'package:octo_image/octo_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:substitution/post/widgets/filedisplay.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // TODO rename to FileDisplay or smthg.
 class FileComponent extends StatefulWidget {
@@ -31,9 +23,6 @@ class FileComponent extends StatefulWidget {
 }
 
 class FileComponentState extends State<FileComponent> {
-  VideoPlayerController?
-      _controller; // can't use late as it might never get initialized at all (see showVideo)
-
   CarouselController carouselController = CarouselController();
 
   // TODO: downloadAndDecryptAttachment for encrypted files
@@ -170,8 +159,9 @@ class FileComponentState extends State<FileComponent> {
       if (files.length > 1) ...[
         IconButton(
             onPressed: () => carouselController.previousPage(
-                duration: Duration(milliseconds: 300), curve: Curves.linear),
-            icon: Icon(Icons.arrow_back_ios))
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.linear),
+            icon: const Icon(Icons.arrow_back_ios))
       ],
       Expanded(
           child: CarouselSlider.builder(
@@ -188,6 +178,7 @@ class FileComponentState extends State<FileComponent> {
                     child: FileDisplay(file: files[itemIndex]),
                     onTap: () {
                       showDialog<String>(
+                          // TODO: make this an extra widget
                           context: context,
                           builder: (BuildContext context) => Dialog(
                                   child: Padding(
@@ -206,7 +197,9 @@ class FileComponentState extends State<FileComponent> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: const Text('Close'),
+                                      child: const Text(
+                                              "post.widget.filecomponent.button.close")
+                                          .tr(),
                                     ),
                                   ],
                                 ),
@@ -218,8 +211,9 @@ class FileComponentState extends State<FileComponent> {
       if (files.length > 1) ...[
         IconButton(
             onPressed: () => carouselController.nextPage(
-                duration: Duration(milliseconds: 300), curve: Curves.linear),
-            icon: Icon(Icons.arrow_forward_ios))
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.linear),
+            icon: const Icon(Icons.arrow_forward_ios))
       ]
     ]);
   }

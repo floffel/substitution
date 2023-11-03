@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class VidePlayerControlsOverlay extends StatefulWidget {
   const VidePlayerControlsOverlay({super.key, required this.controller});
@@ -45,12 +46,13 @@ class VidePlayerControlsOverlayState extends State<VidePlayerControlsOverlay> {
               ? const SizedBox.shrink()
               : Container(
                   color: Colors.black26,
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.play_arrow,
                       color: Colors.white,
                       size: 100.0,
-                      semanticLabel: 'Play',
+                      semanticLabel:
+                          'post.widgets.videoplayercontrol.play'.tr(),
                     ),
                   ),
                 ),
@@ -68,7 +70,7 @@ class VidePlayerControlsOverlayState extends State<VidePlayerControlsOverlay> {
           alignment: Alignment.topLeft,
           child: PopupMenuButton<Duration>(
             initialValue: widget.controller.value.captionOffset,
-            tooltip: 'Caption Offset',
+            tooltip: 'post.widgets.videoplayercontrol.caption_offset'.tr(),
             onSelected: (Duration delay) {
               setState(() {
                 widget.controller.setCaptionOffset(delay);
@@ -100,7 +102,7 @@ class VidePlayerControlsOverlayState extends State<VidePlayerControlsOverlay> {
           alignment: Alignment.topRight,
           child: PopupMenuButton<double>(
             initialValue: widget.controller.value.playbackSpeed,
-            tooltip: 'Playback speed',
+            tooltip: 'post.widgets.videoplayercontrol.playback_speed',
             onSelected: (double speed) {
               setState(() {
                 widget.controller.setPlaybackSpeed(speed);

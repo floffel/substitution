@@ -1,15 +1,11 @@
-import 'package:substitution/settings/widgets/menu.dart';
+import '/settings/widgets/menu.dart';
+import '/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
+
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-
-import 'package:substitution/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
-
-// hier will ich eigentlich als übergabe einen raum haben
-// optional ein post oder kommentar, den ich dann darüber anzeige, zum antworten
-// und dann da eine neue Text-Message reinsenden
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class RoomSelectPage extends StatefulWidget {
@@ -97,7 +93,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
         ],
       ),
       body: Column(children: [
-        Text("Bitte den typ wählen, der gepostet werden soll"),
+        const Text("write.roomselect.type_prompt").tr(),
         Switch(
           thumbIcon: postTypeThumbIcon,
           value: postType,
@@ -108,10 +104,14 @@ class RoomSelectPageState extends State<RoomSelectPage> {
             });
           },
         ),
-        Text("Bitte den Raum auswählen, in den gepostet werden soll:"),
+        const Text("write.roomselect.room_prompt").tr(),
         FutureBuilder(
             future: _getJoinedRooms(),
             builder: (ctx, snapshot) {
+              if (!snapshot.hasData) {
+                return const Text("loading").tr();
+              }
+
               return SingleChildScrollView(
                   child: Column(
                       children: ListTile.divideTiles(context: context, tiles: [
@@ -126,7 +126,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
                           },
                           child: RoomWidget(items: l));
                     }).toList() ??
-                    [Text("no rooms found... please add one first!")]
+                    [const Text("write.roomselect.error_no_rooms").tr()]
               ]).toList()));
             }),
       ]),

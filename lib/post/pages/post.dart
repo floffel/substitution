@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import '/post/interfaces/ievent.dart';
+import '/post/widgets/post.dart';
+import '/post/widgets/comment.dart';
 
-import 'package:substitution/post/interfaces/ievent.dart';
-import 'package:substitution/post/widgets/post.dart';
-import 'package:substitution/post/widgets/comment.dart';
+import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PostPage extends IEventWidget {
   const PostPage(
@@ -23,15 +24,17 @@ class PostPageState extends State<PostPage> {
     return Scaffold(
         body: RefreshIndicator(
             onRefresh: () async {
-              // Replace this delay with the code to be executed during refresh
-              // and return asynchronous code
-
-              return Future<void>.delayed(const Duration(seconds: 3));
+              // TODO: test if this realy reloads the comments and if not, implement it
+              setState(() {});
+              return Future<void>.delayed(
+                  const Duration(seconds: 1)); // cosmetic reasons
             },
             child: FutureBuilder(
                 future: widget.comments,
                 builder: (ctx, snapshot) {
-                  debugPrint("Comments: ${snapshot.data}");
+                  if (!snapshot.hasData) {
+                    return const Text("loading").tr();
+                  }
 
                   return SingleChildScrollView(
                       child: Column(
@@ -39,16 +42,13 @@ class PostPageState extends State<PostPage> {
                               ListTile.divideTiles(context: context, tiles: [
                     PostWidget(
                         event: widget.event, displayEvent: widget.displayEvent),
-
                     ...snapshot.data?.map((var e) {
                           return CommentWidget(
                               event: e.origEvent,
                               displayEvent: e.displayEvent,
                               postEvent: widget.event);
                         }).toList() ??
-                        [
-                          const Text("Keine Kommentare vorhanden")
-                        ] // todo internationalisation
+                        [const Text("post.pages.post.no_comments").tr()]
                   ]).toList()));
                 })));
   }

@@ -1,13 +1,11 @@
-import 'package:substitution/post/pages/post.dart';
-import 'package:substitution/settings/widgets/menu.dart';
+import '/post/pages/post.dart';
+import '/settings/widgets/menu.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-
-import 'package:substitution/error404page.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class Post extends StatefulWidget {
@@ -45,8 +43,7 @@ class PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       key:
@@ -71,15 +68,16 @@ class PostState extends State<Post> {
       body: FutureBuilder(
           future: event,
           builder: (ctx, snapshot) {
-            if (snapshot.data != null) {
-              // TODO: passive programming, error handling, if data == null or origEvent == null
-              return PostPage(
-                  event: (snapshot.data!.origEvent!),
-                  displayEvent: (snapshot.data!.displayEvent!));
+            if (!snapshot.hasData) {
+              return const Text("loading").tr();
             }
-            return const Error404Page(); // TODO: some better error handling
+
+            // TODO: passive programming, error handling, if data == null or origEvent == null
+            return PostPage(
+                event: (snapshot.data!.origEvent!),
+                displayEvent: (snapshot.data!.displayEvent!));
           }),
-      endDrawer: Menu(),
+      endDrawer: const Menu(),
     );
   }
 }

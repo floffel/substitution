@@ -1,20 +1,129 @@
 {
-   "error_title": "Error",
-   "loading": "Loading...",
-   "error": "Error: {}",
-   "approve": "Ok",
-   
-   "auth": {
-       "host": {
-           "header": "Connect to your Homeserver",
-           "body": "Please pick a Matrix Homeserver. You can then choose to login or to browse public available rooms.",
-            "inputs": {
-                "homeserver_label": "Adress of your Homeserver"
-            },
-            "buttons": {
-                "login_label": "Login"
+    "error_title": "Error",
+    "loading": "Loading...",
+    "error": "Error: {}",
+    "approve": "Ok",
+    "error_no_image": "No Image",
+    "feed": {
+        "pages": {
+            "home": {
+                "roomlabel": "Room: {}"
             }
-       },
+        }
+    },
+    "post": {
+        "pages": {
+            "post": {
+                "no_comments": "No comments yet."
+            }
+        },
+        "mixins": {
+            "iconpicker": {
+                "title": "Choose icon"
+            }  
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "close"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "File is being decrypted...",
+                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!"
+            },
+            "reaction": {
+                "unknown_sender": "unknown",
+                "sent_by": "Sent by {}"
+            },
+            "videoplayercontrol": {
+                "play": "play",
+                "caption_offset": "caption offset",
+                "playback_speed": "playback speed"
+            }
+        }
+    },
+    "settings": {
+        "followfeeds": {
+            "filter_server_header": "Choose a server from the list or add a new one:",
+            "filter_rooms_header": "Search a room to follow or unfollow:",
+            "roomname_placeholder": "Enter a roomname",
+            "buttons": {
+                "add_server": "Add Server"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Logged in as {}",
+            "logout": "Logout",
+            "login": "Login",
+            "home_site_label": "Home",
+            "feeds_site_label": "Feeds/Rooms"
+        },
+        "room": {
+            "desc": "Roomname: {}",
+            "leave": "Leave room",
+            "join": "Enter room and add it to substitution"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Leave room {}",
+                "desc": "Are you sure, you want to leave room {}?",
+                "button": {
+                    "submit": "Yes, leave it",
+                    "cancel": "No, cancel"
+                }
+            },
+            "add": {
+                "title": "Add a new Server",
+                "input_placeholder": "Enter server adress",
+                "button": {
+                    "submit": "Add"
+                },
+                "snackbar": {
+                    "success": "Server has been added",
+                    "error_homeserver": "Entered homeserver is not valid"
+                }
+            }
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Awesome, you are already logged in. \nYou can continue with the next Steps",
+        "isNotLoggedIn": "Please login forst",
+        "buttons": {
+            "next": "Next",
+            "back": "Back"
+        },
+        "welcome": {
+            "title": "Welcome to substitution",
+            "desc": "... the new social network on top of the matrix protocol"
+        },
+        "account": {
+            "title": "Matrix Accounts",
+            "desc": "You have to be logged in into a matrix account on an arbitrary server to be able to use this app. If you don't know how to get one, go and visit this site: https://matrix.org/"
+        },
+        "host": {
+            "title": "Choose a host"
+        },
+        "login": {
+            "title": "Login"
+        },
+        "finished": {
+            "title": "Let's go",
+            "desc": "Awesome, you have been logged in. We are ready to substitute. Let's go, and have fun!",
+            "button": "Go!"
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Connect to your Homeserver",
+            "body": "Please pick a Matrix Homeserver. You can then choose to login or to browse public available rooms.",
+             "inputs": {
+                 "homeserver_label": "Adress of your Homeserver"
+             },
+             "buttons": {
+                 "login_label": "Login"
+             }
+        },
         "login": {
             "loading": "Logging you in...",
             "header": "Login",
@@ -26,6 +135,23 @@
             "buttons": {
                 "login_label": "Login"
             }
-       }
-   }
+        }
+    },
+    "write": {
+        "answer": "Answer",     
+        "roomheader": "Room: {}", 
+        "filemessage": {
+            "upload_files": "Add new files for upload",
+            "title_header": "Titel:"
+        },
+        "roomselect": {
+          "type_prompt": "Choose the type of message that you like to post",
+          "room_prompt": "Choose the room in wich like to post:",
+          "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
+        },
+        "textmessage": {
+            "answer_promt": "Enter your Text:",
+            "input_placeholder": "Enter your text here..."            
+        }
+    }
 }

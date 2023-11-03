@@ -1,21 +1,16 @@
+import '/post/widgets/videoplayercontrolsoverlay.dart';
+
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:matrix/matrix.dart';
-
 import 'package:video_player/video_player.dart';
-import 'package:substitution/post/widgets/videoplayercontrolsoverlay.dart';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
-//import 'package:flutter_html/flutter_html.dart';
 import 'package:universal_html/html.dart' as html;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'package:octo_image/octo_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // TODO this one shows one file and is used in filecomponent.
 // filecomponent shows a list of this component
@@ -79,7 +74,8 @@ class FileDisplayState extends State<FileDisplay> {
                     if (snapshot.hasData) {
                       return Image.network(snapshot.data!, fit: BoxFit.contain);
                     }
-                    return Text("decryption in progess");
+                    return const Text("post.widgets.filedisplay.decrypting")
+                        .tr();
                   })
               : FutureBuilder(
                   // download decrypted file
@@ -88,7 +84,8 @@ class FileDisplayState extends State<FileDisplay> {
                     if (snapshot.hasData) {
                       return Image.file(snapshot.data!, fit: BoxFit.contain);
                     }
-                    return Text("decryption in progess");
+                    return const Text("post.widgets.filedisplay.decrypting")
+                        .tr();
                   })
           : /*Image.network(
                             files[itemIndex]
@@ -96,8 +93,6 @@ class FileDisplayState extends State<FileDisplay> {
                                 .getAttachmentUrl()
                                 .toString(),
                             fit: BoxFit.contain),*/
-
-          // todo: image that we can click to have a fullscreen view of the image
           OctoImage(
               image: CachedNetworkImageProvider(
                   widget.file.displayEvent.getAttachmentUrl().toString()),
@@ -106,7 +101,7 @@ class FileDisplayState extends State<FileDisplay> {
             ),
       MessageTypes.Video => // Todo: Styling... mby use a card?
         _controller == null
-            ? Text("Cannot display Video on Linux, Windows, MacOS")
+            ? const Text("post.widgets.filedisplay.video_desktop_error").tr()
             : Column(children: [
                 Center(
                   child: _controller!.value.isInitialized
@@ -124,7 +119,7 @@ class FileDisplayState extends State<FileDisplay> {
                       : Container(),
                 ),
               ]),
-      MessageTypes.Audio => Text(""), // TODO
+      MessageTypes.Audio => Container(), // TODO display audio messages
       String() => Container() // handled elsewhere
     };
   }

@@ -1,8 +1,9 @@
-import 'package:substitution/auth/pages/login.dart';
-import 'package:substitution/auth/pages/host.dart';
-import 'package:flutter/material.dart';
+import '/auth/pages/login.dart';
+import '/auth/pages/host.dart';
 
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class AuthFlow extends StatefulWidget {
