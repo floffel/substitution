@@ -24,12 +24,13 @@ class _DialogAddServerState extends State<DialogAddServer> {
   // TODO: this throws an exception if the account data is not valid!
   // so we have to ensure, that the account data exists!
   Future<Map<String, Object?>> get accountData async {
-      try { 
-        return await client.getAccountData(client.userID!, "substitution.servers");
-      } catch(e) {
-        // no account data (e.g. no server is set)
-        return {};
-      }
+    try {
+      return await client.getAccountData(
+          client.userID!, "substitution.servers");
+    } catch (e) {
+      // no account data (e.g. no server is set)
+      return {};
+    }
   }
 
   Future checkHost(String serverAddr) async {
