@@ -16,10 +16,10 @@ import 'package:provider/provider.dart'; // provide the client across widgets/pa
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
+  usePathUrlStrategy();
 
   await Hive.initFlutter();
 
@@ -43,7 +43,10 @@ void main() async {
     },
   );
 
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await client.init();
+
   runApp(EasyLocalization(
       supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
       path: 'assets/translations',
@@ -314,12 +317,10 @@ class _IntroductionState extends State<IntroductionPage> {
             ] else ...[
               const Text("intro.finished.desc").tr(),
               const SizedBox(height: 20),
-              FilledButton(
-                // todo: nicer button...
+              ElevatedButton(
                 onPressed: () async {
-                  // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
-                  /*String id =
-                      "#photo_art:matrix.org"; // TODO: change this to a real starting room
+                  String id =
+                      "#substitution.art:matrix.org"; // TODO: change this to a real starting room
 
                   try {
                     // try, so it'll not fail if we already joined the room. TODO; make this an optional step and handle, if we don't follow any rooms
@@ -330,13 +331,21 @@ class _IntroductionState extends State<IntroductionPage> {
 
                     if (!mounted) return;
                   } catch (e) {} // TODO: error handling...
-                  */
 
+                  context.go("/");
+                },
+                child: const Text("intro.finished.buttons.add_to_room_and_go")
+                    .tr(),
+              ),
+              ElevatedButton(
+                // todo: nicer button...
+                onPressed: () async {
+                  // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
                   context.go("/");
                 },
                 child: Row(children: [
                   const Icon(Icons.east),
-                  const Text("intro.finished.button").tr()
+                  const Text("intro.finished.buttons.go").tr()
                 ]),
               ),
             ],
@@ -363,9 +372,6 @@ class _IntroductionState extends State<IntroductionPage> {
       showDoneButton: false,
       next: const Text("intro.buttons.next").tr(),
       back: const Text("intro.buttons.back").tr(),
-      onDone: () {
-        context.go("/");
-      },
     );
   }
 }
