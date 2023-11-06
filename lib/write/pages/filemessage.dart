@@ -104,7 +104,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   }),
             ],
             if (room != null) ...[
-              const Text("write.roomheader").tr(),
+              const Text("write.roomheader").tr(args: [""]),
               ListTile(
                 title: const Text('write.roomheader').tr(args: [room!.name]),
                 subtitle: Text(room!.id),
