@@ -92,7 +92,8 @@ class RoomSelectPageState extends State<RoomSelectPage> {
           )
         ],
       ),
-      body: Column(children: [
+      body: Center(
+          child: Column(children: [
         const Text("write.roomselect.type_prompt").tr(),
         Switch(
           thumbIcon: postTypeThumbIcon,
@@ -129,7 +130,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
                     [const Text("write.roomselect.error_no_rooms").tr()]
               ]).toList()));
             }),
-      ]),
+      ])),
       endDrawer: const Menu(),
     );
   }
