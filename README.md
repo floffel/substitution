@@ -76,25 +76,29 @@ newEvents[i].event
 for every i in ```newEvents.length```
 
 ## Credits & licenses
-flutter: BSD 3-Clause "New" or "Revised" License
-easy_localization: MIT License
-hive_flutter: Apache License, Version 2.0
-matrix: AGPL-3.0
-go_router: BSD-3-Clause
-path_provider: BSD-3-Clause
-provider: MIT
-introduction_screen: MIT
-flutter_svg: MIT
-infinite_scroll_pagination: MIT
-emoji_selector: MIT
-flutter_html: MIT 
-video_player: BSD-3-Clause
-universal_html: Apache License, Version 2.0
-carousel_slider: MIT
-octo_image: MIT
-cached_network_image: MIT
-file_selector: BSD-3-Clause 
-flutter_quill: MIT
-vsc_quill_delta_to_html: MIT
-flutter_launcher_icons: MIT
-flutter_native_splash: MIT
+Special thanks to [krille-chan](https://github.com/krille-chan/fluffychat) for developing all the wrappers and the dart matrix api and providing a Privacy Statement.
+
+Projects used (withouth subprojects):
+* flutter: BSD 3-Clause "New" or "Revised" License
+* easy_localization: MIT License
+* hive_flutter: Apache License, Version 2.0
+* matrix: AGPL-3.0
+* go_router: BSD-3-Clause
+* path_provider: BSD-3-Clause
+* provider: MIT
+* introduction_screen: MIT
+* flutter_svg: MIT
+* infinite_scroll_pagination: MIT
+* emoji_selector: MIT
+* flutter_html: MIT 
+* video_player: BSD-3-Clause
+* universal_html: Apache License, Version 2.0
+* carousel_slider: MIT
+* octo_image: MIT
+* cached_network_image: MIT
+* file_selector: BSD-3-Clause 
+* flutter_quill: MIT
+* vsc_quill_delta_to_html: MIT
+* flutter_launcher_icons: MIT
+* flutter_native_splash: MIT
+* fluffychat: AGPL-3.0
