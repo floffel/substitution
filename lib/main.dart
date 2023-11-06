@@ -17,8 +17,129 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+//import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
+  /*
+  // @logging This is to debug GoRouter, wich will not output anything without it
+  l.Logger.root.level = l.Level.ALL; // defaults to Level.INFO
+  l.Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+  });*/
+
+  var router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        redirect: (BuildContext context, GoRouterState state) async {
+          if (!Provider.of<Client>(context, listen: false).isLogged()) {
+            return '/intro';
+          } else {
+            return null;
+          }
+        },
+        pageBuilder: (context, state) {
+          // needed b.c. /feed:roomId has the same widget
+          return CustomTransitionPage<void>(
+              key: UniqueKey(),
+              child: const Feed(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) => child);
+        },
+      ),
+      GoRoute(
+        path: '/intro',
+        builder: (context, state) => const IntroductionPage(),
+      ),
+      GoRoute(
+          redirect: (BuildContext context, GoRouterState state) async {
+            if (!Provider.of<Client>(context, listen: false).isLogged()) {
+              return '/intro';
+            } else {
+              return null;
+            }
+          },
+          path: '/feed/:roomId',
+          builder: (context, state) => Feed(
+              roomId: state.pathParameters['roomId']!.startsWith("!")
+                  ? state.pathParameters['roomId']!
+                  : "#${state.pathParameters['roomId']!}")),
+      GoRoute(
+        redirect: (BuildContext context, GoRouterState state) async {
+          if (!Provider.of<Client>(context, listen: false).isLogged()) {
+            return '/intro';
+          } else {
+            return null;
+          }
+        },
+        path: '/post/:id',
+        builder: (context, state) {
+          final eventId = state.pathParameters['id']!;
+          final roomId = state.uri.queryParameters['room']!;
+          return Post(eventId: eventId, roomId: roomId);
+        },
+      ),
+      GoRoute(
+          redirect: (BuildContext context, GoRouterState state) async {
+            if (!Provider.of<Client>(context, listen: false).isLogged()) {
+              return '/intro';
+            } else {
+              return null;
+            }
+          },
+          path: '/write/select/room',
+          builder: (context, state) {
+            return const RoomSelectPage();
+          }),
+      GoRoute(
+          redirect: (BuildContext context, GoRouterState state) async {
+            if (!Provider.of<Client>(context, listen: false).isLogged()) {
+              return '/intro';
+            } else {
+              return null;
+            }
+          },
+          path: '/write/:roomid',
+          builder: (contxt, state) {
+            final String? eventId = state.uri.queryParameters['event'];
+            final String roomId = state.pathParameters['roomid']!;
+            return TextMessageWrite(eventId: eventId, roomId: roomId);
+          }),
+      GoRoute(
+          // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
+          redirect: (BuildContext context, GoRouterState state) async {
+            if (!Provider.of<Client>(context, listen: false).isLogged()) {
+              return '/intro';
+            } else {
+              return null;
+            }
+          },
+          path: '/file/:roomid',
+          builder: (contxt, state) {
+            final String? eventId = state.uri.queryParameters['event'];
+            final String roomId = state.pathParameters['roomid']!;
+            return FileMessageWrite(eventId: eventId, roomId: roomId);
+          }),
+      GoRoute(
+          path: '/auth/host',
+          builder: (context, state) => const AuthFlow(authPageRoute: 'host')),
+      GoRoute(
+          path: '/auth/login',
+          builder: (context, state) => const AuthFlow(authPageRoute: 'login')),
+      GoRoute(
+          redirect: (BuildContext context, GoRouterState state) async {
+            if (!Provider.of<Client>(context, listen: false).isLogged()) {
+              return '/intro';
+            } else {
+              return null;
+            }
+          },
+          path: '/settings/feed',
+          builder: (context, state) => const FollowFeedSettings()),
+    ],
+    //debugLogDiagnostics: true, // see @logging
+  );
+
   usePathUrlStrategy();
 
   await Hive.initFlutter();
@@ -51,11 +172,15 @@ void main() async {
       supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
-      child: SubstitutionApp(client: client)));
+      child: SubstitutionApp(client: client, router: router)));
 }
 
 class SubstitutionApp extends StatelessWidget {
   final Client client;
+  final GoRouter router;
+
+  const SubstitutionApp(
+      {super.key, required this.client, required this.router});
 
   // TODO: more or less the same as in settings/pages/followfeeds.dart so make it a mixin
   Future<List<Map<String, dynamic>>> _getJoinedRooms() async {
@@ -91,124 +216,13 @@ class SubstitutionApp extends StatelessWidget {
     return newData;
   }
 
-  const SubstitutionApp({required this.client, Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        routerConfig: GoRouter(
-          initialLocation:
-              '/', // TODO: checken ob wir eingeloggt sind und mindestens einem Raum beigetreten
-
-          routes: [
-            GoRoute(
-              path: '/',
-              redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                  return '/intro';
-                } else {
-                  return null;
-                }
-              },
-              builder: (context, state) {
-                return const Feed();
-              },
-            ),
-            GoRoute(
-              path: '/intro',
-              builder: (context, state) => const IntroductionPage(),
-            ),
-            GoRoute(
-              redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                  return '/intro';
-                } else {
-                  return null;
-                }
-              },
-              path: '/feed/:roomId',
-              builder: (context, state) =>
-                  state.pathParameters['roomId']!.startsWith("!")
-                      ? Feed(roomId: state.pathParameters['roomId']!)
-                      : Feed(roomId: "#${state.pathParameters['roomId']!}"),
-            ),
-            GoRoute(
-              redirect: (BuildContext context, GoRouterState state) async {
-                if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                  return '/intro';
-                } else {
-                  return null;
-                }
-              },
-              path: '/post/:id',
-              builder: (context, state) {
-                final eventId = state.pathParameters['id']!;
-                final roomId = state.uri.queryParameters['room']!;
-                return Post(eventId: eventId, roomId: roomId);
-              },
-            ),
-            GoRoute(
-                redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                    return '/intro';
-                  } else {
-                    return null;
-                  }
-                },
-                path: '/write/select/room',
-                builder: (context, state) {
-                  return const RoomSelectPage();
-                }),
-            GoRoute(
-                redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                    return '/intro';
-                  } else {
-                    return null;
-                  }
-                },
-                path: '/write/:roomid',
-                builder: (contxt, state) {
-                  final String? eventId = state.uri.queryParameters['event'];
-                  final String roomId = state.pathParameters['roomid']!;
-                  return TextMessageWrite(eventId: eventId, roomId: roomId);
-                }),
-            GoRoute(
-                // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
-                redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                    return '/intro';
-                  } else {
-                    return null;
-                  }
-                },
-                path: '/file/:roomid',
-                builder: (contxt, state) {
-                  final String? eventId = state.uri.queryParameters['event'];
-                  final String roomId = state.pathParameters['roomid']!;
-                  return FileMessageWrite(eventId: eventId, roomId: roomId);
-                }),
-            GoRoute(
-                path: '/auth/host',
-                builder: (context, state) =>
-                    const AuthFlow(authPageRoute: 'host')),
-            GoRoute(
-                path: '/auth/login',
-                builder: (context, state) =>
-                    const AuthFlow(authPageRoute: 'login')),
-            GoRoute(
-                redirect: (BuildContext context, GoRouterState state) async {
-                  if (!Provider.of<Client>(context, listen: false).isLogged()) {
-                    return '/intro';
-                  } else {
-                    return null;
-                  }
-                },
-                path: '/settings/feed',
-                builder: (context, state) => const FollowFeedSettings()),
-          ],
-        ),
+        routerDelegate: router.routerDelegate,
+        routeInformationParser: router.routeInformationParser,
+        routeInformationProvider: router.routeInformationProvider,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
