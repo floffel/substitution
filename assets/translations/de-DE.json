@@ -109,8 +109,11 @@
         },
         "finished": {
             "title": "Los gehts",
-            "desc": "Super, du hast dich erfolgreich eingeloggt. Es kann losgehen. Viel Spass!",
-            "button": "Los gehts!"
+            "desc": "Super, du hast dich erfolgreich eingeloggt. Du kannst jetzt noch auswählen, ob du dem Substitution-Startraum folgen möchtest oder einfach so fortfahren möchtest. Es kann losgehen. Viel Spass!",
+            "buttons": {
+                "add_to_room_and_go": "Substitution-Raum folgen und loslegen!",
+                "go": "Los gehts!"
+            }
         }
     },
     "auth": {

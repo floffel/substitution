@@ -109,8 +109,11 @@
         },
         "finished": {
             "title": "Let's go",
-            "desc": "Awesome, you have been logged in. We are ready to substitute. Let's go, and have fun!",
-            "button": "Go!"
+            "desc": "Awesome, you have been logged in. We are ready to substitute. You can now choose whether or not you want to joining the substituion welcome room. Let's go, and have fun!",
+            "buttons": {
+                "add_to_room_and_go": "Join Substitution-Room & go!",
+                "go": "Just go!"
+            }
         }
     },
     "auth": {
