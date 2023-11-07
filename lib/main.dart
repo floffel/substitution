@@ -169,7 +169,11 @@ void main() async {
   await client.init();
 
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+        Locale('fr', 'FR')
+      ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
       child: SubstitutionApp(client: client, router: router)));

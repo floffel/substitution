@@ -1,0 +1,160 @@
+{
+    "error_title": "Erreur",
+    "loading": "Chargement...",
+    "error": "Erreur: {}",
+    "approve": "D'accord",
+    "error_no_image": "Pas d'image",
+    "feed": {
+        "pages": {
+            "home": {
+                "roomlabel": "Chambre: {}"
+            }
+        }
+    },
+    "post": {
+        "pages": {
+            "post": {
+                "no_comments": "Aucun commentaire pour l'instant."
+            }
+        },
+        "mixins": {
+            "iconpicker": {
+                "title": "Choisir l'icône"
+            }  
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "fermer"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Le fichier est en cours de décryptage...",
+                "video_desktop_error": "Les vidéos ne peuvent pas être affichées sous Linux, Windows ni MacOS. Pensez à contribuer sur Github, si vous aimez voir cette fonctionnalité!"
+            },
+            "reaction": {
+                "unknown_sender": "inconnu",
+                "sent_by": "Envoyée par {}"
+            },
+            "videoplayercontrol": {
+                "play": "jouer",
+                "caption_offset": "décalage de légende",
+                "playback_speed": "vitesse de lecture"
+            }
+        }
+    },
+    "settings": {
+        "followfeeds": {
+            "filter_server_header": "Choisissez un serveur dans la liste ou ajoutez-en un nouveau:",
+            "filter_rooms_header": "Recherchez une salle à suivre ou à ne plus suivre:",
+            "roomname_placeholder": "Entrez un nom de salle",
+            "buttons": {
+                "add_server": "Ajouter un serveur"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Connecté en tant que {}",
+            "logout": "Se déconnecter",
+            "login": "Se connecter",
+            "home_site_label": "Maison",
+            "feeds_site_label": "Flux/salles"
+        },
+        "room": {
+            "desc": "Nom de la salle: {}",
+            "leave": "Quitter la pièce",
+            "join": "Entrez dans la pièce et ajoutez-la à la substitution"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Quitter la pièce {}",
+                "desc": "Etes-vous sûr de vouloir quitter la salle {}?",
+                "button": {
+                    "submit": "Oui, laisse tomber",
+                    "cancel": "Non, annule"
+                }
+            },
+            "add": {
+                "title": "Ajouter un nouveau serveur",
+                "input_placeholder": "Entrez l'adresse du serveur",
+                "button": {
+                    "submit": "Ajouter"
+                },
+                "snackbar": {
+                    "success": "Le serveur a été ajouté",
+                    "error_homeserver": "Le serveur domestique saisi n'est pas valide"
+                }
+            }
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Génial, vous êtes déjà connecté. \nVous pouvez passer aux étapes suivantes",
+        "isNotLoggedIn": "Veuillez vous connecter avant",
+        "buttons": {
+            "next": "Suivant",
+            "back": "Dos"
+        },
+        "welcome": {
+            "title": "Bienvenue dans la substitution",
+            "desc": ".... le nouveau réseau social au dessus du protocole matriciel"
+        },
+        "account": {
+            "title": "Comptes Matrix",
+            "desc": "Vous devez être connecté à un compte matriciel sur un serveur arbitraire pour pouvoir utiliser cette application. Si vous ne savez pas comment vous en procurer un, allez visiter ce site: https://matrix.org/"
+        },
+        "host": {
+            "title": "Choisissez un hébergeur"
+        },
+        "login": {
+            "title": "Se connecter"
+        },
+        "finished": {
+            "title": "Allons-y",
+            "desc": "Génial, vous êtes connecté. Nous sommes prêts à remplacer. Vous pouvez désormais choisir si vous souhaitez ou non rejoindre la salle d'accueil de substitution. Allons-y et amusons-nous!",
+            "buttons": {
+                "add_to_room_and_go": "Rejoignez la salle de substitution et l' aller!",
+                "go": "Juste aller!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Connectez-vous à votre serveur domestique",
+            "body": "Veuillez choisir un serveur domestique Matrix. Vous pouvez ensuite choisir de vous connecter ou de parcourir les salles publiques disponibles.",
+             "inputs": {
+                 "homeserver_label": "Adresse de votre serveur domestique"
+             },
+             "buttons": {
+                 "login_label": "Se connecter"
+             }
+        },
+        "login": {
+            "loading": "Vous connecter...",
+            "header": "Se connecter",
+            "body": "Veuillez vous connecter avec vos identifiants.",
+            "inputs": {
+                "username_label": "Nom d'utilisateur",
+                "password_label": "Mot de passe"
+            },
+            "buttons": {
+                "login_label": "Se connecter"
+            }
+        }
+    },
+    "write": {
+        "answer": "Répondre",     
+        "roomheader": "Chambre: {}", 
+        "filemessage": {
+            "upload_files": "Ajouter de nouveaux fichiers à télécharger",
+            "title_header": "Titre:"
+        },
+        "roomselect": {
+          "type_prompt": "Choisissez le type de message que vous souhaitez publier:",
+          "room_prompt": "Choisissez le salon dans lequel vous souhaitez poster:",
+          "error_no_rooms": "Vous n'avez rejoint aucune salle ou vous n'avez pas le droit de publier."
+        },
+        "textmessage": {
+            "answer_promt": "Entrez votre texte:",
+            "input_placeholder": "Entrez votre texte ici..."            
+        }
+    }
+}
