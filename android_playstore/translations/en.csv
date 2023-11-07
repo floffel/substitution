@@ -1,0 +1,70 @@
+error_title,错误
+loading,加载中...
+error,错误： {}
+approve,好的
+error_no_image,没有图像
+feed__pages__home__roomlabel,房间： {}
+post__pages__post__no_comments,暂时没有评论。
+post__mixins__iconpicker__title,选择图标
+post__widgets__filecomponent__button__close,关闭
+post__widgets__filedisplay__decrypting,文件正在解密...
+post__widgets__filedisplay__video_desktop_error,视频无法在 Linux、Windows 或 MacOS 上显示。如果您想看到此功能，请考虑在 Github 上做出贡献！
+post__widgets__reaction__unknown_sender,未知
+post__widgets__reaction__sent_by,由...发送 {}
+post__widgets__videoplayercontrol__play,玩
+post__widgets__videoplayercontrol__caption_offset,标题偏移量
+post__widgets__videoplayercontrol__playback_speed,播放速度
+settings__followfeeds__filter_server_header,从列表中选择一台服务器或添加新服务器：
+settings__followfeeds__filter_rooms_header,搜索要关注或取消关注的房间：
+settings__followfeeds__roomname_placeholder,输入房间名称
+settings__followfeeds__buttons__add_server,添加服务器
+settings__menu__logged_in_as,登录为 {}
+settings__menu__logout,登出
+settings__menu__login,登录
+settings__menu__home_site_label,家
+settings__menu__feeds_site_label,饲料/房间
+settings__room__desc,房间名称：{}
+settings__room__leave,留出空间
+settings__room__join,输入房间并将其添加到替换中
+settings__dialog__delete__title,离开房间{}
+settings__dialog__delete__desc,您确定要离开房间 {} 吗？
+settings__dialog__delete__button__submit,是的，留下它
+settings__dialog__delete__button__cancel,不，取消
+settings__dialog__add__title,添加新服务器
+settings__dialog__add__input_placeholder,输入服务器地址
+settings__dialog__add__button__submit,添加
+settings__dialog__add__snackbar__success,服务器已添加
+settings__dialog__add__snackbar__error_homeserver,输入的家庭服务器无效
+intro__isLoggedIn,太棒了，您已经登录了。\n 您可以继续执行后续步骤
+intro__isNotLoggedIn,请登录森林
+intro__buttons__next,下一个
+intro__buttons__back,后退
+intro__welcome__title,欢迎替换
+intro__welcome__desc,... 矩阵协议之上的新社交网络
+intro__account__title,矩阵账户
+intro__account__desc,您必须登录任意服务器上的矩阵帐号才能使用此应用程序。如果您不知道如何获取，请访问此网站：https://matrix.org/
+intro__host__title,选择主机
+intro__login__title,登录
+intro__finished__title,我们走吧
+intro__finished__desc,太棒了，您已登录。我们准备替换。您现在可以选择是否要加入替补欢迎室。走吧，玩得开心！
+intro__finished__buttons__add_to_room_and_go,加入替补室和替补室去！
+intro__finished__buttons__go,去吧！
+auth__host__header,连接到您的家庭服务器
+auth__host__body,请选择 Matrix 家庭服务器。然后您可以选择登录或浏览公共可用房间。
+auth__host__inputs__homeserver_label,您的家庭服务器的地址
+auth__host__buttons__login_label,登录
+auth__login__loading,正在为您登录...
+auth__login__header,登录
+auth__login__body,请使用您的凭据登录。
+auth__login__inputs__username_label,用户名
+auth__login__inputs__password_label,密码
+auth__login__buttons__login_label,登录
+write__answer,回答
+write__roomheader,房间： {}
+write__filemessage__upload_files,添加新文件进行上传
+write__filemessage__title_header,标题：
+write__roomselect__type_prompt,选择您想要发布的消息类型
+write__roomselect__room_prompt,选择想要发帖的房间：
+write__roomselect__error_no_rooms,您还没有加入任何房间或者您没有发帖权限。
+write__textmessage__answer_promt,输入您的文字：
+write__textmessage__input_placeholder,在此输入您的文字...
