@@ -163,7 +163,14 @@
         },
         "textmessage": {
             "answer_promt": "Antwort eingeben:",
-            "input_placeholder": "Gib hier deinen Text ein"
+            "input_placeholder": "Gib hier deinen Text ein",
+            "send_start": "Nachricht wird gesendet...",
+            "send_failed": "Die Nachricht konnte nicht gesendet werden. Nochmal versuchen?",
+            "send_complete": "Nachricht wurde erfolgreich gesendet!",
+            "buttons": {
+                "send_stop": "Nicht nochmal versuchen",
+                "resend": "Ja, nochmal versuchen"
+            }
         }
     }
 }

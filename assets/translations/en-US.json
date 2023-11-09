@@ -163,7 +163,14 @@
         },
         "textmessage": {
             "answer_promt": "Enter your Text:",
-            "input_placeholder": "Enter your text here..."            
+            "input_placeholder": "Enter your text here...",
+            "send_start": "Started sending the message...",
+            "send_failed": "Message sending failed. Do you like to resend the message?",
+            "send_complete": "Message has been sent successfully!",
+            "buttons": {
+                "send_stop": "Don't retry",
+                "resend": "Retry"
+            }
         }
     }
 }
