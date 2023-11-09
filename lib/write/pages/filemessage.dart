@@ -325,8 +325,8 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                     if (!mounted) return;
 
                     scavMsg.showSnackBar(SnackBar(
-                      content: const Text("write.filemessage.upload_complete")
-                          .tr(),
+                      content:
+                          const Text("write.filemessage.upload_complete").tr(),
                     ));
 
                     if (answerEvent != null) {
