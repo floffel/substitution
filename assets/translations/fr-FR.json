@@ -145,7 +145,16 @@
         "roomheader": "Chambre: {}", 
         "filemessage": {
             "upload_files": "Ajouter de nouveaux fichiers à télécharger",
-            "title_header": "Titre:"
+            "title_header": "Titre:",
+            "upload_start": "Le téléchargement va commencer...",
+            "upload_file_process": "Le fichier {} est téléchargé",
+            "upload_error": "Le téléchargement du fichier {} a échoué. Devriez-vous réessayer de télécharger le fichier ??",
+            "upload_file_complete": "Le téléchargement du fichier {} a été terminé avec succès !",
+            "upload_complete": "Tous les fichiers ont été téléchargés avec succès!",
+            "buttons": {
+                "upload_stop": "N'essayez plus",
+                "upload_retry": "Répéter le téléchargement"
+            }
         },
         "roomselect": {
           "type_prompt": "Choisissez le type de message que vous souhaitez publier:",

@@ -145,7 +145,16 @@
         "roomheader": "Room: {}", 
         "filemessage": {
             "upload_files": "Add new files for upload",
-            "title_header": "Titel:"
+            "title_header": "Titel:",
+            "upload_start": "Starting upload...",
+            "upload_file_process": "Uploading file {}",
+            "upload_error": "Uploading {} failed. Retry Upload?",
+            "upload_file_complete": "Uploading {} is complete!",
+            "upload_complete": "All files have been uploaded!",
+            "buttons": {
+                "upload_stop": "Don't retry",
+                "upload_retry": "Retry upload"
+            }
         },
         "roomselect": {
           "type_prompt": "Choose the type of message that you like to post",

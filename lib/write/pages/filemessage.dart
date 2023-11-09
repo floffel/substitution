@@ -176,40 +176,124 @@ class FileMessageWriteState extends State<FileMessageWrite> {
               const Spacer(),
               IconButton(
                   onPressed: () async {
+                    var scavMsg = ScaffoldMessenger.of(context);
+
                     // many of this is equivalent to the textmessage widget, so we should make it a mixin
                     // send text
                     //Room r = (await room)!;
                     debugPrint("started sending message...");
 
-                    //late final String? ret;
-                    var eventThreadId = widget.eventId;
+                    // TODO: this could be a seperated widget to give updates to the user via setState rather than
+                    // always showing new windows...
 
-                    if ((await event)?.relationshipType ==
-                        RelationshipTypes.thread) {
-                      // commenting a comment => we can't start a new thread, rather use the existing one
-                      eventThreadId = (await event)?.relationshipEventId;
-                    }
-
-                    // TODO: das erste soll eine Antwort sein auf das gegebene Event, if any
-                    // die nachfolgenden auf das jeweils vorhergehende
-                    // so können wir ncahher eine Zusammenfassung erzeugen bei der Darstellung
-                    // und der spam anteil ist nicht so hoch weil wir eine Nachricht statt vieler haben
+                    // TODO: make it a mixin, its almost the same as in login.dart
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("loading".tr()),
+                          content: AspectRatio(
+                              aspectRatio: .7,
+                              child: FittedBox(
+                                  child: Column(children: [
+                                const CircularProgressIndicator(),
+                                const Text("write.filemessage.upload_files.upload_start").tr()
+                              ]))),
+                        );
+                      },
+                    );
 
                     Event? answerEvent = await event;
-                    for (var f in files) {
-                      MatrixFile uploadFile = MatrixFile(
-                          bytes: await f.file.readAsBytes(),
-                          name: [
-                            f.textEditController.text,
-                            f.file.name.split(".").last
-                          ].join("."));
-                      String? ret = await room!.sendFileEvent(uploadFile,
-                          threadRootEventId: eventThreadId,
-                          inReplyTo: answerEvent);
+                    var eventThreadId = widget.eventId;
 
-                      if (ret == null) {
-                        // TODO: inform the user, handle error...
-                        debugPrint("Upload failed!");
+                    if (answerEvent?.relationshipType ==
+                        RelationshipTypes.thread) {
+                      // commenting a comment => we can't start a new thread, rather use the existing one
+                      eventThreadId = answerEvent?.relationshipEventId;
+                    }
+
+                    if (!mounted) return;
+                    context.pop(); // pop the "starting upload" overlay
+
+                    for (var f in files) {
+                      String? ret;
+                      bool userCancel = false;
+                      // try to uploading the file as long as it did not succeed or as long as the user did not cancel
+                      while (ret == null || userCancel) {
+                        String uploadFileName = [
+                          f.textEditController.text,
+                          f.file.name.split(".").last
+                        ].join(".");
+
+                        // TODO: make it a mixin, its almost the same as in login.dart
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("loading".tr()),
+                              content: AspectRatio(
+                                  aspectRatio: .7,
+                                  child: FittedBox(
+                                      child: Column(children: [
+                                    const CircularProgressIndicator(),
+                                    const Text(
+                                        "write.filemessage.upload_file_process").tr(args: [uploadFileName]) // todo intl
+                                  ]))),
+                            );
+                          },
+                        );
+
+                        MatrixFile uploadFile = MatrixFile(
+                            bytes: await f.file.readAsBytes(),
+                            name: uploadFileName);
+                        ret = await room!.sendFileEvent(uploadFile,
+                            threadRootEventId: eventThreadId,
+                            inReplyTo: answerEvent);
+
+                        if (!mounted) return;
+
+                        context.pop(); // pop the Uploading file ... dialog
+
+                        if (ret == null) {
+                          userCancel = await showDialog<bool>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("loading").tr(),
+                                    content: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: FittedBox(
+                                          child: const Text("write.filemessage.upload_error").tr(args: [
+                                            f.textEditController.text
+                                          ]), // todo: intl, state wich upload failed
+                                        )),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text("write.filemessage.upload_stop").tr(),
+                                        onPressed: () {
+                                          context.pop(true);
+                                        },
+                                      ),
+                                      TextButton(
+                                          child: const Text("write.filemessage.upload_retry").tr(),
+                                          onPressed: () {
+                                            context.pop(false);
+                                          })
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+
+                          if (!mounted) return;
+                        } else {
+                          scavMsg.showSnackBar(SnackBar(
+                            content: const Text(
+                                "write.filemessage.upload_file_complete").tr(args: [uploadFileName]),
+                          ));
+                        }
                       }
 
                       //answerEvent = Event.fromMatrixEvent(
@@ -229,6 +313,11 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                 debugPrint("send message complete with ret ${ret}...");*/
                     // todo: show complete action and route to home or so
                     if (!mounted) return;
+
+                    scavMsg.showSnackBar(SnackBar(
+                      content: const Text("write.filemessage.upload_complete").tr(), // TODO: intl
+                    ));
+
                     if (answerEvent != null) {
                       context.go(Uri(
                               path: "/post/${answerEvent.eventId}",

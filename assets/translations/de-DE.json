@@ -145,7 +145,16 @@
         "roomheader": "Raum: {}", 
         "filemessage": {
             "upload_files": "Neue Dateien zum upload hinzufügen",
-            "title_header": "Titel:"
+            "title_header": "Titel:",
+            "upload_start": "Upload wird gestartet...",
+            "upload_file_process": "Datei {} wird hochgeladen",
+            "upload_error": "Das Uploaden der Datei {} ist fehlgeschlagen. Soll nochmal versucht werden, die Datei hochzuladen?",
+            "upload_file_complete": "Hochladen der Datei {} ist erfolgreich abgeschlossen!",
+            "upload_complete": "Alle Dateien wurden erfolgreich hochgeladen!",
+            "buttons": {
+                "upload_stop": "Nein",
+                "upload_retry": "Upload wiederholen"
+            }
         },
         "roomselect": {
           "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
