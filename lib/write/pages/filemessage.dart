@@ -198,7 +198,9 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                               child: FittedBox(
                                   child: Column(children: [
                                 const CircularProgressIndicator(),
-                                const Text("write.filemessage.upload_files.upload_start").tr()
+                                const Text(
+                                        "write.filemessage.upload_files.upload_start")
+                                    .tr()
                               ]))),
                         );
                       },
@@ -239,7 +241,8 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                                       child: Column(children: [
                                     const CircularProgressIndicator(),
                                     const Text(
-                                        "write.filemessage.upload_file_process").tr(args: [uploadFileName]) // todo intl
+                                            "write.filemessage.upload_file_process")
+                                        .tr(args: [uploadFileName])
                                   ]))),
                             );
                           },
@@ -265,19 +268,25 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                                     content: AspectRatio(
                                         aspectRatio: 1,
                                         child: FittedBox(
-                                          child: const Text("write.filemessage.upload_error").tr(args: [
+                                          child: const Text(
+                                                  "write.filemessage.upload_error")
+                                              .tr(args: [
                                             f.textEditController.text
-                                          ]), // todo: intl, state wich upload failed
+                                          ]),
                                         )),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: const Text("write.filemessage.upload_stop").tr(),
+                                        child: const Text(
+                                                "write.filemessage.upload_stop")
+                                            .tr(),
                                         onPressed: () {
                                           context.pop(true);
                                         },
                                       ),
                                       TextButton(
-                                          child: const Text("write.filemessage.upload_retry").tr(),
+                                          child: const Text(
+                                                  "write.filemessage.upload_retry")
+                                              .tr(),
                                           onPressed: () {
                                             context.pop(false);
                                           })
@@ -291,7 +300,8 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                         } else {
                           scavMsg.showSnackBar(SnackBar(
                             content: const Text(
-                                "write.filemessage.upload_file_complete").tr(args: [uploadFileName]),
+                                    "write.filemessage.upload_file_complete")
+                                .tr(args: [uploadFileName]),
                           ));
                         }
                       }
@@ -315,7 +325,8 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                     if (!mounted) return;
 
                     scavMsg.showSnackBar(SnackBar(
-                      content: const Text("write.filemessage.upload_complete").tr(), // TODO: intl
+                      content: const Text("write.filemessage.upload_complete")
+                          .tr(),
                     ));
 
                     if (answerEvent != null) {
