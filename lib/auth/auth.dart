@@ -41,12 +41,8 @@ class AuthFlowState extends State<AuthFlow> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Authentification"),
-        ),
-        body: widget.authPageRoute == 'host'
-            ? HostPage(onComplete: () => {context.push("/auth/login")})
-            : LoginPage(onComplete: () => {context.push("/")}));
+    return widget.authPageRoute == 'host'
+        ? HostPage(onComplete: () => {context.push("/auth/login")})
+        : LoginPage(onComplete: () => {context.push("/")});
   }
 }

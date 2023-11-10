@@ -1,4 +1,3 @@
-import '/settings/widgets/menu.dart';
 import '/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
 
 import 'package:provider/provider.dart';
@@ -20,8 +19,6 @@ class RoomSelectPage extends StatefulWidget {
 }
 
 class RoomSelectPageState extends State<RoomSelectPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
   bool postType = false;
@@ -74,64 +71,44 @@ class RoomSelectPageState extends State<RoomSelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.pop(true)},
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text("Substitution"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
+    return Center(
+        child: Column(children: [
+      const Text("write.roomselect.type_prompt").tr(),
+      Switch(
+        thumbIcon: postTypeThumbIcon,
+        value: postType,
+        activeColor: Colors.red,
+        onChanged: (bool value) {
+          setState(() {
+            postType = value;
+          });
+        },
       ),
-      body: Center(
-          child: Column(children: [
-        const Text("write.roomselect.type_prompt").tr(),
-        Switch(
-          thumbIcon: postTypeThumbIcon,
-          value: postType,
-          activeColor: Colors.red,
-          onChanged: (bool value) {
-            setState(() {
-              postType = value;
-            });
-          },
-        ),
-        const Text("write.roomselect.room_prompt").tr(),
-        FutureBuilder(
-            future: _getJoinedRooms(),
-            builder: (ctx, snapshot) {
-              if (!snapshot.hasData) {
-                return const Text("loading").tr();
-              }
+      const Text("write.roomselect.room_prompt").tr(),
+      FutureBuilder(
+          future: _getJoinedRooms(),
+          builder: (ctx, snapshot) {
+            if (!snapshot.hasData) {
+              return const Text("loading").tr();
+            }
 
-              return SingleChildScrollView(
-                  child: Column(
-                      children: ListTile.divideTiles(context: context, tiles: [
-                ...snapshot.data?.map((l) {
-                      //return Text(l["id"]);
-                      return GestureDetector(
-                          onTap: () {
-                            debugPrint("postType: ${postType}");
+            return SingleChildScrollView(
+                child: Column(
+                    children: ListTile.divideTiles(context: context, tiles: [
+              ...snapshot.data?.map((l) {
+                    //return Text(l["id"]);
+                    return GestureDetector(
+                        onTap: () {
+                          debugPrint("postType: ${postType}");
 
-                            context.push(
-                                "/${postType ? "file" : "write"}/${l['id']}");
-                          },
-                          child: RoomWidget(items: l));
-                    }).toList() ??
-                    [const Text("write.roomselect.error_no_rooms").tr()]
-              ]).toList()));
-            }),
-      ])),
-      endDrawer: const Menu(),
-    );
+                          context.push(
+                              "/${postType ? "file" : "write"}/${l['id']}");
+                        },
+                        child: RoomWidget(items: l));
+                  }).toList() ??
+                  [const Text("write.roomselect.error_no_rooms").tr()]
+            ]).toList()));
+          }),
+    ]));
   }
 }

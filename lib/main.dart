@@ -7,6 +7,7 @@ import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
 import '/auth/pages/host.dart';
 import '/auth/pages/login.dart';
+import '/pages/scaffold_with_navigation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,128 +18,104 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-//import 'package:logging/logging.dart' as l; // see @logging
+import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
-  /*
+  ///*
   // @logging This is to debug GoRouter, wich will not output anything without it
   l.Logger.root.level = l.Level.ALL; // defaults to Level.INFO
   l.Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
-  });*/
+  }); //*/
 
-  var router = GoRouter(
-    routes: [
-      GoRoute(
-        path: '/',
-        redirect: (BuildContext context, GoRouterState state) async {
-          if (!Provider.of<Client>(context, listen: false).isLogged()) {
-            return '/intro';
-          } else {
-            return null;
-          }
-        },
-        pageBuilder: (context, state) {
-          // needed b.c. /feed:roomId has the same widget
-          return CustomTransitionPage<void>(
-              key: UniqueKey(),
-              child: const Feed(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) => child);
-        },
-      ),
-      GoRoute(
-        path: '/intro',
-        builder: (context, state) => const IntroductionPage(),
-      ),
-      GoRoute(
-          redirect: (BuildContext context, GoRouterState state) async {
-            if (!Provider.of<Client>(context, listen: false).isLogged()) {
-              return '/intro';
-            } else {
-              return null;
-            }
+  final GlobalKey<NavigatorState> rootNavigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: "rootNav");
+
+  String? testRedirect(BuildContext context, GoRouterState state) {
+    if (!Provider.of<Client>(context, listen: false).isLogged()) {
+      return '/intro';
+    } else {
+      return null;
+    }
+  }
+
+  GoRouter router = GoRouter(
+      debugLogDiagnostics: true,
+      navigatorKey: rootNavigatorKey,
+      initialLocation: '/',
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (_, __) => const Feed(),
+          //parentNavigatorKey: rootNavigatorKey,
+          pageBuilder: (_, __) {
+            // needed b.c. /feed:roomId has the same widget
+            return CustomTransitionPage<void>(
+                key: UniqueKey(),
+                child: const Feed(),
+                transitionsBuilder: (_, __, ___, child) => child);
           },
-          path: '/feed/:roomId',
-          builder: (context, state) => Feed(
-              roomId: state.pathParameters['roomId']!.startsWith("!")
-                  ? state.pathParameters['roomId']!
-                  : "#${state.pathParameters['roomId']!}")),
-      GoRoute(
-        redirect: (BuildContext context, GoRouterState state) async {
-          if (!Provider.of<Client>(context, listen: false).isLogged()) {
-            return '/intro';
-          } else {
-            return null;
-          }
-        },
-        path: '/post/:id',
-        builder: (context, state) {
-          final eventId = state.pathParameters['id']!;
-          final roomId = state.uri.queryParameters['room']!;
-          return Post(eventId: eventId, roomId: roomId);
-        },
-      ),
-      GoRoute(
-          redirect: (BuildContext context, GoRouterState state) async {
-            if (!Provider.of<Client>(context, listen: false).isLogged()) {
-              return '/intro';
-            } else {
-              return null;
-            }
-          },
-          path: '/write/select/room',
+        ),
+        GoRoute(
+          redirect: testRedirect,
+          path: '/write/select/room', // write/select/room
+          builder: (_, __) =>
+              ScaffoldWithNavigation(child: const RoomSelectPage()),
+        ),
+        GoRoute(
+          path: '/intro',
+          builder: (context, state) =>
+              ScaffoldWithNavigation(child: const IntroductionPage()),
+        ),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/feed/:roomId',
+            builder: (context, state) => Feed(
+                roomId: state.pathParameters['roomId']!.startsWith("!")
+                    ? state.pathParameters['roomId']!
+                    : "#${state.pathParameters['roomId']!}")),
+        GoRoute(
+          redirect: testRedirect,
+          path: '/post/:id',
           builder: (context, state) {
-            return const RoomSelectPage();
-          }),
-      GoRoute(
-          redirect: (BuildContext context, GoRouterState state) async {
-            if (!Provider.of<Client>(context, listen: false).isLogged()) {
-              return '/intro';
-            } else {
-              return null;
-            }
+            final eventId = state.pathParameters['id']!;
+            final roomId = state.uri.queryParameters['room']!;
+            return ScaffoldWithNavigation(
+                child: Post(eventId: eventId, roomId: roomId));
           },
-          path: '/write/:roomid',
-          builder: (contxt, state) {
-            final String? eventId = state.uri.queryParameters['event'];
-            final String roomId = state.pathParameters['roomid']!;
-            return TextMessageWrite(eventId: eventId, roomId: roomId);
-          }),
-      GoRoute(
-          // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
-          redirect: (BuildContext context, GoRouterState state) async {
-            if (!Provider.of<Client>(context, listen: false).isLogged()) {
-              return '/intro';
-            } else {
-              return null;
-            }
-          },
-          path: '/file/:roomid',
-          builder: (contxt, state) {
-            final String? eventId = state.uri.queryParameters['event'];
-            final String roomId = state.pathParameters['roomid']!;
-            return FileMessageWrite(eventId: eventId, roomId: roomId);
-          }),
-      GoRoute(
-          path: '/auth/host',
-          builder: (context, state) => const AuthFlow(authPageRoute: 'host')),
-      GoRoute(
-          path: '/auth/login',
-          builder: (context, state) => const AuthFlow(authPageRoute: 'login')),
-      GoRoute(
-          redirect: (BuildContext context, GoRouterState state) async {
-            if (!Provider.of<Client>(context, listen: false).isLogged()) {
-              return '/intro';
-            } else {
-              return null;
-            }
-          },
-          path: '/settings/feed',
-          builder: (context, state) => const FollowFeedSettings()),
-    ],
-    //debugLogDiagnostics: true, // see @logging
-  );
+        ),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/write/:roomid',
+            builder: (contxt, state) {
+              final String? eventId = state.uri.queryParameters['event'];
+              final String roomId = state.pathParameters['roomid']!;
+              return ScaffoldWithNavigation(
+                  child: TextMessageWrite(eventId: eventId, roomId: roomId));
+            }),
+        GoRoute(
+            // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
+            redirect: testRedirect,
+            path: '/file/:roomid',
+            builder: (contxt, state) {
+              final String? eventId = state.uri.queryParameters['event'];
+              final String roomId = state.pathParameters['roomid']!;
+              return ScaffoldWithNavigation(
+                  child: FileMessageWrite(eventId: eventId, roomId: roomId));
+            }),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/settings/feed',
+            builder: (context, state) =>
+                ScaffoldWithNavigation(child: const FollowFeedSettings())),
+        GoRoute(
+            path: '/auth/host',
+            builder: (context, state) => const AuthFlow(authPageRoute: 'host')),
+        GoRoute(
+            path: '/auth/login',
+            builder: (context, state) =>
+                const AuthFlow(authPageRoute: 'login')),
+      ]);
 
   usePathUrlStrategy();
 

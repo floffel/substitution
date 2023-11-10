@@ -1,4 +1,3 @@
-import '/settings/widgets/menu.dart';
 import '/post/widgets/post.dart';
 
 import 'package:provider/provider.dart';
@@ -25,8 +24,6 @@ class TextMessageWrite extends StatefulWidget {
 }
 
 class TextMessageWriteState extends State<TextMessageWrite> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
   Room? get room => client.getRoomById(widget.roomId);
@@ -67,195 +64,170 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.pop(true)},
-          icon: const Icon(Icons.arrow_back),
+    return ListView(children: [
+      if (widget.eventId != null) ...[
+        const Text("write.answer").tr(),
+
+        //eventTuple
+        FutureBuilder(
+            future: eventTuple,
+            builder: (ctx, snapshot) {
+              if (snapshot.data != null) {
+                return PostWidget(
+                    event: (snapshot.data!.event),
+                    displayEvent: (snapshot.data!.displayEvent));
+              } else {
+                return const Text("loading").tr();
+              }
+            }),
+      ],
+      if (room != null) ...[
+        const Text("write.roomheader").tr(args: [""]),
+        ListTile(
+          title: const Text('write.roomheader').tr(args: [room!.name]),
+          subtitle: Text(room!.id),
+          leading: room!.avatar != null
+              ? Image.network(room!.avatar!.getDownloadLink(client).toString())
+              : const Text("error_no_image").tr(),
+        )
+      ],
+      const Text("write.textmessage.answer_promt").tr(),
+      quill.QuillProvider(
+        configurations: quill.QuillConfigurations(
+          controller: _controller,
+          sharedConfigurations: const quill.QuillSharedConfigurations(),
         ),
-        title: const Text("Substitution"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
+        child: Column(
+          children: [
+            const quill.QuillToolbar(),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 100,
+              ),
+              child: quill.QuillEditor.basic(
+                configurations: quill.QuillEditorConfigurations(
+                    placeholder: "write.textmessage.input_placeholder".tr()),
+              ),
+            )
+          ],
+        ),
       ),
-      body: ListView(children: [
-        if (widget.eventId != null) ...[
-          const Text("write.answer").tr(),
+      Row(children: [
+        const Spacer(),
+        IconButton(
+            onPressed: () async {
+              var scavMsg = ScaffoldMessenger.of(context);
+              // send text
+              //Room r = (await room)!;
+              debugPrint("started sending message...");
 
-          //eventTuple
-          FutureBuilder(
-              future: eventTuple,
-              builder: (ctx, snapshot) {
-                if (snapshot.data != null) {
-                  return PostWidget(
-                      event: (snapshot.data!.event),
-                      displayEvent: (snapshot.data!.displayEvent));
-                } else {
-                  return const Text("loading").tr();
-                }
-              }),
-        ],
-        if (room != null) ...[
-          const Text("write.roomheader").tr(args: [""]),
-          ListTile(
-            title: const Text('write.roomheader').tr(args: [room!.name]),
-            subtitle: Text(room!.id),
-            leading: room!.avatar != null
-                ? Image.network(
-                    room!.avatar!.getDownloadLink(client).toString())
-                : const Text("error_no_image").tr(),
-          )
-        ],
-        const Text("write.textmessage.answer_promt").tr(),
-        quill.QuillProvider(
-          configurations: quill.QuillConfigurations(
-            controller: _controller,
-            sharedConfigurations: const quill.QuillSharedConfigurations(),
-          ),
-          child: Column(
-            children: [
-              const quill.QuillToolbar(),
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 100,
-                ),
-                child: quill.QuillEditor.basic(
-                  configurations: quill.QuillEditorConfigurations(
-                      placeholder: "write.textmessage.input_placeholder".tr()),
-                ),
-              )
-            ],
-          ),
-        ),
-        Row(children: [
-          const Spacer(),
-          IconButton(
-              onPressed: () async {
-                var scavMsg = ScaffoldMessenger.of(context);
-                // send text
-                //Room r = (await room)!;
-                debugPrint("started sending message...");
+              final deltaJson = _controller.document.toDelta().toJson();
+              final converter = QuillDeltaToHtmlConverter(
+                List.castFrom(deltaJson),
+                ConverterOptions.forEmail(),
+              );
 
-                final deltaJson = _controller.document.toDelta().toJson();
-                final converter = QuillDeltaToHtmlConverter(
-                  List.castFrom(deltaJson),
-                  ConverterOptions.forEmail(),
+              final _html = converter.convert();
+
+              String? ret;
+              var eventThreadId = widget.eventId;
+              bool userCancel = false;
+              // try to send the message as long as it did not succeed or as long as the user did not cancel
+              // TODO: this is the same as in filemessage.dart => make it modular somehow?
+              while (ret == null || userCancel) {
+                // TODO: make it a mixin, its almost the same as in login.dart
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("loading".tr()),
+                      content: AspectRatio(
+                          aspectRatio: .7,
+                          child: FittedBox(
+                              child: Column(children: [
+                            const CircularProgressIndicator(),
+                            const Text("write.textmessage.send_start").tr()
+                          ]))),
+                    );
+                  },
                 );
 
-                final _html = converter.convert();
+                if ((await event)?.relationshipType ==
+                    RelationshipTypes.thread) {
+                  // commenting a comment => we can't start a new thread, rather use the existing one
+                  eventThreadId = (await event)?.relationshipEventId;
+                }
 
-                String? ret;
-                var eventThreadId = widget.eventId;
-                bool userCancel = false;
-                // try to send the message as long as it did not succeed or as long as the user did not cancel
-                // TODO: this is the same as in filemessage.dart => make it modular somehow?
-                while (ret == null || userCancel) {
-                  // TODO: make it a mixin, its almost the same as in login.dart
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("loading".tr()),
-                        content: AspectRatio(
-                            aspectRatio: .7,
-                            child: FittedBox(
-                                child: Column(children: [
-                              const CircularProgressIndicator(),
-                              const Text("write.textmessage.send_start").tr()
-                            ]))),
-                      );
-                    },
-                  );
+                ret = await room!.sendEvent({
+                  "body": _controller.document.toPlainText(),
+                  'format': 'org.matrix.custom.html',
+                  'formatted_body': _html,
+                  'msgtype': MessageTypes.Text
+                }, threadRootEventId: eventThreadId, inReplyTo: await event);
 
-                  if ((await event)?.relationshipType ==
-                      RelationshipTypes.thread) {
-                    // commenting a comment => we can't start a new thread, rather use the existing one
-                    eventThreadId = (await event)?.relationshipEventId;
-                  }
+                if (!mounted) return;
 
-                  ret = await room!.sendEvent({
-                    "body": _controller.document.toPlainText(),
-                    'format': 'org.matrix.custom.html',
-                    'formatted_body': _html,
-                    'msgtype': MessageTypes.Text
-                  }, threadRootEventId: eventThreadId, inReplyTo: await event);
+                context.pop(); // pop the send started window
 
-                  if (!mounted) return;
-
-                  context.pop(); // pop the send started window
-
-                  if (ret == null) {
-                    userCancel = await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("loading").tr(),
-                              content: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: FittedBox(
-                                    child: const Text(
-                                            "write.textmessage.send_failed")
-                                        .tr(),
-                                  )),
-                              actions: <Widget>[
-                                TextButton(
-                                  child:
-                                      const Text("write.textmessage.send_stop")
-                                          .tr(),
+                if (ret == null) {
+                  userCancel = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("loading").tr(),
+                            content: AspectRatio(
+                                aspectRatio: 1,
+                                child: FittedBox(
+                                  child: const Text(
+                                          "write.textmessage.send_failed")
+                                      .tr(),
+                                )),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text("write.textmessage.send_stop")
+                                    .tr(),
+                                onPressed: () {
+                                  context.pop(true);
+                                },
+                              ),
+                              TextButton(
+                                  child: const Text("write.textmessage.resend")
+                                      .tr(),
                                   onPressed: () {
-                                    context.pop(true);
-                                  },
-                                ),
-                                TextButton(
-                                    child:
-                                        const Text("write.textmessage.resend")
-                                            .tr(),
-                                    onPressed: () {
-                                      context.pop(false);
-                                    })
-                              ],
-                            );
-                          },
-                        ) ??
-                        false;
-                    if (!mounted) return;
-                  } else {
-                    scavMsg.showSnackBar(SnackBar(
-                      content:
-                          const Text("write.textmessage.send_complete").tr(),
-                    ));
-                  }
-                }
-
-                if (eventThreadId != null) {
-                  Event answerEvent = Event.fromMatrixEvent(
-                      await client.getOneRoomEvent(
-                          widget.roomId, (eventThreadId)),
-                      room!);
+                                    context.pop(false);
+                                  })
+                            ],
+                          );
+                        },
+                      ) ??
+                      false;
                   if (!mounted) return;
-
-                  context.go(Uri(
-                          path: "/post/${answerEvent.eventId}",
-                          queryParameters: {'room': answerEvent.room.id})
-                      .toString());
-                } else if (room != null) {
-                  context.go("/feed/${room!.id}");
                 } else {
-                  context.go("/");
+                  scavMsg.showSnackBar(SnackBar(
+                    content: const Text("write.textmessage.send_complete").tr(),
+                  ));
                 }
-              },
-              icon: const Icon(Icons.send))
-        ])
-      ]),
-      endDrawer: const Menu(),
-    );
+              }
+
+              if (eventThreadId != null) {
+                Event answerEvent = Event.fromMatrixEvent(
+                    await client.getOneRoomEvent(
+                        widget.roomId, (eventThreadId)),
+                    room!);
+                if (!mounted) return;
+
+                context.go(Uri(
+                    path: "/post/${answerEvent.eventId}",
+                    queryParameters: {'room': answerEvent.room.id}).toString());
+              } else if (room != null) {
+                context.go("/feed/${room!.id}");
+              } else {
+                context.go("/");
+              }
+            },
+            icon: const Icon(Icons.send))
+      ])
+    ]);
   }
 }

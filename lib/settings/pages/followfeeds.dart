@@ -1,11 +1,9 @@
-import '/settings/widgets/menu.dart';
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
 import '/settings/widgets/roomwidget.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -23,7 +21,6 @@ class FollowFeedSettings extends StatefulWidget {
 }
 
 class FollowFeedSettingsState extends State<FollowFeedSettings> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String selectedServer =
       ""; // todo: must be initialized with the first server, or we'll error in here!
   final roomSearchContrainer = TextEditingController();
@@ -266,92 +263,66 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.pop(true)},
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text("Substitution"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
-      ),
-      body: Container(
-          alignment: Alignment.center,
+    return Column(children: [
+      const Text("settings.followfeeds.filter_server_header").tr(),
+      Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FutureBuilder(
+              future: accountData,
+              builder: (ctx, snapshot) {
+                return Wrap(
+                    // select Servers to display or add new server
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      ...snapshot.data?.entries.map((s) => GestureDetector(
+                              child: ChoiceChip(
+                                  label: Text(s.key),
+                                  selected: selectedServer == s.key,
+                                  onSelected: (bool selected) async {
+                                    await _setServerAddr(selected ? s.key : "");
+                                  }),
+                              onSecondaryTap: () async =>
+                                  await showDeleteDialog(s.key),
+                              onLongPress: () async =>
+                                  await showDeleteDialog(s.key))) ??
+                          [],
+                      ActionChip(
+                        avatar: const Icon(Icons.add),
+                        label: const Text(
+                                "settings.followfeeds.buttons.add_server")
+                            .tr(),
+                        onPressed: () async => await showAddDialog(),
+                      )
+                    ]);
+              })),
+      Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(children: [
-            const Text("settings.followfeeds.filter_server_header").tr(),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FutureBuilder(
-                    future: accountData,
-                    builder: (ctx, snapshot) {
-                      return Wrap(
-                          // select Servers to display or add new server
-                          spacing: 8.0,
-                          runSpacing: 4.0,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            ...snapshot.data?.entries.map((s) =>
-                                    GestureDetector(
-                                        child: ChoiceChip(
-                                            label: Text(s.key),
-                                            selected: selectedServer == s.key,
-                                            onSelected: (bool selected) async {
-                                              await _setServerAddr(
-                                                  selected ? s.key : "");
-                                            }),
-                                        onSecondaryTap: () async =>
-                                            await showDeleteDialog(s.key),
-                                        onLongPress: () async =>
-                                            await showDeleteDialog(s.key))) ??
-                                [],
-                            ActionChip(
-                              avatar: const Icon(Icons.add),
-                              label: const Text(
-                                      "settings.followfeeds.buttons.add_server")
-                                  .tr(),
-                              onPressed: () async => await showAddDialog(),
-                            )
-                          ]);
-                    })),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(children: [
-                  const Text("settings.followfeeds.filter_rooms_header").tr(),
-                  TextFormField(
-                      controller: roomSearchContrainer,
-                      decoration: InputDecoration(
-                        labelText:
-                            "settings.followfeeds.roomname_placeholder".tr(),
-                      ),
-                      onChanged: (String text) => {
-                            setState(() {
-                              _resetList();
-                              searchText = text;
-                            })
-                          }),
-                ])),
-            Expanded(
-                // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
-                child: PagedListView.separated(
-                    pagingController: _pagingController,
-                    separatorBuilder: (context, index) => const Divider(),
-                    builderDelegate:
-                        PagedChildBuilderDelegate<Map<String, dynamic>>(
-                            itemBuilder: (context, item, index) => RoomWidget(
-                                items: item,
-                                leaveRoom: _leaveRoom,
-                                joinRoom: _joinRoom)))),
+            const Text("settings.followfeeds.filter_rooms_header").tr(),
+            TextFormField(
+                controller: roomSearchContrainer,
+                decoration: InputDecoration(
+                  labelText: "settings.followfeeds.roomname_placeholder".tr(),
+                ),
+                onChanged: (String text) => {
+                      setState(() {
+                        _resetList();
+                        searchText = text;
+                      })
+                    }),
           ])),
-      endDrawer: const Menu(),
-    );
+      Expanded(
+          // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
+          child: PagedListView.separated(
+              pagingController: _pagingController,
+              separatorBuilder: (context, index) => const Divider(),
+              builderDelegate: PagedChildBuilderDelegate<Map<String, dynamic>>(
+                  itemBuilder: (context, item, index) => RoomWidget(
+                      items: item,
+                      leaveRoom: _leaveRoom,
+                      joinRoom: _joinRoom)))),
+    ]);
   }
 }

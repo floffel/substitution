@@ -1,4 +1,5 @@
 {
+    "app_name": "Substitution",
     "error_title": "Erreur",
     "loading": "Chargement...",
     "error": "Erreur: {}",

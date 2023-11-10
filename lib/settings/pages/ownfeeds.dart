@@ -1,6 +1,3 @@
-import '/settings/widgets/menu.dart';
-
-import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -28,41 +25,18 @@ class AddFeedSettingsState extends State<AddFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
-
-    final roomSearchContrainer = TextEditingController();
-
     // ich will mindestens ein Ergebnis von jedem server, dann soll man aber durchscrollen können durch alle Ergebnisse
     // eine suchbar, bei der man aber auch ganz manuell eingeben kann, damit bspw. copy/paste von räumen möglich ist
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.pop(true)},
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text("Search for Feed"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
-      ),
-      body: Column(children: [
-        Padding(padding: EdgeInsets.all(16.0), child: Column(children: [])),
+    return const Column(children: [
+      Padding(padding: EdgeInsets.all(16.0), child: Column(children: [])),
 
-        // TODO: hier was zum adden/suchen von neuen räumen hinzufügen, auch von servern
-        // das hier am besten nach servern aufteilen. Vielleicht auch nach servern filtern?
-        //ListView(children: [])
-      ]),
+      // TODO: hier was zum adden/suchen von neuen räumen hinzufügen, auch von servern
+      // das hier am besten nach servern aufteilen. Vielleicht auch nach servern filtern?
+      //ListView(children: [])
+    ]);
 
-      /*FutureBuilder(
+    /*FutureBuilder(
           future: eventTimelineTuple,
           builder: (ctx, snapshot) {
             if (snapshot.data != null) {
@@ -71,7 +45,5 @@ class AddFeedSettingsState extends State<AddFeedSettings> {
             }
             return const Error404Page(); // TODO: some better error handling
           }),*/
-      endDrawer: Menu(),
-    );
   }
 }
