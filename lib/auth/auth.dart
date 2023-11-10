@@ -3,7 +3,6 @@ import '/auth/pages/host.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class AuthFlow extends StatefulWidget {
@@ -20,24 +19,10 @@ class AuthFlow extends StatefulWidget {
 }
 
 class AuthFlowState extends State<AuthFlow> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
   @override
   void initState() {
     super.initState();
   }
-
-  /*void _onDiscoveryComplete() {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupSelectDevicePage);
-  }
-
-  void _onDeviceSelected(String deviceId) {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupConnectingPage);
-  }
-
-  void _onConnectionEstablished() {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupFinishedPage);
-  }*/
 
   @override
   Widget build(BuildContext context) {
