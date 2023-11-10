@@ -18,15 +18,15 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:logging/logging.dart' as l; // see @logging
+// import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
-  ///*
+  /*
   // @logging This is to debug GoRouter, wich will not output anything without it
   l.Logger.root.level = l.Level.ALL; // defaults to Level.INFO
   l.Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
-  }); //*/
+  }); // */
 
   final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: "rootNav");
