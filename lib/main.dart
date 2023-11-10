@@ -7,7 +7,7 @@ import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
 import '/auth/pages/host.dart';
 import '/auth/pages/login.dart';
-import '/pages/scaffold_with_navigation.dart';
+import '/shared/pages/scaffold_with_navigation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
