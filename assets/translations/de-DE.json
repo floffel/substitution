@@ -53,6 +53,12 @@
                 "add_server": "Server hinzufügen"
             }
         },
+        "ownfeeds": {
+            "header": "Manage deine eigenen Räume",
+            "buttons": {
+                "create_room": "Erstelle einen neuen Raum"
+            }
+        },
         "menu": {
             "logged_in_as": "Eingeloggt als {}",
             "logout": "Ausloggen",
@@ -84,6 +90,13 @@
                     "success": "Server hinzugefügt",
                     "error_homeserver": "Angegebener Homeserver ist nicht gültig"
                 }
+            },
+            "create": {
+                "title": "Erstelle einen neuen Raum",
+                "placeholder_name": "Raumname",
+                "placeholder_alias": "Raumalias (öffentliche Raumadresse)",
+                "placeholder_topic": "Raumthema",
+                "submit": "Erstellen"
             }
         }
     },

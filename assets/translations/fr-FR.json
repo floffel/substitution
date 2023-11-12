@@ -53,6 +53,12 @@
                 "add_server": "Ajouter un serveur"
             }
         },
+        "ownfeeds": {
+            "header": "Gérez vos propres espaces",
+            "buttons": {
+                "create_room": "Créer une nouvelle salle"
+            }
+        },
         "menu": {
             "logged_in_as": "Connecté en tant que {}",
             "logout": "Se déconnecter",
@@ -84,6 +90,13 @@
                     "success": "Le serveur a été ajouté",
                     "error_homeserver": "Le serveur domestique saisi n'est pas valide"
                 }
+            },
+            "create": {
+                "title": "Créer une nouvelle salle",
+                "placeholder_name": "Nom de la salle",
+                "placeholder_alias": "Alias ​​de la salle (adresse de la salle publique)",
+                "placeholder_topic": "Thème de l'espace",
+                "submit": "Créer"
             }
         }
     },

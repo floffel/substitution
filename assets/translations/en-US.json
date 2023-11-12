@@ -53,6 +53,12 @@
                 "add_server": "Add Server"
             }
         },
+        "ownfeeds": {
+            "header": "Manage your own rooms",
+            "buttons": {
+                "create_room": "Create a new Room"
+            }
+        },
         "menu": {
             "logged_in_as": "Logged in as {}",
             "logout": "Logout",
@@ -84,6 +90,13 @@
                     "success": "Server has been added",
                     "error_homeserver": "Entered homeserver is not valid"
                 }
+            },
+            "create": {
+                "title": "Create a new room",
+                "placeholder_name": "room name",
+                "placeholder_alias": "room alias (public room adress)",
+                "placeholder_topic": "room topic",
+                "submit": "Create"
             }
         }
     },

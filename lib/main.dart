@@ -1,7 +1,8 @@
-import '/auth/auth.dart'; // auth subroute
-import '/feed/feed.dart'; // feed subroute
-import '/post/post.dart'; // post subroute
-import '/settings/pages/followfeeds.dart'; // feedsettings subroute
+import '/auth/auth.dart';
+import '/feed/feed.dart';
+import '/post/post.dart';
+import '/settings/pages/followfeeds.dart';
+import '/settings/pages/ownfeeds.dart';
 import '/write/pages/textmessage.dart';
 import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
@@ -108,6 +109,11 @@ void main() async {
             path: '/settings/feed',
             builder: (context, state) =>
                 ScaffoldWithNavigation(child: const FollowFeedSettings())),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/settings/ownfeeds',
+            builder: (context, state) =>
+                ScaffoldWithNavigation(child: const OwnFeedSettings())),
         GoRoute(
             path: '/auth/host',
             builder: (context, state) => const AuthFlow(authPageRoute: 'host')),

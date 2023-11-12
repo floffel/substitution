@@ -43,7 +43,7 @@ class _MenuState extends State<Menu> {
             context.push("/settings/feed");
           } else if (index == 3) {
             // Settings
-            context.push("/settings/");
+            context.push("/settings/ownfeeds");
           }
         },
         children: [
@@ -119,12 +119,12 @@ class _MenuState extends State<Menu> {
             selectedIcon: const Icon(Icons.signpost),
             label: const Text('settings.menu.feeds_site_label').tr(),
           ),
-          /*const SizedBox(height: 22),
+          const SizedBox(height: 22),
           NavigationDrawerDestination(
             icon: const Icon(Icons.settings_outlined),
             selectedIcon: const Icon(Icons.settings),
-            label: Text('Einstellungen'),
-          ),*/
+            label: const Text('Eigene Feeds'), // todo: intl
+          ),
         ]);
   }
 }
