@@ -49,8 +49,8 @@ class TextMessageWriteState extends State<TextMessageWrite> {
       void Function()? onNewEvent,
       void Function()? onUpdate,
       String? eventContextId}) async {
-  
-  
+
+
   */
 
   quill.QuillController _controller = quill.QuillController.basic();
@@ -92,26 +92,19 @@ class TextMessageWriteState extends State<TextMessageWrite> {
         )
       ],
       const Text("write.textmessage.answer_promt").tr(),
-      quill.QuillProvider(
-        configurations: quill.QuillConfigurations(
-          controller: _controller,
-          sharedConfigurations: const quill.QuillSharedConfigurations(),
-        ),
-        child: Column(
+
+
+      Column(
           children: [
-            const quill.QuillToolbar(),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                minHeight: 100,
-              ),
-              child: quill.QuillEditor.basic(
-                configurations: quill.QuillEditorConfigurations(
-                    placeholder: "write.textmessage.input_placeholder".tr()),
-              ),
-            )
+              quill.QuillToolbar.simple(),
+              Expanded(
+                  child: quill.QuillEditor.basic(
+                  configurations: quill.QuillEditorConfigurations(controller: _controller),
+                  ),
+              )
           ],
-        ),
       ),
+
       Row(children: [
         const Spacer(),
         IconButton(

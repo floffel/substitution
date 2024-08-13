@@ -23,7 +23,9 @@ class FileComponent extends StatefulWidget {
 }
 
 class FileComponentState extends State<FileComponent> {
-  CarouselController carouselController = CarouselController();
+ // CarouselController carouselController = CarouselController();
+  CarouselSliderController carouselController = CarouselSliderController();
+
 
   // TODO: downloadAndDecryptAttachment for encrypted files
 
