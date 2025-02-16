@@ -42,65 +42,53 @@ class HomePageState extends State<HomePage> {
       String roomId = widget.roomId!;
 
       if (roomId.startsWith("#")) {
-        debugPrint("client: $client");
-        debugPrint("getting roomIdByAlias fpr RoomId $roomId");
-        //final resp = await client.getRoomIdByAlias(roomId);
-
         roomId = (await client.getRoomIdByAlias(roomId)).roomId!;
         debugPrint("roomId: $roomId");
       }
 
-      // get one event to get the "prev_batch" field
       final GetRoomEventsResponse resp = await client.getRoomEvents(
         roomId,
         Direction.b,
         limit:
             1, // we don't need events, we just need the prev_batch -> we have to set it to at least 1
+
         filter: jsonEncode(StateFilter(lazyLoadMembers: true)
             .toJson()), // for getting state events (e.g. power levels of posters)
       );
 
       debugPrint("getRoomEvents finished");
-
-      //this.prev_batch = resp.end;
-      Room r = Room(id: roomId, client: client, prev_batch: resp.end);
-
-      return [r];
+      return [Room(id: roomId, client: client, prev_batch: resp.end)];
     }
 
+    final roomIds = await client.getJoinedRooms();
 
-    for (String roomId in (await client.getJoinedRooms())) {
+    for (String roomId in roomIds) {
       Room r = client.getRoomById(roomId)!;
-
       // todo: use client.getRoomEvents
-
-      bool isInSubstitution = false;
 
       debugPrint("checking room ${r.name} id: ${r.id}");
 
-      // get if in substitution, stolen from _fetchRooms, todo: make it a function or so...
-      // todo: this only works with logged in clients!
       try {
-        isInSubstitution = (await client.getAccountDataPerRoom(
-                client.userID!, roomId, "substitution"))["joined"] ==
-            true;
+        final accountData = await client.getAccountDataPerRoom(
+            client.userID!, roomId, "substitution");
+        final isInSubstitution =
+            accountData["joined"] == true; // Sichere Prüfung
+
+        if (isInSubstitution) {
+          debugPrint("--- adding room ${r.name} id: ${r.id}");
+          ret.add(r);
+        }
       } catch (_) {} // we cannot get the account data
-
-      if (!isInSubstitution) {
-        debugPrint("--- not adding...");
-        continue;
-      }
-
-      debugPrint("--- adding room ${r.name} id: ${r.id}");
-
-      ret.add(r);
     }
 
     return ret;
   }
 
-  Future<List<Future<Timeline>>> get timelines async =>
-      (await rooms).map((r) => r.getTimeline()).toList();
+  Future<List<Timeline>> get timelines async {
+    final roomList = await rooms;
+    final timelineFutures = roomList.map((r) => r.getTimeline()).toList();
+    return Future.wait(timelineFutures); // Warte auf alle Timelines
+  }
 
   // TODO: requestHistory für history, requestFuture wenn man neue sachen haben will
 
@@ -118,9 +106,10 @@ class HomePageState extends State<HomePage> {
 
     List<({Event origEvent, Event displayEvent})> ret = [];
 
-    for (Future<Timeline> aTimeline in await timelines) {
-      Timeline timeline = await aTimeline;
+    final timelineLists = await timelines;
+    if (!mounted) return;
 
+    for (Timeline timeline in timelineLists) {
       List<({Event origEvent, Event displayEvent})> newEvents = [];
 
       /*if (!timeline.canRequestFuture) {
@@ -139,6 +128,8 @@ class HomePageState extends State<HomePage> {
       //await timeline.requestFuture(
       //    historyCount:
       //        100); // normally, there should not be that much of new events, but we don't have a method to know if there ARE new events that wherend displayed yet
+
+      if (!mounted) return;
 
       debugPrint("requestedFuture");
 
@@ -198,8 +189,10 @@ class HomePageState extends State<HomePage> {
         pageKeyInitialized = true;
         pageKey = {};
 
-        for (Future<Timeline> aTimeline in await timelines) {
-          Timeline timeline = await aTimeline;
+        final timelineList = await timelines;
+        if (!mounted) return;
+
+        for (Timeline timeline in timelineList) {
           pageKey[timeline] = (lastEventId: null, wasExhausted: false);
         }
       } else {
@@ -230,6 +223,7 @@ class HomePageState extends State<HomePage> {
         //await timeline.requestHistory(historyCount: 10);
         if (timeline.canRequestHistory) {
           await timeline.requestHistory(historyCount: 100);
+          if (!mounted) return;
         }
         //await timeline.getRoomEvents(historyCount: 10); // leads to doubled events sometimes!
 
@@ -358,6 +352,7 @@ class HomePageState extends State<HomePage> {
 
       debugPrint("mby new things to append -> fetch another page...");
       await _fetchEvents(newPageKey);
+      if (!mounted) return;
     } else {
       debugPrint("start appending...");
 
@@ -372,11 +367,13 @@ class HomePageState extends State<HomePage> {
     _pagingController.addPageRequestListener((pageKey) async {
       //_fetchRooms(pageKey); todo...
       await _fetchEvents(pageKey);
+      if (!mounted) return;
     });
   }
 
   @override
   void dispose() {
+    _pagingController.dispose();
     adressContrainer.dispose();
     super.dispose();
   }
@@ -387,6 +384,7 @@ class HomePageState extends State<HomePage> {
         body: RefreshIndicator(
             onRefresh: () async {
               await _fetchFutureEvents();
+              if (!mounted) return;
             },
             child: Column(children: [
               if (widget.roomId != null) ...[
