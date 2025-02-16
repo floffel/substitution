@@ -64,7 +64,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
     for (String roomId in await client.getJoinedRooms()) {
       debugPrint(
-          "room id: ${roomId}, domain: ${roomId.domain}, selectedServer: $serverAddr");
+          "room id: $roomId, domain: ${roomId.domain}, selectedServer: $serverAddr");
       if (roomId.domain != serverAddr) {
         continue; // only add rooms from the selected server
       }
@@ -185,7 +185,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
     //debugPrint("Room name: ${room.name}");
 
-    debugPrint("nextPageKey: ${nextPageKey}");
+    debugPrint("nextPageKey: $nextPageKey");
 
     //int startTime = DateTime.now().millisecondsSinceEpoch; // for catching long runs while already reset
     if (lastResetTime > startTime) {

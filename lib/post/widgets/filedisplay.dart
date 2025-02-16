@@ -6,7 +6,6 @@ import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:universal_html/html.dart' as html;
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';

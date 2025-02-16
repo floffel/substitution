@@ -27,10 +27,10 @@ class FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => {context.push("/write/select/room")},
@@ -41,7 +41,7 @@ class FeedState extends State<Feed> {
         actions: <Widget>[
           IconButton(
             onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
+              scaffoldKey.currentState?.openEndDrawer(),
             },
             icon: const Icon(Icons.menu),
           )

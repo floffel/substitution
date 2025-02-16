@@ -22,6 +22,9 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 // import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
+
+  usePathUrlStrategy();
+
   /*
   // @logging This is to debug GoRouter, wich will not output anything without it
   l.Logger.root.level = l.Level.ALL; // defaults to Level.INFO
@@ -47,6 +50,7 @@ void main() async {
       routes: [
         GoRoute(
           path: '/',
+          redirect: testRedirect,
           builder: (_, __) => const Feed(),
           //parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (_, __) {
@@ -122,8 +126,6 @@ void main() async {
             builder: (context, state) =>
                 const AuthFlow(authPageRoute: 'login')),
       ]);
-
-  usePathUrlStrategy();
 
   await Hive.initFlutter();
 

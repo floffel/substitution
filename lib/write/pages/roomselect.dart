@@ -23,10 +23,10 @@ class RoomSelectPageState extends State<RoomSelectPage> {
   Client get client => Provider.of<Client>(context, listen: false);
   bool postType = false;
 
-  final MaterialStateProperty<Icon?> postTypeThumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+  final WidgetStateProperty<Icon?> postTypeThumbIcon =
+      WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.add_a_photo);
       }
       return const Icon(Icons.post_add);
@@ -99,7 +99,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
                     //return Text(l["id"]);
                     return GestureDetector(
                         onTap: () {
-                          debugPrint("postType: ${postType}");
+                          debugPrint("postType: $postType");
 
                           context.push(
                               "/${postType ? "file" : "write"}/${l['id']}");

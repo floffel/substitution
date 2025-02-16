@@ -53,7 +53,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
   */
 
-  quill.QuillController _controller = quill.QuillController.basic();
+  final quill.QuillController _controller = quill.QuillController.basic();
 
   // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
@@ -120,7 +120,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 ConverterOptions.forEmail(),
               );
 
-              final _html = converter.convert();
+              final html = converter.convert();
 
               String? ret;
               var eventThreadId = widget.eventId;
@@ -155,7 +155,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 ret = await room!.sendEvent({
                   "body": _controller.document.toPlainText(),
                   'format': 'org.matrix.custom.html',
-                  'formatted_body': _html,
+                  'formatted_body': html,
                   'msgtype': MessageTypes.Text
                 }, threadRootEventId: eventThreadId, inReplyTo: await event);
 

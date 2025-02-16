@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, this.roomId}) : super(key: key);
+  const HomePage({super.key, this.roomId});
 
   // only display content of this room, if set. Otherwise: display all followed rooms content
   final String? roomId;
@@ -43,7 +43,7 @@ class HomePageState extends State<HomePage> {
 
       if (roomId.startsWith("#")) {
         debugPrint("client: $client");
-        debugPrint("getting roomIdByAlias fpr RoomId ${roomId}");
+        debugPrint("getting roomIdByAlias fpr RoomId $roomId");
         //final resp = await client.getRoomIdByAlias(roomId);
 
         roomId = (await client.getRoomIdByAlias(roomId)).roomId!;
@@ -68,7 +68,8 @@ class HomePageState extends State<HomePage> {
       return [r];
     }
 
-    for (String roomId in await client.getJoinedRooms()) {
+
+    for (String roomId in (await client.getJoinedRooms())) {
       Room r = client.getRoomById(roomId)!;
 
       // todo: use client.getRoomEvents
@@ -196,6 +197,7 @@ class HomePageState extends State<HomePage> {
       if (!pageKeyInitialized) {
         pageKeyInitialized = true;
         pageKey = {};
+
         for (Future<Timeline> aTimeline in await timelines) {
           Timeline timeline = await aTimeline;
           pageKey[timeline] = (lastEventId: null, wasExhausted: false);
