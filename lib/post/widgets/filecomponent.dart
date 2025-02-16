@@ -9,6 +9,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:dismissible_page/dismissible_page.dart';
 
 // TODO rename to FileDisplay or smthg.
 class FileComponent extends StatefulWidget {
@@ -23,9 +24,8 @@ class FileComponent extends StatefulWidget {
 }
 
 class FileComponentState extends State<FileComponent> {
- // CarouselController carouselController = CarouselController();
+  // CarouselController carouselController = CarouselController();
   CarouselSliderController carouselController = CarouselSliderController();
-
 
   // TODO: downloadAndDecryptAttachment for encrypted files
 
@@ -116,7 +116,7 @@ class FileComponentState extends State<FileComponent> {
     }
 
     return VideoPlayerController.networkUrl(
-        e.getAttachmentUrl()!) // todo... null check
+        (e.getAttachmentUrl())!) // todo... null check
       ..initialize();
   }
 
@@ -180,32 +180,23 @@ class FileComponentState extends State<FileComponent> {
                     child: FileDisplay(file: files[itemIndex]),
                     onTap: () {
                       showDialog<String>(
-                          // TODO: make this an extra widget
                           context: context,
                           builder: (BuildContext context) => Dialog(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    AspectRatio(
-                                        aspectRatio: 1,
-                                        child: FittedBox(
-                                            child: FileDisplay(
-                                                file: files[itemIndex]))),
-                                    const SizedBox(height: 15),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text(
-                                              "post.widgets.filecomponent.button.close")
-                                          .tr(),
-                                    ),
-                                  ],
+                                child: DismissiblePage(
+                                  onDismissed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  // Note that scrollable widget inside DismissiblePage might limit the functionality
+                                  // If scroll direction matches DismissiblePage direction
+                                  direction:
+                                      DismissiblePageDismissDirection.multi,
+                                  isFullScreen: true,
+                                  child: Hero(
+                                    tag: itemIndex,
+                                    child: FileDisplay(file: files[itemIndex]),
+                                  ),
                                 ),
-                              )));
+                              ));
                     },
                   )),
                 ]);

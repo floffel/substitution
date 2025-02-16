@@ -62,42 +62,26 @@ class FileDisplayState extends State<FileDisplay> {
       // TODO: m.emote ? :)
 
       // TODO: make each type a widget so we can use if else etc., would make things much more clean
-      MessageTypes.Image => widget.file.displayEvent.room.encrypted
-          ? // download and decrypt the file if the room is encrypted
-          kIsWeb
-              ? FutureBuilder(
-                  // download decrypted file and make it an url
-                  future: getDecryptedFileObjectUrlForEvent(
-                      widget.file.displayEvent),
-                  builder: (ctx, snapshot) {
-                    if (snapshot.hasData) {
-                      return Image.network(snapshot.data!, fit: BoxFit.contain);
-                    }
-                    return const Text("post.widgets.filedisplay.decrypting")
-                        .tr();
-                  })
-              : FutureBuilder(
-                  // download decrypted file
-                  future: getDecryptedFileForEvent(widget.file.displayEvent),
-                  builder: (ctx, snapshot) {
-                    if (snapshot.hasData) {
-                      return Image.file(snapshot.data!, fit: BoxFit.contain);
-                    }
-                    return const Text("post.widgets.filedisplay.decrypting")
-                        .tr();
-                  })
-          : /*Image.network(
-                            files[itemIndex]
-                                .displayEvent
-                                .getAttachmentUrl()
-                                .toString(),
-                            fit: BoxFit.contain),*/
-          OctoImage(
-              image: CachedNetworkImageProvider(
-                  widget.file.displayEvent.getAttachmentUrl().toString()),
-              errorBuilder: OctoError.icon(color: Colors.red),
-              fit: BoxFit.cover,
-            ),
+      MessageTypes.Image => kIsWeb
+          ? FutureBuilder(
+              // download decrypted file and make it an url
+              future:
+                  getDecryptedFileObjectUrlForEvent(widget.file.displayEvent),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasData) {
+                  return Image.network(snapshot.data!, fit: BoxFit.contain);
+                }
+                return const Text("post.widgets.filedisplay.decrypting").tr();
+              })
+          : FutureBuilder(
+              // download decrypted file
+              future: getDecryptedFileForEvent(widget.file.displayEvent),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasData) {
+                  return Image.file(snapshot.data!, fit: BoxFit.contain);
+                }
+                return const Text("post.widgets.filedisplay.decrypting").tr();
+              }),
       MessageTypes.Video => // Todo: Styling... mby use a card?
         _controller == null
             ? const Text("post.widgets.filedisplay.video_desktop_error").tr()
