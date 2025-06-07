@@ -1,6 +1,6 @@
 import '/post/interfaces/ievent.dart';
 import '/post/widgets/filecomponent.dart';
-import '/post/widgets/reactionscomponent.dart';
+import '/post/widgets/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                   ])
                 : FileComponent(
                     event: widget.event, displayEvent: widget.displayEvent),
-            ReactionsComponent(event: widget.event)
+            ReactionsDisplay(event: widget.event)
           ]))
     ]);
   }

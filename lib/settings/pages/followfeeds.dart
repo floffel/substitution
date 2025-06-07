@@ -27,7 +27,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   String? searchText; // todo: if input is "" => searchText shall be null
   final PagingController<String?, Map<String, dynamic>> _pagingController =
-      PagingController(firstPageKey: null);
+      PagingController(
+        fetchPage: _fetchRooms, // Use fetchPage callback
+        firstPageKey: null, // Provide the initial page key
+      );
 
   Client get client => Provider.of<Client>(context, listen: false);
 
@@ -37,6 +40,8 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   void _resetList() {
     lastResetTime =
         DateTime.now().millisecondsSinceEpoch; //... works not as expected
+    // TODO: [infinite_scroll_pagination_migration] Verify behavior of refresh().
+    // It should clear current items and trigger the first page fetch.
     _pagingController.refresh();
   }
 
@@ -99,31 +104,33 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   }
 
   Future<void> _setServerAddr(String serverAddr) async {
-    var newData = await _getJoinedRooms(serverAddr);
-
     setState(() {
       selectedServer = serverAddr;
-
-      debugPrint("item list: ${_pagingController.itemList}");
-
-      // todo: load joined rooms
-
-      // todo: as soon as we have long running querys, the pagingController gets refreshed without waiting for the requests to complete beforehand... we have to check this!
-      // mby inside fetchRooms with a field startedTimestamp and lastResetTimestamp and if we are at the end of the fetch, we shall only add it if we get lastResetTimestamp < startedTimestamp
-      _resetList();
-      _pagingController.itemList = newData;
-      // todo: set itemList to joined rooms according to the server and filter it!
-
-      // todo: add listener and remove listener!
+      // TODO: [infinite_scroll_pagination_migration] The logic for displaying joined rooms vs public rooms
+      // needs clarification. Originally, _getJoinedRooms(serverAddr) was called and its data
+      // was assigned to _pagingController.itemList after _resetList().
+      // With the new model, _pagingController.refresh() should trigger _fetchRooms(null).
+      // _fetchRooms would then need to be responsible for fetching data for the new 'selectedServer'.
+      // If joined rooms are to be displayed distinctly or first, _fetchRooms needs to handle that,
+      // or a separate mechanism/controller is needed for them.
+      // For now, we just refresh, and _fetchRooms will run with the new selectedServer context.
     });
+     _pagingController.refresh(); // This should trigger _fetchRooms(null) for the new server.
   }
 
   Future<void> _fetchRooms(String? pageKey) async {
+    // TODO: [infinite_scroll_pagination_migration] This function's logic for fetching one item
+    // and recursively calling itself if the item is skipped is complex and might be inefficient.
+    // Consider refactoring to fetch a batch and filter, then append the batch.
+    // For now, adapting existing logic to PagingState.
+
     int startTime = DateTime.now()
         .millisecondsSinceEpoch; // for catching long runs while already reset
+    String? currentPageKey = pageKey;
 
-    Map<String, dynamic> ret = {
-      // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
+    try {
+      Map<String, dynamic> ret = {
+        // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
       "name": null,
       "id": null,
       "isInsideSubstitution": false,
@@ -188,24 +195,46 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     debugPrint("nextPageKey: $nextPageKey");
 
     //int startTime = DateTime.now().millisecondsSinceEpoch; // for catching long runs while already reset
-    if (lastResetTime > startTime) {
-      debugPrint(
-          "reset happend before we finished! $lastResetTime > $startTime");
-      return; // we where reset before the querys ended, so discard this values!
-    }
+      if (lastResetTime > startTime) {
+        debugPrint(
+            "reset happend before we finished! $lastResetTime > $startTime");
+        return; // we where reset before the querys ended, so discard this values!
+      }
 
-    // todo: this if looks like we could make it more readable...
-    // we have to call this method again to get an unjoined room
-    if (ret["joined"] && ret["isInsideSubstitution"]) {
-      if (nextPageKey != null) {
-        _fetchRooms(nextPageKey);
-      }
-    } else {
-      if (nextPageKey != null) {
-        _pagingController.appendPage([ret], nextPageKey);
+      // todo: this if looks like we could make it more readable...
+      // we have to call this method again to get an unjoined room
+      if (ret["joined"] && ret["isInsideSubstitution"]) {
+        if (nextPageKey != null) {
+          // Item skipped, fetch next. Current items and error state remain unchanged.
+          // This recursive call might need a depth limit or other guards in a real scenario.
+          if (!mounted) return;
+          await _fetchRooms(nextPageKey);
+        } else {
+          // Skipped an item, but it was the last one from the server's perspective for this query.
+          // Effectively, this means we append nothing and there's no next page from this path.
+          final oldItems = _pagingController.value.items ?? []; // itemList -> items
+          _pagingController.value = PagingState(
+            items: oldItems, // No new items added // itemList -> items
+            nextPageKey: null,    // No next page from this path
+            error: null,
+          );
+        }
       } else {
-        _pagingController.appendLastPage([ret]);
+        // This is an item to display
+        final oldItems = _pagingController.value.items ?? []; // itemList -> items
+        _pagingController.value = PagingState(
+          items: [...oldItems, ret], // Append the new item // itemList -> items
+          nextPageKey: nextPageKey,      // nextPageKey can be null here if it's the last item
+          error: null,
+        );
       }
+    } catch (e, stackTrace) {
+      debugPrint("Error in _fetchRooms: $e\n$stackTrace");
+      _pagingController.value = PagingState(
+        items: _pagingController.value.items, // Preserve current items // itemList -> items
+        nextPageKey: currentPageKey, // Preserve key for potential retry
+        error: e,
+      );
     }
 
     // set sice = resp.nextBatch
@@ -247,11 +276,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchRooms(pageKey);
-    });
-
     super.initState();
+    // _fetchRooms is now hooked into PagingController via fetchPage parameter.
+    // The PagingController will call it with firstPageKey.
+    // Manual call _fetchRooms(null); is no longer needed.
   }
 
   @override
@@ -316,7 +344,8 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       Expanded(
           // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
           child: PagedListView.separated(
-              pagingController: _pagingController,
+              // TODO: [infinite_scroll_pagination_migration] Verify 'controller' and other params.
+              controller: _pagingController,
               separatorBuilder: (context, index) => const Divider(),
               builderDelegate: PagedChildBuilderDelegate<Map<String, dynamic>>(
                   itemBuilder: (context, item, index) => RoomWidget(

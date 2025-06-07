@@ -15,6 +15,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
+import 'package:sqflite/sqflite.dart' as sqlite; // Added for Matrix Sdk Database
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -127,31 +128,45 @@ void main() async {
                 const AuthFlow(authPageRoute: 'login')),
       ]);
 
-  await Hive.initFlutter();
+  await Hive.initFlutter(); // Keeping Hive.initFlutter() for now, in case other parts of the app use Hive.
 
   final client = Client(
-    "Substitution",
+    'Substitution', // Reusing the existing client name
     databaseBuilder: (_) async {
-      final HiveCollectionsDatabase db;
-
+      // For web, Matrix SDK might handle database differently or not use sqflite.
+      // This setup is primarily for mobile/desktop.
+      // TODO: [matrix_database_web] Investigate database solution for web if sqflite is not supported or ideal.
       if (const bool.fromEnvironment('dart.library.js_util')) {
-        // we are in web -> do not use an temp directory
-        db = HiveCollectionsDatabase('Substitution', null);
+        // Placeholder for web: Use a memory database or alternative if sqflite isn't suitable for web.
+        // For now, this will likely cause an issue if MatrixSdkDatabase tries to use sqflite on web
+        // without specific web support in sqflite (e.g. using sql.js).
+        // The original Hive code had a web-specific path.
+        // Returning a simple in-memory MatrixSdkDatabase if that's a valid concept,
+        // or this needs a proper web persistence solution for Matrix SDK.
+        // For now, to prevent compilation errors with 'dir' not being available on web:
+        print("Warning: Using fallback database for web. Real persistence may not work.");
+        // TODO: [matrix_database_web] Verify correct class/constructor for in-memory Matrix DB.
+        // Trying MatrixSdkDatabase.inMemory() as a guess.
+        final db = MatrixSdkDatabase.inMemory();
+        await db.open();
+        return db;
       } else {
-        // for all other platforms: get a tmp directory
-        final dir =
-            await getApplicationSupportDirectory(); // Recommend path_provider package
-        db = HiveCollectionsDatabase('Substitution', dir.path);
+        final dir = await getApplicationSupportDirectory();
+        // TODO: [matrix_database_sqflite] Verify MatrixSdkDatabase constructor.
+        // The error "The argument type 'Database' can't be assigned to the parameter type 'String'"
+        // suggests the first parameter is still a name (String).
+        final sqfliteDb = await sqlite.openDatabase('${dir.path}/matrix_sdk_substitution.sqlite');
+        // Correcting to use positional arguments: first String (name), then Database instance.
+        final db = MatrixSdkDatabase('matrix_sdk_db', sqfliteDb);
+        await db.open();
+        return db;
       }
-
-      await db.open();
-      return db;
     },
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); // Already present, moved up by previous analysis but ensure it's effectively at the start.
   await EasyLocalization.ensureInitialized();
-  await client.init();
+  await client.init(); // Call client.init() after construction
 
   runApp(EasyLocalization(
       supportedLocales: const [

@@ -1,5 +1,5 @@
 import '/post/widgets/filecomponent.dart';
-import '/post/widgets/reactionscomponent.dart';
+import '/post/widgets/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/interfaces/ievent.dart';
 
@@ -130,7 +130,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                           ]).toList());
                     })),
 
-            ReactionsComponent(event: widget.event)
+            ReactionsDisplay(event: widget.event)
           ]
         ]));
   }

@@ -3,17 +3,16 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-// TODO rename to ReactionsDisplay or smthg.
-class ReactionsComponent extends StatefulWidget {
-  const ReactionsComponent({super.key, required this.event});
+class ReactionsDisplay extends StatefulWidget {
+  const ReactionsDisplay({super.key, required this.event});
 
   final Event event;
 
   @override
-  ReactionsComponentState createState() => ReactionsComponentState();
+  ReactionsDisplayState createState() => ReactionsDisplayState();
 }
 
-class ReactionsComponentState extends State<ReactionsComponent> {
+class ReactionsDisplayState extends State<ReactionsDisplay> {
   Client get client => Provider.of<Client>(context, listen: false);
 
   //int numReactions = 0;
@@ -22,38 +21,40 @@ class ReactionsComponentState extends State<ReactionsComponent> {
   Future<Map<String, ({List<String> userNames, bool isOwnSmiley})>>
       get reactions async {
     Map<String, ({List<String> userNames, bool isOwnSmiley})> ret = {};
+    String eventId = widget.event.eventId;
+    String roomId = widget.event.room.id;
 
-    Timeline timeline = await widget.event.room
-        .getTimeline(eventContextId: widget.event.eventId);
+    final response = await client.getRelatingEventsWithRelType(
+      roomId,
+      eventId,
+      RelationshipTypes.reaction,
+      // eventType: EventTypes.Reaction, // Using EventTypes.Reaction for specificity - REMOVED due to API change
+      // limit: 100, // Default limit should be fine for reactions, but can be adjusted if needed
+      dir: Direction.f, // Fetching forward, typical for reactions
+    );
 
-    for (Event e in widget.event
-        .aggregatedEvents(timeline, RelationshipTypes.reaction)) {
-      // it's only a comment to this comment if it contains the event id of this comments event id
-
-      if (e.content
-              .tryGetMap<String, Object?>('m.relates_to')
-              ?.tryGet<String>('event_id') ==
-          widget.event.eventId) {
-        Event displayEvent = e.getDisplayEvent(timeline);
-        String smiley =
-            displayEvent.content.tryGet<Map>('m.relates_to')?['key'] ?? '�';
-        User sender = displayEvent.senderFromMemoryOrFallback;
-        bool isOwnSmiley = false;
-
-        if (client.userID == sender.id) {
-          isOwnSmiley = true;
-        }
-
-        ret[smiley] = (
-          userNames: [
-            ...(ret[smiley]?.userNames ?? []),
-            sender.displayName ?? "post.widget.reactions.unknown_sender".tr()
-          ],
-          isOwnSmiley: isOwnSmiley
-        );
+    // The events are in response.chunk
+    for (Event e in response.chunk) {
+      // The event 'e' here is a reaction event itself.
+      // The smiley key is directly in e.content['m.relates_to']['key']
+      String? smiley = e.content
+          .tryGetMap<String, Object?>('m.relates_to')
+          ?.tryGet<String>('key');
+      if (smiley == null || smiley.isEmpty) {
+        smiley = '�'; // Default smiley if key is not found or empty
       }
-    }
 
+      User sender = e.senderFromMemoryOrFallback; // Reaction sender
+      bool isOwnSmiley = (client.userID == sender.id);
+
+      ret[smiley] = (
+        userNames: [
+          ...(ret[smiley]?.userNames ?? []),
+          sender.displayName ?? "post.widget.reactions.unknown_sender".tr()
+        ],
+        isOwnSmiley: isOwnSmiley || (ret[smiley]?.isOwnSmiley ?? false) // if multiple reactions with same smiley, keep isOwnSmiley true if one of them is own
+      );
+    }
     return ret;
   }
 
@@ -74,7 +75,6 @@ class ReactionsComponentState extends State<ReactionsComponent> {
                                   border: Border.all(color: Colors.red[400]!),
                                   shape: BoxShape.circle)
                               : null,
-                          // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
                           child: Text(
                             e.key,
                             style: const TextStyle(

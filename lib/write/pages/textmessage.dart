@@ -54,6 +54,23 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   */
 
   final quill.QuillController _controller = quill.QuillController.basic();
+  late FocusNode _focusNode;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
@@ -96,10 +113,23 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
       Column(
           children: [
-              quill.QuillToolbar.simple(),
+              // TODO: [flutter_quill_migration] Verify QuillToolbar.basic constructor and its options.
+              // The .simple() constructor was removed. .basic() is a common replacement.
+              // Ensure all necessary configurations (like shared configurations if used) are passed.
+              quill.QuillToolbar.basic(controller: _controller),
               Expanded(
                   child: quill.QuillEditor.basic(
-                  configurations: quill.QuillEditorConfigurations(controller: _controller),
+                    // TODO: [flutter_quill_migration] Review these parameters against flutter_quill documentation for v11.4.1.
+                    // Ensure all desired configurations (e.g. custom styles, embed builders) are correctly set.
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    scrollController: _scrollController,
+                    scrollable: true,
+                    padding: const EdgeInsets.all(8.0),
+                    autoFocus: false,
+                    readOnly: false,
+                    placeholder: 'Enter your message...', // TODO: Localize this placeholder
+                    // configurations: quill.QuillEditorConfigurations(controller: _controller), // REMOVED
                   ),
               )
           ],

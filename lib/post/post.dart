@@ -22,15 +22,21 @@ class Post extends StatefulWidget {
 
 class PostState extends State<Post> {
   Future<({Event? origEvent, Event? displayEvent})> get event async {
-    Room room = Provider.of<Client>(context, listen: false).getRoomById(widget
-        .roomId)!; // todo: passive programming, go to 404 or smthg if room does not exist
+    Room? room = Provider.of<Client>(context, listen: false)
+        .getRoomById(widget.roomId);
+    if (room == null) {
+      // Room not found
+      return (origEvent: null, displayEvent: null);
+    }
 
-    Event event = (await room.getEventById(
-        widget.eventId))!; // TODO: passive programming! Error handling!
+    Event? event = await room.getEventById(widget.eventId);
+    if (event == null) {
+      // Event not found in the room
+      return (origEvent: null, displayEvent: null);
+    }
 
     Timeline timeline =
         await event.room.getTimeline(eventContextId: event.eventId);
-
     return (origEvent: event, displayEvent: event.getDisplayEvent(timeline));
   }
 
@@ -41,17 +47,31 @@ class PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<({Event? origEvent, Event? displayEvent})>(
         future: event,
         builder: (ctx, snapshot) {
-          if (!snapshot.hasData) {
-            return const Text("loading").tr();
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: const Text("loading").tr()); // More standard loading
           }
 
-          // TODO: passive programming, error handling, if data == null or origEvent == null
+          if (snapshot.hasError) {
+            return Center(
+                child: Text("post.error_loading".tr(args: ['${snapshot.error}'])));
+          }
+
+          if (!snapshot.hasData ||
+              snapshot.data == null ||
+              snapshot.data!.origEvent == null) {
+            return Center(child: const Text("post.not_found_or_error_loading").tr());
+          }
+
+          // At this point, snapshot.data, snapshot.data!.origEvent are non-null.
+          // And if origEvent is non-null, getDisplayEvent should also return non-null.
+          // However, to be absolutely safe, we could check displayEvent or make PostPage accept nullable.
+          // For now, let's assume displayEvent will be non-null if origEvent is non-null.
           return PostPage(
-              event: (snapshot.data!.origEvent!),
-              displayEvent: (snapshot.data!.displayEvent!));
+              event: snapshot.data!.origEvent!,
+              displayEvent: snapshot.data!.displayEvent!);
         });
   }
 }
