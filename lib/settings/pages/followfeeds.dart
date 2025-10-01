@@ -26,8 +26,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   final roomSearchContrainer = TextEditingController();
 
   String? searchText; // todo: if input is "" => searchText shall be null
-  final PagingController<String?, Map<String, dynamic>> _pagingController =
-      PagingController(firstPageKey: null);
+  late final PagingController<String?, Map<String, dynamic>> _pagingController;
 
   Client get client => Provider.of<Client>(context, listen: false);
 
@@ -104,115 +103,67 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     setState(() {
       selectedServer = serverAddr;
 
-      debugPrint("item list: ${_pagingController.itemList}");
+      debugPrint("item list: ${_pagingController.value}");
 
       // todo: load joined rooms
 
       // todo: as soon as we have long running querys, the pagingController gets refreshed without waiting for the requests to complete beforehand... we have to check this!
       // mby inside fetchRooms with a field startedTimestamp and lastResetTimestamp and if we are at the end of the fetch, we shall only add it if we get lastResetTimestamp < startedTimestamp
       _resetList();
-      _pagingController.itemList = newData;
-      // todo: set itemList to joined rooms according to the server and filter it!
-
-      // todo: add listener and remove listener!
     });
   }
 
-  Future<void> _fetchRooms(String? pageKey) async {
+  Future<List<Map<String, dynamic>>> _fetchRooms(String? pageKey) async {
     int startTime = DateTime.now()
         .millisecondsSinceEpoch; // for catching long runs while already reset
 
-    Map<String, dynamic> ret = {
-      // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
-      "name": null,
-      "id": null,
-      "isInsideSubstitution": false,
-      "joined": false,
-    };
+    List<Map<String, dynamic>> newData = [];
 
-    //debugPrint("fetch rooms");
-
-    /*if (selectedServer == "") {
-      _pagingController.error = "nothing found";
-      return;
-    }*/
+    if (selectedServer.isEmpty) {
+      return newData;
+    }
 
     QueryPublicRoomsResponse resp = await client.queryPublicRooms(
         server: selectedServer,
-        limit: 1,
+        limit: 20, // Increased limit for better performance
         filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
         since: pageKey);
 
     final String? nextPageKey = resp.nextBatch;
 
-    //_pagingController.appendPage(newItems, nextPageKey);
-    //List<PublicRoomsChunk> chunk = resp.chunk;
-    //chunk[0].roomId;
-
-    // todo: passive programming. The room should exist, but better program passive than be sorry
-    //Room? room = Provider.of<Client>(context, listen: false).getRoomById(chunk[0]
-    //    .roomId); // todo: passive programming, go to 404 or smthg if room does not exist
-
-    /*Room? room = Room(
-        id: chunk[0].roomId,
-        client: Provider.of<Client>(context, listen: false));
-    */
-
-    //await room.requestHistory(historyCount: 1);
-
-    // todo: filter with itemList
-
     if (resp.chunk.isEmpty) {
-      return; // no data available
+      return newData; // no data available
     }
 
-    ret["name"] = resp.chunk[0].name;
-    ret["id"] = resp.chunk[0].roomId;
-    ret["avatarUrl"] =
-        resp.chunk[0].avatarUrl?.getDownloadLink(client).toString();
+    for (var chunk in resp.chunk) {
+      Map<String, dynamic> roomData = {
+        "name": chunk.name,
+        "id": chunk.roomId,
+        "avatarUrl": chunk.avatarUrl?.getDownloadLink(client).toString(),
+      };
 
-    // todo get account data and if we joined already
+      // todo: this only works with logged in clients!
+      try {
+        roomData["isInsideSubstitution"] = (await client.getAccountDataPerRoom(
+                client.userID!, chunk.roomId, "substitution"))["joined"] ==
+            true;
+      } catch (_) {} // we cannot get the account data
 
-    // todo: this only works with logged in clients!
-    try {
-      ret["isInsideSubstitution"] = (await client.getAccountDataPerRoom(
-              client.userID!, ret["id"], "substitution"))["joined"] ==
-          true;
-    } catch (_) {} // we cannot get the account data
+      roomData["joined"] =
+          (await client.getJoinedRooms()).contains(chunk.roomId);
 
-    // todo chache getJoinedRooms !
-    ret["joined"] = (await client.getJoinedRooms()).contains(ret["id"]);
-
-    //debugPrint("Room name: ${room.name}");
+      newData.add(roomData);
+    }
 
     debugPrint("nextPageKey: $nextPageKey");
 
-    //int startTime = DateTime.now().millisecondsSinceEpoch; // for catching long runs while already reset
     if (lastResetTime > startTime) {
       debugPrint(
           "reset happend before we finished! $lastResetTime > $startTime");
-      return; // we where reset before the querys ended, so discard this values!
+      return []; // we where reset before the querys ended, so discard this values!
     }
 
-    // todo: this if looks like we could make it more readable...
-    // we have to call this method again to get an unjoined room
-    if (ret["joined"] && ret["isInsideSubstitution"]) {
-      if (nextPageKey != null) {
-        _fetchRooms(nextPageKey);
-      }
-    } else {
-      if (nextPageKey != null) {
-        _pagingController.appendPage([ret], nextPageKey);
-      } else {
-        _pagingController.appendLastPage([ret]);
-      }
-    }
-
-    // set sice = resp.nextBatch
-
-    // todo: apply since!
-
-    // TODO: filter out spaces...
+    return newData;
   }
 
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
@@ -247,9 +198,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchRooms(pageKey);
-    });
+    _pagingController = PagingController<String?, Map<String, dynamic>>(
+      getNextPageKey: (state) => state.keys?.lastOrNull,
+      fetchPage: _fetchRooms,
+    );
 
     super.initState();
   }
@@ -315,8 +267,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
           ])),
       Expanded(
           // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
-          child: PagedListView.separated(
-              pagingController: _pagingController,
+          child: PagedListView<String?, Map<String, dynamic>>.separated(
+              state: _pagingController.value,
+              fetchNextPage: _pagingController.fetchNextPage,
               separatorBuilder: (context, index) => const Divider(),
               builderDelegate: PagedChildBuilderDelegate<Map<String, dynamic>>(
                   itemBuilder: (context, item, index) => RoomWidget(

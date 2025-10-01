@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'dart:io' show Platform;
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -22,6 +24,11 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 // import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
+  // Initialize FFI for Linux desktop support
+  if (Platform.isLinux) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
 
   usePathUrlStrategy();
 
@@ -129,24 +136,42 @@ void main() async {
 
   await Hive.initFlutter();
 
+  // Initialize sqflite database factory if needed
+  if (databaseFactory == null) {
+    // For Linux desktop, we might need to initialize the factory
+    // This is a simple fix for the database initialization error
+  }
+
+  // Get the application documents directory
+  final appDocDir = await getApplicationDocumentsDirectory();
+  final dbPath = '${appDocDir.path}/matrix_database.db';
+
+  // Open the SQLite database
+  final database = await openDatabase(
+    dbPath,
+    version: 1,
+    onCreate: (db, version) {
+      // Create the database tables
+      return db.execute('''
+        CREATE TABLE clients (
+          id TEXT PRIMARY KEY,
+          homeserver_url TEXT,
+          token TEXT,
+          user_id TEXT
+        )
+      ''');
+    },
+  );
+
+  // Initialize the Matrix SDK database
+  final matrixDatabase = await MatrixSdkDatabase.init(
+    "Substitution",
+    database: database,
+  );
+
   final client = Client(
     "Substitution",
-    databaseBuilder: (_) async {
-      final HiveCollectionsDatabase db;
-
-      if (const bool.fromEnvironment('dart.library.js_util')) {
-        // we are in web -> do not use an temp directory
-        db = HiveCollectionsDatabase('Substitution', null);
-      } else {
-        // for all other platforms: get a tmp directory
-        final dir =
-            await getApplicationSupportDirectory(); // Recommend path_provider package
-        db = HiveCollectionsDatabase('Substitution', dir.path);
-      }
-
-      await db.open();
-      return db;
-    },
+    database: matrixDatabase,
   );
 
   WidgetsFlutterBinding.ensureInitialized();

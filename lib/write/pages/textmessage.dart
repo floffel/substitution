@@ -92,19 +92,11 @@ class TextMessageWriteState extends State<TextMessageWrite> {
         )
       ],
       const Text("write.textmessage.answer_promt").tr(),
-
-
-      Column(
-          children: [
-              quill.QuillToolbar.simple(),
-              Expanded(
-                  child: quill.QuillEditor.basic(
-                  configurations: quill.QuillEditorConfigurations(controller: _controller),
-                  ),
-              )
-          ],
+      quill.QuillEditor(
+        controller: _controller,
+        scrollController: ScrollController(),
+        focusNode: FocusNode(),
       ),
-
       Row(children: [
         const Spacer(),
         IconButton(

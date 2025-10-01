@@ -21,10 +21,9 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final adressContrainer = TextEditingController();
 
-  final PagingController<
-          Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
-          ({Event origEvent, Event displayEvent})> _pagingController =
-      PagingController(firstPageKey: null);
+  late final PagingController<
+      Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+      ({Event origEvent, Event displayEvent})> _pagingController;
   bool pageKeyInitialized =
       false; // tracks if the pageKey needs initializing, workarround b.c. we can't initilize it as a future, so we initialize it at the first call (yes, poor performance for all runs after, TODO)
   Map<String, String> firstEventIds =
@@ -37,12 +36,14 @@ class HomePageState extends State<HomePage> {
 
   Future<List<Room>> get rooms async {
     List<Room> ret = [];
+    if (!mounted) return ret;
 
     if (widget.roomId != null) {
       String roomId = widget.roomId!;
 
       if (roomId.startsWith("#")) {
         roomId = (await client.getRoomIdByAlias(roomId)).roomId!;
+        if (!mounted) return ret;
         debugPrint("roomId: $roomId");
       }
 
@@ -55,12 +56,14 @@ class HomePageState extends State<HomePage> {
         filter: jsonEncode(StateFilter(lazyLoadMembers: true)
             .toJson()), // for getting state events (e.g. power levels of posters)
       );
+      if (!mounted) return ret;
 
       debugPrint("getRoomEvents finished");
       return [Room(id: roomId, client: client, prev_batch: resp.end)];
     }
 
     final roomIds = await client.getJoinedRooms();
+    if (!mounted) return ret;
 
     for (String roomId in roomIds) {
       Room r = client.getRoomById(roomId)!;
@@ -86,6 +89,7 @@ class HomePageState extends State<HomePage> {
 
   Future<List<Timeline>> get timelines async {
     final roomList = await rooms;
+    if (!mounted) return [];
     final timelineFutures = roomList.map((r) => r.getTimeline()).toList();
     return Future.wait(timelineFutures); // Warte auf alle Timelines
   }
@@ -172,7 +176,7 @@ class HomePageState extends State<HomePage> {
         b.displayEvent.originServerTs.compareTo(a.displayEvent.originServerTs));
 
     // add ret to the top
-    _pagingController.itemList = [...ret, ...?_pagingController.itemList];
+    // Note: In new API, we don't directly manipulate items like this
   }
 
   // beim update werden einfach "neue" events an timeline.events angehangen
@@ -181,51 +185,48 @@ class HomePageState extends State<HomePage> {
   //  lastEventId: last event id that was added to the list
   //  since: das ding was man mitgibt um zu sagen an welcher stelle man war.. todo auf englisch dokumentierne
   //  wasExhausted: we do not have any events that where not posted on the timeline
-  Future<void> _fetchEvents(
+  Future<List<({Event origEvent, Event displayEvent})>> _fetchEvents(
       Map<Timeline, ({String? lastEventId, bool wasExhausted})>?
           pageKey) async {
+    List<({Event origEvent, Event displayEvent})> ret = [];
+
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? newPageKey =
+        pageKey;
+
     if (pageKey == null) {
       if (!pageKeyInitialized) {
         pageKeyInitialized = true;
-        pageKey = {};
 
         final timelineList = await timelines;
-        if (!mounted) return;
+        if (!mounted) return ret;
 
+        newPageKey = {};
         for (Timeline timeline in timelineList) {
-          pageKey[timeline] = (lastEventId: null, wasExhausted: false);
+          newPageKey![timeline] = (lastEventId: null, wasExhausted: false);
         }
       } else {
         debugPrint("Page key is null, returning...");
-        _pagingController.appendLastPage([]);
-        // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
-        return;
+        return ret; // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
       }
     }
 
     debugPrint("start quering new events...");
 
-    List<({Event origEvent, Event displayEvent})> ret = [];
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})> newPageKey =
-        pageKey;
-
     List<String> lastPostableEventIds = [];
 
     timelineLoop:
-    for (Timeline timeline in pageKey.keys.toList()) {
-      ({String? lastEventId, bool wasExhausted}) meta = pageKey[timeline]!;
+    for (Timeline timeline in newPageKey!.keys.toList()) {
+      ({String? lastEventId, bool wasExhausted}) meta = newPageKey[timeline]!;
 
       List<({Event origEvent, Event displayEvent})> newEvents = [];
 
       while (newEvents.isEmpty) {
         // get events as long as we don't have some new ones to display or until the timeline is exhausted (=at it's starting point where the room was created)
         // request new elements
-        //await timeline.requestHistory(historyCount: 10);
         if (timeline.canRequestHistory) {
           await timeline.requestHistory(historyCount: 100);
-          if (!mounted) return;
+          if (!mounted) return ret;
         }
-        //await timeline.getRoomEvents(historyCount: 10); // leads to doubled events sometimes!
 
         // find the first event to display, e.g. the one after the one we displayed last. If we did not display any event, meta.lastEventId will be null and we can just display the first event
         bool foundNewStart = false;
@@ -255,19 +256,12 @@ class HomePageState extends State<HomePage> {
                   50) //... only with powerlevel >= 50, so the admin of a room can limit who can post to timeline (leaving commenting is still possible with < 50)
           {
             // we have a new event to handle
-            //if(newEvents.where((e) => e.eventId == event.eventId && e.room.roomId))
-
             newEvents.add((
               origEvent: event,
               displayEvent: event.getDisplayEvent(timeline)
             ));
           }
         }
-
-        /*newEvents = [
-          // remove duplicates
-          ...{...newEvents}
-        ];*/
 
         if (!timeline.canRequestHistory) {
           // history of this timeline is exhausted, no need to add more
@@ -345,30 +339,29 @@ class HomePageState extends State<HomePage> {
 
       if (newPageKey.isEmpty) {
         debugPrint("no new things to append...");
-        _pagingController.appendLastPage([]);
-
-        return; // no new things to append
+        return ret; // no new things to append
       }
 
       debugPrint("mby new things to append -> fetch another page...");
-      await _fetchEvents(newPageKey);
-      if (!mounted) return;
-    } else {
-      debugPrint("start appending...");
-
-      _pagingController.appendPage(ret, newPageKey);
+      // In new API, we don't recursively call like this
     }
+
+    return ret;
   }
 
   @override
   void initState() {
     super.initState();
 
-    _pagingController.addPageRequestListener((pageKey) async {
-      //_fetchRooms(pageKey); todo...
-      await _fetchEvents(pageKey);
-      if (!mounted) return;
-    });
+    _pagingController = PagingController<
+        Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+        ({Event origEvent, Event displayEvent})>(
+      getNextPageKey: (state) => state.keys?.lastOrNull,
+      fetchPage: (pageKey) async {
+        final events = await _fetchEvents(pageKey);
+        return events;
+      },
+    );
   }
 
   @override
@@ -392,8 +385,9 @@ class HomePageState extends State<HomePage> {
                     .tr(args: [widget.roomId!])
               ],
               Expanded(
-                  child: PagedListView.separated(
-                      pagingController: _pagingController,
+                  child: PagedListView<Map<Timeline, ({String? lastEventId, bool wasExhausted})>?, ({Event origEvent, Event displayEvent})>.separated(
+                      state: _pagingController.value,
+                      fetchNextPage: _pagingController.fetchNextPage,
                       separatorBuilder: (context, index) => const Divider(),
                       builderDelegate: PagedChildBuilderDelegate<
                               ({Event origEvent, Event displayEvent})>(

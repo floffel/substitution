@@ -32,54 +32,58 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
       Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(children: [
-            GestureDetector(
-                onTap: () => setState(() {
-                      context.push('/feed/${roomAddr.replaceAll('#', '')}');
-                    }),
-                child: Row(children: [
-                  widget.hasAvatarURL((widget.displayEvent))
-                      ? Image.network(
-                          widget
-                              .avatarURL((widget.displayEvent))!
-                              .getDownloadLink(client)
-                              .toString(),
-                          width: 40,
-                          height: 40, errorBuilder: (ctx, obj, stack) {
-                          // todo: find a way to check if we have a svg beforehand!
-                          return SvgPicture.network(
-                            widget
-                                .avatarURL((widget.displayEvent))!
-                                .getDownloadLink(client)
-                                .toString(),
-                            width: 40,
-                            height: 40,
-                          );
-                        })
-                      : CircleAvatar(
-                          child: Text(widget.username(widget.displayEvent)[0])),
-                  Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(children: [
-                            Text(widget.username((widget.displayEvent))),
-                            Text(
-                                "$roomAddr: ${(widget.displayEvent).room.name}"),
-                          ]))),
-                  IconButton(
-                    onPressed: () async => {
-                      context.push(Uri(
-                              path: "/write/${widget.event.roomId}",
-                              queryParameters: {'event': widget.event.eventId})
-                          .toString())
-                    },
-                    icon: const Icon(Icons.reply),
-                  ),
-                  IconButton(
-                    onPressed: () async =>
-                        await pickIcon(context, widget.event),
-                    icon: const Icon(Icons.favorite_rounded),
-                  ),
-                ])),
+            Row(children: [
+              Expanded(
+                  child: GestureDetector(
+                      onTap: () => setState(() {
+                            context
+                                .push('/feed/${roomAddr.replaceAll('#', '')}');
+                          }),
+                      child: Row(children: [
+                        widget.hasAvatarURL((widget.displayEvent))
+                            ? Image.network(
+                                widget
+                                    .avatarURL((widget.displayEvent))!
+                                    .getDownloadLink(client)
+                                    .toString(),
+                                width: 40,
+                                height: 40, errorBuilder: (ctx, obj, stack) {
+                                // todo: find a way to check if we have a svg beforehand!
+                                return SvgPicture.network(
+                                  widget
+                                      .avatarURL((widget.displayEvent))!
+                                      .getDownloadLink(client)
+                                      .toString(),
+                                  width: 40,
+                                  height: 40,
+                                );
+                              })
+                            : CircleAvatar(
+                                child: Text(
+                                    widget.username(widget.displayEvent)[0])),
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(children: [
+                                  Text(widget.username((widget.displayEvent))),
+                                  Text(
+                                      "$roomAddr: ${(widget.displayEvent).room.name}"),
+                                ]))),
+                      ]))),
+              IconButton(
+                onPressed: () async => {
+                  context.push(Uri(
+                          path: "/write/${widget.event.roomId}",
+                          queryParameters: {'event': widget.event.eventId})
+                      .toString())
+                },
+                icon: const Icon(Icons.reply),
+              ),
+              IconButton(
+                onPressed: () async => await pickIcon(context, widget.event),
+                icon: const Icon(Icons.favorite_rounded),
+              ),
+            ]),
             (widget.displayEvent).messageType == MessageTypes.Text
                 ? Row(children: [
                     Expanded(

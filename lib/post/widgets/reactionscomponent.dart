@@ -19,16 +19,42 @@ class ReactionsComponentState extends State<ReactionsComponent> {
   //int numReactions = 0;
 
   // Map: (String smileyString, meta)
-  Future<Map<String, ({List<String> userNames, bool isOwnSmiley})>>
-      get reactions async {
-    Map<String, ({List<String> userNames, bool isOwnSmiley})> ret = {};
+  Future<
+      Map<
+          String,
+          ({
+            List<String> userNames,
+            bool isOwnSmiley,
+            Event? displayEvent
+          })>> get reactions async {
+    print("start getting reactions");
+
+    Map<String,
+            ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>
+        ret = {};
 
     Timeline timeline = await widget.event.room
         .getTimeline(eventContextId: widget.event.eventId);
+    // TODO: we need to transfere the timeline from the previous
+    //  component
 
-    for (Event e in widget.event
-        .aggregatedEvents(timeline, RelationshipTypes.reaction)) {
+    print("got timeline for event id");
+    print(widget.event.eventId);
+    print("has aggregated events?");
+    print(
+        widget.event.hasAggregatedEvents(timeline, RelationshipTypes.reaction));
+
+    Set<Event> events =
+        widget.event.aggregatedEvents(timeline, RelationshipTypes.reaction);
+
+    print("got events");
+    print(events);
+
+    for (Event e in events) {
       // it's only a comment to this comment if it contains the event id of this comments event id
+
+      print("checking event e:");
+      print(e);
 
       if (e.content
               .tryGetMap<String, Object?>('m.relates_to')
@@ -44,12 +70,15 @@ class ReactionsComponentState extends State<ReactionsComponent> {
           isOwnSmiley = true;
         }
 
+        print("fetched smiley!");
+
         ret[smiley] = (
           userNames: [
             ...(ret[smiley]?.userNames ?? []),
             sender.displayName ?? "post.widget.reactions.unknown_sender".tr()
           ],
-          isOwnSmiley: isOwnSmiley
+          isOwnSmiley: isOwnSmiley,
+          displayEvent: isOwnSmiley ? displayEvent : null
         );
       }
     }
@@ -62,28 +91,40 @@ class ReactionsComponentState extends State<ReactionsComponent> {
     return FutureBuilder(
         future: reactions,
         builder: (ctx, snapshot) {
+          if (!snapshot.hasData) {
+            return Text("loading comments");
+          }
+          // todo: show loading animation!
           return Wrap(spacing: 1.0, runSpacing: 4.0, children: [
             ...snapshot.data?.entries.map((var e) {
                   return Tooltip(
                       message: "post.widgets.reaction.sent_by"
                           .tr(args: [e.value.userNames.join(', ')]),
-                      child: Container(
-                          margin: const EdgeInsets.all(2.0),
-                          decoration: e.value.isOwnSmiley
-                              ? BoxDecoration(
-                                  border: Border.all(color: Colors.red[400]!),
-                                  shape: BoxShape.circle)
-                              : null,
-                          // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
-                          child: Text(
-                            e.key,
-                            style: const TextStyle(
-                              fontSize: 24.0,
-                              fontFamily:
-                                  'Apple Color Emoji', // Investigate what to use on other platforms
-                              fontFamilyFallback: ["Noto Emoji"],
-                            ),
-                          )));
+                      child: GestureDetector(
+                          onLongPress: () {
+                            if (e.value.displayEvent != null) {
+                              e.value.displayEvent!.redactEvent();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                              margin: const EdgeInsets.all(2.0),
+                              decoration: e.value.isOwnSmiley
+                                  ? BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.red[400]!),
+                                      shape: BoxShape.circle)
+                                  : null,
+                              // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
+                              child: Text(
+                                e.key,
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily:
+                                      'Apple Color Emoji', // TODO: Investigate what to use on other platforms
+                                  fontFamilyFallback: ["Noto Emoji"],
+                                ),
+                              ))));
                 }) ??
                 []
           ]);

@@ -16,6 +16,11 @@ mixin IconPicker {
         return EmojiPicker(
           config: Config(
             height: 256,
+            emojiTextStyle: const TextStyle(
+              fontFamily:
+                  'Apple Color Emoji', // TODO: Investigate what to use on other platforms
+              fontFamilyFallback: ["Noto Emoji"],
+            ),
             checkPlatformCompatibility: true,
             emojiViewConfig: EmojiViewConfig(
               // Issue: https://github.com/flutter/flutter/issues/28894
@@ -34,9 +39,11 @@ mixin IconPicker {
             bottomActionBarConfig: const BottomActionBarConfig(),
             searchViewConfig: const SearchViewConfig(),
           ),
-          onEmojiSelected: (category, emoji) {
-            event.room.sendReaction(event.eventId, emoji.emoji);
-            Navigator.of(subcontext).pop();
+          onEmojiSelected: (category, emoji) async {
+            print("sending emoji {emoji.emoji}");
+            await event.room.sendReaction(event.eventId, emoji.emoji);
+            if (!context.mounted) return;
+            Navigator.of(context).pop();
           },
         );
       },
