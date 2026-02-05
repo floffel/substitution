@@ -198,12 +198,24 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   void initState() {
+    super.initState();
+
     _pagingController = PagingController<String?, Map<String, dynamic>>(
       getNextPageKey: (state) => state.keys?.lastOrNull,
       fetchPage: _fetchRooms,
     );
-
-    super.initState();
+    
+    // Auto-select homeserver default
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+       try {
+         final defaultServer = client.homeserver?.host;
+         if (defaultServer != null && selectedServer.isEmpty) {
+            _setServerAddr(defaultServer);
+         }
+       } catch (e) {
+         debugPrint("Error setting default server: $e");
+       }
+    });
   }
 
   @override
@@ -220,7 +232,24 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       Padding(
           padding: const EdgeInsets.all(16.0),
           child: FutureBuilder(
-              future: accountData,
+              future: accountData.then((data) {
+                 // Ensure default server is in the list
+                 final defaultServer = client.homeserver?.host;
+                 if (defaultServer != null && !data.containsKey(defaultServer)) {
+                    // clone map to avoid mutation issues if unmodifiable
+                    final newData = Map<String, Object?>.from(data);
+                    newData[defaultServer] = {"added_automatically": true};
+                    return newData;
+                 }
+                 return data;
+              }).catchError((e) {
+                  // Handle error if account data fetch fails (e.g. initially empty)
+                  final defaultServer = client.homeserver?.host;
+                  if (defaultServer != null) {
+                    return {defaultServer: {"added_automatically": true}};
+                  }
+                  return <String, Object?>{};
+              }),
               builder: (ctx, snapshot) {
                 return Wrap(
                     // select Servers to display or add new server
@@ -228,7 +257,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                     runSpacing: 4.0,
                     alignment: WrapAlignment.center,
                     children: [
-                      ...snapshot.data?.entries.map((s) => GestureDetector(
+                      ...?snapshot.data?.entries.map((s) => GestureDetector(
                               child: ChoiceChip(
                                   label: Text(s.key),
                                   selected: selectedServer == s.key,

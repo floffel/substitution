@@ -20,6 +20,9 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 // import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
@@ -131,6 +134,105 @@ void main() async {
             path: '/auth/login',
             builder: (context, state) =>
                 const AuthFlow(authPageRoute: 'login')),
+        GoRoute(
+          path: '/login-callback',
+          builder: (context, state) {
+             return Scaffold(
+               body: FutureBuilder<void>(
+                 future: () async {
+                    final token = state.uri.queryParameters['loginToken'];
+                    final homeserverStr = state.uri.queryParameters['homeserver'];
+                    
+                    print("Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+
+                    if (token == null) {
+                      throw Exception("No login token received");
+                    }
+
+                    final client = Provider.of<Client>(context, listen: false);
+                    
+                    // Configure homeserver if provided and not set
+                    if (homeserverStr != null) {
+                      client.homeserver = Uri.parse(homeserverStr);
+                      print("Configured client homeserver to: $homeserverStr");
+                    } else if (client.homeserver == null) {
+                       print("Warning: No homeserver configured for token login!");
+                    }
+
+                    print("[SSO] Attempting login with token...");
+                    try {
+                      // Fix: m.login.token requires 'token' parameter, not 'password'
+                      // Add timeout to detect hangs
+                      await client.login(LoginType.mLoginToken, token: token)
+                          .timeout(const Duration(seconds: 15), onTimeout: () {
+                             throw TimeoutException("Login timed out after 15 seconds");
+                          });
+                      print("[SSO] Login successful!");
+                    } catch (e, stack) {
+                      print("[SSO] Login ERROR: $e");
+                      print(stack);
+                      rethrow;
+                    }
+
+                 }(),
+                 builder: (context, snapshot) {
+                   if (snapshot.connectionState == ConnectionState.done) {
+                     if (snapshot.hasError) {
+                       return Center(
+                         child: Column(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             const Icon(Icons.error, color: Colors.red, size: 48),
+                             const SizedBox(height: 16),
+                             Text("Login Failed", style: Theme.of(context).textTheme.titleLarge),
+                             Padding(
+                               padding: const EdgeInsets.all(16.0),
+                               child: Text(snapshot.error.toString(), textAlign: TextAlign.center),
+                             ),
+                             ElevatedButton(
+                               onPressed: () => context.go('/auth/login'), 
+                               child: const Text("Back to Login")
+                             )
+                           ],
+                         ),
+                       );
+                     }
+                     // Success - Show manual continue button
+                     return Center(
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           const Icon(Icons.check_circle, color: Colors.green, size: 64),
+                           const SizedBox(height: 24),
+                           Text("Login Successful!", style: Theme.of(context).textTheme.headlineSmall),
+                           const SizedBox(height: 8),
+                           const Text("You can now proceed to the app."),
+                           const SizedBox(height: 32),
+                           FilledButton.icon(
+                             onPressed: () {
+                               print("User clicked Continue button. Navigating to /");
+                               context.go('/');
+                             }, 
+                             icon: const Icon(Icons.arrow_forward),
+                             label: const Text("Continue to App")
+                           )
+                         ],
+                       ),
+                     );
+                   }
+                   return const Center(child: Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       CircularProgressIndicator(),
+                       SizedBox(height: 16),
+                       Text("Logging in...")
+                     ],
+                   ));
+                 },
+               ),
+             );
+          },
+        ),
       ]);
 
   // await Hive.initFlutter();

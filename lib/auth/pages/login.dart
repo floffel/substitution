@@ -4,6 +4,7 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
@@ -84,6 +85,41 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
+  Future<void> loginSSO() async {
+    // Default to matrix.org if no specific homeserver is implied by username
+    Uri homeserverTouse = Uri.parse("https://matrix.org");
+    try {
+      final username = usernameContrainer.text;
+      if (username.contains(":")) {
+         // simple extraction, e.g. @user:example.com -> example.com
+         final domain = username.split(":").last;
+         homeserverTouse = Uri.parse("https://$domain");
+      }
+      
+      
+      
+      // Construct the SSO URL properly with encoded query parameters
+      final ssoPath = "_matrix/client/r0/login/sso/redirect";
+      // We pass the homeserver in the redirect URL so we can configure the client on return
+      final redirectUrl = "substitution://auth/login-callback?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
+      
+      // Use replace to handle query parameters correctly (automatically encodes)
+      final ssoUrl = homeserverTouse.resolve(ssoPath).replace(
+        queryParameters: {
+          'redirectUrl': redirectUrl,
+        }
+      );
+      
+      print("Launching SSO URL: $ssoUrl"); // Debug log
+      await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error starting SSO: $e')),
+      );
+    }
+  }
+
   @override
   void dispose() {
     usernameContrainer.dispose();
@@ -137,6 +173,15 @@ class _LoginPageState extends State<LoginPage> {
                 }
               },
               child: const Text("auth.login.buttons.login_label").tr(),
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.login),
+              label: const Text("Sign in with Google (SSO)"),
+              onPressed: loginSSO,
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.all(14),
+              ),
             ),
           ],
         )
