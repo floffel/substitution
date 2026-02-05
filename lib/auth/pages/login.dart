@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:flutter/foundation.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:easy_localization/easy_localization.dart';
 
 // Define a custom Form widget.
@@ -100,8 +102,18 @@ class _LoginPageState extends State<LoginPage> {
       
       // Construct the SSO URL properly with encoded query parameters
       final ssoPath = "_matrix/client/r0/login/sso/redirect";
-      // We pass the homeserver in the redirect URL so we can configure the client on return
-      final redirectUrl = "substitution://auth/login-callback?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
+      
+      String redirectUrl;
+      if (kIsWeb) {
+        // On Web, redirect back to the app URL
+        redirectUrl = "${html.window.location.origin}/login-callback";
+      } else {
+        // On Mobile, use the deep link scheme
+        // Note: AndroidManifest defines host="login-callback", so the URL should be substitution://login-callback
+        redirectUrl = "substitution://login-callback";
+      }
+      
+      redirectUrl += "?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
       
       // Use replace to handle query parameters correctly (automatically encodes)
       final ssoUrl = homeserverTouse.resolve(ssoPath).replace(
@@ -111,7 +123,13 @@ class _LoginPageState extends State<LoginPage> {
       );
       
       print("Launching SSO URL: $ssoUrl"); // Debug log
-      await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
+      
+      if (kIsWeb) {
+        // On Web, redirect the current tab
+        html.window.location.assign(ssoUrl.toString());
+      } else {
+        await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
+      }
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

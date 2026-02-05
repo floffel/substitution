@@ -15,6 +15,7 @@ import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -27,7 +28,8 @@ import 'dart:convert';
 
 void main() async {
   // Initialize FFI for Linux desktop support
-  if (Platform.isLinux) {
+  // Initialize FFI for Linux desktop support
+  if (!kIsWeb && Platform.isLinux) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
@@ -237,32 +239,41 @@ void main() async {
 
   // await Hive.initFlutter();
 
-  // Get the application documents directory
-  final appDocDir = await getApplicationDocumentsDirectory();
-  final dbPath = '${appDocDir.path}/matrix_database.db';
-
-  // Open the SQLite database
-  final database = await openDatabase(
-    dbPath,
-    version: 1,
-    onCreate: (db, version) {
-      // Create the database tables
-      return db.execute('''
-        CREATE TABLE clients (
-          id TEXT PRIMARY KEY,
-          homeserver_url TEXT,
-          token TEXT,
-          user_id TEXT
-        )
-      ''');
-    },
-  );
-
   // Initialize the Matrix SDK database
-  final matrixDatabase = await MatrixSdkDatabase.init(
-    "Substitution",
-    database: database,
-  );
+  late final MatrixSdkDatabase matrixDatabase;
+
+  if (!kIsWeb) {
+    // Get the application documents directory
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final dbPath = '${appDocDir.path}/matrix_database.db';
+
+    // Open the SQLite database
+    final database = await openDatabase(
+      dbPath,
+      version: 1,
+      onCreate: (db, version) {
+        // Create the database tables
+        return db.execute('''
+          CREATE TABLE clients (
+            id TEXT PRIMARY KEY,
+            homeserver_url TEXT,
+            token TEXT,
+            user_id TEXT
+          )
+        ''');
+      },
+    );
+
+    matrixDatabase = await MatrixSdkDatabase.init(
+      "Substitution",
+      database: database,
+    );
+  } else {
+    // Web support: use default (IndexedDB)
+    matrixDatabase = await MatrixSdkDatabase.init(
+      "Substitution",
+    );
+  }
 
   final client = Client(
     "Substitution",

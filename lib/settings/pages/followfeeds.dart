@@ -207,6 +207,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     
     // Auto-select homeserver default
     WidgetsBinding.instance.addPostFrameCallback((_) {
+       if (!mounted) return;
        try {
          final defaultServer = client.homeserver?.host;
          if (defaultServer != null && selectedServer.isEmpty) {
