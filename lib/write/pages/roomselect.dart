@@ -77,7 +77,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
       Switch(
         thumbIcon: postTypeThumbIcon,
         value: postType,
-        activeColor: Colors.red,
+        activeThumbColor: Colors.red,
         onChanged: (bool value) {
           setState(() {
             postType = value;

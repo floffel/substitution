@@ -52,7 +52,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                     ? Image.network(
                         widget
                             .avatarURL((widget.displayEvent))!
-                            .getDownloadLink(client)
+                            .getDownloadUri(client)
                             .toString(),
                         width: 40,
                         height: 40, errorBuilder: (ctx, obj, stack) {
@@ -60,7 +60,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                         return SvgPicture.network(
                           widget
                               .avatarURL((widget.displayEvent))!
-                              .getDownloadLink(client)
+                              .getDownloadUri(client)
                               .toString(),
                           width: 40,
                           height: 40,

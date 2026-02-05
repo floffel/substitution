@@ -44,7 +44,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                             ? Image.network(
                                 widget
                                     .avatarURL((widget.displayEvent))!
-                                    .getDownloadLink(client)
+                                    .getDownloadUri(client)
                                     .toString(),
                                 width: 40,
                                 height: 40, errorBuilder: (ctx, obj, stack) {
@@ -52,7 +52,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                                 return SvgPicture.network(
                                   widget
                                       .avatarURL((widget.displayEvent))!
-                                      .getDownloadLink(client)
+                                      .getDownloadUri(client)
                                       .toString(),
                                   width: 40,
                                   height: 40,

@@ -85,7 +85,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
           title: const Text('write.roomheader').tr(args: [room!.name]),
           subtitle: Text(room!.id),
           leading: room!.avatar != null
-              ? Image.network(room!.avatar!.getDownloadLink(client).toString())
+              ? Image.network(room!.avatar!.getDownloadUri(client).toString())
               : const Text("error_no_image").tr(),
         )
       ],

@@ -146,7 +146,7 @@ class HomePageState extends State<HomePage> {
         }
 
         if (e.type == "m.room.message" && // we only want messages
-            e.relationshipType != RelationshipTypes.reply && // ... no replys
+            e.relationshipType != RelationshipTypes.reference && // ... no replys
             e.relationshipType != RelationshipTypes.thread && // ... no threads
             e.relationshipType !=
                 RelationshipTypes
@@ -202,7 +202,7 @@ class HomePageState extends State<HomePage> {
 
         newPageKey = {};
         for (Timeline timeline in timelineList) {
-          newPageKey![timeline] = (lastEventId: null, wasExhausted: false);
+          newPageKey[timeline] = (lastEventId: null, wasExhausted: false);
         }
       } else {
         debugPrint("Page key is null, returning...");
@@ -246,7 +246,7 @@ class HomePageState extends State<HomePage> {
           // filter events to only grap message's
           if (event.type == "m.room.message" && // we only want messages
               event.relationshipType !=
-                  RelationshipTypes.reply && // ... no replys
+                  RelationshipTypes.reference && // ... no replys
               event.relationshipType !=
                   RelationshipTypes.thread && // ... no threads
               event.relationshipType !=

@@ -11,7 +11,6 @@ import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -134,13 +133,7 @@ void main() async {
                 const AuthFlow(authPageRoute: 'login')),
       ]);
 
-  await Hive.initFlutter();
-
-  // Initialize sqflite database factory if needed
-  if (databaseFactory == null) {
-    // For Linux desktop, we might need to initialize the factory
-    // This is a simple fix for the database initialization error
-  }
+  // await Hive.initFlutter();
 
   // Get the application documents directory
   final appDocDir = await getApplicationDocumentsDirectory();

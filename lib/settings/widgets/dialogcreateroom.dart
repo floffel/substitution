@@ -13,7 +13,7 @@ class DialogCreateRoom extends StatefulWidget {
 }
 
 class DialogCreateRoomState extends State<DialogCreateRoom> {
-  get client => Provider.of<matrix.Client>(context, listen: false);
+  matrix.Client get client => Provider.of<matrix.Client>(context, listen: false);
   bool loading = false;
   String? error;
 

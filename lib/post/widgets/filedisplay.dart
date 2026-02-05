@@ -7,8 +7,6 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:universal_html/html.dart' as html;
 import 'package:path_provider/path_provider.dart';
-import 'package:octo_image/octo_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 // TODO this one shows one file and is used in filecomponent.

@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:universal_html/html.dart' as html;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 
 // TODO rename to FileDisplay or smthg.
@@ -68,7 +67,7 @@ class FileComponentState extends State<FileComponent> {
         .getTimeline(eventContextId: widget.event.eventId);
 
     for (Event e
-        in widget.event.aggregatedEvents(timeline, RelationshipTypes.reply)) {
+        in widget.event.aggregatedEvents(timeline, RelationshipTypes.reference)) {
       //var t = e.relationshipEventId;
 
       // todo: check if this is really a file and the owner of the reply
@@ -116,7 +115,7 @@ class FileComponentState extends State<FileComponent> {
     }
 
     return VideoPlayerController.networkUrl(
-        (e.getAttachmentUrl())!) // todo... null check
+        (await e.getAttachmentUri())!) // todo... null check
       ..initialize();
   }
 

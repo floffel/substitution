@@ -18,7 +18,7 @@ class _MenuState extends State<Menu> {
   Client get client => Provider.of<Client>(context, listen: false);
   // Helper methods
   Future<Profile> get profile async =>
-      (await client.fetchOwnProfileFromServer());
+      (await client.fetchOwnProfile());
   Future<String?> get avatarURL async => (await profile).avatarUrl?.toString();
   Future<bool> get hasAvatarURL async => (await avatarURL) != null;
   Future<String> get username async => (await profile).displayName!;
@@ -62,14 +62,14 @@ class _MenuState extends State<Menu> {
                             ? Text(snapshot.data!.displayName![0])
                             : Image.network(
                                 snapshot.data!.avatarUrl!
-                                    .getDownloadLink(client)
+                                    .getDownloadUri(client)
                                     .toString(),
                                 width: 40,
                                 height: 40, errorBuilder: (ctx, obj, stack) {
                                 // todo: find a way to check if we have a svg beforehand!
                                 return SvgPicture.network(
                                   snapshot.data!.avatarUrl!
-                                      .getDownloadLink(client)
+                                      .getDownloadUri(client)
                                       .toString(),
                                   width: 40,
                                   height: 40,

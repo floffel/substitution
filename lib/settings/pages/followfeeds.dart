@@ -139,7 +139,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       Map<String, dynamic> roomData = {
         "name": chunk.name,
         "id": chunk.roomId,
-        "avatarUrl": chunk.avatarUrl?.getDownloadLink(client).toString(),
+        "avatarUrl": chunk.avatarUrl?.getDownloadUri(client).toString(),
       };
 
       // todo: this only works with logged in clients!
