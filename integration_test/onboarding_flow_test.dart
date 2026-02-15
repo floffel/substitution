@@ -4,6 +4,9 @@ import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 class MockClient extends Mock implements Client {}
 
@@ -11,6 +14,35 @@ void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
     await EasyLocalization.ensureInitialized();
+
+    // Initialize SQLite database for tests
+    if (!kIsWeb) {
+      try {
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbPath =
+            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
+
+        final database = await openDatabase(
+          dbPath,
+          version: 1,
+          onCreate: (db, version) {
+            return db.execute('''
+              CREATE TABLE clients (
+                id TEXT PRIMARY KEY,
+                homeserver_url TEXT,
+                token TEXT,
+                user_id TEXT
+              )
+            ''');
+          },
+        );
+
+        // Close it after initialization
+        await database.close();
+      } catch (e) {
+        // Silently ignore database initialization errors in setUpAll
+      }
+    }
   });
 
   group('Onboarding Flow Integration (WI-1.1, WI-1.2, WI-1.3)', () {

@@ -2,22 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Engagement & Interaction with Real Matrix Server', () {
-    const testMatrixServer = 'http://matrix-synapse:8008';
+    const testMatrixServer = 'http://192.168.1.196:8008';
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
+
+    late Database? sqliteDatabase;
+
+    setUp(() async {
+      // Initialize SQLite database for tests
+      if (!kIsWeb) {
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbPath =
+            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
+
+        sqliteDatabase = await openDatabase(
+          dbPath,
+          version: 1,
+          onCreate: (db, version) {
+            return db.execute('''
+              CREATE TABLE clients (
+                id TEXT PRIMARY KEY,
+                homeserver_url TEXT,
+                token TEXT,
+                user_id TEXT
+              )
+            ''');
+          },
+        );
+      }
+    });
+
+    tearDown(() async {
+      // Close SQLite database
+      if (sqliteDatabase != null && !kIsWeb) {
+        try {
+          await sqliteDatabase!.close();
+        } catch (e) {
+          // Ignore database close errors
+        }
+      }
+    });
 
     Future<void> loginUser(WidgetTester tester) async {
       // The app shows an IntroductionScreen with multiple pages before login
       // We need to navigate through the pages to reach the host configuration
-      
+
       // Wait for the introduction screen to appear
       await tester.pumpAndSettle(const Duration(seconds: 2));
-      
+
       // Find and tap the "Next" button multiple times to navigate to the host page (page 2)
       // Page 0: Welcome, Page 1: Account info, Page 2: Host config
       for (int i = 0; i < 2; i++) {
@@ -27,7 +67,7 @@ void main() {
           await tester.pumpAndSettle(const Duration(seconds: 1));
         }
       }
-      
+
       // Now we should be on the host configuration page
       // Enter homeserver using the test key
       final hostInputFinder = find.byKey(const Key('hostServerInput'));
@@ -40,12 +80,12 @@ void main() {
         await tester.enterText(hostInputFallback, testMatrixServer);
         await tester.pumpAndSettle(const Duration(seconds: 1));
       }
-      
+
       // Find and tap the submit/next button
       final submitButtonFinder = find.byType(ElevatedButton).first;
       await tester.tap(submitButtonFinder);
       await tester.pumpAndSettle(const Duration(seconds: 3));
-      
+
       // Now on login page, enter credentials using test keys
       final usernameFieldFinder = find.byKey(const Key('loginUsernameInput'));
       if (usernameFieldFinder.evaluate().isNotEmpty) {
@@ -57,7 +97,7 @@ void main() {
         await tester.enterText(usernameFieldFallback, testUser);
         await tester.pumpAndSettle(const Duration(seconds: 1));
       }
-      
+
       final passwordFieldFinder = find.byKey(const Key('loginPasswordInput'));
       if (passwordFieldFinder.evaluate().isNotEmpty) {
         await tester.enterText(passwordFieldFinder, testPassword);
@@ -68,7 +108,7 @@ void main() {
         await tester.enterText(passwordFieldFallback, testPassword);
         await tester.pumpAndSettle(const Duration(seconds: 1));
       }
-      
+
       // Find and tap the login button
       final loginButtonFinder = find.byType(ElevatedButton).first;
       await tester.tap(loginButtonFinder);

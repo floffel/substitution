@@ -2,15 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Multi-User Correspondence with Real Matrix Server', () {
-    const testMatrixServer = 'http://matrix-synapse:8008';
+    const testMatrixServer = 'http://192.168.1.196:8008';
     const testUser1 = 'testuser1';
     const testUser2 = 'testuser2';
     const testPassword = 'testpass123';
+
+    late Database? sqliteDatabase;
+
+    setUp(() async {
+      // Initialize SQLite database for tests
+      if (!kIsWeb) {
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbPath =
+            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
+
+        sqliteDatabase = await openDatabase(
+          dbPath,
+          version: 1,
+          onCreate: (db, version) {
+            return db.execute('''
+              CREATE TABLE clients (
+                id TEXT PRIMARY KEY,
+                homeserver_url TEXT,
+                token TEXT,
+                user_id TEXT
+              )
+            ''');
+          },
+        );
+      }
+    });
+
+    tearDown(() async {
+      // Close SQLite database
+      if (sqliteDatabase != null && !kIsWeb) {
+        try {
+          await sqliteDatabase!.close();
+        } catch (e) {
+          // Ignore database close errors
+        }
+      }
+    });
 
     Future<void> loginAsUser(WidgetTester tester, String username) async {
       // Enter homeserver

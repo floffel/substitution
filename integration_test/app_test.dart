@@ -3,11 +3,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Substitution App - Base Integration Tests', () {
+    late Database? sqliteDatabase;
+
+    setUp(() async {
+      // Initialize SQLite database for tests
+      if (!kIsWeb) {
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbPath =
+            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
+
+        sqliteDatabase = await openDatabase(
+          dbPath,
+          version: 1,
+          onCreate: (db, version) {
+            return db.execute('''
+              CREATE TABLE clients (
+                id TEXT PRIMARY KEY,
+                homeserver_url TEXT,
+                token TEXT,
+                user_id TEXT
+              )
+            ''');
+          },
+        );
+      }
+    });
+
+    tearDown(() async {
+      // Close SQLite database
+      if (sqliteDatabase != null && !kIsWeb) {
+        try {
+          await sqliteDatabase!.close();
+        } catch (e) {
+          // Ignore database close errors
+        }
+      }
+    });
     testWidgets('App starts and displays home page',
         (WidgetTester tester) async {
       // Start the app

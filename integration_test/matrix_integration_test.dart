@@ -1,23 +1,60 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:matrix/matrix.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   // Get test server details from environment variables
-  const matrixServer = 'http://matrix-synapse:8008';
+  const matrixServer = 'http://192.168.1.196:8008';
   const testUser = 'testuser1';
   const testPassword = 'testpass123';
 
   group('Matrix Server Integration Tests', () {
     late Client client;
+    late Database? sqliteDatabase;
 
     setUp(() async {
-      // Create a fresh client for each test with in-memory database
-      final database = await MatrixSdkDatabase.init(
-        'integration_test_${DateTime.now().millisecondsSinceEpoch}',
-      );
+      // Initialize SQLite database
+      late final MatrixSdkDatabase database;
+
+      if (!kIsWeb) {
+        // Get the application documents directory for tests
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbPath =
+            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
+
+        // Open the SQLite database
+        sqliteDatabase = await openDatabase(
+          dbPath,
+          version: 1,
+          onCreate: (db, version) {
+            // Create the database tables
+            return db.execute('''
+              CREATE TABLE clients (
+                id TEXT PRIMARY KEY,
+                homeserver_url TEXT,
+                token TEXT,
+                user_id TEXT
+              )
+            ''');
+          },
+        );
+
+        database = await MatrixSdkDatabase.init(
+          'integration_test_${DateTime.now().millisecondsSinceEpoch}',
+          database: sqliteDatabase,
+        );
+      } else {
+        // Web support: use default (IndexedDB)
+        database = await MatrixSdkDatabase.init(
+          'integration_test_${DateTime.now().millisecondsSinceEpoch}',
+        );
+      }
+
       client = Client(
         'integration_test_${DateTime.now().millisecondsSinceEpoch}',
         database: database,
@@ -32,6 +69,15 @@ void main() {
         }
       } catch (e) {
         // Ignore cleanup errors
+      }
+
+      // Close SQLite database
+      if (sqliteDatabase != null && !kIsWeb) {
+        try {
+          await sqliteDatabase!.close();
+        } catch (e) {
+          // Ignore database close errors
+        }
       }
     });
 
