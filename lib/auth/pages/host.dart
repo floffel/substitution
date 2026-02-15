@@ -105,6 +105,7 @@ class _HostPageState extends State<HostPage> {
         const Text("auth.host.body").tr(),
         const SizedBox(height: 30),
         TextFormField(
+          key: const Key('hostServerInput'),
           controller: adressContrainer,
           decoration: InputDecoration(
               prefixText: 'https://',

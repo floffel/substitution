@@ -12,24 +12,64 @@ void main() {
     const testPassword = 'testpass123';
 
     Future<void> loginUser(WidgetTester tester) async {
-      // Enter homeserver
-      final hostInputFinder = find.byType(TextFormField).first;
-      await tester.enterText(hostInputFinder, testMatrixServer);
-      await tester.pumpAndSettle();
-
+      // The app shows an IntroductionScreen with multiple pages before login
+      // We need to navigate through the pages to reach the host configuration
+      
+      // Wait for the introduction screen to appear
+      await tester.pumpAndSettle(const Duration(seconds: 2));
+      
+      // Find and tap the "Next" button multiple times to navigate to the host page (page 2)
+      // Page 0: Welcome, Page 1: Account info, Page 2: Host config
+      for (int i = 0; i < 2; i++) {
+        final nextButtonFinder = find.byType(ElevatedButton).first;
+        if (nextButtonFinder.evaluate().isNotEmpty) {
+          await tester.tap(nextButtonFinder);
+          await tester.pumpAndSettle(const Duration(seconds: 1));
+        }
+      }
+      
+      // Now we should be on the host configuration page
+      // Enter homeserver using the test key
+      final hostInputFinder = find.byKey(const Key('hostServerInput'));
+      if (hostInputFinder.evaluate().isNotEmpty) {
+        await tester.enterText(hostInputFinder, testMatrixServer);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      } else {
+        // Fallback to finding by type if key not found
+        final hostInputFallback = find.byType(TextFormField).first;
+        await tester.enterText(hostInputFallback, testMatrixServer);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      }
+      
+      // Find and tap the submit/next button
       final submitButtonFinder = find.byType(ElevatedButton).first;
       await tester.tap(submitButtonFinder);
       await tester.pumpAndSettle(const Duration(seconds: 3));
-
-      // Login
-      final usernameFieldFinder = find.byType(TextFormField).first;
-      await tester.enterText(usernameFieldFinder, testUser);
-      await tester.pumpAndSettle();
-
-      final passwordFieldFinder = find.byType(TextFormField).at(1);
-      await tester.enterText(passwordFieldFinder, testPassword);
-      await tester.pumpAndSettle();
-
+      
+      // Now on login page, enter credentials using test keys
+      final usernameFieldFinder = find.byKey(const Key('loginUsernameInput'));
+      if (usernameFieldFinder.evaluate().isNotEmpty) {
+        await tester.enterText(usernameFieldFinder, testUser);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      } else {
+        // Fallback to finding by type
+        final usernameFieldFallback = find.byType(TextFormField).first;
+        await tester.enterText(usernameFieldFallback, testUser);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      }
+      
+      final passwordFieldFinder = find.byKey(const Key('loginPasswordInput'));
+      if (passwordFieldFinder.evaluate().isNotEmpty) {
+        await tester.enterText(passwordFieldFinder, testPassword);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      } else {
+        // Fallback to finding by type
+        final passwordFieldFallback = find.byType(TextFormField).at(1);
+        await tester.enterText(passwordFieldFallback, testPassword);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
+      }
+      
+      // Find and tap the login button
       final loginButtonFinder = find.byType(ElevatedButton).first;
       await tester.tap(loginButtonFinder);
       await tester.pumpAndSettle(const Duration(seconds: 5));

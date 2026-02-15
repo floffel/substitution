@@ -161,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
         const Text("auth.login.body").tr(),
         const SizedBox(height: 30),
         TextFormField(
+          key: const Key('loginUsernameInput'),
           controller: usernameContrainer,
           decoration: InputDecoration(
             icon: const Icon(Icons.perm_identity),
@@ -168,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         TextFormField(
+          key: const Key('loginPasswordInput'),
           obscureText: true,
           controller: passwordContrainer,
           decoration: InputDecoration(
