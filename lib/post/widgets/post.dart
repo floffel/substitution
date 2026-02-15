@@ -1,6 +1,6 @@
-import '/post/interfaces/ievent.dart';
-import '/post/widgets/filecomponent.dart';
-import '/post/widgets/reactionscomponent.dart';
+import '/post/interfaces/i_event.dart';
+import '/post/widgets/display/file_display_container.dart';
+import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 
 import 'package:flutter/material.dart';
@@ -40,27 +40,34 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                                 .push('/feed/${roomAddr.replaceAll('#', '')}');
                           }),
                       child: Row(children: [
-                        widget.hasAvatarURL((widget.displayEvent))
-                            ? Image.network(
-                                widget
-                                    .avatarURL((widget.displayEvent))!
-                                    .getDownloadUri(client)
-                                    .toString(),
-                                width: 40,
-                                height: 40, errorBuilder: (ctx, obj, stack) {
-                                // todo: find a way to check if we have a svg beforehand!
-                                return SvgPicture.network(
+                        GestureDetector(
+                          onTap: () {
+                            final userId = widget.displayEvent.senderId;
+                            context.push(
+                                '/profile/${Uri.encodeComponent(userId)}');
+                          },
+                          child: widget.hasAvatarURL((widget.displayEvent))
+                              ? Image.network(
                                   widget
                                       .avatarURL((widget.displayEvent))!
                                       .getDownloadUri(client)
                                       .toString(),
                                   width: 40,
-                                  height: 40,
-                                );
-                              })
-                            : CircleAvatar(
-                                child: Text(
-                                    widget.username(widget.displayEvent)[0])),
+                                  height: 40, errorBuilder: (ctx, obj, stack) {
+                                  // todo: find a way to check if we have a svg beforehand!
+                                  return SvgPicture.network(
+                                    widget
+                                        .avatarURL((widget.displayEvent))!
+                                        .getDownloadUri(client)
+                                        .toString(),
+                                    width: 40,
+                                    height: 40,
+                                  );
+                                })
+                              : CircleAvatar(
+                                  child: Text(
+                                      widget.username(widget.displayEvent)[0])),
+                        ),
                         Expanded(
                             child: Padding(
                                 padding: const EdgeInsets.all(16.0),
@@ -92,9 +99,9 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                                 ? (widget.displayEvent).formattedText
                                 : (widget.displayEvent).body))
                   ])
-                : FileComponent(
+                : FileDisplayContainer(
                     event: widget.event, displayEvent: widget.displayEvent),
-            ReactionsComponent(event: widget.event)
+            ReactionsDisplay(event: widget.event)
           ]))
     ]);
   }

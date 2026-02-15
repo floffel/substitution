@@ -1,7 +1,7 @@
-import '/post/widgets/filecomponent.dart';
-import '/post/widgets/reactionscomponent.dart';
+import '/post/widgets/display/file_display_container.dart';
+import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
-import '/post/interfaces/ievent.dart';
+import '/post/interfaces/i_event.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -47,28 +47,34 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                     showComment = !showComment;
                   }),
               child: Row(children: [
-                widget.hasAvatarURL(widget
-                        .displayEvent) // TODO: refactor to hasAvatarURL be a get
-                    ? Image.network(
-                        widget
-                            .avatarURL((widget.displayEvent))!
-                            .getDownloadUri(client)
-                            .toString(),
-                        width: 40,
-                        height: 40, errorBuilder: (ctx, obj, stack) {
-                        // todo: find a way to check if we have a svg beforehand!
-                        return SvgPicture.network(
+                GestureDetector(
+                  onTap: () {
+                    final userId = widget.displayEvent.senderId;
+                    context.push('/profile/${Uri.encodeComponent(userId)}');
+                  },
+                  child: widget.hasAvatarURL(widget
+                          .displayEvent) // TODO: refactor to hasAvatarURL be a get
+                      ? Image.network(
                           widget
                               .avatarURL((widget.displayEvent))!
                               .getDownloadUri(client)
                               .toString(),
                           width: 40,
-                          height: 40,
-                        );
-                      })
-                    : CircleAvatar(
-                        child: Text(widget.username(widget.displayEvent)[
-                            0])), // // TODO: refactor to username be a get
+                          height: 40, errorBuilder: (ctx, obj, stack) {
+                          // todo: find a way to check if we have a svg beforehand!
+                          return SvgPicture.network(
+                            widget
+                                .avatarURL((widget.displayEvent))!
+                                .getDownloadUri(client)
+                                .toString(),
+                            width: 40,
+                            height: 40,
+                          );
+                        })
+                      : CircleAvatar(
+                          child: Text(widget.username(widget.displayEvent)[
+                              0])), // // TODO: refactor to username be a get
+                ),
                 Expanded(
                     child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -102,7 +108,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                                       ? (widget.displayEvent).formattedText
                                       : (widget.displayEvent).body))
                     ])
-                  : FileComponent(
+                  : FileDisplayContainer(
                       event: widget.event, displayEvent: widget.displayEvent),
             ),
 
@@ -130,7 +136,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                           ]).toList());
                     })),
 
-            ReactionsComponent(event: widget.event)
+            ReactionsDisplay(event: widget.event)
           ]
         ]));
   }

@@ -1,4 +1,6 @@
 import '/post/widgets/post.dart';
+import '/shared/extensions/client_extensions.dart';
+import '/shared/services/connectivity_service.dart';
 
 import 'dart:convert'; // for json
 import 'package:flutter/material.dart';
@@ -29,21 +31,31 @@ class HomePageState extends State<HomePage> {
   Map<String, String> firstEventIds =
       {}; // Map<room.id, event.eventId> saves the eventIds of the events at the top (start) of the page, so we can track wich events where already added
 
+  // Cache the timelines future to avoid re-fetching on every access
+  late Future<List<Timeline>> _timelinesFuture;
+
+  // Offline tracking
+  late Stream<bool> _connectivityStream;
+  bool _isOnline = true;
+  bool _showOfflineBanner = false;
+
   Client get client => Provider.of<Client>(context, listen: false);
+  ConnectivityService get connectivityService =>
+      Provider.of<ConnectivityService>(context, listen: false);
 
-  // TODO: rooms muss jetzt alle gefolgten rooms zurückgeben, die in substitution angezeigt werden sollen
-  // abgewandelte form von followfeeds.dart, TODO: impl. it as one function, somehow
-
-  Future<List<Room>> get rooms async {
-    List<Room> ret = [];
-    if (!mounted) return ret;
+  Future<List<Timeline>> _fetchTimelines() async {
+    List<Room> rooms = [];
+    if (!mounted) return [];
 
     if (widget.roomId != null) {
       String roomId = widget.roomId!;
 
       if (roomId.startsWith("#")) {
-        roomId = (await client.getRoomIdByAlias(roomId)).roomId!;
-        if (!mounted) return ret;
+        final aliasResolv = await client.getRoomIdByAlias(roomId);
+        if (aliasResolv.roomId != null) {
+          roomId = aliasResolv.roomId!;
+        }
+        if (!mounted) return [];
         debugPrint("roomId: $roomId");
       }
 
@@ -56,45 +68,37 @@ class HomePageState extends State<HomePage> {
         filter: jsonEncode(StateFilter(lazyLoadMembers: true)
             .toJson()), // for getting state events (e.g. power levels of posters)
       );
-      if (!mounted) return ret;
+      if (!mounted) return [];
 
       debugPrint("getRoomEvents finished");
-      return [Room(id: roomId, client: client, prev_batch: resp.end)];
-    }
+      // Prefer existing room from client if available
+      final existingRoom = client.getRoomById(roomId);
+      if (existingRoom != null) {
+        rooms = [existingRoom];
+      } else {
+        rooms = [Room(id: roomId, client: client, prev_batch: resp.end)];
+      }
+    } else {
+      final roomIds = await client.getJoinedRooms();
+      if (!mounted) return [];
 
-    final roomIds = await client.getJoinedRooms();
-    if (!mounted) return ret;
+      for (String roomId in roomIds) {
+        Room? r = client.getRoomById(roomId);
+        if (r == null) continue;
 
-    for (String roomId in roomIds) {
-      Room r = client.getRoomById(roomId)!;
-      // todo: use client.getRoomEvents
+        debugPrint("checking room ${r.name} id: ${r.id}");
 
-      debugPrint("checking room ${r.name} id: ${r.id}");
-
-      try {
-        final accountData = await client.getAccountDataPerRoom(
-            client.userID!, roomId, "substitution");
-        final isInSubstitution =
-            accountData["joined"] == true; // Sichere Prüfung
-
-        if (isInSubstitution) {
+        if (await client.isRoomInSubstitution(roomId)) {
           debugPrint("--- adding room ${r.name} id: ${r.id}");
-          ret.add(r);
+          rooms.add(r);
         }
-      } catch (_) {} // we cannot get the account data
+      }
     }
 
-    return ret;
-  }
-
-  Future<List<Timeline>> get timelines async {
-    final roomList = await rooms;
     if (!mounted) return [];
-    final timelineFutures = roomList.map((r) => r.getTimeline()).toList();
-    return Future.wait(timelineFutures); // Warte auf alle Timelines
+    final timelineFutures = rooms.map((r) => r.getTimeline()).toList();
+    return Future.wait(timelineFutures);
   }
-
-  // TODO: requestHistory für history, requestFuture wenn man neue sachen haben will
 
   // fetch events that are unknown by the _pagingController becourse they are too new
   Future<void> _fetchFutureEvents() async {
@@ -110,7 +114,7 @@ class HomePageState extends State<HomePage> {
 
     List<({Event origEvent, Event displayEvent})> ret = [];
 
-    final timelineLists = await timelines;
+    final timelineLists = await _timelinesFuture;
     if (!mounted) return;
 
     for (Timeline timeline in timelineLists) {
@@ -146,7 +150,8 @@ class HomePageState extends State<HomePage> {
         }
 
         if (e.type == "m.room.message" && // we only want messages
-            e.relationshipType != RelationshipTypes.reference && // ... no replys
+            e.relationshipType !=
+                RelationshipTypes.reference && // ... no replys
             e.relationshipType != RelationshipTypes.thread && // ... no threads
             e.relationshipType !=
                 RelationshipTypes
@@ -197,7 +202,7 @@ class HomePageState extends State<HomePage> {
       if (!pageKeyInitialized) {
         pageKeyInitialized = true;
 
-        final timelineList = await timelines;
+        final timelineList = await _timelinesFuture;
         if (!mounted) return ret;
 
         newPageKey = {};
@@ -219,8 +224,10 @@ class HomePageState extends State<HomePage> {
       ({String? lastEventId, bool wasExhausted}) meta = newPageKey[timeline]!;
 
       List<({Event origEvent, Event displayEvent})> newEvents = [];
+      int retryCount = 0;
 
-      while (newEvents.isEmpty) {
+      while (newEvents.isEmpty && retryCount < 5) {
+        retryCount++;
         // get events as long as we don't have some new ones to display or until the timeline is exhausted (=at it's starting point where the room was created)
         // request new elements
         if (timeline.canRequestHistory) {
@@ -352,6 +359,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _timelinesFuture = _fetchTimelines();
 
     _pagingController = PagingController<
         Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
@@ -362,6 +370,34 @@ class HomePageState extends State<HomePage> {
         return events;
       },
     );
+
+    // Initialize connectivity tracking
+    _connectivityStream = connectivityService.onConnectivityChanged;
+    _connectivityStream.listen((isOnline) {
+      if (mounted) {
+        setState(() {
+          _isOnline = isOnline;
+          // Show banner when going offline, hide when coming back online
+          if (!isOnline) {
+            _showOfflineBanner = true;
+          }
+        });
+
+        // If coming back online, refetch events
+        if (isOnline && _showOfflineBanner) {
+          _fetchFutureEvents();
+        }
+      }
+    });
+
+    // Check initial connectivity status
+    connectivityService.isOnline.then((isOnline) {
+      if (mounted) {
+        setState(() {
+          _isOnline = isOnline;
+        });
+      }
+    });
   }
 
   @override
@@ -374,7 +410,9 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: RefreshIndicator(
+        body: Stack(
+      children: [
+        RefreshIndicator(
             onRefresh: () async {
               await _fetchFutureEvents();
               if (!mounted) return;
@@ -400,6 +438,28 @@ class HomePageState extends State<HomePage> {
                               child: PostWidget(
                                   event: item.origEvent,
                                   displayEvent: item.displayEvent)))))
-            ])));
+            ])),
+        // Offline banner
+        if (!_isOnline && _showOfflineBanner)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: MaterialBanner(
+              content: const Text('Offline — showing cached content'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _showOfflineBanner = false;
+                    });
+                  },
+                  child: const Text('Dismiss'),
+                ),
+              ],
+            ),
+          ),
+      ],
+    ));
   }
 }

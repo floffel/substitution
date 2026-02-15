@@ -3,12 +3,20 @@ import '/feed/feed.dart';
 import '/post/post.dart';
 import '/settings/pages/followfeeds.dart';
 import '/settings/pages/ownfeeds.dart';
+import '/settings/pages/key_verification.dart';
+import '/settings/pages/profile.dart';
 import '/write/pages/textmessage.dart';
+import '/settings/pages/room_permissions.dart';
 import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
 import '/auth/pages/host.dart';
 import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
+import '/profile/pages/user_profile.dart';
+import '/shared/services/theme_service.dart';
+import '/shared/services/connectivity_service.dart';
+
+import '/shared/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -21,9 +29,7 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:convert';
 // import 'package:logging/logging.dart' as l; // see @logging
 
 void main() async {
@@ -101,6 +107,16 @@ void main() async {
           },
         ),
         GoRoute(
+          redirect: testRedirect,
+          path: '/profile/:userId',
+          builder: (context, state) {
+            final userId = state.pathParameters['userId']!;
+            return ScaffoldWithNavigation(
+              child: UserProfilePage(userId: Uri.decodeComponent(userId)),
+            );
+          },
+        ),
+        GoRoute(
             redirect: testRedirect,
             path: '/write/:roomid',
             builder: (contxt, state) {
@@ -121,6 +137,14 @@ void main() async {
             }),
         GoRoute(
             redirect: testRedirect,
+            path: '/settings/room/:roomId/permissions',
+            builder: (context, state) {
+              final roomId = state.pathParameters['roomId']!;
+              return ScaffoldWithNavigation(
+                  child: RoomPermissionsPage(roomId: roomId));
+            }),
+        GoRoute(
+            redirect: testRedirect,
             path: '/settings/feed',
             builder: (context, state) =>
                 ScaffoldWithNavigation(child: const FollowFeedSettings())),
@@ -129,6 +153,16 @@ void main() async {
             path: '/settings/ownfeeds',
             builder: (context, state) =>
                 ScaffoldWithNavigation(child: const OwnFeedSettings())),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/settings/security',
+            builder: (context, state) =>
+                ScaffoldWithNavigation(child: const KeyVerificationPage())),
+        GoRoute(
+            redirect: testRedirect,
+            path: '/settings/profile',
+            builder: (context, state) =>
+                ScaffoldWithNavigation(child: const ProfilePage())),
         GoRoute(
             path: '/auth/host',
             builder: (context, state) => const AuthFlow(authPageRoute: 'host')),
@@ -139,100 +173,109 @@ void main() async {
         GoRoute(
           path: '/login-callback',
           builder: (context, state) {
-             return Scaffold(
-               body: FutureBuilder<void>(
-                 future: () async {
-                    final token = state.uri.queryParameters['loginToken'];
-                    final homeserverStr = state.uri.queryParameters['homeserver'];
-                    
-                    print("Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+            return Scaffold(
+              body: FutureBuilder<void>(
+                future: () async {
+                  final token = state.uri.queryParameters['loginToken'];
+                  final homeserverStr = state.uri.queryParameters['homeserver'];
 
-                    if (token == null) {
-                      throw Exception("No login token received");
+                  debugPrint(
+                      "Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+
+                  if (token == null) {
+                    throw Exception("No login token received");
+                  }
+
+                  final client = Provider.of<Client>(context, listen: false);
+
+                  // Configure homeserver if provided and not set
+                  if (homeserverStr != null) {
+                    client.homeserver = Uri.parse(homeserverStr);
+                    debugPrint(
+                        "Configured client homeserver to: $homeserverStr");
+                  } else if (client.homeserver == null) {
+                    debugPrint(
+                        "Warning: No homeserver configured for token login!");
+                  }
+
+                  debugPrint("[SSO] Attempting login with token...");
+                  try {
+                    // Fix: m.login.token requires 'token' parameter, not 'password'
+                    // Add timeout to detect hangs
+                    await client
+                        .login(LoginType.mLoginToken, token: token)
+                        .timeout(const Duration(seconds: 15), onTimeout: () {
+                      throw TimeoutException(
+                          "Login timed out after 15 seconds");
+                    });
+                    debugPrint("[SSO] Login successful!");
+                  } catch (e, stack) {
+                    debugPrint("[SSO] Login ERROR: $e");
+                    debugPrint(stack.toString());
+                    rethrow;
+                  }
+                }(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error,
+                                color: Colors.red, size: 48),
+                            const SizedBox(height: 16),
+                            Text("Login Failed",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(snapshot.error.toString(),
+                                  textAlign: TextAlign.center),
+                            ),
+                            ElevatedButton(
+                                onPressed: () => context.go('/auth/login'),
+                                child: const Text("Back to Login"))
+                          ],
+                        ),
+                      );
                     }
-
-                    final client = Provider.of<Client>(context, listen: false);
-                    
-                    // Configure homeserver if provided and not set
-                    if (homeserverStr != null) {
-                      client.homeserver = Uri.parse(homeserverStr);
-                      print("Configured client homeserver to: $homeserverStr");
-                    } else if (client.homeserver == null) {
-                       print("Warning: No homeserver configured for token login!");
-                    }
-
-                    print("[SSO] Attempting login with token...");
-                    try {
-                      // Fix: m.login.token requires 'token' parameter, not 'password'
-                      // Add timeout to detect hangs
-                      await client.login(LoginType.mLoginToken, token: token)
-                          .timeout(const Duration(seconds: 15), onTimeout: () {
-                             throw TimeoutException("Login timed out after 15 seconds");
-                          });
-                      print("[SSO] Login successful!");
-                    } catch (e, stack) {
-                      print("[SSO] Login ERROR: $e");
-                      print(stack);
-                      rethrow;
-                    }
-
-                 }(),
-                 builder: (context, snapshot) {
-                   if (snapshot.connectionState == ConnectionState.done) {
-                     if (snapshot.hasError) {
-                       return Center(
-                         child: Column(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             const Icon(Icons.error, color: Colors.red, size: 48),
-                             const SizedBox(height: 16),
-                             Text("Login Failed", style: Theme.of(context).textTheme.titleLarge),
-                             Padding(
-                               padding: const EdgeInsets.all(16.0),
-                               child: Text(snapshot.error.toString(), textAlign: TextAlign.center),
-                             ),
-                             ElevatedButton(
-                               onPressed: () => context.go('/auth/login'), 
-                               child: const Text("Back to Login")
-                             )
-                           ],
-                         ),
-                       );
-                     }
-                     // Success - Show manual continue button
-                     return Center(
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           const Icon(Icons.check_circle, color: Colors.green, size: 64),
-                           const SizedBox(height: 24),
-                           Text("Login Successful!", style: Theme.of(context).textTheme.headlineSmall),
-                           const SizedBox(height: 8),
-                           const Text("You can now proceed to the app."),
-                           const SizedBox(height: 32),
-                           FilledButton.icon(
-                             onPressed: () {
-                               print("User clicked Continue button. Navigating to /");
-                               context.go('/');
-                             }, 
-                             icon: const Icon(Icons.arrow_forward),
-                             label: const Text("Continue to App")
-                           )
-                         ],
-                       ),
-                     );
-                   }
-                   return const Center(child: Column(
-                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                       CircularProgressIndicator(),
-                       SizedBox(height: 16),
-                       Text("Logging in...")
-                     ],
-                   ));
-                 },
-               ),
-             );
+                    // Success - Show manual continue button
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.check_circle,
+                              color: Colors.green, size: 64),
+                          const SizedBox(height: 24),
+                          Text("Login Successful!",
+                              style: Theme.of(context).textTheme.headlineSmall),
+                          const SizedBox(height: 8),
+                          const Text("You can now proceed to the app."),
+                          const SizedBox(height: 32),
+                          FilledButton.icon(
+                              onPressed: () {
+                                debugPrint(
+                                    "User clicked Continue button. Navigating to /");
+                                context.go('/');
+                              },
+                              icon: const Icon(Icons.arrow_forward),
+                              label: const Text("Continue to App"))
+                        ],
+                      ),
+                    );
+                  }
+                  return const Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text("Logging in...")
+                    ],
+                  ));
+                },
+              ),
+            );
           },
         ),
       ]);
@@ -302,66 +345,42 @@ class SubstitutionApp extends StatelessWidget {
   const SubstitutionApp(
       {super.key, required this.client, required this.router});
 
-  // TODO: more or less the same as in settings/pages/followfeeds.dart so make it a mixin
-  Future<List<Map<String, dynamic>>> _getJoinedRooms() async {
-    List<Map<String, dynamic>> newData = [];
-
-    for (String roomId in await client.getJoinedRooms()) {
-      Room r = client.getRoomById(roomId)!;
-      bool isInSubstitution = false;
-
-      // get if in substitution, stolen from _fetchRooms, todo: make it a function or so...
-      // todo: this only works with logged in clients!
-      try {
-        isInSubstitution = (await client.getAccountDataPerRoom(
-                client.userID!, roomId, "substitution"))["joined"] ==
-            true;
-      } catch (_) {} // we cannot get the account data
-
-      if (!isInSubstitution) {
-        continue;
-      }
-
-      Map<String, dynamic> add = {
-        // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
-        "name": r.name,
-        "id": r.id,
-        "isInsideSubstitution": isInSubstitution,
-        "joined": true,
-      };
-
-      newData.add(add);
-    }
-
-    return newData;
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-        routerDelegate: router.routerDelegate,
-        routeInformationParser: router.routeInformationParser,
-        routeInformationProvider: router.routeInformationProvider,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: Colors.green, //brightness: Brightness.dark
-          //primarySwatch: Colors.grey,
-          //brightness: Brightness.dark,
-        ),
-        builder: (context, child) => MultiProvider(
-              providers: [
-                Provider<Client>(create: (context) => client),
-                //Provider<Box<dynamic>>(create: (context) => settingsDB),
-                // TODO: Hier weiter...
-                // Ich brauche das ja garnicht! Man muss einfach bei jedem Server, dem man folgt, dem space beitreten
-                // und jedem Raum, dem man folgt, beitreten. Somit bruache ich keine lokalen daten speichern und clients können sich immer wieder selbst "wiederherstellen"
-              ],
-              child: child,
-            ));
+    return ChangeNotifierProvider(
+      create: (_) => ThemeService(),
+      builder: (context, _) {
+        final themeService = context.watch<ThemeService>();
+        return MaterialApp.router(
+          routerDelegate: router.routerDelegate,
+          routeInformationParser: router.routeInformationParser,
+          routeInformationProvider: router.routeInformationProvider,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorSchemeSeed: Colors.green,
+            brightness: Brightness.light,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorSchemeSeed: Colors.green,
+            brightness: Brightness.dark,
+          ),
+          themeMode: themeService.themeMode,
+          builder: (context, child) => MultiProvider(
+            providers: [
+              Provider<Client>(create: (context) => client),
+              Provider<ConnectivityService>(
+                  create: (_) => ConnectivityService()),
+            ],
+            child: child,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -453,20 +472,20 @@ class _IntroductionState extends State<IntroductionPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  String id =
-                      "#substitution.art:matrix.org"; // TODO: change this to a real starting room
+                  String id = AppConstants.substitutionRoomAlias;
 
+                  final goRouter = GoRouter.of(context);
                   try {
                     // try, so it'll not fail if we already joined the room. TODO; make this an optional step and handle, if we don't follow any rooms
 
                     await client.joinRoom(id, serverName: ["matrix.org"]);
                     await client.setAccountDataPerRoom(
                         client.userID!, id, "substitution", {"joined": true});
+                  } catch (e) {
+                    debugPrint("Error joining default room: $e");
+                  }
 
-                    if (!mounted) return;
-                  } catch (e) {} // TODO: error handling...
-
-                  context.go("/");
+                  goRouter.go("/");
                 },
                 child: const Text("intro.finished.buttons.add_to_room_and_go")
                     .tr(),
@@ -475,7 +494,9 @@ class _IntroductionState extends State<IntroductionPage> {
                 // todo: nicer button...
                 onPressed: () async {
                   // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
-                  context.go("/");
+                  if (mounted) {
+                    context.go("/");
+                  }
                 },
                 child: Row(children: [
                   const Icon(Icons.east),
