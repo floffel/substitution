@@ -91,7 +91,7 @@ def register_user(
     """Register a test user."""
     payload = {
         "auth": {"type": "m.login.dummy"},
-        "user": username,
+        "username": username,
         "password": password,
         "initial_device_display_name": display_name,
     }
@@ -113,11 +113,11 @@ def register_user(
         return None
 
 
-def login_user(username: str, password: str) -> Optional[str]:
+def login_user(user_id: str, password: str) -> Optional[str]:
     """Login a user and get access token."""
     payload = {
         "type": "m.login.password",
-        "user": username,
+        "user": user_id,
         "password": password,
     }
 
@@ -129,10 +129,10 @@ def login_user(username: str, password: str) -> Optional[str]:
     if response.status_code == 200:
         data = response.json()
         token = data.get("access_token")
-        print(f"✓ Logged in user: {username}")
+        print(f"✓ Logged in user: {user_id}")
         return token
     else:
-        print(f"✗ Failed to login user {username}: {response.status_code}")
+        print(f"✗ Failed to login user {user_id}: {response.status_code}")
         print(f"  Response: {response.text}")
         return None
 
@@ -267,8 +267,7 @@ def main():
     if users:
         first_username = list(users.keys())[0]
         first_user = users[first_username]
-        # Try to get the access token from the registration response first
-        # If not available, attempt login with the proper user_id
+        # Login using the user_id that was returned by registration
         token = login_user(first_user["user_id"], first_user["password"])
 
         if token:
