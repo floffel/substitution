@@ -26,6 +26,24 @@ RUN apt-get update && apt-get install -y \
     dbus \
     libsqlite3-0 \
     libsqlite3-dev \
+    libcairo2 \
+    libpango-1.0-0 \
+    libx11-6 \
+    libxrender1 \
+    libxrandr2 \
+    libxcursor1 \
+    libxinerama1 \
+    libxi6 \
+    libxext6 \
+    libxfixes3 \
+    libxdamage1 \
+    libxxf86vm1 \
+    libglvnd0 \
+    libgl1-mesa-glx \
+    libgles2-mesa \
+    libegl1-mesa \
+    fonts-dejavu \
+    fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Flutter

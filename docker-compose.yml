@@ -99,6 +99,9 @@ services:
       # Display configuration for Linux GUI tests
       - DISPLAY=:99
       - LIBVA_DRIVER_NAME=dummy
+      - LIBGL_ALWAYS_INDIRECT=1
+      - QT_QPA_PLATFORM=offscreen
+      - GTK_DEBUG=
       # Web tests
       - FLUTTER_TEST_WEB=true
       # Platform-specific (set to true to test on that platform)
@@ -117,18 +120,27 @@ services:
     networks:
       - substitution_network
     working_dir: /project
-    command: bash -c "
-      set -e
-      echo '=== Starting virtual display server ===' &&
-      Xvfb :99 -screen 0 1280x720x24 > /tmp/xvfb.log 2>&1 &
-      XVFB_PID=\$!
-      sleep 2 &&
+    command: >
+      bash -c "
+      set -e &&
+      echo '=== Setting up graphics environment ===' &&
+      export DISPLAY=:99 &&
+      export GDK_SCALE=1 &&
+      export GDK_DPI_SCALE=1 &&
+      echo '=== Starting Xvfb virtual display server ===' &&
+      Xvfb :99 -screen 0 1280x720x24 -ac -retro 2>&1 | head -10 &
+      XVFB_PID=\$! &&
+      sleep 4 &&
+      echo '=== Verifying display server ===' &&
+      xdpyinfo 2>/dev/null | head -5 &&
+      echo 'Display server is ready' &&
       echo '=== Installing dependencies ===' &&
       flutter pub get &&
       echo '=== Running integration tests ===' &&
-      flutter test integration_test/ --device-id linux --verbose || TEST_RESULT=\$?
-      kill \$XVFB_PID 2>/dev/null || true
-      echo '=== Tests completed ===' &&
+      flutter test integration_test/ --device-id linux -v 2>&1 || TEST_RESULT=\$? &&
+      echo '=== Cleaning up ===' &&
+      kill \$XVFB_PID 2>/dev/null || true &&
+      sleep 1 &&
       exit \${TEST_RESULT:-0}
       "
 
