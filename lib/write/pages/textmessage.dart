@@ -34,12 +34,13 @@ class TextMessageWriteState extends State<TextMessageWrite> {
       : Event.fromMatrixEvent(
           await client.getOneRoomEvent(widget.roomId, widget.eventId!), room!);
 
-  Future<({Event event, Event displayEvent})> get eventTuple async => (
-        event: (await event)!,
-        displayEvent: (await event)!.getDisplayEvent(await (await event)!
-            .room
-            .getTimeline(eventContextId: (await event)!.eventId))
-      );
+  Future<({Event event, Event displayEvent})?> get eventData async {
+    final e = await event;
+    if (e == null) return null;
+    
+    final timeline = await e.room.getTimeline(eventContextId: e.eventId);
+    return (event: e, displayEvent: e.getDisplayEvent(timeline));
+  }
 
   /*
     Future<Timeline> getTimeline(
@@ -70,14 +71,17 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
         //eventTuple
         FutureBuilder(
-            future: eventTuple,
+            future: eventData,
             builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                 return const Center(child: CircularProgressIndicator());
+              }
               if (snapshot.data != null) {
                 return PostWidget(
                     event: (snapshot.data!.event),
                     displayEvent: (snapshot.data!.displayEvent));
               } else {
-                return const Text("loading").tr();
+                return const Text("loading").tr(); // or some error/empty state
               }
             }),
       ],
@@ -101,7 +105,9 @@ class TextMessageWriteState extends State<TextMessageWrite> {
         const Spacer(),
         IconButton(
             onPressed: () async {
-              var scavMsg = ScaffoldMessenger.of(context);
+              final scavMsg = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+              final goRouter = GoRouter.of(context);
               // send text
               //Room r = (await room)!;
               debugPrint("started sending message...");
@@ -121,6 +127,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
               // TODO: this is the same as in filemessage.dart => make it modular somehow?
               while (ret == null || userCancel) {
                 // TODO: make it a mixin, its almost the same as in login.dart
+                if (!mounted) return;
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,
@@ -151,9 +158,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                   'msgtype': MessageTypes.Text
                 }, threadRootEventId: eventThreadId, inReplyTo: await event);
 
-                if (!mounted) return;
-
-                context.pop(); // pop the send started window
+                navigator.pop(); // pop the send started window
 
                 if (ret == null) {
                   userCancel = await showDialog<bool>(
@@ -173,21 +178,20 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                                 child: const Text("write.textmessage.send_stop")
                                     .tr(),
                                 onPressed: () {
-                                  context.pop(true);
+                                  Navigator.of(context).pop(true);
                                 },
                               ),
                               TextButton(
                                   child: const Text("write.textmessage.resend")
                                       .tr(),
                                   onPressed: () {
-                                    context.pop(false);
+                                    Navigator.of(context).pop(false);
                                   })
                             ],
                           );
                         },
                       ) ??
                       false;
-                  if (!mounted) return;
                 } else {
                   scavMsg.showSnackBar(SnackBar(
                     content: const Text("write.textmessage.send_complete").tr(),
@@ -200,15 +204,14 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                     await client.getOneRoomEvent(
                         widget.roomId, (eventThreadId)),
                     room!);
-                if (!mounted) return;
 
-                context.go(Uri(
+                goRouter.go(Uri(
                     path: "/post/${answerEvent.eventId}",
                     queryParameters: {'room': answerEvent.room.id}).toString());
               } else if (room != null) {
-                context.go("/feed/${room!.id}");
+                goRouter.go("/feed/${room!.id}");
               } else {
-                context.go("/");
+                goRouter.go("/");
               }
             },
             icon: const Icon(Icons.send))

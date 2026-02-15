@@ -23,34 +23,41 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
   final _roomAliasContainer = TextEditingController();
 
   Future<void> _createRoom() async {
-    loading = true;
-    error = null;
-    final String roomId;
+    setState(() {
+      loading = true;
+      error = null;
+    });
+    
+    String? roomId;
 
     try {
       roomId = await client.createRoom(
-          isDirect: true,
+          isDirect: false, // Changed to false as public rooms are usually not direct
           name: _roomNameContainer.text,
           topic: _roomTopicContainer.text,
-          roomAliasName: _roomAliasContainer.text,
+          roomAliasName: _roomAliasContainer.text.isNotEmpty ? _roomAliasContainer.text : null,
           visibility: matrix.Visibility.public);
+    
+      final room = client.getRoomById(roomId);
+      if (room == null || room.membership != matrix.Membership.join) {
+        // Wait for room actually appears in sync
+        await client.waitForRoomInSync(roomId, join: true);
+      }
+
+      await client.setAccountDataPerRoom(
+          client.userID!, roomId, "substitution", {"joined": true});
+      
+      if (!mounted) return;
+      context.pop();
+
     } catch (e) {
-      error = "$e"; // TODO: nicer error message...
-      loading = false;
+      if (!mounted) return;
+      setState(() {
+        error = "$e"; // TODO: nicer error message...
+        loading = false;
+      });
       return;
     }
-
-    final room = client.getRoomById(roomId);
-    if (room == null || room.membership != matrix.Membership.join) {
-      // Wait for room actually appears in sync
-      await client.waitForRoomInSync(roomId, join: true);
-    }
-
-    await client.setAccountDataPerRoom(
-        client.userID!, roomId, "substitution", {"joined": true});
-    loading = false;
-    if (!mounted) return;
-    context.pop();
   }
 
   @override
@@ -95,10 +102,13 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
                 )
         ]),
         actions: <Widget>[
-          TextButton(
-            child: const Text('settings.dialog.create.submit').tr(),
-            onPressed: () async => await _createRoom(),
-          ),
+          if (loading)
+            const CircularProgressIndicator()
+          else
+            TextButton(
+              child: const Text('settings.dialog.create.submit').tr(),
+              onPressed: () async => await _createRoom(),
+            ),
         ]);
   }
 }

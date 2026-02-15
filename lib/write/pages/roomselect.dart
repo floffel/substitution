@@ -1,4 +1,6 @@
 import '/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
+import '/shared/extensions/client_extensions.dart';
+import '/shared/models/substitution_room.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -33,20 +35,12 @@ class RoomSelectPageState extends State<RoomSelectPage> {
     },
   );
 
-  Future<List<Map<String, dynamic>>> _getJoinedRooms() async {
-    List<Map<String, dynamic>> ret = [];
+  Future<List<SubstitutionRoom>> _getJoinedRooms() async {
+    List<SubstitutionRoom> ret = [];
 
     for (String roomId in await client.getJoinedRooms()) {
       Room r = client.getRoomById(roomId)!;
-      bool isInSubstitution = false;
-
-      // get if in substitution, stolen from _fetchRooms, todo: make it a function or so...
-      // todo: this only works with logged in clients!
-      try {
-        isInSubstitution = (await client.getAccountDataPerRoom(
-                client.userID!, roomId, "substitution"))["joined"] ==
-            true;
-      } catch (_) {} // we cannot get the account data
+      bool isInSubstitution = await client.isRoomInSubstitution(roomId);
 
       if (!isInSubstitution || r.ownPowerLevel < 50) {
         // only posts with power >= 50 will be recognised, so we only show rooms with power >= 50
@@ -55,15 +49,13 @@ class RoomSelectPageState extends State<RoomSelectPage> {
 
       // check if we have more than 50 power in this room
 
-      Map<String, dynamic> add = {
-        // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
-        "name": r.name,
-        "id": r.id,
-        "isInsideSubstitution": isInSubstitution,
-        "joined": true,
-      };
-
-      ret.add(add);
+      ret.add(SubstitutionRoom(
+        name: r.name,
+        id: r.id,
+        avatarUrl: r.avatar?.getDownloadUri(client).toString(),
+        isInsideSubstitution: isInSubstitution,
+        joined: true,
+      ));
     }
 
     return ret;
@@ -88,8 +80,11 @@ class RoomSelectPageState extends State<RoomSelectPage> {
       FutureBuilder(
           future: _getJoinedRooms(),
           builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
             if (!snapshot.hasData) {
-              return const Text("loading").tr();
+              return const SizedBox.shrink();
             }
 
             return SingleChildScrollView(
@@ -102,9 +97,9 @@ class RoomSelectPageState extends State<RoomSelectPage> {
                           debugPrint("postType: $postType");
 
                           context.push(
-                              "/${postType ? "file" : "write"}/${l['id']}");
+                              "/${postType ? "file" : "write"}/${l.id}");
                         },
-                        child: RoomWidget(items: l));
+                        child: RoomWidget(room: l));
                   }).toList() ??
                   [const Text("write.roomselect.error_no_rooms").tr()]
             ]).toList()));

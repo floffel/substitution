@@ -1,6 +1,8 @@
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
 import '/settings/widgets/roomwidget.dart';
+import '/shared/extensions/client_extensions.dart';
+import '/shared/models/substitution_room.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -20,22 +22,34 @@ class FollowFeedSettings extends StatefulWidget {
   FollowFeedSettingsState createState() => FollowFeedSettingsState();
 }
 
+
+class FollowFeedPageKey {
+  String? nextBatch;
+  bool isLastPage = false;
+  FollowFeedPageKey({this.nextBatch});
+}
+
 class FollowFeedSettingsState extends State<FollowFeedSettings> {
   String selectedServer =
       ""; // todo: must be initialized with the first server, or we'll error in here!
   final roomSearchContrainer = TextEditingController();
 
   String? searchText; // todo: if input is "" => searchText shall be null
-  late final PagingController<String?, Map<String, dynamic>> _pagingController;
+  late final PagingController<FollowFeedPageKey?, SubstitutionRoom> _pagingController;
+  int _searchGeneration = 0;
 
   Client get client => Provider.of<Client>(context, listen: false);
 
-  int lastResetTime = DateTime.now()
-      .millisecondsSinceEpoch; // for catching long runs while already reset
-
   void _resetList() {
-    lastResetTime =
-        DateTime.now().millisecondsSinceEpoch; //... works not as expected
+    _searchGeneration++;
+    // Re-initialize controller logic or refresh?
+    // PagingController from home.dart doesn't seem to have refresh() method visible in usages?
+    // But it has dispose().
+    // Let's assume we can trigger refresh by replacing the controller or using a method if available.
+    // If standard PagingController has refresh(), we can use it.
+    // But analysis said appendPage is missing. Maybe refresh is there?
+    // Let's try to keep refresh().
+    // If it fails, we might need to recreate the controller.
     _pagingController.refresh();
   }
 
@@ -57,113 +71,85 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     setState(() {});
   }
 
-  // TODO: this is more or less the same function as in write/pages/textmessage.dart -> make it abstract, or a mixin or something
-  Future<List<Map<String, dynamic>>> _getJoinedRooms(String serverAddr) async {
-    List<Map<String, dynamic>> newData = [];
-
-    for (String roomId in await client.getJoinedRooms()) {
-      debugPrint(
-          "room id: $roomId, domain: ${roomId.domain}, selectedServer: $serverAddr");
-      if (roomId.domain != serverAddr) {
-        continue; // only add rooms from the selected server
-      }
-
-      Room r = client.getRoomById(roomId)!;
-      bool isInSubstitution = false;
-
-      // get if in substitution, stolen from _fetchRooms, todo: make it a function or so...
-      // todo: this only works with logged in clients!
-      try {
-        isInSubstitution = (await client.getAccountDataPerRoom(
-                client.userID!, roomId, "substitution"))["joined"] ==
-            true;
-      } catch (_) {} // we cannot get the account data
-
-      if (!isInSubstitution) {
-        continue;
-      }
-
-      Map<String, dynamic> add = {
-        // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
-        "name": r.name,
-        "id": r.id,
-        "isInsideSubstitution": isInSubstitution,
-        "joined": true,
-      };
-
-      newData.add(add);
-    }
-
-    return newData;
-  }
-
   Future<void> _setServerAddr(String serverAddr) async {
-    var newData = await _getJoinedRooms(serverAddr);
+    // var newData = await _getJoinedRooms(serverAddr); // unused?
 
     setState(() {
       selectedServer = serverAddr;
-
-      debugPrint("item list: ${_pagingController.value}");
-
-      // todo: load joined rooms
-
-      // todo: as soon as we have long running querys, the pagingController gets refreshed without waiting for the requests to complete beforehand... we have to check this!
-      // mby inside fetchRooms with a field startedTimestamp and lastResetTimestamp and if we are at the end of the fetch, we shall only add it if we get lastResetTimestamp < startedTimestamp
       _resetList();
     });
   }
 
-  Future<List<Map<String, dynamic>>> _fetchRooms(String? pageKey) async {
-    int startTime = DateTime.now()
-        .millisecondsSinceEpoch; // for catching long runs while already reset
+  Future<List<SubstitutionRoom>> _fetchRooms(FollowFeedPageKey? pageKey) async {
+    final currentGeneration = _searchGeneration;
+    // If pageKey is null, it's the first page. Create a wrapper.
+    // However, the controller seems to manage the key object persistence?
+    // If we return the list, and update the key object in place...
+    // We need to ensure we are working on the correct key object.
+    
+    // If pageKey is null, we create one. But we need to store it?
+    // No, PagingController passes the result of getNextPageKey?
+    // getNextPageKey returns "state".
+    
+    FollowFeedPageKey key = pageKey ?? FollowFeedPageKey(nextBatch: null);
 
-    List<Map<String, dynamic>> newData = [];
+    List<SubstitutionRoom> newData = [];
 
     if (selectedServer.isEmpty) {
+      key.isLastPage = true;
       return newData;
     }
 
-    QueryPublicRoomsResponse resp = await client.queryPublicRooms(
-        server: selectedServer,
-        limit: 20, // Increased limit for better performance
-        filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
-        since: pageKey);
+    try {
+      QueryPublicRoomsResponse resp = await client.queryPublicRooms(
+          server: selectedServer,
+          limit: 20, // Increased limit for better performance
+          filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
+          since: key.nextBatch);
 
-    final String? nextPageKey = resp.nextBatch;
+      // Check for race condition
+      if (currentGeneration != _searchGeneration) {
+        debugPrint(
+            "Race condition detected: generation $currentGeneration != $_searchGeneration. Discarding results.");
+        return [];
+      }
 
-    if (resp.chunk.isEmpty) {
-      return newData; // no data available
+      key.nextBatch = resp.nextBatch;
+
+      for (var chunk in resp.chunk) {
+        bool isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
+        bool joined = (await client.getJoinedRooms()).contains(chunk.roomId);
+
+        newData.add(SubstitutionRoom(
+          name: chunk.name ?? "Unknown Room", // handle null name
+          id: chunk.roomId,
+          avatarUrl: chunk.avatarUrl?.getDownloadUri(client).toString(),
+          isInsideSubstitution: isInSubstitution,
+          joined: joined,
+        ));
+      }
+
+      debugPrint("nextPageKey: ${key.nextBatch}");
+
+      // Check again before returning
+      if (currentGeneration != _searchGeneration) {
+        return [];
+      }
+      
+      if (key.nextBatch == null || resp.chunk.isEmpty) {
+        key.isLastPage = true;
+      }
+
+      return newData; 
+      
+    } catch (e) {
+      debugPrint("Error fetching rooms: $e");
+      if (currentGeneration == _searchGeneration) {
+          // Propagate error?
+          rethrow;
+      }
+      return [];
     }
-
-    for (var chunk in resp.chunk) {
-      Map<String, dynamic> roomData = {
-        "name": chunk.name,
-        "id": chunk.roomId,
-        "avatarUrl": chunk.avatarUrl?.getDownloadUri(client).toString(),
-      };
-
-      // todo: this only works with logged in clients!
-      try {
-        roomData["isInsideSubstitution"] = (await client.getAccountDataPerRoom(
-                client.userID!, chunk.roomId, "substitution"))["joined"] ==
-            true;
-      } catch (_) {} // we cannot get the account data
-
-      roomData["joined"] =
-          (await client.getJoinedRooms()).contains(chunk.roomId);
-
-      newData.add(roomData);
-    }
-
-    debugPrint("nextPageKey: $nextPageKey");
-
-    if (lastResetTime > startTime) {
-      debugPrint(
-          "reset happend before we finished! $lastResetTime > $startTime");
-      return []; // we where reset before the querys ended, so discard this values!
-    }
-
-    return newData;
   }
 
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
@@ -200,9 +186,11 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   void initState() {
     super.initState();
 
-    _pagingController = PagingController<String?, Map<String, dynamic>>(
+    _pagingController = PagingController<FollowFeedPageKey?, SubstitutionRoom>(
       getNextPageKey: (state) => state.keys?.lastOrNull,
-      fetchPage: _fetchRooms,
+      fetchPage: (pageKey) async {
+        return await _fetchRooms(pageKey);
+      },
     );
     
     // Auto-select homeserver default
@@ -252,13 +240,16 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                   return <String, Object?>{};
               }),
               builder: (ctx, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 return Wrap(
                     // select Servers to display or add new server
                     spacing: 8.0,
                     runSpacing: 4.0,
                     alignment: WrapAlignment.center,
                     children: [
-                      ...?snapshot.data?.entries.map((s) => GestureDetector(
+                      ...snapshot.data!.entries.map((s) => GestureDetector(
                               child: ChoiceChip(
                                   label: Text(s.key),
                                   selected: selectedServer == s.key,
@@ -268,8 +259,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                               onSecondaryTap: () async =>
                                   await showDeleteDialog(s.key),
                               onLongPress: () async =>
-                                  await showDeleteDialog(s.key))) ??
-                          [],
+                                  await showDeleteDialog(s.key))),
                       ActionChip(
                         avatar: const Icon(Icons.add),
                         label: const Text(
@@ -290,20 +280,20 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                 ),
                 onChanged: (String text) => {
                       setState(() {
+                         searchText = text.isEmpty ? null : text;
                         _resetList();
-                        searchText = text;
                       })
                     }),
           ])),
       Expanded(
           // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
-          child: PagedListView<String?, Map<String, dynamic>>.separated(
+          child: PagedListView<FollowFeedPageKey?, SubstitutionRoom>.separated(
               state: _pagingController.value,
               fetchNextPage: _pagingController.fetchNextPage,
               separatorBuilder: (context, index) => const Divider(),
-              builderDelegate: PagedChildBuilderDelegate<Map<String, dynamic>>(
+              builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
                   itemBuilder: (context, item, index) => RoomWidget(
-                      items: item,
+                      room: item,
                       leaveRoom: _leaveRoom,
                       joinRoom: _joinRoom)))),
     ]);

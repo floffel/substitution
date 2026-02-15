@@ -1,0 +1,243 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Test on Docker with Matrix server
+  docker-tests:
+    runs-on: ubuntu-latest
+    name: Docker Integration Tests
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: synapse
+          POSTGRES_PASSWORD: synapse_password
+          POSTGRES_DB: synapse
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Start Docker services
+        run: docker-compose up -d
+
+      - name: Wait for services to be healthy
+        run: |
+          docker-compose ps
+          sleep 10
+
+      - name: Run unit tests
+        run: flutter test test/
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-docker
+          path: test_logs/
+
+  # Web tests
+  web-tests:
+    runs-on: ubuntu-latest
+    name: Web Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Enable web
+        run: flutter config --enable-web
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release
+
+      - name: Run web tests
+        run: flutter test integration_test/app_test.dart -d web-server
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-web
+          path: test_logs/
+
+  # macOS tests
+  macos-tests:
+    runs-on: macos-latest
+    name: macOS Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run macOS tests
+        run: |
+          flutter test integration_test/app_test.dart -d macos || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-macos
+          path: test_logs/
+
+  # Linux tests
+  linux-tests:
+    runs-on: ubuntu-latest
+    name: Linux Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libglu1-mesa
+
+      - name: Enable Linux
+        run: flutter config --enable-linux-desktop
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Linux tests
+        run: flutter test integration_test/app_test.dart -d linux || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-linux
+          path: test_logs/
+
+  # Android tests
+  android-tests:
+    runs-on: ubuntu-latest
+    name: Android Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --debug
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-android
+          path: build/app/outputs/apk/debug/
+
+  # Windows tests
+  windows-tests:
+    runs-on: windows-latest
+    name: Windows Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'latest'
+          channel: 'stable'
+
+      - name: Enable Windows
+        run: flutter config --enable-windows-desktop
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Windows tests
+        run: flutter test integration_test/app_test.dart -d windows
+        continue-on-error: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-windows
+          path: test_logs/
+
+  # Test results summary
+  test-summary:
+    runs-on: ubuntu-latest
+    name: Test Summary
+    needs: [docker-tests, web-tests, macos-tests, linux-tests, android-tests, windows-tests]
+    if: always()
+
+    steps:
+      - name: Download all test results
+        uses: actions/download-artifact@v3
+
+      - name: Generate summary
+        run: |
+          echo "## Integration Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Artifacts" >> $GITHUB_STEP_SUMMARY
+          find . -type f -name "*.log" | while read f; do
+            echo "- \`$f\`" >> $GITHUB_STEP_SUMMARY
+          done

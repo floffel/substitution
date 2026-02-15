@@ -13,6 +13,9 @@
         }
     },
     "post": {
+        "error": {
+            "not_found": "Post not found or unavailable."
+        },
         "pages": {
             "post": {
                 "no_comments": "No comments yet."
@@ -31,7 +34,8 @@
             },
             "filedisplay": {
                 "decrypting": "File is being decrypted...",
-                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!"
+                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!",
+                "audio_desktop_error": "Audio can't be played on Linux, Windows nor MacOS."
             },
             "reaction": {
                 "unknown_sender": "unknown",
@@ -64,7 +68,7 @@
             "logout": "Logout",
             "login": "Login",
             "home_site_label": "Home",
-            "feeds_site_label": "Feeds/Rooms"
+            "feeds_site_label": "Feeds"
         },
         "room": {
             "desc": "Roomname: {}",
@@ -102,7 +106,7 @@
     },
     "intro": {
         "isLoggedIn": "Awesome, you are already logged in. \nYou can continue with the next Steps",
-        "isNotLoggedIn": "Please login forst",
+        "isNotLoggedIn": "Please login first",
         "buttons": {
             "next": "Next",
             "back": "Back"
@@ -166,8 +170,8 @@
             "upload_file_complete": "Uploading {} is complete!",
             "upload_complete": "All files have been uploaded!",
             "buttons": {
-                "upload_stop": "Don't retry",
-                "upload_retry": "Retry upload"
+                "upload_stop": "Cancel",
+                "upload_retry": "Retry"
             }
         },
         "roomselect": {

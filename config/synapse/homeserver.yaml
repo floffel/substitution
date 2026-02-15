@@ -1,0 +1,79 @@
+server_name: "test.matrix.local"
+report_stats: false
+pid_file: /data/homeserver.pid
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: false
+    bind_addresses: ['0.0.0.0']
+    resources:
+      - names: [client, federation]
+        compress: false
+
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: synapse_password
+    database: synapse
+    host: postgres
+    port: 5432
+    cp_min: 10
+    cp_max: 10
+  # Allow unsafe locale for testing
+  allow_unsafe_locale: true
+
+log_config: "/data/conf/log.yaml"
+
+media_store_path: /data/media_store
+uploads_path: /data/uploads
+
+# Key generation
+signing_key_path: "/data/conf/test.matrix.local.signing.key"
+macaroon_secret_key: "thisismytestsecretkeyformacaroons_changemeplease"
+
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+# Enable user registration for testing
+enable_registration: true
+enable_registration_without_verification: true
+registration_shared_secret: "test_registration_secret"
+allow_guest_access: false
+
+# Session management
+session_lifetime: "24h"
+
+# Rate limiting
+rc_message:
+  per_second: 10
+  burst_count: 20
+
+rc_registration:
+  per_second: 0.17
+  burst_count: 3
+
+# Prevent user enumeration
+user_directory:
+  enabled: true
+  search_all_users: false
+  prefer_local_users: true
+
+# Set trusted proxies if needed
+# trusted_proxies:
+#   - '172.16.0.0/12'
+
+# Password configuration
+password_config:
+  enabled: true
+  pepper: "test_pepper_change_this"
+
+# Enable user presence tracking
+presence:
+  enabled: true
+
+# Experimental features (if needed)
+# experimental_features:
+#   spaces_enabled: true

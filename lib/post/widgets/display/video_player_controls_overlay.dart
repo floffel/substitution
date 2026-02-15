@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class VidePlayerControlsOverlay extends StatefulWidget {
-  const VidePlayerControlsOverlay({super.key, required this.controller});
+class VideoPlayerControlsOverlay extends StatefulWidget {
+  const VideoPlayerControlsOverlay({super.key, required this.controller});
 
   final VideoPlayerController controller;
 
   @override
-  VidePlayerControlsOverlayState createState() =>
-      VidePlayerControlsOverlayState();
+  VideoPlayerControlsOverlayState createState() =>
+      VideoPlayerControlsOverlayState();
 }
 
-class VidePlayerControlsOverlayState extends State<VidePlayerControlsOverlay> {
+class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> {
   static const List<Duration> _exampleCaptionOffsets = <Duration>[
     Duration(seconds: -10),
     Duration(seconds: -3),

@@ -1,4 +1,4 @@
-import 'package:substitution/post/widgets/filedisplay.dart';
+import 'file_display.dart';
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -11,18 +11,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 
 // TODO rename to FileDisplay or smthg.
-class FileComponent extends StatefulWidget {
-  const FileComponent(
+class FileDisplayContainer extends StatefulWidget {
+  const FileDisplayContainer(
       {super.key, required this.event, required this.displayEvent});
 
   final Event event;
   final Event displayEvent;
 
   @override
-  FileComponentState createState() => FileComponentState();
+  FileDisplayContainerState createState() => FileDisplayContainerState();
 }
 
-class FileComponentState extends State<FileComponent> {
+class FileDisplayContainerState extends State<FileDisplayContainer> {
   // CarouselController carouselController = CarouselController();
   CarouselSliderController carouselController = CarouselSliderController();
 
@@ -94,7 +94,7 @@ class FileComponentState extends State<FileComponent> {
 
   Future<VideoPlayerController?> getVideoPlayerControllerForEvent(
       Event e) async {
-    if (widget.event.messageType != MessageTypes.Video ||
+    if ((widget.event.messageType != MessageTypes.Video && widget.event.messageType != MessageTypes.Audio) ||
         Platform.isLinux ||
         Platform.isWindows ||
         Platform.isMacOS) {

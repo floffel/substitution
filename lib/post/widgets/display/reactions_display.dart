@@ -1,19 +1,21 @@
+import '/shared/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 // TODO rename to ReactionsDisplay or smthg.
-class ReactionsComponent extends StatefulWidget {
-  const ReactionsComponent({super.key, required this.event});
+class ReactionsDisplay extends StatefulWidget {
+  const ReactionsDisplay({super.key, required this.event});
 
   final Event event;
 
   @override
-  ReactionsComponentState createState() => ReactionsComponentState();
+  ReactionsDisplayState createState() => ReactionsDisplayState();
 }
 
-class ReactionsComponentState extends State<ReactionsComponent> {
+class ReactionsDisplayState extends State<ReactionsDisplay> {
   Client get client => Provider.of<Client>(context, listen: false);
 
   //int numReactions = 0;
@@ -27,7 +29,7 @@ class ReactionsComponentState extends State<ReactionsComponent> {
             bool isOwnSmiley,
             Event? displayEvent
           })>> get reactions async {
-    print("start getting reactions");
+    debugPrint("start getting reactions");
 
     Map<String,
             ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>
@@ -38,23 +40,23 @@ class ReactionsComponentState extends State<ReactionsComponent> {
     // TODO: we need to transfere the timeline from the previous
     //  component
 
-    print("got timeline for event id");
-    print(widget.event.eventId);
-    print("has aggregated events?");
-    print(
-        widget.event.hasAggregatedEvents(timeline, RelationshipTypes.reaction));
+    debugPrint("got timeline for event id");
+    debugPrint(widget.event.eventId);
+    debugPrint("has aggregated events?");
+    debugPrint(
+        widget.event.hasAggregatedEvents(timeline, RelationshipTypes.reaction).toString());
 
     Set<Event> events =
         widget.event.aggregatedEvents(timeline, RelationshipTypes.reaction);
 
-    print("got events");
-    print(events);
+    debugPrint("got events");
+    debugPrint(events.toString());
 
     for (Event e in events) {
       // it's only a comment to this comment if it contains the event id of this comments event id
 
-      print("checking event e:");
-      print(e);
+      debugPrint("checking event e:");
+      debugPrint(e.toString());
 
       if (e.content
               .tryGetMap<String, Object?>('m.relates_to')
@@ -70,7 +72,7 @@ class ReactionsComponentState extends State<ReactionsComponent> {
           isOwnSmiley = true;
         }
 
-        print("fetched smiley!");
+        debugPrint("fetched smiley!");
 
         ret[smiley] = (
           userNames: [
@@ -92,7 +94,10 @@ class ReactionsComponentState extends State<ReactionsComponent> {
         future: reactions,
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
-            return Text("loading comments");
+            return const Center(
+                child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator()));
           }
           // todo: show loading animation!
           return Wrap(spacing: 1.0, runSpacing: 4.0, children: [
@@ -120,8 +125,8 @@ class ReactionsComponentState extends State<ReactionsComponent> {
                                 e.key,
                                 style: const TextStyle(
                                   fontSize: 24.0,
-                                  fontFamily:
-                                      'Apple Color Emoji', // TODO: Investigate what to use on other platforms
+                                                                        fontFamily: AppConstants.defaultEmojiFontFamily,
+                                  
                                   fontFamilyFallback: ["Noto Emoji"],
                                 ),
                               ))));

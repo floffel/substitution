@@ -53,12 +53,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
       : Event.fromMatrixEvent(
           await client.getOneRoomEvent(widget.roomId, widget.eventId!), room!);
 
-  Future<({Event event, Event displayEvent})> get eventTuple async => (
-        event: (await event)!,
-        displayEvent: (await event)!.getDisplayEvent(await (await event)!
-            .room
-            .getTimeline(eventContextId: (await event)!.eventId))
-      );
+  Future<({Event event, Event displayEvent})?> get eventData async {
+    final e = await event;
+    if (e == null) return null;
+    
+    final timeline = await e.room.getTimeline(eventContextId: e.eventId);
+    return (event: e, displayEvent: e.getDisplayEvent(timeline));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
 
         //eventTuple
         FutureBuilder(
-            future: eventTuple,
+            future: eventData,
             builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
               if (!snapshot.hasData) {
-                return const Text("loading").tr();
+                return const SizedBox.shrink(); 
               }
 
               return PostWidget(
@@ -150,7 +154,9 @@ class FileMessageWriteState extends State<FileMessageWrite> {
         const Spacer(),
         IconButton(
             onPressed: () async {
-              var scavMsg = ScaffoldMessenger.of(context);
+              final scavMsg = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+              final goRouter = GoRouter.of(context);
 
               // many of this is equivalent to the textmessage widget, so we should make it a mixin
               // send text
@@ -188,8 +194,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                 eventThreadId = answerEvent?.relationshipEventId;
               }
 
-              if (!mounted) return;
-              context.pop(); // pop the "starting upload" overlay
+              navigator.pop(); // pop the "starting upload" overlay
 
               for (var f in files) {
                 String? ret;
@@ -202,6 +207,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   ].join(".");
 
                   // TODO: make it a mixin, its almost the same as in login.dart
+                  if (!mounted) return;
                   showDialog<void>(
                     context: context,
                     barrierDismissible: false,
@@ -226,9 +232,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   ret = await room!.sendFileEvent(uploadFile,
                       threadRootEventId: eventThreadId, inReplyTo: answerEvent);
 
-                  if (!mounted) return;
-
-                  context.pop(); // pop the Uploading file ... dialog
+                  navigator.pop(); // pop the Uploading file ... dialog
 
                   if (ret == null) {
                     userCancel = await showDialog<bool>(
@@ -249,7 +253,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                                           "write.filemessage.upload_stop")
                                       .tr(),
                                   onPressed: () {
-                                    context.pop(true);
+                                    Navigator.of(context).pop(true);
                                   },
                                 ),
                                 TextButton(
@@ -257,15 +261,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                                             "write.filemessage.upload_retry")
                                         .tr(),
                                     onPressed: () {
-                                      context.pop(false);
+                                      Navigator.of(context).pop(false);
                                     })
                               ],
                             );
                           },
                         ) ??
                         false;
-
-                    if (!mounted) return;
                   } else {
                     scavMsg.showSnackBar(SnackBar(
                       content:
@@ -291,20 +293,18 @@ class FileMessageWriteState extends State<FileMessageWrite> {
 /*
                 debugPrint("send message complete with ret ${ret}...");*/
               // todo: show complete action and route to home or so
-              if (!mounted) return;
-
               scavMsg.showSnackBar(SnackBar(
                 content: const Text("write.filemessage.upload_complete").tr(),
               ));
 
               if (answerEvent != null) {
-                context.go(Uri(
+                goRouter.go(Uri(
                     path: "/post/${answerEvent.eventId}",
                     queryParameters: {'room': answerEvent.room.id}).toString());
               } else if (room != null) {
-                context.go("/feed/${room!.id}");
+                goRouter.go("/feed/${room!.id}");
               } else {
-                context.go("/");
+                goRouter.go("/");
               }
             },
             icon: const Icon(Icons.send))

@@ -1,4 +1,4 @@
-import '/post/widgets/videoplayercontrolsoverlay.dart';
+import 'video_player_controls_overlay.dart';
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -26,10 +26,22 @@ class FileDisplay extends StatefulWidget {
 }
 
 class FileDisplayState extends State<FileDisplay> {
-  VideoPlayerController?
-      _controller; // can't use late as it might never get initialized at all (see showVideo)
-
+  VideoPlayerController? _controller;
   CarouselController carouselController = CarouselController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.file.videoController;
+  }
+
+  @override
+  void didUpdateWidget(FileDisplay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.file.videoController != oldWidget.file.videoController) {
+      _controller = widget.file.videoController;
+    }
+  }
 
   Future<File> getDecryptedFileForEvent(Event e) async {
     MatrixFile f = await e.downloadAndDecryptAttachment();
@@ -89,18 +101,44 @@ class FileDisplayState extends State<FileDisplay> {
                       ? AspectRatio(
                           aspectRatio: _controller!.value.aspectRatio,
                           child: Stack(
+                            alignment: Alignment.bottomCenter,
                             children: [
                               VideoPlayer(_controller!),
+                              VideoPlayerControlsOverlay(
+                                  controller: _controller!),
                               VideoProgressIndicator(_controller!,
                                   allowScrubbing: true),
-                              VidePlayerControlsOverlay(
-                                  controller: _controller!),
                             ],
                           ))
                       : Container(),
                 ),
               ]),
-      MessageTypes.Audio => Container(), // TODO display audio messages
+      MessageTypes.Audio => _controller == null
+          ? const Text("post.widgets.filedisplay.audio_desktop_error").tr()
+          : Column(children: [
+              Center(
+                child: _controller!.value.isInitialized
+                    ? Stack(
+                        alignment: Alignment.center,
+                        children: [
+                           const Icon(Icons.audiotrack, size: 48),
+                           AspectRatio(
+                                aspectRatio: 16/9, // Force aspect ratio for controls
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                     VideoPlayerControlsOverlay(
+                                         controller: _controller!),
+                                     VideoProgressIndicator(_controller!,
+                                         allowScrubbing: true),
+                                  ],
+                                )
+                           )
+                        ],
+                      )
+                    : const CircularProgressIndicator(),
+              ),
+            ]),
       String() => Container() // handled elsewhere
     };
   }

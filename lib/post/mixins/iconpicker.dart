@@ -1,3 +1,5 @@
+import '/shared/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +20,7 @@ mixin IconPicker {
             height: 256,
             emojiTextStyle: const TextStyle(
               fontFamily:
-                  'Apple Color Emoji', // TODO: Investigate what to use on other platforms
+                  AppConstants.defaultEmojiFontFamily,
               fontFamilyFallback: ["Noto Emoji"],
             ),
             checkPlatformCompatibility: true,
@@ -40,7 +42,7 @@ mixin IconPicker {
             searchViewConfig: const SearchViewConfig(),
           ),
           onEmojiSelected: (category, emoji) async {
-            print("sending emoji {emoji.emoji}");
+            debugPrint("sending emoji {emoji.emoji}");
             await event.room.sendReaction(event.eventId, emoji.emoji);
             if (!context.mounted) return;
             Navigator.of(context).pop();

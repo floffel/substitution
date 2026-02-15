@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for Matrix Synapse
+  # NOTE: Using anonymous volumes instead of named volumes for test runs.
+  # This ensures a clean database on each docker-compose up, preventing
+  # "alias already taken" errors when init_test_data.py tries to create
+  # test rooms. Data persists for the duration of the test run (needed
+  # for tests to query the server) but is discarded when containers stop.
+  # For persistent data in production, use named volumes instead.
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: synapse_password
+      POSTGRES_DB: synapse
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synapse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - substitution_network
+
+  # Matrix Synapse server
+  # NOTE: Similar to postgres, synapse_data uses an anonymous volume.
+  # Configuration files (in ./config/synapse) are mounted read-only and
+  # persist across runs, but server data and database state are fresh
+  # on each startup. This is ideal for testing.
+  matrix-synapse:
+    image: matrixdotorg/synapse:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SYNAPSE_SERVER_NAME: test.matrix.local
+      SYNAPSE_REPORT_STATS: "no"
+      UID: "991"
+      GID: "991"
+    volumes:
+      - /data
+      - ./config/synapse:/data/conf
+    ports:
+      - "8008:8008"
+      - "8448:8448"
+    networks:
+      - substitution_network
+    entrypoint: /bin/bash
+    command: -c "exec python3 -m synapse.app.homeserver --config-path=/data/conf/homeserver.yaml --config-path=/data/conf/log.yaml"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/_matrix/client/versions"]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  # Initialize Matrix test data (users, rooms, etc.)
+  matrix-init:
+    image: python:3.11-alpine
+    depends_on:
+      matrix-synapse:
+        condition: service_healthy
+    volumes:
+      - ./config/synapse/init_test_data.py:/init_test_data.py:ro
+    networks:
+      - substitution_network
+    command: >
+      sh -c "
+      pip install requests &&
+      python3 /init_test_data.py
+      "
+
+  # Redis cache (optional, for session caching)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - substitution_network
+
+  # Integration test runner
+  test:
+    build: .
+    depends_on:
+      matrix-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    environment:
+      # Display configuration for Linux GUI tests
+      - DISPLAY=:99
+      - LIBVA_DRIVER_NAME=dummy
+      # Web tests
+      - FLUTTER_TEST_WEB=true
+      # Platform-specific (set to true to test on that platform)
+      - FLUTTER_TEST_MACOS=false
+      - FLUTTER_TEST_LINUX=false
+      - FLUTTER_TEST_WINDOWS=false
+      - FLUTTER_TEST_ANDROID=false
+      - FLUTTER_TEST_IOS=false
+      # Matrix server connection
+      - MATRIX_SERVER=http://matrix-synapse:8008
+      - MATRIX_TEST_USER=testuser1
+      - MATRIX_TEST_PASSWORD=testpass123
+    volumes:
+      - .:/project
+      - /project/build  # Don't sync build directory
+    networks:
+      - substitution_network
+    working_dir: /project
+    command: bash -c "
+      set -e
+      echo '=== Starting virtual display server ===' &&
+      Xvfb :99 -screen 0 1280x720x24 > /tmp/xvfb.log 2>&1 &
+      XVFB_PID=\$!
+      sleep 2 &&
+      echo '=== Installing dependencies ===' &&
+      flutter pub get &&
+      echo '=== Running integration tests ===' &&
+      flutter test integration_test/ --device-id linux --verbose || TEST_RESULT=\$?
+      kill \$XVFB_PID 2>/dev/null || true
+      echo '=== Tests completed ===' &&
+      exit \${TEST_RESULT:-0}
+      "
+
+# No named volumes defined - using anonymous volumes for test environments
+# This ensures clean data on each startup (see postgres and matrix-synapse service comments)
+
+networks:
+  substitution_network:
+    driver: bridge
+
+

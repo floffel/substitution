@@ -1,4 +1,4 @@
-import '/post/interfaces/ievent.dart';
+import '/post/interfaces/i_event.dart';
 import '/post/widgets/post.dart';
 import '/post/widgets/comment.dart';
 

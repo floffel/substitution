@@ -10,11 +10,12 @@ class DialogDeleteServer extends StatefulWidget {
   final String server;
 
   @override
-  _DialogDeleteServerState createState() => _DialogDeleteServerState();
+  State<DialogDeleteServer> createState() => _DialogDeleteServerState();
 }
 
 class _DialogDeleteServerState extends State<DialogDeleteServer> {
   Client get client => Provider.of<Client>(context, listen: false);
+  bool _isLoading = false;
 
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
   // TODO: this throws an exception if the account data is not valid!
@@ -35,29 +36,45 @@ class _DialogDeleteServerState extends State<DialogDeleteServer> {
         content: const Text("settings.dialog.delete.desc")
             .tr(args: [widget.server]), // Delete ${widget.server}?"),
         actions: <Widget>[
-          TextButton(
-              child: const Text("settings.dialog.delete.button.submit").tr(),
-              onPressed: () async {
-                var navState = Navigator.of(context);
-                // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
-                //       so we can just delete the substition flag and don't leave the room
-                // todo: display loading animation or smthg. while leaving the rooms and deleting the keys
+          if (_isLoading)
+            const CircularProgressIndicator()
+          else
+            TextButton(
+                child: const Text("settings.dialog.delete.button.submit").tr(),
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  setState(() {
+                    _isLoading = true;
+                  });
 
-                var newServers = await accountData;
-                newServers.remove(widget.server);
+                  try {
+                    // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
+                    //       so we can just delete the substition flag and don't leave the room
+                    
+                    var newServers = Map<String, dynamic>.from(await accountData);
+                    newServers.remove(widget.server);
 
-                client.setAccountData(
-                    client.userID!, "substitution.servers", newServers);
+                    await client.setAccountData(
+                        client.userID!, "substitution.servers", newServers);
 
-                navState.pop(true);
-              }),
-          TextButton(
-              child: const Text("settings.dialog.delete.button.cancel").tr(),
-              onPressed: () {
-                var navState = Navigator.of(context);
-
-                navState.pop();
-              })
+                    navigator.pop(true);
+                  } catch (e) {
+                     debugPrint("Error deleting server: $e");
+                     // Show error?
+                  } finally {
+                    if (mounted) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    }
+                  }
+                }),
+          if (!_isLoading)
+            TextButton(
+                child: const Text("settings.dialog.delete.button.cancel").tr(),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
         ]);
   }
 }
