@@ -21,7 +21,7 @@ void main() {
       // Search for rooms (would require entering search text)
 
       // Verify results are displayed
-      expect(find.byType(app.Substitution), findsOneWidget);
+      expect(find.byType(app.SubstitutionApp), findsOneWidget);
     });
 
     testWidgets('Search multiple servers and results merge correctly',
@@ -36,7 +36,7 @@ void main() {
       // Search across servers
 
       // Verify results from all servers appear
-      expect(find.byType(app.Substitution), findsOneWidget);
+      expect(find.byType(app.SubstitutionApp), findsOneWidget);
     });
 
     testWidgets('Join room and verify it appears in main feed',
@@ -51,7 +51,7 @@ void main() {
       // Join the room
 
       // Verify it appears in the main feed
-      expect(find.byType(app.Substitution), findsOneWidget);
+      expect(find.byType(app.SubstitutionApp), findsOneWidget);
     });
 
     testWidgets('Leave room and verify it disappears from main feed',
@@ -64,7 +64,7 @@ void main() {
       // Leave a joined room
 
       // Verify it's removed from the main feed
-      expect(find.byType(app.Substitution), findsOneWidget);
+      expect(find.byType(app.SubstitutionApp), findsOneWidget);
     });
   });
 }
