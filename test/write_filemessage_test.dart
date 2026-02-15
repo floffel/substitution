@@ -8,9 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/write/pages/filemessage.dart';
 
 class MockClient extends Mock implements Client {}
+
 class MockRoom extends Mock implements Room {}
+
 class MockEvent extends Mock implements Event {}
+
 class MockMatrixEvent extends Mock implements MatrixEvent {}
+
 class MockMatrixFile extends Mock implements MatrixFile {}
 
 void main() {
@@ -23,7 +27,8 @@ void main() {
   });
 
   group('FileMessageWrite Widget Tests', () {
-    testWidgets('Smoke: renders FileMessageWrite with room info', (WidgetTester tester) async {
+    testWidgets('Smoke: renders FileMessageWrite with room info',
+        (WidgetTester tester) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
@@ -141,7 +146,8 @@ void main() {
       expect(sendButton, findsOneWidget);
     });
 
-    testWidgets('Successful file upload triggers navigation', (WidgetTester tester) async {
+    testWidgets('Successful file upload triggers navigation',
+        (WidgetTester tester) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
@@ -179,7 +185,8 @@ void main() {
       expect(find.byType(FileMessageWrite), findsOneWidget);
     });
 
-    testWidgets('Widget renders with reply to eventId', (WidgetTester tester) async {
+    testWidgets('Widget renders with reply to eventId',
+        (WidgetTester tester) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
       final mockMatrixEvent = MockMatrixEvent();
@@ -221,7 +228,8 @@ void main() {
       expect(find.byType(FileMessageWrite), findsOneWidget);
     });
 
-    testWidgets('Failed file upload shows error dialog', (WidgetTester tester) async {
+    testWidgets('Failed file upload shows error dialog',
+        (WidgetTester tester) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
@@ -296,10 +304,7 @@ void main() {
       // Room info ListTile should be present
       expect(find.byType(ListTile), findsOneWidget);
     });
-  });
-}
 
-  group('FileMessageWrite Widget Tests', () {
     testWidgets('Smoke: renders FileMessageWrite with room info',
         (WidgetTester tester) async {
       final mockClient = MockClient();

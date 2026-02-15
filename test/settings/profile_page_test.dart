@@ -20,7 +20,15 @@ void main() {
   testWidgets('Smoke: renders display name field, avatar, save button',
       (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -47,7 +55,15 @@ void main() {
 
   testWidgets('Displays current profile data', (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Current User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -74,7 +90,18 @@ void main() {
   testWidgets('Edit name + tap save -> calls setDisplayName()',
       (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockClient.setProfileField(any(), any(), any())).thenAnswer(
+      (_) async => {},
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -99,7 +126,15 @@ void main() {
 
   testWidgets('Tap avatar -> opens file picker', (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -125,7 +160,18 @@ void main() {
   testWidgets('Select file + save -> calls setAvatar()',
       (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockClient.setAvatar(any())).thenAnswer(
+      (_) async => {},
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -150,7 +196,15 @@ void main() {
 
   testWidgets('Success shows SnackBar', (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -175,7 +229,15 @@ void main() {
 
   testWidgets('Error shows AlertDialog', (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -200,7 +262,15 @@ void main() {
 
   testWidgets('Loading state during save', (WidgetTester tester) async {
     final mockClient = MockClient();
+    final mockProfile = MockProfile();
+
     when(() => mockClient.isLogged()).thenReturn(true);
+    when(() => mockClient.userID).thenReturn('@test:example.com');
+    when(() => mockClient.getProfileFromUserId(any())).thenAnswer(
+      (_) async => mockProfile,
+    );
+    when(() => mockProfile.displayName).thenReturn('Test User');
+    when(() => mockProfile.avatarUrl).thenReturn(null);
 
     await tester.pumpWidget(
       EasyLocalization(

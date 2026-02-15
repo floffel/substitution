@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:substitution/shared/services/connectivity_service.dart';
 
 // Mock classes
 class MockClient extends Mock implements Client {}
@@ -18,6 +19,20 @@ class MockEvent extends Mock implements Event {}
 class MockTimeline extends Mock implements Timeline {}
 
 class MockUser extends Mock implements User {}
+
+class MockConnectivityService extends Mock implements ConnectivityService {
+  late Stream<bool> _connectivityStream;
+
+  MockConnectivityService() {
+    _connectivityStream = Stream.value(true);
+  }
+
+  @override
+  Stream<bool> get onConnectivityChanged => _connectivityStream;
+
+  @override
+  Future<bool> get isOnline async => true;
+}
 
 void main() {
   setUpAll(() async {
@@ -37,6 +52,8 @@ void main() {
     });
 
     testWidgets('Smoke test: HomePage renders', (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+
       await tester.pumpWidget(
         EasyLocalization(
           supportedLocales: const [Locale('en', 'US')],
@@ -45,6 +62,8 @@ void main() {
           child: MultiProvider(
             providers: [
               Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -93,6 +112,8 @@ void main() {
 
     testWidgets('HomePage title and structure present',
         (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+
       await tester.pumpWidget(
         EasyLocalization(
           supportedLocales: const [Locale('en', 'US')],
@@ -101,6 +122,8 @@ void main() {
           child: MultiProvider(
             providers: [
               Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -117,6 +140,8 @@ void main() {
 
     testWidgets('Verify HomePage uses RefreshIndicator for pull-to-refresh',
         (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+
       await tester.pumpWidget(
         EasyLocalization(
           supportedLocales: const [Locale('en', 'US')],
@@ -125,6 +150,8 @@ void main() {
           child: MultiProvider(
             providers: [
               Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -142,6 +169,8 @@ void main() {
     testWidgets(
         'HomePage initializes with PagingController for infinite scroll',
         (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+
       await tester.pumpWidget(
         EasyLocalization(
           supportedLocales: const [Locale('en', 'US')],
@@ -150,6 +179,8 @@ void main() {
           child: MultiProvider(
             providers: [
               Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
             ],
             child: MaterialApp(
               home: const HomePage(),

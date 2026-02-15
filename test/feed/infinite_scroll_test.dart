@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:substitution/shared/services/connectivity_service.dart';
 
 // Mock classes
 class MockClient extends Mock implements Client {}
@@ -16,6 +17,20 @@ class MockRoom extends Mock implements Room {}
 class MockEvent extends Mock implements Event {}
 
 class MockTimeline extends Mock implements Timeline {}
+
+class MockConnectivityService extends Mock implements ConnectivityService {
+  late Stream<bool> _connectivityStream;
+
+  MockConnectivityService() {
+    _connectivityStream = Stream.value(true);
+  }
+
+  @override
+  Stream<bool> get onConnectivityChanged => _connectivityStream;
+
+  @override
+  Future<bool> get isOnline async => true;
+}
 
 void main() {
   setUpAll(() async {
@@ -34,23 +49,27 @@ void main() {
       when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => []);
     });
 
-    testWidgets('Initial load fetches first page via PagingController',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+    Widget buildTestWidget() {
+      final mockConnectivityService = MockConnectivityService();
+      return EasyLocalization(
+        supportedLocales: const [Locale('en', 'US')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: MultiProvider(
+          providers: [
+            Provider<Client>.value(value: mockClient),
+            Provider<ConnectivityService>.value(value: mockConnectivityService),
+          ],
+          child: MaterialApp(
+            home: const HomePage(),
           ),
         ),
       );
+    }
+
+    testWidgets('Initial load fetches first page via PagingController',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
 
@@ -63,21 +82,7 @@ void main() {
 
     testWidgets('PagedListView is present for infinite scroll',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
-          ),
-        ),
-      );
+      await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
 
@@ -87,21 +92,7 @@ void main() {
 
     testWidgets('Loading indicator visible during fetch',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
-          ),
-        ),
-      );
+      await tester.pumpWidget(buildTestWidget());
 
       // During loading, a progress indicator might be shown
       // HomePage uses RefreshIndicator which would handle this
@@ -110,21 +101,7 @@ void main() {
 
     testWidgets('No loading indicator when no more events',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
-          ),
-        ),
-      );
+      await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
 
@@ -135,21 +112,7 @@ void main() {
 
     testWidgets('RefreshIndicator available for manual refresh',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
-          ),
-        ),
-      );
+      await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
 

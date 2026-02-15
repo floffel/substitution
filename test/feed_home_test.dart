@@ -6,9 +6,24 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
+import 'package:substitution/shared/services/connectivity_service.dart';
 import 'package:go_router/go_router.dart';
 
 class MockClient extends Mock implements Client {}
+
+class MockConnectivityService extends Mock implements ConnectivityService {
+  late Stream<bool> _connectivityStream;
+
+  MockConnectivityService() {
+    _connectivityStream = Stream.value(true);
+  }
+
+  @override
+  Stream<bool> get onConnectivityChanged => _connectivityStream;
+
+  @override
+  Future<bool> get isOnline async => true;
+}
 
 void main() {
   setUpAll(() async {
@@ -18,7 +33,8 @@ void main() {
 
   testWidgets('HomePage (Feed) smoke test', (WidgetTester tester) async {
     final mockClient = MockClient();
-    
+    final mockConnectivityService = MockConnectivityService();
+
     // Mock getJoinedRooms to return empty list for simplicity
     when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => []);
     when(() => mockClient.isLogged()).thenReturn(true);
@@ -32,6 +48,7 @@ void main() {
         child: MultiProvider(
           providers: [
             Provider<Client>.value(value: mockClient),
+            Provider<ConnectivityService>.value(value: mockConnectivityService),
           ],
           child: MaterialApp(
             home: const HomePage(), // HomePage is the Feed

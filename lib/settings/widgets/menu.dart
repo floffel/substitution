@@ -5,20 +5,21 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:substitution/shared/services/theme_service.dart';
+import 'package:substitution/settings/widgets/dialog_clear_cache.dart';
 
 // Define a custom Form widget.
 class Menu extends StatefulWidget {
   const Menu({super.key});
 
   @override
-  _MenuState createState() => _MenuState();
+  State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
   Client get client => Provider.of<Client>(context, listen: false);
   // Helper methods
-  Future<Profile> get profile async =>
-      (await client.fetchOwnProfile());
+  Future<Profile> get profile async => (await client.fetchOwnProfile());
   Future<String?> get avatarURL async => (await profile).avatarUrl?.toString();
   Future<bool> get hasAvatarURL async => (await avatarURL) != null;
   Future<String> get username async => (await profile).displayName!;
@@ -44,6 +45,18 @@ class _MenuState extends State<Menu> {
           } else if (index == 3) {
             // Settings
             context.push("/settings/ownfeeds");
+          } else if (index == 4 && client.isLogged()) {
+            // Edit Profile
+            context.push("/settings/profile");
+          } else if (index == 5 && client.isLogged()) {
+            // Security
+            context.push("/settings/security");
+          } else if (index == 6 && client.isLogged()) {
+            // Clear Cache
+            showDialog(
+              context: context,
+              builder: (_) => const DialogClearCache(),
+            );
           }
         },
         children: [
@@ -55,7 +68,10 @@ class _MenuState extends State<Menu> {
                       future: profile,
                       builder: (ctx, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Text("loading").tr();
+                          return const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2));
                         }
                         // TODO: check if image is svg
                         return snapshot.data?.avatarUrl == null
@@ -82,7 +98,10 @@ class _MenuState extends State<Menu> {
                     future: profile,
                     builder: (ctx, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Text("loading").tr();
+                        return const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2));
                       }
 
                       return const Text("settings.menu.logged_in_as")
@@ -92,7 +111,7 @@ class _MenuState extends State<Menu> {
                   child: const Text("settings.menu.logout").tr(),
                   onPressed: () async {
                     await client.logoutAll();
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     context.go("/");
                   },
                 ),
@@ -124,6 +143,35 @@ class _MenuState extends State<Menu> {
             icon: const Icon(Icons.settings_outlined),
             selectedIcon: const Icon(Icons.settings),
             label: const Text('Eigene Feeds'), // todo: intl
+          ),
+          if (client.isLogged()) ...[
+            const SizedBox(height: 8),
+            NavigationDrawerDestination(
+              icon: const Icon(Icons.person_outlined),
+              selectedIcon: const Icon(Icons.person),
+              label: const Text('Edit Profile'),
+            ),
+            NavigationDrawerDestination(
+              icon: const Icon(Icons.security_outlined),
+              selectedIcon: const Icon(Icons.security),
+              label: const Text('Security'), // todo: intl
+            ),
+            NavigationDrawerDestination(
+              icon: const Icon(Icons.delete_outline),
+              selectedIcon: const Icon(Icons.delete),
+              label: const Text('Clear Cache'),
+            ),
+          ],
+          const SizedBox(height: 22),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SwitchListTile(
+              title: const Text('Dark Mode'),
+              value: context.watch<ThemeService>().themeMode == ThemeMode.dark,
+              onChanged: (_) {
+                context.read<ThemeService>().toggleTheme();
+              },
+            ),
           ),
         ]);
   }
