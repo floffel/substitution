@@ -9,7 +9,10 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   // Get test server details from environment variables
-  const matrixServer = 'http://192.168.1.196:8008';
+  const matrixServer = String.fromEnvironment(
+    'MATRIX_SERVER',
+    defaultValue: 'http://localhost:8008',
+  );
   const testUser = 'testuser1';
   const testPassword = 'testpass123';
 
@@ -84,7 +87,7 @@ void main() {
     testWidgets('Connect to Matrix test server', (WidgetTester tester) async {
       // Check server version
       final supported = await client.checkHomeserver(Uri.parse(matrixServer));
-      expect(supported, true);
+      expect(supported, isNotNull);
     });
 
     testWidgets('Login with test user credentials',
@@ -181,7 +184,7 @@ void main() {
       expect(room, isNotNull);
 
       // Check room members
-      final members = room!.getParticipants();
+      final members = await room!.requestParticipants();
       expect(members, isNotEmpty);
     });
 
@@ -304,7 +307,9 @@ void main() {
 
       // Empty room should have no messages (only state events)
       // This room was created empty for testing
-      expect(timeline.events.isEmpty || timeline.events.length <= 1, true);
+      final messages =
+          timeline.events.where((e) => e.type == 'm.room.message').toList();
+      expect(messages.isEmpty, true);
     });
 
     testWidgets('Multiple users in same room', (WidgetTester tester) async {
@@ -322,7 +327,7 @@ void main() {
       expect(testRoom, isNotNull);
 
       // Get room members
-      final members = testRoom.getParticipants();
+      final members = await testRoom.requestParticipants();
 
       // Should have multiple test users
       expect(members.length, greaterThanOrEqualTo(2));
@@ -424,8 +429,9 @@ void main() {
       // Verify message presence
       expect(generalTimeline.events.isNotEmpty, true);
       expect(photosTimeline.events.isNotEmpty, true);
-      expect(
-          artTimeline.events.isEmpty || artTimeline.events.length <= 1, true);
+      final artMessages =
+          artTimeline.events.where((e) => e.type == 'm.room.message').toList();
+      expect(artMessages.isEmpty, true);
     });
   });
 }

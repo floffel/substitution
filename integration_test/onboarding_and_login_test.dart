@@ -6,12 +6,16 @@ import 'package:matrix/matrix.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Onboarding & Login Flow with Real Matrix Server', () {
-    const testMatrixServer = 'http://192.168.1.196:8008';
+    const testMatrixServer = String.fromEnvironment(
+      'MATRIX_SERVER',
+      defaultValue: 'http://localhost:8008',
+    );
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
@@ -66,7 +70,7 @@ void main() {
         // Find the homeserver input field
         final hostInputFinder = find.byType(TextFormField).first;
         await tester.enterText(hostInputFinder, testMatrixServer);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Tap the submit button
         final submitButtonFinder = find.byType(ElevatedButton).first;
@@ -77,12 +81,12 @@ void main() {
         // Find username field (should be on login page now)
         final usernameFieldFinder = find.byType(TextFormField).first;
         await tester.enterText(usernameFieldFinder, testUser);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Find password field (usually the second field)
         final passwordFieldFinder = find.byType(TextFormField).at(1);
         await tester.enterText(passwordFieldFinder, testPassword);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Tap login button
         final loginButtonFinder = find.byType(ElevatedButton).first;
@@ -114,7 +118,7 @@ void main() {
         // Enter homeserver
         final hostInputFinder = find.byType(TextFormField).first;
         await tester.enterText(hostInputFinder, testMatrixServer);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         final submitButtonFinder = find.byType(ElevatedButton).first;
         await tester.tap(submitButtonFinder);
@@ -123,11 +127,11 @@ void main() {
         // Enter wrong credentials
         final usernameFieldFinder = find.byType(TextFormField).first;
         await tester.enterText(usernameFieldFinder, 'nonexistent_user');
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         final passwordFieldFinder = find.byType(TextFormField).at(1);
         await tester.enterText(passwordFieldFinder, 'wrong_password');
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Tap login
         final loginButtonFinder = find.byType(ElevatedButton).first;
@@ -157,11 +161,11 @@ void main() {
 
         // Enter custom homeserver
         await tester.tap(hostInputFinder);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Enter test homeserver
         await tester.enterText(hostInputFinder, testMatrixServer);
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(const Duration(seconds: 10));
 
         // Verify it was entered
         expect(find.text(testMatrixServer), findsWidgets);

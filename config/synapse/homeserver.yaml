@@ -47,13 +47,45 @@ allow_guest_access: false
 session_lifetime: "24h"
 
 # Rate limiting
+# NOTE: These settings are for TEST ENVIRONMENT ONLY
+# In production, these should be set to appropriate limits to prevent abuse
+# 
+# Disable rate limiting globally for testing
+enable_ratelimiting: false
+
+# Message rate limits (still enforced to prevent spam in tests)
 rc_message:
   per_second: 10
   burst_count: 20
 
+# Authentication rate limits (DISABLED for testing)
+# Covers token auth, password auth, and other auth flows
+# Production defaults: per_second: 0.003, burst_count: 5
+rc_auth:
+  address:
+    per_second: 1000000  # Effectively unlimited for testing
+    burst_count: 1000000
+  account:
+    per_second: 1000000  # Effectively unlimited for testing
+    burst_count: 1000000
+
+# Registration rate limits (DISABLED for testing - allows rapid user creation)
+# Production value: per_second: 0.17, burst_count: 3 (allows ~10 registrations/min)
+# Test value: disabled (allows unlimited registrations)
 rc_registration:
-  per_second: 0.17
-  burst_count: 3
+  per_second: 1000000  # Effectively unlimited for testing
+  burst_count: 1000000
+
+# Login rate limits (DISABLED for testing)
+# Production defaults: per_second: 0.003, burst_count: 5 (very restrictive)
+# Test values: effectively unlimited for both per-address and per-account limits
+rc_login:
+  address:
+    per_second: 1000000
+    burst_count: 1000000
+  account:
+    per_second: 1000000
+    burst_count: 1000000
 
 # Prevent user enumeration
 user_directory:

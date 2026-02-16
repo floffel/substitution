@@ -404,9 +404,12 @@ class _IntroductionState extends State<IntroductionPage> {
           title: "intro.welcome.title".tr(),
           image: const Image(image: AssetImage('assets/icon/logo.png')),
           bodyWidget: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("intro.welcome.desc").tr(),
-            ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(child: const Text("intro.welcome.desc").tr()),
+                ]),
           ]),
         ),
         PageViewModel(
@@ -498,8 +501,9 @@ class _IntroductionState extends State<IntroductionPage> {
                     context.go("/");
                   }
                 },
-                child: Row(children: [
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   const Icon(Icons.east),
+                  const SizedBox(width: 8),
                   const Text("intro.finished.buttons.go").tr()
                 ]),
               ),

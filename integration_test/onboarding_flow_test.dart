@@ -12,6 +12,7 @@ class MockClient extends Mock implements Client {}
 
 void main() {
   setUpAll(() async {
+    registerFallbackValue(Uri());
     SharedPreferences.setMockInitialValues({});
     await EasyLocalization.ensureInitialized();
 

@@ -50,7 +50,11 @@ class _HostPageState extends State<HostPage> {
         },
       );
 
-      await client.checkHomeserver(Uri.https(adressContrainer.text.trim(), ''));
+      final input = adressContrainer.text.trim();
+      final uri = input.startsWith('http://') || input.startsWith('https://')
+          ? Uri.parse(input)
+          : Uri.https(input, '');
+      await client.checkHomeserver(uri);
       if (!mounted) return false;
       context.pop();
       return true;

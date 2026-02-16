@@ -49,7 +49,7 @@ void main() {
         'Navigate to follow feeds -> add server -> search rooms -> see results',
         (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       // Navigate to follow feeds settings
       // (This would depend on the actual navigation implementation)
@@ -66,7 +66,7 @@ void main() {
     testWidgets('Search multiple servers and results merge correctly',
         (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       // Navigate to follow feeds settings
 
@@ -81,7 +81,7 @@ void main() {
     testWidgets('Join room and verify it appears in main feed',
         (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       // Navigate to follow feeds
 
@@ -96,7 +96,7 @@ void main() {
     testWidgets('Leave room and verify it disappears from main feed',
         (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       // Navigate to follow feeds
 

@@ -83,11 +83,11 @@ void main() {
       tester.binding.window.physicalSizeTestValue = const ui.Size(1080, 2400);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       // Test landscape orientation
       tester.binding.window.physicalSizeTestValue = const ui.Size(2400, 1080);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 10));
 
       expect(find.byType(MaterialApp), findsWidgets);
     });

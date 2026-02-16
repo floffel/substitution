@@ -1,0 +1,83 @@
+################################################################################
+# DOCKERFILE FOR WINDOWS PLATFORM TESTING
+#
+# Builds a Flutter Windows testing environment with Visual Studio Build Tools.
+# Note: Must run on Windows containers or Windows + Wine (experimental).
+#
+# Build: docker build -f docker/Dockerfile.windows -t substitution-windows-test .
+# Note: Requires Windows containers enabled (docker-compose on windows-latest CI)
+################################################################################
+
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+LABEL maintainer="Substitution Team"
+LABEL description="Flutter Windows Platform Testing Environment"
+
+# Arguments
+ARG FLUTTER_VERSION=stable
+
+# Set working directory
+WORKDIR C:\
+
+# Install Visual Studio Build Tools (includes MSVC compiler and CMake)
+# This is a large download (~1.5 GB), but required for Windows development
+RUN powershell -Command \
+    $ProgressPreference = 'SilentlyContinue'; \
+    Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vs_buildtools.exe" -OutFile "vs_buildtools.exe"; \
+    $process = Start-Process -FilePath "C:\vs_buildtools.exe" `
+        -ArgumentList @( `
+            '--wait', `
+            '--quiet', `
+            '--norestart', `
+            '--add', 'Microsoft.VisualStudio.Workload.VCTools', `
+            '--add', 'Microsoft.VisualStudio.Component.VC.CMake.Project', `
+            '--includeRecommended' `
+        ) -NoNewWindow -PassThru; \
+    $process.WaitForExit(); \
+    Remove-Item -Force "C:\vs_buildtools.exe"
+
+# Install Java (required for Android SDK if used)
+RUN powershell -Command \
+    $ProgressPreference = 'SilentlyContinue'; \
+    Invoke-WebRequest -Uri "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jdk_x64_windows_hotspot_11.0.18_10.zip" `
+        -OutFile "java.zip"; \
+    Expand-Archive -Path "java.zip" -DestinationPath "C:\"; \
+    Rename-Item -Path "C:\jdk-11*" -NewName "java" -ErrorAction SilentlyContinue; \
+    Remove-Item -Force "java.zip"
+
+# Install Git
+RUN powershell -Command \
+    $ProgressPreference = 'SilentlyContinue'; \
+    Invoke-WebRequest -Uri "https://github.com/git-for-windows/git/releases/download/v2.42.0.windows.2/Git-2.42.0.2-64-bit.exe" `
+        -OutFile "git-installer.exe"; \
+    Start-Process -FilePath "C:\git-installer.exe" -ArgumentList '/SILENT' -NoNewWindow -Wait; \
+    Remove-Item -Force "C:\git-installer.exe"
+
+# Set up PATH
+RUN setx /M PATH "C:\Program Files\Git\bin;C:\java\bin;C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.*/bin/Hostx64/x64;%PATH%"
+
+# Install Flutter
+RUN powershell -Command \
+    cd "C:\"; \
+    git clone --depth 1 https://github.com/flutter/flutter.git -b ${FLUTTER_VERSION} C:\flutter
+
+# Add Flutter to PATH
+RUN setx /M PATH "C:\flutter\bin;%PATH%"
+
+# Configure Flutter and precache
+RUN powershell -Command \
+    cd "C:\flutter"; \
+    .\bin\flutter.bat config --no-analytics; \
+    .\bin\flutter.bat precache; \
+    .\bin\flutter.bat doctor -v
+
+WORKDIR C:\project
+
+# Pre-cache Windows platform
+RUN powershell -Command \
+    cd "C:\project"; \
+    C:\flutter\bin\flutter.bat config --enable-windows-desktop; \
+    C:\flutter\bin\flutter.bat precache
+
+ENTRYPOINT ["powershell", "-Command"]
+CMD ["& C:\\flutter\\bin\\flutter.bat test integration_test\\ --verbose"]

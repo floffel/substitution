@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,7 +11,10 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Room Discovery & Subscription with Real Matrix Server', () {
-    const testMatrixServer = 'http://192.168.1.196:8008';
+    const testMatrixServer = String.fromEnvironment(
+      'MATRIX_SERVER',
+      defaultValue: 'http://localhost:8008',
+    );
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
@@ -52,26 +56,41 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      // Enter homeserver
-      final hostInputFinder = find.byType(TextFormField).first;
-      await tester.enterText(hostInputFinder, testMatrixServer);
+      // Navigate through IntroductionScreen pages to reach Host page (page 2)
+      await tester.pumpAndSettle(const Duration(seconds: 2));
+
+      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
+      for (int i = 0; i < 2; i++) {
+        await tester.drag(
+            find.byType(IntroductionScreen), const Offset(-400, 0));
+        await tester.pumpAndSettle();
+      }
+
+      // Enter homeserver using test key
+      final hostInput = find.byKey(const Key('hostServerInput'));
+      expect(hostInput, findsOneWidget,
+          reason: 'Host input should be visible on page 2');
+      await tester.enterText(hostInput, testMatrixServer);
       await tester.pumpAndSettle();
 
-      final submitButtonFinder = find.byType(ElevatedButton).first;
-      await tester.tap(submitButtonFinder);
+      // Submit host
+      final submitButton = find.byType(ElevatedButton).first;
+      await tester.tap(submitButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
-      // Login
-      final usernameFieldFinder = find.byType(TextFormField).first;
-      await tester.enterText(usernameFieldFinder, testUser);
+      // Now on Login page (page 3) - enter credentials using test keys
+      final usernameField = find.byKey(const Key('loginUsernameInput'));
+      expect(usernameField, findsOneWidget,
+          reason: 'Username field should be visible on login page');
+      await tester.enterText(usernameField, testUser);
       await tester.pumpAndSettle();
 
-      final passwordFieldFinder = find.byType(TextFormField).at(1);
-      await tester.enterText(passwordFieldFinder, testPassword);
+      final passwordField = find.byKey(const Key('loginPasswordInput'));
+      await tester.enterText(passwordField, testPassword);
       await tester.pumpAndSettle();
 
-      final loginButtonFinder = find.byType(ElevatedButton).first;
-      await tester.tap(loginButtonFinder);
+      final loginButton = find.byType(ElevatedButton).first;
+      await tester.tap(loginButton);
       await tester.pumpAndSettle(const Duration(seconds: 5));
     }
 

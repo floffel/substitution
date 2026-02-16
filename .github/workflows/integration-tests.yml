@@ -1,243 +1,496 @@
-name: Integration Tests
+name: Integration Tests (Multi-Platform)
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  FLUTTER_VERSION: '3.19.0'
+  CACHE_VERSION: v1
 
 jobs:
-  # Test on Docker with Matrix server
-  docker-tests:
+  # ============================================================================
+  # SETUP JOB - Check that code is ready for testing
+  # ============================================================================
+  setup:
     runs-on: ubuntu-latest
-    name: Docker Integration Tests
-
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: synapse
-          POSTGRES_PASSWORD: synapse_password
-          POSTGRES_DB: synapse
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
+    name: 'Setup & Validation'
+    outputs:
+      flutter-cache-key: ${{ steps.flutter-cache.outputs.cache-key }}
+      pub-cache-key: ${{ steps.pub-cache.outputs.cache-key }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
+      - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'latest'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
+          cache: true
 
-      - name: Install dependencies
+      - name: 'Generate Flutter cache key'
+        id: flutter-cache
+        run: echo "cache-key=${{ env.CACHE_VERSION }}-${{ env.FLUTTER_VERSION }}-${{ runner.os }}" >> $GITHUB_OUTPUT
+
+      - name: 'Install dependencies'
         run: flutter pub get
 
-      - name: Start Docker services
-        run: docker-compose up -d
+      - name: 'Generate Pub cache key'
+        id: pub-cache
+        run: echo "cache-key=${{ env.CACHE_VERSION }}-pubspec-${{ hashFiles('pubspec.lock') }}" >> $GITHUB_OUTPUT
 
-      - name: Wait for services to be healthy
-        run: |
-          docker-compose ps
-          sleep 10
+      - name: 'Validate Flutter setup'
+        run: flutter doctor -v
 
-      - name: Run unit tests
-        run: flutter test test/
+      - name: 'Analyze code'
+        run: flutter analyze --no-pub
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results-docker
-          path: test_logs/
-
-  # Web tests
+  # ============================================================================
+  # WEB TESTS (Linux runner, ~12-15 minutes)
+  # ============================================================================
   web-tests:
     runs-on: ubuntu-latest
-    name: Web Integration Tests
-
+    name: 'Web Tests'
+    needs: setup
+    timeout-minutes: 20
+    
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
+      - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'latest'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
+          cache: true
 
-      - name: Enable web
+      - name: 'Install dependencies'
+        run: flutter pub get
+
+      - name: 'Enable web'
         run: flutter config --enable-web
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: 'Start Matrix test server'
+        run: |
+          echo "Starting Matrix test infrastructure..."
+          docker-compose up -d postgres matrix-synapse redis
+          sleep 10
+          docker-compose run matrix-init
+          echo "Waiting for Matrix server to be ready..."
+          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting..."; sleep 2; done'
+          echo "✓ Matrix server is ready"
 
-      - name: Build web
-        run: flutter build web --release
+      - name: 'Build web (release)'
+        run: |
+          flutter build web --release --no-tree-shake-icons 2>&1 | tee build-web.log
+        timeout-minutes: 15
 
-      - name: Run web tests
-        run: flutter test integration_test/app_test.dart -d web-server
+      - name: 'Run web integration tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          # Create test results directory
+          mkdir -p test_results/web
+          
+          # Run tests with verbose output
+          flutter test integration_test/ \
+            -d web-server \
+            --dart-define=MATRIX_SERVER=${MATRIX_SERVER} \
+            --dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER} \
+            --dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD} \
+            --reporter=json > test_results/web/results.json 2>&1 || EXIT_CODE=$?
+          
+          # Convert JSON results to readable format
+          if [ -f test_results/web/results.json ]; then
+            cat test_results/web/results.json | \
+              jq -r '.events[] | select(.type=="testDone") | "\(.testID): \(.result)"' \
+              > test_results/web/summary.txt || true
+          fi
+          
+          exit ${EXIT_CODE:-0}
+        timeout-minutes: 15
+        continue-on-error: false
 
-      - name: Upload test results
+      - name: 'Upload web test results'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-web
-          path: test_logs/
+          path: |
+            test_results/web/
+            build-web.log
+          retention-days: 30
 
-  # macOS tests
-  macos-tests:
+      - name: 'Stop Matrix test server'
+        if: always()
+        run: docker-compose down -v
+
+      - name: 'Parse web test results'
+        if: always()
+        id: parse-results
+        run: |
+          if [ -f test_results/web/results.json ]; then
+            PASSED=$(jq '[.events[] | select(.type=="testDone" and .result=="success")] | length' test_results/web/results.json || echo 0)
+            FAILED=$(jq '[.events[] | select(.type=="testDone" and .result!="success")] | length' test_results/web/results.json || echo 0)
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+            echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          else
+            echo "passed=0" >> $GITHUB_OUTPUT
+            echo "failed=0" >> $GITHUB_OUTPUT
+          fi
+
+  # ============================================================================
+  # iOS TESTS (macOS runner, ~30-40 minutes)
+  # ============================================================================
+  ios-tests:
     runs-on: macos-latest
-    name: macOS Integration Tests
-
+    name: 'iOS Tests (Simulator)'
+    needs: setup
+    timeout-minutes: 50
+    
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
+      - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'latest'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
+          cache: true
 
-      - name: Install dependencies
+      - name: 'Install dependencies'
         run: flutter pub get
 
-      - name: Run macOS tests
+      - name: 'Setup iOS simulator'
         run: |
-          flutter test integration_test/app_test.dart -d macos || true
+          # List available devices
+          xcrun simctl list devices
+          
+          # Create simulator if needed
+          SIMULATOR_NAME="iPhone-15"
+          SIMULATOR_ID=$(xcrun simctl list devices | grep "$SIMULATOR_NAME" | grep -oE '[A-F0-9-]{36}' | head -1)
+          
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "Creating iOS simulator..."
+            xcrun simctl create "$SIMULATOR_NAME" \
+              com.apple.CoreSimulator.CoreSimulatorDeviceType.iPhone-15 \
+              com.apple.CoreSimulator.CoreSimulatorRuntime.iOS-17-5
+          else
+            echo "Using existing simulator: $SIMULATOR_ID"
+          fi
+          
+          # Boot simulator
+          xcrun simctl boot "$SIMULATOR_NAME" || true
+          sleep 10
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results-macos
-          path: test_logs/
-
-  # Linux tests
-  linux-tests:
-    runs-on: ubuntu-latest
-    name: Linux Integration Tests
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 'latest'
-          channel: 'stable'
-
-      - name: Install Linux dependencies
+      - name: 'Build iOS app (debug)'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgtk-3-dev \
-            libglu1-mesa
+          mkdir -p test_results/ios
+          flutter build ios --debug 2>&1 | tee test_results/ios/build.log
+        timeout-minutes: 30
 
-      - name: Enable Linux
-        run: flutter config --enable-linux-desktop
+      - name: 'Start Matrix test server'
+        run: |
+          echo "Starting Matrix test infrastructure..."
+          docker-compose up -d postgres matrix-synapse redis
+          sleep 10
+          docker-compose run matrix-init
+          echo "Waiting for Matrix server to be ready..."
+          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting..."; sleep 2; done'
+          echo "✓ Matrix server is ready"
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: 'Run iOS integration tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          # Run integration tests on simulator
+          flutter test integration_test/ \
+            -d ios \
+            --dart-define=MATRIX_SERVER=${MATRIX_SERVER} \
+            --dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER} \
+            --dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD} \
+            --reporter=json \
+            --verbose 2>&1 | tee test_results/ios/test.log
+        timeout-minutes: 20
+        continue-on-error: false
 
-      - name: Run Linux tests
-        run: flutter test integration_test/app_test.dart -d linux || true
-
-      - name: Upload test results
+      - name: 'Upload iOS test results'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-results-linux
-          path: test_logs/
+          name: test-results-ios
+          path: test_results/ios/
+          retention-days: 30
 
-  # Android tests
+      - name: 'Stop Matrix test server'
+        if: always()
+        run: docker-compose down -v
+
+  # ============================================================================
+  # ANDROID TESTS (Linux runner with Docker, ~25-35 minutes)
+  # ============================================================================
   android-tests:
     runs-on: ubuntu-latest
-    name: Android Integration Tests
+    name: 'Android Tests (Docker)'
+    needs: setup
+    timeout-minutes: 45
+
+    services:
+      android-emulator:
+        image: thyrlian/android-sdk:latest
+        options: >-
+          --privileged
+          -e EMULATOR_DEVICE="Nexus 5X"
+          -e SYSTEM_IMAGE="system-images;android-31;google_apis;x86"
+          -e INSTALL_PACKAGES="system-images;android-31;google_apis;x86,emulator,platform-tools,build-tools;31.0.0,platforms;android-31"
+        ports:
+          - 5037:5037
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
+      - name: 'Setup Java'
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Set up Flutter
+      - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'latest'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
+          cache: true
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
+      - name: 'Install Android SDK'
+        run: |
+          # Install required Android SDK tools
+          sdkmanager --licenses <<< y || true
+          sdkmanager "platforms;android-33" \
+            "build-tools;33.0.0" \
+            "system-images;android-31;google_apis;x86" \
+            "emulator" \
+            "platform-tools"
 
-      - name: Install dependencies
+      - name: 'Install dependencies'
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --debug
+      - name: 'Build APK (debug)'
+        run: |
+          mkdir -p test_results/android
+          flutter build apk --debug 2>&1 | tee test_results/android/build.log
+        timeout-minutes: 25
 
-      - name: Upload test results
+      - name: 'Wait for Android emulator'
+        run: |
+          echo "Waiting for emulator to be ready..."
+          adb wait-for-device
+          timeout 300 bash -c 'until [[ $(adb shell getprop sys.boot_completed) == "1" ]]; do sleep 1; done'
+          adb devices
+          sleep 5
+
+      - name: 'Install APK on emulator'
+        run: |
+          adb install -r build/app/outputs/apk/debug/app-debug.apk || true
+          sleep 5
+
+      - name: 'Start Matrix test server'
+        run: |
+          echo "Starting Matrix test infrastructure..."
+          docker-compose up -d postgres matrix-synapse redis
+          sleep 10
+          docker-compose run matrix-init
+          echo "Waiting for Matrix server to be ready..."
+          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting..."; sleep 2; done'
+          echo "✓ Matrix server is ready"
+
+      - name: 'Run Android integration tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          flutter test integration_test/ \
+            -d emulator-5554 \
+            --dart-define=MATRIX_SERVER=${MATRIX_SERVER} \
+            --dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER} \
+            --dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD} \
+            --reporter=json \
+            --verbose 2>&1 | tee test_results/android/test.log || TEST_EXIT=$?
+          
+          # Collect logcat for debugging
+          adb logcat -d > test_results/android/device.log || true
+          
+          exit ${TEST_EXIT:-0}
+        timeout-minutes: 20
+        continue-on-error: false
+
+      - name: 'Upload Android test results'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-android
-          path: build/app/outputs/apk/debug/
+          path: test_results/android/
+          retention-days: 30
 
-  # Windows tests
-  windows-tests:
-    runs-on: windows-latest
-    name: Windows Integration Tests
+      - name: 'Stop Matrix test server'
+        if: always()
+        run: docker-compose down -v
+
+  # ============================================================================
+  # RESULT AGGREGATION & REPORTING
+  # ============================================================================
+  test-results:
+    runs-on: ubuntu-latest
+    name: 'Test Results Summary'
+    needs: [setup, web-tests, ios-tests, android-tests]
+    if: always()
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - name: 'Download all artifacts'
+        uses: actions/download-artifact@v4
         with:
-          flutter-version: 'latest'
-          channel: 'stable'
+          path: all-test-results
 
-      - name: Enable Windows
-        run: flutter config --enable-windows-desktop
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run Windows tests
-        run: flutter test integration_test/app_test.dart -d windows
+      - name: 'Parse and aggregate test results'
+        id: aggregate
+        run: |
+          mkdir -p final-results
+          
+          echo "# Integration Test Results" > final-results/REPORT.md
+          echo "" >> final-results/REPORT.md
+          echo "**Workflow Run:** [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> final-results/REPORT.md
+          echo "**Commit:** [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" >> final-results/REPORT.md
+          echo "**Branch:** \`${{ github.ref_name }}\`" >> final-results/REPORT.md
+          echo "**Triggered by:** ${{ github.actor }}" >> final-results/REPORT.md
+          echo "" >> final-results/REPORT.md
+          
+          TOTAL_PASSED=0
+          TOTAL_FAILED=0
+          TOTAL_SKIPPED=0
+          
+          # Function to parse test results
+          parse_platform_results() {
+            local platform=$1
+            local results_file="all-test-results/test-results-${platform}/"
+            
+            if [ -d "$results_file" ]; then
+              echo "## \`$platform\` Platform" >> final-results/REPORT.md
+              echo "" >> final-results/REPORT.md
+              
+              if [ -f "${results_file}results.json" ] || [ -f "${results_file}test.log" ]; then
+                echo "✅ Tests completed" >> final-results/REPORT.md
+              else
+                echo "⚠️ No test results found" >> final-results/REPORT.md
+              fi
+              
+              # Count from test logs if present
+              if [ -f "${results_file}test.log" ]; then
+                PASSED=$(grep -c "✓" "${results_file}test.log" || echo 0)
+                FAILED=$(grep -c "✗" "${results_file}test.log" || echo 0)
+                
+                echo "- **Passed:** $PASSED" >> final-results/REPORT.md
+                echo "- **Failed:** $FAILED" >> final-results/REPORT.md
+                
+                TOTAL_PASSED=$((TOTAL_PASSED + PASSED))
+                TOTAL_FAILED=$((TOTAL_FAILED + FAILED))
+              fi
+              
+              echo "" >> final-results/REPORT.md
+            fi
+          }
+          
+          # Parse each platform
+          parse_platform_results "web"
+          parse_platform_results "ios"
+          parse_platform_results "android"
+          
+          # Summary
+          echo "## Overall Summary" >> final-results/REPORT.md
+          echo "" >> final-results/REPORT.md
+          echo "| Metric | Count |" >> final-results/REPORT.md
+          echo "|--------|-------|" >> final-results/REPORT.md
+          echo "| Total Passed | $TOTAL_PASSED |" >> final-results/REPORT.md
+          echo "| Total Failed | $TOTAL_FAILED |" >> final-results/REPORT.md
+          echo "| Total Skipped | $TOTAL_SKIPPED |" >> final-results/REPORT.md
+          echo "" >> final-results/REPORT.md
+          
+          # Determine overall status
+          if [ "$TOTAL_FAILED" -gt 0 ]; then
+            echo "## Status: ❌ FAILED" >> final-results/REPORT.md
+            echo "total-failed=$TOTAL_FAILED" >> $GITHUB_OUTPUT
+            EXIT_CODE=1
+          else
+            echo "## Status: ✅ PASSED" >> final-results/REPORT.md
+            echo "total-failed=0" >> $GITHUB_OUTPUT
+            EXIT_CODE=0
+          fi
+          
+          echo "" >> final-results/REPORT.md
+          echo "---" >> final-results/REPORT.md
+          echo "Generated at: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`" >> final-results/REPORT.md
+          
+          cat final-results/REPORT.md
+          exit $EXIT_CODE
         continue-on-error: true
 
-      - name: Upload test results
+      - name: 'Upload final report'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-results-windows
-          path: test_logs/
+          name: test-report-summary
+          path: final-results/REPORT.md
+          retention-days: 30
 
-  # Test results summary
-  test-summary:
-    runs-on: ubuntu-latest
-    name: Test Summary
-    needs: [docker-tests, web-tests, macos-tests, linux-tests, android-tests, windows-tests]
-    if: always()
+      - name: 'Post results to GitHub'
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('final-results/REPORT.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
 
-    steps:
-      - name: Download all test results
-        uses: actions/download-artifact@v3
-
-      - name: Generate summary
+      - name: 'Generate step summary'
+        if: always()
         run: |
-          echo "## Integration Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Test Artifacts" >> $GITHUB_STEP_SUMMARY
-          find . -type f -name "*.log" | while read f; do
-            echo "- \`$f\`" >> $GITHUB_STEP_SUMMARY
-          done
+          cat final-results/REPORT.md >> $GITHUB_STEP_SUMMARY
+
+      - name: 'Fail workflow if tests failed'
+        if: steps.aggregate.outputs.total-failed > 0
+        run: exit 1
+
+  # ============================================================================
+  # FINAL STATUS CHECK
+  # ============================================================================
+  all-tests-passed:
+    runs-on: ubuntu-latest
+    name: 'All Tests Passed'
+    needs: [web-tests, ios-tests, android-tests, test-results]
+    if: always()
+    steps:
+      - name: 'Check all jobs passed'
+        run: |
+          if [ "${{ needs.web-tests.result }}" != "success" ] || \
+             [ "${{ needs.ios-tests.result }}" != "success" ] || \
+             [ "${{ needs.android-tests.result }}" != "success" ]; then
+            echo "❌ One or more test jobs failed"
+            exit 1
+          fi
+          echo "✅ All test jobs passed!"

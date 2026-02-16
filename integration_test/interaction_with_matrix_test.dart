@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,7 +11,10 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Engagement & Interaction with Real Matrix Server', () {
-    const testMatrixServer = 'http://192.168.1.196:8008';
+    const testMatrixServer = String.fromEnvironment(
+      'MATRIX_SERVER',
+      defaultValue: 'http://localhost:8008',
+    );
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
@@ -52,66 +56,41 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      // The app shows an IntroductionScreen with multiple pages before login
-      // We need to navigate through the pages to reach the host configuration
-
-      // Wait for the introduction screen to appear
+      // Navigate through IntroductionScreen pages to reach Host page (page 2)
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
-      // Find and tap the "Next" button multiple times to navigate to the host page (page 2)
-      // Page 0: Welcome, Page 1: Account info, Page 2: Host config
+      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
-        final nextButtonFinder = find.byType(ElevatedButton).first;
-        if (nextButtonFinder.evaluate().isNotEmpty) {
-          await tester.tap(nextButtonFinder);
-          await tester.pumpAndSettle(const Duration(seconds: 1));
-        }
+        await tester.drag(
+            find.byType(IntroductionScreen), const Offset(-400, 0));
+        await tester.pumpAndSettle();
       }
 
-      // Now we should be on the host configuration page
-      // Enter homeserver using the test key
-      final hostInputFinder = find.byKey(const Key('hostServerInput'));
-      if (hostInputFinder.evaluate().isNotEmpty) {
-        await tester.enterText(hostInputFinder, testMatrixServer);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      } else {
-        // Fallback to finding by type if key not found
-        final hostInputFallback = find.byType(TextFormField).first;
-        await tester.enterText(hostInputFallback, testMatrixServer);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      }
+      // Enter homeserver using test key
+      final hostInput = find.byKey(const Key('hostServerInput'));
+      expect(hostInput, findsOneWidget,
+          reason: 'Host input should be visible on page 2');
+      await tester.enterText(hostInput, testMatrixServer);
+      await tester.pumpAndSettle();
 
-      // Find and tap the submit/next button
-      final submitButtonFinder = find.byType(ElevatedButton).first;
-      await tester.tap(submitButtonFinder);
+      // Submit host
+      final submitButton = find.byType(ElevatedButton).first;
+      await tester.tap(submitButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
-      // Now on login page, enter credentials using test keys
-      final usernameFieldFinder = find.byKey(const Key('loginUsernameInput'));
-      if (usernameFieldFinder.evaluate().isNotEmpty) {
-        await tester.enterText(usernameFieldFinder, testUser);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      } else {
-        // Fallback to finding by type
-        final usernameFieldFallback = find.byType(TextFormField).first;
-        await tester.enterText(usernameFieldFallback, testUser);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      }
+      // Now on Login page (page 3) - enter credentials using test keys
+      final usernameField = find.byKey(const Key('loginUsernameInput'));
+      expect(usernameField, findsOneWidget,
+          reason: 'Username field should be visible on login page');
+      await tester.enterText(usernameField, testUser);
+      await tester.pumpAndSettle();
 
-      final passwordFieldFinder = find.byKey(const Key('loginPasswordInput'));
-      if (passwordFieldFinder.evaluate().isNotEmpty) {
-        await tester.enterText(passwordFieldFinder, testPassword);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      } else {
-        // Fallback to finding by type
-        final passwordFieldFallback = find.byType(TextFormField).at(1);
-        await tester.enterText(passwordFieldFallback, testPassword);
-        await tester.pumpAndSettle(const Duration(seconds: 1));
-      }
+      final passwordField = find.byKey(const Key('loginPasswordInput'));
+      await tester.enterText(passwordField, testPassword);
+      await tester.pumpAndSettle();
 
-      // Find and tap the login button
-      final loginButtonFinder = find.byType(ElevatedButton).first;
-      await tester.tap(loginButtonFinder);
+      final loginButton = find.byType(ElevatedButton).first;
+      await tester.tap(loginButton);
       await tester.pumpAndSettle(const Duration(seconds: 5));
     }
 
