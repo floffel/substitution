@@ -1,7 +1,10 @@
+@Tags(['integration'])
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:matrix/matrix.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Room Permissions Integration Test', () {
     testWidgets('Create room, navigate to permissions, switch modes',
         (WidgetTester tester) async {

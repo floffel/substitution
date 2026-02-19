@@ -1,5 +1,7 @@
+@Tags(['integration'])
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/foundation.dart';
 class MockClient extends Mock implements Client {}
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
     registerFallbackValue(Uri());
     SharedPreferences.setMockInitialValues({});

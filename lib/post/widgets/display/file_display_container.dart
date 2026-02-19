@@ -1,6 +1,6 @@
 import 'file_display.dart';
 
-import 'dart:io';
+import '/shared/platform/platform.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
@@ -9,6 +9,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dismissible_page/dismissible_page.dart';
+import '/shared/platform/video_helper.dart' show videoControllerFromFile;
 
 // TODO rename to FileDisplay or smthg.
 class FileDisplayContainer extends StatefulWidget {
@@ -66,8 +67,8 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
     Timeline timeline = await widget.event.room
         .getTimeline(eventContextId: widget.event.eventId);
 
-    for (Event e
-        in widget.event.aggregatedEvents(timeline, RelationshipTypes.reference)) {
+    for (Event e in widget.event
+        .aggregatedEvents(timeline, RelationshipTypes.reference)) {
       //var t = e.relationshipEventId;
 
       // todo: check if this is really a file and the owner of the reply
@@ -94,10 +95,11 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
 
   Future<VideoPlayerController?> getVideoPlayerControllerForEvent(
       Event e) async {
-    if ((widget.event.messageType != MessageTypes.Video && widget.event.messageType != MessageTypes.Audio) ||
-        Platform.isLinux ||
-        Platform.isWindows ||
-        Platform.isMacOS) {
+    if ((widget.event.messageType != MessageTypes.Video &&
+            widget.event.messageType != MessageTypes.Audio) ||
+        isLinuxPlatform ||
+        isWindowsPlatform ||
+        isMacOSPlatform) {
       // we can't display videos on desktop, see videoplayer
       return null;
     }
@@ -110,7 +112,7 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
       }
 
       // download and decrypt the file if the room is encrypted
-      return VideoPlayerController.file(await getDecryptedFileForEvent(e))
+      return videoControllerFromFile(await getDecryptedFileForEvent(e))
         ..initialize();
     }
 

@@ -1,7 +1,6 @@
 import '/post/widgets/post.dart';
 
-import 'dart:io' show File;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import '/shared/platform/image_helper.dart' show imageFromPath;
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
   Future<({Event event, Event displayEvent})?> get eventData async {
     final e = await event;
     if (e == null) return null;
-    
+
     final timeline = await e.room.getTimeline(eventContextId: e.eventId);
     return (event: e, displayEvent: e.getDisplayEvent(timeline));
   }
@@ -75,7 +74,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (!snapshot.hasData) {
-                return const SizedBox.shrink(); 
+                return const SizedBox.shrink();
               }
 
               return PostWidget(
@@ -141,9 +140,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
 
               //Text("Name: ${f.name}, ${f.file.mimeType}"),
               if (imageExtensions.contains(f.file.name.split('.').last)) ...[
-                kIsWeb
-                    ? Image.network(f.file.path)
-                    : Image.file(File(f.file.path)),
+                imageFromPath(f.file.path),
               ] else ...[
                 Text("movie"), // todo implement this...
               ]

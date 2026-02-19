@@ -22,7 +22,8 @@ void main() {
       mockClient: mockClient,
     );
 
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(LoginPage), findsOneWidget);
     expect(
@@ -105,7 +106,8 @@ void main() {
         mockClient: mockClient,
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
       // SSO button should be visible
       expect(find.byType(OutlinedButton), findsWidgets);

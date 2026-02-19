@@ -1,6 +1,6 @@
 import 'video_player_controls_overlay.dart';
 
-import 'dart:io';
+import '/shared/platform/platform.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
@@ -88,7 +88,7 @@ class FileDisplayState extends State<FileDisplay> {
               future: getDecryptedFileForEvent(widget.file.displayEvent),
               builder: (ctx, snapshot) {
                 if (snapshot.hasData) {
-                  return Image.file(snapshot.data!, fit: BoxFit.contain);
+                  return imageFromFile(snapshot.data!, fit: BoxFit.contain);
                 }
                 return const Text("post.widgets.filedisplay.decrypting").tr();
               }),
@@ -121,19 +121,19 @@ class FileDisplayState extends State<FileDisplay> {
                     ? Stack(
                         alignment: Alignment.center,
                         children: [
-                           const Icon(Icons.audiotrack, size: 48),
-                           AspectRatio(
-                                aspectRatio: 16/9, // Force aspect ratio for controls
-                                child: Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-                                     VideoPlayerControlsOverlay(
-                                         controller: _controller!),
-                                     VideoProgressIndicator(_controller!,
-                                         allowScrubbing: true),
-                                  ],
-                                )
-                           )
+                          const Icon(Icons.audiotrack, size: 48),
+                          AspectRatio(
+                              aspectRatio:
+                                  16 / 9, // Force aspect ratio for controls
+                              child: Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  VideoPlayerControlsOverlay(
+                                      controller: _controller!),
+                                  VideoProgressIndicator(_controller!,
+                                      allowScrubbing: true),
+                                ],
+                              ))
                         ],
                       )
                     : const CircularProgressIndicator(),

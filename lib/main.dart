@@ -9,7 +9,7 @@ import '/write/pages/textmessage.dart';
 import '/settings/pages/room_permissions.dart';
 import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
-import '/auth/pages/host.dart';
+import '/auth/pages/host_page.dart';
 import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
 import '/profile/pages/user_profile.dart';
@@ -22,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
@@ -34,8 +33,7 @@ import 'dart:async';
 
 void main() async {
   // Initialize FFI for Linux desktop support
-  // Initialize FFI for Linux desktop support
-  if (!kIsWeb && Platform.isLinux) {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }

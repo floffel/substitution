@@ -1,26 +1,19 @@
 version: '3.8'
 
-# Docker Compose for Integration Testing
-# 
-# This file defines services for running Flutter integration tests:
-# 
-# iOS SIMULATOR TESTS (Recommended for macOS):
-#   The iOS Simulator is the primary testing platform for Apple Silicon Macs.
-#   Run iOS tests using: ./scripts/run-ios-tests.sh
-#   
-#   - Uses native iOS Simulator (included with Xcode)
-#   - Fast, no containerization needed
-#   - Full Apple Silicon support
-#   - See: docs/IOS_TESTING.md
-# 
-# WEB TESTS (Quick Feedback):
-#   Run in browser for fastest feedback: flutter test integration_test/ --device-id web -v
-#   
-# ANDROID TESTS (Docker Container):
-#   For Android testing via Docker: docker-compose up android-test
-#   Note: Requires Docker Desktop with appropriate resource limits
-# 
-# All test environments connect to the same Matrix test server defined below.
+# Docker Compose for Integration Test Infrastructure
+#
+# This file defines the backend services needed for integration tests:
+# PostgreSQL, Matrix Synapse, Redis, and test data initialization.
+#
+# Test runners are managed by ./scripts/test.sh, not by Docker.
+#
+# Usage:
+#   ./scripts/test.sh unit         # Unit tests (no Docker needed)
+#   ./scripts/test.sh web          # Web tests (auto-starts Docker)
+#   ./scripts/test.sh ios          # iOS simulator tests
+#   ./scripts/test.sh android      # Android emulator tests
+#   ./scripts/test.sh all          # Run everything
+#   ./scripts/test.sh --no-docker  # Skip Docker lifecycle management
 
 services:
   # PostgreSQL database for Matrix Synapse
@@ -108,215 +101,6 @@ services:
       retries: 5
     networks:
       - substitution_network
-
-  # Android Emulator Integration Test Service (PRIMARY PLATFORM)
-  android-test:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.android
-      args:
-        FLUTTER_VERSION: stable
-        ANDROID_API_LEVEL: 33
-        ANDROID_BUILD_TOOLS_VERSION: 34.0.0
-    depends_on:
-      matrix-init:
-        condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    environment:
-      # Android emulator configuration
-      - ANDROID_SDK_ROOT=/opt/android-sdk
-      - ANDROID_HOME=/opt/android-sdk
-      - ANDROID_DEVICE_TIMEOUT=300
-      - EMULATOR_BOOT_TIMEOUT=180
-      - TEST_TIMEOUT=600
-      - KEEP_EMULATOR=false
-      - VERBOSE=true
-      
-      # Matrix server connection (for integration tests)
-      - MATRIX_SERVER=http://matrix-synapse:8008
-      - MATRIX_TEST_USER=testuser1
-      - MATRIX_TEST_PASSWORD=testpass123
-      
-      # Flutter configuration
-      - FLUTTER_HOME=/opt/flutter
-      - PUB_CACHE=/tmp/.pub-cache
-      
-      # Display configuration (fallback for errors)
-      - DISPLAY=:99
-      - QT_QPA_PLATFORM=offscreen
-    volumes:
-      - .:/project
-      - /project/build           # Don't sync build directory
-      - /project/.dart_tool      # Don't sync dart tool cache
-      - /project/android/.gradle # Don't sync gradle cache
-      - /tmp/.android-sdk-cache  # Persist SDK cache across runs
-    networks:
-      - substitution_network
-    working_dir: /project
-    # Expose ADB port for external device communication (optional)
-    ports:
-      - "5037:5037"
-    # Enable KVM for nested virtualization (required for acceleration)
-    # Note: Requires /dev/kvm to be available on host (macOS doesn't have this)
-    # devices:
-    #   - /dev/kvm:/dev/kvm
-    # Allow privileged mode for device access
-    privileged: false
-    # Cap add for container-specific capabilities
-    cap_add:
-      - NET_RAW
-      - SYS_PTRACE
-    # Health check to verify emulator is running
-    healthcheck:
-      test: ["CMD", "adb", "devices", "-l"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 120s
-    # Entrypoint runs the test script
-    entrypoint: ["/bin/bash"]
-    command: ["-c", "run-android-tests.sh"]
-
-  # Integration test runner (Web platform - quick feedback)
-  test:
-    build: .
-    depends_on:
-      matrix-init:
-        condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    environment:
-      # Display configuration for Linux GUI tests
-      - DISPLAY=:99
-      - LIBVA_DRIVER_NAME=dummy
-      - LIBGL_ALWAYS_INDIRECT=1
-      - QT_QPA_PLATFORM=offscreen
-      - GTK_DEBUG=
-      # Web tests
-      - FLUTTER_TEST_WEB=true
-      # Platform-specific (set to true to test on that platform)
-      - FLUTTER_TEST_MACOS=false
-      - FLUTTER_TEST_LINUX=false
-      - FLUTTER_TEST_WINDOWS=false
-      - FLUTTER_TEST_ANDROID=false
-      - FLUTTER_TEST_IOS=false
-      # Matrix server connection
-      - MATRIX_SERVER=http://matrix-synapse:8008
-      - MATRIX_TEST_USER=testuser1
-      - MATRIX_TEST_PASSWORD=testpass123
-    volumes:
-      - .:/project
-      - /project/build  # Don't sync build directory
-    networks:
-      - substitution_network
-    working_dir: /project
-    command: >
-      bash -c "
-      set -e &&
-      echo '=== Setting up graphics environment ===' &&
-      export DISPLAY=:99 &&
-      export GDK_SCALE=1 &&
-      export GDK_DPI_SCALE=1 &&
-      echo '=== Starting Xvfb virtual display server ===' &&
-      Xvfb :99 -screen 0 1280x720x24 -ac -retro 2>&1 | head -10 &
-      XVFB_PID=\$! &&
-      sleep 4 &&
-      echo '=== Verifying display server ===' &&
-      xdpyinfo 2>/dev/null | head -5 &&
-      echo 'Display server is ready' &&
-      echo '=== Installing dependencies ===' &&
-      flutter pub get &&
-      echo '=== Running integration tests ===' &&
-      flutter test integration_test/ --device-id web -v 2>&1 || TEST_RESULT=\$? &&
-      echo '=== Cleaning up ===' &&
-      kill \$XVFB_PID 2>/dev/null || true &&
-      sleep 1 &&
-       exit \${TEST_RESULT:-0}
-       "
-
-  # Web Platform Test Service (RECOMMENDED FOR FAST CI/CD)
-  #
-  # Fast integration testing without simulators or emulators.
-  # Web tests run in headless Chrome and execute in 10-15 minutes.
-  #
-  # Usage: docker-compose run web-test
-  # Or:    docker-compose up web-test  (will run and exit)
-  #
-  # Advantages:
-  # - No simulator/emulator setup required
-  # - 3-4x faster than iOS/Android testing (~10-15 min vs 25-35 min)
-  # - Can run on any CI/CD system with Docker support
-  # - Parallel execution without resource contention
-  # - Cross-platform (macOS, Linux, Windows)
-  #
-  # Limitations:
-  # - Web-specific rendering differences
-  # - Some native platform APIs unavailable
-  # - Use for quick feedback and UI testing
-  # - Supplement with iOS/Android for full platform validation
-  web-test:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: flutter_base
-      args:
-        FLUTTER_VERSION: stable
-    depends_on:
-      matrix-init:
-        condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    environment:
-      # Graphics/display configuration for headless testing
-      - DISPLAY=:99
-      - LIBVA_DRIVER_NAME=dummy
-      - LIBGL_ALWAYS_INDIRECT=1
-      - QT_QPA_PLATFORM=offscreen
-      
-      # Web test configuration
-      - FLUTTER_TEST_WEB=true
-      - WEB_RENDERER=html                    # Use html (faster) or canvaskit
-      - HEADLESS=true
-      - WEB_TEST_TIMEOUT=900                 # 15 minutes timeout
-      
-      # Matrix server connection (for integration tests)
-      - MATRIX_SERVER=http://matrix-synapse:8008
-      - MATRIX_TEST_USER=testuser1
-      - MATRIX_TEST_PASSWORD=testpass123
-      
-      # Flutter configuration
-      - FLUTTER_HOME=/opt/flutter
-      - PUB_CACHE=/tmp/.pub-cache
-    volumes:
-      - .:/project
-      - /project/build                       # Don't sync build directory
-      - /project/.dart_tool                  # Don't sync dart tool cache
-    networks:
-      - substitution_network
-    working_dir: /project
-    # Test execution with virtual display
-    command: >
-      bash -c "
-      set -e &&
-      echo '=== Flutter Web Test Service ===' &&
-      echo 'Web tests are MUCH faster (10-15 min vs 25-35 min for iOS)' &&
-      echo 'Use this for quick feedback during development' &&
-      echo '' &&
-      echo '=== Starting virtual display server ===' &&
-      Xvfb :99 -screen 0 1280x720x24 -ac -retro 2>&1 | head -10 &
-      XVFB_PID=\$! &&
-      sleep 4 &&
-      echo '=== Display server ready ===' &&
-      echo '=== Installing dependencies ===' &&
-      flutter pub get &&
-      echo '=== Running web integration tests ===' &&
-      ./scripts/run-web-tests.sh --renderer html --verbose || TEST_RESULT=\$? &&
-      echo '=== Cleaning up ===' &&
-      kill \$XVFB_PID 2>/dev/null || true &&
-      sleep 1 &&
-      exit \${TEST_RESULT:-0}
-      "
 
 # No named volumes defined - using anonymous volumes for test environments
 # This ensures clean data on each startup (see postgres and matrix-synapse service comments)

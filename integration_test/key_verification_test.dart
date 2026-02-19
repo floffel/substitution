@@ -1,6 +1,9 @@
+@Tags(['integration'])
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Key Verification Integration Tests', () {
     testWidgets(
         'Menu -> Security -> see devices -> start verification -> complete flow',
