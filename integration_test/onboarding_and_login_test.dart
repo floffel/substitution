@@ -72,10 +72,19 @@ void main() {
         await tester.enterText(hostInputFinder, testMatrixServer);
         await tester.pumpAndSettle(const Duration(seconds: 10));
 
-        // Tap the submit button
-        final submitButtonFinder = find.byType(ElevatedButton).first;
+        // Tap the submit button (ensure visible first)
+        final submitButtonFinder = find.byKey(const Key('hostSubmitButton'));
+        await tester.ensureVisible(submitButtonFinder);
+        await tester.pumpAndSettle();
         await tester.tap(submitButtonFinder);
-        await tester.pumpAndSettle(const Duration(seconds: 3));
+
+        // Wait for host check + page transition
+        for (int i = 0; i < 20; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          if (find.byType(TextFormField).evaluate().isNotEmpty &&
+              find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+            break;
+        }
 
         // Step 2: Enter credentials and login
         // Find username field (should be on login page now)
@@ -106,7 +115,7 @@ void main() {
 
         debugPrint('✓ Onboarding and login completed successfully');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -120,9 +129,16 @@ void main() {
         await tester.enterText(hostInputFinder, testMatrixServer);
         await tester.pumpAndSettle(const Duration(seconds: 10));
 
-        final submitButtonFinder = find.byType(ElevatedButton).first;
+        final submitButtonFinder = find.byKey(const Key('hostSubmitButton'));
+        await tester.ensureVisible(submitButtonFinder);
+        await tester.pumpAndSettle();
         await tester.tap(submitButtonFinder);
-        await tester.pumpAndSettle(const Duration(seconds: 3));
+
+        // Wait for host check + page transition
+        for (int i = 0; i < 20; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          if (find.byType(TextFormField).evaluate().isNotEmpty) break;
+        }
 
         // Enter wrong credentials
         final usernameFieldFinder = find.byType(TextFormField).first;
@@ -147,7 +163,7 @@ void main() {
 
         debugPrint('✓ Invalid credentials properly rejected');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(

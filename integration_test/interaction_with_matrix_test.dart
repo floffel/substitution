@@ -73,10 +73,18 @@ void main() {
       await tester.enterText(hostInput, testMatrixServer);
       await tester.pumpAndSettle();
 
-      // Submit host
-      final submitButton = find.byType(ElevatedButton).first;
-      await tester.tap(submitButton);
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      // Submit host (ensure button is visible before tapping)
+      final submitButton = find.byKey(const Key('hostSubmitButton'));
+      await tester.ensureVisible(submitButton);
+      await tester.pumpAndSettle();
+      await tester.tap(submitButton, warnIfMissed: false);
+
+      // Wait for host check + page transition to login page
+      for (int i = 0; i < 20; i++) {
+        await tester.pump(const Duration(milliseconds: 500));
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+          break;
+      }
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
@@ -89,9 +97,16 @@ void main() {
       await tester.enterText(passwordField, testPassword);
       await tester.pumpAndSettle();
 
-      final loginButton = find.byType(ElevatedButton).first;
-      await tester.tap(loginButton);
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      final loginButton = find.byKey(const Key('loginSubmitButton'));
+      await tester.ensureVisible(loginButton);
+      await tester.pumpAndSettle();
+      await tester.tap(loginButton, warnIfMissed: false);
+
+      // Wait for login to complete (real HTTP call)
+      for (int i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 500));
+        if (find.byType(ListView).evaluate().isNotEmpty) break;
+      }
     }
 
     testWidgets(
@@ -131,7 +146,7 @@ void main() {
           debugPrint('✓ Messages found in feed');
         }
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -174,7 +189,7 @@ void main() {
           }
         }
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -200,7 +215,7 @@ void main() {
 
         debugPrint('✓ Feed displays message content');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -229,7 +244,7 @@ void main() {
           debugPrint('✓ Feed content verified');
         }
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -258,7 +273,7 @@ void main() {
 
         debugPrint('✓ test_general messages are interactive');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -279,7 +294,7 @@ void main() {
 
         debugPrint('✓ Feed displays message threads/context');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
   });
 }

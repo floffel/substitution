@@ -37,7 +37,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Scroll the submit button into view before tapping
-    final submitBtn = find.byType(ElevatedButton).first;
+    final submitBtn = find.byKey(const Key('hostSubmitButton'));
     await tester.ensureVisible(submitBtn);
     await tester.pumpAndSettle();
     await tester.tap(submitBtn);

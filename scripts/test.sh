@@ -11,7 +11,8 @@
 # Targets (combine multiple):
 #   unit          Run unit tests (test/unit/) — no Docker needed
 #   widget        Run widget tests (test/ except unit/) — no Docker needed
-#   web           Run tests on Chrome (headless)
+#   web           Run test/ on Chrome + integration_test/ on web device
+#   linux         Run integration tests on Linux desktop
 #   ios           Run integration tests on iOS simulator
 #   android       Run integration tests on Android emulator
 #   integration   Run integration tests on default platform
@@ -36,6 +37,7 @@
 #   ./scripts/test.sh web --no-docker         # Web tests, Docker already running
 #   ./scripts/test.sh ios --device-name "iPhone 16"
 #   ./scripts/test.sh android --verbose
+#   ./scripts/test.sh linux                   # Linux desktop integration tests
 #   ./scripts/test.sh all                     # Everything available
 #
 # Environment Variables:
@@ -52,6 +54,7 @@
 #   ANDROID_BOOT_TIMEOUT    Android emulator boot timeout (default: 180)
 #   ANDROID_TEST_TIMEOUT    Android test timeout (default: 600)
 #   ANDROID_AVD_NAME        Android AVD name (default: android_test)
+#   LINUX_TEST_TIMEOUT      Linux test timeout in seconds (default: 600)
 #   CHROME_EXECUTABLE       Path to Chrome/Chromium binary
 ################################################################################
 
@@ -95,7 +98,7 @@ show_help() {
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            unit|widget|web|ios|android|integration|all)
+            unit|widget|web|linux|ios|android|integration|all)
                 TARGETS+=("$1")
                 shift
                 ;;
@@ -172,6 +175,9 @@ expand_targets() {
             all)
                 expanded+=("unit" "widget" "web")
                 # Add platform-specific targets if available
+                if [[ "$os" == "linux" ]]; then
+                    expanded+=("linux")
+                fi
                 if [[ "$os" == "darwin" ]] && command -v xcrun &>/dev/null; then
                     expanded+=("ios")
                 fi
@@ -183,6 +189,8 @@ expand_targets() {
                 # Pick best available platform
                 if [[ "$os" == "darwin" ]] && command -v xcrun &>/dev/null; then
                     expanded+=("ios")
+                elif [[ "$os" == "linux" ]]; then
+                    expanded+=("linux")
                 elif command -v emulator &>/dev/null; then
                     expanded+=("android")
                 else
@@ -212,7 +220,7 @@ expand_targets() {
 needs_docker() {
     for target in "${TARGETS[@]}"; do
         case "$target" in
-            web|ios|android) return 0 ;;
+            web|linux|ios|android) return 0 ;;
         esac
     done
     return 1
@@ -299,6 +307,9 @@ main() {
                 ;;
             web)
                 run_web_tests || overall_exit=1
+                ;;
+            linux)
+                run_linux_tests || overall_exit=1
                 ;;
             ios)
                 run_ios_tests || overall_exit=1

@@ -63,13 +63,14 @@ jobs:
         run: ./scripts/test.sh unit --no-docker
 
   # ============================================================================
-  # WEB TESTS (Linux runner, ~12-15 minutes)
+  # WEB TESTS (Linux runner, ~15-20 minutes)
+  # Runs two phases: unit/widget tests on Chrome, then integration_test/ on web device.
   # ============================================================================
   web-tests:
     runs-on: ubuntu-latest
     name: 'Web Tests'
     needs: setup
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
@@ -84,6 +85,9 @@ jobs:
       - name: 'Install dependencies'
         run: flutter pub get
 
+      - name: 'Enable web'
+        run: flutter config --enable-web
+
       - name: 'Start Matrix test server'
         run: |
           docker-compose up -d postgres matrix-synapse redis
@@ -91,13 +95,69 @@ jobs:
           docker-compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
-      - name: 'Run web integration tests'
+      - name: 'Run web tests (unit/widget on Chrome + integration on web device)'
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh web --no-docker
-        timeout-minutes: 15
+        timeout-minutes: 25
+
+      - name: 'Stop Matrix test server'
+        if: always()
+        run: docker-compose down -v
+
+  # ============================================================================
+  # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
+  # ============================================================================
+  linux-tests:
+    runs-on: ubuntu-latest
+    name: 'Linux Desktop Tests'
+    needs: setup
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Install Linux desktop dependencies'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            xvfb
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: flutter pub get
+
+      - name: 'Enable Linux desktop'
+        run: flutter config --enable-linux-desktop
+
+      - name: 'Start Matrix test server'
+        run: |
+          docker-compose up -d postgres matrix-synapse redis
+          sleep 10
+          docker-compose run --rm matrix-init
+          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
+
+      - name: 'Run Linux integration tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+          DISPLAY: ':99'
+        run: |
+          Xvfb :99 -screen 0 1280x720x24 &
+          sleep 2
+          ./scripts/test.sh linux --no-docker
+        timeout-minutes: 25
 
       - name: 'Stop Matrix test server'
         if: always()
@@ -206,19 +266,21 @@ jobs:
   all-tests-passed:
     runs-on: ubuntu-latest
     name: 'All Tests Passed'
-    needs: [unit-tests, web-tests, ios-tests, android-tests]
+    needs: [unit-tests, web-tests, linux-tests, ios-tests, android-tests]
     if: always()
     steps:
       - name: 'Check all jobs passed'
         run: |
           if [ "${{ needs.unit-tests.result }}" != "success" ] || \
              [ "${{ needs.web-tests.result }}" != "success" ] || \
+             [ "${{ needs.linux-tests.result }}" != "success" ] || \
              [ "${{ needs.ios-tests.result }}" != "success" ] || \
              [ "${{ needs.android-tests.result }}" != "success" ]; then
             echo "One or more test jobs failed"
-            echo "  unit-tests: ${{ needs.unit-tests.result }}"
-            echo "  web-tests: ${{ needs.web-tests.result }}"
-            echo "  ios-tests: ${{ needs.ios-tests.result }}"
+            echo "  unit-tests:    ${{ needs.unit-tests.result }}"
+            echo "  web-tests:     ${{ needs.web-tests.result }}"
+            echo "  linux-tests:   ${{ needs.linux-tests.result }}"
+            echo "  ios-tests:     ${{ needs.ios-tests.result }}"
             echo "  android-tests: ${{ needs.android-tests.result }}"
             exit 1
           fi

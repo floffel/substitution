@@ -124,6 +124,7 @@ class _HostPageState extends State<HostPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ElevatedButton(
+              key: const Key('hostSubmitButton'),
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 18),
                 padding: const EdgeInsets.all(14),

@@ -93,16 +93,14 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final username = usernameContrainer.text;
       if (username.contains(":")) {
-         // simple extraction, e.g. @user:example.com -> example.com
-         final domain = username.split(":").last;
-         homeserverTouse = Uri.parse("https://$domain");
+        // simple extraction, e.g. @user:example.com -> example.com
+        final domain = username.split(":").last;
+        homeserverTouse = Uri.parse("https://$domain");
       }
-      
-      
-      
+
       // Construct the SSO URL properly with encoded query parameters
       final ssoPath = "_matrix/client/r0/login/sso/redirect";
-      
+
       String redirectUrl;
       if (kIsWeb) {
         // On Web, redirect back to the app URL
@@ -112,18 +110,17 @@ class _LoginPageState extends State<LoginPage> {
         // Note: AndroidManifest defines host="login-callback", so the URL should be substitution://login-callback
         redirectUrl = "substitution://login-callback";
       }
-      
-      redirectUrl += "?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
-      
+
+      redirectUrl +=
+          "?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
+
       // Use replace to handle query parameters correctly (automatically encodes)
-      final ssoUrl = homeserverTouse.resolve(ssoPath).replace(
-        queryParameters: {
-          'redirectUrl': redirectUrl,
-        }
-      );
-      
+      final ssoUrl = homeserverTouse.resolve(ssoPath).replace(queryParameters: {
+        'redirectUrl': redirectUrl,
+      });
+
       print("Launching SSO URL: $ssoUrl"); // Debug log
-      
+
       if (kIsWeb) {
         // On Web, redirect the current tab
         html.window.location.assign(ssoUrl.toString());
@@ -183,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ElevatedButton(
+              key: const Key('loginSubmitButton'),
               style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 18),
                 padding: const EdgeInsets.all(14),

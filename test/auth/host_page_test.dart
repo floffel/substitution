@@ -1,61 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:matrix/matrix.dart';
+import 'package:matrix/matrix_api_lite.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:substitution/auth/pages/host_page.dart';
-import '../helpers/matrix_test_setup.dart';
 import '../helpers/test_helpers.dart';
 
 void main() {
   setUpTestInfrastructure();
 
-  const matrixServer = String.fromEnvironment(
-    'MATRIX_SERVER',
-    defaultValue: 'http://localhost:8008',
-  );
-
-  Future<void> pumpUntil(
-    WidgetTester tester,
-    bool Function() condition, {
-    Duration timeout = const Duration(seconds: 10),
-  }) async {
-    final endTime = DateTime.now().add(timeout);
-    while (DateTime.now().isBefore(endTime)) {
-      await tester.pump(const Duration(milliseconds: 100));
-      if (condition()) {
-        return;
-      }
-    }
-    fail('Timed out waiting for condition');
-  }
-
   group('HostPage Widget Tests', () {
-    late Client client;
-    late MatrixTestDatabase testDatabase;
+    late MockClient mockClient;
 
-    setUp(() async {
-      final dbName = 'host_page_test_${DateTime.now().millisecondsSinceEpoch}';
-      configureHttpOverrides();
-      testDatabase = await createMatrixTestDatabase(dbName);
-
-      client = Client(
-        dbName,
-        database: testDatabase.database,
-        httpClient: http.Client(),
-      );
-    });
-
-    tearDown(() async {
-      try {
-        if (client.isLogged()) {
-          await client.logout();
-        }
-      } catch (_) {
-        // Ignore cleanup errors
-      }
-
-      await testDatabase.dispose();
-      restoreHttpOverrides();
+    setUp(() {
+      mockClient = MockClient();
     });
 
     testWidgets('1. Smoke test: renders text field and submit button',
@@ -63,7 +21,7 @@ void main() {
       await pumpApp(
         tester,
         HostPage(onComplete: () {}),
-        mockClient: client,
+        mockClient: mockClient,
       );
 
       expect(find.byType(TextFormField), findsOneWidget);
@@ -72,7 +30,19 @@ void main() {
 
     testWidgets('2. Entering URL and tapping submit calls checkHomeserver',
         (WidgetTester tester) async {
-      final serverUri = Uri.parse(matrixServer);
+      // Widget treats bare hostnames as https:// URLs
+      final expectedUri = Uri.https('matrix.org', '');
+
+      // checkHomeserver succeeds — return a minimal valid record
+      when(() => mockClient.checkHomeserver(any())).thenAnswer(
+        (_) async => (
+          null,
+          GetVersionsResponse(versions: ['v1.1']),
+          <LoginFlow>[],
+          null,
+        ),
+      );
+
       var onCompleteCalled = false;
 
       await pumpApp(
@@ -80,25 +50,30 @@ void main() {
         HostPage(onComplete: () {
           onCompleteCalled = true;
         }),
-        mockClient: client,
+        mockClient: mockClient,
       );
 
-      await tester.enterText(find.byType(TextFormField), matrixServer);
-      await runWithHttpOverrides(() async {
-        await tester.runAsync(() async {
-          await tester.tap(find.byType(ElevatedButton));
-          await tester.pump();
-          await pumpUntil(tester, () => onCompleteCalled);
-        });
-      });
+      // Default controller text is 'matrix.org'; just tap submit directly.
+      await tester.tap(find.byType(ElevatedButton));
+      // Allow the async _setHost() to complete.
+      await tester.pumpAndSettle();
 
-      expect(client.homeserver, isNotNull);
-      expect(client.homeserver?.host, serverUri.host);
-      expect(client.homeserver?.port, serverUri.port);
+      // checkHomeserver should have been called with the correct URI
+      verify(() => mockClient.checkHomeserver(expectedUri)).called(1);
+      expect(onCompleteCalled, isTrue);
     });
 
     testWidgets('3. Successful homeserver check calls onComplete',
         (WidgetTester tester) async {
+      when(() => mockClient.checkHomeserver(any())).thenAnswer(
+        (_) async => (
+          null,
+          GetVersionsResponse(versions: ['v1.1']),
+          <LoginFlow>[],
+          null,
+        ),
+      );
+
       bool onCompleteCalled = false;
 
       await pumpApp(
@@ -106,20 +81,16 @@ void main() {
         HostPage(onComplete: () {
           onCompleteCalled = true;
         }),
-        mockClient: client,
+        mockClient: mockClient,
       );
 
-      await tester.enterText(find.byType(TextFormField), matrixServer);
-      await runWithHttpOverrides(() async {
-        await tester.runAsync(() async {
-          await tester.tap(find.byType(ElevatedButton));
-          await tester.pump();
-          await pumpUntil(tester, () => onCompleteCalled);
-        });
-      });
+      await tester.enterText(find.byType(TextFormField), 'matrix.org');
+      await tester.pump();
 
-      // onComplete should have been called after successful check
-      expect(onCompleteCalled, true);
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(onCompleteCalled, isTrue);
     });
   });
 }

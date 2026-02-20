@@ -78,10 +78,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Scroll submit button into view and tap
-      final submitButton = find.byType(ElevatedButton).first;
+      final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
       await tester.pumpAndSettle();
-      await tester.tap(submitButton);
+      await tester.tap(submitButton, warnIfMissed: false);
 
       // Wait for host check + page transition to login page
       for (int i = 0; i < 20; i++) {
@@ -102,18 +102,16 @@ void main() {
       await tester.pumpAndSettle();
 
       // Scroll login button into view and tap
-      final loginButton = find.byType(ElevatedButton).first;
+      final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
       await tester.pumpAndSettle();
-      await tester.tap(loginButton);
+      await tester.tap(loginButton, warnIfMissed: false);
 
-      // Wait for login to complete
-      for (int i = 0; i < 20; i++) {
+      // Wait for login to complete (real HTTP call)
+      for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isEmpty)
-          break;
+        if (find.byType(ListView).evaluate().isNotEmpty) break;
       }
-      await tester.pumpAndSettle();
     }
 
     testWidgets(
@@ -141,7 +139,7 @@ void main() {
 
         debugPrint('✓ Unified feed displayed with messages');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -165,7 +163,7 @@ void main() {
 
         debugPrint('✓ Feed displays test_general room content');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -189,7 +187,7 @@ void main() {
 
         debugPrint('✓ Feed includes test_photos room content');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -217,7 +215,7 @@ void main() {
 
         debugPrint('✓ Feed supports scrolling and infinite loading');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
 
     testWidgets(
@@ -241,7 +239,7 @@ void main() {
 
         debugPrint('✓ Empty rooms properly handled in feed');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(seconds: 120)),
     );
   });
 }

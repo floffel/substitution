@@ -1,6 +1,10 @@
 #!/bin/bash
 # =============================================================================
 # platform_web.sh — Chrome/web test runner
+#
+# Two phases:
+#   1. Unit/widget tests compiled to Chrome (test/)
+#   2. Full integration tests on web device (integration_test/)
 # =============================================================================
 
 # Find a Chrome or Chromium executable. Prints the path on success.
@@ -43,7 +47,7 @@ find_chrome() {
     return 1
 }
 
-# Validate Chrome is available
+# Validate Chrome is available; sets CHROME_PATH and exports CHROME_EXECUTABLE.
 validate_chrome() {
     log_info "Validating Chrome/Chromium..."
 
@@ -64,43 +68,26 @@ validate_chrome() {
     return 0
 }
 
-# Run web tests (unit + widget tests on Chrome platform)
-run_web_tests() {
-    log_header "Web Tests (Chrome)"
-
-    validate_flutter || return 1
-    validate_chrome  || return 1
-
-    local log_file="${RESULTS_DIR}/web-tests.log"
-    mkdir -p "$RESULTS_DIR"
-
+# ---------------------------------------------------------------------------
+# Phase 1: unit + widget tests compiled to Chrome (test/)
+# ---------------------------------------------------------------------------
+_run_web_unit_tests() {
     local timeout="${WEB_TEST_TIMEOUT:-900}"
     local renderer="${WEB_RENDERER:-html}"
 
-    log_info "Configuration:"
-    log_info "  Renderer:  $renderer"
-    log_info "  Browser:   $CHROME_PATH"
-    log_info "  Timeout:   ${timeout}s"
+    log_info "Phase 1: unit/widget tests on Chrome"
+    log_info "  Renderer: $renderer  Timeout: ${timeout}s"
 
-    export CHROME_EXECUTABLE="$CHROME_PATH"
-
-    # Build flutter test args
-    local test_args=(
+    local common_args=(
         "test"
         "--platform=chrome"
         "--reporter=compact"
+        "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
+        "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
+        "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
-    # Add dart-defines for Matrix credentials if integration tests need them
-    if [[ -n "${MATRIX_SERVER:-}" ]]; then
-        test_args+=(
-            "--dart-define=MATRIX_SERVER=$MATRIX_SERVER"
-            "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
-            "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
-        )
-    fi
-
-    # Discover test files
+    # Discover unit/widget test files (test/, excluding helpers/)
     local test_files=()
     while IFS= read -r -d '' file; do
         test_files+=("$file")
@@ -108,53 +95,80 @@ run_web_tests() {
 
     if [[ ${#test_files[@]} -eq 0 ]]; then
         log_warn "No test files found under test/"
-        record_target_result "web" 0 0 0 0
+        record_target_result "web-unit" 0 0 0 0
         return 0
     fi
 
     local total_files=${#test_files[@]}
     local start_time
     start_time=$(date +%s)
-
-    log_info "Running $total_files test files on Chrome..."
+    local log_file="${RESULTS_DIR}/web-unit-tests.log"
     : > "$log_file"
 
-    local overall_exit=0
-    local idx=0
-    local accumulated_passed=0
-    local accumulated_failed=0
-    local accumulated_skipped=0
+    log_info "Running $total_files test files on Chrome..."
+
+    local overall_exit=0 idx=0
+    local acc_passed=0 acc_failed=0 acc_skipped=0
 
     for test_file in "${test_files[@]}"; do
         idx=$((idx + 1))
-        log_info "[$idx/$total_files] $test_file"
+        log_info "  [$idx/$total_files] $test_file"
 
-        local file_log="${RESULTS_DIR}/web-file-${idx}.log"
-        run_with_timeout "$timeout" flutter "${test_args[@]}" "$test_file" 2>&1 | tee "$file_log" | tee -a "$log_file"
+        local file_log="${RESULTS_DIR}/web-unit-file-${idx}.log"
+        run_with_timeout "$timeout" flutter "${common_args[@]}" "$test_file" \
+            2>&1 | tee "$file_log" | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
 
-        # Accumulate counts per file
         parse_flutter_output "$file_log"
-        accumulated_passed=$((accumulated_passed + _PARSED_PASSED))
-        accumulated_failed=$((accumulated_failed + _PARSED_FAILED))
-        accumulated_skipped=$((accumulated_skipped + _PARSED_SKIPPED))
+        acc_passed=$((acc_passed + _PARSED_PASSED))
+        acc_failed=$((acc_failed + _PARSED_FAILED))
+        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
         rm -f "$file_log"
 
         if [[ $exit_code -eq 124 ]]; then
             log_error "Timed out after ${timeout}s: $test_file"
-            overall_exit=1
-            break
+            overall_exit=1; break
         elif [[ $exit_code -ne 0 ]]; then
             log_error "Failed: $test_file"
             overall_exit=1
         fi
     done
 
-    local end_time
-    end_time=$(date +%s)
-    local duration=$((end_time - start_time))
+    local duration=$(( $(date +%s) - start_time ))
+    record_target_result "web-unit" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
 
-    record_target_result "web" "$accumulated_passed" "$accumulated_failed" "$accumulated_skipped" "$duration"
+    [[ $overall_exit -eq 0 ]] && log_success "Phase 1 passed" || log_error "Phase 1 failed"
+    return $overall_exit
+}
+
+# ---------------------------------------------------------------------------
+# Phase 2: full integration tests on web device (integration_test/)
+#
+# NOTE: Flutter does not support `flutter test integration_test/ --device-id=chrome`.
+# Web integration tests require `flutter drive` with a running chromedriver, which
+# is not set up here. Phase 2 is therefore skipped until chromedriver support is added.
+# ---------------------------------------------------------------------------
+_run_web_integration_tests() {
+    log_info "Phase 2: web integration tests (skipped — requires chromedriver/flutter drive)"
+    log_warn "Web integration tests require chromedriver. Skipping."
+    return 0
+}
+
+# ---------------------------------------------------------------------------
+# Main entry point called by test.sh
+# ---------------------------------------------------------------------------
+run_web_tests() {
+    log_header "Web Tests (Chrome)"
+
+    validate_flutter || return 1
+    validate_chrome  || return 1
+
+    mkdir -p "$RESULTS_DIR"
+
+    local overall_exit=0
+
+    _run_web_unit_tests        || overall_exit=1
+    _run_web_integration_tests || overall_exit=1
 
     if [[ $overall_exit -ne 0 ]]; then
         log_error "Web tests failed"
