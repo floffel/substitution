@@ -79,7 +79,7 @@ void main() {
       // Wait for login
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(ListView).evaluate().isNotEmpty) {
+        if (find.byType(Scrollable).evaluate().isNotEmpty) {
           debugPrint('FEED FOUND at ${i * 500}ms - LOGIN SUCCESS!');
           break;
         }

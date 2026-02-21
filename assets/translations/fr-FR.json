@@ -150,7 +150,8 @@
                 "password_label": "Mot de passe"
             },
             "buttons": {
-                "login_label": "Se connecter"
+                "login_label": "Se connecter",
+                "sso_label": "Se connecter avec {}"
             }
         }
     },

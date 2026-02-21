@@ -32,31 +32,51 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return NavigationDrawer(
-        onDestinationSelected: (int index) {
-          if (index == 0 && !client.isLogged()) {
-            // login
-            context.push("/auth/host");
-          } else if (index == 1) {
-            // Home
-            context.go("/");
-          } else if (index == 2) {
-            // Feeds/Räume
-            context.push("/settings/feed");
-          } else if (index == 3) {
-            // Settings
-            context.push("/settings/ownfeeds");
-          } else if (index == 4 && client.isLogged()) {
-            // Edit Profile
-            context.push("/settings/profile");
-          } else if (index == 5 && client.isLogged()) {
-            // Security
-            context.push("/settings/security");
-          } else if (index == 6 && client.isLogged()) {
-            // Clear Cache
-            showDialog(
-              context: context,
-              builder: (_) => const DialogClearCache(),
-            );
+        onDestinationSelected: (int index) async {
+          if (client.isLogged()) {
+            if (index == 0) {
+              // Profile header — no navigation
+            } else if (index == 1) {
+              // Logout
+              await client.logoutAll();
+              if (!context.mounted) return;
+              context.go("/");
+            } else if (index == 2) {
+              // Home
+              context.go("/");
+            } else if (index == 3) {
+              // Feeds/Räume
+              context.push("/settings/feed");
+            } else if (index == 4) {
+              // Eigene Feeds
+              context.push("/settings/ownfeeds");
+            } else if (index == 5) {
+              // Edit Profile
+              context.push("/settings/profile");
+            } else if (index == 6) {
+              // Security
+              context.push("/settings/security");
+            } else if (index == 7) {
+              // Clear Cache
+              showDialog(
+                context: context,
+                builder: (_) => const DialogClearCache(),
+              );
+            }
+          } else {
+            if (index == 0) {
+              // login
+              context.push("/auth/host");
+            } else if (index == 1) {
+              // Home
+              context.go("/");
+            } else if (index == 2) {
+              // Feeds/Räume
+              context.push("/settings/feed");
+            } else if (index == 3) {
+              // Eigene Feeds
+              context.push("/settings/ownfeeds");
+            }
           }
         },
         children: [
@@ -92,32 +112,23 @@ class _MenuState extends State<Menu> {
                                 );
                               });
                       })),
-              label: Flex(direction: Axis.vertical, children: [
-                const Spacer(),
-                FutureBuilder(
-                    future: profile,
-                    builder: (ctx, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2));
-                      }
-
-                      return const Text("settings.menu.logged_in_as")
-                          .tr(args: [snapshot.data!.displayName!]);
-                    }),
-                TextButton(
-                  child: const Text("settings.menu.logout").tr(),
-                  onPressed: () async {
-                    await client.logoutAll();
-                    if (!context.mounted) return;
-                    context.go("/");
-                  },
-                ),
-                const Spacer()
-              ]),
-            )
+              label: FutureBuilder(
+                  future: profile,
+                  builder: (ctx, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2));
+                    }
+                    return const Text("settings.menu.logged_in_as")
+                        .tr(args: [snapshot.data!.displayName!]);
+                  }),
+            ),
+            NavigationDrawerDestination(
+              icon: const Icon(Icons.logout),
+              label: const Text("settings.menu.logout").tr(),
+            ),
           ] else ...[
             NavigationDrawerDestination(
               icon: const CircleAvatar(

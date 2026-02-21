@@ -41,6 +41,30 @@ services:
     networks:
       - substitution_network
 
+  # Dex OIDC identity provider (test SSO)
+  #
+  # Acts as a local OpenID Connect server so Synapse can delegate SSO logins
+  # without requiring real Google/GitHub credentials. Test users are defined
+  # as static passwords in config/dex/config.yaml.
+  #
+  # Discovery endpoint: http://localhost:5556/dex/.well-known/openid-configuration
+  dex:
+    image: ghcr.io/dexidp/dex:v2.40.0
+    volumes:
+      - ./config/dex/config.yaml:/etc/dex/config.yaml:ro
+    ports:
+      - "5556:5556"
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q",
+             "http://localhost:5556/dex/.well-known/openid-configuration"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - substitution_network
+
   # Matrix Synapse server
   # NOTE: Similar to postgres, synapse_data uses an anonymous volume.
   # Configuration files (in ./config/synapse) are mounted read-only and
@@ -50,6 +74,8 @@ services:
     image: matrixdotorg/synapse:latest
     depends_on:
       postgres:
+        condition: service_healthy
+      dex:
         condition: service_healthy
     environment:
       SYNAPSE_SERVER_NAME: test.matrix.local

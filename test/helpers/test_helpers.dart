@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:substitution/auth/auth_state.dart';
 
 /// Mock classes extending Mock from mocktail
 class MockClient extends Mock implements Client {}
@@ -40,12 +41,15 @@ void setUpTestInfrastructure() {
 /// - [tester]: The WidgetTester instance
 /// - [child]: The widget to test
 /// - [mockClient]: Optional mock Client to provide via MultiProvider (default: creates one)
+/// - [authState]: Optional pre-populated AuthState (default: creates an empty one)
 Future<void> pumpApp(
   WidgetTester tester,
   Widget child, {
   Client? mockClient,
+  AuthState? authState,
 }) async {
   final client = mockClient ?? MockClient();
+  final state = authState ?? AuthState();
 
   // Create a simple router with a single route for testing
   final router = GoRouter(
@@ -66,6 +70,7 @@ Future<void> pumpApp(
     child: MultiProvider(
       providers: [
         Provider<Client>.value(value: client),
+        ChangeNotifierProvider<AuthState>.value(value: state),
       ],
       child: MaterialApp.router(
         routerConfig: router,

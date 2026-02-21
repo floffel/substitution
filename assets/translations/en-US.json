@@ -154,7 +154,8 @@
                 "password_label": "Password"
             },
             "buttons": {
-                "login_label": "Login"
+                "login_label": "Login",
+                "sso_label": "Sign in with {}"
             }
         }
     },

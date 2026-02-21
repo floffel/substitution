@@ -1,4 +1,5 @@
 import '/auth/auth.dart';
+import '/auth/auth_state.dart';
 import '/feed/feed.dart';
 import '/post/post.dart';
 import '/settings/pages/followfeeds.dart';
@@ -29,7 +30,11 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'dart:async';
+import 'package:app_links/app_links.dart';
 // import 'package:logging/logging.dart' as l; // see @logging
+
+// Global client reference for test teardown use only
+Client? globalMatrixClient;
 
 void main() async {
   // Initialize FFI for Linux desktop support
@@ -316,14 +321,78 @@ void main() async {
     );
   }
 
+  // Dispose previous client if any (for test isolation)
+  if (globalMatrixClient != null) {
+    try {
+      await globalMatrixClient!.dispose();
+    } catch (_) {}
+  }
+
   final client = Client(
     "Substitution",
     database: matrixDatabase,
+    supportedLoginTypes: {
+      AuthenticationTypes.password,
+      AuthenticationTypes.sso,
+    },
   );
+  globalMatrixClient = client;
 
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await client.init();
+
+  // Listen for deep links while the app is already running (e.g. SSO callback
+  // returning from Safari). Placed here so both `client` and `router` are ready.
+  if (!kIsWeb) {
+    final appLinks = AppLinks();
+    appLinks.uriLinkStream.listen((uri) async {
+      debugPrint("[app_links] incoming URI: $uri");
+
+      // For custom-scheme URIs like substitution://login-callback?loginToken=abc
+      // Dart parses "login-callback" as the HOST, not the path.
+      final host = uri.host;
+      final path = uri.path;
+      final routePath = host.isNotEmpty
+          ? '/$host$path'
+          : (path.startsWith('/') ? path : '/$path');
+
+      debugPrint("[app_links] route path: $routePath");
+
+      // Handle SSO callback directly here — we have the client instance and
+      // avoid any BuildContext/Provider dependency inside the route builder.
+      if (routePath == '/login-callback') {
+        final token = uri.queryParameters['loginToken'];
+        final homeserverStr = uri.queryParameters['homeserver'];
+        debugPrint(
+            "[SSO] token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+
+        if (token == null) {
+          debugPrint("[SSO] No loginToken in callback URL — aborting");
+          return;
+        }
+
+        try {
+          if (homeserverStr != null) {
+            client.homeserver = Uri.parse(homeserverStr);
+            debugPrint("[SSO] Set homeserver to $homeserverStr");
+          }
+          debugPrint("[SSO] Attempting token login...");
+          await client.login(LoginType.mLoginToken, token: token);
+          debugPrint("[SSO] Login successful — navigating to /");
+          router.go('/');
+        } catch (e, stack) {
+          debugPrint("[SSO] Login ERROR: $e\n$stack");
+          router.go('/auth/login');
+        }
+        return;
+      }
+
+      // For any other deep links, navigate normally.
+      final location = uri.hasQuery ? '$routePath?${uri.query}' : routePath;
+      router.go(location);
+    });
+  }
 
   runApp(EasyLocalization(
       supportedLocales: const [
@@ -373,6 +442,7 @@ class SubstitutionApp extends StatelessWidget {
               Provider<Client>(create: (context) => client),
               Provider<ConnectivityService>(
                   create: (_) => ConnectivityService()),
+              ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
             ],
             child: child,
           ),
@@ -492,6 +562,7 @@ class _IntroductionState extends State<IntroductionPage> {
                     .tr(),
               ),
               ElevatedButton(
+                key: const Key('introGoButton'),
                 // todo: nicer button...
                 onPressed: () async {
                   // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin

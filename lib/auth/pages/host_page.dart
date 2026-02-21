@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
+import '/auth/auth_state.dart';
+
 // Define a custom Form widget.
 class HostPage extends StatefulWidget {
   const HostPage({super.key, required this.onComplete});
@@ -54,8 +56,9 @@ class _HostPageState extends State<HostPage> {
       final uri = input.startsWith('http://') || input.startsWith('https://')
           ? Uri.parse(input)
           : Uri.https(input, '');
-      await client.checkHomeserver(uri);
+      final (_, _, loginFlows, _) = await client.checkHomeserver(uri);
       if (!mounted) return false;
+      context.read<AuthState>().setLoginFlows(loginFlows);
       context.pop();
       return true;
     } catch (e) {

@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:easy_localization/easy_localization.dart';
 
+import '/auth/auth_state.dart';
+
 // Define a custom Form widget.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.onComplete});
@@ -87,42 +89,38 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  Future<void> loginSSO() async {
-    // Default to matrix.org if no specific homeserver is implied by username
-    Uri homeserverTouse = Uri.parse("https://matrix.org");
+  /// Builds the SSO redirect URL for the given [provider].
+  ///
+  /// Uses the provider-specific path when an [SsoProvider.id] is available:
+  ///   `/_matrix/client/v3/login/sso/redirect/{idpId}?redirectUrl=...`
+  /// Falls back to the generic path when the id is empty:
+  ///   `/_matrix/client/v3/login/sso/redirect?redirectUrl=...`
+  Uri _buildSsoUrl(SsoProvider provider) {
+    final client = Provider.of<Client>(context, listen: false);
+    final homeserver = client.homeserver ?? Uri.parse('https://matrix.org');
+
+    String redirectUrl;
+    if (kIsWeb) {
+      redirectUrl = '${html.window.location.origin}/login-callback';
+    } else {
+      redirectUrl = 'substitution://login-callback';
+    }
+    redirectUrl += '?homeserver=${Uri.encodeComponent(homeserver.toString())}';
+
+    final ssoPath = provider.id.isNotEmpty
+        ? '_matrix/client/v3/login/sso/redirect/${Uri.encodeComponent(provider.id)}'
+        : '_matrix/client/v3/login/sso/redirect';
+
+    return homeserver.resolve(ssoPath).replace(queryParameters: {
+      'redirectUrl': redirectUrl,
+    });
+  }
+
+  Future<void> loginSSO(SsoProvider provider) async {
     try {
-      final username = usernameContrainer.text;
-      if (username.contains(":")) {
-        // simple extraction, e.g. @user:example.com -> example.com
-        final domain = username.split(":").last;
-        homeserverTouse = Uri.parse("https://$domain");
-      }
-
-      // Construct the SSO URL properly with encoded query parameters
-      final ssoPath = "_matrix/client/r0/login/sso/redirect";
-
-      String redirectUrl;
-      if (kIsWeb) {
-        // On Web, redirect back to the app URL
-        redirectUrl = "${html.window.location.origin}/login-callback";
-      } else {
-        // On Mobile, use the deep link scheme
-        // Note: AndroidManifest defines host="login-callback", so the URL should be substitution://login-callback
-        redirectUrl = "substitution://login-callback";
-      }
-
-      redirectUrl +=
-          "?homeserver=${Uri.encodeComponent(homeserverTouse.toString())}";
-
-      // Use replace to handle query parameters correctly (automatically encodes)
-      final ssoUrl = homeserverTouse.resolve(ssoPath).replace(queryParameters: {
-        'redirectUrl': redirectUrl,
-      });
-
-      print("Launching SSO URL: $ssoUrl"); // Debug log
+      final ssoUrl = _buildSsoUrl(provider);
 
       if (kIsWeb) {
-        // On Web, redirect the current tab
         html.window.location.assign(ssoUrl.toString());
       } else {
         await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
@@ -144,6 +142,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthState>();
+    final hasPassword = authState.hasPasswordFlow;
+    final ssoProviders = authState.ssoProviders;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -157,52 +159,62 @@ class _LoginPageState extends State<LoginPage> {
         ).tr(),
         const Text("auth.login.body").tr(),
         const SizedBox(height: 30),
-        TextFormField(
-          key: const Key('loginUsernameInput'),
-          controller: usernameContrainer,
-          decoration: InputDecoration(
-            icon: const Icon(Icons.perm_identity),
-            labelText: "auth.login.inputs.username_label".tr(),
-          ),
-        ),
-        TextFormField(
-          key: const Key('loginPasswordInput'),
-          obscureText: true,
-          controller: passwordContrainer,
-          decoration: InputDecoration(
-            icon: const Icon(Icons.password),
-            labelText: "auth.login.inputs.password_label".tr(),
-          ),
-        ),
-        const SizedBox(height: 30),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
-              key: const Key('loginSubmitButton'),
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 18),
-                padding: const EdgeInsets.all(14),
-              ),
-              onPressed: () async {
-                if (await login() && mounted) {
-                  widget.onComplete();
-                }
-              },
-              child: const Text("auth.login.buttons.login_label").tr(),
+
+        // Password fields — only shown when the server supports password login.
+        if (hasPassword) ...[
+          TextFormField(
+            key: const Key('loginUsernameInput'),
+            controller: usernameContrainer,
+            decoration: InputDecoration(
+              icon: const Icon(Icons.perm_identity),
+              labelText: "auth.login.inputs.username_label".tr(),
             ),
-            const SizedBox(height: 20),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.login),
-              label: const Text("Sign in with Google (SSO)"),
-              onPressed: loginSSO,
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.all(14),
+          ),
+          TextFormField(
+            key: const Key('loginPasswordInput'),
+            obscureText: true,
+            controller: passwordContrainer,
+            decoration: InputDecoration(
+              icon: const Icon(Icons.password),
+              labelText: "auth.login.inputs.password_label".tr(),
+            ),
+          ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            key: const Key('loginSubmitButton'),
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 18),
+              padding: const EdgeInsets.all(14),
+            ),
+            onPressed: () async {
+              if (await login() && mounted) {
+                widget.onComplete();
+              }
+            },
+            child: const Text("auth.login.buttons.login_label").tr(),
+          ),
+        ],
+
+        // SSO buttons — one per identity provider advertised by the server.
+        if (ssoProviders.isNotEmpty) ...[
+          if (hasPassword) const SizedBox(height: 20),
+          ...ssoProviders.map(
+            (provider) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: OutlinedButton.icon(
+                key: Key('ssoButton_${provider.id}'),
+                icon: const Icon(Icons.login),
+                label: Text(
+                    'auth.login.buttons.sso_label'.tr(args: [provider.name])),
+                onPressed: () => loginSSO(provider),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.all(14),
+                  minimumSize: const Size.fromHeight(52),
+                ),
               ),
             ),
-          ],
-        )
+          ),
+        ],
       ],
     );
   }
