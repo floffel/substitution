@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:substitution/shared/services/theme_service.dart';
-import 'package:substitution/settings/widgets/dialog_clear_cache.dart';
 
 // Define a custom Form widget.
 class Menu extends StatefulWidget {
@@ -40,6 +39,7 @@ class _MenuState extends State<Menu> {
               // Logout
               try {
                 await client.logout();
+                await client.database.clear(); // Also clear the local database cache to prevent session leaks
               } catch (e) {
                 debugPrint('Logout error (ignored): $e');
               }
@@ -60,12 +60,6 @@ class _MenuState extends State<Menu> {
             } else if (index == 6) {
               // Security
               context.push("/settings/security");
-            } else if (index == 7) {
-              // Clear Cache
-              showDialog(
-                context: context,
-                builder: (_) => const DialogClearCache(),
-              );
             }
           } else {
             if (index == 0) {
@@ -170,11 +164,6 @@ class _MenuState extends State<Menu> {
               icon: const Icon(Icons.security_outlined),
               selectedIcon: const Icon(Icons.security),
               label: const Text('Security'), // todo: intl
-            ),
-            NavigationDrawerDestination(
-              icon: const Icon(Icons.delete_outline),
-              selectedIcon: const Icon(Icons.delete),
-              label: const Text('Clear Cache'),
             ),
           ],
           const SizedBox(height: 22),

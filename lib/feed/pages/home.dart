@@ -48,12 +48,15 @@ class HomePageState extends State<HomePage> {
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
     if (!mounted) return [];
+    
+    // Capture the client synchronously to avoid looking up context after an await
+    final currentClient = client;
 
     if (widget.roomId != null) {
       String roomId = widget.roomId!;
 
       if (roomId.startsWith("#")) {
-        final aliasResolv = await client.getRoomIdByAlias(roomId);
+        final aliasResolv = await currentClient.getRoomIdByAlias(roomId);
         if (aliasResolv.roomId != null) {
           roomId = aliasResolv.roomId!;
         }
@@ -61,7 +64,7 @@ class HomePageState extends State<HomePage> {
         debugPrint("roomId: $roomId");
       }
 
-      final GetRoomEventsResponse resp = await client.getRoomEvents(
+      final GetRoomEventsResponse resp = await currentClient.getRoomEvents(
         roomId,
         Direction.b,
         limit:
@@ -74,23 +77,27 @@ class HomePageState extends State<HomePage> {
 
       debugPrint("getRoomEvents finished");
       // Prefer existing room from client if available
-      final existingRoom = client.getRoomById(roomId);
+      final existingRoom = currentClient.getRoomById(roomId);
       if (existingRoom != null) {
         rooms = [existingRoom];
       } else {
-        rooms = [Room(id: roomId, client: client, prev_batch: resp.end)];
+        rooms = [Room(id: roomId, client: currentClient, prev_batch: resp.end)];
       }
     } else {
-      final roomIds = await client.getJoinedRooms();
+      if (!currentClient.isLogged()) {
+        debugPrint("HomePage: Client not logged in, skipping room fetch");
+        return [];
+      }
+      final roomIds = await currentClient.getJoinedRooms();
       if (!mounted) return [];
 
       for (String roomId in roomIds) {
-        Room? r = client.getRoomById(roomId);
+        Room? r = currentClient.getRoomById(roomId);
         if (r == null) continue;
 
         debugPrint("checking room ${r.name} id: ${r.id}");
 
-        if (await client.isRoomInSubstitution(roomId)) {
+        if (await currentClient.isRoomInSubstitution(roomId)) {
           debugPrint("--- adding room ${r.name} id: ${r.id}");
           rooms.add(r);
         }
@@ -277,7 +284,7 @@ class HomePageState extends State<HomePage> {
           debugPrint(
               "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}");
 
-          newPageKey!.remove(timeline);
+          newPageKey.remove(timeline);
 
           if (newEvents.isEmpty) {
             // if not empty -> add the events to ret, or we loos em

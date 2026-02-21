@@ -105,11 +105,11 @@ def register_user(
         data = response.json()
         print(f"✓ Created user: {username}")
         return data
-    elif response.status_code == 400 and "user_in_use" in response.text:
-        print(f"ℹ User already exists: {username}")
+    elif response.status_code == 400:
+        print(f"ℹ User likely already exists: {username}")
         return {"user_id": f"@{username}:test.matrix.local"}
     else:
-        print(f"✗ Failed to create user {username}: {response.status_code}")
+        print(f"✗ Failed to create user {username}: {response.status_code} {response.text}")
         return None
 
 
@@ -161,7 +161,7 @@ def create_room(access_token: str, room_name: str, topic: str) -> Optional[str]:
     headers = {"Authorization": f"Bearer {access_token}"}
 
     response = requests.post(
-        f"{SYNAPSE_URL}/_matrix/client/r0/createRoom",
+        f"{SYNAPSE_URL}/_matrix/client/v3/createRoom",
         json=payload,
         headers=headers,
     )
@@ -171,9 +171,56 @@ def create_room(access_token: str, room_name: str, topic: str) -> Optional[str]:
         room_id = data.get("room_id")
         print(f"✓ Created room: {room_name} ({room_id})")
         return room_id
+    elif response.status_code == 400:
+        # Try to resolve alias if creation failed
+        alias = f"#{room_name}:test.matrix.local"
+        resolve_resp = requests.get(f"{SYNAPSE_URL}/_matrix/client/v3/directory/room/{alias.replace('#', '%23')}")
+        if resolve_resp.status_code == 200:
+            room_id = resolve_resp.json().get("room_id")
+            print(f"ℹ Room already exists: {room_name} ({room_id})")
+            return room_id
+        else:
+            print(f"✗ Failed to create or resolve room {room_name}: {response.status_code} {response.text}")
+            return None
     else:
-        print(f"✗ Failed to create room {room_name}: {response.status_code}")
+        print(f"✗ Failed to create room {room_name}: {response.status_code} {response.text}")
         return None
+
+
+def publish_room(access_token: str, room_id: str) -> bool:
+    """Publish a room to the public directory."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {"visibility": "public"}
+    
+    response = requests.put(
+        f"{SYNAPSE_URL}/_matrix/client/v3/directory/list/room/{room_id}",
+        json=payload,
+        headers=headers,
+    )
+    
+    if response.status_code == 200:
+        print(f"  ✓ Published room to directory")
+        return True
+    else:
+        print(f"  ⚠ Failed to publish room: {response.status_code} {response.text}")
+        return False
+
+
+def join_room(access_token: str, room_id: str) -> bool:
+    """Join a room."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/client/v3/join/{room_id}",
+        json={},
+        headers=headers,
+    )
+    
+    if response.status_code == 200:
+        return True
+    else:
+        print(f"  ⚠ Failed to join room {room_id}: {response.status_code}")
+        return False
 
 
 def invite_users_to_room(access_token: str, room_id: str, user_ids: list) -> bool:
@@ -183,7 +230,7 @@ def invite_users_to_room(access_token: str, room_id: str, user_ids: list) -> boo
     for user_id in user_ids:
         payload = {"user_id": user_id}
         response = requests.post(
-            f"{SYNAPSE_URL}/_matrix/client/r0/rooms/{room_id}/invite",
+            f"{SYNAPSE_URL}/_matrix/client/v3/rooms/{room_id}/invite",
             json=payload,
             headers=headers,
         )
@@ -280,14 +327,25 @@ def main():
                 if room_id:
                     rooms[room_config["name"]] = room_id
 
-                    # Invite other users to the room (if configured)
+                    # Publish room to directory
+                    publish_room(token, room_id)
+
+                    # Invite other users and make them join
                     if room_config.get("invite_users", True):
-                        other_users = [
-                            u["user_id"]
-                            for u in users.values()
-                            if u["user_id"] != first_user["user_id"]
-                        ]
-                        invite_users_to_room(token, room_id, other_users)
+                        for username, user_info in users.items():
+                            if user_info["user_id"] != first_user["user_id"]:
+                                # Invite
+                                payload = {"user_id": user_info["user_id"]}
+                                requests.post(
+                                    f"{SYNAPSE_URL}/_matrix/client/v3/rooms/{room_id}/invite",
+                                    json=payload,
+                                    headers={"Authorization": f"Bearer {token}"},
+                                )
+                                # Login as that user and join
+                                other_token = login_user(user_info["user_id"], user_info["password"])
+                                if other_token:
+                                    join_room(other_token, room_id)
+                                    print(f"  ✓ User {username} joined room")
                     else:
                         print(f"  ℹ Skipping user invites for room (discovery test)")
 

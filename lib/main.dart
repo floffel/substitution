@@ -90,7 +90,7 @@ void main() async {
         GoRoute(
           path: '/intro',
           builder: (context, state) =>
-              ScaffoldWithNavigation(child: const IntroductionPage()),
+              const ScaffoldWithNavigation(child: IntroductionPage(), showNavigation: false),
         ),
         GoRoute(
             redirect: testRedirect,
@@ -581,15 +581,16 @@ class _IntroductionState extends State<IntroductionPage> {
         ),
       ],
       canProgress: (int toPage) {
-        // TODO: splitted up for readability... Dose this has an effect on the performance?
-        if (toPage < 2) {
-          // only allow manual navigation to < 3
+        if (toPage <= 2) {
+          // allow navigation to Welcome, Account, and Host pages
           return true;
-        } else if (toPage == 2 &&
+        } else if (toPage == 3 &&
             client.homeserver != null &&
             client.homeserver.toString() != "") {
+          // only allow navigation to Login page if homeserver is set
           return true;
-        } else if (toPage == 3 && client.isLogged()) {
+        } else if (toPage == 4 && client.isLogged()) {
+          // only allow navigation to Finished page if logged in
           return true;
         } else {
           return false;

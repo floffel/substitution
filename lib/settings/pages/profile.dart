@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:file_selector/file_selector.dart';
-
+import 'package:substitution/settings/widgets/dialog_delete_account.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -233,6 +233,32 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Text('Save Profile'),
+                ),
+                const SizedBox(height: 64),
+                const Divider(),
+                const SizedBox(height: 16),
+                const Text(
+                  'Danger Zone',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
+                    side: const BorderSide(color: Colors.red),
+                  ),
+                  icon: const Icon(Icons.delete_forever),
+                  label: const Text('Delete Account'),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const DialogDeleteAccount(),
+                    );
+                  },
                 ),
               ],
             ),

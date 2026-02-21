@@ -82,6 +82,7 @@ services:
       SYNAPSE_REPORT_STATS: "no"
       UID: "991"
       GID: "991"
+      AUTHLIB_INSECURE_TRANSPORT: "1"
     volumes:
       - /data
       - ./config/synapse:/data/conf

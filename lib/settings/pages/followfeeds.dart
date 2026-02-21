@@ -1,3 +1,4 @@
+import 'dart:async';
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
 import '/settings/widgets/roomwidget.dart';
@@ -25,7 +26,8 @@ class FollowFeedSettings extends StatefulWidget {
 
 class FollowFeedPageKey {
   String? nextBatch;
-  bool isLastPage = false;
+  bool reachedEnd = false;
+  bool get isLastPage => reachedEnd;
   FollowFeedPageKey({this.nextBatch});
 }
 
@@ -82,71 +84,76 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   Future<List<SubstitutionRoom>> _fetchRooms(FollowFeedPageKey? pageKey) async {
     final currentGeneration = _searchGeneration;
-    // If pageKey is null, it's the first page. Create a wrapper.
-    // However, the controller seems to manage the key object persistence?
-    // If we return the list, and update the key object in place...
-    // We need to ensure we are working on the correct key object.
-    
-    // If pageKey is null, we create one. But we need to store it?
-    // No, PagingController passes the result of getNextPageKey?
-    // getNextPageKey returns "state".
-    
+    debugPrint("[FollowFeeds] Fetching rooms for generation $currentGeneration, server: '$selectedServer', search: '$searchText'");
+
     FollowFeedPageKey key = pageKey ?? FollowFeedPageKey(nextBatch: null);
 
     List<SubstitutionRoom> newData = [];
 
     if (selectedServer.isEmpty) {
-      key.isLastPage = true;
+      debugPrint("[FollowFeeds] Selected server is empty, returning empty list.");
+      key.reachedEnd = true;
       return newData;
     }
 
     try {
-      QueryPublicRoomsResponse resp = await client.queryPublicRooms(
-          server: selectedServer,
-          limit: 20, // Increased limit for better performance
-          filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
-          since: key.nextBatch);
+      // Fetch public rooms with a timeout to avoid infinite hangs
+      debugPrint("[FollowFeeds] Calling queryPublicRooms...");
+      final String? queryServer = selectedServer == (client.userID?.split(':').last ?? "") ? null : selectedServer;
+      QueryPublicRoomsResponse resp = await client
+          .queryPublicRooms(
+            server: queryServer,
+            limit: 20,
+            filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
+            since: key.nextBatch,
+          )
+          .timeout(const Duration(seconds: 15), onTimeout: () {
+        throw TimeoutException("Matrix queryPublicRooms timed out after 15 seconds");
+      });
+
 
       // Check for race condition
       if (currentGeneration != _searchGeneration) {
-        debugPrint(
-            "Race condition detected: generation $currentGeneration != $_searchGeneration. Discarding results.");
         return [];
       }
 
       key.nextBatch = resp.nextBatch;
+      if (resp.nextBatch == null || resp.chunk.isEmpty) {
+        key.reachedEnd = true;
+      }
+
+      // Optimization: Fetch all joined rooms once instead of inside the loop
+      final joinedRooms = await client.getJoinedRooms();
 
       for (var chunk in resp.chunk) {
-        bool isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
-        bool joined = (await client.getJoinedRooms()).contains(chunk.roomId);
+        final isJoined = joinedRooms.contains(chunk.roomId);
+        
+        // Optimization: Only check substitution status for rooms we are joined to.
+        // Public rooms we haven't joined yet can't have our account data anyway.
+        bool isInSubstitution = false;
+        if (isJoined) {
+           isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
+        }
 
         newData.add(SubstitutionRoom(
-          name: chunk.name ?? "Unknown Room", // handle null name
+          name: chunk.name ?? "Unknown Room",
           id: chunk.roomId,
           avatarUrl: chunk.avatarUrl?.getDownloadUri(client).toString(),
           isInsideSubstitution: isInSubstitution,
-          joined: joined,
+          joined: isJoined,
         ));
       }
 
-      debugPrint("nextPageKey: ${key.nextBatch}");
-
-      // Check again before returning
-      if (currentGeneration != _searchGeneration) {
-        return [];
-      }
-      
-      if (key.nextBatch == null || resp.chunk.isEmpty) {
-        key.isLastPage = true;
+      // Check for end of pagination
+      if (resp.nextBatch == null || resp.nextBatch!.isEmpty || resp.chunk.isEmpty) {
+        key.reachedEnd = true;
       }
 
-      return newData; 
-      
+      return newData;
     } catch (e) {
-      debugPrint("Error fetching rooms: $e");
+      debugPrint("[FollowFeeds] Error fetching rooms: $e");
       if (currentGeneration == _searchGeneration) {
-          // Propagate error?
-          rethrow;
+        rethrow;
       }
       return [];
     }
@@ -186,24 +193,30 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   void initState() {
     super.initState();
 
+    // Try to initialize selectedServer immediately
+    final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
+    if (defaultServer != null) {
+      selectedServer = defaultServer;
+    }
+
     _pagingController = PagingController<FollowFeedPageKey?, SubstitutionRoom>(
-      getNextPageKey: (state) => state.keys?.lastOrNull,
+      getNextPageKey: (state) {
+        if (state.keys == null || state.keys!.isEmpty) {
+          return FollowFeedPageKey();
+        }
+        final lastKey = state.keys!.last;
+        if (lastKey?.isLastPage == true) {
+          return null;
+        }
+        // Return a fresh copy or the same object if we update it in place?
+        // Let's return the same object, but ensure it's updated correctly in _fetchRooms
+        return lastKey;
+      },
       fetchPage: (pageKey) async {
         return await _fetchRooms(pageKey);
       },
-    );
-    
-    // Auto-select homeserver default
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-       if (!mounted) return;
-       try {
-         final defaultServer = client.homeserver?.host;
-         if (defaultServer != null && selectedServer.isEmpty) {
-            _setServerAddr(defaultServer);
-         }
-       } catch (e) {
-         debugPrint("Error setting default server: $e");
-       }
+    )..addListener(() {
+      if (mounted) setState(() {});
     });
   }
 
@@ -223,7 +236,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
           child: FutureBuilder(
               future: accountData.then((data) {
                  // Ensure default server is in the list
-                 final defaultServer = client.homeserver?.host;
+                 final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
                  if (defaultServer != null && !data.containsKey(defaultServer)) {
                     // clone map to avoid mutation issues if unmodifiable
                     final newData = Map<String, Object?>.from(data);
@@ -233,7 +246,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                  return data;
               }).catchError((e) {
                   // Handle error if account data fetch fails (e.g. initially empty)
-                  final defaultServer = client.homeserver?.host;
+                  final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
                   if (defaultServer != null) {
                     return {defaultServer: {"added_automatically": true}};
                   }
@@ -292,6 +305,31 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
               fetchNextPage: _pagingController.fetchNextPage,
               separatorBuilder: (context, index) => const Divider(),
               builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
+                  noItemsFoundIndicatorBuilder: (context) => Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: Text(
+                        "settings.followfeeds.no_rooms_found",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ).tr(),
+                    ),
+                  ),
+                  firstPageErrorIndicatorBuilder: (context) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                        const SizedBox(height: 16),
+                        const Text("settings.followfeeds.error_loading_rooms").tr(),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () => _pagingController.refresh(),
+                          child: const Text("settings.followfeeds.buttons.retry").tr(),
+                        )
+                      ],
+                    ),
+                  ),
                   itemBuilder: (context, item, index) => RoomWidget(
                       room: item,
                       leaveRoom: _leaveRoom,

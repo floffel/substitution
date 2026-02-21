@@ -42,6 +42,8 @@ enable_registration: true
 enable_registration_without_verification: true
 registration_shared_secret: "test_registration_secret"
 allow_guest_access: false
+allow_public_rooms_publishing: true
+allow_public_rooms_without_auth: true
 
 # Session management
 session_lifetime: "24h"
@@ -114,6 +116,7 @@ oidc_providers:
   - idp_id: dex
     idp_name: "Local OIDC"
     issuer: "http://dex:5556/dex"
+    allow_http_url_for_metadata: true
     client_id: "synapse"
     client_secret: "synapse-dex-secret"
     scopes: ["openid", "profile", "email"]
