@@ -1,5 +1,5 @@
 import '/post/widgets/post.dart';
-import '/shared/extensions/client_extensions.dart';
+
 import '/shared/services/connectivity_service.dart';
 
 import 'dart:convert'; // for json
@@ -9,6 +9,7 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '/shared/services/substitution_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.roomId});
@@ -41,16 +42,16 @@ class HomePageState extends State<HomePage> {
   bool _showOfflineBanner = false;
   late Stream<bool> _connectivityStream;
 
-  Client get client => Provider.of<Client>(context, listen: false);
-  ConnectivityService get connectivityService =>
-      Provider.of<ConnectivityService>(context, listen: false);
+  late final Client _client;
+  late final ConnectivityService _connectivityService;
+  late final SubstitutionService _substitutionService;
 
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
     if (!mounted) return [];
     
     // Capture the client synchronously to avoid looking up context after an await
-    final currentClient = client;
+    final currentClient = _client;
 
     if (widget.roomId != null) {
       String roomId = widget.roomId!;
@@ -97,7 +98,7 @@ class HomePageState extends State<HomePage> {
 
         debugPrint("checking room ${r.name} id: ${r.id}");
 
-        if (await currentClient.isRoomInSubstitution(roomId)) {
+        if (context.read<SubstitutionService>().isSubstitutionRoom(r.id)) {
           debugPrint("--- adding room ${r.name} id: ${r.id}");
           rooms.add(r);
         }
@@ -109,7 +110,8 @@ class HomePageState extends State<HomePage> {
     return Future.wait(timelineFutures);
   }
 
-  // fetch events that are unknown by the _pagingController becourse they are too new
+  // fetch events that are unknown by the _pagingController because they are too new
+
   Future<void> _fetchFutureEvents() async {
     // ich muss requestfuture machen und alle, die dann neu dazu gekommen sind, muss ich verarbeiten
     // und vorne anhängen
@@ -135,7 +137,11 @@ class HomePageState extends State<HomePage> {
       }*/
 
       // todo: rename firstEventIds to something more meaningfull like lastCurrentEventIds
-      String lastCurrentEventId = firstEventIds[timeline.room.id]!;
+      String? lastCurrentEventId = firstEventIds[timeline.room.id];
+      if (lastCurrentEventId == null) {
+        debugPrint("No first event ID for room ${timeline.room.id}, skipping future fetch");
+        continue;
+      }
 
       //String lastCurrentEventId = timeline.events[0].eventId;
 
@@ -368,6 +374,13 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _client = Provider.of<Client>(context, listen: false);
+    _connectivityService = Provider.of<ConnectivityService>(context, listen: false);
+    _substitutionService = Provider.of<SubstitutionService>(context, listen: false);
+
+    // Initialize SubstitutionService cache
+    _substitutionService.init();
+
     _timelinesFuture = _fetchTimelines();
 
     _pagingController = PagingController<
@@ -400,7 +413,7 @@ class HomePageState extends State<HomePage> {
     );
 
     // Initialize connectivity tracking
-    _connectivityStream = connectivityService.onConnectivityChanged;
+    _connectivityStream = _connectivityService.onConnectivityChanged;
     _connectivityStream.listen((isOnline) {
       if (mounted) {
         setState(() {
@@ -419,17 +432,33 @@ class HomePageState extends State<HomePage> {
     });
 
     // Check initial connectivity status
-    connectivityService.isOnline.then((isOnline) {
+    _connectivityService.isOnline.then((isOnline) {
       if (mounted) {
         setState(() {
           _isOnline = isOnline;
         });
       }
     });
+
+    // Listen for room changes via SubstitutionService
+    _substitutionService.addListener(_handleRoomChanges);
+  }
+
+  void _handleRoomChanges() {
+    if (!mounted) return;
+    debugPrint("HomePage: Room changes detected, refreshing feed...");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _timelinesFuture = _fetchTimelines();
+        _pagingController.refresh();
+      });
+    });
   }
 
   @override
   void dispose() {
+    _substitutionService.removeListener(_handleRoomChanges);
     _pagingController.dispose();
     adressContrainer.dispose();
     super.dispose();

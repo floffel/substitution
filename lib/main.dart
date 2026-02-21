@@ -16,6 +16,7 @@ import '/shared/pages/scaffold_with_navigation.dart';
 import '/profile/pages/user_profile.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
+import '/shared/services/substitution_service.dart';
 
 import '/shared/constants.dart';
 
@@ -440,6 +441,8 @@ class SubstitutionApp extends StatelessWidget {
           builder: (context, child) => MultiProvider(
             providers: [
               Provider<Client>(create: (context) => client),
+              ChangeNotifierProvider<SubstitutionService>(
+                  create: (context) => SubstitutionService(client)),
               Provider<ConnectivityService>(
                   create: (_) => ConnectivityService()),
               ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),

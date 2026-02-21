@@ -19,12 +19,9 @@ class ScaffoldWithNavigation extends StatefulWidget {
 }
 
 class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         leading: widget.showNavigation
             ? IconButton(
@@ -36,10 +33,12 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         centerTitle: true,
         actions: widget.showNavigation
             ? <Widget>[
-                IconButton(
-                  onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-                  icon: const Icon(Icons.menu),
-                )
+                Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    icon: const Icon(Icons.menu),
+                  );
+                })
               ]
             : null,
       ),

@@ -4,6 +4,7 @@ import '/settings/widgets/dialogdeleteserver.dart';
 import '/settings/widgets/roomwidget.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/models/substitution_room.dart';
+import '/shared/services/substitution_service.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -56,21 +57,13 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   }
 
   Future<void> _joinRoom(String id) async {
-    await client.joinRoom(id, serverName: [selectedServer]);
-
-    // todo: this works only for logged in users
-    await client.setAccountDataPerRoom(
-        client.userID!, id, "substitution", {"joined": true});
+    await context.read<SubstitutionService>().joinRoom(id, serverNames: [selectedServer]);
     _resetList();
-    setState(() {});
   }
 
   Future<void> _leaveRoom(String id) async {
-    // todo: this works only for logged in users
-    await client.setAccountDataPerRoom(client.userID!, id, "substitution", {});
-    await client.leaveRoom(id);
+    await context.read<SubstitutionService>().leaveRoom(id);
     _resetList();
-    setState(() {});
   }
 
   Future<void> _setServerAddr(String serverAddr) async {
