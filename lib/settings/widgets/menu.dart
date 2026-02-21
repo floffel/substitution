@@ -38,7 +38,11 @@ class _MenuState extends State<Menu> {
               // Profile header — no navigation
             } else if (index == 1) {
               // Logout
-              await client.logoutAll();
+              try {
+                await client.logout();
+              } catch (e) {
+                debugPrint('Logout error (ignored): $e');
+              }
               if (!context.mounted) return;
               context.go("/");
             } else if (index == 2) {

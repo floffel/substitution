@@ -146,76 +146,78 @@ class _LoginPageState extends State<LoginPage> {
     final hasPassword = authState.hasPasswordFlow;
     final ssoProviders = authState.ssoProviders;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          "auth.login.header",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ).tr(),
-        const Text("auth.login.body").tr(),
-        const SizedBox(height: 30),
-
-        // Password fields — only shown when the server supports password login.
-        if (hasPassword) ...[
-          TextFormField(
-            key: const Key('loginUsernameInput'),
-            controller: usernameContrainer,
-            decoration: InputDecoration(
-              icon: const Icon(Icons.perm_identity),
-              labelText: "auth.login.inputs.username_label".tr(),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            "auth.login.header",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
-          ),
-          TextFormField(
-            key: const Key('loginPasswordInput'),
-            obscureText: true,
-            controller: passwordContrainer,
-            decoration: InputDecoration(
-              icon: const Icon(Icons.password),
-              labelText: "auth.login.inputs.password_label".tr(),
-            ),
-          ),
+          ).tr(),
+          const Text("auth.login.body").tr(),
           const SizedBox(height: 30),
-          ElevatedButton(
-            key: const Key('loginSubmitButton'),
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 18),
-              padding: const EdgeInsets.all(14),
-            ),
-            onPressed: () async {
-              if (await login() && mounted) {
-                widget.onComplete();
-              }
-            },
-            child: const Text("auth.login.buttons.login_label").tr(),
-          ),
-        ],
 
-        // SSO buttons — one per identity provider advertised by the server.
-        if (ssoProviders.isNotEmpty) ...[
-          if (hasPassword) const SizedBox(height: 20),
-          ...ssoProviders.map(
-            (provider) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: OutlinedButton.icon(
-                key: Key('ssoButton_${provider.id}'),
-                icon: const Icon(Icons.login),
-                label: Text(
-                    'auth.login.buttons.sso_label'.tr(args: [provider.name])),
-                onPressed: () => loginSSO(provider),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.all(14),
-                  minimumSize: const Size.fromHeight(52),
+          // Password fields — only shown when the server supports password login.
+          if (hasPassword) ...[
+            TextFormField(
+              key: const Key('loginUsernameInput'),
+              controller: usernameContrainer,
+              decoration: InputDecoration(
+                icon: const Icon(Icons.perm_identity),
+                labelText: "auth.login.inputs.username_label".tr(),
+              ),
+            ),
+            TextFormField(
+              key: const Key('loginPasswordInput'),
+              obscureText: true,
+              controller: passwordContrainer,
+              decoration: InputDecoration(
+                icon: const Icon(Icons.password),
+                labelText: "auth.login.inputs.password_label".tr(),
+              ),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              key: const Key('loginSubmitButton'),
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 18),
+                padding: const EdgeInsets.all(14),
+              ),
+              onPressed: () async {
+                if (await login() && mounted) {
+                  widget.onComplete();
+                }
+              },
+              child: const Text("auth.login.buttons.login_label").tr(),
+            ),
+          ],
+
+          // SSO buttons — one per identity provider advertised by the server.
+          if (ssoProviders.isNotEmpty) ...[
+            if (hasPassword) const SizedBox(height: 20),
+            ...ssoProviders.map(
+              (provider) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: OutlinedButton.icon(
+                  key: Key('ssoButton_${provider.id}'),
+                  icon: const Icon(Icons.login),
+                  label: Text(
+                      'auth.login.buttons.sso_label'.tr(args: [provider.name])),
+                  onPressed: () => loginSSO(provider),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.all(14),
+                    minimumSize: const Size.fromHeight(52),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

@@ -34,10 +34,12 @@ class HomePageState extends State<HomePage> {
   // Cache the timelines future to avoid re-fetching on every access
   late Future<List<Timeline>> _timelinesFuture;
 
-  // Offline tracking
-  late Stream<bool> _connectivityStream;
+  // Track the latest key calculated by _fetchEvents to return it in getNextPageKey
+  Map<Timeline, ({String? lastEventId, bool wasExhausted})>? _latestNextPageKey;
+
   bool _isOnline = true;
   bool _showOfflineBanner = false;
+  late Stream<bool> _connectivityStream;
 
   Client get client => Provider.of<Client>(context, listen: false);
   ConnectivityService get connectivityService =>
@@ -190,7 +192,7 @@ class HomePageState extends State<HomePage> {
   //  lastEventId: last event id that was added to the list
   //  since: das ding was man mitgibt um zu sagen an welcher stelle man war.. todo auf englisch dokumentierne
   //  wasExhausted: we do not have any events that where not posted on the timeline
-  Future<List<({Event origEvent, Event displayEvent})>> _fetchEvents(
+  Future<({List<({Event origEvent, Event displayEvent})> events, Map<Timeline, ({String? lastEventId, bool wasExhausted})>? nextKey})> _fetchEvents(
       Map<Timeline, ({String? lastEventId, bool wasExhausted})>?
           pageKey) async {
     List<({Event origEvent, Event displayEvent})> ret = [];
@@ -203,7 +205,7 @@ class HomePageState extends State<HomePage> {
         pageKeyInitialized = true;
 
         final timelineList = await _timelinesFuture;
-        if (!mounted) return ret;
+        if (!mounted) return (events: ret, nextKey: newPageKey);
 
         newPageKey = {};
         for (Timeline timeline in timelineList) {
@@ -211,7 +213,7 @@ class HomePageState extends State<HomePage> {
         }
       } else {
         debugPrint("Page key is null, returning...");
-        return ret; // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
+        return (events: ret, nextKey: newPageKey); // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
       }
     }
 
@@ -232,7 +234,7 @@ class HomePageState extends State<HomePage> {
         // request new elements
         if (timeline.canRequestHistory) {
           await timeline.requestHistory(historyCount: 100);
-          if (!mounted) return ret;
+          if (!mounted) return (events: ret, nextKey: newPageKey);
         }
 
         // find the first event to display, e.g. the one after the one we displayed last. If we did not display any event, meta.lastEventId will be null and we can just display the first event
@@ -273,9 +275,9 @@ class HomePageState extends State<HomePage> {
         if (!timeline.canRequestHistory) {
           // history of this timeline is exhausted, no need to add more
           debugPrint(
-              "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}, events.last.type: ${timeline.events.last.type}");
+              "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}");
 
-          newPageKey.remove(timeline);
+          newPageKey!.remove(timeline);
 
           if (newEvents.isEmpty) {
             // if not empty -> add the events to ret, or we loos em
@@ -346,14 +348,14 @@ class HomePageState extends State<HomePage> {
 
       if (newPageKey.isEmpty) {
         debugPrint("no new things to append...");
-        return ret; // no new things to append
+        return (events: ret, nextKey: newPageKey); // no new things to append
       }
 
       debugPrint("mby new things to append -> fetch another page...");
       // In new API, we don't recursively call like this
     }
 
-    return ret;
+    return (events: ret, nextKey: newPageKey);
   }
 
   @override
@@ -364,10 +366,29 @@ class HomePageState extends State<HomePage> {
     _pagingController = PagingController<
         Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
         ({Event origEvent, Event displayEvent})>(
-      getNextPageKey: (state) => state.keys?.lastOrNull,
+      getNextPageKey: (state) {
+        if (state.keys == null) {
+          return {}; // Initial load key
+        }
+
+        // If the last fetched page was empty, we are at the end of the list
+        if (state.pages != null &&
+            state.pages!.isNotEmpty &&
+            state.pages!.last.isEmpty) {
+          return null;
+        }
+
+        // If the map is completely empty, it means all timelines exhausted.
+        if (_latestNextPageKey != null && _latestNextPageKey!.isEmpty) {
+           return null;
+        }
+
+        return _latestNextPageKey ?? state.keys!.lastOrNull;
+      },
       fetchPage: (pageKey) async {
-        final events = await _fetchEvents(pageKey);
-        return events;
+        final result = await _fetchEvents(pageKey);
+        _latestNextPageKey = result.nextKey;
+        return result.events;
       },
     );
 
@@ -429,6 +450,24 @@ class HomePageState extends State<HomePage> {
                       separatorBuilder: (context, index) => const Divider(),
                       builderDelegate: PagedChildBuilderDelegate<
                               ({Event origEvent, Event displayEvent})>(
+                          noItemsFoundIndicatorBuilder: (context) => Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "feed.pages.home.empty",
+                                style: Theme.of(context).textTheme.titleLarge,
+                                textAlign: TextAlign.center,
+                              ).tr(),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  context.push('/settings/feed');
+                                },
+                                child: Text("feed.pages.home.empty_button").tr(),
+                              ),
+                            ],
+                          )),
                           itemBuilder: (context, item, index) => GestureDetector(
                               onTap: () => context.push(Uri(
                                       path: "/post/${item.origEvent.eventId}",

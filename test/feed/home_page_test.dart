@@ -195,5 +195,91 @@ void main() {
       // (PagedListView uses PagingController internally)
       expect(find.byType(HomePage), findsOneWidget);
     });
+
+    testWidgets('Empty feed shows "find new rooms" action',
+        (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en', 'US')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en', 'US'),
+          child: MultiProvider(
+            providers: [
+              Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
+            ],
+            child: MaterialApp(
+              home: const HomePage(),
+            ),
+          ),
+        ),
+      );
+
+      // Wait for the initial load to finish.
+      // If there is an infinite spinner, pumpAndSettle will time out and fail the test!
+      await tester.pumpAndSettle(const Duration(seconds: 2));
+
+      // After loading finishes, the spinner should be gone.
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+
+      // And the empty feed CTA button should be present.
+      expect(find.byType(ElevatedButton), findsOneWidget);
+    });
+
+    testWidgets('Feed with followed rooms but no events shows empty state',
+        (WidgetTester tester) async {
+      final mockConnectivityService = MockConnectivityService();
+      
+      final mockRoomEmpty = MockRoom();
+      final mockTimelineEmpty = MockTimeline();
+
+      when(() => mockRoomEmpty.id).thenReturn('!empty:matrix.org');
+      when(() => mockRoomEmpty.name).thenReturn('Empty Room');
+      when(() => mockTimelineEmpty.room).thenReturn(mockRoomEmpty);
+      when(() => mockTimelineEmpty.events).thenReturn([]);
+      when(() => mockTimelineEmpty.canRequestHistory).thenReturn(false);
+      when(() => mockRoomEmpty.getTimeline()).thenAnswer((_) async => mockTimelineEmpty);
+
+      when(() => mockClient.getRoomById('!empty:matrix.org')).thenReturn(mockRoomEmpty);
+      when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => ['!empty:matrix.org']);
+      
+      when(() => mockClient.getAccountDataPerRoom(
+        '@user:matrix.org',
+        '!empty:matrix.org',
+        'substitution',
+      )).thenAnswer((_) async => {'joined': true});
+
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en', 'US')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en', 'US'),
+          child: MultiProvider(
+            providers: [
+              Provider<Client>.value(value: mockClient),
+              Provider<ConnectivityService>.value(
+                  value: mockConnectivityService),
+            ],
+            child: MaterialApp(
+              home: const HomePage(),
+            ),
+          ),
+        ),
+      );
+
+      // Wait for the initial load to finish.
+      // If there is an infinite spinner, pumpAndSettle will time out and fail the test!
+      await tester.pumpAndSettle(const Duration(seconds: 4));
+
+      // After loading finishes, the spinner should be gone.
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+
+      // And the empty feed CTA should be present. 
+      // (in tests, easy_localization may fall back to the raw key if translation files aren't loaded)
+      expect(find.byType(ElevatedButton), findsOneWidget);
+    });
   });
 }

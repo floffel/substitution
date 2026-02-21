@@ -8,7 +8,9 @@
     "feed": {
         "pages": {
             "home": {
-                "roomlabel": "Raumübersicht: {}"
+                "roomlabel": "Raumübersicht: {}",
+                "empty": "Dein Feed ist leer. Folge Räumen, um Beiträge zu sehen!",
+                "empty_button": "Räume finden"
             }
         }
     },
@@ -24,7 +26,7 @@
         "mixins": {
             "iconpicker": {
                 "title": "Icon auswählen"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -160,8 +162,8 @@
         }
     },
     "write": {
-        "answer": "Antworte auf:",     
-        "roomheader": "Raum: {}", 
+        "answer": "Antworte auf:",
+        "roomheader": "Raum: {}",
         "filemessage": {
             "upload_files": "Neue Dateien zum upload hinzufügen",
             "title_header": "Titel:",
@@ -176,9 +178,9 @@
             }
         },
         "roomselect": {
-          "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
-          "room_prompt": "Bitte den Raum auswählen, in den gepostet werden soll:",
-          "error_no_rooms": "Es konnten noch keine Räume gefunden werden, bitte füge erst welche hinzu"
+            "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
+            "room_prompt": "Bitte den Raum auswählen, in den gepostet werden soll:",
+            "error_no_rooms": "Es konnten noch keine Räume gefunden werden, bitte füge erst welche hinzu"
         },
         "textmessage": {
             "answer_promt": "Antwort eingeben:",

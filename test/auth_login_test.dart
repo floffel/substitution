@@ -8,6 +8,48 @@ import 'helpers/test_helpers.dart';
 
 class MockClient extends Mock implements Client {}
 
+// ---------------------------------------------------------------------------
+// Real-world login flow fixtures (captured from live servers, no network I/O
+// in tests). These reflect what GET /_matrix/client/v3/login actually returns.
+// ---------------------------------------------------------------------------
+
+/// matrix.org — password + SSO, but SSO has no identity_providers array.
+/// The server uses delegated OIDC / OAuth-aware flow without listing providers.
+List<LoginFlow> matrixOrgFlows() => [
+      LoginFlow(type: AuthenticationTypes.password),
+      LoginFlow.fromJson({
+        'type': AuthenticationTypes.sso,
+        'oauth_aware_preferred': true,
+        'org.matrix.msc3824.delegated_oidc_compatibility': true,
+      }),
+      LoginFlow(type: 'm.login.token'),
+    ];
+
+/// tchncs.de — password + SSO with 5 named identity providers.
+/// A good real-world example of a server with multiple SSO options.
+List<LoginFlow> tchncsDe_Flows() => [
+      LoginFlow.fromJson({
+        'type': AuthenticationTypes.sso,
+        'identity_providers': [
+          {'id': 'oidc-github', 'name': 'Github', 'brand': 'github'},
+          {
+            'id': 'oidc-codeberg',
+            'name': 'Codeberg',
+            'icon': 'mxc://tchncs.de/be844d7d5d5b715ccf8166a2d3bcdb59033565b8'
+          },
+          {'id': 'oidc-gitlab', 'name': 'GitLab', 'brand': 'gitlab'},
+          {'id': 'oidc-google', 'name': 'Google', 'brand': 'google'},
+          {
+            'id': 'oidc-zitadel',
+            'name': 'Zitadel',
+            'icon': 'mxc://tchncs.de/6e1b75462f840851e39600964f48433cd4b04692'
+          },
+        ],
+      }),
+      LoginFlow(type: 'm.login.token'),
+      LoginFlow(type: AuthenticationTypes.password),
+    ];
+
 void main() {
   setUpTestInfrastructure();
 
@@ -214,6 +256,80 @@ void main() {
       expect(find.byType(ElevatedButton), findsOneWidget);
       // No SSO buttons yet
       expect(find.byType(OutlinedButton), findsNothing);
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // Real-world server fixture tests
+  //
+  // These use captured JSON responses from real servers (no network calls)
+  // to verify that LoginPage renders the correct buttons for actual homeserver
+  // configurations.
+  // -------------------------------------------------------------------------
+  group('Real-world server login flow fixtures', () {
+    testWidgets(
+        'matrix.org — shows password form + one generic SSO button (no named providers)',
+        (WidgetTester tester) async {
+      final mockClient = MockClient();
+      when(() => mockClient.isLogged()).thenReturn(false);
+      when(() => mockClient.homeserver)
+          .thenReturn(Uri.parse('https://matrix.org'));
+
+      // matrix.org reports m.login.sso without identity_providers — our
+      // AuthState fallback produces a single unnamed "SSO" provider.
+      final authState = AuthState()..setLoginFlows(matrixOrgFlows());
+
+      await pumpApp(
+        tester,
+        LoginPage(onComplete: () {}),
+        mockClient: mockClient,
+        authState: authState,
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Password form is present
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(find.byType(ElevatedButton), findsOneWidget);
+
+      // Exactly one SSO button (the unnamed fallback)
+      expect(find.byType(OutlinedButton), findsOneWidget);
+      // Its key uses the empty id from the fallback provider
+      expect(find.byKey(const Key('ssoButton_')), findsOneWidget);
+    });
+
+    testWidgets(
+        'tchncs.de — shows password form + 5 named SSO buttons (GitHub, Codeberg, GitLab, Google, Zitadel)',
+        (WidgetTester tester) async {
+      final mockClient = MockClient();
+      when(() => mockClient.isLogged()).thenReturn(false);
+      when(() => mockClient.homeserver)
+          .thenReturn(Uri.parse('https://tchncs.de'));
+
+      final authState = AuthState()..setLoginFlows(tchncsDe_Flows());
+
+      await pumpApp(
+        tester,
+        LoginPage(onComplete: () {}),
+        mockClient: mockClient,
+        authState: authState,
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Password form is present (tchncs.de supports both)
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(find.byType(ElevatedButton), findsOneWidget);
+
+      // Exactly 5 SSO buttons — one per identity provider
+      expect(find.byType(OutlinedButton), findsNWidgets(5));
+
+      // Each provider has its own button with the correct key
+      expect(find.byKey(const Key('ssoButton_oidc-github')), findsOneWidget);
+      expect(find.byKey(const Key('ssoButton_oidc-codeberg')), findsOneWidget);
+      expect(find.byKey(const Key('ssoButton_oidc-gitlab')), findsOneWidget);
+      expect(find.byKey(const Key('ssoButton_oidc-google')), findsOneWidget);
+      expect(find.byKey(const Key('ssoButton_oidc-zitadel')), findsOneWidget);
     });
   });
 }

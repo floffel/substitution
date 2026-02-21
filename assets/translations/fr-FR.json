@@ -8,7 +8,9 @@
     "feed": {
         "pages": {
             "home": {
-                "roomlabel": "Chambre: {}"
+                "roomlabel": "Chambre: {}",
+                "empty": "Votre fil d'actualité est vide. Suivez des salles pour voir des publications!",
+                "empty_button": "Trouver des salles"
             }
         }
     },
@@ -21,7 +23,7 @@
         "mixins": {
             "iconpicker": {
                 "title": "Choisir l'icône"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -134,12 +136,12 @@
         "host": {
             "header": "Connectez-vous à votre serveur domestique",
             "body": "Veuillez choisir un serveur domestique Matrix. Vous pouvez ensuite choisir de vous connecter ou de parcourir les salles publiques disponibles.",
-             "inputs": {
-                 "homeserver_label": "Adresse de votre serveur domestique"
-             },
-             "buttons": {
-                 "login_label": "Se connecter"
-             }
+            "inputs": {
+                "homeserver_label": "Adresse de votre serveur domestique"
+            },
+            "buttons": {
+                "login_label": "Se connecter"
+            }
         },
         "login": {
             "loading": "Vous connecter...",
@@ -156,8 +158,8 @@
         }
     },
     "write": {
-        "answer": "Répondre",     
-        "roomheader": "Chambre: {}", 
+        "answer": "Répondre",
+        "roomheader": "Chambre: {}",
         "filemessage": {
             "upload_files": "Ajouter de nouveaux fichiers à télécharger",
             "title_header": "Titre:",
@@ -172,16 +174,16 @@
             }
         },
         "roomselect": {
-          "type_prompt": "Choisissez le type de message que vous souhaitez publier:",
-          "room_prompt": "Choisissez le salon dans lequel vous souhaitez poster:",
-          "error_no_rooms": "Vous n'avez rejoint aucune salle ou vous n'avez pas le droit de publier."
+            "type_prompt": "Choisissez le type de message que vous souhaitez publier:",
+            "room_prompt": "Choisissez le salon dans lequel vous souhaitez poster:",
+            "error_no_rooms": "Vous n'avez rejoint aucune salle ou vous n'avez pas le droit de publier."
         },
         "textmessage": {
             "answer_promt": "Entrez votre texte:",
             "input_placeholder": "Entrez votre texte ici...",
             "send_start": "Le message est envoyé...",
             "send_failed": "Le message n'a pas pu être envoyé. Essayer à nouveau?",
-            "send_complete": "Le message a été envoyé avec succès!",            
+            "send_complete": "Le message a été envoyé avec succès!",
             "buttons": {
                 "send_stop": "N'essayez plus",
                 "resend": "Oui, réessaye"
