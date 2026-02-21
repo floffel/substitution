@@ -46,8 +46,24 @@ class RoomWidgetState extends State<RoomWidget> {
         title: const Text('settings.room.desc').tr(args: [widget.room.name]),
         subtitle: Text(widget.room.id),
         leading: widget.room.avatarUrl != null
-            ? Image.network(widget.room.avatarUrl!)
-            : const Text("error_no_image").tr(),
+            ? CircleAvatar(
+                radius: 20,
+                backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                foregroundImage: NetworkImage(
+                    widget.room.avatarUrl!.startsWith('mxc://')
+                        ? Uri.parse(widget.room.avatarUrl!)
+                            .getDownloadUri(client)
+                            .toString()
+                        : widget.room.avatarUrl!),
+                onForegroundImageError: (ctx, obj) {
+                  debugPrint("Failed to load avatar: ${widget.room.avatarUrl}");
+                },
+                child: Text(widget.room.name[0].toUpperCase()),
+              )
+            : CircleAvatar(
+                radius: 20,
+                child: Text(widget.room.name[0].toUpperCase()),
+              ),
         trailing: Row(mainAxisSize: MainAxisSize.min, children: [
           if (isAdminRoom)
             IconButton(

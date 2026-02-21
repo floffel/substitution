@@ -138,7 +138,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
         newData.add(SubstitutionRoom(
           name: chunk.name ?? "Unknown Room",
           id: chunk.roomId,
-          avatarUrl: chunk.avatarUrl?.getDownloadUri(client).toString(),
+          avatarUrl: chunk.avatarUrl?.toString(),
           isInsideSubstitution: isInSubstitution,
           joined: isJoined,
         ));

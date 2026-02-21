@@ -26,7 +26,7 @@
         "mixins": {
             "iconpicker": {
                 "title": "Choose icon"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -56,8 +56,11 @@
             "filter_rooms_header": "Search a room to follow or unfollow:",
             "roomname_placeholder": "Enter a roomname",
             "buttons": {
-                "add_server": "Add Server"
-            }
+                "add_server": "Add Server",
+                "retry": "Retry"
+            },
+            "no_rooms_found": "No rooms found for the given search criteria.",
+            "error_loading_rooms": "Error: Failed to load rooms"
         },
         "ownfeeds": {
             "header": "Manage your own rooms",
@@ -140,12 +143,12 @@
         "host": {
             "header": "Connect to your Homeserver",
             "body": "Please pick a Matrix Homeserver. You can then choose to login or to browse public available rooms.",
-             "inputs": {
-                 "homeserver_label": "Adress of your Homeserver"
-             },
-             "buttons": {
-                 "login_label": "Login"
-             }
+            "inputs": {
+                "homeserver_label": "Adress of your Homeserver"
+            },
+            "buttons": {
+                "login_label": "Login"
+            }
         },
         "login": {
             "loading": "Logging you in...",
@@ -162,8 +165,8 @@
         }
     },
     "write": {
-        "answer": "Answer",     
-        "roomheader": "Room: {}", 
+        "answer": "Answer",
+        "roomheader": "Room: {}",
         "filemessage": {
             "upload_files": "Add new files for upload",
             "title_header": "Titel:",
@@ -178,9 +181,9 @@
             }
         },
         "roomselect": {
-          "type_prompt": "Choose the type of message that you like to post",
-          "room_prompt": "Choose the room in wich like to post:",
-          "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
+            "type_prompt": "Choose the type of message that you like to post",
+            "room_prompt": "Choose the room in wich like to post:",
+            "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
         },
         "textmessage": {
             "answer_promt": "Enter your Text:",

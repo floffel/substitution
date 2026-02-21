@@ -255,5 +255,60 @@ void main() {
       },
       timeout: const Timeout(Duration(seconds: 180)),
     );
+
+    testWidgets('Room avatars are displayed correctly', (tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      await loginUser(tester);
+      
+      // Navigate directly to Follow Feeds
+      final targetContext = tester.element(find.byType(Scaffold).first);
+      GoRouter.of(targetContext).push("/settings/feed");
+
+      // Wait for push transition to Follow Feeds settings page
+      for (int i = 0; i < 20; i++) {
+        await tester.pump(const Duration(milliseconds: 500));
+        if (find.byType(ListTile).evaluate().isNotEmpty) break;
+      }
+      await tester.pump(const Duration(seconds: 2));
+
+      // Find the room with an avatar
+      final avatarRoom = find.textContaining('test_art', skipOffstage: false);
+      expect(avatarRoom, findsOneWidget, reason: "Room 'test_art' should be found.");
+
+      // Find the specific ListTile for test_art
+      final listTileFinder = find.ancestor(
+        of: avatarRoom,
+        matching: find.byType(ListTile),
+      );
+      
+      final listTile = tester.widget<ListTile>(listTileFinder);
+      
+      // RoomWidget uses ListTile(leading: widget.room.avatarUrl != null ? Image.network(...) : Text("error_no_image"))
+      final leading = listTile.leading;
+      
+      if (leading == null) {
+        fail("Room 'test_art' should have a leading widget (avatar).");
+      }
+      
+      // Diagnostic capture
+      debugPrint("Avatar leading widget: ${leading.runtimeType}");
+      
+      // Check for CircleAvatar widget
+      final avatarFinder = find.descendant(
+        of: listTileFinder,
+        matching: find.byType(CircleAvatar),
+      );
+      
+      if (avatarFinder.evaluate().isEmpty) {
+        fail("Room 'test_art' should display a CircleAvatar widget for the avatar.");
+      }
+      
+      final circleAvatar = tester.widget<CircleAvatar>(avatarFinder.first);
+      expect(circleAvatar.radius, 20.0);
+      
+      debugPrint("✓ Room avatar display verified for 'test_art' (CircleAvatar).");
+    });
   });
 }

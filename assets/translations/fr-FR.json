@@ -52,8 +52,11 @@
             "filter_rooms_header": "Recherchez une salle à suivre ou à ne plus suivre:",
             "roomname_placeholder": "Entrez un nom de salle",
             "buttons": {
-                "add_server": "Ajouter un serveur"
-            }
+                "add_server": "Ajouter un serveur",
+                "retry": "Réessayer"
+            },
+            "no_rooms_found": "Aucun salon trouvé pour les critères de recherche donnés.",
+            "error_loading_rooms": "Erreur : échec du chargement des espaces"
         },
         "ownfeeds": {
             "header": "Gérez vos propres espaces",

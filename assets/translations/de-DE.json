@@ -56,8 +56,11 @@
             "filter_rooms_header": "Suche nach einem Raum, um ihm zu folgen oder zu entfolgen:",
             "roomname_placeholder": "Raumname eingeben",
             "buttons": {
-                "add_server": "Server hinzufügen"
-            }
+                "add_server": "Server hinzufügen",
+                "retry": "Wiederholen"
+            },
+            "no_rooms_found": "Keine Räume für die angegebenen Suchkriterien gefunden.",
+            "error_loading_rooms": "Fehler: Räume konnten nicht geladen werden"
         },
         "ownfeeds": {
             "header": "Manage deine eigenen Räume",

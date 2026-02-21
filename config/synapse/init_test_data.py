@@ -44,6 +44,7 @@ TEST_ROOMS = [
         "populate_with_messages": False,  # Empty room - no messages
         "message_count": 0,
         "invite_users": True,  # Invite all users
+        "has_avatar": True,
     },
     {
         "name": "test_invite_only",
@@ -51,6 +52,14 @@ TEST_ROOMS = [
         "populate_with_messages": True,  # Some messages to find
         "message_count": 2,
         "invite_users": False,  # Do NOT invite users - they must discover and join
+    },
+    {
+        "name": "test_avatar",
+        "topic": "Room with an avatar",
+        "populate_with_messages": False,
+        "message_count": 0,
+        "invite_users": True,
+        "has_avatar": True,
     },
 ]
 
@@ -280,6 +289,54 @@ def populate_room_with_messages(
     return posted_count
 
 
+def upload_avatar(access_token: str) -> Optional[str]:
+    """Upload a dummy avatar and return its MXC URI."""
+    # A small red dot (1x1 PNG)
+    IMAGE_DATA = (
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02"
+        b"\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\xda\x63\xf8\xff\xff\x3f\x00\x05"
+        b"\xfe\x02\xfe\xdc\x44\x74\x06\x00\x00\x00\x00IEND\xaeB`\x82"
+    )
+    
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "image/png",
+    }
+    
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/media/v3/upload",
+        data=IMAGE_DATA,
+        headers=headers,
+    )
+    
+    if response.status_code == 200:
+        mxc_uri = response.json().get("content_uri")
+        print(f"✓ Uploaded dummy avatar: {mxc_uri}")
+        return mxc_uri
+    else:
+        print(f"✗ Failed to upload avatar: {response.status_code} {response.text}")
+        return None
+
+
+def set_room_avatar(access_token: str, room_id: str, mxc_uri: str) -> bool:
+    """Set the avatar for a room."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {"url": mxc_uri}
+    
+    response = requests.put(
+        f"{SYNAPSE_URL}/_matrix/client/v3/rooms/{room_id}/state/m.room.avatar/",
+        json=payload,
+        headers=headers,
+    )
+    
+    if response.status_code == 200:
+        print(f"  ✓ Set room avatar to {mxc_uri}")
+        return True
+    else:
+        print(f"  ⚠ Failed to set room avatar: {response.status_code} {response.text}")
+        return False
+
+
 def main():
     """Initialize Matrix test server."""
     print("Initializing Matrix Synapse test server...")
@@ -350,15 +407,17 @@ def main():
                         print(f"  ℹ Skipping user invites for room (discovery test)")
 
                     # Populate with messages if configured
-                    if room_config.get("populate_with_messages", False):
-                        print(
-                            f"  Populating room with {room_config['message_count']} messages..."
-                        )
                         populate_room_with_messages(
                             token,
                             room_id,
                             room_config["message_count"],
                         )
+
+                    # Set avatar if configured
+                    if room_config.get("has_avatar", False):
+                        mxc_uri = upload_avatar(token)
+                        if mxc_uri:
+                            set_room_avatar(token, room_id, mxc_uri)
 
     print()
     print("=" * 60)
