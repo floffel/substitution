@@ -19,7 +19,7 @@ class LoginPage extends StatefulWidget {
   final Function onComplete;
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                 final client = Provider.of<Client>(context, listen: false);
                 final url = client.homeserver ?? Uri.parse('https://matrix.org');
                 if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Could not launch \$url')),
                   );

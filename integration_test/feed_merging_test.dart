@@ -38,7 +38,9 @@ void main() {
       try {
         await app.globalMatrixClient?.dispose();
         app.globalMatrixClient = null;
-      } catch (e) {}
+      } catch (e) {
+        debugPrint("Failed to dispose client in tearDown: $e");
+      }
 
       if (!kIsWeb) {
         try {
@@ -47,31 +49,11 @@ void main() {
           if (await dart_io.File(dbPath).exists()) {
             await databaseFactory.deleteDatabase(dbPath);
           }
-        } catch (e) {}
+        } catch (e) {
+          debugPrint("Failed to delete database in tearDown: $e");
+        }
       }
     });
-
-    Future<void> loginUser(WidgetTester tester) async {
-      final client = app.globalMatrixClient;
-      if (client == null) throw Exception("globalMatrixClient not found");
-
-      debugPrint("Starting programmatic login for test user...");
-      client.homeserver = Uri.parse(testMatrixServer);
-      await client.checkHomeserver(client.homeserver!);
-
-      await client.login(
-        LoginType.mLoginPassword,
-        identifier: AuthenticationUserIdentifier(user: testUser),
-        password: testPassword,
-      );
-
-      debugPrint("Login success, navigating to Feed...");
-      // For programmatic login, we might need a context to use GoRouter
-      // Wait for app to settle after login
-      await tester.pumpWidget(const SizedBox()); // Dummy pump to avoid errors if main haven't run yet
-      
-      // Since we are calling app.main() in testWidgets, we can find the context there
-    }
 
     testWidgets(
       'Messages from multiple rooms are interleaved correctly in chronological order',
@@ -96,6 +78,7 @@ void main() {
 
         // Let's try to find any widget that might have a GoRouter
         final BuildContext context = tester.element(find.byType(Navigator).first);
+        // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
         await tester.pumpAndSettle(const Duration(seconds: 2));
 
@@ -134,6 +117,7 @@ void main() {
         }
 
         // 5. Navigate to Home Feed (to force refresh)
+        // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
         await tester.pumpAndSettle();
         

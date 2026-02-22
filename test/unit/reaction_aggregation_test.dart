@@ -7,22 +7,16 @@ void main() {
   setUpTestInfrastructure();
 
   group('Reaction Aggregation', () {
-    late MockClient mockClient;
     late MockRoom mockRoom;
     late MockEvent mockEvent;
     late MockUser mockUser1;
-    late MockUser mockUser2;
-    late MockUser mockUser3;
 
     setUp(() {
-      mockClient = MockClient();
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
       mockUser1 =
           createMockUser(id: '@user1:matrix.org', displayName: 'User One');
-      mockUser2 =
-          createMockUser(id: '@user2:matrix.org', displayName: 'User Two');
-      mockUser3 =
-          createMockUser(id: '@user3:matrix.org', displayName: 'User Three');
+      createMockUser(id: '@user2:matrix.org', displayName: 'User Two');
+      createMockUser(id: '@user3:matrix.org', displayName: 'User Three');
       mockEvent = createMockEvent(
         type: 'm.room.message',
         body: 'Test message',

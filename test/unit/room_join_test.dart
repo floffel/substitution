@@ -15,11 +15,9 @@ void main() {
 
   group('Room Join Tests', () {
     late MockClient mockClient;
-    late MockRoom mockRoom;
 
     setUp(() {
       mockClient = MockClient();
-      mockRoom = MockRoom();
     });
 
     test('client.joinRoom(roomId) is called with correct room ID', () async {

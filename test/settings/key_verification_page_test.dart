@@ -48,10 +48,7 @@ class MockDeviceKeys extends Mock implements DeviceKeys {
 
 void main() {
   group('Key Verification Page Widget Tests', () {
-    late MockClient mockClient;
-
     setUp(() {
-      mockClient = MockClient();
     });
 
     test('Device list structure', () {

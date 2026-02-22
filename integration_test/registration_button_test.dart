@@ -19,7 +19,7 @@ void main() {
     setUp(() async {
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
-        final dbPath = '\${appDocDir.path}/matrix_database.db';
+        final dbPath = '${appDocDir.path}/matrix_database.db';
         final dbFile = dart_io.File(dbPath);
         if (await dbFile.exists()) {
           await dbFile.delete();
@@ -31,7 +31,7 @@ void main() {
       await app.globalMatrixClient?.dispose();
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
-        final dbPath = '\${appDocDir.path}/matrix_database.db';
+        final dbPath = '${appDocDir.path}/matrix_database.db';
         final dbFile = dart_io.File(dbPath);
         if (await dbFile.exists()) {
           await dbFile.delete();
@@ -43,14 +43,15 @@ void main() {
       'Login page shows SSO and Web Register buttons',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 8; _ps++) {
+        for (int ps = 0; ps < 8; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         // Bypass intro directly to host page
         final BuildContext context = tester.element(find.byType(Scaffold).first);
+        // ignore: use_build_context_synchronously
         GoRouter.of(context).go('/auth/host');
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -62,7 +63,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields1.first, testMatrixServer);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -72,7 +73,7 @@ void main() {
           return;
         }
         await tester.ensureVisible(submitButtonFinder);
-        for (int _ps = 0; _ps < 2; _ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(submitButtonFinder);
@@ -97,13 +98,13 @@ void main() {
 
         // Tap register web button
         await tester.ensureVisible(registerWebFinder);
-        for (int _ps = 0; _ps < 2; _ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(registerWebFinder);
         
         // Wait to ensure no crash
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

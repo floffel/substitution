@@ -15,13 +15,11 @@ class MockUser extends Mock implements User {}
 
 void main() {
   group('Timeline Merge & Filter Logic', () {
-    late MockClient mockClient;
     late MockRoom mockRoom1;
     late MockRoom mockRoom2;
     late MockUser mockUser;
 
     setUp(() {
-      mockClient = MockClient();
       mockRoom1 = MockRoom();
       mockRoom2 = MockRoom();
       mockUser = MockUser();

@@ -4,13 +4,11 @@ import '../helpers/test_helpers.dart';
 
 void main() {
   group('Room Permissions Logic Tests', () {
-    late MockClient mockClient;
     late MockRoom mockRoom;
 
     setUpTestInfrastructure();
 
     setUp(() {
-      mockClient = MockClient();
       mockRoom = createMockRoom(
         name: 'Test Room',
         id: '!testroom:matrix.org',

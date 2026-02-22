@@ -86,25 +86,25 @@ void main() async {
       routes: [
         GoRoute(
           path: '/age-gate',
-          builder: (_, __) => const AgeGatePage(),
+          builder: (_, _) => const AgeGatePage(),
         ),
         GoRoute(
           path: '/',
           redirect: testRedirect,
-          builder: (_, __) => const Feed(),
+          builder: (_, _) => const Feed(),
           //parentNavigatorKey: rootNavigatorKey,
-          pageBuilder: (_, __) {
+          pageBuilder: (_, _) {
             // needed b.c. /feed:roomId has the same widget
             return CustomTransitionPage<void>(
                 key: UniqueKey(),
                 child: const Feed(),
-                transitionsBuilder: (_, __, ___, child) => child);
+                transitionsBuilder: (_, _, _, child) => child);
           },
         ),
         GoRoute(
           redirect: testRedirect,
           path: '/write/select/room', // write/select/room
-          builder: (_, __) =>
+          builder: (_, _) =>
               ScaffoldWithNavigation(child: const RoomSelectPage()),
         ),
         GoRoute(

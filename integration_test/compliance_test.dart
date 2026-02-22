@@ -117,8 +117,9 @@ void main() {
 
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       final usernameField = find.byKey(const Key('loginUsernameInput'));

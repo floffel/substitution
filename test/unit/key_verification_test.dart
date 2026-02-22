@@ -34,7 +34,6 @@ void main() {
 
     test('client.userDeviceKeys returns device list', () {
       // Arrange
-      final deviceKeys = MockDeviceKeys();
       final mockDeviceList = <String, DeviceKeysList>{};
 
       when(() => mockClient.userDeviceKeys).thenReturn(mockDeviceList);

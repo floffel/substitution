@@ -161,8 +161,8 @@ void main() {
       );
 
       // Wait for both to complete
-      final oldResult = await oldSearch;
-      final newResult = await newSearch;
+      await oldSearch;
+      await newSearch;
 
       // The newer search (gen2) should be the one used
       expect(gen2, greaterThan(gen1));

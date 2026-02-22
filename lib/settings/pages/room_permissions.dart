@@ -162,7 +162,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(room!.name ?? 'Room Permissions'),
+        title: Text(room!.name),
       ),
       body: isAdmin ? _buildAdminView() : _buildReadOnlyView(),
     );
@@ -331,12 +331,12 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
       itemCount: members.length,
       itemBuilder: (context, index) {
         final member = members[index];
-        final powerLevel = room!.getPowerLevelByUserId(member.id) ?? 0;
+        final powerLevel = room!.getPowerLevelByUserId(member.id);
 
         return Card(
           child: ListTile(
             leading: CircleAvatar(
-              child: Text(member.displayName?.isNotEmpty == true
+              child: Text(member.displayName != null && member.displayName!.isNotEmpty
                   ? member.displayName!.characters.first.toUpperCase()
                   : member.id.characters.first),
             ),
@@ -372,12 +372,12 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
       itemCount: members.length,
       itemBuilder: (context, index) {
         final member = members[index];
-        final powerLevel = room!.getPowerLevelByUserId(member.id) ?? 0;
+        final powerLevel = room!.getPowerLevelByUserId(member.id);
 
         return Card(
           child: ListTile(
             leading: CircleAvatar(
-              child: Text(member.displayName?.isNotEmpty == true
+              child: Text(member.displayName != null && member.displayName!.isNotEmpty
                   ? member.displayName!.characters.first.toUpperCase()
                   : member.id.characters.first),
             ),

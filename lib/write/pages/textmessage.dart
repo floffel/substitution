@@ -127,7 +127,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
               // TODO: this is the same as in filemessage.dart => make it modular somehow?
               while (ret == null || userCancel) {
                 // TODO: make it a mixin, its almost the same as in login.dart
-                if (!mounted) return;
+                if (!context.mounted) return;
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,
@@ -161,6 +161,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 navigator.pop(); // pop the send started window
 
                 if (ret == null) {
+                  if (!context.mounted) break;
                   userCancel = await showDialog<bool>(
                         context: context,
                         builder: (BuildContext context) {

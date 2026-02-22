@@ -30,7 +30,9 @@ void main() {
           if (await mainDb.exists()) {
             await mainDb.delete();
           }
-        } catch (e) {}
+        } catch (e) {
+          debugPrint("Failed to delete database in setUp: $e");
+        }
 
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath =
@@ -57,12 +59,16 @@ void main() {
       if (sqliteDatabase != null && !kIsWeb) {
         try {
           await sqliteDatabase!.close();
-        } catch (e) {}
+        } catch (e) {
+          debugPrint("Failed to close database in tearDown: $e");
+        }
       }
       try {
         await app.globalMatrixClient?.dispose();
         app.globalMatrixClient = null;
-      } catch (e) {}
+      } catch (e) {
+        debugPrint("Failed to dispose client in tearDown: $e");
+      }
     });
 
     Future<void> loginUser(WidgetTester tester) async {

@@ -27,7 +27,7 @@ List<LoginFlow> matrixOrgFlows() => [
 
 /// tchncs.de — password + SSO with 5 named identity providers.
 /// A good real-world example of a server with multiple SSO options.
-List<LoginFlow> tchncsDe_Flows() => [
+List<LoginFlow> tchncsDeFlows() => [
       LoginFlow.fromJson({
         'type': AuthenticationTypes.sso,
         'identity_providers': [
@@ -92,7 +92,12 @@ void main() {
             any(),
             identifier: any(named: 'identifier'),
             password: any(named: 'password'),
-          )).thenAnswer((_) async => Future.value());
+          )).thenAnswer((_) async => LoginResponse(
+                userId: '@user:example.org',
+                accessToken: 'token',
+                homeServer: 'example.org',
+                deviceId: 'device_id',
+              ));
 
       final authState = AuthState()
         ..setLoginFlows([
@@ -306,7 +311,7 @@ void main() {
       when(() => mockClient.homeserver)
           .thenReturn(Uri.parse('https://tchncs.de'));
 
-      final authState = AuthState()..setLoginFlows(tchncsDe_Flows());
+      final authState = AuthState()..setLoginFlows(tchncsDeFlows());
 
       await pumpApp(
         tester,

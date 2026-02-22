@@ -16,7 +16,7 @@ class HostPage extends StatefulWidget {
   final Function onComplete;
 
   @override
-  _HostPageState createState() => _HostPageState();
+  State<HostPage> createState() => _HostPageState();
 }
 
 class _HostPageState extends State<HostPage> {

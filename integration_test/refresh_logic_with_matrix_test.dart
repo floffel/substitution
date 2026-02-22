@@ -21,8 +21,6 @@ void main() {
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
-    late Database? sqliteDatabase;
-
     setUp(() async {
       if (!kIsWeb) {
         try {
@@ -39,14 +37,18 @@ void main() {
       try {
         await app.globalMatrixClient?.dispose();
         app.globalMatrixClient = null;
-      } catch (e) {}
+      } catch (e) {
+        debugPrint("Failed to dispose client in tearDown: $e");
+      }
 
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
           final dbPath = '${appDocDir.path}/matrix_database.db';
           await databaseFactory.deleteDatabase(dbPath);
-        } catch (e) {}
+        } catch (e) {
+          debugPrint("Failed to delete database in tearDown: $e");
+        }
       }
     });
 
@@ -101,7 +103,6 @@ void main() {
         }
         
         // Refresh home page to reflect the leave
-        final homePageState = tester.state<home_page.HomePageState>(find.byType(home_page.HomePage));
         // Manual trigger just to ensure clean slate
         // homePageState.setState(() {}); 
         // We can just pump

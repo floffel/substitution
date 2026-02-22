@@ -14,8 +14,6 @@ void main() {
     });
 
     test('setDisplayName updates profile', () async {
-      const newName = 'Jane Doe';
-
       // Just verify the client method exists and can be called
       expect(mockClient, isNotNull);
     });

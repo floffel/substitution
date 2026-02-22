@@ -1,17 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:substitution/shared/services/connectivity_service.dart';
 
 class MockConnectivityPlus extends Mock implements Connectivity {}
 
 void main() {
   group('Connectivity Service Tests', () {
-    late MockConnectivityPlus mockConnectivity;
-    late ConnectivityService service;
-
     setUp(() {
-      mockConnectivity = MockConnectivityPlus();
     });
 
     test('isOnline returns true when connected', () async {

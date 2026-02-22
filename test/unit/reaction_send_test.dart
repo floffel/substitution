@@ -7,13 +7,11 @@ void main() {
   setUpTestInfrastructure();
 
   group('Reaction Send', () {
-    late MockClient mockClient;
     late MockRoom mockRoom;
     late MockEvent mockEvent;
     late MockUser mockSender;
 
     setUp(() {
-      mockClient = MockClient();
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
       mockSender =
           createMockUser(id: '@user:matrix.org', displayName: 'Test User');

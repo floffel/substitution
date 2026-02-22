@@ -204,7 +204,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   ].join(".");
 
                   // TODO: make it a mixin, its almost the same as in login.dart
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   showDialog<void>(
                     context: context,
                     barrierDismissible: false,
@@ -232,6 +232,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   navigator.pop(); // pop the Uploading file ... dialog
 
                   if (ret == null) {
+                    if (!context.mounted) break;
                     userCancel = await showDialog<bool>(
                           context: context,
                           builder: (BuildContext context) {

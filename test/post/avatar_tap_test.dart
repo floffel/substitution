@@ -29,8 +29,6 @@ void main() {
 
     testWidgets('Tapping avatar on PostWidget navigates to /profile/:userId',
         (WidgetTester tester) async {
-      late GoRouter router;
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
@@ -83,8 +81,6 @@ void main() {
 
     testWidgets('Tapping avatar on CommentWidget navigates to /profile/:userId',
         (WidgetTester tester) async {
-      late GoRouter router;
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
