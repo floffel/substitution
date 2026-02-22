@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
+import 'package:substitution/shared/services/substitution_service.dart';
 
 // Mock classes
 class MockClient extends Mock implements Client {}
@@ -58,6 +59,8 @@ void main() {
           providers: [
             Provider<Client>.value(value: mockClient),
             Provider<ConnectivityService>.value(value: mockConnectivityService),
+            ChangeNotifierProvider<SubstitutionService>.value(
+                value: SubstitutionService(mockClient)),
           ],
           child: MaterialApp(
             home: const HomePage(),

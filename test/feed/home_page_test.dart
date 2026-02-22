@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
+import 'package:substitution/shared/services/substitution_service.dart';
 
 // Mock classes
 class MockClient extends Mock implements Client {}
@@ -63,6 +64,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -123,6 +126,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -151,6 +156,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -180,6 +187,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -209,6 +218,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -231,7 +242,7 @@ void main() {
     testWidgets('Feed with followed rooms but no events shows empty state',
         (WidgetTester tester) async {
       final mockConnectivityService = MockConnectivityService();
-      
+
       final mockRoomEmpty = MockRoom();
       final mockTimelineEmpty = MockTimeline();
 
@@ -240,16 +251,19 @@ void main() {
       when(() => mockTimelineEmpty.room).thenReturn(mockRoomEmpty);
       when(() => mockTimelineEmpty.events).thenReturn([]);
       when(() => mockTimelineEmpty.canRequestHistory).thenReturn(false);
-      when(() => mockRoomEmpty.getTimeline()).thenAnswer((_) async => mockTimelineEmpty);
+      when(() => mockRoomEmpty.getTimeline())
+          .thenAnswer((_) async => mockTimelineEmpty);
 
-      when(() => mockClient.getRoomById('!empty:matrix.org')).thenReturn(mockRoomEmpty);
-      when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => ['!empty:matrix.org']);
-      
+      when(() => mockClient.getRoomById('!empty:matrix.org'))
+          .thenReturn(mockRoomEmpty);
+      when(() => mockClient.getJoinedRooms())
+          .thenAnswer((_) async => ['!empty:matrix.org']);
+
       when(() => mockClient.getAccountDataPerRoom(
-        '@user:matrix.org',
-        '!empty:matrix.org',
-        'substitution',
-      )).thenAnswer((_) async => {'joined': true});
+            '@user:matrix.org',
+            '!empty:matrix.org',
+            'substitution',
+          )).thenAnswer((_) async => {'joined': true});
 
       await tester.pumpWidget(
         EasyLocalization(
@@ -261,6 +275,8 @@ void main() {
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
                   value: mockConnectivityService),
+              ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient)),
             ],
             child: MaterialApp(
               home: const HomePage(),
@@ -276,7 +292,7 @@ void main() {
       // After loading finishes, the spinner should be gone.
       expect(find.byType(CircularProgressIndicator), findsNothing);
 
-      // And the empty feed CTA should be present. 
+      // And the empty feed CTA should be present.
       // (in tests, easy_localization may fall back to the raw key if translation files aren't loaded)
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
