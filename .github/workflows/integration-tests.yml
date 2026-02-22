@@ -86,9 +86,9 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
-          docker-compose up -d postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
           sleep 10
-          docker-compose run --rm matrix-init
+          docker compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
       - name: 'Run web tests (unit/widget on Chrome + integration on web device)'
@@ -101,7 +101,7 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
 
   # ============================================================================
   # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
@@ -137,9 +137,9 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
-          docker-compose up -d postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
           sleep 10
-          docker-compose run --rm matrix-init
+          docker compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
       - name: 'Run Linux integration tests'
@@ -156,7 +156,7 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
 
   # ============================================================================
   # iOS TESTS (macOS runner, ~30-40 minutes)
@@ -179,24 +179,15 @@ jobs:
       - name: 'Install dependencies'
         run: flutter pub get
 
-      - name: 'Start Matrix test server'
-        run: |
-          docker-compose up -d postgres matrix-synapse redis
-          sleep 10
-          docker-compose run --rm matrix-init
-          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
-
       - name: 'Run iOS integration tests'
         env:
+          # Note: Local Matrix server is not available on macOS runners (no Docker).
+          # Tests depending on a local server may fail or should be skipped.
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker
         timeout-minutes: 35
-
-      - name: 'Stop Matrix test server'
-        if: always()
-        run: docker-compose down -v
 
   # ============================================================================
   # ANDROID TESTS (Linux runner, ~25-35 minutes)
@@ -224,8 +215,9 @@ jobs:
 
       - name: 'Install Android SDK'
         run: |
-          sdkmanager --licenses <<< y || true
-          sdkmanager "platforms;android-33" \
+          # Use full path to sdkmanager on ubuntu-latest
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses <<< y || true
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" \
             "build-tools;33.0.0" \
             "system-images;android-31;google_apis;x86" \
             "emulator" \
@@ -236,9 +228,9 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
-          docker-compose up -d postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
           sleep 10
-          docker-compose run --rm matrix-init
+          docker compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
       - name: 'Run Android integration tests'
@@ -251,7 +243,7 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
 
   # ============================================================================
   # FINAL STATUS CHECK
