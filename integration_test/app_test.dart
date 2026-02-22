@@ -7,11 +7,15 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import '../test/helpers/integration_test_helper.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Substitution App - Base Integration Tests', () {
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -39,6 +43,8 @@ void main() {
       // Start the app
       app.main();
 
+      await handleAgeGate(tester);
+
       // Wait for the app to stabilize
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -50,6 +56,7 @@ void main() {
 
     testWidgets('App handles Matrix connection', (WidgetTester tester) async {
       app.main();
+      await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
@@ -60,6 +67,7 @@ void main() {
 
     testWidgets('Navigation works correctly', (WidgetTester tester) async {
       app.main();
+      await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
@@ -70,20 +78,21 @@ void main() {
 
     testWidgets('App handles orientation changes', (WidgetTester tester) async {
       app.main();
+      await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Test portrait orientation
-      tester.binding.window.physicalSizeTestValue = const ui.Size(1080, 2400);
-      tester.binding.window.devicePixelRatioTestValue = 1.0;
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      tester.view.physicalSize = const ui.Size(1080, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Test landscape orientation
-      tester.binding.window.physicalSizeTestValue = const ui.Size(2400, 1080);
+      tester.view.physicalSize = const ui.Size(2400, 1080);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }

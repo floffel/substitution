@@ -3,7 +3,6 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
-import '/post/interfaces/i_event.dart';
 
 class DialogReportBlock extends StatefulWidget {
   final Event event;

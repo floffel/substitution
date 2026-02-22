@@ -102,9 +102,9 @@ void main() {
         
         // Refresh home page to reflect the leave
         final homePageState = tester.state<home_page.HomePageState>(find.byType(home_page.HomePage));
-        homePageState.setState(() {
-            // Manual trigger just to ensure clean slate
-        });
+        // Manual trigger just to ensure clean slate
+        // homePageState.setState(() {}); 
+        // We can just pump
         await tester.pumpAndSettle();
 
         // Verify "test_general" content is NOT present

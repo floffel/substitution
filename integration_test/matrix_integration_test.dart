@@ -140,7 +140,7 @@ void main() {
 
       // Look for test rooms
       final roomNames = client.rooms.map((r) => r.name).toList();
-      expect(roomNames.any((n) => (n ?? '').contains('test_')), true);
+      expect(roomNames.any((n) => n.contains('test_')), true);
     });
 
     testWidgets('Test room with messages vs empty room',
@@ -156,9 +156,9 @@ void main() {
 
       // Find test rooms
       final generalRoom =
-          client.rooms.firstWhere((r) => (r.name ?? '').contains('general'));
+          client.rooms.firstWhere((r) => r.name.contains('general'));
       final artRoom =
-          client.rooms.firstWhere((r) => (r.name ?? '').contains('art'));
+          client.rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom, isNotNull);
       expect(artRoom, isNotNull);
@@ -235,11 +235,11 @@ void main() {
 
       // All test rooms should exist and be accessible
       final generalRoom =
-          client.rooms.firstWhere((r) => (r.name ?? '').contains('general'));
+          client.rooms.firstWhere((r) => r.name.contains('general'));
       final photosRoom =
-          client.rooms.firstWhere((r) => (r.name ?? '').contains('photos'));
+          client.rooms.firstWhere((r) => r.name.contains('photos'));
       final artRoom =
-          client.rooms.firstWhere((r) => (r.name ?? '').contains('art'));
+          client.rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom.name, 'test_general');
       expect(photosRoom.name, 'test_photos');
@@ -276,7 +276,7 @@ void main() {
       await client.sync();
       final rooms = client.rooms;
       final generalRoom =
-          rooms.firstWhere((r) => (r.name ?? '').contains('general'));
+          rooms.firstWhere((r) => r.name.contains('general'));
 
       expect(generalRoom, isNotNull);
 
@@ -298,7 +298,7 @@ void main() {
       // Sync to get rooms
       await client.sync();
       final rooms = client.rooms;
-      final artRoom = rooms.firstWhere((r) => (r.name ?? '').contains('art'));
+      final artRoom = rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(artRoom, isNotNull);
 
@@ -412,10 +412,10 @@ void main() {
       // test_art - 0 messages
 
       final generalRoom =
-          rooms.firstWhere((r) => (r.name ?? '').contains('general'));
+          rooms.firstWhere((r) => r.name.contains('general'));
       final photosRoom =
-          rooms.firstWhere((r) => (r.name ?? '').contains('photos'));
-      final artRoom = rooms.firstWhere((r) => (r.name ?? '').contains('art'));
+          rooms.firstWhere((r) => r.name.contains('photos'));
+      final artRoom = rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom, isNotNull);
       expect(photosRoom, isNotNull);

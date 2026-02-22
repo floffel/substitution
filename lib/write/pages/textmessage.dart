@@ -193,9 +193,11 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                       ) ??
                       false;
                 } else {
-                  scavMsg.showSnackBar(SnackBar(
-                    content: const Text("write.textmessage.send_complete").tr(),
-                  ));
+                  if (mounted) {
+                    scavMsg.showSnackBar(SnackBar(
+                      content: const Text("write.textmessage.send_complete").tr(),
+                    ));
+                  }
                 }
               }
 

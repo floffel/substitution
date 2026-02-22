@@ -6,13 +6,13 @@ class ConnectivityService {
   /// Stream that emits true when connected, false when disconnected
   Stream<bool> get onConnectivityChanged {
     return _connectivity.onConnectivityChanged.map((result) {
-      return result != ConnectivityResult.none;
+      return !result.contains(ConnectivityResult.none);
     });
   }
 
   /// Check current connectivity status
   Future<bool> get isOnline async {
     final result = await _connectivity.checkConnectivity();
-    return result != ConnectivityResult.none;
+    return !result.contains(ConnectivityResult.none);
   }
 }

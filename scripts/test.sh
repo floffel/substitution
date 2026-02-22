@@ -98,7 +98,7 @@ show_help() {
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            unit|widget|web|linux|ios|android|integration|all)
+            unit|widget|web|linux|macos|ios|android|integration|all)
                 TARGETS+=("$1")
                 shift
                 ;;
@@ -178,8 +178,11 @@ expand_targets() {
                 if [[ "$os" == "linux" ]]; then
                     expanded+=("linux")
                 fi
-                if [[ "$os" == "darwin" ]] && command -v xcrun &>/dev/null; then
-                    expanded+=("ios")
+                if [[ "$os" == "darwin" ]]; then
+                    expanded+=("macos")
+                    if command -v xcrun &>/dev/null; then
+                        expanded+=("ios")
+                    fi
                 fi
                 if command -v emulator &>/dev/null || [[ -n "${ANDROID_SDK_ROOT:-}" ]]; then
                     expanded+=("android")
@@ -187,8 +190,8 @@ expand_targets() {
                 ;;
             integration)
                 # Pick best available platform
-                if [[ "$os" == "darwin" ]] && command -v xcrun &>/dev/null; then
-                    expanded+=("ios")
+                if [[ "$os" == "darwin" ]]; then
+                     expanded+=("macos")
                 elif [[ "$os" == "linux" ]]; then
                     expanded+=("linux")
                 elif command -v emulator &>/dev/null; then
@@ -220,7 +223,7 @@ expand_targets() {
 needs_docker() {
     for target in "${TARGETS[@]}"; do
         case "$target" in
-            web|linux|ios|android) return 0 ;;
+            web|linux|macos|ios|android) return 0 ;;
         esac
     done
     return 1
@@ -310,6 +313,9 @@ main() {
                 ;;
             linux)
                 run_linux_tests || overall_exit=1
+                ;;
+            macos)
+                run_macos_tests || overall_exit=1
                 ;;
             ios)
                 run_ios_tests || overall_exit=1

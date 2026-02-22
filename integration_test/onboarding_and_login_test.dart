@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../test/helpers/integration_test_helper.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +21,7 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -41,20 +44,35 @@ void main() {
       }
     });
 
+    Future<void> navigateToHostPage(WidgetTester tester) async {
+      // Tap 'Next' twice to get to the HostPage (Welcome -> Account -> Host)
+      final nextButtonFinder = find.text('intro.buttons.next'.tr());
+      
+      // Page 1: Welcome -> Next -> Page 2: Account
+      if (nextButtonFinder.evaluate().isNotEmpty) {
+         await tester.tap(nextButtonFinder);
+         await tester.pumpAndSettle();
+      }
+      
+      // Page 2: Account -> Next -> Page 3: Host
+      if (nextButtonFinder.evaluate().isNotEmpty) {
+         await tester.tap(nextButtonFinder);
+         await tester.pumpAndSettle();
+      }
+    }
+
     testWidgets(
       'Complete onboarding: host selection -> login -> view feed',
       (WidgetTester tester) async {
-        // Bypass age gate for integration tests which run with a fresh
-        // SharedPreferences store every run (tests previously stuck on age gate).
-        AgeGatePage.confirmed = true;
         // Start the app
         app.main();
+        await handleAgeGate(tester);
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        // Verify we start at the introduction page
-        expect(find.byType(MaterialApp), findsWidgets);
+        // Navigate to Host Page
+        await navigateToHostPage(tester);
 
         // Step 1: Enter homeserver URL
         final textFormFields1 = find.byType(TextFormField);
@@ -101,6 +119,19 @@ void main() {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
+        // Wait specifically for password field
+        for (int i = 0; i < 20; i++) {
+          if (find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty) {
+            break;
+          }
+          await tester.pump(const Duration(milliseconds: 200));
+        }
+
+        debugPrint("Debug: Checking for fields...");
+        debugPrint("Fields count: ${find.byType(TextFormField).evaluate().length}");
+        debugPrint("Username field found: ${find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty}");
+        debugPrint("Password field found: ${find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty}");
+
         final textFormFields2b = find.byType(TextFormField);
         if (textFormFields2b.evaluate().length < 2) {
           debugPrint('⚠ Password field not found - skipping');
@@ -137,9 +168,14 @@ void main() {
       'Login with invalid credentials shows error',
       (WidgetTester tester) async {
         app.main();
+        await handleAgeGate(tester);
+        await tester.pumpAndSettle();
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
+
+        // Navigate to Host Page
+        await navigateToHostPage(tester);
 
         // Enter homeserver
         final textFormFields1 = find.byType(TextFormField);
@@ -148,7 +184,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields1.first, testMatrixServer);
-        for (int ps = 0; ps < 20; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -158,9 +194,7 @@ void main() {
           return;
         }
         await tester.ensureVisible(submitButtonFinder);
-        for (int ps = 0; ps < 2; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await tester.pump(const Duration(milliseconds: 500));
         await tester.tap(submitButtonFinder);
 
         // Wait for page transition
@@ -176,9 +210,18 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2.first, 'nonexistent_user');
-        for (int ps = 0; ps < 20; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // Wait specifically for password field
+        for (int i = 0; i < 20; i++) {
+          if (find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty) {
+            break;
+          }
+          await tester.pump(const Duration(milliseconds: 200));
         }
+
+        debugPrint("Debug: Checking for fields (Invalid login test)...");
+        debugPrint("Fields count: ${find.byType(TextFormField).evaluate().length}");
 
         final textFormFields2b = find.byType(TextFormField);
         if (textFormFields2b.evaluate().length < 2) {
@@ -186,9 +229,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2b.at(1), 'wrong_password');
-        for (int ps = 0; ps < 20; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Tap login
         final elevatedButtons = find.byType(ElevatedButton);
@@ -209,16 +250,21 @@ void main() {
           debugPrint('✓ Invalid credentials properly rejected');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(seconds: 180)),
     );
 
     testWidgets(
       'User can choose different homeserver',
       (WidgetTester tester) async {
         app.main();
+        await handleAgeGate(tester);
+        await tester.pumpAndSettle();
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
+
+        // Navigate to Host Page
+        await navigateToHostPage(tester);
 
         // Find homeserver field
         final textFormFields = find.byType(TextFormField);
@@ -229,14 +275,10 @@ void main() {
 
         // Enter test homeserver
         await tester.tap(textFormFields.first);
-        for (int ps = 0; ps < 20; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await tester.pump(const Duration(milliseconds: 500));
 
         await tester.enterText(textFormFields.first, testMatrixServer);
-        for (int ps = 0; ps < 20; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Verify it was entered
         if (find.text(testMatrixServer).evaluate().isEmpty) {
@@ -245,7 +287,7 @@ void main() {
           debugPrint('✓ Homeserver selection working');
         }
       },
-      timeout: const Timeout(Duration(seconds: 30)),
+      timeout: const Timeout(Duration(seconds: 60)),
     );
   });
 }

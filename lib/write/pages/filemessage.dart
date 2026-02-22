@@ -266,11 +266,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                         ) ??
                         false;
                   } else {
-                    scavMsg.showSnackBar(SnackBar(
-                      content:
-                          const Text("write.filemessage.upload_file_complete")
-                              .tr(args: [uploadFileName]),
-                    ));
+                    if (mounted) {
+                      scavMsg.showSnackBar(SnackBar(
+                        content:
+                            const Text("write.filemessage.upload_file_complete")
+                                .tr(args: [uploadFileName]),
+                      ));
+                    }
                   }
                 }
 
@@ -290,9 +292,11 @@ class FileMessageWriteState extends State<FileMessageWrite> {
 /*
                 debugPrint("send message complete with ret ${ret}...");*/
               // todo: show complete action and route to home or so
-              scavMsg.showSnackBar(SnackBar(
-                content: const Text("write.filemessage.upload_complete").tr(),
-              ));
+              if (mounted) {
+                scavMsg.showSnackBar(SnackBar(
+                  content: const Text("write.filemessage.upload_complete").tr(),
+                ));
+              }
 
               if (answerEvent != null) {
                 goRouter.go(Uri(
