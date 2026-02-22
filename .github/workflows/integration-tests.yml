@@ -121,6 +121,8 @@ jobs:
           sudo apt-get install -y \
             clang cmake ninja-build pkg-config \
             libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+            libgl1-mesa-dev \
             xvfb
 
       - name: 'Setup Flutter'
@@ -204,7 +206,7 @@ jobs:
       - name: 'Setup Java'
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: 'Setup Flutter'

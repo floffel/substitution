@@ -11,10 +11,14 @@ run_linux_tests() {
 
     validate_flutter || return 1
 
+    # Virtual display for headless Linux runners
+    start_virtual_display || true
+
     # Verify Linux desktop is enabled
     if ! flutter config 2>/dev/null | grep -q "enable-linux-desktop: true"; then
         log_info "Enabling Linux desktop support..."
         flutter config --enable-linux-desktop 2>&1 | tail -3
+        flutter doctor -v > /dev/null 2>&1
     fi
 
     # Verify linux device is available
@@ -28,9 +32,6 @@ run_linux_tests() {
         log_warn "integration_test/ directory not found — skipping Linux integration tests"
         return 0
     fi
-
-    # Virtual display for headless Linux runners
-    start_virtual_display || true
 
     local log_file="${RESULTS_DIR}/linux-tests.log"
     local timeout="${LINUX_TEST_TIMEOUT:-600}"
