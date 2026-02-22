@@ -8,7 +8,6 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 env:
-  FLUTTER_VERSION: '3.19.0'
   CACHE_VERSION: v1
 
 jobs:
@@ -24,7 +23,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -52,7 +50,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -78,7 +75,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -130,7 +126,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -178,7 +173,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -225,7 +219,6 @@ jobs:
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
