@@ -60,6 +60,9 @@ class _MenuState extends State<Menu> {
             } else if (index == 6) {
               // Security
               context.push("/settings/security");
+            } else if (index == 7) {
+              // Legal
+              context.push("/settings/legal");
             }
           } else {
             if (index == 0) {
@@ -167,6 +170,11 @@ class _MenuState extends State<Menu> {
             ),
           ],
           const SizedBox(height: 22),
+          NavigationDrawerDestination(
+            icon: const Icon(Icons.gavel_outlined),
+            selectedIcon: const Icon(Icons.gavel),
+            label: const Text('settings.legal.title').tr(),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SwitchListTile(

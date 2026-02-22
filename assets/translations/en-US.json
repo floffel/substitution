@@ -18,11 +18,27 @@
         "error": {
             "not_found": "Post not found or unavailable."
         },
+        "menu": {
+            "report_block": "Report / Block"
+        },
+        "dialog": {
+            "report_block_title": "Report Content or Block User",
+            "report_desc": "Please describe why you are reporting this content (optional).",
+            "report_reason": "Reason for report",
+            "report_reason_hint": "This content is offensive because...",
+            "block_user_checkbox": "Also block this user",
+            "block_user_desc": "You will no longer see content from {}",
+            "submit": "Submit",
+            "cancel": "Cancel",
+            "report_block_success": "Report submitted. Thank you.",
+            "report_block_error": "An error occurred: {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "No comments yet."
             }
         },
+        "continue_thread": "Continue this thread...",
         "mixins": {
             "iconpicker": {
                 "title": "Choose icon"
@@ -51,6 +67,13 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "imprint": "Imprint",
+            "licenses": "Open Source Licenses"
+        },
         "followfeeds": {
             "filter_server_header": "Choose a server from the list or add a new one:",
             "filter_rooms_header": "Search a room to follow or unfollow:",
@@ -160,7 +183,8 @@
             },
             "buttons": {
                 "login_label": "Login",
-                "sso_label": "Sign in with {}"
+                "sso_label": "Sign in with {}",
+                "register_web_label": "Register"
             }
         }
     },

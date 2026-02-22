@@ -45,7 +45,7 @@ void main() {
       (WidgetTester tester) async {
         // Start the app
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -59,7 +59,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields1.first, testMatrixServer);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -70,7 +70,7 @@ void main() {
           return;
         }
         await tester.ensureVisible(submitButtonFinder);
-        for (int _ps = 0; _ps < 2; _ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(submitButtonFinder);
@@ -78,8 +78,9 @@ void main() {
         // Wait for host check + page transition
         for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
-          if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+          if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
             break;
+          }
         }
 
         // Step 2: Enter credentials and login
@@ -89,7 +90,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2.first, testUser);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -99,7 +100,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2b.at(1), testPassword);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -110,7 +111,7 @@ void main() {
           return;
         }
         await tester.tap(elevatedButtons.first);
-        for (int _ps = 0; _ps < 10; _ps++) {
+        for (int ps = 0; ps < 10; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -129,7 +130,7 @@ void main() {
       'Login with invalid credentials shows error',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -140,7 +141,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields1.first, testMatrixServer);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -150,7 +151,7 @@ void main() {
           return;
         }
         await tester.ensureVisible(submitButtonFinder);
-        for (int _ps = 0; _ps < 2; _ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(submitButtonFinder);
@@ -168,7 +169,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2.first, 'nonexistent_user');
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -178,7 +179,7 @@ void main() {
           return;
         }
         await tester.enterText(textFormFields2b.at(1), 'wrong_password');
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -189,7 +190,7 @@ void main() {
           return;
         }
         await tester.tap(elevatedButtons.first);
-        for (int _ps = 0; _ps < 6; _ps++) {
+        for (int ps = 0; ps < 6; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -208,7 +209,7 @@ void main() {
       'User can choose different homeserver',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -221,12 +222,12 @@ void main() {
 
         // Enter test homeserver
         await tester.tap(textFormFields.first);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await tester.enterText(textFormFields.first, testMatrixServer);
-        for (int _ps = 0; _ps < 20; _ps++) {
+        for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

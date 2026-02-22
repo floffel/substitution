@@ -93,13 +93,13 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
             find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       }
 
       // Enter homeserver using test key
@@ -107,19 +107,20 @@ void main() {
       expect(hostInput, findsOneWidget,
           reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(submitButton, warnIfMissed: false);
 
       // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       // Now on Login page (page 3) - enter credentials using test keys
@@ -127,15 +128,15 @@ void main() {
       expect(usernameField, findsOneWidget,
           reason: 'Username field should be visible on login page');
       await tester.enterText(usernameField, testUser);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(loginButton, warnIfMissed: false);
 
       // Wait for login to complete (real HTTP call), then tap Go on intro page 4
@@ -160,14 +161,14 @@ void main() {
       'Can react to messages with emoji',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -182,7 +183,7 @@ void main() {
         if (messageWidgets.evaluate().isNotEmpty) {
           // Long-press first message
           await tester.longPress(messageWidgets.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -206,14 +207,14 @@ void main() {
       'Can reply to messages',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -227,7 +228,7 @@ void main() {
         if (messageWidgets.evaluate().isNotEmpty) {
           // Try to access message options (might be tap, long-press, or menu button)
           await tester.tap(messageWidgets.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -236,7 +237,7 @@ void main() {
 
           if (replyButton.evaluate().isNotEmpty) {
             await tester.tap(replyButton.first);
-            for (int _ps = 0; _ps < 10; _ps++) {
+            for (int ps = 0; ps < 10; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
 
@@ -260,14 +261,14 @@ void main() {
       'Reactions from other users are visible',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -288,14 +289,14 @@ void main() {
       'Can view user profile by tapping avatar',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -305,7 +306,7 @@ void main() {
         if (avatarFinder.evaluate().isNotEmpty) {
           // Tap on an avatar
           await tester.tap(avatarFinder.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -323,7 +324,7 @@ void main() {
       'Message interactions work with messages from test_general room',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -337,7 +338,7 @@ void main() {
         expect(listViewFinder, findsWidgets);
 
         // Scroll to find and interact with a message
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -356,7 +357,7 @@ void main() {
       'Thread/reply view shows conversation context',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -368,7 +369,7 @@ void main() {
 
         // Try scrolling to reveal more context
         await tester.drag(listViewFinder.first, const Offset(0, -200));
-        for (int _ps = 0; _ps < 10; _ps++) {
+        for (int ps = 0; ps < 10; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

@@ -93,7 +93,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -101,7 +101,7 @@ void main() {
       for (int i = 0; i < 2; i++) {
         await tester.drag(
             find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
@@ -111,14 +111,14 @@ void main() {
       expect(hostInput, findsOneWidget,
           reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(submitButton, warnIfMissed: false);
@@ -126,8 +126,9 @@ void main() {
       // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       // Now on Login page (page 3) - enter credentials using test keys
@@ -135,19 +136,19 @@ void main() {
       expect(usernameField, findsOneWidget,
           reason: 'Username field should be visible on login page');
       await tester.enterText(usernameField, testUser);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(loginButton, warnIfMissed: false);
@@ -174,7 +175,7 @@ void main() {
       'STRICT: Can discover unjoinable room (test_invite_only)',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -189,7 +190,7 @@ void main() {
 
         // STRICT: Tap the discovery button
         await tester.tap(find.byIcon(Icons.add).first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -209,7 +210,7 @@ void main() {
       'STRICT: Join room (test_invite_only) that user is not a member of',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -223,7 +224,7 @@ void main() {
         }
 
         await tester.tap(find.byIcon(Icons.add).first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -256,7 +257,7 @@ void main() {
           if (roomText.evaluate().isNotEmpty) {
             // Try tapping to join
             await tester.tap(roomTile);
-            for (int _ps = 0; _ps < 4; _ps++) {
+            for (int ps = 0; ps < 4; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
             foundRoom = true;
@@ -279,7 +280,7 @@ void main() {
 
         // STRICT: Tap join button
         await tester.tap(find.byIcon(Icons.person_add).first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -299,7 +300,7 @@ void main() {
       'STRICT: Leave room (US-2.3)',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -309,7 +310,7 @@ void main() {
         final drawerButton = find.byIcon(Icons.menu);
         if (drawerButton.evaluate().isNotEmpty) {
           await tester.tap(drawerButton.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -324,7 +325,7 @@ void main() {
 
         // STRICT: Tap on first room
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -337,7 +338,7 @@ void main() {
 
         // STRICT: Tap menu to show leave option
         await tester.tap(find.byIcon(Icons.more_vert).first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -350,7 +351,7 @@ void main() {
 
         // STRICT: Tap LEAVE
         await tester.tap(find.text('Leave').first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -364,7 +365,7 @@ void main() {
         // Confirm leave
         final confirmButton = find.byType(ElevatedButton).last;
         await tester.tap(confirmButton);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -384,7 +385,7 @@ void main() {
       'STRICT: All 3 joined rooms are visible in room list',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -394,7 +395,7 @@ void main() {
         final drawerButton = find.byIcon(Icons.menu);
         if (drawerButton.evaluate().isNotEmpty) {
           await tester.tap(drawerButton.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }

@@ -15,11 +15,27 @@
         }
     },
     "post": {
+        "menu": {
+            "report_block": "Signaler / Bloquer"
+        },
+        "dialog": {
+            "report_block_title": "Signaler le contenu ou bloquer l'utilisateur",
+            "report_desc": "Veuillez décrire pourquoi vous signalez ce contenu (facultatif).",
+            "report_reason": "Motif du signalement",
+            "report_reason_hint": "Ce contenu est offensant parce que...",
+            "block_user_checkbox": "Bloquer également cet utilisateur",
+            "block_user_desc": "Vous ne verrez plus de contenu de {}",
+            "submit": "Soumettre",
+            "cancel": "Annuler",
+            "report_block_success": "Signalement envoyé. Merci.",
+            "report_block_error": "Une erreur s'est produite : {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "Aucun commentaire pour l'instant."
             }
         },
+        "continue_thread": "Continuer ce fil...",
         "mixins": {
             "iconpicker": {
                 "title": "Choisir l'icône"
@@ -47,6 +63,13 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Légal",
+            "tos": "Conditions d'utilisation",
+            "privacy": "Politique de confidentialité",
+            "imprint": "Mentions légales",
+            "licenses": "Licences Open Source"
+        },
         "followfeeds": {
             "filter_server_header": "Choisissez un serveur dans la liste ou ajoutez-en un nouveau:",
             "filter_rooms_header": "Recherchez une salle à suivre ou à ne plus suivre:",
@@ -156,7 +179,8 @@
             },
             "buttons": {
                 "login_label": "Se connecter",
-                "sso_label": "Se connecter avec {}"
+                "sso_label": "Se connecter avec {}",
+                "register_web_label": "S'inscrire"
             }
         }
     },

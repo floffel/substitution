@@ -30,6 +30,8 @@ TEST_ROOMS = [
         "populate_with_messages": True,  # Will have messages
         "message_count": 5,
         "invite_users": True,  # Invite all users
+        # Seed one of each media type so display tests can verify rendering
+        "seed_media": True,
     },
     {
         "name": "test_photos",
@@ -37,6 +39,7 @@ TEST_ROOMS = [
         "populate_with_messages": True,  # Will have messages
         "message_count": 3,
         "invite_users": True,  # Invite all users
+        "seed_media": True,
     },
     {
         "name": "test_art",
@@ -118,7 +121,9 @@ def register_user(
         print(f"ℹ User likely already exists: {username}")
         return {"user_id": f"@{username}:test.matrix.local"}
     else:
-        print(f"✗ Failed to create user {username}: {response.status_code} {response.text}")
+        print(
+            f"✗ Failed to create user {username}: {response.status_code} {response.text}"
+        )
         return None
 
 
@@ -183,16 +188,22 @@ def create_room(access_token: str, room_name: str, topic: str) -> Optional[str]:
     elif response.status_code == 400:
         # Try to resolve alias if creation failed
         alias = f"#{room_name}:test.matrix.local"
-        resolve_resp = requests.get(f"{SYNAPSE_URL}/_matrix/client/v3/directory/room/{alias.replace('#', '%23')}")
+        resolve_resp = requests.get(
+            f"{SYNAPSE_URL}/_matrix/client/v3/directory/room/{alias.replace('#', '%23')}"
+        )
         if resolve_resp.status_code == 200:
             room_id = resolve_resp.json().get("room_id")
             print(f"ℹ Room already exists: {room_name} ({room_id})")
             return room_id
         else:
-            print(f"✗ Failed to create or resolve room {room_name}: {response.status_code} {response.text}")
+            print(
+                f"✗ Failed to create or resolve room {room_name}: {response.status_code} {response.text}"
+            )
             return None
     else:
-        print(f"✗ Failed to create room {room_name}: {response.status_code} {response.text}")
+        print(
+            f"✗ Failed to create room {room_name}: {response.status_code} {response.text}"
+        )
         return None
 
 
@@ -200,13 +211,13 @@ def publish_room(access_token: str, room_id: str) -> bool:
     """Publish a room to the public directory."""
     headers = {"Authorization": f"Bearer {access_token}"}
     payload = {"visibility": "public"}
-    
+
     response = requests.put(
         f"{SYNAPSE_URL}/_matrix/client/v3/directory/list/room/{room_id}",
         json=payload,
         headers=headers,
     )
-    
+
     if response.status_code == 200:
         print(f"  ✓ Published room to directory")
         return True
@@ -218,13 +229,13 @@ def publish_room(access_token: str, room_id: str) -> bool:
 def join_room(access_token: str, room_id: str) -> bool:
     """Join a room."""
     headers = {"Authorization": f"Bearer {access_token}"}
-    
+
     response = requests.post(
         f"{SYNAPSE_URL}/_matrix/client/v3/join/{room_id}",
         json={},
         headers=headers,
     )
-    
+
     if response.status_code == 200:
         return True
     else:
@@ -289,6 +300,247 @@ def populate_room_with_messages(
     return posted_count
 
 
+def upload_media(
+    access_token: str, data: bytes, content_type: str, filename: str
+) -> Optional[str]:
+    """Upload binary media to Matrix and return its MXC URI."""
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": content_type,
+    }
+    params = {"filename": filename}
+
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/media/v3/upload",
+        data=data,
+        headers=headers,
+        params=params,
+    )
+
+    if response.status_code == 200:
+        mxc_uri = response.json().get("content_uri")
+        print(f"  ✓ Uploaded media '{filename}': {mxc_uri}")
+        return mxc_uri
+    else:
+        print(
+            f"  ⚠ Failed to upload media '{filename}': {response.status_code} {response.text}"
+        )
+        return None
+
+
+def post_image_message(
+    access_token: str, room_id: str, mxc_uri: str, filename: str = "test_image.png"
+) -> bool:
+    """Post an m.image message to a room."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {
+        "msgtype": "m.image",
+        "body": filename,
+        "url": mxc_uri,
+        "info": {
+            "mimetype": "image/png",
+            "size": 68,
+            "w": 1,
+            "h": 1,
+        },
+    }
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/client/r0/rooms/{room_id}/send/m.room.message",
+        json=payload,
+        headers=headers,
+    )
+    if response.status_code in [200, 201]:
+        print(f"  ✓ Posted m.image message to room")
+        return True
+    else:
+        print(f"  ⚠ Failed to post m.image message: {response.status_code}")
+        return False
+
+
+def post_video_message(
+    access_token: str, room_id: str, mxc_uri: str, filename: str = "test_video.mp4"
+) -> bool:
+    """Post an m.video message to a room."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {
+        "msgtype": "m.video",
+        "body": filename,
+        "url": mxc_uri,
+        "info": {
+            "mimetype": "video/mp4",
+            "size": 28,
+            "duration": 0,
+        },
+    }
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/client/r0/rooms/{room_id}/send/m.room.message",
+        json=payload,
+        headers=headers,
+    )
+    if response.status_code in [200, 201]:
+        print(f"  ✓ Posted m.video message to room")
+        return True
+    else:
+        print(f"  ⚠ Failed to post m.video message: {response.status_code}")
+        return False
+
+
+def post_audio_message(
+    access_token: str, room_id: str, mxc_uri: str, filename: str = "test_audio.mp3"
+) -> bool:
+    """Post an m.audio message to a room."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {
+        "msgtype": "m.audio",
+        "body": filename,
+        "url": mxc_uri,
+        "info": {
+            "mimetype": "audio/mpeg",
+            "size": 62,
+            "duration": 0,
+        },
+    }
+    response = requests.post(
+        f"{SYNAPSE_URL}/_matrix/client/r0/rooms/{room_id}/send/m.room.message",
+        json=payload,
+        headers=headers,
+    )
+    if response.status_code in [200, 201]:
+        print(f"  ✓ Posted m.audio message to room")
+        return True
+    else:
+        print(f"  ⚠ Failed to post m.audio message: {response.status_code}")
+        return False
+
+
+def seed_media_messages(access_token: str, room_id: str) -> None:
+    """Seed one image, one video, and one audio message into a room."""
+    print(f"  Seeding media messages (image, video, audio)...")
+
+    # --- Image: minimal 1×1 PNG (68 bytes) ---
+    IMAGE_DATA = (
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02"
+        b"\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\xd7c\xf8\xff\xff?\x00\x05\xfe"
+        b"\x02\xfe\xdc\xccY\xe7\x00\x00\x00\x00IEND\xaeB`\x82"
+    )
+    image_mxc = upload_media(access_token, IMAGE_DATA, "image/png", "test_image.png")
+    if image_mxc:
+        post_image_message(access_token, room_id, image_mxc)
+
+    # --- Video: minimal ftyp-only MP4 (28 bytes) ---
+    VIDEO_DATA = bytes(
+        [
+            # ftyp box
+            0x00,
+            0x00,
+            0x00,
+            0x14,
+            0x66,
+            0x74,
+            0x79,
+            0x70,
+            0x69,
+            0x73,
+            0x6F,
+            0x6D,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x69,
+            0x73,
+            0x6F,
+            0x6D,
+            # mdat box (empty)
+            0x00,
+            0x00,
+            0x00,
+            0x08,
+            0x6D,
+            0x64,
+            0x61,
+            0x74,
+        ]
+    )
+    video_mxc = upload_media(access_token, VIDEO_DATA, "video/mp4", "test_video.mp4")
+    if video_mxc:
+        post_video_message(access_token, room_id, video_mxc)
+
+    # --- Audio: minimal ID3v2 + silent MPEG frame (62 bytes) ---
+    AUDIO_DATA = bytes(
+        [
+            # ID3v2.3 header
+            0x49,
+            0x44,
+            0x33,
+            0x03,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            # MPEG1 Layer3 frame header (128kbps, 44100Hz, stereo)
+            0xFF,
+            0xFB,
+            0x90,
+            0x00,
+            # 48 bytes of silence
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+            0x00,
+        ]
+    )
+    audio_mxc = upload_media(access_token, AUDIO_DATA, "audio/mpeg", "test_audio.mp3")
+    if audio_mxc:
+        post_audio_message(access_token, room_id, audio_mxc)
+
+
 def upload_avatar(access_token: str) -> Optional[str]:
     """Upload a dummy avatar and return its MXC URI."""
     # A small red dot (1x1 PNG)
@@ -297,18 +549,18 @@ def upload_avatar(access_token: str) -> Optional[str]:
         b"\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\xda\x63\xf8\xff\xff\x3f\x00\x05"
         b"\xfe\x02\xfe\xdc\x44\x74\x06\x00\x00\x00\x00IEND\xaeB`\x82"
     )
-    
+
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "image/png",
     }
-    
+
     response = requests.post(
         f"{SYNAPSE_URL}/_matrix/media/v3/upload",
         data=IMAGE_DATA,
         headers=headers,
     )
-    
+
     if response.status_code == 200:
         mxc_uri = response.json().get("content_uri")
         print(f"✓ Uploaded dummy avatar: {mxc_uri}")
@@ -322,13 +574,13 @@ def set_room_avatar(access_token: str, room_id: str, mxc_uri: str) -> bool:
     """Set the avatar for a room."""
     headers = {"Authorization": f"Bearer {access_token}"}
     payload = {"url": mxc_uri}
-    
+
     response = requests.put(
         f"{SYNAPSE_URL}/_matrix/client/v3/rooms/{room_id}/state/m.room.avatar/",
         json=payload,
         headers=headers,
     )
-    
+
     if response.status_code == 200:
         print(f"  ✓ Set room avatar to {mxc_uri}")
         return True
@@ -399,19 +651,26 @@ def main():
                                     headers={"Authorization": f"Bearer {token}"},
                                 )
                                 # Login as that user and join
-                                other_token = login_user(user_info["user_id"], user_info["password"])
+                                other_token = login_user(
+                                    user_info["user_id"], user_info["password"]
+                                )
                                 if other_token:
                                     join_room(other_token, room_id)
                                     print(f"  ✓ User {username} joined room")
                     else:
                         print(f"  ℹ Skipping user invites for room (discovery test)")
 
-                    # Populate with messages if configured
+                    # Populate with text messages if configured
+                    if room_config.get("populate_with_messages", False):
                         populate_room_with_messages(
                             token,
                             room_id,
                             room_config["message_count"],
                         )
+
+                    # Seed media messages (image, video, audio) if configured
+                    if room_config.get("seed_media", False):
+                        seed_media_messages(token, room_id)
 
                     # Set avatar if configured
                     if room_config.get("has_avatar", False):
@@ -448,8 +707,12 @@ def main():
     print(f"  Password:  testpass123")
     print()
     print("Room Status:")
-    print(f"  test_general - 5 messages (for testing message lists)")
-    print(f"  test_photos  - 3 messages (for testing photo content)")
+    print(
+        f"  test_general - 5 text + image/video/audio messages (for testing message lists and media rendering)"
+    )
+    print(
+        f"  test_photos  - 3 text + image/video/audio messages (for testing photo/media content)"
+    )
     print(f"  test_art     - 0 messages (for testing empty rooms)")
     print()
 

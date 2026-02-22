@@ -94,7 +94,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -102,7 +102,7 @@ void main() {
       for (int i = 0; i < 2; i++) {
         await tester.drag(
             find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
@@ -112,14 +112,14 @@ void main() {
       expect(hostInput, findsOneWidget,
           reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(submitButton, warnIfMissed: false);
@@ -127,8 +127,9 @@ void main() {
       // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       // Now on Login page (page 3) - enter credentials using test keys
@@ -136,19 +137,19 @@ void main() {
       expect(usernameField, findsOneWidget,
           reason: 'Username field should be visible on login page');
       await tester.enterText(usernameField, username);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int _ps = 0; _ps < 4; _ps++) {
+      for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(loginButton, warnIfMissed: false);
@@ -176,7 +177,7 @@ void main() {
       (WidgetTester tester) async {
         // User 1 logs in and sends a message
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -200,7 +201,7 @@ void main() {
         final composeFab = find.byIcon(Icons.edit);
         if (composeFab.evaluate().isNotEmpty) {
           await tester.tap(composeFab.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -215,7 +216,7 @@ void main() {
         // Type message
         final user1Message = 'Message from testuser1 at ${DateTime.now()}';
         await tester.enterText(find.byType(TextField).first, user1Message);
-        for (int _ps = 0; _ps < 10; _ps++) {
+        for (int ps = 0; ps < 10; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -228,7 +229,7 @@ void main() {
 
         // Send message
         await tester.tap(find.byIcon(Icons.send).first);
-        for (int _ps = 0; _ps < 6; _ps++) {
+        for (int ps = 0; ps < 6; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -263,7 +264,7 @@ void main() {
       'STRICT: Two users in same room see each other\'s messages',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -303,7 +304,7 @@ void main() {
       'STRICT: Messages display sender information',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -340,7 +341,7 @@ void main() {
       'STRICT: Both users can compose and send in same room',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -356,7 +357,7 @@ void main() {
 
         // Open compose
         await tester.tap(find.byIcon(Icons.edit).first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -370,7 +371,7 @@ void main() {
         // Type message
         final user2Message = 'Response from testuser2 at ${DateTime.now()}';
         await tester.enterText(find.byType(TextField).first, user2Message);
-        for (int _ps = 0; _ps < 10; _ps++) {
+        for (int ps = 0; ps < 10; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -383,7 +384,7 @@ void main() {
 
         // Send
         await tester.tap(find.byIcon(Icons.send).first);
-        for (int _ps = 0; _ps < 6; _ps++) {
+        for (int ps = 0; ps < 6; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -403,7 +404,7 @@ void main() {
       'STRICT: Messages preserve order and timestamps',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -421,7 +422,7 @@ void main() {
 
         // STRICT: Must be able to scroll (indicating multiple messages)
         await tester.drag(listView, const Offset(0, -300));
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -441,7 +442,7 @@ void main() {
       'STRICT: Reactions/replies preserve multi-user context',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -458,7 +459,7 @@ void main() {
         // Try long-pressing a message for interaction options
         if (listItems.evaluate().isNotEmpty) {
           await tester.longPress(listItems.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 

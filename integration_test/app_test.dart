@@ -40,7 +40,7 @@ void main() {
       app.main();
 
       // Wait for the app to stabilize
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -50,7 +50,7 @@ void main() {
 
     testWidgets('App handles Matrix connection', (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -60,7 +60,7 @@ void main() {
 
     testWidgets('Navigation works correctly', (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -70,7 +70,7 @@ void main() {
 
     testWidgets('App handles orientation changes', (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -78,13 +78,13 @@ void main() {
       tester.binding.window.physicalSizeTestValue = const ui.Size(1080, 2400);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Test landscape orientation
       tester.binding.window.physicalSizeTestValue = const ui.Size(2400, 1080);
-      for (int _ps = 0; _ps < 10; _ps++) {
+      for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 

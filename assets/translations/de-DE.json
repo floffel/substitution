@@ -18,11 +18,27 @@
         "error": {
             "not_found": "Beitrag nicht gefunden oder nicht verfügbar."
         },
+        "menu": {
+            "report_block": "Melden / Blockieren"
+        },
+        "dialog": {
+            "report_block_title": "Inhalt melden oder Benutzer blockieren",
+            "report_desc": "Bitte beschreibe, warum du diesen Inhalt meldest (optional).",
+            "report_reason": "Grund der Meldung",
+            "report_reason_hint": "Dieser Inhalt ist anstößig, weil...",
+            "block_user_checkbox": "Diesen Benutzer auch blockieren",
+            "block_user_desc": "Du wirst keine Inhalte mehr von {} sehen",
+            "submit": "Absenden",
+            "cancel": "Abbrechen",
+            "report_block_success": "Meldung wurde abgeschickt. Danke.",
+            "report_block_error": "Ein Fehler ist aufgetreten: {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "Keine Kommentare vorhanden."
             }
         },
+        "continue_thread": "Diesen Thread fortsetzen...",
         "mixins": {
             "iconpicker": {
                 "title": "Icon auswählen"
@@ -51,6 +67,13 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Rechtliches",
+            "tos": "Nutzungsbedingungen (AGB)",
+            "privacy": "Datenschutzerklärung",
+            "imprint": "Impressum",
+            "licenses": "Open-Source-Lizenzen"
+        },
         "followfeeds": {
             "filter_server_header": "Server zum filtern auswählen, oder einen neuen hinzufügen:",
             "filter_rooms_header": "Suche nach einem Raum, um ihm zu folgen oder zu entfolgen:",
@@ -160,7 +183,8 @@
             },
             "buttons": {
                 "login_label": "Login",
-                "sso_label": "Mit {} anmelden"
+                "sso_label": "Mit {} anmelden",
+                "register_web_label": "Registrieren"
             }
         }
     },

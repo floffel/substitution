@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:substitution/shared/extensions/client_extensions.dart';
 
 // Mock classes
 class MockClient extends Mock implements Client {}

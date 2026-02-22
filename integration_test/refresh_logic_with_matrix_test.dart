@@ -7,10 +7,8 @@ import 'package:substitution/main.dart' as app;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:substitution/shared/pages/scaffold_with_navigation.dart';
 import 'package:substitution/feed/pages/home.dart' as home_page;
 import 'package:easy_localization/easy_localization.dart';
-import 'dart:io' as dart_io;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

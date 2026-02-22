@@ -2,6 +2,7 @@ import '/post/interfaces/i_event.dart';
 import '/post/widgets/display/file_display_container.dart';
 import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
+import '/post/widgets/dialog_report_block.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PostWidget extends IEventWidget {
   const PostWidget(
@@ -89,6 +91,32 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
               IconButton(
                 onPressed: () async => await pickIcon(context, widget.event),
                 icon: const Icon(Icons.favorite_rounded),
+              ),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert),
+                onSelected: (value) {
+                  if (value == 'report_block') {
+                    showDialog(
+                      context: context,
+                      builder: (_) => DialogReportBlock(
+                        event: widget.event,
+                        displayEvent: widget.displayEvent,
+                      ),
+                    );
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem<String>(
+                    value: 'report_block',
+                    child: Row(
+                      children: [
+                        const Icon(Icons.flag_outlined, size: 20),
+                        const SizedBox(width: 8),
+                        const Text('post.menu.report_block').tr(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ]),
             (widget.displayEvent).messageType == MessageTypes.Text

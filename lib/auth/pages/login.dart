@@ -194,6 +194,21 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text("auth.login.buttons.login_label").tr(),
             ),
+            const SizedBox(height: 10),
+            TextButton(
+              key: const Key('registerWebButton'),
+              onPressed: () async {
+                final client = Provider.of<Client>(context, listen: false);
+                final url = client.homeserver ?? Uri.parse('https://matrix.org');
+                if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Could not launch \$url')),
+                  );
+                }
+              },
+              child: const Text("auth.login.buttons.register_web_label").tr(),
+            ),
           ],
 
           // SSO buttons — one per identity provider advertised by the server.

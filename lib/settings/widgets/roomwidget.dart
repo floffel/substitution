@@ -48,7 +48,7 @@ class RoomWidgetState extends State<RoomWidget> {
         leading: widget.room.avatarUrl != null
             ? CircleAvatar(
                 radius: 20,
-                backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                 foregroundImage: NetworkImage(
                     widget.room.avatarUrl!.startsWith('mxc://')
                         ? Uri.parse(widget.room.avatarUrl!)

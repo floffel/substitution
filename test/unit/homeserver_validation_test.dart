@@ -4,7 +4,6 @@ import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:substitution/auth/pages/host_page.dart';
 
 class MockClient extends Mock implements Client {}
 

@@ -77,13 +77,13 @@ void main() {
 
       for (int i = 0; i < 2; i++) {
         await tester.drag(find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       }
 
       // Enter host
       final hostInput = find.byKey(const Key('hostServerInput'));
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       
       await tester.tap(find.byKey(const Key('hostSubmitButton')));
       
@@ -95,9 +95,9 @@ void main() {
 
       // Enter credentials
       await tester.enterText(find.byKey(const Key('loginUsernameInput')), testUser);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.enterText(find.byKey(const Key('loginPasswordInput')), testPassword);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       
       await tester.tap(find.byKey(const Key('loginSubmitButton')));
       

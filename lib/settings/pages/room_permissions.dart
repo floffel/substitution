@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 /// Room Permissions Page - allows admins to configure room power levels and posting permissions
 class RoomPermissionsPage extends StatefulWidget {

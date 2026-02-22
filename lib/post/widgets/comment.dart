@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // like post but smaller
 class CommentWidget extends IEventWidget {
@@ -16,11 +17,14 @@ class CommentWidget extends IEventWidget {
       {super.key,
       required super.event,
       required super.displayEvent,
-      required this.postEvent});
+      required this.postEvent,
+      this.depth = 0});
 
   // "original" event of the post, for querying replys. Timeline is the same, so we don't need an additional postTimeline
   @override
   final Event postEvent;
+
+  final int depth;
 
   @override
   CommentWidgetState createState() => CommentWidgetState();
@@ -31,11 +35,18 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
 
   bool showComment = true;
 
+  static const int maxDepth = 3;
+
   @override
   Widget build(BuildContext context) {
+    // Return standard visual padding.
+    // Left padding provides the indentation tree effect.
+    final double leftPad = widget.depth == 0 ? 16.0 : 12.0;
+    final double rightPad = widget.depth == 0 ? 16.0 : 4.0; 
+
     // TODO: a lot is duplicated from post.dart. Would be nice to have it in one widget or extend one or so...
     return Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(leftPad, 8.0, rightPad, 8.0),
         decoration: !showComment
             ? BoxDecoration(
                 color: Colors.grey[100]!,
@@ -112,29 +123,43 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                       event: widget.event, displayEvent: widget.displayEvent),
             ),
 
-            // Comments
-            Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    left: BorderSide(width: 1.0, color: Color(0xFFBFBFBF)),
-                  ),
+            // Comments – if we've reached max depth, show a "continue thread" button instead of loading more children
+            if (widget.depth >= CommentWidgetState.maxDepth)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: TextButton.icon(
+                  onPressed: () {
+                    GoRouter.of(context).push(
+                        '/post/${widget.event.eventId}?room=${widget.event.roomId}');
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                  label: Text('post.continue_thread'.tr()),
                 ),
-                child: FutureBuilder(
-                    future: widget.comments,
-                    builder: (ctx, snapshot) {
-                      return Column(
-                          children: ListTile.divideTiles(
-                              context: context,
-                              tiles: <Widget>[
-                            ...snapshot.data?.map((var e) {
-                                  return CommentWidget(
-                                      event: e.origEvent,
-                                      displayEvent: e.displayEvent,
-                                      postEvent: widget.postEvent);
-                                }) ??
-                                []
-                          ]).toList());
-                    })),
+              )
+            else
+              Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      left: BorderSide(width: 1.0, color: Color(0xFFBFBFBF)),
+                    ),
+                  ),
+                  child: FutureBuilder(
+                      future: widget.comments,
+                      builder: (ctx, snapshot) {
+                        return Column(
+                            children: ListTile.divideTiles(
+                                context: context,
+                                tiles: <Widget>[
+                              ...snapshot.data?.map((e) {
+                                    return CommentWidget(
+                                        event: e.origEvent,
+                                        displayEvent: e.displayEvent,
+                                        postEvent: widget.postEvent,
+                                        depth: widget.depth + 1);
+                                  }).toList() ??
+                                  []
+                            ]).toList());
+                      })),
 
             ReactionsDisplay(event: widget.event)
           ]

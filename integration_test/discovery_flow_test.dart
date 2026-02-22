@@ -36,7 +36,7 @@ void main() {
         'Navigate to follow feeds -> add server -> search rooms -> see results',
         (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 20; _ps++) {
+      for (int ps = 0; ps < 20; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -52,7 +52,7 @@ void main() {
     testWidgets('Search multiple servers and results merge correctly',
         (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 20; _ps++) {
+      for (int ps = 0; ps < 20; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -67,7 +67,7 @@ void main() {
     testWidgets('Join room and verify it appears in main feed',
         (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 20; _ps++) {
+      for (int ps = 0; ps < 20; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -82,7 +82,7 @@ void main() {
     testWidgets('Leave room and verify it disappears from main feed',
         (WidgetTester tester) async {
       app.main();
-      for (int _ps = 0; _ps < 20; _ps++) {
+      for (int ps = 0; ps < 20; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 

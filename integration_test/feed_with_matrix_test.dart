@@ -93,13 +93,13 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
             find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       }
 
       // Enter homeserver using test key
@@ -107,19 +107,20 @@ void main() {
       expect(hostInput, findsOneWidget,
           reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Scroll submit button into view and tap
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(submitButton, warnIfMissed: false);
 
       // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       // Enter credentials using test keys
@@ -127,16 +128,16 @@ void main() {
       expect(usernameField, findsOneWidget,
           reason: 'Username field should be visible on login page');
       await tester.enterText(usernameField, testUser);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Scroll login button into view and tap
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(loginButton, warnIfMissed: false);
 
       // Wait for login to complete (real HTTP call), then tap Go on intro page 4
@@ -161,7 +162,7 @@ void main() {
       'Display unified feed from multiple rooms',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         await loginUser(tester);
 
@@ -185,12 +186,12 @@ void main() {
       'Feed displays content from test_general room (has 5 messages)',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         await loginUser(tester);
 
         // Wait for feed to load all messages
-        for (int _ps=0; _ps<6; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<6; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Look for sample messages from test_general room
         // The init script creates: "Hello everyone! Welcome to this test room."
@@ -209,12 +210,12 @@ void main() {
       'Feed displays content from test_photos room (has 3 messages)',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int _ps=0; _ps<6; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<6; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Verify feed content includes messages
         final listViewFinder = find.byType(Scrollable);
@@ -229,7 +230,7 @@ void main() {
       'Feed loads and shows messages chronologically',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         await loginUser(tester);
 
@@ -239,7 +240,7 @@ void main() {
 
         // Scroll down to load more messages (infinite scroll)
         await tester.drag(listViewFinder.first, const Offset(0, -300));
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Verify more content is available
         if (find.byType(Text).evaluate().isEmpty) { debugPrint('⚠ find.byType(Text) not found (Feed should have loadable messages) - skipping'); return; }
@@ -253,12 +254,12 @@ void main() {
       'Feed excludes test_art room (empty room)',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int _ps=0; _ps<6; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<6; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Empty rooms shouldn't contribute messages to the feed,
         // but the room should still be accessible

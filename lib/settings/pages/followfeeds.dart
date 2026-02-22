@@ -1,6 +1,7 @@
 import 'dart:async';
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
+import '/settings/widgets/dialogcreateroom.dart';
 import '/settings/widgets/roomwidget.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/models/substitution_room.dart';
@@ -272,6 +273,24 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                                 "settings.followfeeds.buttons.add_server")
                             .tr(),
                         onPressed: () async => await showAddDialog(),
+                      ),
+                      ActionChip(
+                        avatar: const Icon(Icons.add_box),
+                        label: const Text(
+                                "settings.ownfeeds.buttons.create_room")
+                            .tr(),
+                        onPressed: () async {
+                          await showDialog<void>(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return const DialogCreateRoom();
+                            },
+                          );
+                          setState(() {
+                             _resetList();
+                          });
+                        },
                       )
                     ]);
               })),

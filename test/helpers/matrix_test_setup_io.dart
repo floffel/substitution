@@ -1,7 +1,6 @@
 import 'dart:io' as io;
 
 import 'package:matrix/matrix.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'matrix_test_setup.dart';

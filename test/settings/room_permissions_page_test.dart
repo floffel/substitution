@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:provider/provider.dart';
 import '../helpers/test_helpers.dart';
 import 'package:substitution/settings/pages/room_permissions.dart';
 

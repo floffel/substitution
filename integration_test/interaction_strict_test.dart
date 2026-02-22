@@ -93,13 +93,13 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
             find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       }
 
       // Enter homeserver using test key
@@ -107,19 +107,20 @@ void main() {
       expect(hostInput, findsOneWidget,
           reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(submitButton, warnIfMissed: false);
 
       // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
+        }
       }
 
       // Now on Login page (page 3) - enter credentials using test keys
@@ -127,15 +128,15 @@ void main() {
       expect(usernameField, findsOneWidget,
           reason: 'Username field should be visible on login page');
       await tester.enterText(usernameField, testUser);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int _ps=0; _ps<4; _ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
       await tester.tap(loginButton, warnIfMissed: false);
 
       // Wait for login to complete (real HTTP call), then tap Go on intro page 4
@@ -160,7 +161,7 @@ void main() {
       'STRICT: Tap message shows reaction and reply options',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -183,7 +184,7 @@ void main() {
 
         // STRICT: Tap on first message
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -203,7 +204,7 @@ void main() {
       'STRICT: Reaction option exists in message menu',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -223,7 +224,7 @@ void main() {
         }
 
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -237,7 +238,7 @@ void main() {
         // Tap the menu to show options
         if (popupMenu.evaluate().isNotEmpty) {
           await tester.tap(popupMenu.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -258,7 +259,7 @@ void main() {
       'STRICT: Can open emoji picker and react to message',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -276,7 +277,7 @@ void main() {
         }
 
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -284,7 +285,7 @@ void main() {
         final popupMenu = find.byType(PopupMenuButton);
         if (popupMenu.evaluate().isNotEmpty) {
           await tester.tap(popupMenu.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -297,7 +298,7 @@ void main() {
           }
 
           await tester.tap(reactionBtn.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -320,7 +321,7 @@ void main() {
 
           if (emojiButtons.evaluate().isNotEmpty) {
             await tester.tap(emojiButtons.first);
-            for (int _ps = 0; _ps < 4; _ps++) {
+            for (int ps = 0; ps < 4; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
 
@@ -342,7 +343,7 @@ void main() {
       'STRICT: Reply option exists in message menu',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -360,14 +361,14 @@ void main() {
         }
 
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         final popupMenu = find.byType(PopupMenuButton);
         if (popupMenu.evaluate().isNotEmpty) {
           await tester.tap(popupMenu.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -388,7 +389,7 @@ void main() {
       'STRICT: Can reply to a message with quoted context',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -404,14 +405,14 @@ void main() {
 
         // Tap message to show menu
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         final popupMenu = find.byType(PopupMenuButton);
         if (popupMenu.evaluate().isNotEmpty) {
           await tester.tap(popupMenu.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -424,7 +425,7 @@ void main() {
           }
 
           await tester.tap(replyBtn.first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -445,7 +446,7 @@ void main() {
           // Type reply
           final replyText = 'This is my reply to the message';
           await tester.enterText(find.byType(TextField).first, replyText);
-          for (int _ps = 0; _ps < 10; _ps++) {
+          for (int ps = 0; ps < 10; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -458,7 +459,7 @@ void main() {
 
           // Send reply
           await tester.tap(find.byIcon(Icons.send).first);
-          for (int _ps = 0; _ps < 4; _ps++) {
+          for (int ps = 0; ps < 4; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -479,7 +480,7 @@ void main() {
       'STRICT: Reactions show emoji and count',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -529,7 +530,7 @@ void main() {
       'STRICT: Threaded replies show in message view',
       (WidgetTester tester) async {
         app.main();
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -545,7 +546,7 @@ void main() {
 
         // Tap a message to view thread
         await tester.tap(listItems.first);
-        for (int _ps = 0; _ps < 4; _ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -558,7 +559,7 @@ void main() {
 
         // Verify we can scroll to see reply context
         await tester.drag(find.byType(Scrollable).first, const Offset(0, -300));
-        for (int _ps = 0; _ps < 10; _ps++) {
+        for (int ps = 0; ps < 10; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

@@ -8,6 +8,7 @@ import '/settings/pages/key_verification.dart';
 import '/settings/pages/profile.dart';
 import '/write/pages/textmessage.dart';
 import '/settings/pages/room_permissions.dart';
+import '/settings/pages/legal.dart';
 import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
 import '/auth/pages/host_page.dart';
@@ -91,7 +92,7 @@ void main() async {
         GoRoute(
           path: '/intro',
           builder: (context, state) =>
-              const ScaffoldWithNavigation(child: IntroductionPage(), showNavigation: false),
+              const ScaffoldWithNavigation(showNavigation: false, child: IntroductionPage()),
         ),
         GoRoute(
             redirect: testRedirect,
@@ -163,17 +164,24 @@ void main() async {
             builder: (context, state) =>
                 ScaffoldWithNavigation(child: const KeyVerificationPage())),
         GoRoute(
+            path: '/settings/legal',
+            builder: (context, state) =>
+                const ScaffoldWithNavigation(child: LegalPage())),
+        GoRoute(
             redirect: testRedirect,
             path: '/settings/profile',
             builder: (context, state) =>
                 ScaffoldWithNavigation(child: const ProfilePage())),
         GoRoute(
             path: '/auth/host',
-            builder: (context, state) => const AuthFlow(authPageRoute: 'host')),
+            builder: (context, state) => const ScaffoldWithNavigation(
+                showNavigation: false,
+                child: AuthFlow(authPageRoute: 'host'))),
         GoRoute(
             path: '/auth/login',
-            builder: (context, state) =>
-                const AuthFlow(authPageRoute: 'login')),
+            builder: (context, state) => const ScaffoldWithNavigation(
+                showNavigation: false,
+                child: AuthFlow(authPageRoute: 'login'))),
         GoRoute(
           path: '/login-callback',
           builder: (context, state) {

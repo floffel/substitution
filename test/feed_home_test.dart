@@ -7,7 +7,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
-import 'package:go_router/go_router.dart';
 
 class MockClient extends Mock implements Client {}
 

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/settings/pages/followfeeds.dart';
-import 'package:substitution/settings/widgets/roomwidget.dart';
 
 class MockClient extends Mock implements Client {}
 

@@ -11,7 +11,7 @@ import 'dart:io' as dart_io;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Room Discovery & Subscription with Real Matrix Server', () {
+  group('Compliance Features with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
@@ -22,7 +22,6 @@ void main() {
     late Database? sqliteDatabase;
 
     setUp(() async {
-      // Delete main app database to ensure fresh login (no persisted session)
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -34,12 +33,10 @@ void main() {
           // Ignore cleanup errors
         }
       }
-      // Initialize SQLite database for tests
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath =
             '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
-
         sqliteDatabase = await openDatabase(
           dbPath,
           version: 1,
@@ -58,7 +55,6 @@ void main() {
     });
 
     tearDown(() async {
-      // Close SQLite database
       if (sqliteDatabase != null && !kIsWeb) {
         try {
           await sqliteDatabase!.close();
@@ -66,7 +62,6 @@ void main() {
           // Ignore database close errors
         }
       }
-      // Delete the main app database to prevent session persistence between tests
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -78,7 +73,6 @@ void main() {
           // Ignore cleanup errors
         }
       }
-      // Dispose Matrix client to stop sync loop and prevent frame scheduling
       try {
         await app.globalMatrixClient?.dispose();
         app.globalMatrixClient = null;
@@ -88,7 +82,6 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      // Wait for IntroductionScreen to appear
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
@@ -97,25 +90,21 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
-      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
+      // Swipe to page 2 (Host)
       for (int i = 0; i < 2; i++) {
-        await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+        await tester.drag(find.byType(IntroductionScreen), const Offset(-400, 0));
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
 
-      // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(hostInput, findsOneWidget, reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
-      // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
       for (int ps = 0; ps < 4; ps++) {
@@ -123,18 +112,13 @@ void main() {
       }
       await tester.tap(submitButton, warnIfMissed: false);
 
-      // Wait for host check + page transition to login page
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) break;
       }
 
-      // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(usernameField, findsOneWidget, reason: 'Username field should be visible');
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -153,17 +137,14 @@ void main() {
       }
       await tester.tap(loginButton, warnIfMissed: false);
 
-      // Wait for login to complete (real HTTP call), then tap Go on intro page 4
       for (int i = 0; i < 40; i++) {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
       }
 
-      // Tap 'Go' button on intro page 4 to navigate to the feed
       final goButton = find.byKey(const Key('introGoButton'));
       if (goButton.evaluate().isNotEmpty) {
         await tester.tap(goButton, warnIfMissed: false);
-        // Use pump loop instead of pumpAndSettle to avoid hang while SDK syncs
         for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
           if (find.byType(Scrollable).evaluate().isNotEmpty) break;
@@ -171,121 +152,179 @@ void main() {
       }
     }
 
+    // ---------------------------------------------------------------------------
+    // Legal page tests
+    // ---------------------------------------------------------------------------
+
     testWidgets(
-      'User can search for public rooms',
+      'Legal drawer item is present and navigates to Legal page',
       (WidgetTester tester) async {
         app.main();
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        await loginUser(tester);
-
-        // Look for a search or discovery button/page
-        // This might be in a drawer, settings, or main menu
-        final floatingActionButtonFinder = find.byType(FloatingActionButton);
-
-        if (floatingActionButtonFinder.evaluate().isNotEmpty) {
-          // If there's a FAB, try tapping it
-          await tester.tap(floatingActionButtonFinder.first);
-          for (int ps = 0; ps < 10; ps++) {
-            await tester.pump(const Duration(milliseconds: 500));
-          }
-        }
-
-        // Look for rooms list or search functionality
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'Should display available rooms/content',
-        );
-
-        debugPrint('✓ Room discovery UI accessible');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'Test rooms are discoverable (test_general, test_photos, test_art)',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginUser(tester);
-
-        // The test user should already be a member of all 3 test rooms
-        // Check that the feed or room list includes these rooms
-        final textFinder = find.byType(Text);
-
-        if (textFinder.evaluate().isEmpty) {
-          debugPrint(
-              '⚠ textFinder not found (Should display room/message content) - skipping');
-          return;
-        }
-
-        debugPrint('✓ Test rooms are visible in the app');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'User can access room settings or details',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginUser(tester);
-
-        // Try to find and tap on a room or message
-        final listViewFinder = find.byType(Scrollable);
-        expect(listViewFinder, findsWidgets);
-
-        // Tap on the first list item (message or room)
-        final firstListItem = find.byType(ListTile);
-        if (firstListItem.evaluate().isNotEmpty) {
-          await tester.tap(firstListItem.first);
-          for (int ps = 0; ps < 10; ps++) {
-            await tester.pump(const Duration(milliseconds: 500));
-          }
-
-          debugPrint('✓ Room/item details accessible');
-        } else {
-          debugPrint('✓ Room list structure verified');
-        }
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'Multiple test users can see the same rooms',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // Login as testuser1 using standard flow
         await loginUser(tester);
 
         // Wait for feed to load
+        for (int ps = 0; ps < 8; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Open the navigation drawer
+        final menuIcon = find.byIcon(Icons.menu);
+        if (menuIcon.evaluate().isEmpty) {
+          debugPrint('⚠ Menu icon not found — skipping');
+          return;
+        }
+        await tester.tap(menuIcon.first);
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        // Verify feed loads for testuser1
+        // Verify the Legal (gavel) icon is in the drawer
         expect(
-          find.byType(Scrollable),
+          find.byIcon(Icons.gavel_outlined),
+          findsOneWidget,
+          reason: 'Legal entry should be present in the navigation drawer',
+        );
+        debugPrint('✓ Legal drawer item visible');
+
+        // Tap the Legal item
+        await tester.tap(find.byIcon(Icons.gavel_outlined));
+        for (int ps = 0; ps < 8; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Verify all four legal tiles are shown on the Legal page
+        expect(find.byIcon(Icons.description_outlined), findsOneWidget,
+            reason: 'Terms of Service tile should be visible');
+        expect(find.byIcon(Icons.privacy_tip_outlined), findsOneWidget,
+            reason: 'Privacy Policy tile should be visible');
+        expect(find.byIcon(Icons.info_outline), findsOneWidget,
+            reason: 'Imprint tile should be visible');
+        expect(find.byIcon(Icons.code), findsOneWidget,
+            reason: 'Open Source Licenses tile should be visible');
+
+        debugPrint('✓ Legal page displays all required compliance tiles');
+      },
+      timeout: const Timeout(Duration(seconds: 180)),
+    );
+
+    // ---------------------------------------------------------------------------
+    // UGC moderation tests
+    // ---------------------------------------------------------------------------
+
+    testWidgets(
+      'Post has a three-dot popup menu with Report/Block option',
+      (WidgetTester tester) async {
+        app.main();
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        await loginUser(tester);
+
+        // Wait for feed to load
+        for (int ps = 0; ps < 8; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Check if there are any posts visible in the feed
+        final popupMenuFinder = find.byType(PopupMenuButton<String>);
+
+        if (popupMenuFinder.evaluate().isEmpty) {
+          debugPrint('⚠ No popup menu found in feed (possibly empty feed) — skipping');
+          return;
+        }
+
+        // Tap the first popup menu button (⋮)
+        await tester.tap(popupMenuFinder.first);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // The "Report / Block" menu item should now be visible
+        expect(
+          find.byIcon(Icons.flag_outlined),
           findsWidgets,
-          reason: 'testuser1 should see the shared rooms',
+          reason: 'Report/Block menu item should appear in post popup menu',
         );
 
-        debugPrint('✓ Multiple users can see shared rooms');
+        debugPrint('✓ Post popup menu shows Report/Block option');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(seconds: 180)),
+    );
+
+    testWidgets(
+      'Tapping Report/Block opens dialog with report reason and block checkbox',
+      (WidgetTester tester) async {
+        app.main();
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        await loginUser(tester);
+
+        for (int ps = 0; ps < 8; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        final popupMenuFinder = find.byType(PopupMenuButton<String>);
+
+        if (popupMenuFinder.evaluate().isEmpty) {
+          debugPrint('⚠ No posts in feed — skipping dialog test');
+          return;
+        }
+
+        // Open popup menu on the first post
+        await tester.tap(popupMenuFinder.first);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Tap "Report / Block"
+        final reportBlockItem = find.byIcon(Icons.flag_outlined);
+        if (reportBlockItem.evaluate().isEmpty) {
+          debugPrint('⚠ Report/Block menu item not found — skipping');
+          return;
+        }
+        await tester.tap(reportBlockItem.first);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // The dialog should now be visible — check for a TextField (reason) and Checkbox (block)
+        expect(
+          find.byType(AlertDialog),
+          findsOneWidget,
+          reason: 'Report/Block dialog should be displayed',
+        );
+        expect(
+          find.byType(TextField),
+          findsOneWidget,
+          reason: 'Dialog should contain a reason text field',
+        );
+        expect(
+          find.byType(CheckboxListTile),
+          findsOneWidget,
+          reason: 'Dialog should contain a block user checkbox',
+        );
+
+        debugPrint('✓ Report/Block dialog opens with correct UI elements');
+
+        // Dismiss the dialog without submitting
+        final cancelButton = find.text('Cancel');
+        if (cancelButton.evaluate().isNotEmpty) {
+          await tester.tap(cancelButton.first);
+          for (int ps = 0; ps < 4; ps++) {
+            await tester.pump(const Duration(milliseconds: 500));
+          }
+        }
+
+        debugPrint('✓ Report/Block dialog dismissed cleanly');
+      },
+      timeout: const Timeout(Duration(seconds: 180)),
     );
   });
 }

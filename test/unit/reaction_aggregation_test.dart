@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matrix/matrix.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../helpers/test_helpers.dart';
 

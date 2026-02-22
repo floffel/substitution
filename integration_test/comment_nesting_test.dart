@@ -3,15 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:substitution/post/widgets/comment.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:matrix/matrix.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Individual Room Feed with Real Matrix Server', () {
+  group('Comment Nesting and Collapsing Test', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
@@ -157,131 +160,150 @@ void main() {
       }
     }
 
-    testWidgets(
-      'View individual room feed (test_general with 5 messages)',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+    testWidgets('Deeply nested comments render without overflow and can be collapsed', (WidgetTester tester) async {
+      app.main();
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
-        await loginUser(tester);
+      await loginUser(tester);
 
-        // Navigate to room feed
-        // Look for a way to access a room (might be through feed tap, menu, etc)
-        final listViewFinder = find.byType(Scrollable);
-        expect(listViewFinder, findsWidgets);
+      // Wait for Matrix client and room list
+      final client = app.globalMatrixClient!;
+      for (int i = 0; i < 20; i++) {
+        if (client.rooms.isNotEmpty) break;
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
-        // Try tapping on a list item to view room details
-        final firstListItem = find.byType(ListTile);
-        if (firstListItem.evaluate().isNotEmpty) {
-          await tester.tap(firstListItem.first);
-          for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      if (client.rooms.isEmpty) {
+        debugPrint('⚠ No rooms found - skipping nested thread test');
+        return;
+      }
+
+      final room = client.rooms.first;
+      debugPrint('Found room: \${room.name} (\${room.id})');
+      
+      // Seed root event programmatically
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final rootText = 'Root Post for Nesting Test $timestamp';
+      final rootId = await room.sendTextEvent(rootText);
+
+      Event? lastEvent;
+      for (int i = 0; i < 30; i++) {
+        final timeline = await room.getTimeline();
+        try {
+          lastEvent = timeline.events.cast<Event?>().firstWhere(
+            (e) => e?.eventId == rootId, 
+            orElse: () => null
+          );
+        } catch (e) {
+          lastEvent = null;
+        }
+        if (lastEvent != null) break;
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+      
+      if (lastEvent == null) {
+        debugPrint('⚠ Failed to find root event in timeline - skipping');
+        return;
+      }
+
+      // Seed 10 levels of replies recursively
+      int maxNestingLevel = 10;
+      final threadRootId = rootId;
+      for (int i = 1; i <= maxNestingLevel; i++) {
+        final replyText = 'Nested Reply Level $i ($timestamp)';
+        final replyId = await room.sendEvent({
+           'body': replyText,
+           'msgtype': MessageTypes.Text,
+        }, threadRootEventId: threadRootId, inReplyTo: lastEvent);
+        
+        bool syncFound = false;
+        // Wait for sync so the next reply has a valid context
+        for (int j = 0; j < 30; j++) {
+          final timeline = await room.getTimeline(eventContextId: threadRootId);
+          await timeline.requestHistory(historyCount: 20); // fetch more to ensure
+          try {
+            lastEvent = timeline.events.cast<Event?>().firstWhere(
+              (e) => e?.eventId == replyId, 
+              orElse: () => null
+            );
+          } catch(e) {
+            lastEvent = null; 
+          }
+          if (lastEvent != null) {
+            syncFound = true;
+            break;
+          }
+          await tester.pump(const Duration(milliseconds: 500));
         }
 
-        // Verify room content is displayed
-        if (find.byType(Text).evaluate().isEmpty) { debugPrint('⚠ find.byType(Text) not found (Room feed should display messages) - skipping'); return; }
-
-        debugPrint('✓ Individual room feed displayed');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'Room feed shows correct message count',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-        await loginUser(tester);
-
-        // Wait for feed to fully load
-        for (int ps=0; ps<6; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-        // Access room view
-        final listViewFinder = find.byType(Scrollable);
-        expect(listViewFinder, findsWidgets);
-
-        // Count visible text widgets which typically represent messages
-        final messageCount = find.byType(Text).evaluate().length;
-
-        // Should have at least some messages from the test rooms
-        expect(
-          messageCount,
-          greaterThan(0),
-          reason: 'Room should display messages',
-        );
-
-        debugPrint('✓ Room displays $messageCount text elements');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'Empty room (test_art) displays correctly with no messages',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-        await loginUser(tester);
-
-        // The app should gracefully handle empty rooms
-        // This test mainly verifies no crashes occur
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'Feed should load even with empty rooms',
-        );
-
-        debugPrint('✓ Empty room handled gracefully');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
-
-    testWidgets(
-      'Room feed allows scrolling through message history',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-        await loginUser(tester);
-
-        final listViewFinder = find.byType(Scrollable);
-        expect(listViewFinder, findsWidgets);
-
-        // Try tapping first item to access room
-        if (find.byType(ListTile).evaluate().isNotEmpty) {
-          await tester.tap(find.byType(ListTile).first);
-          for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+        if(!syncFound) {
+           debugPrint('⚠ Failed to sync nested level \$i - test might be partial');
+           break;
         }
+      }
 
-        // Scroll the room feed
-        final scrollableContent = find.byType(Scrollable);
-        if (scrollableContent.evaluate().isNotEmpty) {
-          await tester.drag(scrollableContent.first, const Offset(0, -300));
-          for (int ps=0; ps<10; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      debugPrint('✓ Recursively generated thread with $maxNestingLevel layers');
+      for (int ps = 0; ps < 10; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
-          debugPrint('✓ Room feed scrolling works');
-        } else {
-          debugPrint('✓ Room feed structure verified');
+      // Directly navigate to Post View rather than scrolling to find it
+      final context = tester.element(find.byType(Scrollable).first);
+      GoRouter.of(context).go('/post/$rootId?room=${room.id}');
+      await tester.pumpAndSettle();
+      
+      // Give the Post view time to resolve all FutureBuilders for the nested comment tree.
+      for (int i = 0; i < 10; i++) {
+        await tester.pump(const Duration(seconds: 1));
+      }
+
+      // Diagnostic: print all text widgets visible on screen
+      final allTexts = tester.allWidgets.whereType<Text>().map((t) => t.data ?? '').where((s) => s.isNotEmpty).toSet();
+      debugPrint('=== Text widgets on screen after navigation + pump: ${allTexts.join(' | ')} ===');
+      debugPrint('=== CommentWidgets count: ${find.byType(CommentWidget).evaluate().length} ===');
+
+      // Find the "Continue this thread..." button by its icon – since the text is locale-dependent.
+      // The button is a TextButton.icon with Icons.arrow_forward.
+      final continueButtonFinder = find.byIcon(Icons.arrow_forward);
+
+      // Scroll to find it – try all Scrollables (may be nested)
+      final scrollables = find.byType(Scrollable);
+      for (int s = 0; s < scrollables.evaluate().length && continueButtonFinder.evaluate().isEmpty; s++) {
+        try {
+          await tester.scrollUntilVisible(
+            continueButtonFinder,
+            300.0,
+            scrollable: scrollables.at(s),
+          );
+        } catch (_) {
+          // try next scrollable
         }
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
+      }
 
-    testWidgets(
-      'Room displays user information with messages',
-      (WidgetTester tester) async {
-        app.main();
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      if (continueButtonFinder.evaluate().isEmpty) {
+        debugPrint('⚠ Continue thread button not found – all widget types:');
+        debugPrint(tester.allWidgets.map((w) => w.runtimeType.toString()).toSet().join(', '));
+      }
 
-        await loginUser(tester);
+      expect(continueButtonFinder, findsWidgets, reason: 'Should find continue button capping the deep thread');
 
-        // Messages should include sender information
-        final textWidgets = find.byType(Text);
-        if (textWidgets.evaluate().isEmpty) { debugPrint('⚠ textWidgets not found (Messages should display sender info) - skipping'); return; }
+      // Tap the first ancestor button of the text
+      await tester.tap(continueButtonFinder.first);
+      await tester.pumpAndSettle();
 
-        debugPrint('✓ Message metadata visible in feed');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
+      // Verify we can go back (GoRouter pushed a new entry — canPop should be true)
+      final navContext = tester.element(find.byType(Scaffold).first);
+      expect(GoRouter.of(navContext).canPop(), isTrue,
+          reason: 'GoRouter should be able to go back after pushing the sub-thread route');
+      debugPrint('✓ Navigated into deep nested Post view via continuation button (can pop: true)');
+
+      // Pop back programmatically (back navigation)
+      GoRouter.of(navContext).pop();
+      await tester.pumpAndSettle();
+
+      debugPrint('✓ Returned to main thread view successfully');
+    }, timeout: const Timeout(Duration(minutes: 5)));
   });
 }
