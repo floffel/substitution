@@ -13,18 +13,22 @@ run_linux_tests() {
 
     # Virtual display for headless Linux runners
     start_virtual_display || true
+    export GDK_BACKEND=x11
+    export NO_AT_BRIDGE=1
 
     # Verify Linux desktop is enabled
-    if ! flutter config 2>/dev/null | grep -q "enable-linux-desktop: true"; then
-        log_info "Enabling Linux desktop support..."
-        flutter config --enable-linux-desktop 2>&1 | tail -3
-        flutter doctor -v > /dev/null 2>&1
-    fi
+    log_info "Enabling Linux desktop support..."
+    flutter config --enable-linux-desktop > /dev/null 2>&1
+    
+    # Refresh device state
+    flutter doctor -v > /dev/null 2>&1
 
     # Verify linux device is available
     if ! flutter devices 2>/dev/null | grep -qi linux; then
         log_error "Linux desktop device not available"
-        log_info "Ensure you are on Linux and Flutter linux desktop is enabled"
+        log_info "Environment: DISPLAY=$DISPLAY, GDK_BACKEND=$GDK_BACKEND"
+        log_info "Flutter devices output:"
+        flutter devices 2>&1 | sed 's/^/  /'
         return 1
     fi
 

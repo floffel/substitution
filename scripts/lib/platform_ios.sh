@@ -185,74 +185,41 @@ run_ios_tests() {
         sleep 2
     done
 
-    # Run tests — each file separately to ensure fresh Matrix SDK per file
-    local per_file_timeout="${IOS_PER_FILE_TIMEOUT:-600}"  # 10 min per file
-    local total_timeout="${IOS_TEST_TIMEOUT:-7200}"        # 2 hr total
+    # Run tests — run all files in a single session for performance
+    local timeout="${IOS_TEST_TIMEOUT:-1800}"
     mkdir -p "$RESULTS_DIR"
 
     export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
 
-    # Collect all integration test files
-    local test_files=()
-    while IFS= read -r -d '' f; do
-        test_files+=("$f")
-    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
-
-    log_info "Found ${#test_files[@]} integration test files"
-    log_info "Running each file separately (per-file timeout: ${per_file_timeout}s, total timeout: ${total_timeout}s)..."
-
-    local total_passed=0
-    local total_failed=0
-    local total_skipped=0
-    local any_failure=0
+    log_info "Running all integration tests on iOS (timeout: ${timeout}s)..."
+    
+    local log_file="${RESULTS_DIR}/ios-tests.log"
     local start_time end_time duration
     start_time=$(date +%s)
 
-    for test_file in "${test_files[@]}"; do
-        local file_log="${RESULTS_DIR}/ios-$(basename "${test_file%.dart}").log"
-        log_info "  Running: $test_file"
+    local test_args=(
+        "test" "integration_test/"
+        "--device-id=$sim_id"
+        "--reporter=compact"
+        "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
+        "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
+        "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
+    )
 
-        local file_args=(
-            "test" "$test_file"
-            "--device-id=$sim_id"
-            "--reporter=compact"
-            "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
-            "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
-            "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
-        )
-
-        run_with_timeout "$per_file_timeout" flutter "${file_args[@]}" 2>&1 | tee "$file_log"
-        local file_exit=${PIPESTATUS[0]}
-
-        parse_flutter_output "$file_log"
-        total_passed=$((total_passed + _PARSED_PASSED))
-        total_failed=$((total_failed + _PARSED_FAILED))
-        total_skipped=$((total_skipped + _PARSED_SKIPPED))
-
-        if [[ $file_exit -ne 0 ]]; then
-            log_warn "  FAILED: $test_file (exit $file_exit, passed=$_PARSED_PASSED failed=$_PARSED_FAILED)"
-            any_failure=1
-        else
-            log_success "  PASSED: $test_file (passed=$_PARSED_PASSED)"
-        fi
-
-        # Check total elapsed time
-        end_time=$(date +%s)
-        elapsed=$((end_time - start_time))
-        if [[ $elapsed -ge $total_timeout ]]; then
-            log_error "Total iOS test time exceeded ${total_timeout}s — stopping early"
-            any_failure=1
-            break
-        fi
-    done
+    run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
+    local exit_code=${PIPESTATUS[0]}
 
     end_time=$(date +%s)
     duration=$((end_time - start_time))
 
-    record_target_result "ios" "$total_passed" "$total_failed" "$total_skipped" "$duration"
+    parse_flutter_output "$log_file"
+    record_target_result "ios" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
 
-    if [[ $any_failure -ne 0 ]]; then
-        log_error "iOS tests had failures"
+    if [[ $exit_code -eq 124 ]]; then
+        log_error "iOS tests timed out after ${timeout}s"
+        return 1
+    elif [[ $exit_code -ne 0 ]]; then
+        log_error "iOS tests failed (exit code $exit_code)"
         return 1
     fi
 

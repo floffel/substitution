@@ -149,11 +149,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-          DISPLAY: ':99'
-        run: |
-          Xvfb :99 -screen 0 1280x720x24 &
-          sleep 2
-          ./scripts/test.sh linux --no-docker
+        run: ./scripts/test.sh linux --no-docker
         timeout-minutes: 25
 
       - name: 'Stop Matrix test server'
@@ -181,7 +177,7 @@ jobs:
       - name: 'Install dependencies'
         run: flutter pub get
 
-      - name: 'Run iOS integration tests'
+      - name: 'Run iOS integration tests (Batched)'
         env:
           # Note: Local Matrix server is not available on macOS runners (no Docker).
           # Tests depending on a local server may fail or should be skipped.
@@ -189,7 +185,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker
-        timeout-minutes: 35
+        timeout-minutes: 45
 
   # ============================================================================
   # ANDROID TESTS (Linux runner, ~25-35 minutes)
@@ -217,11 +213,11 @@ jobs:
 
       - name: 'Install Android SDK'
         run: |
-          # Use full path to sdkmanager on ubuntu-latest
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses <<< y || true
+          # Use full path to sdkmanager on ubuntu-latest and accept all licenses
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" \
             "build-tools;33.0.0" \
-            "system-images;android-31;google_apis;x86" \
+            "system-images;android-31;google_apis;x86_64" \
             "emulator" \
             "platform-tools"
 
@@ -241,7 +237,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh android --no-docker
-        timeout-minutes: 25
+        timeout-minutes: 45
 
       - name: 'Stop Matrix test server'
         if: always()
