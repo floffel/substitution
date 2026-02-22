@@ -39,5 +39,27 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    # Fix iOS deployment target warning from some pods still defaulting to 9.0.
+    target.build_configurations.each do |config|
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      end
+    end
+  end
+
+  # Ensure objective_c.framework (a native-asset dynamic library from the Dart
+  # `objective_c` package) can be found at runtime on the iOS simulator.
+  # Flutter's native-assets pipeline copies the framework into the .app bundle
+  # under Frameworks/, so we just need @executable_path/Frameworks on the rpath.
+  installer.pods_project.targets.each do |target|
+    next unless target.name == 'Runner'
+    target.build_configurations.each do |config|
+      rpaths = config.build_settings['LD_RUNPATH_SEARCH_PATHS'] || '$(inherited)'
+      unless rpaths.include?('@executable_path/Frameworks')
+        config.build_settings['LD_RUNPATH_SEARCH_PATHS'] =
+          "#{rpaths} @executable_path/Frameworks"
+      end
+    end
   end
 end

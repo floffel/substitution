@@ -51,7 +51,19 @@ This implements your right to erasure under GDPR Art. 17.
 
 Substitution itself (as a client application distributed by Florian Minnecker) does **not** collect, store, or process any personal data on its own servers. There is no analytics SDK, no crash reporting service, and no advertising network integrated into the app.
 
-## 7. Third-Party Services
+## 7. Age Restrictions — Not for Children
+
+Substitution is a social networking application intended for users **aged 16 and over**.
+
+- **Australia** (Online Safety Amendment Act 2024): Substitution is not directed at, and is not intended to be used by, persons under **16 years of age**.
+- **United Kingdom** (Children's Code / AADC): We apply the principle of high privacy by default. The service is intended for users 16 and over.
+- **European Union / GDPR**: The minimum age for digital consent is 16 (or the applicable minimum in your country). Users under this age must not use the service without verifiable parental consent.
+- **United States** (COPPA): Substitution is not directed at children under 13. We do not knowingly collect personal information from children under 13.
+- **Germany** (JMStV): The service is not intended for users under 16.
+
+If you are aware of a user under the applicable minimum age, please report this to **hello@substitution.art**. We comply with applicable age-related regulations by maintaining this policy and setting appropriate age ratings in app stores (17+ on Apple App Store, Mature 17+ on Google Play).
+
+## 8. Third-Party Services
 
 | Service | Purpose | Privacy Policy |
 |---|---|---|
@@ -59,11 +71,11 @@ Substitution itself (as a client application distributed by Florian Minnecker) d
 | Apple APNs / Google FCM | Push notification delivery (future) | [Apple](https://www.apple.com/privacy/) / [Google](https://policies.google.com/privacy) |
 | GitHub (for legal documents) | Hosting ToS, Privacy, Imprint | [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) |
 
-## 8. Changes to this Policy
+## 9. Changes to this Policy
 
 We may update this Privacy Policy. Continued use of the app after changes constitutes acceptance. The latest version is always available at [https://github.com/floffel/substitution/blob/main/PRIVACY.md](https://github.com/floffel/substitution/blob/main/PRIVACY.md).
 
-## 9. Contact
+## 10. Contact
 
 For privacy-related questions: **hello@substitution.art**  
 For technical issues: [GitHub Issues](https://github.com/floffel/substitution/issues)

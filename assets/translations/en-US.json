@@ -5,6 +5,16 @@
     "error": "Error: {}",
     "approve": "Ok",
     "error_no_image": "No Image",
+    "age_gate": {
+        "title": "Before you continue",
+        "description": "Substitution is a social networking client for the Matrix protocol. By continuing, you confirm the following:",
+        "point_client": "Substitution is a client app only. Your data is stored on the Matrix homeserver you choose, not on servers operated by Substitution.",
+        "point_servers": "Substitution does not control the content policies of external homeservers you connect to. You are responsible for choosing a trustworthy server.",
+        "point_age": "You are 16 years of age or older (or the minimum age required in your country). Substitution is not intended for minors.",
+        "point_content": "Substitution has zero tolerance for illegal or objectionable content. Use the in-app reporting tools to flag violations.",
+        "confirm": "I confirm — I am 16 or older",
+        "privacy_link": "Read our Privacy Policy"
+    },
     "feed": {
         "pages": {
             "home": {

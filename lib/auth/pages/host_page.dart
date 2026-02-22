@@ -101,16 +101,7 @@ class _HostPageState extends State<HostPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          "auth.host.header", // AppLocalizations.of(context)!.authHostHeader,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ).tr(),
-        const Text("auth.host.body").tr(),
-        const SizedBox(height: 30),
+        const SizedBox(height: 8),
         TextFormField(
           key: const Key('hostServerInput'),
           controller: adressContrainer,

@@ -14,6 +14,7 @@ import '/write/pages/roomselect.dart';
 import '/auth/pages/host_page.dart';
 import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
+import '/shared/pages/age_gate.dart';
 import '/profile/pages/user_profile.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
@@ -38,7 +39,20 @@ import 'package:app_links/app_links.dart';
 // Global client reference for test teardown use only
 Client? globalMatrixClient;
 
+/// Route guard used by all protected routes.
+/// Redirects to `/age-gate` if the user hasn't confirmed their age, or to
+/// `/intro` if they are not logged in. Returns `null` to allow navigation.
+String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
+  if (!AgeGatePage.confirmed) return '/age-gate';
+  final client = globalMatrixClient;
+  if (client == null || !client.isLogged()) return '/intro';
+  return null;
+}
+
 void main() async {
+  // Must be first — plugins like SharedPreferences and url_strategy need it.
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Initialize FFI for Linux desktop support
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux) {
     sqfliteFfiInit();
@@ -57,19 +71,23 @@ void main() async {
   final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: "rootNav");
 
-  String? testRedirect(BuildContext context, GoRouterState state) {
-    if (!Provider.of<Client>(context, listen: false).isLogged()) {
-      return '/intro';
-    } else {
-      return null;
-    }
-  }
+  // Keep testRedirect as a convenience alias used by all protected routes.
+  String? testRedirect(BuildContext context, GoRouterState state) =>
+      ageAndAuthRedirect(context, state);
+
+  // Load the persisted age-gate acceptance before building the router,
+  // so the synchronous redirect function has the cached value available.
+  await AgeGatePage.initConfirmed();
 
   GoRouter router = GoRouter(
       debugLogDiagnostics: true,
       navigatorKey: rootNavigatorKey,
       initialLocation: '/',
       routes: [
+        GoRoute(
+          path: '/age-gate',
+          builder: (_, __) => const AgeGatePage(),
+        ),
         GoRoute(
           path: '/',
           redirect: testRedirect,
@@ -347,7 +365,6 @@ void main() async {
   );
   globalMatrixClient = client;
 
-  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await client.init();
 

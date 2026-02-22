@@ -150,16 +150,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "auth.login.header",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ).tr(),
-          const Text("auth.login.body").tr(),
-          const SizedBox(height: 30),
+          const SizedBox(height: 8),
 
           // Password fields — only shown when the server supports password login.
           if (hasPassword) ...[
