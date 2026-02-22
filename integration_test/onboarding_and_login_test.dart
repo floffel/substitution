@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 
@@ -43,6 +44,9 @@ void main() {
     testWidgets(
       'Complete onboarding: host selection -> login -> view feed',
       (WidgetTester tester) async {
+        // Bypass age gate for integration tests which run with a fresh
+        // SharedPreferences store every run (tests previously stuck on age gate).
+        AgeGatePage.confirmed = true;
         // Start the app
         app.main();
         for (int ps = 0; ps < 4; ps++) {
@@ -78,7 +82,10 @@ void main() {
         // Wait for host check + page transition
         for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
-          if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
+          if (find
+              .byKey(const Key('loginUsernameInput'))
+              .evaluate()
+              .isNotEmpty) {
             break;
           }
         }

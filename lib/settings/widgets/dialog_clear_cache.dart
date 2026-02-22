@@ -20,9 +20,11 @@ class _DialogClearCacheState extends State<DialogClearCache> {
 
     try {
       final client = Provider.of<Client>(context, listen: false);
+      // Logout will clear persisted credentials and local client state
       await client.logout();
 
       if (!mounted) return;
+      // After clearing cache, navigate to root so age-gate/intro flow can re-run
       context.go('/');
     } catch (e) {
       if (!mounted) return;

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -92,14 +93,16 @@ void main() {
 
       // Swipe to page 2 (Host)
       for (int i = 0; i < 2; i++) {
-        await tester.drag(find.byType(IntroductionScreen), const Offset(-400, 0));
+        await tester.drag(
+            find.byType(IntroductionScreen), const Offset(-400, 0));
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
 
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget, reason: 'Host input should be visible on page 2');
+      expect(hostInput, findsOneWidget,
+          reason: 'Host input should be visible on page 2');
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -114,11 +117,13 @@ void main() {
 
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) break;
+        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty)
+          break;
       }
 
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget, reason: 'Username field should be visible');
+      expect(usernameField, findsOneWidget,
+          reason: 'Username field should be visible');
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -159,6 +164,7 @@ void main() {
     testWidgets(
       'Legal drawer item is present and navigates to Legal page',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
@@ -234,7 +240,8 @@ void main() {
         final popupMenuFinder = find.byType(PopupMenuButton<String>);
 
         if (popupMenuFinder.evaluate().isEmpty) {
-          debugPrint('⚠ No popup menu found in feed (possibly empty feed) — skipping');
+          debugPrint(
+              '⚠ No popup menu found in feed (possibly empty feed) — skipping');
           return;
         }
 
