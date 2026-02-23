@@ -16,39 +16,10 @@ run_linux_tests() {
     export GDK_BACKEND=x11
     export NO_AT_BRIDGE=1
 
-    # Verify Linux desktop is enabled
+    # Ensure Linux desktop is enabled and pre-cached
     log_info "Enabling Linux desktop support..."
     flutter config --enable-linux-desktop > /dev/null 2>&1
     flutter precache --linux > /dev/null 2>&1
-    
-    # Refresh device state - sometimes multiple attempts or doctor are needed
-    log_info "Checking for Linux desktop device..."
-    flutter doctor -v > /dev/null 2>&1
-    
-    # Verify linux device is available
-    local found_device=false
-    for i in {1..5}; do
-        if flutter devices 2>/dev/null | grep -q " • linux • "; then
-            found_device=true
-            break
-        fi
-        log_debug "Linux device not found yet, retrying ($i/5)..."
-        sleep 3
-    done
-
-    # Verify linux device is available
-    if [[ "$found_device" == "false" ]]; then
-        log_error "Linux desktop device not available"
-        log_info "Environment: DISPLAY=$DISPLAY, GDK_BACKEND=$GDK_BACKEND"
-        log_info "Flutter doctor (Linux toolchain section):"
-        flutter doctor -v | grep -A 10 "Linux toolchain" || true
-        log_info "Full flutter devices output:"
-        flutter devices 2>&1 | sed 's/^/  /'
-        
-        # Record failure so it shows in summary
-        record_target_result "linux" 0 1 0 0
-        return 1
-    fi
 
     if [[ ! -d integration_test ]]; then
         log_warn "integration_test/ directory not found — skipping Linux integration tests"

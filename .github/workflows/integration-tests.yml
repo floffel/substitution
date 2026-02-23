@@ -9,7 +9,6 @@ on:
 
 env:
   CACHE_VERSION: v1
-  ANDROID_AVD_HOME: /home/runner/.android/avd
 
 jobs:
   # ============================================================================
@@ -263,32 +262,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: 'Install Android SDK'
-        run: |
-          # Use full path to sdkmanager on ubuntu-latest and accept all licenses
-          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" \
-            "build-tools;33.0.0" \
-            "system-images;android-31;google_apis;x86_64" \
-            "emulator" \
-            "platform-tools"
-          
-          # Create AVD
-          mkdir -p $ANDROID_AVD_HOME
-          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
-            --force \
-            --name android_test \
-            --package "system-images;android-31;google_apis;x86_64" \
-            --tag "google_apis"
-          
-          # List AVDs for diagnostic
-          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
-          
-          # Configure AVD for performance
-          echo "hw.gpu.enabled=yes" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
-          echo "hw.gpu.mode=software" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
-          echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
-
       - name: 'Install dependencies'
         run: |
           flutter precache --android
@@ -302,12 +275,21 @@ jobs:
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
       - name: 'Run Android integration tests'
+        uses: reactivecircus/android-emulator-runner@v2
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 45
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 2048M
+          heap-size: 512M
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          disable-animations: true
+          script: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
 
       - name: 'Stop Matrix test server'
         if: always()
