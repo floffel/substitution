@@ -185,6 +185,18 @@ jobs:
           docker compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
+      - name: 'Diagnose Linux device'
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1280x1024x24 &
+          sleep 2
+          flutter config --enable-linux-desktop
+          echo "--- flutter devices ---"
+          flutter devices
+          echo "--- flutter doctor ---"
+          flutter doctor -v
+          pkill Xvfb || true
+
       - name: 'Run Linux integration tests'
         env:
           MATRIX_SERVER: http://localhost:8008
