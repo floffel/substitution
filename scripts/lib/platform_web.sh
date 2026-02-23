@@ -156,30 +156,22 @@ _run_web_integration_tests() {
 
     log_info "Phase 2: web integration tests on Chrome"
 
-    # Find and start chromedriver
-    local chromedriver_bin=""
-    if [[ -n "${CHROMEWEBDRIVER:-}" ]] && [[ -x "$CHROMEWEBDRIVER/chromedriver" ]]; then
-        chromedriver_bin="$CHROMEWEBDRIVER/chromedriver"
-    elif command -v chromedriver &>/dev/null; then
-        chromedriver_bin="$(command -v chromedriver)"
-    else
-        log_error "chromedriver not found. Set CHROMEWEBDRIVER or install chromedriver."
-        return 1
+    # On Linux CI, Chrome needs --no-sandbox to run. Flutter respects CHROME_EXECUTABLE,
+    # so we wrap the real Chrome binary in a small script that adds the required flags.
+    local real_chrome="${CHROME_PATH:-}"
+    if [[ -z "$real_chrome" ]]; then
+        real_chrome=$(find_chrome) || true
     fi
-    log_info "Using chromedriver: $chromedriver_bin"
-
-    # Start chromedriver on a free port
-    local chromedriver_port=4444
-    "$chromedriver_bin" --port=$chromedriver_port &>/tmp/chromedriver.log &
-    local chromedriver_pid=$!
-    sleep 2
-
-    if ! kill -0 "$chromedriver_pid" 2>/dev/null; then
-        log_error "chromedriver failed to start"
-        cat /tmp/chromedriver.log >&2
-        return 1
+    if [[ -n "$real_chrome" ]] && [[ "$(detect_os)" == "linux" ]]; then
+        local wrapper="/tmp/chrome-ci-wrapper.sh"
+        cat > "$wrapper" <<WRAPPER
+#!/bin/bash
+exec "$real_chrome" --no-sandbox --disable-dev-shm-usage "\$@"
+WRAPPER
+        chmod +x "$wrapper"
+        export CHROME_EXECUTABLE="$wrapper"
+        log_debug "Using Chrome wrapper with --no-sandbox: $wrapper"
     fi
-    log_success "chromedriver started (PID $chromedriver_pid, port $chromedriver_port)"
 
     local log_file="${RESULTS_DIR}/web-integration-tests.log"
     local timeout="${WEB_TEST_TIMEOUT:-900}"
@@ -200,9 +192,6 @@ _run_web_integration_tests() {
 
     run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
     local exit_code=${PIPESTATUS[0]}
-
-    # Stop chromedriver
-    kill "$chromedriver_pid" 2>/dev/null || true
 
     local duration=$(( $(date +%s) - start_time ))
     parse_flutter_output "$log_file"
