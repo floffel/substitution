@@ -63,6 +63,12 @@ android_start_emulator() {
     avds=$(emulator -list-avds 2>/dev/null | tr -d '\r')
     if [[ -z "$avds" ]]; then
         log_error "No AVDs found. Create one in Android Studio or with avdmanager."
+        log_info "Environment: ANDROID_AVD_HOME=$ANDROID_AVD_HOME"
+        log_info "Home directory contents:"
+        ls -a "$HOME" | sed 's/^/  /'
+        
+        # Record failure so it shows in summary
+        record_target_result "android" 0 1 0 0
         return 1
     fi
     if ! echo "$avds" | grep -q "^${avd_name}$"; then

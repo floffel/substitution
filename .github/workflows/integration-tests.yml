@@ -9,6 +9,7 @@ on:
 
 env:
   CACHE_VERSION: v1
+  ANDROID_AVD_HOME: /home/runner/.android/avd
 
 jobs:
   # ============================================================================
@@ -160,7 +161,8 @@ jobs:
             clang cmake ninja-build pkg-config \
             libgtk-3-dev liblzma-dev libstdc++-12-dev \
             libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
-            libgl1-mesa-dev \
+            libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libblkid-dev libdbus-1-dev libatk1.0-dev \
             xvfb
 
       - name: 'Setup Flutter'
@@ -272,17 +274,20 @@ jobs:
             "platform-tools"
           
           # Create AVD
-          mkdir -p ~/.android/avd
+          mkdir -p $ANDROID_AVD_HOME
           echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
             --force \
             --name android_test \
             --package "system-images;android-31;google_apis;x86_64" \
             --tag "google_apis"
           
+          # List AVDs for diagnostic
+          $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+          
           # Configure AVD for performance
-          echo "hw.gpu.enabled=yes" >> ~/.android/avd/android_test.avd/config.ini
-          echo "hw.gpu.mode=software" >> ~/.android/avd/android_test.avd/config.ini
-          echo "hw.ramSize=2048" >> ~/.android/avd/android_test.avd/config.ini
+          echo "hw.gpu.enabled=yes" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
+          echo "hw.gpu.mode=software" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
+          echo "hw.ramSize=2048" >> $ANDROID_AVD_HOME/android_test.avd/config.ini
 
       - name: 'Install dependencies'
         run: |
