@@ -7,6 +7,8 @@
 #   2. Full integration tests on web device (integration_test/)
 # =============================================================================
 
+[[ "${VERBOSE:-false}" == "true" ]] && set -x
+
 # Find a Chrome or Chromium executable. Prints the path on success.
 find_chrome() {
     # Explicit override
@@ -337,6 +339,11 @@ _run_web_integration_tests() {
 # ---------------------------------------------------------------------------
 run_web_tests() {
     log_header "Web Tests (Chrome)"
+    [[ "${VERBOSE:-false}" == "true" ]] && set -x
+
+    log_info "Environment: SHARD_INDEX=${SHARD_INDEX:-}, TOTAL_SHARDS=${TOTAL_SHARDS:-}, TEST_FILTER=${TEST_FILTER:-}"
+    log_info "PWD: $(pwd)"
+    ls -d test integration_test test_driver 2>/dev/null || log_error "Important directories missing!"
 
     validate_flutter || return 1
     validate_chrome  || return 1
