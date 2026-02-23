@@ -126,3 +126,48 @@ get_shard_args() {
         echo "--shard-index=$SHARD_INDEX" "--total-shards=$TOTAL_SHARDS"
     fi
 }
+
+# Filter an array of test file paths by TEST_FILTER (glob matched against basename).
+# Usage:
+#   filter_test_files filtered_array "${test_files[@]}"
+#   then use "${filtered_array[@]}"
+#
+# Because bash 3.2 (macOS default) does not support namerefs (local -n),
+# this function prints the matched paths separated by newlines and must be
+# called with a process substitution or read loop.  The caller-friendly
+# wrapper below handles the boilerplate.
+#
+# Preferred call pattern (works on bash 3.2+):
+#   local test_files=()
+#   filter_test_files test_files "${all_files[@]}"
+# where test_files is set as a global from within this function via eval.
+filter_test_files() {
+    local _varname="$1"; shift
+    local _filter="$1"; shift
+    local _matched=()
+    for f in "$@"; do
+        local base
+        base=$(basename "$f")
+        # Match if: 
+        # 1. No filter
+        # 2. Filter matches basename exactly (or glob)
+        # 3. Filter matches the full path as a substring
+        if [[ -z "$_filter" ]] || [[ "$base" == $_filter ]] || [[ "$f" == *"$_filter"* ]]; then
+            _matched+=("$f")
+        fi
+    done
+    if [[ -n "$_filter" ]]; then
+        if [[ ${#_matched[@]} -eq 0 ]]; then
+            log_warn "Filter '$_filter' matched no files"
+        else
+            log_info "Filter '$_filter' selected ${#_matched[@]} file(s): ${_matched[*]}"
+        fi
+    fi
+    # Assign to the caller's variable using eval (bash 3.2 compatible)
+    # We build a quoted list so paths with spaces are handled correctly.
+    local _q=""
+    for f in "${_matched[@]}"; do
+        _q+=" $(printf '%q' "$f")"
+    done
+    eval "${_varname}=(${_q})"
+}

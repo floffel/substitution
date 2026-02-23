@@ -46,6 +46,18 @@ run_macos_tests() {
 
     if [[ ${#test_files[@]} -eq 0 ]]; then
         log_warn "No integration test files found."
+        record_target_result "macos" 0 0 0 0
+        return 0
+    fi
+
+    # Apply test filter if set
+    local filtered_files=()
+    filter_test_files filtered_files "$TEST_FILTER" "${test_files[@]}"
+    test_files=("${filtered_files[@]}")
+
+    if [[ ${#test_files[@]} -eq 0 ]]; then
+        log_warn "No integration test files remain after applying filter."
+        record_target_result "macos" 0 0 0 0
         return 0
     fi
 

@@ -30,6 +30,7 @@
 #   --avd-name <name>        Android AVD name (default: android_test)
 #   --shard <index>          Test shard index (0-based)
 #   --total-shards <count>   Total number of test shards
+#   --filter <glob>          Only run integration test files matching glob
 #   --help                   Show this help message
 #
 # Examples:
@@ -58,6 +59,19 @@
 #   ANDROID_AVD_NAME        Android AVD name (default: android_test)
 #   LINUX_TEST_TIMEOUT      Linux test timeout in seconds (default: 600)
 #   CHROME_EXECUTABLE       Path to Chrome/Chromium binary
+################################################################################
+#
+# Test Filtering:
+#   --filter <glob>  Only run integration test files whose basename matches
+#                    the given glob pattern (e.g. "comment*", "login_*test").
+#                    Unit and widget tests are not affected by this filter.
+#                    Docker/emulator/simulator are still started as required
+#                    by the selected target(s).
+#
+# Examples:
+#   ./scripts/test.sh macos --filter "comment_nesting*"
+#   ./scripts/test.sh android --filter "room_feed*"
+#   ./scripts/test.sh web --filter "app_test*"
 ################################################################################
 
 set -o pipefail
@@ -89,6 +103,7 @@ NO_CLEANUP=false
 DOCKER_STARTED=false
 SHARD_INDEX=""
 TOTAL_SHARDS=""
+TEST_FILTER=""
 
 TARGETS=()
 
@@ -150,6 +165,10 @@ parse_arguments() {
                 ;;
             --total-shards)
                 TOTAL_SHARDS="$2"
+                shift 2
+                ;;
+            --filter)
+                TEST_FILTER="$2"
                 shift 2
                 ;;
             --help|-h)
@@ -282,10 +301,13 @@ main() {
     parse_arguments "$@"
     expand_targets
 
+    export TEST_FILTER
+
     echo -e "${BOLD}"
     echo "  Substitution Test Runner"
     echo "  $(date +'%Y-%m-%d %H:%M:%S')"
     echo "  Targets: ${TARGETS[*]}"
+    [[ -n "$TEST_FILTER" ]] && echo "  Filter:  $TEST_FILTER"
     echo -e "${NC}"
 
     # Move to project root

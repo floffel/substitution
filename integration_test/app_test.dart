@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import '../test/helpers/integration_test_helper.dart';
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +38,9 @@ void main() {
       }
     });
 
-    testWidgets('App starts and displays home page',
-        (WidgetTester tester) async {
+    testWidgets('App starts and displays home page', (
+      WidgetTester tester,
+    ) async {
       // Start the app
       app.main();
 

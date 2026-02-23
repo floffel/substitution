@@ -191,51 +191,98 @@ run_android_tests() {
     local timeout="${ANDROID_TEST_TIMEOUT:-2400}"
     mkdir -p "$RESULTS_DIR"
 
-    local test_args=(
-        "test" "integration_test/"
+    export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
+
+    local common_args=(
+        "test"
         "--device-id=$ANDROID_DEVICE_ID"
         "--reporter=compact"
-        $(get_shard_args)
-        "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
+        "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
-    export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
-
-    log_info "Running integration tests on Android (timeout: ${timeout}s)..."
     local start_time
     start_time=$(date +%s)
+    local overall_exit=0
 
-    run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
-    local exit_code=${PIPESTATUS[0]}
+    if [[ -n "${TEST_FILTER:-}" ]]; then
+        # Per-file mode: collect files and apply filter
+        local all_files=()
+        while IFS= read -r -d '' f; do
+            all_files+=("$f")
+        done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
 
-    local end_time
-    end_time=$(date +%s)
-    local duration=$((end_time - start_time))
+        local test_files=()
+        filter_test_files test_files "$TEST_FILTER" "${all_files[@]}"
 
-    # Capture logcat
-    adb -s "$ANDROID_DEVICE_ID" logcat -d > "$RESULTS_DIR/android-device.log" 2>/dev/null || true
+        if [[ ${#test_files[@]} -eq 0 ]]; then
+            log_warn "No Android integration test files remain after applying filter."
+            record_target_result "android" 0 0 0 0
+            return 0
+        fi
 
-    parse_flutter_output "$log_file"
-    record_target_result "android" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+        log_info "Running ${#test_files[@]} filtered integration test(s) on Android (timeout: ${timeout}s each)..."
+        : > "$log_file"
+        local acc_passed=0 acc_failed=0 acc_skipped=0
 
-    if [[ $exit_code -eq 124 ]]; then
-        log_error "Android tests timed out after ${timeout}s"
-        return 1
-    elif [[ $exit_code -ne 0 ]]; then
-        # Trust parsed counts over exit code — flutter test/drive can exit non-zero
-        # even when all tests pass (known Flutter bug with integration_test driver).
-        if [[ $_PARSED_FAILED -gt 0 ]]; then
-            log_error "Android tests failed (exit $exit_code, $_PARSED_FAILED failed)"
-            return 1
-        elif [[ $_PARSED_PASSED -eq 0 ]]; then
-            log_error "Android tests failed (exit $exit_code, no tests ran)"
-            return 1
-        else
-            log_warn "flutter test exited $exit_code but $_PARSED_PASSED passed, 0 failed — treating as success"
+        for test_file in "${test_files[@]}"; do
+            log_info "  Running: $test_file"
+            run_with_timeout "$timeout" flutter "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            local exit_code=${PIPESTATUS[0]}
+            parse_flutter_output "$log_file"
+            acc_passed=$((acc_passed + _PARSED_PASSED))
+            acc_failed=$((acc_failed + _PARSED_FAILED))
+            acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+            if [[ $exit_code -eq 124 ]]; then
+                log_error "Timed out after ${timeout}s: $test_file"
+                overall_exit=1; break
+            elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
+                log_warn "FAILED: $test_file"
+                overall_exit=1
+            fi
+        done
+
+        local end_time
+        end_time=$(date +%s)
+        local duration=$((end_time - start_time))
+
+        adb -s "$ANDROID_DEVICE_ID" logcat -d > "$RESULTS_DIR/android-device.log" 2>/dev/null || true
+        record_target_result "android" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
+    else
+        # Bulk mode: run entire integration_test/ directory at once
+        log_info "Running integration tests on Android (timeout: ${timeout}s)..."
+        local shard_args=()
+        read -r -a shard_args <<< "$(get_shard_args)"
+
+        run_with_timeout "$timeout" flutter "${common_args[@]}" "${shard_args[@]}" "integration_test/" \
+            2>&1 | tee "$log_file"
+        overall_exit=${PIPESTATUS[0]}
+
+        local end_time
+        end_time=$(date +%s)
+        local duration=$((end_time - start_time))
+
+        adb -s "$ANDROID_DEVICE_ID" logcat -d > "$RESULTS_DIR/android-device.log" 2>/dev/null || true
+        parse_flutter_output "$log_file"
+        record_target_result "android" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+
+        if [[ $overall_exit -ne 0 ]]; then
+            if [[ $_PARSED_FAILED -gt 0 ]]; then
+                log_error "Android tests failed (exit $overall_exit, $_PARSED_FAILED failed)"
+            elif [[ $_PARSED_PASSED -eq 0 ]]; then
+                log_error "Android tests failed (exit $overall_exit, no tests ran)"
+            else
+                log_warn "flutter test exited $overall_exit but $_PARSED_PASSED passed, 0 failed — treating as success"
+                overall_exit=0
+            fi
         fi
     fi
 
-    log_success "Android tests passed"
+    if [[ $overall_exit -eq 0 ]]; then
+        log_success "Android tests passed"
+    else
+        log_error "Android tests had failures"
+        return 1
+    fi
 }

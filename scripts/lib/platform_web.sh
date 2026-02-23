@@ -88,13 +88,20 @@ _run_web_unit_tests() {
     )
 
     # Discover unit/widget test files (test/, excluding helpers/)
-    local test_files=()
+    local all_test_files=()
     while IFS= read -r -d '' file; do
-        test_files+=("$file")
+        all_test_files+=("$file")
     done < <(find test -name '*_test.dart' -print0 2>/dev/null)
 
+    local test_files=()
+    if [[ -n "${TEST_FILTER:-}" ]]; then
+        filter_test_files test_files "$TEST_FILTER" "${all_test_files[@]}"
+    else
+        test_files=("${all_test_files[@]}")
+    fi
+
     if [[ ${#test_files[@]} -eq 0 ]]; then
-        log_warn "No test files found under test/"
+        log_warn "No test files found matching filter or in test/"
         record_target_result "web-unit" 0 0 0 0
         return 0
     fi
@@ -183,6 +190,18 @@ _run_web_integration_tests() {
     local total_files=${#all_test_files[@]}
     if [[ $total_files -eq 0 ]]; then
         log_warn "No integration test files found"
+        return 0
+    fi
+
+    # Apply test filter
+    local filtered_files=()
+    filter_test_files filtered_files "$TEST_FILTER" "${all_test_files[@]}"
+    all_test_files=("${filtered_files[@]}")
+    total_files=${#all_test_files[@]}
+
+    if [[ $total_files -eq 0 ]]; then
+        log_warn "No web integration test files remain after applying filter."
+        record_target_result "web-integration" 0 0 0 0
         return 0
     fi
 

@@ -191,36 +191,78 @@ run_ios_tests() {
 
     export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
 
-    log_info "Running all integration tests on iOS (timeout: ${timeout}s)..."
-    
-    local log_file="${RESULTS_DIR}/ios-tests.log"
-    local start_time end_time duration
-    start_time=$(date +%s)
-
-    local test_args=(
-        "test" "integration_test/"
+    local common_args=(
         "--device-id=$sim_id"
         "--reporter=compact"
-        $(get_shard_args)
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
-    run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
-    local exit_code=${PIPESTATUS[0]}
+    local log_file="${RESULTS_DIR}/ios-tests.log"
+    local start_time end_time duration
+    start_time=$(date +%s)
+    local overall_exit=0
 
-    end_time=$(date +%s)
-    duration=$((end_time - start_time))
+    if [[ -n "${TEST_FILTER:-}" ]]; then
+        # Per-file filtered mode
+        local all_files=()
+        while IFS= read -r -d '' f; do
+            all_files+=("$f")
+        done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
 
-    parse_flutter_output "$log_file"
-    record_target_result "ios" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+        local test_files=()
+        filter_test_files test_files "$TEST_FILTER" "${all_files[@]}"
 
-    if [[ $exit_code -eq 124 ]]; then
+        if [[ ${#test_files[@]} -eq 0 ]]; then
+            log_warn "No iOS integration test files remain after applying filter."
+            record_target_result "ios" 0 0 0 0
+            return 0
+        fi
+
+        log_info "Running ${#test_files[@]} filtered integration test(s) on iOS (timeout: ${timeout}s each)..."
+        : > "$log_file"
+        local acc_passed=0 acc_failed=0 acc_skipped=0
+
+        for test_file in "${test_files[@]}"; do
+            log_info "  Running: $test_file"
+            run_with_timeout "$timeout" flutter "test" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            local exit_code=${PIPESTATUS[0]}
+            parse_flutter_output "$log_file"
+            acc_passed=$((acc_passed + _PARSED_PASSED))
+            acc_failed=$((acc_failed + _PARSED_FAILED))
+            acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+            if [[ $exit_code -eq 124 ]]; then
+                log_error "Timed out after ${timeout}s: $test_file"; overall_exit=1; break
+            elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
+                overall_exit=1
+            fi
+        done
+
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        record_target_result "ios" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
+    else
+        # Bulk mode
+        log_info "Running all integration tests on iOS (timeout: ${timeout}s)..."
+        local shard_args=()
+        read -r -a shard_args <<< "$(get_shard_args)"
+
+        run_with_timeout "$timeout" flutter "test" "integration_test/" \
+            "${common_args[@]}" "${shard_args[@]}" 2>&1 | tee "$log_file"
+        overall_exit=${PIPESTATUS[0]}
+
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        parse_flutter_output "$log_file"
+        record_target_result "ios" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+    fi
+
+    if [[ $overall_exit -eq 124 ]]; then
         log_error "iOS tests timed out after ${timeout}s"
         return 1
-    elif [[ $exit_code -ne 0 ]]; then
-        log_error "iOS tests failed (exit code $exit_code)"
+    elif [[ $overall_exit -ne 0 ]]; then
+        log_error "iOS tests failed (exit code $overall_exit)"
         return 1
     fi
 

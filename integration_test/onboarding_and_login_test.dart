@@ -6,7 +6,7 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../test/helpers/integration_test_helper.dart';
+import 'helpers/integration_test_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 void main() {
@@ -47,17 +47,17 @@ void main() {
     Future<void> navigateToHostPage(WidgetTester tester) async {
       // Tap 'Next' twice to get to the HostPage (Welcome -> Account -> Host)
       final nextButtonFinder = find.text('intro.buttons.next'.tr());
-      
+
       // Page 1: Welcome -> Next -> Page 2: Account
       if (nextButtonFinder.evaluate().isNotEmpty) {
-         await tester.tap(nextButtonFinder);
-         await tester.pumpAndSettle();
+        await tester.tap(nextButtonFinder);
+        await tester.pumpAndSettle();
       }
-      
+
       // Page 2: Account -> Next -> Page 3: Host
       if (nextButtonFinder.evaluate().isNotEmpty) {
-         await tester.tap(nextButtonFinder);
-         await tester.pumpAndSettle();
+        await tester.tap(nextButtonFinder);
+        await tester.pumpAndSettle();
       }
     }
 
@@ -121,16 +121,25 @@ void main() {
 
         // Wait specifically for password field
         for (int i = 0; i < 20; i++) {
-          if (find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty) {
+          if (find
+              .byKey(const Key('loginPasswordInput'))
+              .evaluate()
+              .isNotEmpty) {
             break;
           }
           await tester.pump(const Duration(milliseconds: 200));
         }
 
         debugPrint("Debug: Checking for fields...");
-        debugPrint("Fields count: ${find.byType(TextFormField).evaluate().length}");
-        debugPrint("Username field found: ${find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty}");
-        debugPrint("Password field found: ${find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty}");
+        debugPrint(
+          "Fields count: ${find.byType(TextFormField).evaluate().length}",
+        );
+        debugPrint(
+          "Username field found: ${find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty}",
+        );
+        debugPrint(
+          "Password field found: ${find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty}",
+        );
 
         final textFormFields2b = find.byType(TextFormField);
         if (textFormFields2b.evaluate().length < 2) {
@@ -156,7 +165,8 @@ void main() {
         // Step 3: Verify we're logged in and at the feed
         if (find.byType(Scrollable).evaluate().isEmpty) {
           debugPrint(
-              '⚠ Scrollable not found after login - may not have reached feed');
+            '⚠ Scrollable not found after login - may not have reached feed',
+          );
         } else {
           debugPrint('✓ Onboarding and login completed successfully');
         }
@@ -214,14 +224,19 @@ void main() {
 
         // Wait specifically for password field
         for (int i = 0; i < 20; i++) {
-          if (find.byKey(const Key('loginPasswordInput')).evaluate().isNotEmpty) {
+          if (find
+              .byKey(const Key('loginPasswordInput'))
+              .evaluate()
+              .isNotEmpty) {
             break;
           }
           await tester.pump(const Duration(milliseconds: 200));
         }
 
         debugPrint("Debug: Checking for fields (Invalid login test)...");
-        debugPrint("Fields count: ${find.byType(TextFormField).evaluate().length}");
+        debugPrint(
+          "Fields count: ${find.byType(TextFormField).evaluate().length}",
+        );
 
         final textFormFields2b = find.byType(TextFormField);
         if (textFormFields2b.evaluate().length < 2) {
@@ -245,7 +260,8 @@ void main() {
         // Verify error dialog appears (soft check)
         if (find.byType(AlertDialog).evaluate().isEmpty) {
           debugPrint(
-              '⚠ AlertDialog not found - error may be shown differently');
+            '⚠ AlertDialog not found - error may be shown differently',
+          );
         } else {
           debugPrint('✓ Invalid credentials properly rejected');
         }

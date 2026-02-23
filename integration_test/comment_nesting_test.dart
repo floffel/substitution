@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:substitution/post/widgets/comment.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,6 +9,9 @@ import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'helpers/login_helper.dart' as login_helper;
+import 'package:substitution/shared/pages/age_gate.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,12 +21,15 @@ void main() {
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
     );
-    const testUser = 'testuser1';
-    const testPassword = 'testpass123';
 
     late Database? sqliteDatabase;
 
     setUp(() async {
+      // Reset age gate so the app always starts from the age-gate screen
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      AgeGatePage.confirmed = false;
+
       // Delete main app database to ensure fresh login (no persisted session)
       if (!kIsWeb) {
         try {
@@ -90,220 +95,196 @@ void main() {
       }
     });
 
-    Future<void> loginUser(WidgetTester tester) async {
-      // Wait for IntroductionScreen to appear
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
-      }
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+    Future<void> doLogin(WidgetTester tester) =>
+        login_helper.loginUser(tester, matrixServer: testMatrixServer);
 
-      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
-      for (int i = 0; i < 2; i++) {
-        await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      }
-
-      // Enter homeserver using test key
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
-      await tester.enterText(hostInput, testMatrixServer);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      // Submit host (ensure button is visible before tapping)
-      final submitButton = find.byKey(const Key('hostSubmitButton'));
-      await tester.ensureVisible(submitButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      await tester.tap(submitButton, warnIfMissed: false);
-
-      // Wait for host check + page transition to login page
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
-      }
-
-      // Now on Login page (page 3) - enter credentials using test keys
-      final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
-      await tester.enterText(usernameField, testUser);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      final passwordField = find.byKey(const Key('loginPasswordInput'));
-      await tester.enterText(passwordField, testPassword);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      final loginButton = find.byKey(const Key('loginSubmitButton'));
-      await tester.ensureVisible(loginButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      await tester.tap(loginButton, warnIfMissed: false);
-
-      // Wait for login to complete (real HTTP call), then tap Go on intro page 4
-      for (int i = 0; i < 40; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
-      }
-
-      // Tap 'Go' button on intro page 4 to navigate to the feed
-      final goButton = find.byKey(const Key('introGoButton'));
-      if (goButton.evaluate().isNotEmpty) {
-        await tester.tap(goButton, warnIfMissed: false);
-        // Use pump loop instead of pumpAndSettle to avoid hang while SDK syncs
-        for (int i = 0; i < 20; i++) {
+    testWidgets(
+      'Deeply nested comments render without overflow and can be collapsed',
+      (WidgetTester tester) async {
+        app.main();
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
-          if (find.byType(Scrollable).evaluate().isNotEmpty) break;
         }
-      }
-    }
 
-    testWidgets('Deeply nested comments render without overflow and can be collapsed', (WidgetTester tester) async {
-      app.main();
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
+        await doLogin(tester);
 
-      await loginUser(tester);
-
-      // Wait for Matrix client and room list
-      final client = app.globalMatrixClient!;
-      for (int i = 0; i < 20; i++) {
-        if (client.rooms.isNotEmpty) break;
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      if (client.rooms.isEmpty) {
-        debugPrint('⚠ No rooms found - skipping nested thread test');
-        return;
-      }
-
-      final room = client.rooms.first;
-      debugPrint('Found room: \${room.name} (\${room.id})');
-      
-      // Seed root event programmatically
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final rootText = 'Root Post for Nesting Test $timestamp';
-      final rootId = await room.sendTextEvent(rootText);
-
-      Event? lastEvent;
-      for (int i = 0; i < 30; i++) {
-        final timeline = await room.getTimeline();
-        try {
-          lastEvent = timeline.events.cast<Event?>().firstWhere(
-            (e) => e?.eventId == rootId, 
-            orElse: () => null
-          );
-        } catch (e) {
-          lastEvent = null;
+        // Wait for Matrix client and room list
+        final client = app.globalMatrixClient!;
+        for (int i = 0; i < 20; i++) {
+          if (client.rooms.isNotEmpty) break;
+          await tester.pump(const Duration(milliseconds: 500));
         }
-        if (lastEvent != null) break;
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      
-      if (lastEvent == null) {
-        debugPrint('⚠ Failed to find root event in timeline - skipping');
-        return;
-      }
 
-      // Seed 10 levels of replies recursively
-      int maxNestingLevel = 10;
-      final threadRootId = rootId;
-      for (int i = 1; i <= maxNestingLevel; i++) {
-        final replyText = 'Nested Reply Level $i ($timestamp)';
-        final replyId = await room.sendEvent({
-           'body': replyText,
-           'msgtype': MessageTypes.Text,
-        }, threadRootEventId: threadRootId, inReplyTo: lastEvent);
-        
-        bool syncFound = false;
-        // Wait for sync so the next reply has a valid context
-        for (int j = 0; j < 30; j++) {
-          final timeline = await room.getTimeline(eventContextId: threadRootId);
-          await timeline.requestHistory(historyCount: 20); // fetch more to ensure
+        if (client.rooms.isEmpty) {
+          debugPrint('⚠ No rooms found - skipping nested thread test');
+          return;
+        }
+
+        final room = client.rooms.first;
+        debugPrint('Found room: \${room.name} (\${room.id})');
+
+        // Seed root event programmatically
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final rootText = 'Root Post for Nesting Test $timestamp';
+        final rootId = await room.sendTextEvent(rootText);
+
+        Event? lastEvent;
+        for (int i = 0; i < 30; i++) {
+          final timeline = await room.getTimeline();
           try {
             lastEvent = timeline.events.cast<Event?>().firstWhere(
-              (e) => e?.eventId == replyId, 
-              orElse: () => null
+              (e) => e?.eventId == rootId,
+              orElse: () => null,
             );
-          } catch(e) {
-            lastEvent = null; 
+          } catch (e) {
+            lastEvent = null;
           }
-          if (lastEvent != null) {
-            syncFound = true;
-            break;
-          }
+          if (lastEvent != null) break;
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        if(!syncFound) {
-           debugPrint('⚠ Failed to sync nested level \$i - test might be partial');
-           break;
+        if (lastEvent == null) {
+          debugPrint('⚠ Failed to find root event in timeline - skipping');
+          return;
         }
-      }
 
-      debugPrint('✓ Recursively generated thread with $maxNestingLevel layers');
-      for (int ps = 0; ps < 10; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      // Directly navigate to Post View rather than scrolling to find it
-      final context = tester.element(find.byType(Scrollable).first);
-      GoRouter.of(context).go('/post/$rootId?room=${room.id}');
-      await tester.pumpAndSettle();
-      
-      // Give the Post view time to resolve all FutureBuilders for the nested comment tree.
-      for (int i = 0; i < 10; i++) {
-        await tester.pump(const Duration(seconds: 1));
-      }
-
-      // Diagnostic: print all text widgets visible on screen
-      final allTexts = tester.allWidgets.whereType<Text>().map((t) => t.data ?? '').where((s) => s.isNotEmpty).toSet();
-      debugPrint('=== Text widgets on screen after navigation + pump: ${allTexts.join(' | ')} ===');
-      debugPrint('=== CommentWidgets count: ${find.byType(CommentWidget).evaluate().length} ===');
-
-      // Find the "Continue this thread..." button by its icon – since the text is locale-dependent.
-      // The button is a TextButton.icon with Icons.arrow_forward.
-      final continueButtonFinder = find.byIcon(Icons.arrow_forward);
-
-      // Scroll to find it – try all Scrollables (may be nested)
-      final scrollables = find.byType(Scrollable);
-      for (int s = 0; s < scrollables.evaluate().length && continueButtonFinder.evaluate().isEmpty; s++) {
-        try {
-          await tester.scrollUntilVisible(
-            continueButtonFinder,
-            300.0,
-            scrollable: scrollables.at(s),
+        // Seed 10 levels of replies recursively
+        int maxNestingLevel = 10;
+        final threadRootId = rootId;
+        for (int i = 1; i <= maxNestingLevel; i++) {
+          final replyText = 'Nested Reply Level $i ($timestamp)';
+          final replyId = await room.sendEvent(
+            {'body': replyText, 'msgtype': MessageTypes.Text},
+            threadRootEventId: threadRootId,
+            inReplyTo: lastEvent,
           );
-        } catch (_) {
-          // try next scrollable
+
+          bool syncFound = false;
+          // Wait for sync so the next reply has a valid context
+          for (int j = 0; j < 30; j++) {
+            final timeline = await room.getTimeline(
+              eventContextId: threadRootId,
+            );
+            await timeline.requestHistory(
+              historyCount: 20,
+            ); // fetch more to ensure
+            try {
+              lastEvent = timeline.events.cast<Event?>().firstWhere(
+                (e) => e?.eventId == replyId,
+                orElse: () => null,
+              );
+            } catch (e) {
+              lastEvent = null;
+            }
+            if (lastEvent != null) {
+              syncFound = true;
+              break;
+            }
+            await tester.pump(const Duration(milliseconds: 500));
+          }
+
+          if (!syncFound) {
+            debugPrint(
+              '⚠ Failed to sync nested level \$i - test might be partial',
+            );
+            break;
+          }
         }
-      }
 
-      if (continueButtonFinder.evaluate().isEmpty) {
-        debugPrint('⚠ Continue thread button not found – all widget types:');
-        debugPrint(tester.allWidgets.map((w) => w.runtimeType.toString()).toSet().join(', '));
-      }
+        debugPrint(
+          '✓ Recursively generated thread with $maxNestingLevel layers',
+        );
+        for (int ps = 0; ps < 10; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
 
-      expect(continueButtonFinder, findsWidgets, reason: 'Should find continue button capping the deep thread');
+        // Directly navigate to Post View rather than scrolling to find it
+        final context = tester.element(find.byType(Scrollable).first);
+        GoRouter.of(context).go('/post/$rootId?room=${room.id}');
+        await tester.pumpAndSettle();
 
-      // Tap the first ancestor button of the text
-      await tester.tap(continueButtonFinder.first);
-      await tester.pumpAndSettle();
+        // Give the Post view time to resolve all FutureBuilders for the nested comment tree.
+        for (int i = 0; i < 10; i++) {
+          await tester.pump(const Duration(seconds: 1));
+        }
 
-      // Verify we can go back (GoRouter pushed a new entry — canPop should be true)
-      final navContext = tester.element(find.byType(Scaffold).first);
-      expect(GoRouter.of(navContext).canPop(), isTrue,
-          reason: 'GoRouter should be able to go back after pushing the sub-thread route');
-      debugPrint('✓ Navigated into deep nested Post view via continuation button (can pop: true)');
+        // Diagnostic: print all text widgets visible on screen
+        final allTexts =
+            tester.allWidgets
+                .whereType<Text>()
+                .map((t) => t.data ?? '')
+                .where((s) => s.isNotEmpty)
+                .toSet();
+        debugPrint(
+          '=== Text widgets on screen after navigation + pump: ${allTexts.join(' | ')} ===',
+        );
+        debugPrint(
+          '=== CommentWidgets count: ${find.byType(CommentWidget).evaluate().length} ===',
+        );
 
-      // Pop back programmatically (back navigation)
-      GoRouter.of(navContext).pop();
-      await tester.pumpAndSettle();
+        // Find the "Continue this thread..." button by its icon – since the text is locale-dependent.
+        // The button is a TextButton.icon with Icons.arrow_forward.
+        final continueButtonFinder = find.byIcon(Icons.arrow_forward);
 
-      debugPrint('✓ Returned to main thread view successfully');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        // Scroll to find it – try all Scrollables (may be nested)
+        final scrollables = find.byType(Scrollable);
+        for (
+          int s = 0;
+          s < scrollables.evaluate().length &&
+              continueButtonFinder.evaluate().isEmpty;
+          s++
+        ) {
+          try {
+            await tester.scrollUntilVisible(
+              continueButtonFinder,
+              300.0,
+              scrollable: scrollables.at(s),
+            );
+          } catch (_) {
+            // try next scrollable
+          }
+        }
+
+        if (continueButtonFinder.evaluate().isEmpty) {
+          debugPrint('⚠ Continue thread button not found – all widget types:');
+          debugPrint(
+            tester.allWidgets
+                .map((w) => w.runtimeType.toString())
+                .toSet()
+                .join(', '),
+          );
+        }
+
+        expect(
+          continueButtonFinder,
+          findsWidgets,
+          reason: 'Should find continue button capping the deep thread',
+        );
+
+        // Tap the first ancestor button of the text
+        await tester.ensureVisible(continueButtonFinder.first);
+        await tester.tap(continueButtonFinder.first);
+        await tester.pumpAndSettle();
+
+        // Verify we can go back (GoRouter pushed a new entry — canPop should be true)
+        final navContext = tester.element(find.byType(Scaffold).first);
+        expect(
+          GoRouter.of(navContext).canPop(),
+          isTrue,
+          reason:
+              'GoRouter should be able to go back after pushing the sub-thread route',
+        );
+        debugPrint(
+          '✓ Navigated into deep nested Post view via continuation button (can pop: true)',
+        );
+
+        // Pop back programmatically (back navigation)
+        GoRouter.of(navContext).pop();
+        await tester.pumpAndSettle();
+
+        debugPrint('✓ Returned to main thread view successfully');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'helpers/login_helper.dart' as login_helper;
+import 'package:substitution/shared/pages/age_gate.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +18,15 @@ void main() {
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
     );
-    const testUser = 'testuser1';
-    const testPassword = 'testpass123';
 
     late Database? sqliteDatabase;
 
     setUp(() async {
+      // Reset age gate so the app always starts from the age-gate screen
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      AgeGatePage.confirmed = false;
+
       // Delete main app database to ensure fresh login (no persisted session)
       if (!kIsWeb) {
         try {
@@ -87,75 +92,8 @@ void main() {
       }
     });
 
-    Future<void> loginUser(WidgetTester tester) async {
-      // Wait for IntroductionScreen to appear
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
-      }
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
-      for (int i = 0; i < 2; i++) {
-        await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      }
-
-      // Enter homeserver using test key
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
-      await tester.enterText(hostInput, testMatrixServer);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      // Submit host (ensure button is visible before tapping)
-      final submitButton = find.byKey(const Key('hostSubmitButton'));
-      await tester.ensureVisible(submitButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      await tester.tap(submitButton, warnIfMissed: false);
-
-      // Wait for host check + page transition to login page
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
-      }
-
-      // Now on Login page (page 3) - enter credentials using test keys
-      final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
-      await tester.enterText(usernameField, testUser);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      final passwordField = find.byKey(const Key('loginPasswordInput'));
-      await tester.enterText(passwordField, testPassword);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-
-      final loginButton = find.byKey(const Key('loginSubmitButton'));
-      await tester.ensureVisible(loginButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
-      await tester.tap(loginButton, warnIfMissed: false);
-
-      // Wait for login to complete (real HTTP call), then tap Go on intro page 4
-      for (int i = 0; i < 40; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
-      }
-
-      // Tap 'Go' button on intro page 4 to navigate to the feed
-      final goButton = find.byKey(const Key('introGoButton'));
-      if (goButton.evaluate().isNotEmpty) {
-        await tester.tap(goButton, warnIfMissed: false);
-        // Use pump loop instead of pumpAndSettle to avoid hang while SDK syncs
-        for (int i = 0; i < 20; i++) {
-          await tester.pump(const Duration(milliseconds: 500));
-          if (find.byType(Scrollable).evaluate().isNotEmpty) break;
-        }
-      }
-    }
+    Future<void> loginUser(WidgetTester tester) =>
+        login_helper.loginUser(tester, matrixServer: testMatrixServer);
 
     testWidgets(
       'Can react to messages with emoji',
@@ -191,7 +129,8 @@ void main() {
           // The exact UI depends on implementation
           if (find.byType(PopupMenuButton).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byType(PopupMenuButton) not found (Should show reaction options on long-press) - skipping');
+              '⚠ find.byType(PopupMenuButton) not found (Should show reaction options on long-press) - skipping',
+            );
             return;
           }
 
@@ -203,59 +142,56 @@ void main() {
       timeout: const Timeout(Duration(seconds: 180)),
     );
 
-    testWidgets(
-      'Can reply to messages',
-      (WidgetTester tester) async {
-        app.main();
+    testWidgets('Can reply to messages', (WidgetTester tester) async {
+      app.main();
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      await loginUser(tester);
+
+      // Wait for feed to load
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      // Look for messages
+      final messageWidgets = find.byType(ListTile);
+      if (messageWidgets.evaluate().isEmpty) {
+        debugPrint('⚠ messageWidgets not found - skipping');
+        return;
+      }
+
+      if (messageWidgets.evaluate().isNotEmpty) {
+        // Try to access message options (might be tap, long-press, or menu button)
+        await tester.tap(messageWidgets.first);
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        await loginUser(tester);
+        // Look for reply option or button
+        final replyButton = find.byIcon(Icons.reply);
 
-        // Wait for feed to load
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // Look for messages
-        final messageWidgets = find.byType(ListTile);
-        if (messageWidgets.evaluate().isEmpty) {
-          debugPrint('⚠ messageWidgets not found - skipping');
-          return;
-        }
-
-        if (messageWidgets.evaluate().isNotEmpty) {
-          // Try to access message options (might be tap, long-press, or menu button)
-          await tester.tap(messageWidgets.first);
-          for (int ps = 0; ps < 4; ps++) {
+        if (replyButton.evaluate().isNotEmpty) {
+          await tester.tap(replyButton.first);
+          for (int ps = 0; ps < 10; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
-          // Look for reply option or button
-          final replyButton = find.byIcon(Icons.reply);
-
-          if (replyButton.evaluate().isNotEmpty) {
-            await tester.tap(replyButton.first);
-            for (int ps = 0; ps < 10; ps++) {
-              await tester.pump(const Duration(milliseconds: 500));
-            }
-
-            // Verify reply input appears
-            if (find.byType(TextField).evaluate().isEmpty) {
-              debugPrint(
-                  '⚠ find.byType(TextField) not found (Reply input should appear) - skipping');
-              return;
-            }
-
-            debugPrint('✓ Reply mode activated');
-          } else {
-            debugPrint('✓ Message interaction UI verified');
+          // Verify reply input appears
+          if (find.byType(TextField).evaluate().isEmpty) {
+            debugPrint(
+              '⚠ find.byType(TextField) not found (Reply input should appear) - skipping',
+            );
+            return;
           }
+
+          debugPrint('✓ Reply mode activated');
+        } else {
+          debugPrint('✓ Message interaction UI verified');
         }
-      },
-      timeout: const Timeout(Duration(seconds: 180)),
-    );
+      }
+    }, timeout: const Timeout(Duration(seconds: 180)));
 
     testWidgets(
       'Reactions from other users are visible',
@@ -344,7 +280,8 @@ void main() {
 
         if (find.byType(Text).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(Text) not found (Should display messages from test_general) - skipping');
+            '⚠ find.byType(Text) not found (Should display messages from test_general) - skipping',
+          );
           return;
         }
 
