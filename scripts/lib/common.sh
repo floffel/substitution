@@ -123,6 +123,6 @@ stop_virtual_display() {
 # Generate Flutter shard arguments if SHARD_INDEX and TOTAL_SHARDS are set
 get_shard_args() {
     if [[ -n "${SHARD_INDEX:-}" ]] && [[ -n "${TOTAL_SHARDS:-}" ]]; then
-        echo "--shard=$SHARD_INDEX" "--total-shards=$TOTAL_SHARDS"
+        echo "--shard-index=$SHARD_INDEX" "--total-shards=$TOTAL_SHARDS"
     fi
 }
