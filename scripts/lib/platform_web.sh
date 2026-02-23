@@ -153,8 +153,12 @@ _run_web_integration_tests() {
         log_warn "integration_test/ directory not found — skipping web integration tests"
         return 0
     fi
+    if [[ ! -f test_driver/integration_test.dart ]]; then
+        log_error "test_driver/integration_test.dart not found — required for web integration tests"
+        return 1
+    fi
 
-    log_info "Phase 2: web integration tests on Chrome"
+    log_info "Phase 2: web integration tests via flutter drive on Chrome"
 
     # On Linux CI, Chrome needs --no-sandbox to run. Flutter respects CHROME_EXECUTABLE,
     # so we wrap the real Chrome binary in a small script that adds the required flags.
@@ -164,44 +168,93 @@ _run_web_integration_tests() {
     fi
     if [[ -n "$real_chrome" ]] && [[ "$(detect_os)" == "linux" ]]; then
         local wrapper="/tmp/chrome-ci-wrapper.sh"
-        cat > "$wrapper" <<WRAPPER
-#!/bin/bash
-exec "$real_chrome" --no-sandbox --disable-dev-shm-usage "\$@"
-WRAPPER
+        printf '#!/bin/bash\nexec "%s" --no-sandbox --disable-dev-shm-usage "$@"\n' "$real_chrome" > "$wrapper"
         chmod +x "$wrapper"
         export CHROME_EXECUTABLE="$wrapper"
         log_debug "Using Chrome wrapper with --no-sandbox: $wrapper"
     fi
 
+    # Collect integration test files for this shard
+    local all_test_files=()
+    while IFS= read -r -d '' f; do
+        all_test_files+=("$f")
+    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 2>/dev/null | sort -z)
+
+    local total_files=${#all_test_files[@]}
+    if [[ $total_files -eq 0 ]]; then
+        log_warn "No integration test files found"
+        return 0
+    fi
+
+    # Apply sharding: select files for this shard
+    local shard_files=()
+    if [[ -n "${SHARD_INDEX:-}" ]] && [[ -n "${TOTAL_SHARDS:-}" ]]; then
+        local idx=0
+        for f in "${all_test_files[@]}"; do
+            if (( idx % TOTAL_SHARDS == SHARD_INDEX )); then
+                shard_files+=("$f")
+            fi
+            idx=$((idx + 1))
+        done
+        log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
+    else
+        shard_files=("${all_test_files[@]}")
+        log_info "No sharding: running all $total_files files"
+    fi
+
+    if [[ ${#shard_files[@]} -eq 0 ]]; then
+        log_info "No test files assigned to this shard — nothing to run"
+        record_target_result "web-integration" 0 0 0 0
+        return 0
+    fi
+
     local log_file="${RESULTS_DIR}/web-integration-tests.log"
     local timeout="${WEB_TEST_TIMEOUT:-900}"
     mkdir -p "$RESULTS_DIR"
+    : > "$log_file"
 
-    local test_args=(
-        "test" "integration_test/"
+    local common_args=(
+        "drive"
+        "--driver=test_driver/integration_test.dart"
         "--device-id=chrome"
-        "--reporter=compact"
-        $(get_shard_args)
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
+    local overall_exit=0
+    local acc_passed=0 acc_failed=0 acc_skipped=0
     local start_time
     start_time=$(date +%s)
 
-    run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
-    local exit_code=${PIPESTATUS[0]}
+    for test_file in "${shard_files[@]}"; do
+        log_info "  Running: $test_file"
+        local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
+
+        run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
+            2>&1 | tee "$file_log" | tee -a "$log_file"
+        local exit_code=${PIPESTATUS[0]}
+
+        parse_flutter_output "$file_log"
+        acc_passed=$((acc_passed + _PARSED_PASSED))
+        acc_failed=$((acc_failed + _PARSED_FAILED))
+        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+        rm -f "$file_log"
+
+        if [[ $exit_code -eq 124 ]]; then
+            log_error "Timed out after ${timeout}s: $test_file"
+            overall_exit=1; break
+        elif [[ $exit_code -ne 0 ]]; then
+            log_error "Failed: $test_file (exit $exit_code)"
+            overall_exit=1
+        fi
+    done
 
     local duration=$(( $(date +%s) - start_time ))
-    parse_flutter_output "$log_file"
-    record_target_result "web-integration" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+    record_target_result "web-integration" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
 
-    if [[ $exit_code -eq 124 ]]; then
-        log_error "Web integration tests timed out after ${timeout}s"
-        return 1
-    elif [[ $exit_code -ne 0 ]]; then
-        log_error "Web integration tests failed (exit code $exit_code)"
+    if [[ $overall_exit -ne 0 ]]; then
+        log_error "Web integration tests failed"
         return 1
     fi
 
