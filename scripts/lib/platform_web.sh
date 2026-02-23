@@ -195,9 +195,20 @@ _run_web_integration_tests() {
         log_info "Found ChromeDriver at: $CHROMEWEBDRIVER"
         # Ensure it is in PATH
         export PATH="$CHROMEWEBDRIVER:$PATH"
+        ls -l "$CHROMEWEBDRIVER/chromedriver" || true
     else
         log_warn "CHROMEWEBDRIVER not set. flutter drive may fail to find chromedriver."
+        command -v chromedriver || log_error "chromedriver not in PATH"
     fi
+
+    log_info "Checking Chrome visibility..."
+    if [[ -n "${CHROME_EXECUTABLE:-}" ]]; then
+        log_info "CHROME_EXECUTABLE is set to: $CHROME_EXECUTABLE"
+        "$CHROME_EXECUTABLE" --version || true
+    fi
+
+    log_info "Checking Matrix server reachability..."
+    curl -Is http://localhost:8008/_matrix/client/versions | head -n 1 || log_error "Matrix server NOT reachable at localhost:8008"
 
     # Collect integration test files for this shard
     local all_test_files=()
@@ -266,6 +277,10 @@ _run_web_integration_tests() {
         elif [[ -f "$CHROMEWEBDRIVER" ]]; then # In case CHROMEWEBDRIVER points to the file itself
              common_args+=("--chromedriver=$CHROMEWEBDRIVER")
         fi
+    fi
+
+    if [[ -n "${CHROME_EXECUTABLE:-}" ]]; then
+        common_args+=("--chrome-binary=$CHROME_EXECUTABLE")
     fi
 
     local overall_exit=0
