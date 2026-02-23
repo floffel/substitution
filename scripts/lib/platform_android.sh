@@ -54,7 +54,13 @@ ANDROID_AVD_NAME="${ANDROID_AVD_NAME:-android_test}"
 android_start_emulator() {
     local avd_name="$ANDROID_AVD_NAME"
 
-    # Kill any existing emulator
+    # Check if a device is already running (e.g. on CI)
+    if adb devices 2>/dev/null | grep -q "device$"; then
+        log_info "Detected an already running Android device/emulator. Skipping start."
+        return 0
+    fi
+
+    # Kill any existing emulator (only if we are the ones starting it)
     pkill -f emulator 2>/dev/null || true
     sleep 1
 
@@ -81,7 +87,7 @@ android_start_emulator() {
     log_info "Starting emulator: $avd_name"
 
     local accel_args=("-accel" "off")
-    if [[ -c /dev/kvm ]]; then
+    if [[ -x /usr/bin/kvm ]] || [[ -c /dev/kvm ]]; then
         log_info "KVM available — using hardware acceleration"
         accel_args=("-accel" "on" "-qemu" "-enable-kvm")
     fi
@@ -106,7 +112,7 @@ android_start_emulator() {
 
 # Wait for the emulator to finish booting
 android_wait_for_boot() {
-    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-180}"
+    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-300}"
 
     log_info "Waiting for emulator boot (timeout: ${boot_timeout}s)..."
     adb start-server 2>/dev/null

@@ -358,3 +358,121 @@ jobs:
             exit 1
           fi
           echo "All test jobs passed"
+
+  # ============================================================================
+  # DEPLOYMENT JOB - Only runs on main after all tests pass
+  # ============================================================================
+  deploy-to-play-store:
+    name: 'Deploy to Play Store (Internal)'
+    needs: all-tests-passed
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Java'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Decode Keystore'
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+
+      - name: 'Extract Key Alias'
+        id: extract_alias
+        run: |
+          # Use keytool to list the alias and extract it
+          ALIAS=$(keytool -list -v -keystore android/app/upload-keystore.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" | grep "Alias name:" | head -n 1 | cut -d' ' -f3-)
+          echo "alias=$ALIAS" >> $GITHUB_OUTPUT
+          # Mask the alias in logs just in case, though it's not a sensitive secret
+          echo "::add-mask::$ALIAS"
+
+      - name: 'Create key.properties'
+        run: |
+          echo "storeFile=upload-keystore.jks" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ steps.extract_alias.outputs.alias }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+
+      - name: 'Build App Bundle'
+        run: flutter build appbundle --release
+
+      - name: 'Setup Python for Deployment'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 'Install Play Store API Client'
+        run: pip install google-api-python-client google-auth
+
+      - name: 'Upload to Play Store'
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python3 - <<EOF
+          import sys
+          import json
+          import os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+
+          def publish():
+              package_name = 'art.substitution.substitution'
+              json_key_content = os.environ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON']
+              aab_path = 'build/app/outputs/bundle/release/app-release.aab'
+              track = 'internal'
+
+              print(f"Authenticating for {package_name}...")
+              credentials = service_account.Credentials.from_service_account_info(
+                  json.loads(json_key_content)
+              )
+              service = build('androidpublisher', 'v3', credentials=credentials)
+
+              print("Initiating new edit...")
+              edit_request = service.edits().insert(packageName=package_name, body={})
+              edit_response = edit_request.execute()
+              edit_id = edit_response['id']
+
+              try:
+                  print(f"Uploading AAB: {aab_path}")
+                  bundle_upload = service.edits().bundles().upload(
+                      packageName=package_name,
+                      editId=edit_id,
+                      media_body=MediaFileUpload(aab_path, mimetype='application/octet-stream')
+                  ).execute()
+
+                  version_code = bundle_upload['versionCode']
+                  print(f"Successfully uploaded version {version_code}")
+
+                  print(f"Assigning to track: {track}")
+                  service.edits().tracks().update(
+                      packageName=package_name,
+                      editId=edit_id,
+                      track=track,
+                      body={
+                          'releases': [{
+                              'versionCodes': [str(version_code)],
+                              'status': 'completed'
+                          }]
+                      }
+                  ).execute()
+
+                  print("Committing changes...")
+                  service.edits().commit(packageName=package_name, editId=edit_id).execute()
+                  print("Published successfully to Internal track!")
+              except Exception as e:
+                  print(f"Error during publishing: {e}")
+                  sys.exit(1)
+
+          if __name__ == '__main__':
+              publish()
+          EOF

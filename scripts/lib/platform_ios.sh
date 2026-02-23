@@ -71,7 +71,7 @@ print('NOT_FOUND')
 # Boot a simulator and wait for it to be ready
 ios_boot_simulator() {
     local udid="$1"
-    local boot_timeout="${2:-300}"
+    local boot_timeout="${2:-600}"
 
     local state
     state=$(ios_get_simulator_state "$udid")
@@ -168,7 +168,7 @@ run_ios_tests() {
     IOS_ACTIVE_SIMULATOR="$sim_id"
 
     # Boot simulator
-    local boot_timeout="${IOS_BOOT_TIMEOUT:-300}"
+    local boot_timeout="${IOS_BOOT_TIMEOUT:-600}"
     if ! ios_boot_simulator "$sim_id" "$boot_timeout"; then
         log_error "Failed to boot simulator"
         return 1

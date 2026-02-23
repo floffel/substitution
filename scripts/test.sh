@@ -91,19 +91,19 @@ done
 # ---------------------------------------------------------------------------
 # Configuration (defaults, overridable via env or CLI flags)
 # ---------------------------------------------------------------------------
-VERBOSE="${VERBOSE:-false}"
-MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
-MATRIX_TEST_USER="${MATRIX_TEST_USER:-testuser1}"
-MATRIX_TEST_PASSWORD="${MATRIX_TEST_PASSWORD:-testpass123}"
-RESULTS_DIR="${PROJECT_ROOT}/test-results"
+export VERBOSE="${VERBOSE:-false}"
+export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
+export MATRIX_TEST_USER="${MATRIX_TEST_USER:-testuser1}"
+export MATRIX_TEST_PASSWORD="${MATRIX_TEST_PASSWORD:-testpass123}"
+export RESULTS_DIR="${PROJECT_ROOT}/test-results"
 
-NO_DOCKER=false
-NO_DOCKER_CLEANUP=false
-NO_CLEANUP=false
-DOCKER_STARTED=false
-SHARD_INDEX=""
-TOTAL_SHARDS=""
-TEST_FILTER=""
+export NO_DOCKER=false
+export NO_DOCKER_CLEANUP=false
+export NO_CLEANUP=false
+export DOCKER_STARTED=false
+export SHARD_INDEX=""
+export TOTAL_SHARDS=""
+export TEST_FILTER=""
 
 TARGETS=()
 

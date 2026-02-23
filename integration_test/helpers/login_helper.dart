@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,7 +24,7 @@ Future<void> loginUser(
 }) async {
   // On Android emulators, localhost points to the emulator itself.
   // To reach the host machine, we must use 10.0.2.2.
-  if (!kIsWeb && Platform.isAndroid && matrixServer.contains('localhost')) {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android && matrixServer.contains('localhost')) {
     matrixServer = matrixServer.replaceAll('localhost', '10.0.2.2');
     debugPrint('Android detected: Translated localhost to $matrixServer');
   }
