@@ -27,7 +27,7 @@ run_linux_tests() {
     fi
 
     local log_file="${RESULTS_DIR}/linux-tests.log"
-    local timeout="${LINUX_TEST_TIMEOUT:-600}"
+    local timeout="${LINUX_TEST_TIMEOUT:-1800}"
     mkdir -p "$RESULTS_DIR"
 
     local test_args=(

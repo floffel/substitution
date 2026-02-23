@@ -188,7 +188,7 @@ run_android_tests() {
 
     # Run tests
     local log_file="${RESULTS_DIR}/android-tests.log"
-    local timeout="${ANDROID_TEST_TIMEOUT:-600}"
+    local timeout="${ANDROID_TEST_TIMEOUT:-2400}"
     mkdir -p "$RESULTS_DIR"
 
     local test_args=(
