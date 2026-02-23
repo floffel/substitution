@@ -59,6 +59,7 @@ run_linux_tests() {
         "test" "integration_test/"
         "--device-id=linux"
         "--reporter=compact"
+        $(get_shard_args)
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

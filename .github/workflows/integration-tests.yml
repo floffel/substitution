@@ -12,9 +12,39 @@ env:
 
 jobs:
   # ============================================================================
+  # DISCOVERY JOB - Calculate shards for dynamic matrix
+  # ============================================================================
+  plan-tests:
+    runs-on: ubuntu-latest
+    name: 'Plan Test Shards'
+    outputs:
+      shard_count: ${{ steps.set-shards.outputs.shard_count }}
+      shard_matrix: ${{ steps.set-shards.outputs.shard_matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-shards
+        run: |
+          # Count integration test files
+          TOTAL_TESTS=$(find integration_test -maxdepth 1 -name '*_test.dart' | wc -l)
+          echo "Total integration tests: $TOTAL_TESTS"
+          
+          # Max 7 tests per runner
+          MAX_PER_RUNNER=7
+          SHARD_COUNT=$(( (TOTAL_TESTS + MAX_PER_RUNNER - 1) / MAX_PER_RUNNER ))
+          
+          if [ "$SHARD_COUNT" -eq 0 ]; then SHARD_COUNT=1; fi
+          echo "Calculated shard count: $SHARD_COUNT"
+          
+          # Create a JSON array [0, 1, 2, ..., SHARD_COUNT-1]
+          MATRIX_JSON=$(seq 0 $((SHARD_COUNT - 1)) | jq -R . | jq -s -c .)
+          echo "shard_matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
+          echo "shard_count=$SHARD_COUNT" >> $GITHUB_OUTPUT
+
+  # ============================================================================
   # SETUP JOB - Check that code is ready for testing
   # ============================================================================
   setup:
+    needs: plan-tests
     runs-on: ubuntu-latest
     name: 'Setup & Validation'
     steps:
@@ -66,7 +96,11 @@ jobs:
   web-tests:
     runs-on: ubuntu-latest
     name: 'Web Tests'
-    needs: setup
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
     timeout-minutes: 30
 
     steps:
@@ -91,12 +125,12 @@ jobs:
           docker compose run --rm matrix-init
           timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
 
-      - name: 'Run web tests (unit/widget on Chrome + integration on web device)'
+      - name: 'Run web tests'
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: ./scripts/test.sh web --no-docker
+        run: ./scripts/test.sh web --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
       - name: 'Stop Matrix test server'
@@ -109,7 +143,11 @@ jobs:
   linux-tests:
     runs-on: ubuntu-latest
     name: 'Linux Desktop Tests'
-    needs: setup
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
     timeout-minutes: 40
 
     steps:
@@ -132,7 +170,9 @@ jobs:
           cache: true
 
       - name: 'Install dependencies'
-        run: flutter pub get
+        run: |
+          flutter precache --linux
+          flutter pub get
 
       - name: 'Enable Linux desktop'
         run: flutter config --enable-linux-desktop
@@ -149,7 +189,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: ./scripts/test.sh linux --no-docker
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
       - name: 'Stop Matrix test server'
@@ -162,8 +202,12 @@ jobs:
   ios-tests:
     runs-on: macos-latest
     name: 'iOS Tests (Simulator)'
-    needs: setup
-    timeout-minutes: 50
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v4
@@ -175,7 +219,9 @@ jobs:
           cache: true
 
       - name: 'Install dependencies'
-        run: flutter pub get
+        run: |
+          flutter precache --ios
+          flutter pub get
 
       - name: 'Run iOS integration tests (Batched)'
         env:
@@ -184,7 +230,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: ./scripts/test.sh ios --no-docker
+        run: ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 60
 
   # ============================================================================
@@ -193,7 +239,11 @@ jobs:
   android-tests:
     runs-on: ubuntu-latest
     name: 'Android Tests'
-    needs: setup
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
     timeout-minutes: 45
 
     steps:
@@ -222,16 +272,21 @@ jobs:
             "platform-tools"
           
           # Create AVD
+          mkdir -p ~/.android/avd
           echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
             --force \
             --name android_test \
             --package "system-images;android-31;google_apis;x86_64" \
-            --tag "google_apis" \
-            --device "pixel_5"
+            --tag "google_apis"
+          
+          # Configure AVD for performance
+          echo "hw.gpu.enabled=yes" >> ~/.android/avd/android_test.avd/config.ini
+          echo "hw.gpu.mode=software" >> ~/.android/avd/android_test.avd/config.ini
+          echo "hw.ramSize=2048" >> ~/.android/avd/android_test.avd/config.ini
 
       - name: 'Install dependencies'
         run: |
-          flutter precache --android --linux --web --ios
+          flutter precache --android
           flutter pub get
 
       - name: 'Start Matrix test server'
@@ -246,7 +301,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: ./scripts/test.sh android --no-docker
+        run: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 45
 
       - name: 'Stop Matrix test server'
@@ -264,6 +319,8 @@ jobs:
     steps:
       - name: 'Check all jobs passed'
         run: |
+          # Note: result is 'success', 'failure', 'cancelled', or 'skipped'
+          # For matrix jobs, needs.JOB_NAME.result is 'success' only if ALL shards pass.
           if [ "${{ needs.unit-tests.result }}" != "success" ] || \
              [ "${{ needs.web-tests.result }}" != "success" ] || \
              [ "${{ needs.linux-tests.result }}" != "success" ] || \

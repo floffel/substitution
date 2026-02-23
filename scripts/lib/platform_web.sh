@@ -167,7 +167,13 @@ run_web_tests() {
 
     local overall_exit=0
 
-    _run_web_unit_tests        || overall_exit=1
+    # Only run unit tests on the first shard (or if not sharding)
+    if [[ -z "${SHARD_INDEX:-}" ]] || [[ "$SHARD_INDEX" == "0" ]]; then
+        _run_web_unit_tests || overall_exit=1
+    else
+        log_info "Skipping web unit tests (shard $SHARD_INDEX > 0)"
+    fi
+
     _run_web_integration_tests || overall_exit=1
 
     if [[ $overall_exit -ne 0 ]]; then

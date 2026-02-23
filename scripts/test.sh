@@ -28,6 +28,8 @@
 #   --device-name <name>     iOS simulator device name
 #   --simulator-id <id>      iOS simulator UDID
 #   --avd-name <name>        Android AVD name (default: android_test)
+#   --shard <index>          Test shard index (0-based)
+#   --total-shards <count>   Total number of test shards
 #   --help                   Show this help message
 #
 # Examples:
@@ -85,6 +87,8 @@ NO_DOCKER=false
 NO_DOCKER_CLEANUP=false
 NO_CLEANUP=false
 DOCKER_STARTED=false
+SHARD_INDEX=""
+TOTAL_SHARDS=""
 
 TARGETS=()
 
@@ -138,6 +142,14 @@ parse_arguments() {
                 ;;
             --avd-name)
                 ANDROID_AVD_NAME="$2"
+                shift 2
+                ;;
+            --shard)
+                SHARD_INDEX="$2"
+                shift 2
+                ;;
+            --total-shards)
+                TOTAL_SHARDS="$2"
                 shift 2
                 ;;
             --help|-h)
