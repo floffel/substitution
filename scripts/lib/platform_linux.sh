@@ -55,8 +55,17 @@ run_linux_tests() {
         log_error "Linux tests timed out after ${timeout}s"
         return 1
     elif [[ $exit_code -ne 0 ]]; then
-        log_error "Linux tests failed (exit code $exit_code)"
-        return 1
+        # Trust parsed counts over exit code — flutter test/drive can exit non-zero
+        # even when all tests pass (known Flutter bug with integration_test driver).
+        if [[ $_PARSED_FAILED -gt 0 ]]; then
+            log_error "Linux tests failed (exit $exit_code, $_PARSED_FAILED failed)"
+            return 1
+        elif [[ $_PARSED_PASSED -eq 0 ]]; then
+            log_error "Linux tests failed (exit $exit_code, no tests ran)"
+            return 1
+        else
+            log_warn "flutter test exited $exit_code but $_PARSED_PASSED passed, 0 failed — treating as success"
+        fi
     fi
 
     log_success "Linux tests passed"

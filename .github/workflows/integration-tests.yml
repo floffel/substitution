@@ -133,6 +133,18 @@ jobs:
         run: ./scripts/test.sh web --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
+      - name: 'Show test logs on failure'
+        if: failure()
+        run: |
+          echo "=== test-results/ ==="
+          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+          for f in test-results/*.log; do
+            [ -f "$f" ] || continue
+            echo ""
+            echo "=== $f ==="
+            tail -100 "$f"
+          done
+
       - name: 'Stop Matrix test server'
         if: always()
         run: docker compose down -v
@@ -192,6 +204,18 @@ jobs:
           MATRIX_TEST_PASSWORD: testpass123
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
+
+      - name: 'Show test logs on failure'
+        if: failure()
+        run: |
+          echo "=== test-results/ ==="
+          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+          for f in test-results/*.log; do
+            [ -f "$f" ] || continue
+            echo ""
+            echo "=== $f ==="
+            tail -100 "$f"
+          done
 
       - name: 'Stop Matrix test server'
         if: always()
@@ -290,6 +314,18 @@ jobs:
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
           disable-animations: true
           script: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+
+      - name: 'Show test logs on failure'
+        if: failure()
+        run: |
+          echo "=== test-results/ ==="
+          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+          for f in test-results/*.log; do
+            [ -f "$f" ] || continue
+            echo ""
+            echo "=== $f ==="
+            tail -100 "$f"
+          done
 
       - name: 'Stop Matrix test server'
         if: always()

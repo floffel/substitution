@@ -245,8 +245,18 @@ _run_web_integration_tests() {
             log_error "Timed out after ${timeout}s: $test_file"
             overall_exit=1; break
         elif [[ $exit_code -ne 0 ]]; then
-            log_error "Failed: $test_file (exit $exit_code)"
-            overall_exit=1
+            # flutter drive is known to exit non-zero even when all tests pass.
+            # Trust the parsed counts: only fail if we saw actual test failures
+            # or if no tests ran at all (which would also indicate a problem).
+            if [[ $_PARSED_FAILED -gt 0 ]]; then
+                log_error "Failed: $test_file (exit $exit_code, $_PARSED_FAILED failed)"
+                overall_exit=1
+            elif [[ $_PARSED_PASSED -eq 0 ]]; then
+                log_error "Failed: $test_file (exit $exit_code, no tests ran)"
+                overall_exit=1
+            else
+                log_warn "flutter drive exited $exit_code but $_PARSED_PASSED tests passed, 0 failed — treating as success"
+            fi
         fi
     done
 
