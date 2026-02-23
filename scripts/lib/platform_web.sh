@@ -181,6 +181,24 @@ _run_web_integration_tests() {
         log_debug "Using Chrome wrapper with --no-sandbox: $wrapper"
     fi
 
+    # Check for ChromeDriver (required for flutter drive on web)
+    if [[ -z "${CHROMEWEBDRIVER:-}" ]]; then
+        if [[ "$(detect_os)" == "linux" ]]; then
+            # Common GHA location if not set
+            if [[ -d "/usr/local/share/chrome_driver" ]]; then
+                CHROMEWEBDRIVER="/usr/local/share/chrome_driver"
+            fi
+        fi
+    fi
+
+    if [[ -n "${CHROMEWEBDRIVER:-}" ]]; then
+        log_info "Found ChromeDriver at: $CHROMEWEBDRIVER"
+        # Ensure it is in PATH
+        export PATH="$CHROMEWEBDRIVER:$PATH"
+    else
+        log_warn "CHROMEWEBDRIVER not set. flutter drive may fail to find chromedriver."
+    fi
+
     # Collect integration test files for this shard
     local all_test_files=()
     while IFS= read -r -d '' f; do
@@ -240,6 +258,15 @@ _run_web_integration_tests() {
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
+
+    if [[ -n "${CHROMEWEBDRIVER:-}" ]]; then
+        # Explicitly pass chromedriver path if known (improves GHA reliability)
+        if [[ -f "$CHROMEWEBDRIVER/chromedriver" ]]; then
+            common_args+=("--chromedriver=$CHROMEWEBDRIVER/chromedriver")
+        elif [[ -f "$CHROMEWEBDRIVER" ]]; then # In case CHROMEWEBDRIVER points to the file itself
+             common_args+=("--chromedriver=$CHROMEWEBDRIVER")
+        fi
+    fi
 
     local overall_exit=0
     local acc_passed=0 acc_failed=0 acc_skipped=0

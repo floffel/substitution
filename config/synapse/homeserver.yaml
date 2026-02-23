@@ -12,6 +12,10 @@ listeners:
       - names: [client, federation]
         compress: false
 
+# CORS configuration for web clients
+allowed_origins:
+  - "*"
+
 database:
   name: psycopg2
   args:
