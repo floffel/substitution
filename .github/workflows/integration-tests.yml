@@ -185,7 +185,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker
-        timeout-minutes: 45
+        timeout-minutes: 60
 
   # ============================================================================
   # ANDROID TESTS (Linux runner, ~25-35 minutes)
@@ -220,9 +220,19 @@ jobs:
             "system-images;android-31;google_apis;x86_64" \
             "emulator" \
             "platform-tools"
+          
+          # Create AVD
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd \
+            --force \
+            --name android_test \
+            --package "system-images;android-31;google_apis;x86_64" \
+            --tag "google_apis" \
+            --device "pixel_5"
 
       - name: 'Install dependencies'
-        run: flutter pub get
+        run: |
+          flutter precache --android --linux --web --ios
+          flutter pub get
 
       - name: 'Start Matrix test server'
         run: |

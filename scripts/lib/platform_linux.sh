@@ -19,14 +19,28 @@ run_linux_tests() {
     # Verify Linux desktop is enabled
     log_info "Enabling Linux desktop support..."
     flutter config --enable-linux-desktop > /dev/null 2>&1
+    flutter precache --linux > /dev/null 2>&1
     
-    # Refresh device state
+    # Refresh device state - sometimes multiple attempts or doctor are needed
+    log_info "Checking for Linux desktop device..."
     flutter doctor -v > /dev/null 2>&1
+    
+    local found_device=false
+    for i in {1..3}; do
+        if flutter devices 2>/dev/null | grep -qi linux; then
+            found_device=true
+            break
+        fi
+        log_debug "Linux device not found yet, retrying ($i/3)..."
+        sleep 2
+    done
 
     # Verify linux device is available
-    if ! flutter devices 2>/dev/null | grep -qi linux; then
+    if [[ "$found_device" == "false" ]]; then
         log_error "Linux desktop device not available"
         log_info "Environment: DISPLAY=$DISPLAY, GDK_BACKEND=$GDK_BACKEND"
+        log_info "Running flutter doctor to diagnose:"
+        flutter doctor -v | grep -A 10 "Linux toolchain"
         log_info "Flutter devices output:"
         flutter devices 2>&1 | sed 's/^/  /'
         return 1
