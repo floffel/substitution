@@ -142,16 +142,81 @@ _run_web_unit_tests() {
 }
 
 # ---------------------------------------------------------------------------
-# Phase 2: full integration tests on web device (integration_test/)
+# Phase 2: full integration tests on Chrome (integration_test/)
 #
-# NOTE: Flutter does not support `flutter test integration_test/ --device-id=chrome`.
-# Web integration tests require `flutter drive` with a running chromedriver, which
-# is not set up here. Phase 2 is therefore skipped until chromedriver support is added.
+# Uses `flutter test integration_test/ -d chrome` which is supported since
+# Flutter 2.5+. ChromeDriver is required and is pre-installed on ubuntu-latest
+# at $CHROMEWEBDRIVER/chromedriver.
 # ---------------------------------------------------------------------------
 _run_web_integration_tests() {
-    log_info "Phase 2: web integration tests (skipped — requires chromedriver/flutter drive)"
-    log_warn "Web integration tests require chromedriver. Skipping."
-    return 0
+    if [[ ! -d integration_test ]]; then
+        log_warn "integration_test/ directory not found — skipping web integration tests"
+        return 0
+    fi
+
+    log_info "Phase 2: web integration tests on Chrome"
+
+    # Find and start chromedriver
+    local chromedriver_bin=""
+    if [[ -n "${CHROMEWEBDRIVER:-}" ]] && [[ -x "$CHROMEWEBDRIVER/chromedriver" ]]; then
+        chromedriver_bin="$CHROMEWEBDRIVER/chromedriver"
+    elif command -v chromedriver &>/dev/null; then
+        chromedriver_bin="$(command -v chromedriver)"
+    else
+        log_error "chromedriver not found. Set CHROMEWEBDRIVER or install chromedriver."
+        return 1
+    fi
+    log_info "Using chromedriver: $chromedriver_bin"
+
+    # Start chromedriver on a free port
+    local chromedriver_port=4444
+    "$chromedriver_bin" --port=$chromedriver_port &>/tmp/chromedriver.log &
+    local chromedriver_pid=$!
+    sleep 2
+
+    if ! kill -0 "$chromedriver_pid" 2>/dev/null; then
+        log_error "chromedriver failed to start"
+        cat /tmp/chromedriver.log >&2
+        return 1
+    fi
+    log_success "chromedriver started (PID $chromedriver_pid, port $chromedriver_port)"
+
+    local log_file="${RESULTS_DIR}/web-integration-tests.log"
+    local timeout="${WEB_TEST_TIMEOUT:-900}"
+    mkdir -p "$RESULTS_DIR"
+
+    local test_args=(
+        "test" "integration_test/"
+        "--device-id=chrome"
+        "--reporter=compact"
+        $(get_shard_args)
+        "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
+        "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
+        "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
+    )
+
+    local start_time
+    start_time=$(date +%s)
+
+    run_with_timeout "$timeout" flutter "${test_args[@]}" 2>&1 | tee "$log_file"
+    local exit_code=${PIPESTATUS[0]}
+
+    # Stop chromedriver
+    kill "$chromedriver_pid" 2>/dev/null || true
+
+    local duration=$(( $(date +%s) - start_time ))
+    parse_flutter_output "$log_file"
+    record_target_result "web-integration" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+
+    if [[ $exit_code -eq 124 ]]; then
+        log_error "Web integration tests timed out after ${timeout}s"
+        return 1
+    elif [[ $exit_code -ne 0 ]]; then
+        log_error "Web integration tests failed (exit code $exit_code)"
+        return 1
+    fi
+
+    log_success "Phase 2 passed"
 }
 
 # ---------------------------------------------------------------------------
