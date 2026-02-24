@@ -26,7 +26,7 @@ Future<void> loginUser(
   String password = 'testpass123',
 }) async {
   // Skip the test gracefully when no Matrix server is available (e.g. iOS CI)
-  await skipIfNoMatrix(matrixServer: matrixServer);
+  if (!await skipIfNoMatrix(matrixServer: matrixServer)) return;
   // On Android emulators, localhost points to the emulator itself.
   // To reach the host machine, we must use 10.0.2.2.
   if (!kIsWeb &&

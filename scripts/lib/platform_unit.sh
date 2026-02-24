@@ -16,7 +16,7 @@ run_unit_tests() {
     local start_time
     start_time=$(date +%s)
 
-    flutter test test/unit/ --reporter=compact 2>&1 | tee "$log_file"
+    flutter test test/unit/ --reporter=expanded 2>&1 | tee "$log_file"
     local exit_code=${PIPESTATUS[0]}
 
     local end_time
@@ -60,7 +60,7 @@ run_widget_tests() {
         return 0
     fi
 
-    flutter test "${test_files[@]}" --reporter=compact 2>&1 | tee "$log_file"
+    flutter test "${test_files[@]}" --reporter=expanded 2>&1 | tee "$log_file"
     local exit_code=${PIPESTATUS[0]}
 
     local end_time

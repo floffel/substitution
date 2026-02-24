@@ -10,7 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/settings/widgets/dialogcreateroom.dart';
 import 'package:substitution/feed/pages/home.dart' as home_page;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: testMatrixServer);
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       // Use databaseFactory to safely delete the database file
       if (!kIsWeb) {
@@ -99,8 +99,7 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      final client = app.globalMatrixClient;
-      if (client == null) throw Exception("globalMatrixClient not found");
+      final client = app.globalMatrixClient!;
 
       debugPrint("Starting programmatic login for test user...");
       client.homeserver = Uri.parse(testMatrixServer);
@@ -126,9 +125,7 @@ void main() {
       'User can create a room from Follow feeds',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 

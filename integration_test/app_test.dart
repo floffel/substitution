@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart';
 
 void main() {
@@ -16,6 +17,7 @@ void main() {
   group('Substitution App - Base Integration Tests', () {
     setUp(() async {
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -43,6 +45,9 @@ void main() {
     ) async {
       // Start the app
       app.main();
+      await waitForMatrixClient(tester);
+
+      await handleAgeGate(tester);
 
       await handleAgeGate(tester);
 
@@ -57,6 +62,7 @@ void main() {
 
     testWidgets('App handles Matrix connection', (WidgetTester tester) async {
       app.main();
+      await waitForMatrixClient(tester);
       await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -68,6 +74,7 @@ void main() {
 
     testWidgets('Navigation works correctly', (WidgetTester tester) async {
       app.main();
+      await waitForMatrixClient(tester);
       await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -79,6 +86,7 @@ void main() {
 
     testWidgets('App handles orientation changes', (WidgetTester tester) async {
       app.main();
+      await waitForMatrixClient(tester);
       await handleAgeGate(tester);
       for (int ps = 0; ps < 10; ps++) {
         await tester.pump(const Duration(milliseconds: 500));

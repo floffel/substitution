@@ -29,8 +29,9 @@ parse_flutter_output() {
     # The last status line has the format: MM:SS +passed -failed ~skipped
     # Note: compact reporter uses \r (carriage return) and ANSI escapes,
     # so we convert \r to newlines and strip ANSI codes before matching.
+    # We also allow leading spaces which occur in expanded reporter.
     local last_status
-    last_status=$(tr '\r' '\n' < "$log_file" | sed 's/\x1b\[[0-9;]*m//g' | grep -E '^[0-9]+:[0-9]+ \+' | tail -1)
+    last_status=$(tr '\r' '\n' < "$log_file" | sed 's/\x1b\[[0-9;]*m//g' | grep -E '^[[:space:]]*[0-9]+:[0-9]+ \+' | tail -1)
 
     if [[ -n "$last_status" ]]; then
         _PARSED_PASSED=$(echo "$last_status" | grep -oE '\+[0-9]+' | head -1 | tr -d '+')

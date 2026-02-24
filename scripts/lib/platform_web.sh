@@ -83,7 +83,7 @@ _run_web_unit_tests() {
     local common_args=(
         "test"
         "--platform=chrome"
-        "--reporter=compact"
+        "--reporter=expanded"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

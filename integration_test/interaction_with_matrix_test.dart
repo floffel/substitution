@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/login_helper.dart' as login_helper;
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -109,9 +110,7 @@ void main() {
       'Can react to messages with emoji',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -154,9 +153,7 @@ void main() {
 
     testWidgets('Can reply to messages', (WidgetTester tester) async {
       app.main();
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
+      await waitForMatrixClient(tester);
 
       await loginUser(tester);
 
@@ -207,9 +204,7 @@ void main() {
       'Reactions from other users are visible',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -235,9 +230,7 @@ void main() {
       'Can view user profile by tapping avatar',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -270,9 +263,7 @@ void main() {
       'Message interactions work with messages from test_general room',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -304,9 +295,7 @@ void main() {
       'Thread/reply view shows conversation context',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 

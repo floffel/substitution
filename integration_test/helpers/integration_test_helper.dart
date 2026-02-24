@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:io' as dart_io show Socket;
+import 'package:substitution/main.dart' as app;
 
 /// Returns true if the Matrix test server at [matrixServer] is reachable.
 ///
@@ -13,8 +14,15 @@ Future<bool> isMatrixServerReachable({
   if (kIsWeb) return true;
   try {
     final uri = Uri.parse(matrixServer);
-    final host = uri.host.isEmpty ? 'localhost' : uri.host;
+    var host = uri.host.isEmpty ? 'localhost' : uri.host;
     final port = uri.port > 0 ? uri.port : 8008;
+
+    // On Android emulators, localhost points to the emulator itself.
+    // To reach the host machine, we must use 10.0.2.2.
+    if (defaultTargetPlatform == TargetPlatform.android && host == 'localhost') {
+      host = '10.0.2.2';
+    }
+
     final socket = await dart_io.Socket.connect(
       host,
       port,
@@ -32,11 +40,12 @@ Future<bool> isMatrixServerReachable({
 /// Call this at the top of any test or setUp that requires a live Matrix server:
 /// ```dart
 /// setUp(() async {
-///   await skipIfNoMatrix(matrixServer: testMatrixServer);
+///   if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 ///   // ... rest of setUp
 /// });
 /// ```
-Future<void> skipIfNoMatrix({
+/// Returns true if reachable (test continues), false if skipped (caller should return).
+Future<bool> skipIfNoMatrix({
   String matrixServer = 'http://localhost:8008',
 }) async {
   final reachable = await isMatrixServerReachable(matrixServer: matrixServer);
@@ -45,7 +54,25 @@ Future<void> skipIfNoMatrix({
       'Skipping: Matrix server not reachable at $matrixServer '
       '(no Docker on this runner)',
     );
+    return false;
   }
+  return true;
+}
+
+/// Waits for [app.globalMatrixClient] to be initialized.
+///
+/// Tests that call [app.main()] should wait for the client to be ready
+/// before attempting to use it.
+Future<void> waitForMatrixClient(WidgetTester tester) async {
+  debugPrint('Waiting for globalMatrixClient to be initialized...');
+  for (int i = 0; i < 40; i++) {
+    if (app.globalMatrixClient != null) {
+      debugPrint('globalMatrixClient initialized!');
+      return;
+    }
+    await tester.pump(const Duration(milliseconds: 500));
+  }
+  throw Exception('Timeout waiting for globalMatrixClient initialization');
 }
 
 /// Helper to handle the Age Gate screen if it appears.

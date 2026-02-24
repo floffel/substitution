@@ -205,7 +205,7 @@ run_android_tests() {
     local common_args=(
         "test"
         "--device-id=$ANDROID_DEVICE_ID"
-        "--reporter=compact"
+        "--reporter=expanded"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

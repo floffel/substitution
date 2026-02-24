@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:substitution/feed/pages/home.dart' as home_page;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +35,7 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: testMatrixServer);
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       // Use databaseFactory to safely delete the database file
       if (!kIsWeb) {
@@ -102,8 +102,7 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      final client = app.globalMatrixClient;
-      if (client == null) throw Exception("globalMatrixClient not found");
+      final client = app.globalMatrixClient!;
 
       debugPrint("Starting programmatic login for test user...");
       client.homeserver = Uri.parse(testMatrixServer);
@@ -130,10 +129,7 @@ void main() {
       'Rooms are displayed by default when no search term is entered',
       (WidgetTester tester) async {
         app.main();
-        // Wait for app to load
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -216,9 +212,7 @@ void main() {
       'User can navigate to Follow Feeds and search for a room successfully',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 
@@ -310,7 +304,7 @@ void main() {
 
     testWidgets('Room avatars are displayed correctly', (tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await waitForMatrixClient(tester);
 
       await loginUser(tester);
 

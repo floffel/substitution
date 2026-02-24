@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +32,7 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: testMatrixServer);
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       if (!kIsWeb) {
         try {
@@ -72,10 +72,9 @@ void main() {
       'Messages from multiple rooms are interleaved correctly in chronological order',
       (WidgetTester tester) async {
         app.main();
-        await tester.pumpAndSettle();
+        await waitForMatrixClient(tester);
 
-        final client = app.globalMatrixClient;
-        if (client == null) throw Exception("globalMatrixClient not found");
+        final client = app.globalMatrixClient!;
 
         // 1. Programmatic Login
         client.homeserver = Uri.parse(testMatrixServer);
