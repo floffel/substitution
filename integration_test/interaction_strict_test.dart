@@ -3,13 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Strict Message Interaction (Reactions & Replies)', () {
     const testMatrixServer = String.fromEnvironment(
@@ -93,26 +103,39 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
       }
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
-        for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
       }
 
       // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       // Submit host (ensure button is visible before tapping)
       final submitButton = find.byKey(const Key('hostSubmitButton'));
       await tester.ensureVisible(submitButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
       await tester.tap(submitButton, warnIfMissed: false);
 
       // Wait for host check + page transition to login page
@@ -125,18 +148,27 @@ void main() {
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, testUser);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int ps=0; ps<4; ps++) { await tester.pump(const Duration(milliseconds: 500)); }
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
       await tester.tap(loginButton, warnIfMissed: false);
 
       // Wait for login to complete (real HTTP call), then tap Go on intro page 4
@@ -168,17 +200,14 @@ void main() {
         await loginUser(tester);
 
         // STRICT: Feed must display with messages
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'MUST show feed',
-        );
+        expect(find.byType(Scrollable), findsWidgets, reason: 'MUST show feed');
 
         // STRICT: Messages must be displayed as interactive items
         final listItems = find.byType(ListTile);
         if (listItems.evaluate().isEmpty) {
           debugPrint(
-              '⚠ listItems not found (MUST display messages as tappable list items) - skipping');
+            '⚠ listItems not found (MUST display messages as tappable list items) - skipping',
+          );
           return;
         }
 
@@ -191,7 +220,8 @@ void main() {
         // STRICT: Context menu MUST appear
         if (find.byType(PopupMenuButton).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(PopupMenuButton) not found (MUST show context menu with reaction/reply options) - skipping');
+            '⚠ find.byType(PopupMenuButton) not found (MUST show context menu with reaction/reply options) - skipping',
+          );
           return;
         }
 
@@ -211,10 +241,7 @@ void main() {
         await loginUser(tester);
 
         // Navigate to feed
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-        );
+        expect(find.byType(Scrollable), findsWidgets);
 
         // STRICT: Find message and tap it
         final listItems = find.byType(ListTile);
@@ -245,7 +272,8 @@ void main() {
           // STRICT: Look for emoji/reaction option
           if (find.byIcon(Icons.add_reaction).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byIcon(Icons.add_reaction) not found (MUST have emoji reaction button) - skipping');
+              '⚠ find.byIcon(Icons.add_reaction) not found (MUST have emoji reaction button) - skipping',
+            );
             return;
           }
 
@@ -265,10 +293,7 @@ void main() {
 
         await loginUser(tester);
 
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-        );
+        expect(find.byType(Scrollable), findsWidgets);
 
         final listItems = find.byType(ListTile);
         if (listItems.evaluate().isEmpty) {
@@ -293,7 +318,8 @@ void main() {
           final reactionBtn = find.byIcon(Icons.add_reaction);
           if (reactionBtn.evaluate().isEmpty) {
             debugPrint(
-                '⚠ reactionBtn not found (MUST have reaction button) - skipping');
+              '⚠ reactionBtn not found (MUST have reaction button) - skipping',
+            );
             return;
           }
 
@@ -305,7 +331,8 @@ void main() {
           // STRICT: Emoji picker MUST appear
           if (find.byType(GridView).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byType(GridView) not found (MUST show emoji picker grid) - skipping');
+              '⚠ find.byType(GridView) not found (MUST show emoji picker grid) - skipping',
+            );
             return;
           }
 
@@ -315,7 +342,8 @@ void main() {
           final emojiButtons = find.byType(GestureDetector);
           if (emojiButtons.evaluate().isEmpty) {
             debugPrint(
-                '⚠ emojiButtons not found (MUST have emoji buttons to tap) - skipping');
+              '⚠ emojiButtons not found (MUST have emoji buttons to tap) - skipping',
+            );
             return;
           }
 
@@ -349,10 +377,7 @@ void main() {
 
         await loginUser(tester);
 
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-        );
+        expect(find.byType(Scrollable), findsWidgets);
 
         final listItems = find.byType(ListTile);
         if (listItems.evaluate().isEmpty) {
@@ -375,7 +400,8 @@ void main() {
           // STRICT: Look for reply option
           if (find.byIcon(Icons.reply).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byIcon(Icons.reply) not found (MUST have reply button) - skipping');
+              '⚠ find.byIcon(Icons.reply) not found (MUST have reply button) - skipping',
+            );
             return;
           }
 
@@ -420,7 +446,8 @@ void main() {
           final replyBtn = find.byIcon(Icons.reply);
           if (replyBtn.evaluate().isEmpty) {
             debugPrint(
-                '⚠ replyBtn not found (MUST have reply button) - skipping');
+              '⚠ replyBtn not found (MUST have reply button) - skipping',
+            );
             return;
           }
 
@@ -432,14 +459,16 @@ void main() {
           // STRICT: Reply input must appear
           if (find.byType(TextField).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byType(TextField) not found (MUST show reply input field) - skipping');
+              '⚠ find.byType(TextField) not found (MUST show reply input field) - skipping',
+            );
             return;
           }
 
           // STRICT: Should show quoted message context
           if (find.byType(Text).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byType(Text) not found (MUST show quoted message for context) - skipping');
+              '⚠ find.byType(Text) not found (MUST show quoted message for context) - skipping',
+            );
             return;
           }
 
@@ -453,7 +482,8 @@ void main() {
           // STRICT: Send button must exist
           if (find.byIcon(Icons.send).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byIcon(Icons.send) not found (MUST have send button for reply) - skipping');
+              '⚠ find.byIcon(Icons.send) not found (MUST have send button for reply) - skipping',
+            );
             return;
           }
 
@@ -495,7 +525,8 @@ void main() {
         final textElements = find.byType(Text);
         if (textElements.evaluate().isEmpty) {
           debugPrint(
-              '⚠ textElements not found (MUST display messages) - skipping');
+            '⚠ textElements not found (MUST display messages) - skipping',
+          );
           return;
         }
 
@@ -520,7 +551,8 @@ void main() {
           debugPrint('✓ STRICT: Reaction emojis visible in feed');
         } else {
           debugPrint(
-              '✓ Feed displays messages (reactions may not be in test data)');
+            '✓ Feed displays messages (reactions may not be in test data)',
+          );
         }
       },
       timeout: const Timeout(Duration(seconds: 120)),

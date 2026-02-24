@@ -3,13 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Room Discovery & Subscription with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -100,7 +110,9 @@ void main() {
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -108,8 +120,11 @@ void main() {
 
       // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -133,8 +148,11 @@ void main() {
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -221,7 +239,8 @@ void main() {
 
         if (textFinder.evaluate().isEmpty) {
           debugPrint(
-              '⚠ textFinder not found (Should display room/message content) - skipping');
+            '⚠ textFinder not found (Should display room/message content) - skipping',
+          );
           return;
         }
 

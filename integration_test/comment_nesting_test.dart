@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:substitution/post/widgets/comment.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
@@ -12,9 +11,20 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/login_helper.dart' as login_helper;
 import 'package:substitution/shared/pages/age_gate.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Comment Nesting and Collapsing Test', () {
     const testMatrixServer = String.fromEnvironment(

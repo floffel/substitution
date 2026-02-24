@@ -4,13 +4,23 @@ import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Compliance Features with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -94,15 +104,20 @@ void main() {
       // Swipe to page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
 
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -123,8 +138,11 @@ void main() {
       }
 
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible',
+      );
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -204,14 +222,26 @@ void main() {
         }
 
         // Verify all four legal tiles are shown on the Legal page
-        expect(find.byIcon(Icons.description_outlined), findsOneWidget,
-            reason: 'Terms of Service tile should be visible');
-        expect(find.byIcon(Icons.privacy_tip_outlined), findsOneWidget,
-            reason: 'Privacy Policy tile should be visible');
-        expect(find.byIcon(Icons.info_outline), findsOneWidget,
-            reason: 'Imprint tile should be visible');
-        expect(find.byIcon(Icons.code), findsOneWidget,
-            reason: 'Open Source Licenses tile should be visible');
+        expect(
+          find.byIcon(Icons.description_outlined),
+          findsOneWidget,
+          reason: 'Terms of Service tile should be visible',
+        );
+        expect(
+          find.byIcon(Icons.privacy_tip_outlined),
+          findsOneWidget,
+          reason: 'Privacy Policy tile should be visible',
+        );
+        expect(
+          find.byIcon(Icons.info_outline),
+          findsOneWidget,
+          reason: 'Imprint tile should be visible',
+        );
+        expect(
+          find.byIcon(Icons.code),
+          findsOneWidget,
+          reason: 'Open Source Licenses tile should be visible',
+        );
 
         debugPrint('✓ Legal page displays all required compliance tiles');
       },
@@ -242,7 +272,8 @@ void main() {
 
         if (popupMenuFinder.evaluate().isEmpty) {
           debugPrint(
-              '⚠ No popup menu found in feed (possibly empty feed) — skipping');
+            '⚠ No popup menu found in feed (possibly empty feed) — skipping',
+          );
           return;
         }
 

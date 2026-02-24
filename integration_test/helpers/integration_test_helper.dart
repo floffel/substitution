@@ -1,5 +1,52 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:io' as dart_io show Socket;
+
+/// Returns true if the Matrix test server at [matrixServer] is reachable.
+///
+/// Performs a TCP connection attempt with a short timeout.
+/// On web (where dart:io is unavailable) always returns true, since web CI
+/// runs on the same machine as the Matrix server.
+Future<bool> isMatrixServerReachable({
+  String matrixServer = 'http://localhost:8008',
+}) async {
+  if (kIsWeb) return true;
+  try {
+    final uri = Uri.parse(matrixServer);
+    final host = uri.host.isEmpty ? 'localhost' : uri.host;
+    final port = uri.port > 0 ? uri.port : 8008;
+    final socket = await dart_io.Socket.connect(
+      host,
+      port,
+      timeout: const Duration(seconds: 3),
+    );
+    await socket.close();
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+/// Skip the current test if Matrix server is not reachable.
+///
+/// Call this at the top of any test or setUp that requires a live Matrix server:
+/// ```dart
+/// setUp(() async {
+///   await skipIfNoMatrix(matrixServer: testMatrixServer);
+///   // ... rest of setUp
+/// });
+/// ```
+Future<void> skipIfNoMatrix({
+  String matrixServer = 'http://localhost:8008',
+}) async {
+  final reachable = await isMatrixServerReachable(matrixServer: matrixServer);
+  if (!reachable) {
+    markTestSkipped(
+      'Skipping: Matrix server not reachable at $matrixServer '
+      '(no Docker on this runner)',
+    );
+  }
+}
 
 /// Helper to handle the Age Gate screen if it appears.
 ///

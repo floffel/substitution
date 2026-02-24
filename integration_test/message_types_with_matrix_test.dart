@@ -21,13 +21,23 @@ import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:substitution/post/widgets/display/file_display.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Message Type Rendering with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -114,7 +124,9 @@ void main() {
       // Swipe to the Host page (page 2)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -122,8 +134,11 @@ void main() {
 
       // Enter homeserver
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -146,8 +161,11 @@ void main() {
 
       // Enter credentials
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -258,24 +276,28 @@ void main() {
         final fileDisplayWidgets = find.byType(FileDisplay);
         if (fileDisplayWidgets.evaluate().isEmpty) {
           debugPrint(
-              '⚠ No FileDisplay widgets found — the seeded m.image event may '
-              'not have synced yet or the feed does not show it on first load. '
-              'Checking for Image widgets as a fallback.');
+            '⚠ No FileDisplay widgets found — the seeded m.image event may '
+            'not have synced yet or the feed does not show it on first load. '
+            'Checking for Image widgets as a fallback.',
+          );
 
           // Fallback: at least an Image widget (network or file) may be visible
           // if the FileDisplay itself is not in the visible viewport
           final imageWidgets = find.byType(Image);
           if (imageWidgets.evaluate().isEmpty) {
             debugPrint(
-                '⚠ No Image widgets found either — the m.image message may '
-                'require more sync time. Feed is accessible.');
+              '⚠ No Image widgets found either — the m.image message may '
+              'require more sync time. Feed is accessible.',
+            );
           } else {
             debugPrint(
-                '✓ Image widget found in feed (m.image message rendered)');
+              '✓ Image widget found in feed (m.image message rendered)',
+            );
           }
         } else {
           debugPrint(
-              '✓ FileDisplay widget(s) found: m.image messages are rendered');
+            '✓ FileDisplay widget(s) found: m.image messages are rendered',
+          );
         }
 
         // The most important assertion: the feed itself is accessible
@@ -321,11 +343,13 @@ void main() {
         final fileDisplayWidgets = find.byType(FileDisplay);
         if (fileDisplayWidgets.evaluate().isEmpty) {
           debugPrint(
-              '⚠ No FileDisplay widgets found for m.video — the event may not '
-              'have synced yet. Feed is still accessible.');
+            '⚠ No FileDisplay widgets found for m.video — the event may not '
+            'have synced yet. Feed is still accessible.',
+          );
         } else {
           debugPrint(
-              '✓ FileDisplay widget(s) found: m.video messages are rendered');
+            '✓ FileDisplay widget(s) found: m.video messages are rendered',
+          );
         }
 
         expect(
@@ -373,11 +397,14 @@ void main() {
 
         if (fileDisplayWidgets.evaluate().isEmpty &&
             audioIcon.evaluate().isEmpty) {
-          debugPrint('⚠ No FileDisplay/audiotrack widgets found for m.audio — '
-              'the event may not have synced yet. Feed is still accessible.');
+          debugPrint(
+            '⚠ No FileDisplay/audiotrack widgets found for m.audio — '
+            'the event may not have synced yet. Feed is still accessible.',
+          );
         } else {
           debugPrint(
-              '✓ m.audio message rendered (FileDisplay or audiotrack icon found)');
+            '✓ m.audio message rendered (FileDisplay or audiotrack icon found)',
+          );
         }
 
         expect(
@@ -422,7 +449,8 @@ void main() {
         expect(
           find.byType(Scrollable),
           findsWidgets,
-          reason: 'Feed should not crash when rendering mixed message types '
+          reason:
+              'Feed should not crash when rendering mixed message types '
               '(text, image, video, audio)',
         );
 
@@ -434,8 +462,9 @@ void main() {
         );
 
         debugPrint(
-            '✓ Feed renders mixed message types (text/image/video/audio) '
-            'without crashing');
+          '✓ Feed renders mixed message types (text/image/video/audio) '
+          'without crashing',
+        );
       },
       timeout: const Timeout(Duration(seconds: 180)),
     );

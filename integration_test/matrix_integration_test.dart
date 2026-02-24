@@ -1,12 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:matrix/matrix.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   // Get test server details from environment variables
   const matrixServer = String.fromEnvironment(
@@ -21,6 +32,8 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      await skipIfNoMatrix(matrixServer: matrixServer);
+
       // Initialize SQLite database
       late final MatrixSdkDatabase database;
 
@@ -90,8 +103,9 @@ void main() {
       expect(supported, isNotNull);
     });
 
-    testWidgets('Login with test user credentials',
-        (WidgetTester tester) async {
+    testWidgets('Login with test user credentials', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
 
       // Login with test user
@@ -105,8 +119,9 @@ void main() {
       expect(client.isLogged(), true);
     });
 
-    testWidgets('Access test server with valid credentials',
-        (WidgetTester tester) async {
+    testWidgets('Access test server with valid credentials', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
 
       // Attempt login
@@ -143,8 +158,9 @@ void main() {
       expect(roomNames.any((n) => n.contains('test_')), true);
     });
 
-    testWidgets('Test room with messages vs empty room',
-        (WidgetTester tester) async {
+    testWidgets('Test room with messages vs empty room', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
       await client.login(
         LoginType.mLoginPassword,
@@ -155,10 +171,10 @@ void main() {
       await client.sync();
 
       // Find test rooms
-      final generalRoom =
-          client.rooms.firstWhere((r) => r.name.contains('general'));
-      final artRoom =
-          client.rooms.firstWhere((r) => r.name.contains('art'));
+      final generalRoom = client.rooms.firstWhere(
+        (r) => r.name.contains('general'),
+      );
+      final artRoom = client.rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom, isNotNull);
       expect(artRoom, isNotNull);
@@ -168,8 +184,9 @@ void main() {
       expect(artRoom.name, 'test_art');
     });
 
-    testWidgets('Verify multiple test users created',
-        (WidgetTester tester) async {
+    testWidgets('Verify multiple test users created', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
       await client.login(
         LoginType.mLoginPassword,
@@ -234,12 +251,13 @@ void main() {
       await client.sync();
 
       // All test rooms should exist and be accessible
-      final generalRoom =
-          client.rooms.firstWhere((r) => r.name.contains('general'));
-      final photosRoom =
-          client.rooms.firstWhere((r) => r.name.contains('photos'));
-      final artRoom =
-          client.rooms.firstWhere((r) => r.name.contains('art'));
+      final generalRoom = client.rooms.firstWhere(
+        (r) => r.name.contains('general'),
+      );
+      final photosRoom = client.rooms.firstWhere(
+        (r) => r.name.contains('photos'),
+      );
+      final artRoom = client.rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom.name, 'test_general');
       expect(photosRoom.name, 'test_photos');
@@ -263,8 +281,9 @@ void main() {
       expect(rooms.length, greaterThanOrEqualTo(3));
     });
 
-    testWidgets('Room with messages contains messages',
-        (WidgetTester tester) async {
+    testWidgets('Room with messages contains messages', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
       await client.login(
         LoginType.mLoginPassword,
@@ -275,8 +294,7 @@ void main() {
       // Sync to get rooms
       await client.sync();
       final rooms = client.rooms;
-      final generalRoom =
-          rooms.firstWhere((r) => r.name.contains('general'));
+      final generalRoom = rooms.firstWhere((r) => r.name.contains('general'));
 
       expect(generalRoom, isNotNull);
 
@@ -332,7 +350,8 @@ void main() {
       // Should have multiple test users
       if (members.length < 2) {
         debugPrint(
-            '⚠ Only ${members.length} members in first room (expected >=2) - room may be single-user');
+          '⚠ Only ${members.length} members in first room (expected >=2) - room may be single-user',
+        );
       } else {
         debugPrint('✓ Found ${members.length} members in room');
       }
@@ -394,8 +413,9 @@ void main() {
       expect(room, isNotNull);
     });
 
-    testWidgets('Room with different message counts',
-        (WidgetTester tester) async {
+    testWidgets('Room with different message counts', (
+      WidgetTester tester,
+    ) async {
       await client.checkHomeserver(Uri.parse(matrixServer));
       await client.login(
         LoginType.mLoginPassword,
@@ -411,10 +431,8 @@ void main() {
       // test_photos - 3 messages
       // test_art - 0 messages
 
-      final generalRoom =
-          rooms.firstWhere((r) => r.name.contains('general'));
-      final photosRoom =
-          rooms.firstWhere((r) => r.name.contains('photos'));
+      final generalRoom = rooms.firstWhere((r) => r.name.contains('general'));
+      final photosRoom = rooms.firstWhere((r) => r.name.contains('photos'));
       final artRoom = rooms.firstWhere((r) => r.name.contains('art'));
 
       expect(generalRoom, isNotNull);

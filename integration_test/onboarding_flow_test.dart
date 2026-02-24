@@ -4,15 +4,22 @@ import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class MockClient extends Mock implements Client {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
     registerFallbackValue(Uri());
     SharedPreferences.setMockInitialValues({});
     await EasyLocalization.ensureInitialized();
@@ -49,33 +56,34 @@ void main() {
 
   group('Onboarding Flow Integration (WI-1.1, WI-1.2, WI-1.3)', () {
     test(
-        '1. Start at introduction -> select homeserver -> login -> verify session persists',
-        () async {
-      // This is an integration test that spans the entire onboarding flow
-      final mockClient = MockClient();
+      '1. Start at introduction -> select homeserver -> login -> verify session persists',
+      () async {
+        // This is an integration test that spans the entire onboarding flow
+        final mockClient = MockClient();
 
-      // Step 1: App starts, client is not logged in
-      when(() => mockClient.isLogged()).thenReturn(false);
-      expect(mockClient.isLogged(), false);
+        // Step 1: App starts, client is not logged in
+        when(() => mockClient.isLogged()).thenReturn(false);
+        expect(mockClient.isLogged(), false);
 
-      // Step 2: User selects homeserver (mock verified at setup level)
-      // checkHomeserver returns a complex record type - we verify the flow continues
-      debugPrint('✓ Step 2: User selects homeserver (mocked)');
+        // Step 2: User selects homeserver (mock verified at setup level)
+        // checkHomeserver returns a complex record type - we verify the flow continues
+        debugPrint('✓ Step 2: User selects homeserver (mocked)');
 
-      // Step 3: User logs in (flow verification only - mock returns placeholder)
-      debugPrint('✓ Step 3: User login flow verified (mocked)');
+        // Step 3: User logs in (flow verification only - mock returns placeholder)
+        debugPrint('✓ Step 3: User login flow verified (mocked)');
 
-      // Step 4: After login, client should be logged in
-      when(() => mockClient.isLogged()).thenReturn(true);
-      expect(mockClient.isLogged(), true);
+        // Step 4: After login, client should be logged in
+        when(() => mockClient.isLogged()).thenReturn(true);
+        expect(mockClient.isLogged(), true);
 
-      // Step 5: Session persists (client.init() was called)
-      when(() => mockClient.init()).thenAnswer((_) async => Future.value());
-      await mockClient.init();
-      verify(() => mockClient.init()).called(1);
+        // Step 5: Session persists (client.init() was called)
+        when(() => mockClient.init()).thenAnswer((_) async => Future.value());
+        await mockClient.init();
+        verify(() => mockClient.init()).called(1);
 
-      // Step 6: On app restart, user is still logged in
-      expect(mockClient.isLogged(), true);
-    });
+        // Step 6: On app restart, user is still logged in
+        expect(mockClient.isLogged(), true);
+      },
+    );
   });
 }

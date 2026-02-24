@@ -6,6 +6,7 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,7 @@ void main() {
     );
 
     setUp(() async {
+      await skipIfNoMatrix(matrixServer: testMatrixServer);
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -48,7 +50,9 @@ void main() {
         }
 
         // Bypass intro directly to host page
-        final BuildContext context = tester.element(find.byType(Scaffold).first);
+        final BuildContext context = tester.element(
+          find.byType(Scaffold).first,
+        );
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go('/auth/host');
         for (int ps = 0; ps < 4; ps++) {
@@ -93,7 +97,7 @@ void main() {
         // check if they exist without failing if the server config changed
         final ssoButtonFinder = find.byType(OutlinedButton);
         if (ssoButtonFinder.evaluate().isNotEmpty) {
-           debugPrint('✓ Found SSO alternatives');
+          debugPrint('✓ Found SSO alternatives');
         }
 
         // Tap register web button
@@ -102,7 +106,7 @@ void main() {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(registerWebFinder);
-        
+
         // Wait to ensure no crash
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));

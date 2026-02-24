@@ -4,13 +4,23 @@ import 'package:integration_test/integration_test.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Content Creation with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -101,7 +111,9 @@ void main() {
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -109,8 +121,11 @@ void main() {
 
       // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -134,8 +149,11 @@ void main() {
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -383,7 +401,8 @@ void main() {
         final listView = find.byType(Scrollable);
         if (listView.evaluate().isEmpty) {
           debugPrint(
-              '⚠ listView not found (Feed should be visible after sending) - skipping');
+            '⚠ listView not found (Feed should be visible after sending) - skipping',
+          );
           return;
         }
 
@@ -425,7 +444,8 @@ void main() {
 
         if (find.byType(TextField).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(TextField) not found (Text input should be available) - skipping');
+            '⚠ find.byType(TextField) not found (Text input should be available) - skipping',
+          );
           return;
         }
 
@@ -533,7 +553,9 @@ void main() {
             final inputField = find.byType(TextField);
             if (inputField.evaluate().isNotEmpty) {
               await tester.enterText(
-                  inputField.first, 'Message from testuser1');
+                inputField.first,
+                'Message from testuser1',
+              );
               for (int ps = 0; ps < 4; ps++) {
                 await tester.pump(const Duration(milliseconds: 500));
               }
@@ -648,7 +670,7 @@ void main() {
           174,
           66,
           96,
-          130
+          130,
         ]);
 
         final tempDir = await getTemporaryDirectory();
@@ -656,17 +678,21 @@ void main() {
         await dummyFile.writeAsBytes(pngBytes);
 
         // Mock the file picker so it returns our dummy PNG
-        FileSelectorPlatform.instance =
-            MockFileSelectorPlatform(mockFiles: [XFile(dummyFile.path)]);
+        FileSelectorPlatform.instance = MockFileSelectorPlatform(
+          mockFiles: [XFile(dummyFile.path)],
+        );
 
         // Navigate: AppBar compose button → RoomSelectPage → enable file mode
         // → tap room → FileMessageWrite
-        final onFileComposeScreen =
-            await navigateToFileComposeScreen(tester, enableFileMode: true);
+        final onFileComposeScreen = await navigateToFileComposeScreen(
+          tester,
+          enableFileMode: true,
+        );
 
         if (!onFileComposeScreen) {
           debugPrint(
-              '⚠ Could not navigate to FileMessageWrite - skipping upload test');
+            '⚠ Could not navigate to FileMessageWrite - skipping upload test',
+          );
           return;
         }
 
@@ -737,16 +763,20 @@ void main() {
         await dummyFile.writeAsBytes(mp4Bytes);
 
         // Mock file picker to return the dummy MP4
-        FileSelectorPlatform.instance =
-            MockFileSelectorPlatform(mockFiles: [XFile(dummyFile.path)]);
+        FileSelectorPlatform.instance = MockFileSelectorPlatform(
+          mockFiles: [XFile(dummyFile.path)],
+        );
 
         // Navigate to FileMessageWrite with file mode enabled
-        final onFileComposeScreen =
-            await navigateToFileComposeScreen(tester, enableFileMode: true);
+        final onFileComposeScreen = await navigateToFileComposeScreen(
+          tester,
+          enableFileMode: true,
+        );
 
         if (!onFileComposeScreen) {
           debugPrint(
-              '⚠ Could not navigate to FileMessageWrite - skipping video upload test');
+            '⚠ Could not navigate to FileMessageWrite - skipping video upload test',
+          );
           return;
         }
 
@@ -830,16 +860,20 @@ void main() {
         // MockFileSelectorPlatform bypasses the extension filter, so it returns
         // the .mp3 file regardless of the acceptedTypeGroups configured in
         // FileMessageWrite.
-        FileSelectorPlatform.instance =
-            MockFileSelectorPlatform(mockFiles: [XFile(dummyFile.path)]);
+        FileSelectorPlatform.instance = MockFileSelectorPlatform(
+          mockFiles: [XFile(dummyFile.path)],
+        );
 
         // Navigate to FileMessageWrite with file mode enabled
-        final onFileComposeScreen =
-            await navigateToFileComposeScreen(tester, enableFileMode: true);
+        final onFileComposeScreen = await navigateToFileComposeScreen(
+          tester,
+          enableFileMode: true,
+        );
 
         if (!onFileComposeScreen) {
           debugPrint(
-              '⚠ Could not navigate to FileMessageWrite - skipping audio upload test');
+            '⚠ Could not navigate to FileMessageWrite - skipping audio upload test',
+          );
           return;
         }
 

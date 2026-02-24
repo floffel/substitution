@@ -127,7 +127,6 @@ jobs:
 
       - name: 'Run web tests'
         env:
-          VERBOSE: true
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
@@ -200,7 +199,6 @@ jobs:
 
       - name: 'Run Linux integration tests'
         env:
-          VERBOSE: true
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
@@ -271,7 +269,7 @@ jobs:
       fail-fast: false
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v4
@@ -307,13 +305,14 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         with:
-          api-level: 34
-          target: google_apis
+          api-level: 29
+          target: default
           arch: x86_64
-          profile: pixel_6
+          profile: pixel_4
           ram-size: 2048M
           heap-size: 512M
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-boot-timeout: 900
           disable-animations: true
           script: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
 

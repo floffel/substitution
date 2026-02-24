@@ -3,13 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Multi-User Correspondence with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -101,7 +111,9 @@ void main() {
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -109,8 +121,11 @@ void main() {
 
       // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -134,8 +149,11 @@ void main() {
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, username);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -193,7 +211,8 @@ void main() {
         // STRICT: Find compose button
         if (find.byIcon(Icons.edit).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.edit) not found (MUST have compose button) - skipping');
+            '⚠ find.byIcon(Icons.edit) not found (MUST have compose button) - skipping',
+          );
           return;
         }
 
@@ -209,7 +228,8 @@ void main() {
         // STRICT: Input field must appear
         if (find.byType(TextField).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(TextField) not found (MUST show message input field) - skipping');
+            '⚠ find.byType(TextField) not found (MUST show message input field) - skipping',
+          );
           return;
         }
 
@@ -223,7 +243,8 @@ void main() {
         // STRICT: Send button must exist
         if (find.byIcon(Icons.send).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.send) not found (MUST have send button) - skipping');
+            '⚠ find.byIcon(Icons.send) not found (MUST have send button) - skipping',
+          );
           return;
         }
 
@@ -251,7 +272,8 @@ void main() {
         final messageText = find.byType(Text);
         if (messageText.evaluate().isEmpty) {
           debugPrint(
-              '⚠ messageText not found (MUST display messages in feed) - skipping');
+            '⚠ messageText not found (MUST display messages in feed) - skipping',
+          );
           return;
         }
 
@@ -282,7 +304,8 @@ void main() {
         final textElements = find.byType(Text);
         if (textElements.evaluate().isEmpty) {
           debugPrint(
-              '⚠ textElements not found (MUST display messages from all users in shared rooms) - skipping');
+            '⚠ textElements not found (MUST display messages from all users in shared rooms) - skipping',
+          );
           return;
         }
 
@@ -291,10 +314,12 @@ void main() {
         final messageCount = textElements.evaluate().length;
         if (messageCount <= 5) {
           debugPrint(
-              '⚠ Only $messageCount Text widgets found (expected >5) - feed may not have loaded - skipping');
+            '⚠ Only $messageCount Text widgets found (expected >5) - feed may not have loaded - skipping',
+          );
         } else {
           debugPrint(
-              '✓ STRICT: User 2 sees $messageCount messages from shared rooms');
+            '✓ STRICT: User 2 sees $messageCount messages from shared rooms',
+          );
         }
       },
       timeout: const Timeout(Duration(seconds: 120)),
@@ -311,16 +336,13 @@ void main() {
         await loginAsUser(tester, testUser1);
 
         // STRICT: Feed must display
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'MUST show feed',
-        );
+        expect(find.byType(Scrollable), findsWidgets, reason: 'MUST show feed');
 
         // STRICT: Look for avatar (CircleAvatar) which typically shows sender
         if (find.byType(CircleAvatar).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(CircleAvatar) not found (MUST show user avatars with messages) - skipping');
+            '⚠ find.byType(CircleAvatar) not found (MUST show user avatars with messages) - skipping',
+          );
           return;
         }
 
@@ -328,7 +350,8 @@ void main() {
         final textElements = find.byType(Text);
         if (textElements.evaluate().isEmpty) {
           debugPrint(
-              '⚠ textElements not found (MUST display user names with messages) - skipping');
+            '⚠ textElements not found (MUST display user names with messages) - skipping',
+          );
           return;
         }
 
@@ -351,7 +374,8 @@ void main() {
         // STRICT: Compose button must exist
         if (find.byIcon(Icons.edit).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.edit) not found (MUST have compose button) - skipping');
+            '⚠ find.byIcon(Icons.edit) not found (MUST have compose button) - skipping',
+          );
           return;
         }
 
@@ -364,7 +388,8 @@ void main() {
         // STRICT: Input must appear
         if (find.byType(TextField).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(TextField) not found (MUST show input field) - skipping');
+            '⚠ find.byType(TextField) not found (MUST show input field) - skipping',
+          );
           return;
         }
 
@@ -378,7 +403,8 @@ void main() {
         // STRICT: Send button must exist
         if (find.byIcon(Icons.send).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.send) not found (MUST have send button) - skipping');
+            '⚠ find.byIcon(Icons.send) not found (MUST have send button) - skipping',
+          );
           return;
         }
 
@@ -411,11 +437,7 @@ void main() {
         await loginAsUser(tester, testUser1);
 
         // STRICT: Feed must display
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'MUST show feed',
-        );
+        expect(find.byType(Scrollable), findsWidgets, reason: 'MUST show feed');
 
         // Get the list view and try to scroll to see message order
         final listView = find.byType(Scrollable).first;
@@ -429,7 +451,8 @@ void main() {
         // Messages should still be visible
         if (find.byType(Text).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byType(Text) not found (MUST maintain messages when scrolling) - skipping');
+            '⚠ find.byType(Text) not found (MUST maintain messages when scrolling) - skipping',
+          );
           return;
         }
 
@@ -452,7 +475,8 @@ void main() {
         final listItems = find.byType(ListTile);
         if (listItems.evaluate().isEmpty) {
           debugPrint(
-              '⚠ listItems not found (MUST show messages as list items) - skipping');
+            '⚠ listItems not found (MUST show messages as list items) - skipping',
+          );
           return;
         }
 
@@ -466,12 +490,14 @@ void main() {
           // STRICT: Menu should appear
           if (find.byType(PopupMenuButton).evaluate().isEmpty) {
             debugPrint(
-                '⚠ find.byType(PopupMenuButton) not found (MUST show context menu on long-press) - skipping');
+              '⚠ find.byType(PopupMenuButton) not found (MUST show context menu on long-press) - skipping',
+            );
             return;
           }
 
           debugPrint(
-              '✓ STRICT: Can interact with messages (context menu appears)');
+            '✓ STRICT: Can interact with messages (context menu appears)',
+          );
         }
       },
       timeout: const Timeout(Duration(seconds: 120)),

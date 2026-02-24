@@ -3,13 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Room Discovery, Join & Leave with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -100,7 +110,9 @@ void main() {
       // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
       for (int i = 0; i < 2; i++) {
         await tester.drag(
-            find.byType(IntroductionScreen), const Offset(-400, 0));
+          find.byType(IntroductionScreen),
+          const Offset(-400, 0),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -108,8 +120,11 @@ void main() {
 
       // Enter homeserver using test key
       final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(hostInput, findsOneWidget,
-          reason: 'Host input should be visible on page 2');
+      expect(
+        hostInput,
+        findsOneWidget,
+        reason: 'Host input should be visible on page 2',
+      );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -133,8 +148,11 @@ void main() {
 
       // Now on Login page (page 3) - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(usernameField, findsOneWidget,
-          reason: 'Username field should be visible on login page');
+      expect(
+        usernameField,
+        findsOneWidget,
+        reason: 'Username field should be visible on login page',
+      );
       await tester.enterText(usernameField, testUser);
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -184,7 +202,8 @@ void main() {
         // STRICT: Must have room discovery UI
         if (find.byIcon(Icons.add).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.add) not found (MUST have a discovery/add rooms button (+ icon)) - skipping');
+            '⚠ find.byIcon(Icons.add) not found (MUST have a discovery/add rooms button (+ icon)) - skipping',
+          );
           return;
         }
 
@@ -219,7 +238,8 @@ void main() {
         // STRICT: Find and open discovery
         if (find.byIcon(Icons.add).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.add) not found (MUST have add room button) - skipping');
+            '⚠ find.byIcon(Icons.add) not found (MUST have add room button) - skipping',
+          );
           return;
         }
 
@@ -240,7 +260,8 @@ void main() {
         final roomListItems = find.byType(ListTile);
         if (roomListItems.evaluate().isEmpty) {
           debugPrint(
-              '⚠ roomListItems not found (MUST display rooms as list tiles) - skipping');
+            '⚠ roomListItems not found (MUST display rooms as list tiles) - skipping',
+          );
           return;
         }
 
@@ -267,14 +288,16 @@ void main() {
 
         if (!foundRoom) {
           debugPrint(
-              '⚠ Could not find a tappable room (MUST be able to tap on a room to join) - skipping');
+            '⚠ Could not find a tappable room (MUST be able to tap on a room to join) - skipping',
+          );
           return;
         }
 
         // STRICT: Look for JOIN button to appear
         if (find.byIcon(Icons.person_add).evaluate().isEmpty) {
           debugPrint(
-              '⚠ find.byIcon(Icons.person_add) not found (MUST show JOIN button for non-joined rooms) - skipping');
+            '⚠ find.byIcon(Icons.person_add) not found (MUST show JOIN button for non-joined rooms) - skipping',
+          );
           return;
         }
 
@@ -296,90 +319,90 @@ void main() {
       timeout: const Timeout(Duration(seconds: 120)),
     );
 
-    testWidgets(
-      'STRICT: Leave room (US-2.3)',
-      (WidgetTester tester) async {
-        app.main();
+    testWidgets('STRICT: Leave room (US-2.3)', (WidgetTester tester) async {
+      app.main();
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      await loginUser(tester);
+
+      // STRICT: Must have access to room list/menu
+      final drawerButton = find.byIcon(Icons.menu);
+      if (drawerButton.evaluate().isNotEmpty) {
+        await tester.tap(drawerButton.first);
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
+      }
 
-        await loginUser(tester);
-
-        // STRICT: Must have access to room list/menu
-        final drawerButton = find.byIcon(Icons.menu);
-        if (drawerButton.evaluate().isNotEmpty) {
-          await tester.tap(drawerButton.first);
-          for (int ps = 0; ps < 4; ps++) {
-            await tester.pump(const Duration(milliseconds: 500));
-          }
-        }
-
-        // STRICT: Find a room to leave (tap on one)
-        final listItems = find.byType(ListTile);
-        if (listItems.evaluate().isEmpty) {
-          debugPrint(
-              '⚠ listItems not found (MUST show list of joined rooms) - skipping');
-          return;
-        }
-
-        // STRICT: Tap on first room
-        await tester.tap(listItems.first);
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // STRICT: Room view should show, now look for leave/options button
-        if (find.byIcon(Icons.more_vert).evaluate().isEmpty) {
-          debugPrint(
-              '⚠ find.byIcon(Icons.more_vert) not found (MUST have room menu (3-dot icon)) - skipping');
-          return;
-        }
-
-        // STRICT: Tap menu to show leave option
-        await tester.tap(find.byIcon(Icons.more_vert).first);
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // STRICT: Look for LEAVE option
-        if (find.text('Leave').evaluate().isEmpty) {
-          debugPrint(
-              '⚠ Leave option not found (MUST show Leave option in room menu) - skipping');
-          return;
-        }
-
-        // STRICT: Tap LEAVE
-        await tester.tap(find.text('Leave').first);
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // STRICT: Confirm leave dialog appears
-        if (find.byType(AlertDialog).evaluate().isEmpty) {
-          debugPrint(
-              '⚠ find.byType(AlertDialog) not found (MUST show confirmation dialog before leaving) - skipping');
-          return;
-        }
-
-        // Confirm leave
-        final confirmButton = find.byType(ElevatedButton).last;
-        await tester.tap(confirmButton);
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // STRICT: Should be back at room list (room no longer in list)
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'MUST return to room list after leaving',
+      // STRICT: Find a room to leave (tap on one)
+      final listItems = find.byType(ListTile);
+      if (listItems.evaluate().isEmpty) {
+        debugPrint(
+          '⚠ listItems not found (MUST show list of joined rooms) - skipping',
         );
+        return;
+      }
 
-        debugPrint('✓ STRICT: Successfully left room');
-      },
-      timeout: const Timeout(Duration(seconds: 120)),
-    );
+      // STRICT: Tap on first room
+      await tester.tap(listItems.first);
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      // STRICT: Room view should show, now look for leave/options button
+      if (find.byIcon(Icons.more_vert).evaluate().isEmpty) {
+        debugPrint(
+          '⚠ find.byIcon(Icons.more_vert) not found (MUST have room menu (3-dot icon)) - skipping',
+        );
+        return;
+      }
+
+      // STRICT: Tap menu to show leave option
+      await tester.tap(find.byIcon(Icons.more_vert).first);
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      // STRICT: Look for LEAVE option
+      if (find.text('Leave').evaluate().isEmpty) {
+        debugPrint(
+          '⚠ Leave option not found (MUST show Leave option in room menu) - skipping',
+        );
+        return;
+      }
+
+      // STRICT: Tap LEAVE
+      await tester.tap(find.text('Leave').first);
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      // STRICT: Confirm leave dialog appears
+      if (find.byType(AlertDialog).evaluate().isEmpty) {
+        debugPrint(
+          '⚠ find.byType(AlertDialog) not found (MUST show confirmation dialog before leaving) - skipping',
+        );
+        return;
+      }
+
+      // Confirm leave
+      final confirmButton = find.byType(ElevatedButton).last;
+      await tester.tap(confirmButton);
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      // STRICT: Should be back at room list (room no longer in list)
+      expect(
+        find.byType(Scrollable),
+        findsWidgets,
+        reason: 'MUST return to room list after leaving',
+      );
+
+      debugPrint('✓ STRICT: Successfully left room');
+    }, timeout: const Timeout(Duration(seconds: 120)));
 
     testWidgets(
       'STRICT: All 3 joined rooms are visible in room list',
@@ -411,7 +434,8 @@ void main() {
         final roomItems = find.byType(ListTile);
         if (roomItems.evaluate().isEmpty) {
           debugPrint(
-              '⚠ roomItems not found (MUST have at least 3 rooms in list) - skipping');
+            '⚠ roomItems not found (MUST have at least 3 rooms in list) - skipping',
+          );
           return;
         }
 
@@ -419,7 +443,8 @@ void main() {
         final roomCount = roomItems.evaluate().length;
         if (roomCount < 3) {
           debugPrint(
-              '⚠ Only $roomCount rooms found (expected at least 3) - feed may use different widget type');
+            '⚠ Only $roomCount rooms found (expected at least 3) - feed may use different widget type',
+          );
         }
 
         debugPrint('✓ STRICT: Found $roomCount rooms in list');

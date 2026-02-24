@@ -268,6 +268,24 @@ _run_web_integration_tests() {
         common_args+=("--chrome-binary=$CHROME_EXECUTABLE")
     fi
 
+    # flutter drive requires chromedriver to be running on port 4444 before it
+    # is invoked. Start it in the background here (if not already running).
+    local chromedriver_pid=""
+    if ! nc -z localhost 4444 2>/dev/null; then
+        if command -v chromedriver &>/dev/null; then
+            log_info "Starting chromedriver on port 4444..."
+            chromedriver --port=4444 &>/tmp/chromedriver.log &
+            chromedriver_pid=$!
+            # Give it a moment to start listening
+            sleep 2
+            log_debug "chromedriver PID: $chromedriver_pid"
+        else
+            log_error "chromedriver not found in PATH — web integration tests will fail"
+        fi
+    else
+        log_info "chromedriver already listening on port 4444"
+    fi
+
     local overall_exit=0
     local acc_passed=0 acc_failed=0 acc_skipped=0
     local start_time
@@ -308,6 +326,12 @@ _run_web_integration_tests() {
 
     local duration=$(( $(date +%s) - start_time ))
     record_target_result "web-integration" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
+
+    # Stop chromedriver if we started it
+    if [[ -n "$chromedriver_pid" ]]; then
+        log_debug "Stopping chromedriver (PID $chromedriver_pid)..."
+        kill "$chromedriver_pid" 2>/dev/null || true
+    fi
 
     if [[ $overall_exit -ne 0 ]]; then
         log_error "Web integration tests failed"

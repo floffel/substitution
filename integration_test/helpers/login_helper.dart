@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'integration_test_helper.dart' show skipIfNoMatrix;
 
 /// Drives the full login flow from a cold-start app state.
 ///
@@ -16,15 +17,21 @@ import 'package:introduction_screen/introduction_screen.dart';
 ///   5. Finished page — taps [introGoButton] if present, then waits for feed
 ///
 /// [matrixServer] defaults to `http://localhost:8008`.
+///
+/// If the Matrix server is not reachable, the test is marked as skipped.
 Future<void> loginUser(
   WidgetTester tester, {
   String matrixServer = 'http://localhost:8008',
   String username = 'testuser1',
   String password = 'testpass123',
 }) async {
+  // Skip the test gracefully when no Matrix server is available (e.g. iOS CI)
+  await skipIfNoMatrix(matrixServer: matrixServer);
   // On Android emulators, localhost points to the emulator itself.
   // To reach the host machine, we must use 10.0.2.2.
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android && matrixServer.contains('localhost')) {
+  if (!kIsWeb &&
+      defaultTargetPlatform == TargetPlatform.android &&
+      matrixServer.contains('localhost')) {
     matrixServer = matrixServer.replaceAll('localhost', '10.0.2.2');
     debugPrint('Android detected: Translated localhost to $matrixServer');
   }
@@ -42,7 +49,9 @@ Future<void> loginUser(
     final hasHost =
         find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
     if (hasAgeGate || hasIntro || hasUsername || hasHost) {
-      debugPrint('Found screen! AgeGate: $hasAgeGate, Intro: $hasIntro, Username: $hasUsername, Host: $hasHost');
+      debugPrint(
+        'Found screen! AgeGate: $hasAgeGate, Intro: $hasIntro, Username: $hasUsername, Host: $hasHost',
+      );
       break;
     }
   }
@@ -60,7 +69,9 @@ Future<void> loginUser(
       final hasHost =
           find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
       if (hasIntro || hasUsername || hasHost) {
-        debugPrint('Transition after Age Gate complete. Intro: $hasIntro, Username: $hasUsername, Host: $hasHost');
+        debugPrint(
+          'Transition after Age Gate complete. Intro: $hasIntro, Username: $hasUsername, Host: $hasHost',
+        );
         break;
       }
     }
@@ -75,10 +86,14 @@ Future<void> loginUser(
 
     // Swiping through pages until we reach the Host page or Login page.
     for (int i = 0; i < 4; i++) {
-      final hasHost = find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
-      final hasUsername = find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
+      final hasHost =
+          find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
+      final hasUsername =
+          find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
       if (hasHost || hasUsername) {
-        debugPrint('Reached target page at step $i. Host: $hasHost, Username: $hasUsername');
+        debugPrint(
+          'Reached target page at step $i. Host: $hasHost, Username: $hasUsername',
+        );
         break;
       }
 
@@ -138,7 +153,9 @@ Future<void> loginUser(
   final usernameField = find.byKey(const Key('loginUsernameInput'));
   if (usernameField.evaluate().isEmpty) {
     debugPrint('CRITICAL: loginUsernameInput NOT FOUND!');
-    debugPrint('All visible text: ${tester.allWidgets.whereType<Text>().map((t) => t.data).join(', ')}');
+    debugPrint(
+      'All visible text: ${tester.allWidgets.whereType<Text>().map((t) => t.data).join(', ')}',
+    );
   }
   expect(
     usernameField,

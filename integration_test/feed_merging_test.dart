@@ -4,13 +4,24 @@ import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+  });
 
   group('Feed Merging Integration Test', () {
     const testMatrixServer = String.fromEnvironment(
@@ -21,6 +32,8 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
+      await skipIfNoMatrix(matrixServer: testMatrixServer);
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -77,7 +90,9 @@ void main() {
         await tester.pumpAndSettle(const Duration(seconds: 2));
 
         // Let's try to find any widget that might have a GoRouter
-        final BuildContext context = tester.element(find.byType(Navigator).first);
+        final BuildContext context = tester.element(
+          find.byType(Navigator).first,
+        );
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
         await tester.pumpAndSettle(const Duration(seconds: 2));
@@ -93,8 +108,18 @@ void main() {
         );
 
         // 3. Mark rooms as 'substitution' joined so they appear in feed
-        await client.setAccountDataPerRoom(client.userID!, roomIdA, "substitution", {"joined": true});
-        await client.setAccountDataPerRoom(client.userID!, roomIdB, "substitution", {"joined": true});
+        await client.setAccountDataPerRoom(
+          client.userID!,
+          roomIdA,
+          "substitution",
+          {"joined": true},
+        );
+        await client.setAccountDataPerRoom(
+          client.userID!,
+          roomIdB,
+          "substitution",
+          {"joined": true},
+        );
 
         // 4. Send interleaved messages with forced delays to ensure distinct timestamps
         final roomA = client.getRoomById(roomIdA)!;
@@ -120,7 +145,7 @@ void main() {
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
         await tester.pumpAndSettle();
-        
+
         // Wait for feed to load
         for (int i = 0; i < 10; i++) {
           await tester.pump(const Duration(milliseconds: 500));
@@ -129,7 +154,7 @@ void main() {
         // 6. Verify visual order in the feed
         // descending order (newest first)
         // Expected: "Chronological Message 3 (A)", "Chronological Message 2 (B)", "Chronological Message 1 (A)"
-        
+
         final msg3 = find.textContaining("Chronological Message 3 (A)");
         final msg2 = find.textContaining("Chronological Message 2 (B)");
         final msg1 = find.textContaining("Chronological Message 1 (A)");
@@ -143,8 +168,16 @@ void main() {
         final Offset pos1 = tester.getCenter(msg1);
 
         // In a vertical list, smaller Y coordinate means higher/earlier in the list
-        expect(pos3.dy, lessThan(pos2.dy), reason: "Message 3 (newest) should be above Message 2");
-        expect(pos2.dy, lessThan(pos1.dy), reason: "Message 2 should be above Message 1 (oldest)");
+        expect(
+          pos3.dy,
+          lessThan(pos2.dy),
+          reason: "Message 3 (newest) should be above Message 2",
+        );
+        expect(
+          pos2.dy,
+          lessThan(pos1.dy),
+          reason: "Message 2 should be above Message 1 (oldest)",
+        );
 
         debugPrint("✓ Feed merging and interleaving verified successfully!");
       },
