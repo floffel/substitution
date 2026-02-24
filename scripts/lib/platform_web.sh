@@ -120,7 +120,7 @@ _run_web_unit_tests() {
     local acc_passed=0 acc_failed=0 acc_skipped=0
 
     for test_file in "${test_files[@]}"; do
-        idx=$((idx + 1))
+        idx=$idx+1
         log_info "  [$idx/$total_files] $test_file"
 
         local file_log="${RESULTS_DIR}/web-unit-file-${idx}.log"
@@ -197,20 +197,10 @@ _run_web_integration_tests() {
         log_info "Found ChromeDriver at: $CHROMEWEBDRIVER"
         # Ensure it is in PATH
         export PATH="$CHROMEWEBDRIVER:$PATH"
-        ls -l "$CHROMEWEBDRIVER/chromedriver" || true
     else
         log_warn "CHROMEWEBDRIVER not set. flutter drive may fail to find chromedriver."
         command -v chromedriver || log_error "chromedriver not in PATH"
     fi
-
-    log_info "Checking Chrome visibility..."
-    if [[ -n "${CHROME_EXECUTABLE:-}" ]]; then
-        log_info "CHROME_EXECUTABLE is set to: $CHROME_EXECUTABLE"
-        "$CHROME_EXECUTABLE" --version || true
-    fi
-
-    log_info "Checking Matrix server reachability..."
-    curl -Is http://localhost:8008/_matrix/client/versions | head -n 1 || log_error "Matrix server NOT reachable at localhost:8008"
 
     # Collect integration test files for this shard
     local all_test_files=()
@@ -273,8 +263,7 @@ _run_web_integration_tests() {
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
-    # chromedriver must be in PATH (already handled at top of script)
-
+    # chromedriver must be in PATH (already handled)
     if [[ -n "${CHROME_EXECUTABLE:-}" ]]; then
         common_args+=("--chrome-binary=$CHROME_EXECUTABLE")
     fi
@@ -286,12 +275,10 @@ _run_web_integration_tests() {
 
     for test_file in "${shard_files[@]}"; do
         log_info "  Running: $test_file"
-        # Cleanup stale processes before each test
-        pkill -f substitution || true
         local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
 
         run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
-            2>&1 | tee -a "$log_file"
+            2>&1 | tee "$file_log" | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
 
         parse_flutter_output "$file_log"
@@ -337,10 +324,6 @@ run_web_tests() {
     [[ "${VERBOSE:-false}" == "true" ]] && set -x
     log_header "Web Tests (Chrome)"
     log_info "Starting run_web_tests sequence... (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
-
-    log_info "Environment: SHARD_INDEX=${SHARD_INDEX:-}, TOTAL_SHARDS=${TOTAL_SHARDS:-}, TEST_FILTER=${TEST_FILTER:-}"
-    log_info "PWD: $(pwd)"
-    ls -d test integration_test test_driver 2>/dev/null || log_error "Important directories missing!"
 
     validate_flutter || return 1
     validate_chrome  || return 1

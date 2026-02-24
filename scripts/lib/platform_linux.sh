@@ -41,66 +41,71 @@ run_linux_tests() {
     local start_time overall_exit=0
     start_time=$(date +%s)
 
+    # Note: Sharding for Linux is handled by picking files from the list
+    local all_files=()
+    while IFS= read -r -d '' f; do
+        all_files+=("$f")
+    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
+
+    # Filter by user-provided pattern if set
+    local filtered_files=()
     if [[ -n "${TEST_FILTER:-}" ]]; then
-        local all_files=()
-        while IFS= read -r -d '' f; do
-            all_files+=("$f")
-        done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
-
-        local test_files=()
-        filter_test_files test_files "$TEST_FILTER" "${all_files[@]}"
-
-        if [[ ${#test_files[@]} -eq 0 ]]; then
-            log_warn "No Linux integration test files remain after applying filter."
-            record_target_result "linux" 0 0 0 0
-            return 0
-        fi
-
-        log_info "Running ${#test_files[@]} filtered integration test(s) on Linux (timeout: ${timeout}s each)..."
-        : > "$log_file"
-        local acc_passed=0 acc_failed=0 acc_skipped=0
-
-        for test_file in "${shard_files[@]}"; do
-        log_info "  Running: $test_file"
-        local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
-
-        run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
-            2>&1 | tee "$file_log" | tee -a "$log_file"
-            local exit_code=${PIPESTATUS[0]}
-            parse_flutter_output "$log_file"
-            acc_passed=$((acc_passed + _PARSED_PASSED))
-            acc_failed=$((acc_failed + _PARSED_FAILED))
-            acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
-            [[ $exit_code -eq 124 ]] && { log_error "Timed out: $test_file"; overall_exit=1; break; }
-            [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]] && overall_exit=1
-        done
-
-        record_target_result "linux" "$acc_passed" "$acc_failed" "$acc_skipped" \
-            "$(( $(date +%s) - start_time ))"
+        filter_test_files filtered_files "$TEST_FILTER" "${all_files[@]}"
     else
-        log_info "Running Linux integration tests (timeout: ${timeout}s)..."
-        local shard_args=()
-        read -r -a shard_args <<< "$(get_shard_args)"
-
-        run_with_timeout "$timeout" flutter "test" "integration_test/" \
-            "${common_args[@]}" "${shard_args[@]}" 2>&1 | tee "$log_file"
-        overall_exit=${PIPESTATUS[0]}
-
-        local duration=$(( $(date +%s) - start_time ))
-        parse_flutter_output "$log_file"
-        record_target_result "linux" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
-
-        if [[ $overall_exit -ne 0 ]]; then
-            if [[ $_PARSED_FAILED -gt 0 ]]; then
-                log_error "Linux tests failed (exit $overall_exit, $_PARSED_FAILED failed)"
-            elif [[ $_PARSED_PASSED -eq 0 ]]; then
-                log_error "Linux tests failed (exit $overall_exit, no tests ran)"
-            else
-                log_warn "flutter test exited $overall_exit but $_PARSED_PASSED passed, 0 failed — treating as success"
-                overall_exit=0
-            fi
-        fi
+        filtered_files=("${all_files[@]}")
     fi
+
+    # Sharding logic
+    local test_files=()
+    if [[ -n "${SHARD_INDEX:-}" ]] && [[ -n "${TOTAL_SHARDS:-}" ]]; then
+        local idx=0
+        for f in "${filtered_files[@]}"; do
+            if (( idx % TOTAL_SHARDS == SHARD_INDEX )); then
+                test_files+=("$f")
+            fi
+            idx=$((idx + 1))
+        done
+        log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#test_files[@]} of ${#filtered_files[@]} files"
+    else
+        test_files=("${filtered_files[@]}")
+    fi
+
+    if [[ ${#test_files[@]} -eq 0 ]]; then
+        log_warn "No Linux integration test files to run for this shard/filter."
+        record_target_result "linux" 0 0 0 0
+        return 0
+    fi
+
+    log_info "Running ${#test_files[@]} integration test(s) on Linux..."
+    : > "$log_file"
+    local acc_passed=0 acc_failed=0 acc_skipped=0
+
+    for test_file in "${test_files[@]}"; do
+        log_info "  Running: $test_file"
+        
+        # Cleanup stale processes before each test to prevent launch failures
+        pkill -f substitution || true
+        
+        # Temporary log for this specific file to parse results
+        local file_log="${RESULTS_DIR}/linux-file-$(basename "$test_file").log"
+        run_with_timeout "$timeout" flutter "test" "${common_args[@]}" "$test_file" 2>&1 | tee "$file_log" | tee -a "$log_file"
+        local exit_code=${PIPESTATUS[0]}
+        
+        parse_flutter_output "$file_log"
+        acc_passed=$((acc_passed + _PARSED_PASSED))
+        acc_failed=$((acc_failed + _PARSED_FAILED))
+        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+        rm -f "$file_log"
+
+        if [[ $exit_code -eq 124 ]]; then
+            log_error "Timed out: $test_file"
+            overall_exit=1; break
+        fi
+        [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]] && overall_exit=1
+    done
+
+    local duration=$(( $(date +%s) - start_time ))
+    record_target_result "linux" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
 
     [[ $overall_exit -ne 0 ]] && { log_error "Linux tests had failures"; return 1; }
     log_success "Linux tests passed"
