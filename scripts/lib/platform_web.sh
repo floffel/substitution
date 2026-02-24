@@ -158,6 +158,7 @@ _run_web_unit_tests() {
 # at $CHROMEWEBDRIVER/chromedriver.
 # ---------------------------------------------------------------------------
 _run_web_integration_tests() {
+    echo "::error::Phase 2: web integration tests (Shard: ${SHARD_INDEX:-N/A})"
     if [[ ! -d integration_test ]]; then
         log_warn "integration_test/ directory not found — skipping web integration tests"
         return 0
@@ -247,6 +248,7 @@ _run_web_integration_tests() {
             idx=$((idx + 1))
         done
         log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
+        echo "::error::Files for this shard: ${shard_files[*]}"
         log_info "Files in this shard: ${shard_files[*]}"
     else
         shard_files=("${all_test_files[@]}")
@@ -339,6 +341,7 @@ _run_web_integration_tests() {
 # Main entry point called by test.sh
 # ---------------------------------------------------------------------------
 run_web_tests() {
+    echo "::error::Starting run_web_tests (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
     [[ "${VERBOSE:-false}" == "true" ]] && set -x
     log_header "Web Tests (Chrome)"
     log_info "Starting run_web_tests sequence... (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
