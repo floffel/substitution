@@ -13,6 +13,10 @@ TARGET_RESULTS=()  # array of "target:passed:failed:skipped:duration"
 # Parse flutter test output and extract counts.
 # Usage: parse_flutter_output <log_file>
 # Sets: _PARSED_PASSED, _PARSED_FAILED, _PARSED_SKIPPED
+#
+# Handles two output formats:
+#   1. flutter test compact/expanded reporter: "MM:SS +passed -failed ~skipped: ..."
+#   2. flutter drive integration output:       "RESULT: PASSED" / "RESULT: FAILED"
 parse_flutter_output() {
     local log_file="$1"
     _PARSED_PASSED=0
@@ -23,20 +27,46 @@ parse_flutter_output() {
         return
     fi
 
-    # Flutter test output ends with lines like:
-    #   00:02 +51: All tests passed!
-    #   00:05 +10 -2: Some tests failed.
-    # The last status line has the format: MM:SS +passed -failed ~skipped
-    # Note: compact reporter uses \r (carriage return) and ANSI escapes,
-    # so we convert \r to newlines and strip ANSI codes before matching.
-    # We also allow leading spaces which occur in expanded reporter.
+    # Strip carriage returns and ANSI escape codes once for reuse
+    local clean
+    clean=$(tr '\r' '\n' < "$log_file" | sed 's/\x1b\[[0-9;]*m//g')
+
+    # --- Format 1: flutter test reporter (MM:SS +passed -failed ~skipped) ---
     local last_status
-    last_status=$(tr '\r' '\n' < "$log_file" | sed 's/\x1b\[[0-9;]*m//g' | grep -E '^[[:space:]]*[0-9]+:[0-9]+ \+' | tail -1)
+    last_status=$(echo "$clean" | grep -E '^[[:space:]]*[0-9]+:[0-9]+ \+' | tail -1)
 
     if [[ -n "$last_status" ]]; then
         _PARSED_PASSED=$(echo "$last_status" | grep -oE '\+[0-9]+' | head -1 | tr -d '+')
         _PARSED_FAILED=$(echo "$last_status" | grep -oE '\-[0-9]+' | head -1 | tr -d '-')
         _PARSED_SKIPPED=$(echo "$last_status" | grep -oE '~[0-9]+' | head -1 | tr -d '~')
+    fi
+
+    # --- Format 2: flutter drive integration test output (RESULT: PASSED/FAILED) ---
+    # flutter drive outputs per-test results then a final summary line.
+    # Count individual test outcomes when the reporter-style counts are absent.
+    if [[ "${_PARSED_PASSED:-0}" -eq 0 ]] && [[ "${_PARSED_FAILED:-0}" -eq 0 ]]; then
+        local drive_result
+        drive_result=$(echo "$clean" | grep -E 'RESULT: (PASSED|FAILED)' | tail -1)
+        if [[ -n "$drive_result" ]]; then
+            # Count individual test lines: "[PASS]" / "[FAIL]" style or
+            # "flutter: " prefixed results from the integration_test framework.
+            local pass_count fail_count skip_count
+            pass_count=$(echo "$clean" | grep -cE '\[.*PASS.*\]|flutter:.*Test passed|00:[0-9]+ \+[0-9]+:.*: ' 2>/dev/null || true)
+            fail_count=$(echo "$clean" | grep -cE '\[.*FAIL.*\]|flutter:.*Test failed' 2>/dev/null || true)
+            skip_count=$(echo "$clean" | grep -cE '\[.*SKIP.*\]|flutter:.*Test skipped' 2>/dev/null || true)
+
+            if echo "$drive_result" | grep -q 'RESULT: PASSED'; then
+                # If we can't count individual tests but overall passed, treat as 1 pass
+                _PARSED_PASSED=$(( pass_count > 0 ? pass_count : 1 ))
+                _PARSED_FAILED=0
+                _PARSED_SKIPPED=${skip_count:-0}
+            else
+                # RESULT: FAILED
+                _PARSED_FAILED=$(( fail_count > 0 ? fail_count : 1 ))
+                _PARSED_PASSED=${pass_count:-0}
+                _PARSED_SKIPPED=${skip_count:-0}
+            fi
+        fi
     fi
 
     _PARSED_PASSED=${_PARSED_PASSED:-0}

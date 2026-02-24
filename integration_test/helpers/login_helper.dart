@@ -85,7 +85,8 @@ Future<void> loginUser(
     }
 
     // Swiping through pages until we reach the Host page or Login page.
-    for (int i = 0; i < 4; i++) {
+    // Use 8 iterations to handle up to 5 intro pages with margin.
+    for (int i = 0; i < 8; i++) {
       final hasHost =
           find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
       final hasUsername =

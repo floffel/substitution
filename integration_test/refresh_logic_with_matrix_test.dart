@@ -70,7 +70,16 @@ void main() {
       if (client == null) throw Exception("globalMatrixClient not found");
 
       debugPrint("Starting programmatic login for test user...");
-      client.homeserver = Uri.parse(testMatrixServer);
+      // On Android emulators, localhost resolves to the emulator itself.
+      // Translate to 10.0.2.2 to reach the host machine's Matrix server.
+      var effectiveServer = testMatrixServer;
+      if (!kIsWeb &&
+          defaultTargetPlatform == TargetPlatform.android &&
+          effectiveServer.contains('localhost')) {
+        effectiveServer = effectiveServer.replaceAll('localhost', '10.0.2.2');
+        debugPrint('Android: translated server to $effectiveServer');
+      }
+      client.homeserver = Uri.parse(effectiveServer);
       await client.checkHomeserver(client.homeserver!);
 
       await client.login(

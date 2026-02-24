@@ -111,7 +111,7 @@ void main() {
 
       // Only swipe through intro if IntroductionScreen is actually present
       if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
           final hasHost =
               find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
           final hasUsername =
