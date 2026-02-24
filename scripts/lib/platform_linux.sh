@@ -60,9 +60,12 @@ run_linux_tests() {
         : > "$log_file"
         local acc_passed=0 acc_failed=0 acc_skipped=0
 
-        for test_file in "${test_files[@]}"; do
-            log_info "  Running: $test_file"
-            run_with_timeout "$timeout" flutter "test" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+        for test_file in "${shard_files[@]}"; do
+        log_info "  Running: $test_file"
+        local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
+
+        run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
+            2>&1 | tee "$file_log" | tee -a "$log_file"
             local exit_code=${PIPESTATUS[0]}
             parse_flutter_output "$log_file"
             acc_passed=$((acc_passed + _PARSED_PASSED))
