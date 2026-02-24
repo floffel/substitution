@@ -82,16 +82,18 @@ Future<void> loginUser(
     }
   }
 
-  // ── Step 2: Onboarding swipe ───────────────────────────────────────────
+  // ── Step 2: Onboarding Next-button taps ───────────────────────────────
   if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
     debugPrint('Step 2: Navigating through onboarding...');
     for (int ps = 0; ps < 4; ps++) {
       await tester.pump(const Duration(milliseconds: 500));
     }
 
-    // Swiping through pages until we reach the Host page or Login page.
-    // Use 8 iterations to handle up to 5 intro pages with margin.
-    for (int i = 0; i < 8; i++) {
+    // The IntroductionScreen uses canProgress() to gate page transitions,
+    // so dragging the PageView is blocked.  We must tap the "Next" button
+    // to advance pages 0 → 1 → 2 (Host page).  Pages 2→3 and 3→4 are
+    // triggered programmatically by HostPage.onComplete / LoginPage.onComplete.
+    for (int i = 0; i < 3; i++) {
       final hasHost =
           find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
       final hasUsername =
@@ -103,19 +105,27 @@ Future<void> loginUser(
         break;
       }
 
-      debugPrint('Swiping one page carefully at step $i...');
-      final pageViewFinder = find.byType(PageView);
-      if (pageViewFinder.evaluate().isNotEmpty) {
-        // A controlled drag of 40% of the screen width (assuming 800-1000px)
-        await tester.drag(pageViewFinder.first, const Offset(-450, 0));
+      // Tap the Next button by text — the translated value for en-US is "Next"
+      final nextButtonFinder = find.text('Next');
+      if (nextButtonFinder.evaluate().isNotEmpty) {
+        debugPrint('Tapping Next button at step $i...');
+        await tester.tap(nextButtonFinder.first);
       } else {
-        await tester.drag(
-          find.byType(IntroductionScreen),
-          const Offset(-450, 0),
-        );
+        // Fallback: find by widgetWithText on TextButton/ElevatedButton
+        final nextTextButton = find.widgetWithText(TextButton, 'Next');
+        if (nextTextButton.evaluate().isNotEmpty) {
+          debugPrint('Tapping Next TextButton at step $i (fallback)...');
+          await tester.tap(nextTextButton.first);
+        } else {
+          debugPrint('Next button not found at step $i — stopping early.');
+          break;
+        }
       }
       // Wait for animation to finish
       await tester.pumpAndSettle(const Duration(milliseconds: 500));
+      for (int ps = 0; ps < 2; ps++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
     }
     debugPrint('Onboarding navigation complete.');
   }

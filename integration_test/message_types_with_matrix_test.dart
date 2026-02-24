@@ -127,17 +127,20 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
-      // Swipe through intro pages until the host input (or login) appears.
-      for (int i = 0; i < 8; i++) {
+      // Tap "Next" button to advance intro pages — canProgress() blocks drags.
+      for (int i = 0; i < 3; i++) {
         if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
             find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
           break;
         }
-        await tester.drag(
-          find.byType(IntroductionScreen),
-          const Offset(-400, 0),
-        );
-        for (int ps = 0; ps < 4; ps++) {
+        final nextButtonFinder = find.text('Next');
+        if (nextButtonFinder.evaluate().isNotEmpty) {
+          await tester.tap(nextButtonFinder.first);
+        } else {
+          break;
+        }
+        await tester.pumpAndSettle(const Duration(milliseconds: 500));
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }

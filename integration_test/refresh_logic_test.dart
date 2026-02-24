@@ -101,25 +101,26 @@ void main() {
         if (hasIntro || hasUsername || hasHost) break;
       }
 
-      // Only swipe through intro if IntroductionScreen is actually present
+      // Only navigate through intro if IntroductionScreen is actually present.
+      // Use the "Next" button — canProgress() blocks PageView drags.
       if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 3; i++) {
           final hasHost =
               find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
           final hasUsername =
               find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
           if (hasHost || hasUsername) break;
 
-          final pageViewFinder = find.byType(PageView);
-          if (pageViewFinder.evaluate().isNotEmpty) {
-            await tester.drag(pageViewFinder.first, const Offset(-450, 0));
+          final nextButtonFinder = find.text('Next');
+          if (nextButtonFinder.evaluate().isNotEmpty) {
+            await tester.tap(nextButtonFinder.first);
           } else {
-            await tester.drag(
-              find.byType(IntroductionScreen),
-              const Offset(-450, 0),
-            );
+            break;
           }
           await tester.pumpAndSettle(const Duration(milliseconds: 500));
+          for (int ps = 0; ps < 2; ps++) {
+            await tester.pump(const Duration(milliseconds: 500));
+          }
         }
       }
 

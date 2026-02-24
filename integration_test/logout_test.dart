@@ -75,9 +75,10 @@ void main() {
       // Wait for any known first screen to appear
       await waitFor(tester, find.byType(IntroductionScreen));
 
-      // Only swipe through intro if IntroductionScreen is actually present
+      // Only navigate through intro if IntroductionScreen is actually present.
+      // Use the "Next" button — canProgress() blocks PageView drags.
       if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 3; i++) {
           if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
               find
                   .byKey(const Key('loginUsernameInput'))
@@ -85,20 +86,16 @@ void main() {
                   .isNotEmpty) {
             break;
           }
-          final nextBtn = find.byWidgetPredicate(
-            (w) =>
-                w is Text &&
-                (w.data == "Next" || w.data == "intro.buttons.next"),
-          );
-          if (nextBtn.evaluate().isNotEmpty) {
-            await tester.tap(nextBtn);
-          } else if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-            await tester.dragFrom(
-              tester.getCenter(find.byType(IntroductionScreen)),
-              const Offset(-1000, 0),
-            );
+          final nextButtonFinder = find.text('Next');
+          if (nextButtonFinder.evaluate().isNotEmpty) {
+            await tester.tap(nextButtonFinder.first);
+          } else {
+            break;
           }
-          await stablePump(tester, ms: 1000);
+          await tester.pumpAndSettle(const Duration(milliseconds: 500));
+          for (int ps = 0; ps < 2; ps++) {
+            await tester.pump(const Duration(milliseconds: 500));
+          }
         }
       }
 
