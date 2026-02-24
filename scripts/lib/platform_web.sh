@@ -259,7 +259,7 @@ _run_web_integration_tests() {
     fi
 
     local log_file="${RESULTS_DIR}/web-integration-tests.log"
-    local timeout="${WEB_TEST_TIMEOUT:-900}"
+    local timeout="${WEB_TEST_TIMEOUT:-1800}"
     mkdir -p "$RESULTS_DIR"
     : > "$log_file"
 

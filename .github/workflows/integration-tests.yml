@@ -127,6 +127,7 @@ jobs:
 
       - name: 'Run web tests'
         env:
+          VERBOSE: true
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
@@ -199,6 +200,7 @@ jobs:
 
       - name: 'Run Linux integration tests'
         env:
+          VERBOSE: true
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
