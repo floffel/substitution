@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +34,9 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      // Bypass the age gate so the app goes straight to /intro on cold start.
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();

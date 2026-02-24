@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:substitution/feed/pages/home.dart' as home_page;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 
 void main() {
@@ -34,7 +36,9 @@ void main() {
 
     setUp(() async {
       await skipIfNoMatrix(matrixServer: testMatrixServer);
-
+      // Bypass the age gate so the app goes straight to /intro on cold start.
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();

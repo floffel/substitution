@@ -6,6 +6,8 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,9 @@ void main() {
 
     setUp(() async {
       debugPrint('--- setUp ---');
+      // Bypass the age gate so the app goes straight to /intro on cold start.
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
