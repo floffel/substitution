@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Feed Integration Tests', () {
-    late Database? sqliteDatabase;
+    Database? sqliteDatabase;
 
     setUp(() async {
       // Initialize SQLite database for tests

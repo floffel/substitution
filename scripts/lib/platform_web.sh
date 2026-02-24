@@ -177,10 +177,10 @@ _run_web_integration_tests() {
     fi
     if [[ -n "$real_chrome" ]] && [[ "$(detect_os)" == "linux" ]]; then
         local wrapper="/tmp/chrome-ci-wrapper.sh"
-        printf '#!/bin/bash\nexec "%s" --no-sandbox --disable-dev-shm-usage "$@"\n' "$real_chrome" > "$wrapper"
+        printf '#!/bin/bash\nexec "%s" --no-sandbox --disable-dev-shm-usage --headless=new "$@"\n' "$real_chrome" > "$wrapper"
         chmod +x "$wrapper"
         export CHROME_EXECUTABLE="$wrapper"
-        log_debug "Using Chrome wrapper with --no-sandbox: $wrapper"
+        log_debug "Using Chrome wrapper with --no-sandbox --headless: $wrapper"
     fi
 
     # Check for ChromeDriver (required for flutter drive on web)

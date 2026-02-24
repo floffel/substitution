@@ -18,7 +18,7 @@ void main() {
 
   group('Matrix Server Integration Tests', () {
     late Client client;
-    late Database? sqliteDatabase;
+    Database? sqliteDatabase;
 
     setUp(() async {
       // Initialize SQLite database

@@ -20,7 +20,7 @@ void main() {
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
-    late Database? sqliteDatabase;
+    Database? sqliteDatabase;
 
     setUp(() async {
       if (!kIsWeb) {

@@ -22,7 +22,7 @@ void main() {
       defaultValue: 'http://localhost:8008',
     );
 
-    late Database? sqliteDatabase;
+    Database? sqliteDatabase;
 
     setUp(() async {
       // Reset age gate so the app always starts from the age-gate screen
