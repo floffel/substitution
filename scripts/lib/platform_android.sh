@@ -112,7 +112,7 @@ android_start_emulator() {
 
 # Wait for the emulator to finish booting
 android_wait_for_boot() {
-    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-600}"
+    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-1200}"
 
     log_info "Waiting for emulator boot (timeout: ${boot_timeout}s)..."
     adb start-server 2>/dev/null
@@ -126,6 +126,7 @@ android_wait_for_boot() {
         elapsed=$(( $(date +%s) - start_time ))
         if [[ $elapsed -ge $boot_timeout ]]; then
             log_error "Timed out waiting for emulator device"
+            adb devices
             return 1
         fi
         sleep 5
@@ -139,8 +140,10 @@ android_wait_for_boot() {
 
         elapsed=$(( $(date +%s) - start_time ))
         if [[ $elapsed -ge $boot_timeout ]]; then
-            log_warn "Boot completion timed out (continuing anyway)"
-            break
+            log_error "Timed out waiting for boot completion"
+            log_info "Last 20 lines of logcat:"
+            adb logcat -d | tail -20 || true
+            return 1
         fi
         sleep 5
     done

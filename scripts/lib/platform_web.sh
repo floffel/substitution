@@ -158,7 +158,6 @@ _run_web_unit_tests() {
 # at $CHROMEWEBDRIVER/chromedriver.
 # ---------------------------------------------------------------------------
 _run_web_integration_tests() {
-    echo "::error::Phase 2: web integration tests (Shard: ${SHARD_INDEX:-N/A})"
     if [[ ! -d integration_test ]]; then
         log_warn "integration_test/ directory not found — skipping web integration tests"
         return 0
@@ -248,7 +247,6 @@ _run_web_integration_tests() {
             idx=$((idx + 1))
         done
         log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
-        echo "::error::Files for this shard: ${shard_files[*]}"
         log_info "Files in this shard: ${shard_files[*]}"
     else
         shard_files=("${all_test_files[@]}")
@@ -275,14 +273,7 @@ _run_web_integration_tests() {
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
     )
 
-    if [[ -n "${CHROMEWEBDRIVER:-}" ]]; then
-        # Explicitly pass chromedriver path if known (improves GHA reliability)
-        if [[ -f "$CHROMEWEBDRIVER/chromedriver" ]]; then
-            common_args+=("--chromedriver=$CHROMEWEBDRIVER/chromedriver")
-        elif [[ -f "$CHROMEWEBDRIVER" ]]; then # In case CHROMEWEBDRIVER points to the file itself
-             common_args+=("--chromedriver=$CHROMEWEBDRIVER")
-        fi
-    fi
+    # chromedriver must be in PATH (already handled at top of script)
 
     if [[ -n "${CHROME_EXECUTABLE:-}" ]]; then
         common_args+=("--chrome-binary=$CHROME_EXECUTABLE")
@@ -295,10 +286,12 @@ _run_web_integration_tests() {
 
     for test_file in "${shard_files[@]}"; do
         log_info "  Running: $test_file"
+        # Cleanup stale processes before each test
+        pkill -f substitution || true
         local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
 
         run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
-            2>&1 | tee "$file_log" | tee -a "$log_file"
+            2>&1 | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
 
         parse_flutter_output "$file_log"
@@ -341,7 +334,6 @@ _run_web_integration_tests() {
 # Main entry point called by test.sh
 # ---------------------------------------------------------------------------
 run_web_tests() {
-    echo "::error::Starting run_web_tests (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
     [[ "${VERBOSE:-false}" == "true" ]] && set -x
     log_header "Web Tests (Chrome)"
     log_info "Starting run_web_tests sequence... (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
