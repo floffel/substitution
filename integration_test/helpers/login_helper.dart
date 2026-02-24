@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'integration_test_helper.dart' show skipIfNoMatrix;
+import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient;
 
 /// Drives the full login flow from a cold-start app state.
 ///
@@ -27,6 +27,11 @@ Future<void> loginUser(
 }) async {
   // Skip the test gracefully when no Matrix server is available (e.g. iOS CI)
   if (!await skipIfNoMatrix(matrixServer: matrixServer)) return;
+
+  // Ensure app.main() has completed runApp() and the Matrix client is ready
+  // before querying the widget tree.
+  await waitForMatrixClient(tester);
+
   // On Android emulators, localhost points to the emulator itself.
   // To reach the host machine, we must use 10.0.2.2.
   if (!kIsWeb &&

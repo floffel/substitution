@@ -7,6 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +36,8 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       // Delete main app database to ensure fresh login (no persisted session)
       if (!kIsWeb) {
         try {
@@ -99,6 +104,7 @@ void main() {
     });
 
     Future<void> loginAsUser(WidgetTester tester, String username) async {
+      await waitForMatrixClient(tester);
       // Wait for IntroductionScreen to appear
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -108,8 +114,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
-      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
-      for (int i = 0; i < 2; i++) {
+      // Swipe through intro pages until the host input appears.
+      for (int i = 0; i < 8; i++) {
+        if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
+            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
+          break;
+        }
         await tester.drag(
           find.byType(IntroductionScreen),
           const Offset(-400, 0),
@@ -124,7 +134,7 @@ void main() {
       expect(
         hostInput,
         findsOneWidget,
-        reason: 'Host input should be visible on page 2',
+        reason: 'Host input should be visible after swiping intro pages',
       );
       await tester.enterText(hostInput, testMatrixServer);
       for (int ps = 0; ps < 4; ps++) {

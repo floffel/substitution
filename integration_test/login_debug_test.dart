@@ -3,16 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('Debug full login flow', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({'age_confirmed': true});
+    AgeGatePage.confirmed = true;
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
     );
     app.main();
+    await waitForMatrixClient(tester);
 
     // Wait for app to fully initialize
     for (int i = 0; i < 20; i++) {
@@ -24,8 +30,12 @@ void main() {
     }
     await tester.pumpAndSettle();
 
-    // Swipe to page 2 (Host)
-    for (int i = 0; i < 2; i++) {
+    // Swipe through all intro pages until host input is visible
+    for (int i = 0; i < 8; i++) {
+      if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
+          find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
+        break;
+      }
       await tester.drag(find.byType(IntroductionScreen), const Offset(-400, 0));
       await tester.pumpAndSettle();
     }
@@ -51,7 +61,8 @@ void main() {
       final alertDialog = find.byType(AlertDialog);
       if (i % 4 == 0) {
         debugPrint(
-            '  ${i * 500}ms: login=${loginField.evaluate().length} alert=${alertDialog.evaluate().length}');
+          '  ${i * 500}ms: login=${loginField.evaluate().length} alert=${alertDialog.evaluate().length}',
+        );
       }
       if (loginField.evaluate().isNotEmpty) {
         loginFound = true;
@@ -64,10 +75,14 @@ void main() {
     if (loginFound) {
       // Try the full login
       await tester.enterText(
-          find.byKey(const Key('loginUsernameInput')), 'testuser1');
+        find.byKey(const Key('loginUsernameInput')),
+        'testuser1',
+      );
       await tester.pumpAndSettle();
       await tester.enterText(
-          find.byKey(const Key('loginPasswordInput')), 'testpass123');
+        find.byKey(const Key('loginPasswordInput')),
+        'testpass123',
+      );
       await tester.pumpAndSettle();
 
       final loginBtn = find.byType(ElevatedButton).first;

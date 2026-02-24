@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -97,6 +98,8 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
+      // Ensure app.main() has completed runApp() before querying the widget tree.
+      await waitForMatrixClient(tester);
       // Wait for any known first screen to appear
       for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));

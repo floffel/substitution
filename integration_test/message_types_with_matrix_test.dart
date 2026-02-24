@@ -25,6 +25,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +53,8 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -112,6 +117,7 @@ void main() {
     /// Log in as [testUser] via the onboarding flow and wait until the feed
     /// is visible.
     Future<void> loginAndReachFeed(WidgetTester tester) async {
+      await waitForMatrixClient(tester);
       // Wait for the IntroductionScreen to appear
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -121,8 +127,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
-      // Swipe to the Host page (page 2)
-      for (int i = 0; i < 2; i++) {
+      // Swipe through intro pages until the host input (or login) appears.
+      for (int i = 0; i < 8; i++) {
+        if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
+            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
+          break;
+        }
         await tester.drag(
           find.byType(IntroductionScreen),
           const Offset(-400, 0),

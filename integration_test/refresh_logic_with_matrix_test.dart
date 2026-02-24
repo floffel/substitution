@@ -11,7 +11,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -106,9 +107,7 @@ void main() {
       'Home feed refreshes automatically when a room is joined in settings',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await waitForMatrixClient(tester);
 
         await loginUser(tester);
 

@@ -10,6 +10,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/settings/widgets/dialogcreateroom.dart';
 import 'package:substitution/feed/pages/home.dart' as home_page;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart';
 
 void main() {
@@ -36,6 +38,9 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
+
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       // Use databaseFactory to safely delete the database file

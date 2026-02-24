@@ -6,6 +6,7 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -22,6 +23,7 @@ void main() {
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -66,6 +68,7 @@ void main() {
       (WidgetTester tester) async {
         // Start the app
         app.main();
+        await waitForMatrixClient(tester);
         await handleAgeGate(tester);
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
@@ -178,6 +181,7 @@ void main() {
       'Login with invalid credentials shows error',
       (WidgetTester tester) async {
         app.main();
+        await waitForMatrixClient(tester);
         await handleAgeGate(tester);
         await tester.pumpAndSettle();
         for (int ps = 0; ps < 4; ps++) {
@@ -273,6 +277,7 @@ void main() {
       'User can choose different homeserver',
       (WidgetTester tester) async {
         app.main();
+        await waitForMatrixClient(tester);
         await handleAgeGate(tester);
         await tester.pumpAndSettle();
         for (int ps = 0; ps < 4; ps++) {

@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
+import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +70,8 @@ void main() {
 
     Future<void> loginUser(WidgetTester tester) async {
       debugPrint('STEP: Initial Onboarding');
+      // Ensure app.main() has completed runApp() before querying the widget tree.
+      await waitForMatrixClient(tester);
       // Wait for any known first screen to appear
       await waitFor(tester, find.byType(IntroductionScreen));
 
