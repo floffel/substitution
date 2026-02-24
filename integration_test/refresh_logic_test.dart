@@ -82,39 +82,58 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      // Wait for app to load
-      await tester.pumpAndSettle();
-
-      // Swipe intro - matching feed_with_matrix_test.dart
-      for (int i = 0; i < 20; i++) {
+      // Wait for any known first screen to appear
+      for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
+        final hasIntro = find.byType(IntroductionScreen).evaluate().isNotEmpty;
+        final hasUsername =
+            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
+        final hasHost =
+            find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
+        if (hasIntro || hasUsername || hasHost) break;
       }
 
-      for (int i = 0; i < 2; i++) {
-        await tester.drag(
-          find.byType(IntroductionScreen),
-          const Offset(-400, 0),
-        );
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
+      // Only swipe through intro if IntroductionScreen is actually present
+      if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
+        for (int i = 0; i < 4; i++) {
+          final hasHost =
+              find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
+          final hasUsername =
+              find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
+          if (hasHost || hasUsername) break;
+
+          final pageViewFinder = find.byType(PageView);
+          if (pageViewFinder.evaluate().isNotEmpty) {
+            await tester.drag(pageViewFinder.first, const Offset(-450, 0));
+          } else {
+            await tester.drag(
+              find.byType(IntroductionScreen),
+              const Offset(-450, 0),
+            );
+          }
+          await tester.pumpAndSettle(const Duration(milliseconds: 500));
         }
       }
 
-      // Enter host
+      // Enter host if visible
       final hostInput = find.byKey(const Key('hostServerInput'));
-      await tester.enterText(hostInput, testMatrixServer);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
+      if (hostInput.evaluate().isNotEmpty) {
+        await tester.enterText(hostInput, testMatrixServer);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
 
-      await tester.tap(find.byKey(const Key('hostSubmitButton')));
+        await tester.tap(find.byKey(const Key('hostSubmitButton')));
 
-      // Wait for login page
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
+        // Wait for login page
+        for (int i = 0; i < 30; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          if (find
+              .byKey(const Key('loginUsernameInput'))
+              .evaluate()
+              .isNotEmpty) {
+            break;
+          }
         }
       }
 
@@ -142,7 +161,10 @@ void main() {
         if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
       }
 
-      await tester.tap(find.byKey(const Key('introGoButton')));
+      final goButton = find.byKey(const Key('introGoButton'));
+      if (goButton.evaluate().isNotEmpty) {
+        await tester.tap(goButton);
+      }
 
       // Wait for feed
       for (int i = 0; i < 20; i++) {

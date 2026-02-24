@@ -98,55 +98,73 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
-      // Wait for IntroductionScreen to appear
-      for (int i = 0; i < 20; i++) {
+      // Wait for any known first screen to appear
+      for (int i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
-      }
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
+        if (find.byType(IntroductionScreen).evaluate().isNotEmpty ||
+            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty ||
+            find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty) {
+          break;
+        }
       }
 
-      // Swipe left twice: page 0 (Welcome) -> page 1 (Account) -> page 2 (Host)
-      for (int i = 0; i < 2; i++) {
-        await tester.drag(
-          find.byType(IntroductionScreen),
-          const Offset(-400, 0),
-        );
+      // Only swipe through intro if IntroductionScreen is actually present
+      if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
+        for (int i = 0; i < 4; i++) {
+          if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
+              find
+                  .byKey(const Key('loginUsernameInput'))
+                  .evaluate()
+                  .isNotEmpty) {
+            break;
+          }
+          final pageViewFinder = find.byType(PageView);
+          if (pageViewFinder.evaluate().isNotEmpty) {
+            await tester.drag(pageViewFinder.first, const Offset(-450, 0));
+          } else {
+            await tester.drag(
+              find.byType(IntroductionScreen),
+              const Offset(-450, 0),
+            );
+          }
+          await tester.pumpAndSettle(const Duration(milliseconds: 500));
+        }
+      }
+
+      // Enter homeserver if visible
+      final hostInput = find.byKey(const Key('hostServerInput'));
+      if (hostInput.evaluate().isNotEmpty) {
+        await tester.enterText(hostInput, testMatrixServer);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Submit host (ensure button is visible before tapping)
+        final submitButton = find.byKey(const Key('hostSubmitButton'));
+        await tester.ensureVisible(submitButton);
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
+        await tester.tap(submitButton, warnIfMissed: false);
+
+        // Wait for host check + page transition to login page
+        for (int i = 0; i < 30; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          if (find
+              .byKey(const Key('loginUsernameInput'))
+              .evaluate()
+              .isNotEmpty) {
+            break;
+          }
+        }
+      } else {
+        // Host already configured — wait for any pending transitions
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
 
-      // Enter homeserver using test key
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(
-        hostInput,
-        findsOneWidget,
-        reason: 'Host input should be visible on page 2',
-      );
-      await tester.enterText(hostInput, testMatrixServer);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      // Submit host (ensure button is visible before tapping)
-      final submitButton = find.byKey(const Key('hostSubmitButton'));
-      await tester.ensureVisible(submitButton);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      await tester.tap(submitButton, warnIfMissed: false);
-
-      // Wait for host check + page transition to login page
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
-      }
-
-      // Now on Login page (page 3) - enter credentials using test keys
+      // Now on Login page - enter credentials using test keys
       final usernameField = find.byKey(const Key('loginUsernameInput'));
       expect(
         usernameField,

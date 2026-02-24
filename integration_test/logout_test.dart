@@ -50,7 +50,11 @@ void main() {
       }
     }
 
-    Future<void> waitFor(WidgetTester tester, Finder finder, {int limit = 50}) async {
+    Future<void> waitFor(
+      WidgetTester tester,
+      Finder finder, {
+      int limit = 50,
+    }) async {
       for (int i = 0; i < limit; i++) {
         await stablePump(tester, ms: 200);
         if (finder.evaluate().isNotEmpty) return;
@@ -60,28 +64,57 @@ void main() {
 
     Future<void> loginUser(WidgetTester tester) async {
       debugPrint('STEP: Initial Onboarding');
+      // Wait for any known first screen to appear
       await waitFor(tester, find.byType(IntroductionScreen));
-      
-      for (int i = 0; i < 2; i++) {
-        final nextBtn = find.byWidgetPredicate((w) => w is Text && (w.data == "Next" || w.data == "intro.buttons.next"));
-        if (nextBtn.evaluate().isNotEmpty) {
-          await tester.tap(nextBtn);
-        } else {
-          await tester.dragFrom(tester.getCenter(find.byType(IntroductionScreen)), const Offset(-1000, 0));
+
+      // Only swipe through intro if IntroductionScreen is actually present
+      if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
+        for (int i = 0; i < 4; i++) {
+          if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
+              find
+                  .byKey(const Key('loginUsernameInput'))
+                  .evaluate()
+                  .isNotEmpty) {
+            break;
+          }
+          final nextBtn = find.byWidgetPredicate(
+            (w) =>
+                w is Text &&
+                (w.data == "Next" || w.data == "intro.buttons.next"),
+          );
+          if (nextBtn.evaluate().isNotEmpty) {
+            await tester.tap(nextBtn);
+          } else if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
+            await tester.dragFrom(
+              tester.getCenter(find.byType(IntroductionScreen)),
+              const Offset(-1000, 0),
+            );
+          }
+          await stablePump(tester, ms: 1000);
         }
-        await stablePump(tester, ms: 1000);
       }
 
       debugPrint('STEP: Entering Homeserver');
-      await waitFor(tester, find.byKey(const Key('hostServerInput')));
-      await tester.enterText(find.byKey(const Key('hostServerInput')), testMatrixServer);
-      await stablePump(tester);
-      await tester.tap(find.byKey(const Key('hostSubmitButton')));
+      // Only enter host if host input is visible
+      if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty) {
+        await tester.enterText(
+          find.byKey(const Key('hostServerInput')),
+          testMatrixServer,
+        );
+        await stablePump(tester);
+        await tester.tap(find.byKey(const Key('hostSubmitButton')));
+      }
 
       debugPrint('STEP: Entering Credentials');
       await waitFor(tester, find.byKey(const Key('loginUsernameInput')));
-      await tester.enterText(find.byKey(const Key('loginUsernameInput')), testUser);
-      await tester.enterText(find.byKey(const Key('loginPasswordInput')), testPassword);
+      await tester.enterText(
+        find.byKey(const Key('loginUsernameInput')),
+        testUser,
+      );
+      await tester.enterText(
+        find.byKey(const Key('loginPasswordInput')),
+        testPassword,
+      );
       await stablePump(tester);
       await tester.tap(find.byKey(const Key('loginSubmitButton')));
 
@@ -91,7 +124,7 @@ void main() {
       await tester.ensureVisible(goBtnFinder);
       await stablePump(tester);
       await tester.tap(goBtnFinder, warnIfMissed: false);
-      
+
       await stablePump(tester, ms: 1000);
       debugPrint('STEP: Waiting for Main Feed');
       await waitFor(tester, find.byIcon(Icons.menu));
@@ -101,7 +134,7 @@ void main() {
       'Verify Logout wipes the session and local database',
       (WidgetTester tester) async {
         await tester.binding.setSurfaceSize(const Size(1024, 768));
-        
+
         app.main();
         await stablePump(tester, ms: 3000);
 
@@ -111,17 +144,21 @@ void main() {
         debugPrint('STEP: Logout Flow');
         await tester.tap(find.byIcon(Icons.menu));
         await stablePump(tester, ms: 1000);
-        
+
         final logoutIcon = find.byIcon(Icons.logout);
         expect(logoutIcon, findsOneWidget);
         await tester.tap(logoutIcon);
-        
+
         // Wait for redirect to onboarding
         await waitFor(tester, find.byType(IntroductionScreen));
-        
+
         // --- VERIFICATION ---
-        expect(app.globalMatrixClient?.isLogged(), false, reason: 'Session should be terminated');
-        
+        expect(
+          app.globalMatrixClient?.isLogged(),
+          false,
+          reason: 'Session should be terminated',
+        );
+
         // Final check for onboarding page content
         expect(find.byType(IntroductionScreen), findsOneWidget);
         debugPrint('Consolidated Logout test passed successfully');

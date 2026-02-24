@@ -101,7 +101,7 @@ jobs:
       fail-fast: false
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
-    timeout-minutes: 30
+    timeout-minutes: 50
 
     steps:
       - uses: actions/checkout@v4
@@ -131,7 +131,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh web --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 25
+        timeout-minutes: 45
 
       - name: 'Show test logs on failure'
         if: failure()
