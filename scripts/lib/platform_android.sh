@@ -112,7 +112,7 @@ android_start_emulator() {
 
 # Wait for the emulator to finish booting
 android_wait_for_boot() {
-    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-300}"
+    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-600}"
 
     log_info "Waiting for emulator boot (timeout: ${boot_timeout}s)..."
     adb start-server 2>/dev/null

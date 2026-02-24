@@ -338,8 +338,9 @@ _run_web_integration_tests() {
 # Main entry point called by test.sh
 # ---------------------------------------------------------------------------
 run_web_tests() {
-    log_header "Web Tests (Chrome)"
     [[ "${VERBOSE:-false}" == "true" ]] && set -x
+    log_header "Web Tests (Chrome)"
+    log_info "Starting run_web_tests sequence... (Shard: ${SHARD_INDEX:-N/A}, Total: ${TOTAL_SHARDS:-N/A})"
 
     log_info "Environment: SHARD_INDEX=${SHARD_INDEX:-}, TOTAL_SHARDS=${TOTAL_SHARDS:-}, TEST_FILTER=${TEST_FILTER:-}"
     log_info "PWD: $(pwd)"
