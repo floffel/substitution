@@ -75,7 +75,6 @@
 ################################################################################
 
 set -o pipefail
-IFS=$'\n\t'
 
 # ---------------------------------------------------------------------------
 # Bootstrap: source all library modules
@@ -335,6 +334,7 @@ main() {
     local overall_exit=0
 
     for target in "${TARGETS[@]}"; do
+        log_info "Target: $target"
         case "$target" in
             unit)
                 run_unit_tests || overall_exit=1

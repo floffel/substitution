@@ -247,6 +247,7 @@ _run_web_integration_tests() {
             idx=$((idx + 1))
         done
         log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
+        log_info "Files in this shard: ${shard_files[*]}"
     else
         shard_files=("${all_test_files[@]}")
         log_info "No sharding: running all $total_files files"
