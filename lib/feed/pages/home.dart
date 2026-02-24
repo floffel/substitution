@@ -25,8 +25,10 @@ class HomePageState extends State<HomePage> {
   final adressContrainer = TextEditingController();
 
   late final PagingController<
-      Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
-      ({Event origEvent, Event displayEvent})> _pagingController;
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+    ({Event origEvent, Event displayEvent})
+  >
+  _pagingController;
   bool pageKeyInitialized =
       false; // tracks if the pageKey needs initializing, workarround b.c. we can't initilize it as a future, so we initialize it at the first call (yes, poor performance for all runs after, TODO)
   Map<String, String> firstEventIds =
@@ -49,7 +51,7 @@ class HomePageState extends State<HomePage> {
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
     if (!mounted) return [];
-    
+
     // Capture the client synchronously to avoid looking up context after an await
     final currentClient = _client;
 
@@ -71,8 +73,9 @@ class HomePageState extends State<HomePage> {
         limit:
             1, // we don't need events, we just need the prev_batch -> we have to set it to at least 1
 
-        filter: jsonEncode(StateFilter(lazyLoadMembers: true)
-            .toJson()), // for getting state events (e.g. power levels of posters)
+        filter: jsonEncode(
+          StateFilter(lazyLoadMembers: true).toJson(),
+        ), // for getting state events (e.g. power levels of posters)
       );
       if (!mounted) return [];
 
@@ -139,7 +142,9 @@ class HomePageState extends State<HomePage> {
       // todo: rename firstEventIds to something more meaningfull like lastCurrentEventIds
       String? lastCurrentEventId = firstEventIds[timeline.room.id];
       if (lastCurrentEventId == null) {
-        debugPrint("No first event ID for room ${timeline.room.id}, skipping future fetch");
+        debugPrint(
+          "No first event ID for room ${timeline.room.id}, skipping future fetch",
+        );
         continue;
       }
 
@@ -147,7 +152,8 @@ class HomePageState extends State<HomePage> {
 
       // todo: returns how many events we got back, so we could just splice the elements there
       await timeline.getRoomEvents(
-          direction: Direction.b); // handles canRequestFuture for us
+        direction: Direction.b,
+      ); // handles canRequestFuture for us
       //await timeline.requestFuture(
       //    historyCount:
       //        100); // normally, there should not be that much of new events, but we don't have a method to know if there ARE new events that wherend displayed yet
@@ -158,7 +164,8 @@ class HomePageState extends State<HomePage> {
 
       for (Event e in timeline.events) {
         debugPrint(
-            "found event ${e.eventId}, lastCurrentEventId is $lastCurrentEventId");
+          "found event ${e.eventId}, lastCurrentEventId is $lastCurrentEventId",
+        );
 
         if (e.eventId == lastCurrentEventId) {
           break;
@@ -175,16 +182,21 @@ class HomePageState extends State<HomePage> {
                 50) //... only with powerlevel >= 50, so the admin of a room can limit who can post to timeline (leaving commenting is still possible with < 50)
         {
           // todo: check if this is an event we want to display
-          newEvents
-              .add((origEvent: e, displayEvent: e.getDisplayEvent(timeline)));
+          newEvents.add((
+            origEvent: e,
+            displayEvent: e.getDisplayEvent(timeline),
+          ));
           debugPrint("added ${e.eventId}");
         }
       }
 
       if (newEvents.isNotEmpty) {
         // sort... mby unnesseccarry (todo)
-        newEvents.sort((a, b) => b.displayEvent.originServerTs
-            .compareTo(a.displayEvent.originServerTs));
+        newEvents.sort(
+          (a, b) => b.displayEvent.originServerTs.compareTo(
+            a.displayEvent.originServerTs,
+          ),
+        );
         firstEventIds[timeline.room.id] = newEvents[0].origEvent.eventId;
       }
 
@@ -192,8 +204,11 @@ class HomePageState extends State<HomePage> {
     }
 
     // sort (cloud be made cleverer, just compare the start of each newEvents and append or insert them (instead of ret.addAll(), see above))
-    ret.sort((a, b) =>
-        b.displayEvent.originServerTs.compareTo(a.displayEvent.originServerTs));
+    ret.sort(
+      (a, b) => b.displayEvent.originServerTs.compareTo(
+        a.displayEvent.originServerTs,
+      ),
+    );
 
     // add ret to the top
     // Note: In new API, we don't directly manipulate items like this
@@ -205,9 +220,15 @@ class HomePageState extends State<HomePage> {
   //  lastEventId: last event id that was added to the list
   //  since: das ding was man mitgibt um zu sagen an welcher stelle man war.. todo auf englisch dokumentierne
   //  wasExhausted: we do not have any events that where not posted on the timeline
-  Future<({List<({Event origEvent, Event displayEvent})> events, Map<Timeline, ({String? lastEventId, bool wasExhausted})>? nextKey})> _fetchEvents(
-      Map<Timeline, ({String? lastEventId, bool wasExhausted})>?
-          pageKey) async {
+  Future<
+    ({
+      List<({Event origEvent, Event displayEvent})> events,
+      Map<Timeline, ({String? lastEventId, bool wasExhausted})>? nextKey,
+    })
+  >
+  _fetchEvents(
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? pageKey,
+  ) async {
     List<({Event origEvent, Event displayEvent})> ret = [];
 
     Map<Timeline, ({String? lastEventId, bool wasExhausted})>? newPageKey =
@@ -226,7 +247,10 @@ class HomePageState extends State<HomePage> {
         }
       } else {
         debugPrint("Page key is null, returning...");
-        return (events: ret, nextKey: newPageKey); // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
+        return (
+          events: ret,
+          nextKey: newPageKey,
+        ); // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
       }
     }
 
@@ -280,7 +304,7 @@ class HomePageState extends State<HomePage> {
             // we have a new event to handle
             newEvents.add((
               origEvent: event,
-              displayEvent: event.getDisplayEvent(timeline)
+              displayEvent: event.getDisplayEvent(timeline),
             ));
           }
         }
@@ -288,7 +312,8 @@ class HomePageState extends State<HomePage> {
         if (!timeline.canRequestHistory) {
           // history of this timeline is exhausted, no need to add more
           debugPrint(
-              "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}");
+            "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}",
+          );
 
           newPageKey.remove(timeline);
 
@@ -301,22 +326,29 @@ class HomePageState extends State<HomePage> {
       }
 
       // get the id of the last postable event of this timeline
-      lastPostableEventIds.add(newEvents.last.origEvent
-          .eventId); // TODO!! Mby use displayEventId, would add updates from post to the timeline, would double it
+      lastPostableEventIds.add(
+        newEvents.last.origEvent.eventId,
+      ); // TODO!! Mby use displayEventId, would add updates from post to the timeline, would double it
       ret.addAll(newEvents);
 
       if (firstEventIds[timeline.room.id] == null) {
         // first run, so we need to add the first ones of each timeline.. TODO: this affects performance...
 
-        newEvents.sort((a, b) => b.displayEvent.originServerTs
-            .compareTo(a.displayEvent.originServerTs));
+        newEvents.sort(
+          (a, b) => b.displayEvent.originServerTs.compareTo(
+            a.displayEvent.originServerTs,
+          ),
+        );
         firstEventIds[timeline.room.id] = newEvents[0].origEvent.eventId;
       }
     }
 
     // sort
-    ret.sort((a, b) =>
-        b.displayEvent.originServerTs.compareTo(a.displayEvent.originServerTs));
+    ret.sort(
+      (a, b) => b.displayEvent.originServerTs.compareTo(
+        a.displayEvent.originServerTs,
+      ),
+    );
 
     // delete all events after the first "last" event and modify newPageKey accordingly to the last event of each timeline before that event happend
     for (var el in ret) {
@@ -343,11 +375,15 @@ class HomePageState extends State<HomePage> {
           if (!exhausted) {
             // the timeline of the last postable element was exhausted
             exhausted = true;
-            newPageKey[e.key] =
-                (lastEventId: el.origEvent.eventId, wasExhausted: true);
+            newPageKey[e.key] = (
+              lastEventId: el.origEvent.eventId,
+              wasExhausted: true,
+            );
           } else {
-            newPageKey[e.key] =
-                (lastEventId: el.origEvent.eventId, wasExhausted: false);
+            newPageKey[e.key] = (
+              lastEventId: el.origEvent.eventId,
+              wasExhausted: false,
+            );
           }
           continue timelineLoop;
         }
@@ -375,8 +411,14 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _client = Provider.of<Client>(context, listen: false);
-    _connectivityService = Provider.of<ConnectivityService>(context, listen: false);
-    _substitutionService = Provider.of<SubstitutionService>(context, listen: false);
+    _connectivityService = Provider.of<ConnectivityService>(
+      context,
+      listen: false,
+    );
+    _substitutionService = Provider.of<SubstitutionService>(
+      context,
+      listen: false,
+    );
 
     // Initialize SubstitutionService cache
     _substitutionService.init();
@@ -384,8 +426,9 @@ class HomePageState extends State<HomePage> {
     _timelinesFuture = _fetchTimelines();
 
     _pagingController = PagingController<
-        Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
-        ({Event origEvent, Event displayEvent})>(
+      Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+      ({Event origEvent, Event displayEvent})
+    >(
       getNextPageKey: (state) {
         if (state.keys == null) {
           return {}; // Initial load key
@@ -400,7 +443,7 @@ class HomePageState extends State<HomePage> {
 
         // If the map is completely empty, it means all timelines exhausted.
         if (_latestNextPageKey != null && _latestNextPageKey!.isEmpty) {
-           return null;
+          return null;
         }
 
         return _latestNextPageKey ?? state.keys!.lastOrNull;
@@ -414,22 +457,29 @@ class HomePageState extends State<HomePage> {
 
     // Initialize connectivity tracking
     _connectivityStream = _connectivityService.onConnectivityChanged;
-    _connectivityStream.listen((isOnline) {
-      if (mounted) {
-        setState(() {
-          _isOnline = isOnline;
-          // Show banner when going offline, hide when coming back online
-          if (!isOnline) {
-            _showOfflineBanner = true;
-          }
-        });
+    _connectivityStream.listen(
+      (isOnline) {
+        if (mounted) {
+          setState(() {
+            _isOnline = isOnline;
+            // Show banner when going offline, hide when coming back online
+            if (!isOnline) {
+              _showOfflineBanner = true;
+            }
+          });
 
-        // If coming back online, refetch events
-        if (isOnline && _showOfflineBanner) {
-          _fetchFutureEvents();
+          // If coming back online, refetch events
+          if (isOnline && _showOfflineBanner) {
+            _fetchFutureEvents();
+          }
         }
-      }
-    });
+      },
+      onError: (Object e) {
+        // Swallow connectivity errors (e.g. DBus/NetworkManager unavailable on
+        // Linux CI). The app defaults to online.
+        debugPrint('ConnectivityService: listen error: $e');
+      },
+    );
 
     // Check initial connectivity status
     _connectivityService.isOnline.then((isOnline) {
@@ -467,74 +517,96 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        RefreshIndicator(
+      body: Stack(
+        children: [
+          RefreshIndicator(
             onRefresh: () async {
               await _fetchFutureEvents();
               if (!mounted) return;
             },
-            child: Column(children: [
-              if (widget.roomId != null) ...[
-                const Text("feed.pages.home.roomlabel")
-                    .tr(args: [widget.roomId!])
-              ],
-              Expanded(
-                  child: PagedListView<Map<Timeline, ({String? lastEventId, bool wasExhausted})>?, ({Event origEvent, Event displayEvent})>.separated(
-                      state: _pagingController.value,
-                      fetchNextPage: _pagingController.fetchNextPage,
-                      separatorBuilder: (context, index) => const Divider(),
-                      builderDelegate: PagedChildBuilderDelegate<
-                              ({Event origEvent, Event displayEvent})>(
-                          noItemsFoundIndicatorBuilder: (context) => Center(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "feed.pages.home.empty",
-                                style: Theme.of(context).textTheme.titleLarge,
-                                textAlign: TextAlign.center,
-                              ).tr(),
-                              const SizedBox(height: 16),
-                              ElevatedButton(
-                                onPressed: () {
-                                  context.push('/settings/feed');
-                                },
-                                child: Text("feed.pages.home.empty_button").tr(),
-                              ),
-                            ],
-                          )),
-                          itemBuilder: (context, item, index) => GestureDetector(
-                              onTap: () => context.push(Uri(
-                                      path: "/post/${item.origEvent.eventId}",
-                                      queryParameters: {
-                                        'room': item.origEvent.roomId
-                                      }).toString()),
-                              child: PostWidget(
-                                  event: item.origEvent,
-                                  displayEvent: item.displayEvent)))))
-            ])),
-        // Offline banner
-        if (!_isOnline && _showOfflineBanner)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: MaterialBanner(
-              content: const Text('Offline — showing cached content'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _showOfflineBanner = false;
-                    });
-                  },
-                  child: const Text('Dismiss'),
+            child: Column(
+              children: [
+                if (widget.roomId != null) ...[
+                  const Text(
+                    "feed.pages.home.roomlabel",
+                  ).tr(args: [widget.roomId!]),
+                ],
+                Expanded(
+                  child: PagedListView<
+                    Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+                    ({Event origEvent, Event displayEvent})
+                  >.separated(
+                    state: _pagingController.value,
+                    fetchNextPage: _pagingController.fetchNextPage,
+                    separatorBuilder: (context, index) => const Divider(),
+                    builderDelegate: PagedChildBuilderDelegate<
+                      ({Event origEvent, Event displayEvent})
+                    >(
+                      noItemsFoundIndicatorBuilder:
+                          (context) => Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "feed.pages.home.empty",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                  textAlign: TextAlign.center,
+                                ).tr(),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    context.push('/settings/feed');
+                                  },
+                                  child:
+                                      Text("feed.pages.home.empty_button").tr(),
+                                ),
+                              ],
+                            ),
+                          ),
+                      itemBuilder:
+                          (context, item, index) => GestureDetector(
+                            onTap:
+                                () => context.push(
+                                  Uri(
+                                    path: "/post/${item.origEvent.eventId}",
+                                    queryParameters: {
+                                      'room': item.origEvent.roomId,
+                                    },
+                                  ).toString(),
+                                ),
+                            child: PostWidget(
+                              event: item.origEvent,
+                              displayEvent: item.displayEvent,
+                            ),
+                          ),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-      ],
-    ));
+          // Offline banner
+          if (!_isOnline && _showOfflineBanner)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: MaterialBanner(
+                content: const Text('Offline — showing cached content'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _showOfflineBanner = false;
+                      });
+                    },
+                    child: const Text('Dismiss'),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
