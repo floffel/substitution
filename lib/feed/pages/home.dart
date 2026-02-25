@@ -234,7 +234,12 @@ class HomePageState extends State<HomePage> {
     Map<Timeline, ({String? lastEventId, bool wasExhausted})>? newPageKey =
         pageKey;
 
-    if (pageKey == null) {
+    // Treat both `null` and an empty map as the "initialize from timelines"
+    // signal.  The PagingController passes an empty map `{}` as the very
+    // first page key (see getNextPageKey), so we need to handle both cases.
+    final bool isInitialLoad = pageKey == null || pageKey.isEmpty;
+
+    if (isInitialLoad) {
       if (!pageKeyInitialized) {
         pageKeyInitialized = true;
 
@@ -500,6 +505,10 @@ class HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       setState(() {
+        // Reset paging state so that the next _fetchEvents call
+        // re-reads the updated timeline list instead of returning early.
+        pageKeyInitialized = false;
+        _latestNextPageKey = null;
         _timelinesFuture = _fetchTimelines();
         _pagingController.refresh();
       });
