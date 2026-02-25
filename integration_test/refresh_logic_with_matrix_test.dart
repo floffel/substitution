@@ -187,11 +187,22 @@ void main() {
 
         // 4. Navigate back to Home Feed
         GoRouter.of(tester.element(find.byType(Scaffold).first)).go("/");
-        for (int i = 0; i < 10; i++) {
+        // Give it more time to reconstruct the HomePage and start syncing
+        for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
+          if (find.byType(home_page.HomePage).evaluate().isNotEmpty) break;
         }
 
         // 5. Verify the refresh happened
+        // Wait specifically for the room to appear in the list if it has messages,
+        // or just wait for the loading state to finish.
+        await tester.pump(); // trigger rebuild
+        for (int i = 0; i < 20; i++) {
+          await tester.pump(const Duration(milliseconds: 500));
+          // If the room has messages, they should appear. 
+          // test_general usually has 5 messages seeded if "populate_with_messages" is true.
+          if (find.textContaining('Welcome to this test room').evaluate().isNotEmpty) break;
+        }
         // The automatic refresh should have triggered when we joined the room.
         // test_general has no seeded messages (the init_test_data.py only seeds messages
         // for invite-only rooms). We verify the service notified correctly by confirming

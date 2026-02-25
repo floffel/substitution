@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:io' as dart_io show Socket;
 import 'package:substitution/main.dart' as app;
@@ -121,4 +122,31 @@ Future<void> handleAgeGate(WidgetTester tester) async {
   } else {
     debugPrint('No Age Gate detected (or already passed).');
   }
+}
+
+/// Waits for at least [count] rooms to be joined and visible in the UI.
+///
+/// Throws an [Exception] if the condition is not met within the timeout.
+Future<void> waitForJoinedRooms(WidgetTester tester, int count, {Duration timeout = const Duration(seconds: 30)}) async {
+  debugPrint('Waiting for at least $count joined rooms to be visible...');
+  final stopWatch = Stopwatch()..start();
+  
+  while (stopWatch.elapsed < timeout) {
+    await tester.pump(const Duration(milliseconds: 500));
+    final roomItems = find.byType(ListTile);
+    final currentCount = roomItems.evaluate().length;
+    
+    if (currentCount >= count) {
+      debugPrint('✓ Found $currentCount rooms (target: $count)');
+      return;
+    }
+    
+    // Also check if we are on the right page
+    if (find.byType(CircularProgressIndicator).evaluate().isNotEmpty) {
+      debugPrint('...still loading (CircularProgressIndicator visible)...');
+    }
+  }
+  
+  final finalCount = find.byType(ListTile).evaluate().length;
+  throw Exception('Timeout waiting for $count rooms. Only $finalCount found after ${timeout.inSeconds}s');
 }

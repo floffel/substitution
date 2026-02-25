@@ -10,7 +10,11 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
-    show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+    show
+        waitForMatrixClient,
+        skipIfNoMatrix,
+        effectiveMatrixServer,
+        waitForJoinedRooms;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -453,28 +457,23 @@ void main() {
         }
 
         // STRICT: Find all 3 pre-joined rooms
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'MUST show room list',
-        );
+        // Use the robust helper instead of a simple loop
+        try {
+          await waitForJoinedRooms(tester, 3, timeout: const Duration(seconds: 60));
+        } catch (e) {
+          debugPrint('⚠ STRICT check failed: $e');
+          // We still continue to execute the remaining checks to get a full picture
+        }
 
-        // Count room list items
         final roomItems = find.byType(ListTile);
-        if (roomItems.evaluate().isEmpty) {
-          debugPrint(
-            '⚠ roomItems not found (MUST have at least 3 rooms in list) - skipping',
-          );
-          return;
-        }
-
-        // Should have at least 3 rooms (test_general, test_photos, test_art)
         final roomCount = roomItems.evaluate().length;
-        if (roomCount < 3) {
-          debugPrint(
-            '⚠ Only $roomCount rooms found (expected at least 3) - feed may use different widget type',
-          );
-        }
+        debugPrint('Final room count in STRICT test: $roomCount');
+        
+        expect(
+          roomCount,
+          greaterThanOrEqualTo(3),
+          reason: 'MUST show at least 3 pre-joined rooms (test_general, test_photos, test_art)',
+        );
 
         debugPrint('✓ STRICT: Found $roomCount rooms in list');
       },
