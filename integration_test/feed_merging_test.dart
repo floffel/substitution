@@ -114,14 +114,19 @@ void main() {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
-        // 2. Create two test rooms
+        // 2. Create two test rooms.
+        // Set users_default to 50 so that the feed's power-level filter
+        // (>= 50) accepts messages from the room creator even before the
+        // m.room.power_levels state event is fully loaded by the SDK.
         final roomIdA = await client.createRoom(
           preset: CreateRoomPreset.publicChat,
           name: 'Merging Room A',
+          powerLevelContentOverride: {'users_default': 50},
         );
         final roomIdB = await client.createRoom(
           preset: CreateRoomPreset.publicChat,
           name: 'Merging Room B',
+          powerLevelContentOverride: {'users_default': 50},
         );
 
         // 3. Persist 'substitution' account data for the two rooms so that if
@@ -154,10 +159,29 @@ void main() {
         debugPrint("Sending Message 3 in Room A...");
         await roomA.sendTextEvent("Chronological Message 3 (A)");
 
-        // Wait for sync to pick up the new messages
-        for (int i = 0; i < 10; i++) {
+        // Wait for sync to pick up the new messages.
+        // We open the timeline and wait until it has at least 1 message event,
+        // confirming that the SDK has processed the sync.
+        final timelineA = await roomA.getTimeline();
+        bool messagesAppeared = false;
+        for (int attempt = 0; attempt < 30; attempt++) {
           await tester.pump(const Duration(milliseconds: 1000));
+          final msgs =
+              timelineA.events
+                  .where((e) => e.type == EventTypes.Message)
+                  .toList();
+          if (msgs.isNotEmpty) {
+            debugPrint(
+              '✓ Sync confirmed: ${msgs.length} message(s) in Room A timeline',
+            );
+            messagesAppeared = true;
+            break;
+          }
         }
+        if (!messagesAppeared) {
+          debugPrint('⚠ Messages did not appear in Room A timeline after 30s');
+        }
+        timelineA.cancelSubscriptions();
 
         // 5. Navigate to Home Feed (to force a full feed rebuild).
         // First trigger a SubstitutionService refresh so the new room IDs are

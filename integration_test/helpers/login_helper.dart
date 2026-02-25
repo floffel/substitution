@@ -64,7 +64,17 @@ Future<void> loginUser(
   final ageGateFinder = find.byKey(const Key('ageGateConfirmButton'));
   if (ageGateFinder.evaluate().isNotEmpty) {
     debugPrint('Tapping Age Gate confirm button...');
-    await tester.tap(ageGateFinder);
+    // ensureVisible scrolls the button into view before tapping,
+    // which is required on Web where the viewport may be too small.
+    try {
+      await tester.ensureVisible(ageGateFinder);
+      for (int ps = 0; ps < 2; ps++) {
+        await tester.pump(const Duration(milliseconds: 250));
+      }
+    } catch (e) {
+      debugPrint('ensureVisible failed: $e — tapping anyway');
+    }
+    await tester.tap(ageGateFinder, warnIfMissed: false);
     // Wait up to 10 s for the intro screen or login page to appear
     for (int i = 0; i < 20; i++) {
       await tester.pump(const Duration(milliseconds: 500));
