@@ -295,17 +295,31 @@ class HomePageState extends State<HomePage> {
           }
 
           // filter events to only grap message's
-          if (event.type == "m.room.message" && // we only want messages
-              event.relationshipType !=
-                  RelationshipTypes.reference && // ... no replys
-              event.relationshipType !=
-                  RelationshipTypes.thread && // ... no threads
-              event.relationshipType !=
-                  RelationshipTypes
-                      .edit && // ... no edits (will be catched later)
-              event.room.getPowerLevelByUserId(event.senderId) >=
-                  50) //... only with powerlevel >= 50, so the admin of a room can limit who can post to timeline (leaving commenting is still possible with < 50)
-          {
+          final isMsg = event.type == "m.room.message";
+          final isNotReply =
+              event.relationshipType != RelationshipTypes.reference;
+          final isNotThread =
+              event.relationshipType != RelationshipTypes.thread;
+          final isNotEdit = event.relationshipType != RelationshipTypes.edit;
+          final powerLevel = event.room.getPowerLevelByUserId(event.senderId);
+          final passesFilter =
+              isMsg &&
+              isNotReply &&
+              isNotThread &&
+              isNotEdit &&
+              powerLevel >= 50;
+          if (!passesFilter) {
+            debugPrint(
+              "[FeedFilter] REJECTED event=${event.eventId} type=${event.type} "
+              "isMsg=$isMsg rel=${event.relationshipType} "
+              "powerLevel=$powerLevel sender=${event.senderId}",
+            );
+          }
+          if (isMsg &&
+              isNotReply &&
+              isNotThread &&
+              isNotEdit &&
+              powerLevel >= 50) {
             // we have a new event to handle
             newEvents.add((
               origEvent: event,
