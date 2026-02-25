@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient;
+import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient, waitForSync;
 
 /// Drives the full login flow from a cold-start app state.
 ///
@@ -31,6 +31,19 @@ Future<void> loginUser(
   // Ensure app.main() has completed runApp() and the Matrix client is ready
   // before querying the widget tree.
   await waitForMatrixClient(tester);
+
+  // Pump to ensure the initial widget tree is rendered
+  await tester.pump(const Duration(milliseconds: 500));
+
+  if (app.globalMatrixClient?.isLogged() == true) {
+    for (int i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 500));
+      if (find.byType(Scrollable).evaluate().isNotEmpty) {
+        debugPrint('Already logged in and on the feed page. Skipping login flow.');
+        return;
+      }
+    }
+  }
 
   // On Android emulators, localhost points to the emulator itself.
   // To reach the host machine, we must use 10.0.2.2.
@@ -222,6 +235,11 @@ Future<void> loginUser(
   final goButton = find.byKey(const Key('introGoButton'));
   if (goButton.evaluate().isNotEmpty) {
     debugPrint('Tapping Go button...');
+    
+    // Wait for the client to complete initial sync before proceeding to HomePage.
+    // This ensures local roomAccountData is populated and we don't hang doing HTTP requests.
+    await waitForSync(tester, timeout: const Duration(seconds: 45));
+
     await tester.tap(goButton, warnIfMissed: false);
     // Pump without pumpAndSettle to avoid stalling on the Matrix sync loop
     debugPrint('Waiting for feed (Scrollable)...');
