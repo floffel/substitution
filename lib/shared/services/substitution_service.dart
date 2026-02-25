@@ -21,10 +21,16 @@ class SubstitutionService extends ChangeNotifier {
     // For now, we trust the join/leave flow and maybe a sync.
     // To be really robust, we'd iterate joined rooms once.
     final joined = await _client.getJoinedRooms();
+    bool changed = false;
     for (final roomId in joined) {
       if (await _client.isRoomInSubstitution(roomId)) {
-        _substitutionRoomIds.add(roomId);
+        if (_substitutionRoomIds.add(roomId)) {
+          changed = true;
+        }
       }
+    }
+    if (changed) {
+      notifyListeners();
     }
   }
 
