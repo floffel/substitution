@@ -8,6 +8,9 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'helpers/integration_test_helper.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +29,8 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       // Initialize SQLite database for tests
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
@@ -63,7 +68,7 @@ void main() {
       'Feed displays posts from multiple rooms in chronological order',
       (WidgetTester tester) async {
         app.main();
-        await tester.pumpAndSettle();
+        await waitForMatrixClient(tester);
 
         // Note: This integration test validates the end-to-end feed functionality
         // In a real scenario with a test server, it would:

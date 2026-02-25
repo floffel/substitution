@@ -128,9 +128,13 @@ void main() {
       );
 
       debugPrint("Login success, navigating to Feed...");
-      // Re-trigger auth state check / navigation
-      final context = tester.element(find.byType(app.IntroductionPage));
-      GoRouter.of(context).go("/");
+      // Re-trigger auth state check / navigation using the root Scaffold context,
+      // since IntroductionPage may have already been replaced by the router.
+      final navContext =
+          find.byType(Scaffold).evaluate().isNotEmpty
+              ? tester.element(find.byType(Scaffold).first)
+              : tester.element(find.byType(app.IntroductionPage));
+      GoRouter.of(navContext).go("/");
 
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
