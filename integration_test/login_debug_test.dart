@@ -5,18 +5,21 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
+import 'helpers/integration_test_helper.dart'
+    show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('Debug full login flow', (WidgetTester tester) async {
-    SharedPreferences.setMockInitialValues({'age_confirmed': true});
-    AgeGatePage.confirmed = true;
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
     );
+    if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+
+    SharedPreferences.setMockInitialValues({'age_confirmed': true});
+    AgeGatePage.confirmed = true;
     app.main();
     await waitForMatrixClient(tester);
 
@@ -51,7 +54,7 @@ void main() {
     // Enter host
     final hostInput = find.byKey(const Key('hostServerInput'));
     expect(hostInput, findsOneWidget);
-    await tester.enterText(hostInput, testMatrixServer);
+    await tester.enterText(hostInput, effectiveMatrixServer(testMatrixServer));
     await tester.pumpAndSettle();
 
     // Scroll the submit button into view before tapping

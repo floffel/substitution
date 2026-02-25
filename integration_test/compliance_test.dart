@@ -9,7 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'helpers/integration_test_helper.dart' show waitForMatrixClient;
+import 'helpers/integration_test_helper.dart'
+    show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,9 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
+      // Skip if no Matrix server is available (e.g. iOS CI which has no Docker)
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+
       // Bypass the age gate so the app goes straight to /intro on cold start.
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
@@ -137,7 +141,10 @@ void main() {
       // Enter homeserver if visible
       final hostInput = find.byKey(const Key('hostServerInput'));
       if (hostInput.evaluate().isNotEmpty) {
-        await tester.enterText(hostInput, testMatrixServer);
+        await tester.enterText(
+          hostInput,
+          effectiveMatrixServer(testMatrixServer),
+        );
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }

@@ -36,7 +36,7 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: testMatrixServer);
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
       // Bypass the age gate so the app goes straight to /intro on cold start.
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;

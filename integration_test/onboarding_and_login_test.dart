@@ -22,6 +22,9 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
+      // Skip if no Matrix server is available (e.g. iOS CI which has no Docker)
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
       if (!kIsWeb) {
@@ -83,7 +86,7 @@ void main() {
           debugPrint('⚠ TextFormField not found on intro page - skipping');
           return;
         }
-        await tester.enterText(textFormFields1.first, testMatrixServer);
+        await tester.enterText(textFormFields1.first, effectiveMatrixServer(testMatrixServer));
         for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -197,7 +200,7 @@ void main() {
           debugPrint('⚠ TextFormField not found - skipping');
           return;
         }
-        await tester.enterText(textFormFields1.first, testMatrixServer);
+        await tester.enterText(textFormFields1.first, effectiveMatrixServer(testMatrixServer));
         for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -298,7 +301,7 @@ void main() {
         await tester.tap(textFormFields.first);
         await tester.pump(const Duration(milliseconds: 500));
 
-        await tester.enterText(textFormFields.first, testMatrixServer);
+        await tester.enterText(textFormFields.first, effectiveMatrixServer(testMatrixServer));
         await tester.pump(const Duration(milliseconds: 500));
 
         // Verify it was entered

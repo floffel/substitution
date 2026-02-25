@@ -27,12 +27,23 @@ void main() {
   const testUser = 'testuser1';
   const testPassword = 'testpass123';
 
+  // On Android emulators, localhost points to the emulator itself.
+  // To reach the host machine's Matrix server, we must use 10.0.2.2.
+  String effectiveMatrixServer() {
+    if (!kIsWeb &&
+        defaultTargetPlatform == TargetPlatform.android &&
+        matrixServer.contains('localhost')) {
+      return matrixServer.replaceAll('localhost', '10.0.2.2');
+    }
+    return matrixServer;
+  }
+
   group('Matrix Server Integration Tests', () {
     late Client client;
     Database? sqliteDatabase;
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: matrixServer);
+      if (!await skipIfNoMatrix(matrixServer: matrixServer)) return;
 
       // Initialize SQLite database
       late final MatrixSdkDatabase database;
@@ -99,14 +110,16 @@ void main() {
 
     testWidgets('Connect to Matrix test server', (WidgetTester tester) async {
       // Check server version
-      final supported = await client.checkHomeserver(Uri.parse(matrixServer));
+      final supported = await client.checkHomeserver(
+        Uri.parse(effectiveMatrixServer()),
+      );
       expect(supported, isNotNull);
     });
 
     testWidgets('Login with test user credentials', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
 
       // Login with test user
       await client.login(
@@ -122,7 +135,7 @@ void main() {
     testWidgets('Access test server with valid credentials', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
 
       // Attempt login
       final response = await client.login(
@@ -140,7 +153,7 @@ void main() {
     });
 
     testWidgets('Verify test rooms exist', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -161,7 +174,7 @@ void main() {
     testWidgets('Test room with messages vs empty room', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -187,7 +200,7 @@ void main() {
     testWidgets('Verify multiple test users created', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -206,7 +219,7 @@ void main() {
     });
 
     testWidgets('Send message to test room', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -227,7 +240,7 @@ void main() {
     });
 
     testWidgets('Login as different test user', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
 
       // Login as testuser2
       await client.login(
@@ -241,7 +254,7 @@ void main() {
     });
 
     testWidgets('Rooms are public and joinable', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -265,7 +278,7 @@ void main() {
     });
 
     testWidgets('List joined rooms', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -284,7 +297,7 @@ void main() {
     testWidgets('Room with messages contains messages', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -306,7 +319,7 @@ void main() {
     });
 
     testWidgets('Empty room has no messages', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -331,7 +344,7 @@ void main() {
     });
 
     testWidgets('Multiple users in same room', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -358,7 +371,7 @@ void main() {
     });
 
     testWidgets('Send and receive message', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -378,7 +391,7 @@ void main() {
     });
 
     testWidgets('Sync with server', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -393,7 +406,7 @@ void main() {
     });
 
     testWidgets('Create and join room', (WidgetTester tester) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -416,7 +429,7 @@ void main() {
     testWidgets('Room with different message counts', (
       WidgetTester tester,
     ) async {
-      await client.checkHomeserver(Uri.parse(matrixServer));
+      await client.checkHomeserver(Uri.parse(effectiveMatrixServer()));
       await client.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),

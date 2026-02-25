@@ -8,11 +8,14 @@ import requests
 import json
 import sys
 import time
+import hmac
+import hashlib
 from typing import Dict, Any, Optional
 
 # Configuration
 # Use Docker service name when running in Docker, or localhost when running locally
 SYNAPSE_URL = "http://matrix-synapse:8008"
+REGISTRATION_SHARED_SECRET = "test_registration_secret"
 
 # Test users to create
 TEST_USERS = [
@@ -125,6 +128,64 @@ def register_user(
             f"✗ Failed to create user {username}: {response.status_code} {response.text}"
         )
         return None
+
+
+def register_admin_user(
+    username: str, password: str, display_name: str
+) -> Optional[Dict[str, Any]]:
+    """Register a test user as a server admin using the shared secret API."""
+    # Step 1: Get a nonce from Synapse
+    nonce_response = requests.get(
+        f"{SYNAPSE_URL}/_synapse/admin/v1/register",
+    )
+    if nonce_response.status_code != 200:
+        print(
+            f"✗ Failed to get nonce: {nonce_response.status_code} {nonce_response.text}"
+        )
+        return None
+
+    nonce = nonce_response.json().get("nonce")
+    if not nonce:
+        print("✗ No nonce in response")
+        return None
+
+    # Step 2: Compute the HMAC-SHA1 MAC
+    # Format: nonce + \x00 + username + \x00 + password + \x00 + "admin"
+    mac_payload = "\x00".join([nonce, username, password, "admin"])
+    mac = hmac.new(
+        REGISTRATION_SHARED_SECRET.encode("utf-8"),
+        mac_payload.encode("utf-8"),
+        hashlib.sha1,
+    ).hexdigest()
+
+    # Step 3: Register as admin
+    payload = {
+        "nonce": nonce,
+        "username": username,
+        "password": password,
+        "displayname": display_name,
+        "admin": True,
+        "mac": mac,
+    }
+
+    response = requests.post(
+        f"{SYNAPSE_URL}/_synapse/admin/v1/register",
+        json=payload,
+    )
+
+    if response.status_code in [200, 201]:
+        data = response.json()
+        print(f"✓ Created admin user: {username}")
+        return data
+    elif response.status_code == 400 and "already" in response.text.lower():
+        print(f"ℹ Admin user likely already exists: {username}")
+        return {"user_id": f"@{username}:test.matrix.local"}
+    else:
+        print(
+            f"✗ Failed to create admin user {username}: {response.status_code} {response.text}"
+        )
+        # Fall back to regular registration
+        return register_user(username, password, display_name)
 
 
 def login_user(user_id: str, password: str) -> Optional[str]:
@@ -602,11 +663,19 @@ def main():
     print("Creating test users...")
     users = {}
     for user_config in TEST_USERS:
-        user_data = register_user(
-            user_config["username"],
-            user_config["password"],
-            user_config["display_name"],
-        )
+        # Register testadmin as a server admin (needed to publish rooms to public directory)
+        if user_config["username"] == "testadmin":
+            user_data = register_admin_user(
+                user_config["username"],
+                user_config["password"],
+                user_config["display_name"],
+            )
+        else:
+            user_data = register_user(
+                user_config["username"],
+                user_config["password"],
+                user_config["display_name"],
+            )
         if user_data:
             # Store both the user_id and username for later use
             users[user_config["username"]] = {
@@ -618,6 +687,17 @@ def main():
     print()
     print("Creating test rooms and populating with data...")
     rooms = {}
+
+    # Log in as testadmin to publish rooms (requires server admin role)
+    admin_token = None
+    if "testadmin" in users:
+        admin_token = login_user(
+            users["testadmin"]["user_id"], users["testadmin"]["password"]
+        )
+        if admin_token:
+            print("✓ Admin token acquired for room publishing")
+        else:
+            print("⚠ Could not get admin token; room publishing may fail")
 
     # Use first user to create rooms and post messages
     if users:
@@ -636,8 +716,8 @@ def main():
                 if room_id:
                     rooms[room_config["name"]] = room_id
 
-                    # Publish room to directory
-                    publish_room(token, room_id)
+                    # Publish room to directory using admin token if available
+                    publish_room(admin_token or token, room_id)
 
                     # Invite other users and make them join
                     if room_config.get("invite_users", True):

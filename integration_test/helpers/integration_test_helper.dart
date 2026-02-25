@@ -3,6 +3,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'dart:io' as dart_io show Socket;
 import 'package:substitution/main.dart' as app;
 
+/// Returns the effective Matrix server URL for the current platform.
+///
+/// On Android emulators, `localhost` resolves to the emulator itself (not the
+/// host machine). This helper translates `localhost` to `10.0.2.2` so that
+/// Android tests can reach the host machine's Matrix server.
+String effectiveMatrixServer(String server) {
+  if (!kIsWeb &&
+      defaultTargetPlatform == TargetPlatform.android &&
+      server.contains('localhost')) {
+    return server.replaceAll('localhost', '10.0.2.2');
+  }
+  return server;
+}
+
 /// Returns true if the Matrix test server at [matrixServer] is reachable.
 ///
 /// Performs a TCP connection attempt with a short timeout.
@@ -19,7 +33,8 @@ Future<bool> isMatrixServerReachable({
 
     // On Android emulators, localhost points to the emulator itself.
     // To reach the host machine, we must use 10.0.2.2.
-    if (defaultTargetPlatform == TargetPlatform.android && host == 'localhost') {
+    if (defaultTargetPlatform == TargetPlatform.android &&
+        host == 'localhost') {
       host = '10.0.2.2';
     }
 

@@ -6,7 +6,8 @@ import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, effectiveMatrixServer;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ void main() {
     );
 
     setUp(() async {
-      await skipIfNoMatrix(matrixServer: testMatrixServer);
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -66,7 +67,10 @@ void main() {
           expect(textFormFields1, findsOneWidget);
           return;
         }
-        await tester.enterText(textFormFields1.first, testMatrixServer);
+        await tester.enterText(
+          textFormFields1.first,
+          effectiveMatrixServer(testMatrixServer),
+        );
         for (int ps = 0; ps < 20; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
