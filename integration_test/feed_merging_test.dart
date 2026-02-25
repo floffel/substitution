@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart';
 
 void main() {
@@ -32,6 +34,9 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
+
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       if (!kIsWeb) {
@@ -85,16 +90,21 @@ void main() {
           password: testPassword,
         );
 
-        // Ensure app is fully loaded and settled before trying to find context
-        await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Pump to let pending router transitions settle after login (avoid
+        // pumpAndSettle which stalls on the Matrix sync loop).
+        for (int ps = 0; ps < 4; ps++) {
+          await tester.pump(const Duration(milliseconds: 250));
+        }
 
-        // Let's try to find any widget that might have a GoRouter
+        // Use MaterialApp as the GoRouter context anchor — it is always in the tree.
         final BuildContext context = tester.element(
-          find.byType(Navigator).first,
+          find.byType(MaterialApp).first,
         );
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
-        await tester.pumpAndSettle(const Duration(seconds: 2));
+        for (int ps = 0; ps < 8; ps++) {
+          await tester.pump(const Duration(milliseconds: 500));
+        }
 
         // 2. Create two test rooms
         final roomIdA = await client.createRoom(
@@ -143,10 +153,8 @@ void main() {
         // 5. Navigate to Home Feed (to force refresh)
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go("/");
-        await tester.pumpAndSettle();
-
-        // Wait for feed to load
-        for (int i = 0; i < 10; i++) {
+        // Use timed pumps instead of pumpAndSettle to avoid stalling on Matrix sync loop.
+        for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

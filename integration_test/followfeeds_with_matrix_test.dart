@@ -128,12 +128,12 @@ void main() {
       );
 
       debugPrint("Login success, navigating to Feed...");
-      // Re-trigger auth state check / navigation using the root Scaffold context,
-      // since IntroductionPage may have already been replaced by the router.
-      final navContext =
-          find.byType(Scaffold).evaluate().isNotEmpty
-              ? tester.element(find.byType(Scaffold).first)
-              : tester.element(find.byType(app.IntroductionPage));
+      // Pump to let any pending router transitions settle after login.
+      for (int ps = 0; ps < 4; ps++) {
+        await tester.pump(const Duration(milliseconds: 250));
+      }
+      // Use MaterialApp as the GoRouter context anchor — it is always in the tree.
+      final navContext = tester.element(find.byType(MaterialApp).first);
       GoRouter.of(navContext).go("/");
 
       for (int i = 0; i < 20; i++) {
