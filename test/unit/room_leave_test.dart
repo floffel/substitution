@@ -35,8 +35,14 @@ void main() {
 
       when(() => mockClient.leaveRoom(roomId)).thenAnswer((_) async => {});
 
-      when(() => mockClient.setAccountDataPerRoom(
-          userId, roomId, 'substitution', any())).thenAnswer((_) async {});
+      when(
+        () => mockClient.setAccountDataPerRoom(
+          userId,
+          roomId,
+          'substitution',
+          any(),
+        ),
+      ).thenAnswer((_) async {});
 
       when(() => mockClient.userID).thenReturn(userId);
 

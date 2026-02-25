@@ -194,6 +194,7 @@ run_ios_tests() {
     local common_args=(
         "--device-id=$sim_id"
         "--reporter=expanded"
+        "--concurrency=1"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

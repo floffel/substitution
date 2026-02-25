@@ -7,8 +7,9 @@ import 'package:integration_test/integration_test.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Room Permissions Integration Test', () {
-    testWidgets('Create room, navigate to permissions, switch modes',
-        (WidgetTester tester) async {
+    testWidgets('Create room, navigate to permissions, switch modes', (
+      WidgetTester tester,
+    ) async {
       // Integration test to verify the complete flow:
       // 1. Create a room
       // 2. Navigate to the permissions page

@@ -40,8 +40,9 @@ void main() {
       mockVideoEvent.setMessageType(MessageTypes.Video);
     });
 
-    testWidgets('Smoke test: FileDisplay renders for image message type',
-        (WidgetTester tester) async {
+    testWidgets('Smoke test: FileDisplay renders for image message type', (
+      WidgetTester tester,
+    ) async {
       final fileData = (
         origEvent: mockImageEvent,
         displayEvent: mockImageEvent,
@@ -53,11 +54,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 
@@ -67,8 +64,9 @@ void main() {
       expect(find.byType(FileDisplay), findsOneWidget);
     });
 
-    testWidgets('Smoke test: FileDisplay renders for video message type',
-        (WidgetTester tester) async {
+    testWidgets('Smoke test: FileDisplay renders for video message type', (
+      WidgetTester tester,
+    ) async {
       final fileData = (
         origEvent: mockVideoEvent,
         displayEvent: mockVideoEvent,
@@ -80,11 +78,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 
@@ -94,8 +88,9 @@ void main() {
       expect(find.byType(FileDisplay), findsOneWidget);
     });
 
-    testWidgets('Image events render FileDisplay widget',
-        (WidgetTester tester) async {
+    testWidgets('Image events render FileDisplay widget', (
+      WidgetTester tester,
+    ) async {
       final fileData = (
         origEvent: mockImageEvent,
         displayEvent: mockImageEvent,
@@ -107,11 +102,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 
@@ -121,8 +112,9 @@ void main() {
       expect(find.byType(FileDisplay), findsOneWidget);
     });
 
-    testWidgets('Video events initialize video display logic',
-        (WidgetTester tester) async {
+    testWidgets('Video events initialize video display logic', (
+      WidgetTester tester,
+    ) async {
       final fileData = (
         origEvent: mockVideoEvent,
         displayEvent: mockVideoEvent,
@@ -134,11 +126,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 
@@ -148,8 +136,9 @@ void main() {
       expect(find.byType(FileDisplay), findsOneWidget);
     });
 
-    testWidgets('FileDisplay handles multiple files in theory',
-        (WidgetTester tester) async {
+    testWidgets('FileDisplay handles multiple files in theory', (
+      WidgetTester tester,
+    ) async {
       // This test validates that FileDisplay handles individual files
       // FileDisplayContainer would handle multiple files with carousel
       final fileData = (
@@ -163,11 +152,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 
@@ -176,8 +161,9 @@ void main() {
       expect(find.byType(FileDisplay), findsOneWidget);
     });
 
-    testWidgets('FileDisplay renders with all supported media types',
-        (WidgetTester tester) async {
+    testWidgets('FileDisplay renders with all supported media types', (
+      WidgetTester tester,
+    ) async {
       // Test that FileDisplay can handle different media types
       final audioEvent = MockEvent();
       audioEvent.setMessageType(MessageTypes.Audio);
@@ -193,11 +179,7 @@ void main() {
           supportedLocales: const [Locale('en', 'US')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
-          child: MaterialApp(
-            home: Scaffold(
-              body: FileDisplay(file: fileData),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: FileDisplay(file: fileData))),
         ),
       );
 

@@ -223,9 +223,18 @@ void main() {
         // Use timed pumps instead of pumpAndSettle to avoid stalling on Matrix sync loop.
         for (int i = 0; i < 40; i++) {
           await tester.pump(const Duration(milliseconds: 500));
-          if (find.textContaining("Chronological Message 1 (A)").evaluate().isNotEmpty &&
-              find.textContaining("Chronological Message 2 (B)").evaluate().isNotEmpty &&
-              find.textContaining("Chronological Message 3 (A)").evaluate().isNotEmpty) {
+          if (find
+                  .textContaining("Chronological Message 1 (A)")
+                  .evaluate()
+                  .isNotEmpty &&
+              find
+                  .textContaining("Chronological Message 2 (B)")
+                  .evaluate()
+                  .isNotEmpty &&
+              find
+                  .textContaining("Chronological Message 3 (A)")
+                  .evaluate()
+                  .isNotEmpty) {
             break;
           }
         }

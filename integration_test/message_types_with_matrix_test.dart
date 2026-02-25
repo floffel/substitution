@@ -29,6 +29,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
     show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -119,113 +120,6 @@ void main() {
     });
 
     /// Log in as [testUser] via the onboarding flow and wait until the feed
-    /// is visible.
-    Future<void> loginAndReachFeed(WidgetTester tester) async {
-      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      await waitForMatrixClient(tester);
-      // Wait for the IntroductionScreen to appear
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty) break;
-      }
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      // Tap "Next" button to advance intro pages — canProgress() blocks drags.
-      for (int i = 0; i < 3; i++) {
-        if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
-            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
-        final nextButtonFinder = find.text('Next');
-        if (nextButtonFinder.evaluate().isNotEmpty) {
-          await tester.tap(nextButtonFinder.first);
-        } else {
-          break;
-        }
-        await tester.pumpAndSettle(const Duration(milliseconds: 500));
-        for (int ps = 0; ps < 2; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-      }
-
-      // Enter homeserver
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      expect(
-        hostInput,
-        findsOneWidget,
-        reason: 'Host input should be visible on page 2',
-      );
-      await tester.enterText(
-        hostInput,
-        effectiveMatrixServer(testMatrixServer),
-      );
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      final submitButton = find.byKey(const Key('hostSubmitButton'));
-      await tester.ensureVisible(submitButton);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      await tester.tap(submitButton, warnIfMissed: false);
-
-      // Wait for login page
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-          break;
-        }
-      }
-
-      // Enter credentials
-      final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(
-        usernameField,
-        findsOneWidget,
-        reason: 'Username field should be visible on login page',
-      );
-      await tester.enterText(usernameField, testUser);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      final passwordField = find.byKey(const Key('loginPasswordInput'));
-      await tester.enterText(passwordField, testPassword);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      final loginButton = find.byKey(const Key('loginSubmitButton'));
-      await tester.ensureVisible(loginButton);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      await tester.tap(loginButton, warnIfMissed: false);
-
-      // Wait for login + "Go" button on the last intro page
-      for (int i = 0; i < 40; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
-      }
-
-      final goButton = find.byKey(const Key('introGoButton'));
-      if (goButton.evaluate().isNotEmpty) {
-        await tester.tap(goButton, warnIfMissed: false);
-        for (int i = 0; i < 20; i++) {
-          await tester.pump(const Duration(milliseconds: 500));
-          if (find.byType(Scrollable).evaluate().isNotEmpty) break;
-        }
-      }
-
-      // Give the Matrix client time to sync and populate the feed
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-    }
 
     // -------------------------------------------------------------------------
     // Text message (m.text)
@@ -233,12 +127,14 @@ void main() {
     testWidgets(
       'Feed renders m.text messages from the Matrix server',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginAndReachFeed(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // The feed must contain at least one scrollable list
         expect(
@@ -271,12 +167,14 @@ void main() {
     testWidgets(
       'Feed renders m.image messages from the Matrix server',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginAndReachFeed(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // Scroll through the feed to trigger lazy rendering
         final scrollable = find.byType(Scrollable);
@@ -340,12 +238,14 @@ void main() {
     testWidgets(
       'Feed renders m.video messages from the Matrix server',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginAndReachFeed(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // Scroll through the feed
         final scrollable = find.byType(Scrollable);
@@ -391,12 +291,14 @@ void main() {
     testWidgets(
       'Feed renders m.audio messages from the Matrix server',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginAndReachFeed(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // Scroll through the feed
         final scrollable = find.byType(Scrollable);
@@ -446,12 +348,14 @@ void main() {
     testWidgets(
       'Feed handles all message types in the same room without crashing',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginAndReachFeed(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         final scrollable = find.byType(Scrollable);
         if (scrollable.evaluate().isEmpty) {

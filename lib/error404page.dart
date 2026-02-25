@@ -23,7 +23,8 @@ class Error404PageState extends State<Error404Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("404"), centerTitle: true),
-        body: const Text("Das ist ein Fehler..."));
+      appBar: AppBar(title: const Text("404"), centerTitle: true),
+      body: const Text("Das ist ein Fehler..."),
+    );
   }
 }

@@ -38,12 +38,15 @@ void main() {
       final event2 = MockEvent();
       final event3 = MockEvent();
 
-      when(() => event1.originServerTs)
-          .thenReturn(DateTime(2025, 1, 1, 12, 0, 0));
-      when(() => event2.originServerTs)
-          .thenReturn(DateTime(2025, 1, 1, 14, 0, 0));
-      when(() => event3.originServerTs)
-          .thenReturn(DateTime(2025, 1, 1, 13, 0, 0));
+      when(
+        () => event1.originServerTs,
+      ).thenReturn(DateTime(2025, 1, 1, 12, 0, 0));
+      when(
+        () => event2.originServerTs,
+      ).thenReturn(DateTime(2025, 1, 1, 14, 0, 0));
+      when(
+        () => event3.originServerTs,
+      ).thenReturn(DateTime(2025, 1, 1, 13, 0, 0));
       when(() => event1.type).thenReturn('m.room.message');
       when(() => event2.type).thenReturn('m.room.message');
       when(() => event3.type).thenReturn('m.room.message');
@@ -53,10 +56,12 @@ void main() {
       when(() => event1.senderId).thenReturn('@user:matrix.org');
       when(() => event2.senderId).thenReturn('@user:matrix.org');
       when(() => event3.senderId).thenReturn('@user:matrix.org');
-      when(() => mockRoom1.getPowerLevelByUserId('@user:matrix.org'))
-          .thenReturn(100);
-      when(() => mockRoom2.getPowerLevelByUserId('@user:matrix.org'))
-          .thenReturn(100);
+      when(
+        () => mockRoom1.getPowerLevelByUserId('@user:matrix.org'),
+      ).thenReturn(100);
+      when(
+        () => mockRoom2.getPowerLevelByUserId('@user:matrix.org'),
+      ).thenReturn(100);
       when(() => event1.room).thenReturn(mockRoom1);
       when(() => event2.room).thenReturn(mockRoom2);
       when(() => event3.room).thenReturn(mockRoom1);
@@ -69,15 +74,24 @@ void main() {
       ];
 
       // Sort descending by timestamp
-      events.sort((a, b) => b.displayEvent.originServerTs
-          .compareTo(a.displayEvent.originServerTs));
+      events.sort(
+        (a, b) => b.displayEvent.originServerTs.compareTo(
+          a.displayEvent.originServerTs,
+        ),
+      );
 
-      expect(events[0].displayEvent.originServerTs,
-          DateTime(2025, 1, 1, 14, 0, 0));
-      expect(events[1].displayEvent.originServerTs,
-          DateTime(2025, 1, 1, 13, 0, 0));
-      expect(events[2].displayEvent.originServerTs,
-          DateTime(2025, 1, 1, 12, 0, 0));
+      expect(
+        events[0].displayEvent.originServerTs,
+        DateTime(2025, 1, 1, 14, 0, 0),
+      );
+      expect(
+        events[1].displayEvent.originServerTs,
+        DateTime(2025, 1, 1, 13, 0, 0),
+      );
+      expect(
+        events[2].displayEvent.originServerTs,
+        DateTime(2025, 1, 1, 12, 0, 0),
+      );
     });
 
     test('Only m.room.message events pass filter', () {
@@ -104,8 +118,9 @@ void main() {
       final edit = MockEvent();
 
       when(() => regularMessage.relationshipType).thenReturn(null);
-      when(() => reply.relationshipType)
-          .thenReturn(RelationshipTypes.reference);
+      when(
+        () => reply.relationshipType,
+      ).thenReturn(RelationshipTypes.reference);
       when(() => thread.relationshipType).thenReturn(RelationshipTypes.thread);
       when(() => edit.relationshipType).thenReturn(RelationshipTypes.edit);
 
@@ -128,10 +143,12 @@ void main() {
       when(() => adminEvent.senderId).thenReturn('@admin:matrix.org');
       when(() => lowPowerEvent.senderId).thenReturn('@user:matrix.org');
 
-      when(() => mockRoom1.getPowerLevelByUserId('@admin:matrix.org'))
-          .thenReturn(100);
-      when(() => mockRoom1.getPowerLevelByUserId('@user:matrix.org'))
-          .thenReturn(25);
+      when(
+        () => mockRoom1.getPowerLevelByUserId('@admin:matrix.org'),
+      ).thenReturn(100);
+      when(
+        () => mockRoom1.getPowerLevelByUserId('@user:matrix.org'),
+      ).thenReturn(25);
 
       when(() => adminEvent.room).thenReturn(mockRoom1);
       when(() => lowPowerEvent.room).thenReturn(mockRoom1);

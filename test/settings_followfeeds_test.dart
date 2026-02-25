@@ -21,12 +21,14 @@ void main() {
 
     when(() => mockClient.isLogged()).thenReturn(true);
     when(() => mockClient.userID).thenReturn('@user:matrix.org');
-    when(() => mockClient.homeserver)
-        .thenReturn(Uri.parse('https://matrix.org'));
+    when(
+      () => mockClient.homeserver,
+    ).thenReturn(Uri.parse('https://matrix.org'));
 
     // Mock getAccountData
-    when(() => mockClient.getAccountData(any(), any()))
-        .thenAnswer((_) async => {});
+    when(
+      () => mockClient.getAccountData(any(), any()),
+    ).thenAnswer((_) async => {});
 
     // Mock getJoinedRooms
     when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => []);
@@ -39,12 +41,14 @@ void main() {
         filter: any(named: 'filter'),
         since: any(named: 'since'),
       ),
-    ).thenAnswer((_) async => QueryPublicRoomsResponse.fromJson({
-          'chunk': [],
-          'total_room_count': 0,
-          'prev_batch': null,
-          'next_batch': null,
-        }));
+    ).thenAnswer(
+      (_) async => QueryPublicRoomsResponse.fromJson({
+        'chunk': [],
+        'total_room_count': 0,
+        'prev_batch': null,
+        'next_batch': null,
+      }),
+    );
 
     await tester.pumpWidget(
       EasyLocalization(
@@ -55,11 +59,10 @@ void main() {
           providers: [
             Provider<Client>.value(value: mockClient),
             ChangeNotifierProvider<SubstitutionService>.value(
-                value: SubstitutionService(mockClient)),
+              value: SubstitutionService(mockClient),
+            ),
           ],
-          child: const MaterialApp(
-            home: Scaffold(body: FollowFeedSettings()),
-          ),
+          child: const MaterialApp(home: Scaffold(body: FollowFeedSettings())),
         ),
       ),
     );

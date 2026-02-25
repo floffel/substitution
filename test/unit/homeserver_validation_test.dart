@@ -18,12 +18,14 @@ void main() {
     test('1. Valid homeserver URL makes checkHomeserver call', () async {
       // Arrange
       final mockClient = MockClient();
-      when(() => mockClient.checkHomeserver(any())).thenAnswer((_) async => (
-            null,
-            GetVersionsResponse(versions: [], unstableFeatures: {}),
-            <LoginFlow>[],
-            null
-          ));
+      when(() => mockClient.checkHomeserver(any())).thenAnswer(
+        (_) async => (
+          null,
+          GetVersionsResponse(versions: [], unstableFeatures: {}),
+          <LoginFlow>[],
+          null,
+        ),
+      );
 
       // Act
       try {
@@ -37,8 +39,9 @@ void main() {
     test('2. Invalid URL throws exception', () {
       // Arrange
       final mockClient = MockClient();
-      when(() => mockClient.checkHomeserver(any()))
-          .thenThrow(Exception('Invalid homeserver'));
+      when(
+        () => mockClient.checkHomeserver(any()),
+      ).thenThrow(Exception('Invalid homeserver'));
 
       // Act & Assert
       expect(

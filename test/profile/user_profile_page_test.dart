@@ -20,10 +20,7 @@ void main() {
     setUp(() {
       mockClient = MockClient();
       mockProfile = MockProfile();
-      mockRooms = [
-        MockRoom(),
-        MockRoom(),
-      ];
+      mockRooms = [MockRoom(), MockRoom()];
 
       // Setup profile
       when(() => mockProfile.displayName).thenReturn('Test User');
@@ -32,25 +29,31 @@ void main() {
       // Setup rooms
       when(() => mockRooms[0].id).thenReturn('!room1:matrix.org');
       when(() => mockRooms[0].name).thenReturn('Room 1');
-      when(() => mockRooms[0].getPowerLevelByUserId('@testuser:matrix.org'))
-          .thenReturn(60);
+      when(
+        () => mockRooms[0].getPowerLevelByUserId('@testuser:matrix.org'),
+      ).thenReturn(60);
 
       when(() => mockRooms[1].id).thenReturn('!room2:matrix.org');
       when(() => mockRooms[1].name).thenReturn('Room 2');
-      when(() => mockRooms[1].getPowerLevelByUserId('@testuser:matrix.org'))
-          .thenReturn(50);
+      when(
+        () => mockRooms[1].getPowerLevelByUserId('@testuser:matrix.org'),
+      ).thenReturn(50);
 
       // Setup client
-      when(() => mockClient.getProfileFromUserId('@testuser:matrix.org'))
-          .thenAnswer((_) async => mockProfile);
-      when(() => mockClient.getRoomById('!room1:matrix.org'))
-          .thenReturn(mockRooms[0]);
-      when(() => mockClient.getRoomById('!room2:matrix.org'))
-          .thenReturn(mockRooms[1]);
+      when(
+        () => mockClient.getProfileFromUserId('@testuser:matrix.org'),
+      ).thenAnswer((_) async => mockProfile);
+      when(
+        () => mockClient.getRoomById('!room1:matrix.org'),
+      ).thenReturn(mockRooms[0]);
+      when(
+        () => mockClient.getRoomById('!room2:matrix.org'),
+      ).thenReturn(mockRooms[1]);
     });
 
-    testWidgets('Smoke: renders avatar, display name, Matrix ID',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: renders avatar, display name, Matrix ID', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -87,19 +90,19 @@ void main() {
       expect(find.text('@testuser:matrix.org'), findsOneWidget);
     });
 
-    testWidgets('Shows list of rooms user posts in',
-        (WidgetTester tester) async {
+    testWidgets('Shows list of rooms user posts in', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: Provider<Client>.value(
               value: mockClient,
               child: ListView(
-                children: mockRooms.map((room) {
-                  return ListTile(
-                    title: Text(room.name),
-                  );
-                }).toList(),
+                children:
+                    mockRooms.map((room) {
+                      return ListTile(title: Text(room.name));
+                    }).toList(),
               ),
             ),
           ),
@@ -118,8 +121,9 @@ void main() {
       // Use a Completer to manually control when the future completes
       final completer = Completer<Profile>();
 
-      when(() => mockClient.getProfileFromUserId(any()))
-          .thenAnswer((_) => completer.future);
+      when(
+        () => mockClient.getProfileFromUserId(any()),
+      ).thenAnswer((_) => completer.future);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -157,8 +161,9 @@ void main() {
     testWidgets('Error state for invalid user ID', (WidgetTester tester) async {
       final completer = Completer<Profile>();
 
-      when(() => mockClient.getProfileFromUserId('@invalid:matrix.org'))
-          .thenAnswer((_) => completer.future);
+      when(
+        () => mockClient.getProfileFromUserId('@invalid:matrix.org'),
+      ).thenAnswer((_) => completer.future);
 
       await tester.pumpWidget(
         MaterialApp(

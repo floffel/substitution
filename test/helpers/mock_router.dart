@@ -13,60 +13,66 @@ GoRouter createMockRouter({String initialLocation = '/'}) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Home')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Home'))),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Login')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Login'))),
       ),
       GoRoute(
         path: '/feed',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Feed')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Feed'))),
       ),
       GoRoute(
         path: '/post/:id',
-        builder: (context, state) => Scaffold(
-          body: Center(child: Text('Post ${state.pathParameters['id']}')),
-        ),
+        builder:
+            (context, state) => Scaffold(
+              body: Center(child: Text('Post ${state.pathParameters['id']}')),
+            ),
       ),
       GoRoute(
         path: '/profile/:userId',
-        builder: (context, state) => Scaffold(
-          body:
-              Center(child: Text('Profile ${state.pathParameters['userId']}')),
-        ),
+        builder:
+            (context, state) => Scaffold(
+              body: Center(
+                child: Text('Profile ${state.pathParameters['userId']}'),
+              ),
+            ),
       ),
       GoRoute(
         path: '/settings',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Settings')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Settings'))),
       ),
       GoRoute(
         path: '/settings/profile',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Edit Profile')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Edit Profile'))),
       ),
       GoRoute(
         path: '/settings/room/:roomId/permissions',
-        builder: (context, state) => Scaffold(
-          body: Center(
-              child:
-                  Text('Room Permissions ${state.pathParameters['roomId']}')),
-        ),
+        builder:
+            (context, state) => Scaffold(
+              body: Center(
+                child: Text(
+                  'Room Permissions ${state.pathParameters['roomId']}',
+                ),
+              ),
+            ),
       ),
       GoRoute(
         path: '/settings/security',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Security')),
-        ),
+        builder:
+            (context, state) =>
+                const Scaffold(body: Center(child: Text('Security'))),
       ),
     ],
   );

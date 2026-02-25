@@ -3,11 +3,7 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 
 /// Represents the verification status of a device
-enum DeviceVerificationStatus {
-  verified,
-  unverified,
-  blocked,
-}
+enum DeviceVerificationStatus { verified, unverified, blocked }
 
 /// Extension to determine verification status from DeviceKeys
 extension VerificationStatusExt on DeviceKeys {
@@ -64,9 +60,9 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Verification failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Verification failed: $e')));
       }
     }
   }
@@ -83,9 +79,9 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to block device: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to block device: $e')));
       }
     }
   }
@@ -93,9 +89,7 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Security & Encryption'),
-      ),
+      appBar: AppBar(title: const Text('Security & Encryption')),
       body: _buildDeviceList(),
     );
   }
@@ -103,9 +97,7 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
   Widget _buildDeviceList() {
     final userID = client.userID;
     if (userID == null) {
-      return const Center(
-        child: Text('Not logged in'),
-      );
+      return const Center(child: Text('Not logged in'));
     }
 
     // Get device keys for the current user
@@ -233,9 +225,10 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
                     label: const Text('Verify'),
                   ),
                 ElevatedButton.icon(
-                  onPressed: status == DeviceVerificationStatus.blocked
-                      ? null
-                      : () => _blockDevice(device),
+                  onPressed:
+                      status == DeviceVerificationStatus.blocked
+                          ? null
+                          : () => _blockDevice(device),
                   icon: const Icon(Icons.block),
                   label: const Text('Block'),
                   style: ElevatedButton.styleFrom(

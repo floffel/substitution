@@ -18,8 +18,10 @@ void main() {
 
     setUp(() {
       mockClient = MockClient();
-      mockSender =
-          createMockUser(id: '@user:matrix.org', displayName: 'Test User');
+      mockSender = createMockUser(
+        id: '@user:matrix.org',
+        displayName: 'Test User',
+      );
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
 
       mockEvent = createMockEvent(
@@ -41,11 +43,13 @@ void main() {
       when(() => mockDisplayEvent.formattedText).thenReturn('Test message');
     });
 
-    testWidgets('Reply button is present on PostWidget',
-        (WidgetTester tester) async {
+    testWidgets('Reply button is present on PostWidget', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,
@@ -60,11 +64,13 @@ void main() {
       expect(replyButton, findsWidgets);
     });
 
-    testWidgets('PostWidget with event shows correct structure',
-        (WidgetTester tester) async {
+    testWidgets('PostWidget with event shows correct structure', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,
@@ -80,11 +86,13 @@ void main() {
       expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
     });
 
-    testWidgets('Reply button and reaction button coexist',
-        (WidgetTester tester) async {
+    testWidgets('Reply button and reaction button coexist', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,
@@ -97,11 +105,13 @@ void main() {
       expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
     });
 
-    testWidgets('PostWidget renders without errors',
-        (WidgetTester tester) async {
+    testWidgets('PostWidget renders without errors', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,

@@ -33,16 +33,17 @@ class _DialogClearCacheState extends State<DialogClearCache> {
       });
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Error'),
-          content: Text('Failed to clear cache: $e'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('OK'),
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Error'),
+              content: Text('Failed to clear cache: $e'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('OK'),
+                ),
+              ],
             ),
-          ],
-        ),
       );
     }
   }
@@ -51,23 +52,22 @@ class _DialogClearCacheState extends State<DialogClearCache> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Clear Cache'),
-      content: _isClearing
-          ? const SizedBox(
-              height: 80,
-              child: Center(child: CircularProgressIndicator()),
-            )
-          : const Text(
-              'This will delete all local data. You will be logged out.'),
+      content:
+          _isClearing
+              ? const SizedBox(
+                height: 80,
+                child: Center(child: CircularProgressIndicator()),
+              )
+              : const Text(
+                'This will delete all local data. You will be logged out.',
+              ),
       actions: [
         if (!_isClearing) ...[
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
-          TextButton(
-            onPressed: _clearCache,
-            child: const Text('Clear'),
-          ),
+          TextButton(onPressed: _clearCache, child: const Text('Clear')),
         ],
       ],
     );

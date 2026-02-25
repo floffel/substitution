@@ -13,8 +13,9 @@ void main() {
   setUpTestInfrastructure();
 
   group('App Startup - Session Persistence', () {
-    testWidgets('1. If client.isLogged() == true, redirects to /feed',
-        (WidgetTester tester) async {
+    testWidgets('1. If client.isLogged() == true, redirects to /feed', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       when(() => mockClient.isLogged()).thenReturn(true);
 
@@ -30,15 +31,15 @@ void main() {
               }
               return null; // Stay on /
             },
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Feed')),
-            ),
+            builder:
+                (context, state) =>
+                    const Scaffold(body: Center(child: Text('Feed'))),
           ),
           GoRoute(
             path: '/intro',
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Introduction')),
-            ),
+            builder:
+                (context, state) =>
+                    const Scaffold(body: Center(child: Text('Introduction'))),
           ),
         ],
       );
@@ -49,9 +50,7 @@ void main() {
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         child: MultiProvider(
-          providers: [
-            Provider<Client>.value(value: mockClient),
-          ],
+          providers: [Provider<Client>.value(value: mockClient)],
           child: MaterialApp.router(
             routerConfig: router,
             builder: (context, child) => child ?? const SizedBox.shrink(),
@@ -67,8 +66,9 @@ void main() {
       expect(find.text('Introduction'), findsNothing);
     });
 
-    testWidgets('2. If client.isLogged() == false, shows introduction/auth',
-        (WidgetTester tester) async {
+    testWidgets('2. If client.isLogged() == false, shows introduction/auth', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       when(() => mockClient.isLogged()).thenReturn(false);
 
@@ -83,15 +83,15 @@ void main() {
               }
               return null;
             },
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Feed')),
-            ),
+            builder:
+                (context, state) =>
+                    const Scaffold(body: Center(child: Text('Feed'))),
           ),
           GoRoute(
             path: '/intro',
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Introduction')),
-            ),
+            builder:
+                (context, state) =>
+                    const Scaffold(body: Center(child: Text('Introduction'))),
           ),
         ],
       );
@@ -102,9 +102,7 @@ void main() {
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         child: MultiProvider(
-          providers: [
-            Provider<Client>.value(value: mockClient),
-          ],
+          providers: [Provider<Client>.value(value: mockClient)],
           child: MaterialApp.router(
             routerConfig: router,
             builder: (context, child) => child ?? const SizedBox.shrink(),

@@ -7,8 +7,11 @@ extension SubstitutionClientExtension on Client {
     if (userID == null) return false;
 
     try {
-      final accountData =
-          await getAccountDataPerRoom(userID!, roomId, "substitution");
+      final accountData = await getAccountDataPerRoom(
+        userID!,
+        roomId,
+        "substitution",
+      );
       return accountData["joined"] == true;
     } catch (_) {
       return false;

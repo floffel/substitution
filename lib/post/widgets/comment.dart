@@ -13,12 +13,13 @@ import 'package:easy_localization/easy_localization.dart';
 
 // like post but smaller
 class CommentWidget extends IEventWidget {
-  const CommentWidget(
-      {super.key,
-      required super.event,
-      required super.displayEvent,
-      required this.postEvent,
-      this.depth = 0});
+  const CommentWidget({
+    super.key,
+    required super.event,
+    required super.displayEvent,
+    required this.postEvent,
+    this.depth = 0,
+  });
 
   // "original" event of the post, for querying replys. Timeline is the same, so we don't need an additional postTimeline
   @override
@@ -42,85 +43,109 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
     // Return standard visual padding.
     // Left padding provides the indentation tree effect.
     final double leftPad = widget.depth == 0 ? 16.0 : 12.0;
-    final double rightPad = widget.depth == 0 ? 16.0 : 4.0; 
+    final double rightPad = widget.depth == 0 ? 16.0 : 4.0;
 
     // TODO: a lot is duplicated from post.dart. Would be nice to have it in one widget or extend one or so...
     return Container(
-        padding: EdgeInsets.fromLTRB(leftPad, 8.0, rightPad, 8.0),
-        decoration: !showComment
-            ? BoxDecoration(
-                color: Colors.grey[100]!,
-              )
-            : null,
-        child: Column(children: [
+      padding: EdgeInsets.fromLTRB(leftPad, 8.0, rightPad, 8.0),
+      decoration: !showComment ? BoxDecoration(color: Colors.grey[100]!) : null,
+      child: Column(
+        children: [
           GestureDetector(
-              onTap: () => setState(() {
-                    showComment = !showComment;
-                  }),
-              child: Row(children: [
+            onTap:
+                () => setState(() {
+                  showComment = !showComment;
+                }),
+            child: Row(
+              children: [
                 GestureDetector(
                   onTap: () {
                     final userId = widget.displayEvent.senderId;
                     context.push('/profile/${Uri.encodeComponent(userId)}');
                   },
-                  child: widget.hasAvatarURL(widget
-                          .displayEvent) // TODO: refactor to hasAvatarURL be a get
-                      ? Image.network(
-                          widget
-                              .avatarURL((widget.displayEvent))!
-                              .getDownloadUri(client)
-                              .toString(),
-                          width: 40,
-                          height: 40, errorBuilder: (ctx, obj, stack) {
-                          // todo: find a way to check if we have a svg beforehand!
-                          return SvgPicture.network(
+                  child:
+                      widget.hasAvatarURL(
+                            widget.displayEvent,
+                          ) // TODO: refactor to hasAvatarURL be a get
+                          ? Image.network(
                             widget
                                 .avatarURL((widget.displayEvent))!
                                 .getDownloadUri(client)
                                 .toString(),
                             width: 40,
                             height: 40,
-                          );
-                        })
-                      : CircleAvatar(
-                          child: Text(widget.username(widget.displayEvent)[
-                              0])), // // TODO: refactor to username be a get
+                            errorBuilder: (ctx, obj, stack) {
+                              // todo: find a way to check if we have a svg beforehand!
+                              return SvgPicture.network(
+                                widget
+                                    .avatarURL((widget.displayEvent))!
+                                    .getDownloadUri(client)
+                                    .toString(),
+                                width: 40,
+                                height: 40,
+                              );
+                            },
+                          )
+                          : CircleAvatar(
+                            child: Text(
+                              widget.username(widget.displayEvent)[0],
+                            ),
+                          ), // // TODO: refactor to username be a get
                 ),
                 Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(widget.username(widget.displayEvent)))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(widget.username(widget.displayEvent)),
+                  ),
+                ),
                 IconButton(
-                  onPressed: () async => {
-                    context.push(Uri(
+                  onPressed:
+                      () async => {
+                        context.push(
+                          Uri(
                             path: "/write/${widget.event.roomId}",
-                            queryParameters: {'event': widget.event.eventId})
-                        .toString())
-                  },
+                            queryParameters: {'event': widget.event.eventId},
+                          ).toString(),
+                        ),
+                      },
                   icon: const Icon(Icons.reply),
                 ),
                 IconButton(
-                  onPressed: () async => await pickIcon(context, widget.event,
-                      postEvent: widget.postEvent),
+                  onPressed:
+                      () async => await pickIcon(
+                        context,
+                        widget.event,
+                        postEvent: widget.postEvent,
+                      ),
                   icon: const Icon(Icons.favorite_rounded),
-                )
-              ])),
+                ),
+              ],
+            ),
+          ),
           if (showComment) ...[
             GestureDetector(
-              onTap: () => setState(() {
-                showComment = !showComment;
-              }),
-              child: (widget.displayEvent).messageType == MessageTypes.Text
-                  ? Row(children: [
-                      Expanded(
-                          child: Html(
+              onTap:
+                  () => setState(() {
+                    showComment = !showComment;
+                  }),
+              child:
+                  (widget.displayEvent).messageType == MessageTypes.Text
+                      ? Row(
+                        children: [
+                          Expanded(
+                            child: Html(
                               data:
                                   (widget.displayEvent).formattedText.isNotEmpty
                                       ? (widget.displayEvent).formattedText
-                                      : (widget.displayEvent).body))
-                    ])
-                  : FileDisplayContainer(
-                      event: widget.event, displayEvent: widget.displayEvent),
+                                      : (widget.displayEvent).body,
+                            ),
+                          ),
+                        ],
+                      )
+                      : FileDisplayContainer(
+                        event: widget.event,
+                        displayEvent: widget.displayEvent,
+                      ),
             ),
 
             // Comments – if we've reached max depth, show a "continue thread" button instead of loading more children
@@ -130,7 +155,8 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                 child: TextButton.icon(
                   onPressed: () {
                     GoRouter.of(context).push(
-                        '/post/${widget.event.eventId}?room=${widget.event.roomId}');
+                      '/post/${widget.event.eventId}?room=${widget.event.roomId}',
+                    );
                   },
                   icon: const Icon(Icons.arrow_forward),
                   label: Text('post.continue_thread'.tr()),
@@ -138,31 +164,39 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
               )
             else
               Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      left: BorderSide(width: 1.0, color: Color(0xFFBFBFBF)),
-                    ),
+                decoration: const BoxDecoration(
+                  border: Border(
+                    left: BorderSide(width: 1.0, color: Color(0xFFBFBFBF)),
                   ),
-                  child: FutureBuilder(
-                      future: widget.comments,
-                      builder: (ctx, snapshot) {
-                        return Column(
-                            children: ListTile.divideTiles(
-                                context: context,
-                                tiles: <Widget>[
+                ),
+                child: FutureBuilder(
+                  future: widget.comments,
+                  builder: (ctx, snapshot) {
+                    return Column(
+                      children:
+                          ListTile.divideTiles(
+                            context: context,
+                            tiles: <Widget>[
                               ...snapshot.data?.map((e) {
                                     return CommentWidget(
-                                        event: e.origEvent,
-                                        displayEvent: e.displayEvent,
-                                        postEvent: widget.postEvent,
-                                        depth: widget.depth + 1);
+                                      event: e.origEvent,
+                                      displayEvent: e.displayEvent,
+                                      postEvent: widget.postEvent,
+                                      depth: widget.depth + 1,
+                                    );
                                   }).toList() ??
-                                  []
-                            ]).toList());
-                      })),
+                                  [],
+                            ],
+                          ).toList(),
+                    );
+                  },
+                ),
+              ),
 
-            ReactionsDisplay(event: widget.event)
-          ]
-        ]));
+            ReactionsDisplay(event: widget.event),
+          ],
+        ],
+      ),
+    );
   }
 }

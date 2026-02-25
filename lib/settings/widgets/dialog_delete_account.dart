@@ -45,10 +45,7 @@ class _DialogDeleteAccountState extends State<DialogDeleteAccount> {
       );
 
       // Call deactivateAccount, erase: true ensures all content from the user is marked for redaction
-      await client.deactivateAccount(
-        erase: true,
-        auth: authData,
-      );
+      await client.deactivateAccount(erase: true, auth: authData);
 
       // Ensure the internal state and the local SQLite database cache are cleared.
       await client.logout();
@@ -68,16 +65,17 @@ class _DialogDeleteAccountState extends State<DialogDeleteAccount> {
       // Show error dialog
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Error'),
-          content: Text('Failed to delete account: $e'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('OK'),
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Error'),
+              content: Text('Failed to delete account: $e'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('OK'),
+                ),
+              ],
             ),
-          ],
-        ),
       );
     }
   }
@@ -86,53 +84,58 @@ class _DialogDeleteAccountState extends State<DialogDeleteAccount> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Delete Account', style: TextStyle(color: Colors.red)),
-      content: _isDeleting
-          ? const SizedBox(
-              height: 100,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(color: Colors.red),
-                    SizedBox(height: 16),
-                    Text('Deleting account data...'),
-                  ],
-                ),
-              ),
-            )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Are you sure you want to permanently delete your account?',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'This action cannot be undone. All your posts, messages, and uploaded files will be requested to be erased from the server.',
-                ),
-                const SizedBox(height: 16),
-                const Text('Enter your password to confirm:'),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'Password',
-                    suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
+      content:
+          _isDeleting
+              ? const SizedBox(
+                height: 100,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(color: Colors.red),
+                      SizedBox(height: 16),
+                      Text('Deleting account data...'),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              )
+              : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Are you sure you want to permanently delete your account?',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'This action cannot be undone. All your posts, messages, and uploaded files will be requested to be erased from the server.',
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Enter your password to confirm:'),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       actions: [
         if (!_isDeleting) ...[
           TextButton(

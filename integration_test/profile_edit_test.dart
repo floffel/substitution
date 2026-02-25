@@ -3,8 +3,9 @@ import 'package:integration_test/integration_test.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  testWidgets('Menu -> "Edit Profile" -> edit name -> save -> verify updated',
-      (WidgetTester tester) async {
+  testWidgets('Menu -> "Edit Profile" -> edit name -> save -> verify updated', (
+    WidgetTester tester,
+  ) async {
     // This integration test verifies the complete profile editing flow
     // In a real integration test, this would:
     // 1. Navigate to menu

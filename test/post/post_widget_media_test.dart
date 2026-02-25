@@ -44,8 +44,9 @@ void main() {
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
       when(() => mockRoom.canonicalAlias).thenReturn('#testroom:matrix.org');
-      when(() => mockRoom.getPowerLevelByUserId('@user:matrix.org'))
-          .thenReturn(100);
+      when(
+        () => mockRoom.getPowerLevelByUserId('@user:matrix.org'),
+      ).thenReturn(100);
 
       // Setup user
       when(() => mockUser.id).thenReturn('@user:matrix.org');
@@ -56,8 +57,9 @@ void main() {
       when(() => mockImageEvent.messageType).thenReturn(MessageTypes.Image);
       when(() => mockImageEvent.body).thenReturn('test.jpg');
       when(() => mockImageEvent.room).thenReturn(mockRoom);
-      when(() => mockImageEvent.senderFromMemoryOrFallback)
-          .thenReturn(mockUser);
+      when(
+        () => mockImageEvent.senderFromMemoryOrFallback,
+      ).thenReturn(mockUser);
       when(() => mockImageEvent.originServerTs).thenReturn(DateTime.now());
       when(() => mockImageEvent.eventId).thenReturn(r'$image123');
 
@@ -66,8 +68,9 @@ void main() {
       when(() => mockVideoEvent.messageType).thenReturn(MessageTypes.Video);
       when(() => mockVideoEvent.body).thenReturn('test.mp4');
       when(() => mockVideoEvent.room).thenReturn(mockRoom);
-      when(() => mockVideoEvent.senderFromMemoryOrFallback)
-          .thenReturn(mockUser);
+      when(
+        () => mockVideoEvent.senderFromMemoryOrFallback,
+      ).thenReturn(mockUser);
       when(() => mockVideoEvent.originServerTs).thenReturn(DateTime.now());
       when(() => mockVideoEvent.eventId).thenReturn(r'$video123');
 
@@ -82,24 +85,27 @@ void main() {
       when(() => mockTextEvent.eventId).thenReturn(r'$text123');
     });
 
-    testWidgets('PostWidget with m.image shows media handling code path',
-        (WidgetTester tester) async {
+    testWidgets('PostWidget with m.image shows media handling code path', (
+      WidgetTester tester,
+    ) async {
       // This test validates PostWidget can be constructed with image events
       // The actual FileDisplayContainer rendering is tested separately
       expect(mockImageEvent.messageType, MessageTypes.Image);
       expect(mockImageEvent.body, 'test.jpg');
     });
 
-    testWidgets('PostWidget with m.video shows media handling code path',
-        (WidgetTester tester) async {
+    testWidgets('PostWidget with m.video shows media handling code path', (
+      WidgetTester tester,
+    ) async {
       // This test validates PostWidget can be constructed with video events
       // The actual FileDisplayContainer rendering is tested separately
       expect(mockVideoEvent.messageType, MessageTypes.Video);
       expect(mockVideoEvent.body, 'test.mp4');
     });
 
-    testWidgets('PostWidget with m.text displays formatted body',
-        (WidgetTester tester) async {
+    testWidgets('PostWidget with m.text displays formatted body', (
+      WidgetTester tester,
+    ) async {
       // This test validates text formatting in PostWidget
       expect(mockTextEvent.messageType, MessageTypes.Text);
       expect(mockTextEvent.body, 'Hello world');

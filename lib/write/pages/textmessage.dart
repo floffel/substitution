@@ -29,15 +29,18 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   Room? get room => client.getRoomById(widget.roomId);
   //Future<Timeline?> get timeline async => await room?.getTimeline(eventContextId: widget.eventId);
   //Future<Event?> get event async => widget.eventId == null ? null : (await timeline)?.getEventById(widget.eventId!);
-  Future<Event?> get event async => widget.eventId == null || room == null
-      ? null
-      : Event.fromMatrixEvent(
-          await client.getOneRoomEvent(widget.roomId, widget.eventId!), room!);
+  Future<Event?> get event async =>
+      widget.eventId == null || room == null
+          ? null
+          : Event.fromMatrixEvent(
+            await client.getOneRoomEvent(widget.roomId, widget.eventId!),
+            room!,
+          );
 
   Future<({Event event, Event displayEvent})?> get eventData async {
     final e = await event;
     if (e == null) return null;
-    
+
     final timeline = await e.room.getTimeline(eventContextId: e.eventId);
     return (event: e, displayEvent: e.getDisplayEvent(timeline));
   }
@@ -65,160 +68,197 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      if (widget.eventId != null) ...[
-        const Text("write.answer").tr(),
+    return ListView(
+      children: [
+        if (widget.eventId != null) ...[
+          const Text("write.answer").tr(),
 
-        //eventTuple
-        FutureBuilder(
+          //eventTuple
+          FutureBuilder(
             future: eventData,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                 return const Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.data != null) {
                 return PostWidget(
-                    event: (snapshot.data!.event),
-                    displayEvent: (snapshot.data!.displayEvent));
+                  event: (snapshot.data!.event),
+                  displayEvent: (snapshot.data!.displayEvent),
+                );
               } else {
                 return const Text("loading").tr(); // or some error/empty state
               }
-            }),
-      ],
-      if (room != null) ...[
-        const Text("write.roomheader").tr(args: [""]),
-        ListTile(
-          title: const Text('write.roomheader').tr(args: [room!.name]),
-          subtitle: Text(room!.id),
-          leading: room!.avatar != null
-              ? Image.network(room!.avatar!.getDownloadUri(client).toString())
-              : const Text("error_no_image").tr(),
-        )
-      ],
-      const Text("write.textmessage.answer_promt").tr(),
-      quill.QuillEditor(
-        controller: _controller,
-        scrollController: ScrollController(),
-        focusNode: FocusNode(),
-      ),
-      Row(children: [
-        const Spacer(),
-        IconButton(
-            onPressed: () async {
-              final scavMsg = ScaffoldMessenger.of(context);
-              final navigator = Navigator.of(context);
-              final goRouter = GoRouter.of(context);
-              // send text
-              //Room r = (await room)!;
-              debugPrint("started sending message...");
+            },
+          ),
+        ],
+        if (room != null) ...[
+          const Text("write.roomheader").tr(args: [""]),
+          ListTile(
+            title: const Text('write.roomheader').tr(args: [room!.name]),
+            subtitle: Text(room!.id),
+            leading:
+                room!.avatar != null
+                    ? Image.network(
+                      room!.avatar!.getDownloadUri(client).toString(),
+                    )
+                    : const Text("error_no_image").tr(),
+          ),
+        ],
+        const Text("write.textmessage.answer_promt").tr(),
+        quill.QuillEditor(
+          controller: _controller,
+          scrollController: ScrollController(),
+          focusNode: FocusNode(),
+        ),
+        Row(
+          children: [
+            const Spacer(),
+            IconButton(
+              onPressed: () async {
+                final scavMsg = ScaffoldMessenger.of(context);
+                final navigator = Navigator.of(context);
+                final goRouter = GoRouter.of(context);
+                // send text
+                //Room r = (await room)!;
+                debugPrint("started sending message...");
 
-              final deltaJson = _controller.document.toDelta().toJson();
-              final converter = QuillDeltaToHtmlConverter(
-                List.castFrom(deltaJson),
-                ConverterOptions.forEmail(),
-              );
-
-              final html = converter.convert();
-
-              String? ret;
-              var eventThreadId = widget.eventId;
-              bool userCancel = false;
-              // try to send the message as long as it did not succeed or as long as the user did not cancel
-              // TODO: this is the same as in filemessage.dart => make it modular somehow?
-              while (ret == null || userCancel) {
-                // TODO: make it a mixin, its almost the same as in login.dart
-                if (!context.mounted) return;
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("loading".tr()),
-                      content: AspectRatio(
-                          aspectRatio: .7,
-                          child: FittedBox(
-                              child: Column(children: [
-                            const CircularProgressIndicator(),
-                            const Text("write.textmessage.send_start").tr()
-                          ]))),
-                    );
-                  },
+                final deltaJson = _controller.document.toDelta().toJson();
+                final converter = QuillDeltaToHtmlConverter(
+                  List.castFrom(deltaJson),
+                  ConverterOptions.forEmail(),
                 );
 
-                if ((await event)?.relationshipType ==
-                    RelationshipTypes.thread) {
-                  // commenting a comment => we can't start a new thread, rather use the existing one
-                  eventThreadId = (await event)?.relationshipEventId;
-                }
+                final html = converter.convert();
 
-                ret = await room!.sendEvent({
-                  "body": _controller.document.toPlainText(),
-                  'format': 'org.matrix.custom.html',
-                  'formatted_body': html,
-                  'msgtype': MessageTypes.Text
-                }, threadRootEventId: eventThreadId, inReplyTo: await event);
+                String? ret;
+                var eventThreadId = widget.eventId;
+                bool userCancel = false;
+                // try to send the message as long as it did not succeed or as long as the user did not cancel
+                // TODO: this is the same as in filemessage.dart => make it modular somehow?
+                while (ret == null || userCancel) {
+                  // TODO: make it a mixin, its almost the same as in login.dart
+                  if (!context.mounted) return;
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("loading".tr()),
+                        content: AspectRatio(
+                          aspectRatio: .7,
+                          child: FittedBox(
+                            child: Column(
+                              children: [
+                                const CircularProgressIndicator(),
+                                const Text("write.textmessage.send_start").tr(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
 
-                navigator.pop(); // pop the send started window
+                  if ((await event)?.relationshipType ==
+                      RelationshipTypes.thread) {
+                    // commenting a comment => we can't start a new thread, rather use the existing one
+                    eventThreadId = (await event)?.relationshipEventId;
+                  }
 
-                if (ret == null) {
-                  if (!context.mounted) break;
-                  userCancel = await showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("loading").tr(),
-                            content: AspectRatio(
+                  ret = await room!.sendEvent(
+                    {
+                      "body": _controller.document.toPlainText(),
+                      'format': 'org.matrix.custom.html',
+                      'formatted_body': html,
+                      'msgtype': MessageTypes.Text,
+                    },
+                    threadRootEventId: eventThreadId,
+                    inReplyTo: await event,
+                  );
+
+                  navigator.pop(); // pop the send started window
+
+                  if (ret == null) {
+                    if (!context.mounted) break;
+                    userCancel =
+                        await showDialog<bool>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("loading").tr(),
+                              content: AspectRatio(
                                 aspectRatio: 1,
                                 child: FittedBox(
-                                  child: const Text(
-                                          "write.textmessage.send_failed")
-                                      .tr(),
-                                )),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("write.textmessage.send_stop")
-                                    .tr(),
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
+                                  child:
+                                      const Text(
+                                        "write.textmessage.send_failed",
+                                      ).tr(),
+                                ),
                               ),
-                              TextButton(
-                                  child: const Text("write.textmessage.resend")
-                                      .tr(),
+                              actions: <Widget>[
+                                TextButton(
+                                  child:
+                                      const Text(
+                                        "write.textmessage.send_stop",
+                                      ).tr(),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                                TextButton(
+                                  child:
+                                      const Text(
+                                        "write.textmessage.resend",
+                                      ).tr(),
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
-                                  })
-                            ],
-                          );
-                        },
-                      ) ??
-                      false;
-                } else {
-                  if (mounted) {
-                    scavMsg.showSnackBar(SnackBar(
-                      content: const Text("write.textmessage.send_complete").tr(),
-                    ));
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ) ??
+                        false;
+                  } else {
+                    if (mounted) {
+                      scavMsg.showSnackBar(
+                        SnackBar(
+                          content:
+                              const Text(
+                                "write.textmessage.send_complete",
+                              ).tr(),
+                        ),
+                      );
+                    }
                   }
                 }
-              }
 
-              if (eventThreadId != null) {
-                Event answerEvent = Event.fromMatrixEvent(
+                if (eventThreadId != null) {
+                  Event answerEvent = Event.fromMatrixEvent(
                     await client.getOneRoomEvent(
-                        widget.roomId, (eventThreadId)),
-                    room!);
+                      widget.roomId,
+                      (eventThreadId),
+                    ),
+                    room!,
+                  );
 
-                goRouter.go(Uri(
-                    path: "/post/${answerEvent.eventId}",
-                    queryParameters: {'room': answerEvent.room.id}).toString());
-              } else if (room != null) {
-                goRouter.go("/feed/${room!.id}");
-              } else {
-                goRouter.go("/");
-              }
-            },
-            icon: const Icon(Icons.send))
-      ])
-    ]);
+                  goRouter.go(
+                    Uri(
+                      path: "/post/${answerEvent.eventId}",
+                      queryParameters: {'room': answerEvent.room.id},
+                    ).toString(),
+                  );
+                } else if (room != null) {
+                  goRouter.go("/feed/${room!.id}");
+                } else {
+                  goRouter.go("/");
+                }
+              },
+              icon: const Icon(Icons.send),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

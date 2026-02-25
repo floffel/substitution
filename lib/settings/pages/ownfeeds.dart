@@ -57,13 +57,15 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
         continue; // checks if the user has the posting privilege (>=50)
       }
 
-      newData.add(SubstitutionRoom(
-        name: r.name,
-        id: r.id,
-        avatarUrl: r.avatar?.getDownloadUri(client).toString(),
-        isInsideSubstitution: isInSubstitution,
-        joined: true,
-      ));
+      newData.add(
+        SubstitutionRoom(
+          name: r.name,
+          id: r.id,
+          avatarUrl: r.avatar?.getDownloadUri(client).toString(),
+          isInsideSubstitution: isInSubstitution,
+          joined: true,
+        ),
+      );
     }
 
     return newData;
@@ -75,9 +77,11 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      const Text("settings.ownfeeds.header").tr(),
-      TextButton(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text("settings.ownfeeds.header").tr(),
+        TextButton(
           child: const Text("settings.ownfeeds.buttons.create_room").tr(),
           onPressed: () async {
             await showDialog<void>(
@@ -88,8 +92,9 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
               },
             );
             setState(() {});
-          }),
-      FutureBuilder(
+          },
+        ),
+        FutureBuilder(
           future: _getJoinedRooms(),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -100,12 +105,23 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
             }
 
             return Column(
-                children: ListTile.divideTiles(context: ctx, tiles: [
-              ...snapshot.data?.map((d) => RoomWidget(room: d
-                  // todo: delete room
-                  )) ?? []
-            ]).toList());
-          })
-    ]);
+              children:
+                  ListTile.divideTiles(
+                    context: ctx,
+                    tiles: [
+                      ...snapshot.data?.map(
+                            (d) => RoomWidget(
+                              room: d,
+                              // todo: delete room
+                            ),
+                          ) ??
+                          [],
+                    ],
+                  ).toList(),
+            );
+          },
+        ),
+      ],
+    );
   }
 }

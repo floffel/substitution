@@ -47,9 +47,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Profile'),
-      ),
+      appBar: AppBar(title: const Text('User Profile')),
       body: FutureBuilder<Profile>(
         future: _profileFuture,
         builder: (context, profileSnapshot) {
@@ -87,19 +85,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       // Avatar
                       CircleAvatar(
                         radius: 60,
-                        backgroundImage: profile.avatarUrl != null
-                            ? NetworkImage(
-                                profile.avatarUrl!
-                                    .getDownloadUri(client)
-                                    .toString(),
-                              )
-                            : null,
-                        child: profile.avatarUrl == null
-                            ? Text(
-                                (profile.displayName ?? 'User')[0],
-                                style: const TextStyle(fontSize: 32),
-                              )
-                            : null,
+                        backgroundImage:
+                            profile.avatarUrl != null
+                                ? NetworkImage(
+                                  profile.avatarUrl!
+                                      .getDownloadUri(client)
+                                      .toString(),
+                                )
+                                : null,
+                        child:
+                            profile.avatarUrl == null
+                                ? Text(
+                                  (profile.displayName ?? 'User')[0],
+                                  style: const TextStyle(fontSize: 32),
+                                )
+                                : null,
                       ),
                       const SizedBox(height: 16),
 
@@ -175,9 +175,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           subtitle: Text(room.id),
                           trailing: const Icon(Icons.arrow_forward),
                           onTap: () {
-                            final roomId = room.canonicalAlias.isNotEmpty
-                                ? room.canonicalAlias.replaceAll('#', '')
-                                : room.id;
+                            final roomId =
+                                room.canonicalAlias.isNotEmpty
+                                    ? room.canonicalAlias.replaceAll('#', '')
+                                    : room.id;
                             context.push('/feed/$roomId');
                           },
                         );

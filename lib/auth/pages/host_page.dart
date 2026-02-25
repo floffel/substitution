@@ -20,9 +20,7 @@ class HostPage extends StatefulWidget {
 }
 
 class _HostPageState extends State<HostPage> {
-  final adressContrainer = TextEditingController(
-    text: 'matrix.org',
-  );
+  final adressContrainer = TextEditingController(text: 'matrix.org');
 
   @override
   void dispose() {
@@ -42,20 +40,25 @@ class _HostPageState extends State<HostPage> {
           return AlertDialog(
             title: Text("loading".tr()),
             content: const AspectRatio(
-                aspectRatio: .7,
-                child: FittedBox(
-                    child: Column(children: [
-                  CircularProgressIndicator(),
-                  Text("Checking host capibilities") // todo intl
-                ]))),
+              aspectRatio: .7,
+              child: FittedBox(
+                child: Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Checking host capibilities"), // todo intl
+                  ],
+                ),
+              ),
+            ),
           );
         },
       );
 
       final input = adressContrainer.text.trim();
-      final uri = input.startsWith('http://') || input.startsWith('https://')
-          ? Uri.parse(input)
-          : Uri.https(input, '');
+      final uri =
+          input.startsWith('http://') || input.startsWith('https://')
+              ? Uri.parse(input)
+              : Uri.https(input, '');
       final (_, _, loginFlows, _) = await client.checkHomeserver(uri);
       if (!mounted) return false;
       context.read<AuthState>().setLoginFlows(loginFlows);
@@ -73,10 +76,9 @@ class _HostPageState extends State<HostPage> {
           return AlertDialog(
             title: const Text("loading").tr(),
             content: AspectRatio(
-                aspectRatio: 1,
-                child: FittedBox(
-                  child: const Text("error").tr(args: ["$e"]),
-                )),
+              aspectRatio: 1,
+              child: FittedBox(child: const Text("error").tr(args: ["$e"])),
+            ),
             actions: <Widget>[
               TextButton(
                 child: const Text("approve").tr(),
@@ -106,11 +108,12 @@ class _HostPageState extends State<HostPage> {
           key: const Key('hostServerInput'),
           controller: adressContrainer,
           decoration: InputDecoration(
-              prefixText: 'https://',
-              icon: const Icon(Icons.dns),
-              labelText: "auth.host.inputs.homeserver_label"
-                  .tr() // AppLocalizations.of(context)!.authHostHomeserverInputLabel,
-              ),
+            prefixText: 'https://',
+            icon: const Icon(Icons.dns),
+            labelText:
+                "auth.host.inputs.homeserver_label"
+                    .tr(), // AppLocalizations.of(context)!.authHostHomeserverInputLabel,
+          ),
         ),
         const SizedBox(height: 30),
         Column(
@@ -128,8 +131,9 @@ class _HostPageState extends State<HostPage> {
                   widget.onComplete();
                 }
               },
-              child: Text('auth.host.buttons.login_label'
-                  .tr()), // AppLocalizations.of(context)!.authHostLoginButtonLabel),
+              child: Text(
+                'auth.host.buttons.login_label'.tr(),
+              ), // AppLocalizations.of(context)!.authHostLoginButtonLabel),
             ),
             /*OutlinedButton( // TODO: we cannot do anything without login, mby think about this in the future
               style: OutlinedButton.styleFrom(
@@ -145,7 +149,7 @@ class _HostPageState extends State<HostPage> {
                   .authHostWithoutLoginButtonLabel),
             ),*/
           ],
-        )
+        ),
       ],
     );
   }

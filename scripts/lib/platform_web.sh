@@ -258,6 +258,7 @@ _run_web_integration_tests() {
         "drive"
         "--driver=test_driver/integration_test.dart"
         "--device-id=chrome"
+        "--dart-define=INTEGRATION_TEST=true"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

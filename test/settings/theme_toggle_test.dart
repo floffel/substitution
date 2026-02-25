@@ -38,8 +38,9 @@ void main() {
     expect(find.byType(SwitchListTile), findsOneWidget);
   });
 
-  testWidgets('Switch value reflects current theme mode',
-      (WidgetTester tester) async {
+  testWidgets('Switch value reflects current theme mode', (
+    WidgetTester tester,
+  ) async {
     final themeService = ThemeService();
     await themeService.initialized;
     await themeService.setThemeMode(ThemeMode.dark);
@@ -57,7 +58,8 @@ void main() {
                 builder: (context) {
                   return SwitchListTile(
                     title: const Text('Dark Mode'),
-                    value: context.watch<ThemeService>().themeMode ==
+                    value:
+                        context.watch<ThemeService>().themeMode ==
                         ThemeMode.dark,
                     onChanged: (_) {},
                   );
@@ -72,8 +74,9 @@ void main() {
     expect(find.byType(SwitchListTile), findsOneWidget);
   });
 
-  testWidgets('Tapping toggle calls toggleTheme()',
-      (WidgetTester tester) async {
+  testWidgets('Tapping toggle calls toggleTheme()', (
+    WidgetTester tester,
+  ) async {
     final themeService = ThemeService();
     await themeService.initialized;
     await themeService.setThemeMode(ThemeMode.light);
@@ -91,7 +94,8 @@ void main() {
                 builder: (context) {
                   return SwitchListTile(
                     title: const Text('Dark Mode'),
-                    value: context.watch<ThemeService>().themeMode ==
+                    value:
+                        context.watch<ThemeService>().themeMode ==
                         ThemeMode.dark,
                     onChanged: (_) async {
                       await context.read<ThemeService>().toggleTheme();

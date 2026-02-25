@@ -27,38 +27,40 @@ void main() {
       when(() => mockRoom.id).thenReturn('!room1:matrix.org');
     });
 
-    testWidgets('Tapping avatar on PostWidget navigates to /profile/:userId',
-        (WidgetTester tester) async {
+    testWidgets('Tapping avatar on PostWidget navigates to /profile/:userId', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
             routes: [
               GoRoute(
                 path: '/',
-                builder: (context, state) => Scaffold(
-                  body: Provider<Client>.value(
-                    value: mockClient,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(
-                            '/profile/${Uri.encodeComponent('@testuser:matrix.org')}');
-                      },
-                      child: CircleAvatar(
-                        child: Text('@testuser:matrix.org'[0]),
+                builder:
+                    (context, state) => Scaffold(
+                      body: Provider<Client>.value(
+                        value: mockClient,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push(
+                              '/profile/${Uri.encodeComponent('@testuser:matrix.org')}',
+                            );
+                          },
+                          child: CircleAvatar(
+                            child: Text('@testuser:matrix.org'[0]),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
               ),
               GoRoute(
                 path: '/profile/:userId',
                 builder: (context, state) {
-                  final userId =
-                      Uri.decodeComponent(state.pathParameters['userId']!);
+                  final userId = Uri.decodeComponent(
+                    state.pathParameters['userId']!,
+                  );
                   return Scaffold(
-                    body: Center(
-                      child: Text('Profile: $userId'),
-                    ),
+                    body: Center(child: Text('Profile: $userId')),
                   );
                 },
               ),
@@ -79,38 +81,40 @@ void main() {
       expect(find.text('Profile: @testuser:matrix.org'), findsOneWidget);
     });
 
-    testWidgets('Tapping avatar on CommentWidget navigates to /profile/:userId',
-        (WidgetTester tester) async {
+    testWidgets('Tapping avatar on CommentWidget navigates to /profile/:userId', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
             routes: [
               GoRoute(
                 path: '/',
-                builder: (context, state) => Scaffold(
-                  body: Provider<Client>.value(
-                    value: mockClient,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(
-                            '/profile/${Uri.encodeComponent('@testuser:matrix.org')}');
-                      },
-                      child: CircleAvatar(
-                        child: Text('@testuser:matrix.org'[0]),
+                builder:
+                    (context, state) => Scaffold(
+                      body: Provider<Client>.value(
+                        value: mockClient,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push(
+                              '/profile/${Uri.encodeComponent('@testuser:matrix.org')}',
+                            );
+                          },
+                          child: CircleAvatar(
+                            child: Text('@testuser:matrix.org'[0]),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
               ),
               GoRoute(
                 path: '/profile/:userId',
                 builder: (context, state) {
-                  final userId =
-                      Uri.decodeComponent(state.pathParameters['userId']!);
+                  final userId = Uri.decodeComponent(
+                    state.pathParameters['userId']!,
+                  );
                   return Scaffold(
-                    body: Center(
-                      child: Text('Profile: $userId'),
-                    ),
+                    body: Center(child: Text('Profile: $userId')),
                   );
                 },
               ),

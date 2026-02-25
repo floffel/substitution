@@ -23,24 +23,28 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: widget.showNavigation
-            ? IconButton(
-                onPressed: () => context.pop(true),
-                icon: const Icon(Icons.arrow_back),
-              )
-            : null,
+        leading:
+            widget.showNavigation
+                ? IconButton(
+                  onPressed: () => context.pop(true),
+                  icon: const Icon(Icons.arrow_back),
+                )
+                : null,
         title: const Text("app_name").tr(),
         centerTitle: true,
-        actions: widget.showNavigation
-            ? <Widget>[
-                Builder(builder: (context) {
-                  return IconButton(
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                    icon: const Icon(Icons.menu),
-                  );
-                })
-              ]
-            : null,
+        actions:
+            widget.showNavigation
+                ? <Widget>[
+                  Builder(
+                    builder: (context) {
+                      return IconButton(
+                        onPressed: () => Scaffold.of(context).openEndDrawer(),
+                        icon: const Icon(Icons.menu),
+                      );
+                    },
+                  ),
+                ]
+                : null,
       ),
       body: SafeArea(
         child: Padding(

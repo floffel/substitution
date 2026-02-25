@@ -24,18 +24,21 @@ void main() {
   });
 
   group('TextMessageWrite Widget Tests', () {
-    testWidgets('Smoke: renders TextMessageWrite with room info',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: renders TextMessageWrite with room info', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -48,9 +51,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -66,18 +67,21 @@ void main() {
       expect(find.byType(ListTile), findsOneWidget);
     });
 
-    testWidgets('Quill editor is present in widget',
-        (WidgetTester tester) async {
+    testWidgets('Quill editor is present in widget', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -89,9 +93,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -107,18 +109,21 @@ void main() {
       expect(find.byType(ListView), findsWidgets);
     });
 
-    testWidgets('Send button is present and has send icon',
-        (WidgetTester tester) async {
+    testWidgets('Send button is present and has send icon', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -130,9 +135,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -149,18 +152,21 @@ void main() {
       expect(sendButton, findsOneWidget);
     });
 
-    testWidgets('Room name is displayed in header',
-        (WidgetTester tester) async {
+    testWidgets('Room name is displayed in header', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('My Test Room');
@@ -172,9 +178,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -190,8 +194,9 @@ void main() {
       expect(find.byType(ListTile), findsOneWidget);
     });
 
-    testWidgets('Event content includes body field',
-        (WidgetTester tester) async {
+    testWidgets('Event content includes body field', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
       Map<String, dynamic>? capturedEvent;
@@ -199,10 +204,12 @@ void main() {
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -219,9 +226,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -250,10 +255,12 @@ void main() {
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -270,9 +277,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -293,8 +298,9 @@ void main() {
       }
     });
 
-    testWidgets('Event includes formatted_body for HTML',
-        (WidgetTester tester) async {
+    testWidgets('Event includes formatted_body for HTML', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
       Map<String, dynamic>? capturedEvent;
@@ -302,10 +308,12 @@ void main() {
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -322,9 +330,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -345,8 +351,9 @@ void main() {
       }
     });
 
-    testWidgets('Reply with eventId renders context',
-        (WidgetTester tester) async {
+    testWidgets('Reply with eventId renders context', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
       final mockMatrixEvent = MockMatrixEvent();
@@ -354,10 +361,12 @@ void main() {
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => mockMatrixEvent);
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => mockMatrixEvent);
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -369,9 +378,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(
@@ -390,18 +397,21 @@ void main() {
       expect(find.byType(TextMessageWrite), findsOneWidget);
     });
 
-    testWidgets('Widget renders with FutureBuilder for event data',
-        (WidgetTester tester) async {
+    testWidgets('Widget renders with FutureBuilder for event data', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -413,9 +423,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -431,18 +439,21 @@ void main() {
       expect(find.byType(TextMessageWrite), findsOneWidget);
     });
 
-    testWidgets('Client is retrieved from provider context',
-        (WidgetTester tester) async {
+    testWidgets('Client is retrieved from provider context', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.getAccountData(any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockClient.getOneRoomEvent(any(), any()))
-          .thenAnswer((_) async => MockMatrixEvent());
+      when(
+        () => mockClient.getAccountData(any(), any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockClient.getOneRoomEvent(any(), any()),
+      ).thenAnswer((_) async => MockMatrixEvent());
 
       when(() => mockRoom.id).thenReturn('!room:matrix.org');
       when(() => mockRoom.name).thenReturn('Test Room');
@@ -454,9 +465,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: const MaterialApp(
               home: Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
@@ -469,8 +478,9 @@ void main() {
       await tester.pump(const Duration(milliseconds: 500));
 
       // Verify that client was accessed to get room
-      verify(() => mockClient.getRoomById('!room:matrix.org'))
-          .called(greaterThan(0));
+      verify(
+        () => mockClient.getRoomById('!room:matrix.org'),
+      ).called(greaterThan(0));
     });
   });
 }

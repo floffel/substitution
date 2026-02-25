@@ -6,10 +6,7 @@ import 'package:provider/provider.dart';
 class RoomPermissionsPage extends StatefulWidget {
   final String roomId;
 
-  const RoomPermissionsPage({
-    required this.roomId,
-    super.key,
-  });
+  const RoomPermissionsPage({required this.roomId, super.key});
 
   @override
   State<RoomPermissionsPage> createState() => _RoomPermissionsPageState();
@@ -99,9 +96,11 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(isBlog
-                ? 'Switched to Blog mode (admins only)'
-                : 'Switched to Community mode (anyone can post)'),
+            content: Text(
+              isBlog
+                  ? 'Switched to Blog mode (admins only)'
+                  : 'Switched to Community mode (anyone can post)',
+            ),
           ),
         );
       }
@@ -144,9 +143,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
     if (errorMessage != null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Room Permissions')),
-        body: Center(
-          child: Text(errorMessage!),
-        ),
+        body: Center(child: Text(errorMessage!)),
       );
     }
 
@@ -161,9 +158,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
     final isAdmin = room!.ownPowerLevel >= 100;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(room!.name),
-      ),
+      appBar: AppBar(title: Text(room!.name)),
       body: isAdmin ? _buildAdminView() : _buildReadOnlyView(),
     );
   }
@@ -216,10 +211,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
                             ],
                           ),
                         ),
-                        Switch(
-                          value: isBlogMode,
-                          onChanged: _toggleMode,
-                        ),
+                        Switch(value: isBlogMode, onChanged: _toggleMode),
                       ],
                     ),
                   ],
@@ -231,10 +223,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
             // Members Section
             const Text(
               'Members',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             _buildMembersList(),
@@ -302,10 +291,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
             const SizedBox(height: 24),
             const Text(
               'Members',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             _buildReadOnlyMembersList(),
@@ -336,19 +322,25 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
         return Card(
           child: ListTile(
             leading: CircleAvatar(
-              child: Text(member.displayName != null && member.displayName!.isNotEmpty
-                  ? member.displayName!.characters.first.toUpperCase()
-                  : member.id.characters.first),
+              child: Text(
+                member.displayName != null && member.displayName!.isNotEmpty
+                    ? member.displayName!.characters.first.toUpperCase()
+                    : member.id.characters.first,
+              ),
             ),
             title: Text(member.displayName ?? member.id),
             subtitle: Text('Power Level: $powerLevel'),
             trailing: PopupMenuButton<int>(
               onSelected: (level) => _setMemberPowerLevel(member.id, level),
-              itemBuilder: (BuildContext context) => [
-                const PopupMenuItem(value: 0, child: Text('User (0)')),
-                const PopupMenuItem(value: 50, child: Text('Moderator (50)')),
-                const PopupMenuItem(value: 100, child: Text('Admin (100)')),
-              ],
+              itemBuilder:
+                  (BuildContext context) => [
+                    const PopupMenuItem(value: 0, child: Text('User (0)')),
+                    const PopupMenuItem(
+                      value: 50,
+                      child: Text('Moderator (50)'),
+                    ),
+                    const PopupMenuItem(value: 100, child: Text('Admin (100)')),
+                  ],
             ),
           ),
         );
@@ -377,9 +369,11 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
         return Card(
           child: ListTile(
             leading: CircleAvatar(
-              child: Text(member.displayName != null && member.displayName!.isNotEmpty
-                  ? member.displayName!.characters.first.toUpperCase()
-                  : member.id.characters.first),
+              child: Text(
+                member.displayName != null && member.displayName!.isNotEmpty
+                    ? member.displayName!.characters.first.toUpperCase()
+                    : member.id.characters.first,
+              ),
             ),
             title: Text(member.displayName ?? member.id),
             subtitle: Text('Power Level: $powerLevel'),

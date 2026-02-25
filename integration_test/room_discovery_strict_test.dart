@@ -463,7 +463,11 @@ void main() {
         // STRICT: Find all 3 pre-joined rooms
         // Use the robust helper instead of a simple loop
         try {
-          await waitForJoinedRooms(tester, 3, timeout: const Duration(seconds: 90));
+          await waitForJoinedRooms(
+            tester,
+            3,
+            timeout: const Duration(seconds: 90),
+          );
         } catch (e) {
           debugPrint('⚠ STRICT check failed: $e');
           // We still continue to execute the remaining checks to get a full picture
@@ -472,11 +476,12 @@ void main() {
         final roomItems = find.byType(ListTile);
         final roomCount = roomItems.evaluate().length;
         debugPrint('Final room count in STRICT test: $roomCount');
-        
+
         expect(
           roomCount,
           greaterThanOrEqualTo(3),
-          reason: 'MUST show at least 3 pre-joined rooms (test_general, test_photos, test_art)',
+          reason:
+              'MUST show at least 3 pre-joined rooms (test_general, test_photos, test_art)',
         );
 
         debugPrint('✓ STRICT: Found $roomCount rooms in list');

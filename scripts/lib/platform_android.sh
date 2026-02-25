@@ -112,7 +112,7 @@ android_start_emulator() {
 
 # Wait for the emulator to finish booting
 android_wait_for_boot() {
-    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-1200}"
+    local boot_timeout="${ANDROID_BOOT_TIMEOUT:-900}"
 
     log_info "Waiting for emulator boot (timeout: ${boot_timeout}s)..."
     adb start-server 2>/dev/null
@@ -206,6 +206,8 @@ run_android_tests() {
         "test"
         "--device-id=$ANDROID_DEVICE_ID"
         "--reporter=expanded"
+        "--concurrency=1"
+        "--dart-define=INTEGRATION_TEST=true"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

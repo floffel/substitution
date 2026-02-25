@@ -4,6 +4,7 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:substitution/settings/widgets/dialog_delete_account.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -50,9 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
         _isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load profile: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load profile: $e')));
       }
     }
   }
@@ -91,11 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       // Update display name if changed
       if (_displayNameController.text != (_currentProfile?.displayName ?? '')) {
-        await client.setProfileField(
-          client.userID!,
-          'displayname',
-          {'displayname': _displayNameController.text},
-        );
+        await client.setProfileField(client.userID!, 'displayname', {
+          'displayname': _displayNameController.text,
+        });
       }
 
       // Update avatar if a new file was selected
@@ -126,16 +125,17 @@ class _ProfilePageState extends State<ProfilePage> {
       if (mounted) {
         showDialog(
           context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text('Error'),
-            content: Text('Failed to update profile: $e'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: const Text('OK'),
+          builder:
+              (ctx) => AlertDialog(
+                title: const Text('Error'),
+                content: Text('Failed to update profile: $e'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: const Text('OK'),
+                  ),
+                ],
               ),
-            ],
-          ),
         );
       }
     }
@@ -144,124 +144,126 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                // Avatar
-                Center(
-                  child: Stack(
-                    children: [
-                      if (_selectedAvatarFile != null)
-                        FutureBuilder<Uint8List>(
-                          future: _selectedAvatarFile!.readAsBytes(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return CircleAvatar(
+      appBar: AppBar(title: const Text('Edit Profile')),
+      body:
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // Avatar
+                  Center(
+                    child: Stack(
+                      children: [
+                        if (_selectedAvatarFile != null)
+                          FutureBuilder<Uint8List>(
+                            future: _selectedAvatarFile!.readAsBytes(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: MemoryImage(snapshot.data!),
+                                );
+                              }
+                              return const CircleAvatar(
                                 radius: 60,
-                                backgroundImage: MemoryImage(snapshot.data!),
+                                child: Icon(Icons.person, size: 60),
                               );
-                            }
-                            return const CircleAvatar(
-                              radius: 60,
-                              child: Icon(Icons.person, size: 60),
-                            );
-                          },
-                        )
-                      else if (_currentProfile?.avatarUrl != null)
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage: NetworkImage(
-                            _currentProfile!.avatarUrl!
-                                .getDownloadUri(
-                                    Provider.of<Client>(context, listen: false))
-                                .toString(),
+                            },
+                          )
+                        else if (_currentProfile?.avatarUrl != null)
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundImage: NetworkImage(
+                              _currentProfile!.avatarUrl!
+                                  .getDownloadUri(
+                                    Provider.of<Client>(context, listen: false),
+                                  )
+                                  .toString(),
+                            ),
+                          )
+                        else
+                          CircleAvatar(
+                            radius: 60,
+                            child: Text(
+                              _currentProfile?.displayName?.isNotEmpty ?? false
+                                  ? _currentProfile!.displayName![0]
+                                      .toUpperCase()
+                                  : '?',
+                              style: const TextStyle(fontSize: 36),
+                            ),
                           ),
-                        )
-                      else
-                        CircleAvatar(
-                          radius: 60,
-                          child: Text(
-                            _currentProfile?.displayName?.isNotEmpty ?? false
-                                ? _currentProfile!.displayName![0].toUpperCase()
-                                : '?',
-                            style: const TextStyle(fontSize: 36),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: FloatingActionButton(
+                            mini: true,
+                            onPressed: _pickAvatar,
+                            child: const Icon(Icons.camera_alt),
                           ),
                         ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: FloatingActionButton(
-                          mini: true,
-                          onPressed: _pickAvatar,
-                          child: const Icon(Icons.camera_alt),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                // Display Name
-                TextFormField(
-                  controller: _displayNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Display Name',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person),
+                  // Display Name
+                  TextFormField(
+                    controller: _displayNameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Display Name',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Display name cannot be empty';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Display name cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                // Save Button
-                ElevatedButton(
-                  onPressed: _isSaving ? null : _saveProfile,
-                  child: _isSaving
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Text('Save Profile'),
-                ),
-                const SizedBox(height: 64),
-                const Divider(),
-                const SizedBox(height: 16),
-                const Text(
-                  'Danger Zone',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                  // Save Button
+                  ElevatedButton(
+                    onPressed: _isSaving ? null : _saveProfile,
+                    child:
+                        _isSaving
+                            ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                            : const Text('Save Profile'),
                   ),
-                ),
-                const SizedBox(height: 16),
-                OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    side: const BorderSide(color: Colors.red),
+                  const SizedBox(height: 64),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Danger Zone',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                  icon: const Icon(Icons.delete_forever),
-                  label: const Text('Delete Account'),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => const DialogDeleteAccount(),
-                    );
-                  },
-                ),
-              ],
-            ),
+                  const SizedBox(height: 16),
+                  OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.red,
+                      side: const BorderSide(color: Colors.red),
+                    ),
+                    icon: const Icon(Icons.delete_forever),
+                    label: const Text('Delete Account'),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const DialogDeleteAccount(),
+                      );
+                    },
+                  ),
+                ],
+              ),
     );
   }
 }

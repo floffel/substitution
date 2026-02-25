@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
     show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -107,128 +108,17 @@ void main() {
       }
     });
 
-    Future<void> loginUser(WidgetTester tester) async {
-      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      // Ensure app.main() has completed runApp() before querying the widget tree.
-      await waitForMatrixClient(tester);
-      // Wait for any known first screen to appear
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(IntroductionScreen).evaluate().isNotEmpty ||
-            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty ||
-            find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty) {
-          break;
-        }
-      }
-
-      // Only navigate through intro if IntroductionScreen is actually present.
-      // Use the "Next" button — canProgress() blocks PageView drags.
-      if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-        for (int i = 0; i < 3; i++) {
-          if (find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty ||
-              find
-                  .byKey(const Key('loginUsernameInput'))
-                  .evaluate()
-                  .isNotEmpty) {
-            break;
-          }
-          final nextButtonFinder = find.text('Next');
-          if (nextButtonFinder.evaluate().isNotEmpty) {
-            await tester.tap(nextButtonFinder.first);
-          } else {
-            break;
-          }
-          await tester.pumpAndSettle(const Duration(milliseconds: 500));
-          for (int ps = 0; ps < 2; ps++) {
-            await tester.pump(const Duration(milliseconds: 500));
-          }
-        }
-      }
-
-      // Enter homeserver if visible
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      if (hostInput.evaluate().isNotEmpty) {
-        await tester.enterText(
-          hostInput,
-          effectiveMatrixServer(testMatrixServer),
-        );
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        final submitButton = find.byKey(const Key('hostSubmitButton'));
-        await tester.ensureVisible(submitButton);
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-        await tester.tap(submitButton, warnIfMissed: false);
-
-        for (int i = 0; i < 30; i++) {
-          await tester.pump(const Duration(milliseconds: 500));
-          if (find
-              .byKey(const Key('loginUsernameInput'))
-              .evaluate()
-              .isNotEmpty) {
-            break;
-          }
-        }
-      } else {
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-      }
-
-      final usernameField = find.byKey(const Key('loginUsernameInput'));
-      expect(
-        usernameField,
-        findsOneWidget,
-        reason: 'Username field should be visible on login page',
-      );
-      await tester.enterText(usernameField, testUser);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      final passwordField = find.byKey(const Key('loginPasswordInput'));
-      await tester.enterText(passwordField, testPassword);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      final loginButton = find.byKey(const Key('loginSubmitButton'));
-      await tester.ensureVisible(loginButton);
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      await tester.tap(loginButton, warnIfMissed: false);
-
-      for (int i = 0; i < 40; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
-      }
-
-      // Tap 'Go' button on intro page 4 to navigate to the feed
-      final goButton = find.byKey(const Key('introGoButton'));
-      if (goButton.evaluate().isNotEmpty) {
-        await tester.tap(goButton, warnIfMissed: false);
-        // Use pump loop instead of pumpAndSettle to avoid hang while SDK syncs
-        for (int i = 0; i < 20; i++) {
-          await tester.pump(const Duration(milliseconds: 500));
-          if (find.byType(Scrollable).evaluate().isNotEmpty) break;
-        }
-      }
-    }
-
     testWidgets(
       'User can search for public rooms',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginUser(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // Look for a search or discovery button/page
         // This might be in a drawer, settings, or main menu
@@ -257,12 +147,14 @@ void main() {
     testWidgets(
       'Test rooms are discoverable (test_general, test_photos, test_art)',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginUser(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // The test user should already be a member of all 3 test rooms
         // Check that the feed or room list includes these rooms
@@ -283,12 +175,14 @@ void main() {
     testWidgets(
       'User can access room settings or details',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await loginUser(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // Try to find and tap on a room or message
         final listViewFinder = find.byType(Scrollable);

@@ -28,14 +28,8 @@ void main() {
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         child: MultiProvider(
-          providers: [
-            Provider<Client>.value(value: mockClient),
-          ],
-          child: const MaterialApp(
-            home: Scaffold(
-              body: OwnFeedSettings(),
-            ),
-          ),
+          providers: [Provider<Client>.value(value: mockClient)],
+          child: const MaterialApp(home: Scaffold(body: OwnFeedSettings())),
         ),
       ),
     );

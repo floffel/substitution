@@ -20,10 +20,7 @@ void main() {
 
     test('setAvatar uploads new profile picture', () async {
       final mockBytes = Uint8List.fromList([1, 2, 3]);
-      final mockFile = MatrixFile(
-        bytes: mockBytes,
-        name: 'avatar.png',
-      );
+      final mockFile = MatrixFile(bytes: mockBytes, name: 'avatar.png');
 
       // Verify MatrixFile construction
       expect(mockFile.name, 'avatar.png');

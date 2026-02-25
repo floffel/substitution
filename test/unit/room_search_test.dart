@@ -17,45 +17,49 @@ void main() {
       mockClient = MockClient();
     });
 
-    test('queryPublicRooms called with correct server and search filter',
-        () async {
-      final server = 'matrix.org';
-      final filter = PublicRoomQueryFilter(genericSearchTerm: 'flutter');
+    test(
+      'queryPublicRooms called with correct server and search filter',
+      () async {
+        final server = 'matrix.org';
+        final filter = PublicRoomQueryFilter(genericSearchTerm: 'flutter');
 
-      // Mock the response
-      when(
-        () => mockClient.queryPublicRooms(
-          server: server,
-          limit: any(named: 'limit'),
-          filter: any(named: 'filter'),
-          since: any(named: 'since'),
-        ),
-      ).thenAnswer((_) async => QueryPublicRoomsResponse.fromJson({
+        // Mock the response
+        when(
+          () => mockClient.queryPublicRooms(
+            server: server,
+            limit: any(named: 'limit'),
+            filter: any(named: 'filter'),
+            since: any(named: 'since'),
+          ),
+        ).thenAnswer(
+          (_) async => QueryPublicRoomsResponse.fromJson({
             'chunk': [],
             'total_room_count': 0,
             'prev_batch': null,
             'next_batch': null,
-          }));
+          }),
+        );
 
-      // Call the method
-      final result = await mockClient.queryPublicRooms(
-        server: server,
-        limit: 20,
-        filter: filter,
-      );
-
-      // Verify the call was made with correct parameters
-      verify(
-        () => mockClient.queryPublicRooms(
+        // Call the method
+        final result = await mockClient.queryPublicRooms(
           server: server,
-          limit: any(named: 'limit'),
-          filter: any(named: 'filter'),
-          since: any(named: 'since'),
-        ),
-      ).called(1);
+          limit: 20,
+          filter: filter,
+        );
 
-      expect(result, isNotNull);
-    });
+        // Verify the call was made with correct parameters
+        verify(
+          () => mockClient.queryPublicRooms(
+            server: server,
+            limit: any(named: 'limit'),
+            filter: any(named: 'filter'),
+            since: any(named: 'since'),
+          ),
+        ).called(1);
+
+        expect(result, isNotNull);
+      },
+    );
 
     test('Pagination: since token is passed for next page', () async {
       final server = 'matrix.org';
@@ -69,22 +73,24 @@ void main() {
           filter: any(named: 'filter'),
           since: sinceToken,
         ),
-      ).thenAnswer((_) async => QueryPublicRoomsResponse.fromJson({
-            'chunk': [
-              {
-                'room_id': '!room2:matrix.org',
-                'name': 'Test Room 2',
-                'topic': 'Topic 2',
-                'num_joined_members': 50,
-                'avatar_url': null,
-                'world_readable': true,
-                'guest_can_join': true,
-              }
-            ],
-            'total_room_count': 100,
-            'prev_batch': 'prev_token',
-            'next_batch': 'next_token_456',
-          }));
+      ).thenAnswer(
+        (_) async => QueryPublicRoomsResponse.fromJson({
+          'chunk': [
+            {
+              'room_id': '!room2:matrix.org',
+              'name': 'Test Room 2',
+              'topic': 'Topic 2',
+              'num_joined_members': 50,
+              'avatar_url': null,
+              'world_readable': true,
+              'guest_can_join': true,
+            },
+          ],
+          'total_room_count': 100,
+          'prev_batch': 'prev_token',
+          'next_batch': 'next_token_456',
+        }),
+      );
 
       // Call with pagination token
       final result = await mockClient.queryPublicRooms(
@@ -136,7 +142,7 @@ void main() {
               'avatar_url': null,
               'world_readable': true,
               'guest_can_join': true,
-            }
+            },
           ],
           'total_room_count': 1,
           'prev_batch': null,

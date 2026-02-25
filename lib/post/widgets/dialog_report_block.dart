@@ -38,7 +38,7 @@ class _DialogReportBlockState extends State<DialogReportBlock> {
 
     try {
       final reason = _reasonController.text.trim();
-      
+
       // If a reason is provided, report the content
       if (reason.isNotEmpty) {
         final roomId = widget.event.roomId;
@@ -57,22 +57,25 @@ class _DialogReportBlockState extends State<DialogReportBlock> {
       }
 
       if (!mounted) return;
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: const Text('post.dialog.report_block_success').tr()),
       );
-      
+
       context.pop(); // Close dialog
-      
+
       // If we blocked the user, we should probably go back to home feed so it forces a refresh of what we see
       if (_blockUser) {
-         context.go('/');
+        context.go('/');
       }
-
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: const Text('post.dialog.report_block_error').tr(args: [e.toString()])),
+        SnackBar(
+          content: const Text(
+            'post.dialog.report_block_error',
+          ).tr(args: [e.toString()]),
+        ),
       );
     } finally {
       if (mounted) {
@@ -107,7 +110,9 @@ class _DialogReportBlockState extends State<DialogReportBlock> {
             const Divider(),
             CheckboxListTile(
               title: const Text('post.dialog.block_user_checkbox').tr(),
-              subtitle: const Text('post.dialog.block_user_desc').tr(args: [widget.displayEvent.senderId]),
+              subtitle: const Text(
+                'post.dialog.block_user_desc',
+              ).tr(args: [widget.displayEvent.senderId]),
               value: _blockUser,
               onChanged: (bool? value) {
                 setState(() {
@@ -125,9 +130,14 @@ class _DialogReportBlockState extends State<DialogReportBlock> {
         ),
         ElevatedButton(
           onPressed: _isSubmitting ? null : _submit,
-          child: _isSubmitting 
-              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-              : const Text('post.dialog.submit').tr(),
+          child:
+              _isSubmitting
+                  ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : const Text('post.dialog.submit').tr(),
         ),
       ],
     );

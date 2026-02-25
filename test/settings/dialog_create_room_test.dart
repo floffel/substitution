@@ -24,8 +24,9 @@ void main() {
   });
 
   group('DialogCreateRoom Widget Tests', () {
-    testWidgets('Smoke: renders form fields and create button',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: renders form fields and create button', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
 
       when(() => mockClient.getRoomById(any())).thenReturn(null);
@@ -38,9 +39,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: MaterialApp(
               home: Scaffold(
                 body: Builder(
@@ -64,8 +63,9 @@ void main() {
       expect(find.byType(TextButton), findsWidgets);
     });
 
-    testWidgets('Form contains name, alias, and topic fields',
-        (WidgetTester tester) async {
+    testWidgets('Form contains name, alias, and topic fields', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
 
       when(() => mockClient.getRoomById(any())).thenReturn(null);
@@ -78,9 +78,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: MaterialApp(
               home: Scaffold(
                 body: Builder(
@@ -101,95 +99,106 @@ void main() {
       expect(textFields, findsWidgets);
     });
 
-    testWidgets('Create button calls client.createRoom with correct parameters',
-        (WidgetTester tester) async {
-      final mockClient = MockClient();
-      final mockRoom = MockRoom();
+    testWidgets(
+      'Create button calls client.createRoom with correct parameters',
+      (WidgetTester tester) async {
+        final mockClient = MockClient();
+        final mockRoom = MockRoom();
 
-      when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
-      when(() => mockClient.isLogged()).thenReturn(true);
-      when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.createRoom(
+        when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
+        when(() => mockClient.isLogged()).thenReturn(true);
+        when(() => mockClient.userID).thenReturn('@user:matrix.org');
+        when(
+          () => mockClient.createRoom(
             isDirect: any(named: 'isDirect'),
             name: any(named: 'name'),
             topic: any(named: 'topic'),
             roomAliasName: any(named: 'roomAliasName'),
             visibility: any(named: 'visibility'),
-          )).thenAnswer((_) async => 'roomId123');
-      when(() => mockClient.waitForRoomInSync(any(), join: any(named: 'join')))
-          .thenAnswer((_) async => MockSyncUpdate());
-      when(() => mockClient.setAccountDataPerRoom(any(), any(), any(), any()))
-          .thenAnswer((_) async => {});
-      when(() => mockRoom.membership).thenReturn(Membership.join);
+          ),
+        ).thenAnswer((_) async => 'roomId123');
+        when(
+          () => mockClient.waitForRoomInSync(any(), join: any(named: 'join')),
+        ).thenAnswer((_) async => MockSyncUpdate());
+        when(
+          () => mockClient.setAccountDataPerRoom(any(), any(), any(), any()),
+        ).thenAnswer((_) async => {});
+        when(() => mockRoom.membership).thenReturn(Membership.join);
 
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: Scaffold(
-                body: Builder(
-                  builder: (context) {
-                    return Dialog(child: DialogCreateRoom());
-                  },
+        await tester.pumpWidget(
+          EasyLocalization(
+            supportedLocales: const [Locale('en', 'US')],
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en', 'US'),
+            child: MultiProvider(
+              providers: [Provider<Client>.value(value: mockClient)],
+              child: MaterialApp(
+                home: Scaffold(
+                  body: Builder(
+                    builder: (context) {
+                      return Dialog(child: DialogCreateRoom());
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
+        );
 
-      await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(milliseconds: 500));
 
-      // Find input fields and enter text
-      final textFields = find.byType(TextFormField);
-      if (textFields.evaluate().isNotEmpty) {
-        final nameField = textFields.at(0);
-        await tester.enterText(nameField, 'My Test Room');
-        await tester.pump();
-      }
+        // Find input fields and enter text
+        final textFields = find.byType(TextFormField);
+        if (textFields.evaluate().isNotEmpty) {
+          final nameField = textFields.at(0);
+          await tester.enterText(nameField, 'My Test Room');
+          await tester.pump();
+        }
 
-      // Find and tap create button
-      final createButton = find.byType(TextButton);
-      if (createButton.evaluate().isNotEmpty) {
-        await tester.tap(createButton.first);
-        await tester.pumpAndSettle(const Duration(milliseconds: 1000));
-      }
+        // Find and tap create button
+        final createButton = find.byType(TextButton);
+        if (createButton.evaluate().isNotEmpty) {
+          await tester.tap(createButton.first);
+          await tester.pumpAndSettle(const Duration(milliseconds: 1000));
+        }
 
-      // Verify createRoom was called
-      verify(() => mockClient.createRoom(
+        // Verify createRoom was called
+        verify(
+          () => mockClient.createRoom(
             isDirect: any(named: 'isDirect'),
             name: any(named: 'name'),
             topic: any(named: 'topic'),
             roomAliasName: any(named: 'roomAliasName'),
             visibility: any(named: 'visibility'),
-          )).called(greaterThan(0));
-    });
+          ),
+        ).called(greaterThan(0));
+      },
+    );
 
-    testWidgets('Successful room creation sets substitution account data',
-        (WidgetTester tester) async {
+    testWidgets('Successful room creation sets substitution account data', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.createRoom(
-            isDirect: any(named: 'isDirect'),
-            name: any(named: 'name'),
-            topic: any(named: 'topic'),
-            roomAliasName: any(named: 'roomAliasName'),
-            visibility: any(named: 'visibility'),
-          )).thenAnswer((_) async => 'roomId123');
-      when(() => mockClient.waitForRoomInSync(any(), join: any(named: 'join')))
-          .thenAnswer((_) async => MockSyncUpdate());
-      when(() => mockClient.setAccountDataPerRoom(any(), any(), any(), any()))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockClient.createRoom(
+          isDirect: any(named: 'isDirect'),
+          name: any(named: 'name'),
+          topic: any(named: 'topic'),
+          roomAliasName: any(named: 'roomAliasName'),
+          visibility: any(named: 'visibility'),
+        ),
+      ).thenAnswer((_) async => 'roomId123');
+      when(
+        () => mockClient.waitForRoomInSync(any(), join: any(named: 'join')),
+      ).thenAnswer((_) async => MockSyncUpdate());
+      when(
+        () => mockClient.setAccountDataPerRoom(any(), any(), any(), any()),
+      ).thenAnswer((_) async => {});
       when(() => mockRoom.membership).thenReturn(Membership.join);
 
       await tester.pumpWidget(
@@ -198,9 +207,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: MaterialApp(
               home: Scaffold(
                 body: Builder(
@@ -224,67 +231,78 @@ void main() {
       }
 
       // Verify setAccountDataPerRoom was called for substitution
-      verify(() => mockClient.setAccountDataPerRoom(
-          any(), any(), 'substitution', any())).called(greaterThan(0));
+      verify(
+        () => mockClient.setAccountDataPerRoom(
+          any(),
+          any(),
+          'substitution',
+          any(),
+        ),
+      ).called(greaterThan(0));
     });
 
-    testWidgets('Empty room name shows validation error or prevents submission',
-        (WidgetTester tester) async {
-      final mockClient = MockClient();
+    testWidgets(
+      'Empty room name shows validation error or prevents submission',
+      (WidgetTester tester) async {
+        final mockClient = MockClient();
 
-      when(() => mockClient.getRoomById(any())).thenReturn(null);
-      when(() => mockClient.isLogged()).thenReturn(true);
-      when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.createRoom(
+        when(() => mockClient.getRoomById(any())).thenReturn(null);
+        when(() => mockClient.isLogged()).thenReturn(true);
+        when(() => mockClient.userID).thenReturn('@user:matrix.org');
+        when(
+          () => mockClient.createRoom(
             isDirect: any(named: 'isDirect'),
             name: any(named: 'name'),
             topic: any(named: 'topic'),
             roomAliasName: any(named: 'roomAliasName'),
             visibility: any(named: 'visibility'),
-          )).thenAnswer((_) async => 'roomId123');
+          ),
+        ).thenAnswer((_) async => 'roomId123');
 
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
-            child: MaterialApp(
-              home: Scaffold(
-                body: Builder(
-                  builder: (context) {
-                    return Dialog(child: DialogCreateRoom());
-                  },
+        await tester.pumpWidget(
+          EasyLocalization(
+            supportedLocales: const [Locale('en', 'US')],
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en', 'US'),
+            child: MultiProvider(
+              providers: [Provider<Client>.value(value: mockClient)],
+              child: MaterialApp(
+                home: Scaffold(
+                  body: Builder(
+                    builder: (context) {
+                      return Dialog(child: DialogCreateRoom());
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
+        );
 
-      await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(milliseconds: 500));
 
-      // Dialog should render
-      expect(find.byType(DialogCreateRoom), findsOneWidget);
-    });
+        // Dialog should render
+        expect(find.byType(DialogCreateRoom), findsOneWidget);
+      },
+    );
 
-    testWidgets('Failed room creation shows error dialog',
-        (WidgetTester tester) async {
+    testWidgets('Failed room creation shows error dialog', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
 
       when(() => mockClient.getRoomById(any())).thenReturn(null);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.createRoom(
-            isDirect: any(named: 'isDirect'),
-            name: any(named: 'name'),
-            topic: any(named: 'topic'),
-            roomAliasName: any(named: 'roomAliasName'),
-            visibility: any(named: 'visibility'),
-          )).thenThrow(Exception('Network error'));
+      when(
+        () => mockClient.createRoom(
+          isDirect: any(named: 'isDirect'),
+          name: any(named: 'name'),
+          topic: any(named: 'topic'),
+          roomAliasName: any(named: 'roomAliasName'),
+          visibility: any(named: 'visibility'),
+        ),
+      ).thenThrow(Exception('Network error'));
 
       await tester.pumpWidget(
         EasyLocalization(
@@ -292,9 +310,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: MaterialApp(
               home: Scaffold(
                 body: Builder(
@@ -321,25 +337,30 @@ void main() {
       expect(find.byType(Text), findsWidgets);
     });
 
-    testWidgets('Loading state shows progress indicator during room creation',
-        (WidgetTester tester) async {
+    testWidgets('Loading state shows progress indicator during room creation', (
+      WidgetTester tester,
+    ) async {
       final mockClient = MockClient();
       final mockRoom = MockRoom();
 
       when(() => mockClient.getRoomById(any())).thenReturn(mockRoom);
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
-      when(() => mockClient.createRoom(
-            isDirect: any(named: 'isDirect'),
-            name: any(named: 'name'),
-            topic: any(named: 'topic'),
-            roomAliasName: any(named: 'roomAliasName'),
-            visibility: any(named: 'visibility'),
-          )).thenAnswer((_) async => 'roomId123');
-      when(() => mockClient.waitForRoomInSync(any(), join: any(named: 'join')))
-          .thenAnswer((_) async => MockSyncUpdate());
-      when(() => mockClient.setAccountDataPerRoom(any(), any(), any(), any()))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockClient.createRoom(
+          isDirect: any(named: 'isDirect'),
+          name: any(named: 'name'),
+          topic: any(named: 'topic'),
+          roomAliasName: any(named: 'roomAliasName'),
+          visibility: any(named: 'visibility'),
+        ),
+      ).thenAnswer((_) async => 'roomId123');
+      when(
+        () => mockClient.waitForRoomInSync(any(), join: any(named: 'join')),
+      ).thenAnswer((_) async => MockSyncUpdate());
+      when(
+        () => mockClient.setAccountDataPerRoom(any(), any(), any(), any()),
+      ).thenAnswer((_) async => {});
       when(() => mockRoom.membership).thenReturn(Membership.join);
 
       await tester.pumpWidget(
@@ -348,9 +369,7 @@ void main() {
           path: 'assets/translations',
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-            ],
+            providers: [Provider<Client>.value(value: mockClient)],
             child: MaterialApp(
               home: Scaffold(
                 body: Builder(

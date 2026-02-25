@@ -33,6 +33,7 @@ run_linux_tests() {
     local common_args=(
         "--device-id=linux"
         "--reporter=expanded"
+        "--dart-define=INTEGRATION_TEST=true"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

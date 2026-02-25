@@ -54,12 +54,7 @@ Future<void> pumpApp(
   // Create a simple router with a single route for testing
   final router = GoRouter(
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => Scaffold(
-          body: child,
-        ),
-      ),
+      GoRoute(path: '/', builder: (context, state) => Scaffold(body: child)),
     ],
   );
 
@@ -123,10 +118,7 @@ MockEvent createMockEvent({
 }
 
 /// Factory helper to create a mock User with common properties
-MockUser createMockUser({
-  required String id,
-  required String displayName,
-}) {
+MockUser createMockUser({required String id, required String displayName}) {
   final mockUser = MockUser();
 
   when(() => mockUser.id).thenReturn(id);

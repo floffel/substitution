@@ -11,16 +11,18 @@ void main() {
     await EasyLocalization.ensureInitialized();
   });
 
-  testWidgets('App starts with system theme by default',
-      (WidgetTester tester) async {
+  testWidgets('App starts with system theme by default', (
+    WidgetTester tester,
+  ) async {
     final themeService = ThemeService();
     await themeService.initialized;
 
     expect(themeService.themeMode, ThemeMode.system);
   });
 
-  testWidgets('darkTheme is defined and different from theme',
-      (WidgetTester tester) async {
+  testWidgets('darkTheme is defined and different from theme', (
+    WidgetTester tester,
+  ) async {
     final darkTheme = ThemeData(
       colorSchemeSeed: Colors.green,
       useMaterial3: true,
@@ -36,8 +38,9 @@ void main() {
     expect(lightTheme.brightness, Brightness.light);
   });
 
-  testWidgets('Changing ThemeService updates MaterialApp reactively',
-      (WidgetTester tester) async {
+  testWidgets('Changing ThemeService updates MaterialApp reactively', (
+    WidgetTester tester,
+  ) async {
     final themeService = ThemeService();
     await themeService.initialized;
 
@@ -62,11 +65,7 @@ void main() {
                   useMaterial3: true,
                   brightness: Brightness.dark,
                 ),
-                home: Scaffold(
-                  body: Center(
-                    child: Text('Theme: $theme'),
-                  ),
-                ),
+                home: Scaffold(body: Center(child: Text('Theme: $theme'))),
               );
             },
           ),

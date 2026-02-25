@@ -16,21 +16,24 @@ void main() {
       );
     });
 
-    test('setPower() calls room.setPower with correct userId and level',
-        () async {
-      const userId = '@user:matrix.org';
-      const newPowerLevel = 50;
+    test(
+      'setPower() calls room.setPower with correct userId and level',
+      () async {
+        const userId = '@user:matrix.org';
+        const newPowerLevel = 50;
 
-      // Mock the setPower method
-      when(() => mockRoom.setPower(userId, newPowerLevel))
-          .thenAnswer((_) async => '');
+        // Mock the setPower method
+        when(
+          () => mockRoom.setPower(userId, newPowerLevel),
+        ).thenAnswer((_) async => '');
 
-      // Call the method
-      await mockRoom.setPower(userId, newPowerLevel);
+        // Call the method
+        await mockRoom.setPower(userId, newPowerLevel);
 
-      // Verify the call was made with correct parameters
-      verify(() => mockRoom.setPower(userId, newPowerLevel)).called(1);
-    });
+        // Verify the call was made with correct parameters
+        verify(() => mockRoom.setPower(userId, newPowerLevel)).called(1);
+      },
+    );
 
     test('Blog mode updates events_default to 50', () {
       // Create a power level state map
@@ -42,20 +45,12 @@ void main() {
         'events_default': 0,
         'state_default': 50,
         'users_default': 0,
-        'events': {
-          'm.room.name': 50,
-          'm.room.avatar': 50,
-        },
-        'users': {
-          '@admin:matrix.org': 100,
-        }
+        'events': {'m.room.name': 50, 'm.room.avatar': 50},
+        'users': {'@admin:matrix.org': 100},
       };
 
       // Update to blog mode (events_default: 50)
-      final updatedPowerLevels = {
-        ...powerLevelState,
-        'events_default': 50,
-      };
+      final updatedPowerLevels = {...powerLevelState, 'events_default': 50};
 
       // Verify the update
       expect(updatedPowerLevels['events_default'], equals(50));
@@ -72,20 +67,12 @@ void main() {
         'events_default': 50, // Currently in blog mode
         'state_default': 50,
         'users_default': 0,
-        'events': {
-          'm.room.name': 50,
-          'm.room.avatar': 50,
-        },
-        'users': {
-          '@admin:matrix.org': 100,
-        }
+        'events': {'m.room.name': 50, 'm.room.avatar': 50},
+        'users': {'@admin:matrix.org': 100},
       };
 
       // Update to community mode (events_default: 0)
-      final updatedPowerLevels = {
-        ...powerLevelState,
-        'events_default': 0,
-      };
+      final updatedPowerLevels = {...powerLevelState, 'events_default': 0};
 
       // Verify the update
       expect(updatedPowerLevels['events_default'], equals(0));

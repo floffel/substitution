@@ -7,12 +7,13 @@ import '/shared/models/substitution_room.dart';
 
 // like post but smaller
 class RoomWidget extends StatefulWidget {
-  const RoomWidget(
-      {super.key,
-      required this.room,
-      this.leaveRoom,
-      this.joinRoom,
-      this.deleteRoom});
+  const RoomWidget({
+    super.key,
+    required this.room,
+    this.leaveRoom,
+    this.joinRoom,
+    this.deleteRoom,
+  });
 
   // room elements
   final SubstitutionRoom room;
@@ -43,28 +44,33 @@ class RoomWidgetState extends State<RoomWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: const Text('settings.room.desc').tr(args: [widget.room.name]),
-        subtitle: Text(widget.room.id),
-        leading: widget.room.avatarUrl != null
-            ? CircleAvatar(
+      title: const Text('settings.room.desc').tr(args: [widget.room.name]),
+      subtitle: Text(widget.room.id),
+      leading:
+          widget.room.avatarUrl != null
+              ? CircleAvatar(
                 radius: 20,
-                backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                backgroundColor:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
                 foregroundImage: NetworkImage(
-                    widget.room.avatarUrl!.startsWith('mxc://')
-                        ? Uri.parse(widget.room.avatarUrl!)
-                            .getDownloadUri(client)
-                            .toString()
-                        : widget.room.avatarUrl!),
+                  widget.room.avatarUrl!.startsWith('mxc://')
+                      ? Uri.parse(
+                        widget.room.avatarUrl!,
+                      ).getDownloadUri(client).toString()
+                      : widget.room.avatarUrl!,
+                ),
                 onForegroundImageError: (ctx, obj) {
                   debugPrint("Failed to load avatar: ${widget.room.avatarUrl}");
                 },
                 child: Text(widget.room.name[0].toUpperCase()),
               )
-            : CircleAvatar(
+              : CircleAvatar(
                 radius: 20,
                 child: Text(widget.room.name[0].toUpperCase()),
               ),
-        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           if (isAdminRoom)
             IconButton(
               icon: const Icon(Icons.settings),
@@ -75,21 +81,21 @@ class RoomWidgetState extends State<RoomWidget> {
             ),
           showLeaveRoom
               ? IconButton(
-                  icon: const Icon(Icons.person_remove),
-                  tooltip: 'settings.room.leave'.tr(),
-                  onPressed: () async {
-                    await widget.leaveRoom!(widget.room.id);
-                  },
-                )
+                icon: const Icon(Icons.person_remove),
+                tooltip: 'settings.room.leave'.tr(),
+                onPressed: () async {
+                  await widget.leaveRoom!(widget.room.id);
+                },
+              )
               : showJoinRoom
-                  ? IconButton(
-                      icon: const Icon(Icons.person_add),
-                      tooltip: 'settings.room.join'.tr(),
-                      onPressed: () async {
-                        await widget.joinRoom!(widget.room.id);
-                      },
-                    )
-                  : const SizedBox.shrink(),
+              ? IconButton(
+                icon: const Icon(Icons.person_add),
+                tooltip: 'settings.room.join'.tr(),
+                onPressed: () async {
+                  await widget.joinRoom!(widget.room.id);
+                },
+              )
+              : const SizedBox.shrink(),
           if (showDeleteRoom) ...[
             IconButton(
               icon: const Icon(Icons.delete),
@@ -97,8 +103,10 @@ class RoomWidgetState extends State<RoomWidget> {
               onPressed: () async {
                 await widget.deleteRoom!(widget.room.id);
               },
-            )
-          ]
-        ]));
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }

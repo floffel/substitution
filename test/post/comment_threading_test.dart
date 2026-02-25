@@ -19,8 +19,10 @@ void main() {
 
     setUp(() {
       mockClient = MockClient();
-      mockSender =
-          createMockUser(id: '@user:matrix.org', displayName: 'Test User');
+      mockSender = createMockUser(
+        id: '@user:matrix.org',
+        displayName: 'Test User',
+      );
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
 
       mockPostEvent = createMockEvent(
@@ -47,14 +49,16 @@ void main() {
       when(() => mockEvent.messageType).thenReturn(MessageTypes.Text);
       when(() => mockDisplayEvent.messageType).thenReturn(MessageTypes.Text);
       when(() => mockDisplayEvent.formattedText).thenReturn('Reply message');
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
     });
 
     testWidgets('CommentWidget renders correctly', (WidgetTester tester) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,
@@ -72,11 +76,13 @@ void main() {
       expect(find.byType(CommentWidget), findsOneWidget);
     });
 
-    testWidgets('CommentWidget has reply and reaction buttons',
-        (WidgetTester tester) async {
+    testWidgets('CommentWidget has reply and reaction buttons', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,
@@ -95,11 +101,13 @@ void main() {
       expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
     });
 
-    testWidgets('CommentWidget can be toggled (collapsed/expanded)',
-        (WidgetTester tester) async {
+    testWidgets('CommentWidget can be toggled (collapsed/expanded)', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_id');
 
       await pumpApp(
         tester,

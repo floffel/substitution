@@ -52,7 +52,8 @@ void main() {
             Provider<Client>.value(value: mockClient),
             Provider<ConnectivityService>.value(value: mockConnectivityService),
             ChangeNotifierProvider<SubstitutionService>.value(
-                value: substitutionService),
+              value: substitutionService,
+            ),
           ],
           child: MaterialApp(
             home: const HomePage(), // HomePage is the Feed

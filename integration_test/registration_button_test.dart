@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
+import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/integration_test_helper.dart'
     show skipIfNoMatrix, effectiveMatrixServer;
 
@@ -20,6 +22,8 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
         final dbPath = '${appDocDir.path}/matrix_database.db';
@@ -45,9 +49,24 @@ void main() {
     testWidgets(
       'Login page shows SSO and Web Register buttons',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
         for (int ps = 0; ps < 8; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
+        }
+
+        // Handle age gate if shown (shouldn't be since we set confirmed=true, but just in case)
+        final ageGateFinder = find.byKey(const Key('ageGateConfirmButton'));
+        if (ageGateFinder.evaluate().isNotEmpty) {
+          try {
+            await tester.ensureVisible(ageGateFinder);
+            await tester.pump(const Duration(milliseconds: 250));
+          } catch (_) {}
+          await tester.tap(ageGateFinder, warnIfMissed: false);
+          for (int i = 0; i < 10; i++) {
+            await tester.pump(const Duration(milliseconds: 500));
+            if (find.byType(Scaffold).evaluate().isNotEmpty) break;
+          }
         }
 
         // Bypass intro directly to host page

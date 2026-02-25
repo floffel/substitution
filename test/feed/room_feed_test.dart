@@ -23,32 +23,36 @@ void main() {
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
     });
 
-    testWidgets('Smoke: HomePage can be instantiated with roomId parameter',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: HomePage can be instantiated with roomId parameter', (
+      WidgetTester tester,
+    ) async {
       // This test verifies that HomePage accepts a roomId parameter
       // In a real scenario, the HomePage would filter events by room
       const homePage = HomePage(roomId: '!testroom:matrix.org');
       expect(homePage.roomId, equals('!testroom:matrix.org'));
     });
 
-    testWidgets('HomePage with null roomId shows unified timeline',
-        (WidgetTester tester) async {
+    testWidgets('HomePage with null roomId shows unified timeline', (
+      WidgetTester tester,
+    ) async {
       // This test verifies that HomePage can be instantiated without a roomId
       // to show the unified timeline
       const homePage = HomePage(roomId: null);
       expect(homePage.roomId, isNull);
     });
 
-    testWidgets('HomePage roomId parameter is passed correctly',
-        (WidgetTester tester) async {
+    testWidgets('HomePage roomId parameter is passed correctly', (
+      WidgetTester tester,
+    ) async {
       // Verify that the roomId is stored correctly
       const testRoomId = '!room123:matrix.org';
       const homePage = HomePage(roomId: testRoomId);
       expect(homePage.roomId, equals(testRoomId));
     });
 
-    testWidgets('HomePage exists and is a StatefulWidget',
-        (WidgetTester tester) async {
+    testWidgets('HomePage exists and is a StatefulWidget', (
+      WidgetTester tester,
+    ) async {
       // HomePage should be a StatefulWidget that manages its own state
       const homePage = HomePage(roomId: '!test:matrix.org');
       expect(homePage, isA<StatefulWidget>());

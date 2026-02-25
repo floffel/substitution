@@ -4,10 +4,11 @@ import 'package:matrix/matrix.dart';
 // TODO: rename to IEvent
 // Abstract widget / interface for comment and post, based on matrix events, therefore the name I(nterface)EventWidget
 abstract class IEventWidget extends StatefulWidget {
-  const IEventWidget(
-      {super.key,
-      required this.event,
-      required this.displayEvent}); // displayEvent = event.getDisplayEvent(await timeline), this is mandatory b.c. of https://github.com/flutter/flutter/issues/99158 b.c. of https://web.dev/cls/
+  const IEventWidget({
+    super.key,
+    required this.event,
+    required this.displayEvent,
+  }); // displayEvent = event.getDisplayEvent(await timeline), this is mandatory b.c. of https://github.com/flutter/flutter/issues/99158 b.c. of https://web.dev/cls/
   //const PostWidget({super.key, required this.event, required this.timeline});
 
   // TODO: alles ab hier in eine klasse stecken die dann nicht für das widget ist sondern das andere teil,
@@ -44,15 +45,19 @@ abstract class IEventWidget extends StatefulWidget {
   Future<List<({Event origEvent, Event displayEvent})>> get comments async {
     List<({Event origEvent, Event displayEvent})> ret = [];
 
-    Timeline timeline =
-        await event.room.getTimeline(eventContextId: event.eventId);
+    Timeline timeline = await event.room.getTimeline(
+      eventContextId: event.eventId,
+    );
 
-    for (Event e
-        in postEvent.aggregatedEvents(timeline, RelationshipTypes.thread)) {
+    for (Event e in postEvent.aggregatedEvents(
+      timeline,
+      RelationshipTypes.thread,
+    )) {
       debugPrint("[comments] checking event ${e.eventId}");
 
       debugPrint(
-          "[comments] contentvaluetry: ${e.content.tryGetMap<String, Object?>('m.relates_to')?.tryGetMap<String, Object?>('m.in_reply_to')?.tryGet<String>('event_id')}");
+        "[comments] contentvaluetry: ${e.content.tryGetMap<String, Object?>('m.relates_to')?.tryGetMap<String, Object?>('m.in_reply_to')?.tryGet<String>('event_id')}",
+      );
 
       if (e.content
               .tryGetMap<String, Object?>('m.relates_to')
@@ -62,18 +67,21 @@ abstract class IEventWidget extends StatefulWidget {
         // it's only a comment to this comment if it contains the event id of this comments event id
         ret.add((
           origEvent: e,
-          displayEvent: e.getDisplayEvent(timeline)
+          displayEvent: e.getDisplayEvent(timeline),
         )); // add the event to our return list
       }
     }
 
     // remove duplicates (wich might be there b.c. of getDisplayEvent(...), f.e. when multiple edits happend)
     ret = [
-      ...{...ret}
+      ...{...ret},
     ];
     // sort from new to old
-    ret.sort((a, b) =>
-        b.displayEvent.originServerTs.compareTo(a.displayEvent.originServerTs));
+    ret.sort(
+      (a, b) => b.displayEvent.originServerTs.compareTo(
+        a.displayEvent.originServerTs,
+      ),
+    );
 
     return ret;
   }

@@ -29,17 +29,14 @@ void main() {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('en', 'US')],
-        path: 'assets/translations', // This path must match pubspec.yaml assets entry
+        path:
+            'assets/translations', // This path must match pubspec.yaml assets entry
         fallbackLocale: const Locale('en', 'US'),
         child: MultiProvider(
-          providers: [
-            Provider<Client>.value(value: mockClient),
-          ],
+          providers: [Provider<Client>.value(value: mockClient)],
           child: Builder(
             builder: (context) {
-              return const MaterialApp(
-                home: IntroductionPage(),
-              );
+              return const MaterialApp(home: IntroductionPage());
             },
           ),
         ),
@@ -57,14 +54,17 @@ void main() {
     await tester.pumpAndSettle();
 
     // Check if the first page is displayed
-    // The key "intro.welcome.title" should be present as text if translations fail, 
+    // The key "intro.welcome.title" should be present as text if translations fail,
     // or the translated text if they succeed.
     // A safe bet is finding the image or a widget type.
-    
+
     expect(find.byType(IntroductionPage), findsOneWidget);
-    
+
     // Check for the logo image
-    expect(find.byType(Image), findsOneWidget); // Assuming at least one image (logo)
+    expect(
+      find.byType(Image),
+      findsOneWidget,
+    ); // Assuming at least one image (logo)
 
     // Check for "Next" button text (key: "intro.buttons.next")
     // If translation fails, it shows the key. If it works, it shows "Next" (likely).

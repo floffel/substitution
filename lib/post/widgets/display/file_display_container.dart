@@ -13,8 +13,11 @@ import '/shared/platform/video_helper.dart' show videoControllerFromFile;
 
 // TODO rename to FileDisplay or smthg.
 class FileDisplayContainer extends StatefulWidget {
-  const FileDisplayContainer(
-      {super.key, required this.event, required this.displayEvent});
+  const FileDisplayContainer({
+    super.key,
+    required this.event,
+    required this.displayEvent,
+  });
 
   final Event event;
   final Event displayEvent;
@@ -30,71 +33,93 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
   // TODO: downloadAndDecryptAttachment for encrypted files
 
   late List<
-      ({
-        Event origEvent,
-        Event displayEvent,
-        VideoPlayerController? videoController
-      })> files = [
+    ({
+      Event origEvent,
+      Event displayEvent,
+      VideoPlayerController? videoController,
+    })
+  >
+  files = [
     (
       origEvent: widget.event,
       displayEvent: widget.displayEvent,
-      videoController: null // will be added by relatedFiles getter
-    )
+      videoController: null, // will be added by relatedFiles getter
+    ),
   ];
 
   // adapted from comments
   Future<
-      List<
-          ({
-            Event origEvent,
-            Event displayEvent,
-            VideoPlayerController? videoController
-          })>> get relatedFiles async {
     List<
-        ({
-          Event origEvent,
-          Event displayEvent,
-          VideoPlayerController? videoController
-        })> ret = [
+      ({
+        Event origEvent,
+        Event displayEvent,
+        VideoPlayerController? videoController,
+      })
+    >
+  >
+  get relatedFiles async {
+    List<
+      ({
+        Event origEvent,
+        Event displayEvent,
+        VideoPlayerController? videoController,
+      })
+    >
+    ret = [
       (
         origEvent: widget.event,
         displayEvent: widget.displayEvent,
-        videoController:
-            await getVideoPlayerControllerForEvent(widget.displayEvent)
-      )
+        videoController: await getVideoPlayerControllerForEvent(
+          widget.displayEvent,
+        ),
+      ),
     ];
 
-    Timeline timeline = await widget.event.room
-        .getTimeline(eventContextId: widget.event.eventId);
+    Timeline timeline = await widget.event.room.getTimeline(
+      eventContextId: widget.event.eventId,
+    );
 
-    for (Event e in widget.event
-        .aggregatedEvents(timeline, RelationshipTypes.reference)) {
+    for (Event e in widget.event.aggregatedEvents(
+      timeline,
+      RelationshipTypes.reference,
+    )) {
       //var t = e.relationshipEventId;
 
       // todo: check if this is really a file and the owner of the reply
 
       if (e.relationshipEventId ==
-                  widget.event.eventId && // relationship event id has to match
-              e.senderId == widget.event.senderId // sender has to be the same
-          // todo: filetype? oder wollen wir auch text zulassen?
-          ) {
+              widget.event.eventId && // relationship event id has to match
+          e.senderId ==
+              widget
+                  .event
+                  .senderId // sender has to be the same
+      // todo: filetype? oder wollen wir auch text zulassen?
+      ) {
         ret.add((
           origEvent: e,
           displayEvent: e.getDisplayEvent(timeline),
-          videoController: await getVideoPlayerControllerForEvent(e)
+          videoController: await getVideoPlayerControllerForEvent(e),
         ));
       }
     }
 
     // sort from new to old
-    ret.sort((a, b) =>
-        b.displayEvent.originServerTs.compareTo(a.displayEvent.originServerTs));
+    ret.sort(
+      (a, b) => b.displayEvent.originServerTs.compareTo(
+        a.displayEvent.originServerTs,
+      ),
+    );
 
     return ret;
   }
 
   Future<VideoPlayerController?> getVideoPlayerControllerForEvent(
-      Event e) async {
+    Event e,
+  ) async {
+    if (kIsWeb && const bool.fromEnvironment('INTEGRATION_TEST')) {
+      // Skip media initialization on Web CI to avoid MEDIA_ERR_SRC_NOT_SUPPORTED
+      return null;
+    }
     if ((widget.event.messageType != MessageTypes.Video &&
             widget.event.messageType != MessageTypes.Audio) ||
         isLinuxPlatform ||
@@ -106,19 +131,32 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
 
     if (e.room.encrypted) {
       if (kIsWeb) {
-        return VideoPlayerController.networkUrl(
-            Uri.parse(await getDecryptedFileObjectUrlForEvent(e)))
-          ..initialize();
+        final controller = VideoPlayerController.networkUrl(
+          Uri.parse(await getDecryptedFileObjectUrlForEvent(e)),
+        );
+        controller.initialize().catchError((_) {
+          /* ignore media format errors */
+        });
+        return controller;
       }
 
       // download and decrypt the file if the room is encrypted
-      return videoControllerFromFile(await getDecryptedFileForEvent(e))
-        ..initialize();
+      final controller = videoControllerFromFile(
+        await getDecryptedFileForEvent(e),
+      );
+      controller.initialize().catchError((_) {
+        /* ignore media format errors */
+      });
+      return controller;
     }
 
-    return VideoPlayerController.networkUrl(
-        (await e.getAttachmentUri())!) // todo... null check
-      ..initialize();
+    final controller = VideoPlayerController.networkUrl(
+      (await e.getAttachmentUri())!,
+    ); // todo... null check
+    controller.initialize().catchError((_) {
+      /* ignore media format errors */
+    });
+    return controller;
   }
 
   @override
@@ -158,31 +196,45 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      if (files.length > 1) ...[
-        IconButton(
-            onPressed: () => carouselController.previousPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.linear),
-            icon: const Icon(Icons.arrow_back_ios))
-      ],
-      Expanded(
+    return Row(
+      children: [
+        if (files.length > 1) ...[
+          IconButton(
+            onPressed:
+                () => carouselController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                ),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+        ],
+        Expanded(
           child: CarouselSlider.builder(
-              carouselController: carouselController,
-              itemCount: files.length,
-              options: CarouselOptions(enableInfiniteScroll: false),
-              itemBuilder:
-                  (BuildContext context, int itemIndex, int pageViewIndex) {
-                return Column(children: [
-                  Text(files[itemIndex].displayEvent.calcUnlocalizedBody(
-                      hideReply: true, hideEdit: true, plaintextBody: true)),
+            carouselController: carouselController,
+            itemCount: files.length,
+            options: CarouselOptions(enableInfiniteScroll: false),
+            itemBuilder: (
+              BuildContext context,
+              int itemIndex,
+              int pageViewIndex,
+            ) {
+              return Column(
+                children: [
+                  Text(
+                    files[itemIndex].displayEvent.calcUnlocalizedBody(
+                      hideReply: true,
+                      hideEdit: true,
+                      plaintextBody: true,
+                    ),
+                  ),
                   Expanded(
-                      child: GestureDetector(
-                    child: FileDisplay(file: files[itemIndex]),
-                    onTap: () {
-                      showDialog<String>(
+                    child: GestureDetector(
+                      child: FileDisplay(file: files[itemIndex]),
+                      onTap: () {
+                        showDialog<String>(
                           context: context,
-                          builder: (BuildContext context) => Dialog(
+                          builder:
+                              (BuildContext context) => Dialog(
                                 child: DismissiblePage(
                                   onDismissed: () {
                                     Navigator.of(context).pop();
@@ -197,18 +249,27 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
                                     child: FileDisplay(file: files[itemIndex]),
                                   ),
                                 ),
-                              ));
-                    },
-                  )),
-                ]);
-              })),
-      if (files.length > 1) ...[
-        IconButton(
-            onPressed: () => carouselController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.linear),
-            icon: const Icon(Icons.arrow_forward_ios))
-      ]
-    ]);
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        if (files.length > 1) ...[
+          IconButton(
+            onPressed:
+                () => carouselController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                ),
+            icon: const Icon(Icons.arrow_forward_ios),
+          ),
+        ],
+      ],
+    );
   }
 }

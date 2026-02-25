@@ -37,12 +37,16 @@ class _LoginPageState extends State<LoginPage> {
           return AlertDialog(
             title: const Text("loading").tr(),
             content: AspectRatio(
-                aspectRatio: .7,
-                child: FittedBox(
-                    child: Column(children: [
-                  const CircularProgressIndicator(),
-                  const Text('auth.login.loading').tr()
-                ]))),
+              aspectRatio: .7,
+              child: FittedBox(
+                child: Column(
+                  children: [
+                    const CircularProgressIndicator(),
+                    const Text('auth.login.loading').tr(),
+                  ],
+                ),
+              ),
+            ),
           );
         },
       );
@@ -69,10 +73,9 @@ class _LoginPageState extends State<LoginPage> {
           return AlertDialog(
             title: const Text('loading').tr(),
             content: AspectRatio(
-                aspectRatio: 1,
-                child: FittedBox(
-                  child: const Text("error").tr(args: ["$e"]),
-                )),
+              aspectRatio: 1,
+              child: FittedBox(child: const Text("error").tr(args: ["$e"])),
+            ),
             actions: <Widget>[
               TextButton(
                 child: const Text("approve").tr(),
@@ -107,13 +110,14 @@ class _LoginPageState extends State<LoginPage> {
     }
     redirectUrl += '?homeserver=${Uri.encodeComponent(homeserver.toString())}';
 
-    final ssoPath = provider.id.isNotEmpty
-        ? '_matrix/client/v3/login/sso/redirect/${Uri.encodeComponent(provider.id)}'
-        : '_matrix/client/v3/login/sso/redirect';
+    final ssoPath =
+        provider.id.isNotEmpty
+            ? '_matrix/client/v3/login/sso/redirect/${Uri.encodeComponent(provider.id)}'
+            : '_matrix/client/v3/login/sso/redirect';
 
-    return homeserver.resolve(ssoPath).replace(queryParameters: {
-      'redirectUrl': redirectUrl,
-    });
+    return homeserver
+        .resolve(ssoPath)
+        .replace(queryParameters: {'redirectUrl': redirectUrl});
   }
 
   Future<void> loginSSO(SsoProvider provider) async {
@@ -127,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error starting SSO: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error starting SSO: $e')));
     }
   }
 
@@ -190,8 +194,12 @@ class _LoginPageState extends State<LoginPage> {
               key: const Key('registerWebButton'),
               onPressed: () async {
                 final client = Provider.of<Client>(context, listen: false);
-                final url = client.homeserver ?? Uri.parse('https://matrix.org');
-                if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                final url =
+                    client.homeserver ?? Uri.parse('https://matrix.org');
+                if (!await launchUrl(
+                  url,
+                  mode: LaunchMode.externalApplication,
+                )) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Could not launch \$url')),
@@ -212,7 +220,8 @@ class _LoginPageState extends State<LoginPage> {
                   key: Key('ssoButton_${provider.id}'),
                   icon: const Icon(Icons.login),
                   label: Text(
-                      'auth.login.buttons.sso_label'.tr(args: [provider.name])),
+                    'auth.login.buttons.sso_label'.tr(args: [provider.name]),
+                  ),
                   onPressed: () => loginSSO(provider),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.all(14),

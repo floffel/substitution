@@ -12,7 +12,8 @@ class VideoPlayerControlsOverlay extends StatefulWidget {
       VideoPlayerControlsOverlayState();
 }
 
-class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> {
+class VideoPlayerControlsOverlayState
+    extends State<VideoPlayerControlsOverlay> {
   static const List<Duration> _exampleCaptionOffsets = <Duration>[
     Duration(seconds: -10),
     Duration(seconds: -3),
@@ -42,20 +43,21 @@ class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> 
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 50),
           reverseDuration: const Duration(milliseconds: 200),
-          child: widget.controller.value.isPlaying
-              ? const SizedBox.shrink()
-              : Container(
-                  color: Colors.black26,
-                  child: Center(
-                    child: Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 100.0,
-                      semanticLabel:
-                          'post.widgets.videoplayercontrol.play'.tr(),
+          child:
+              widget.controller.value.isPlaying
+                  ? const SizedBox.shrink()
+                  : Container(
+                    color: Colors.black26,
+                    child: Center(
+                      child: Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 100.0,
+                        semanticLabel:
+                            'post.widgets.videoplayercontrol.play'.tr(),
+                      ),
                     ),
                   ),
-                ),
         ),
         GestureDetector(
           onTap: () {
@@ -82,7 +84,7 @@ class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> 
                   PopupMenuItem<Duration>(
                     value: offsetDuration,
                     child: Text('${offsetDuration.inMilliseconds}ms'),
-                  )
+                  ),
               ];
             },
             child: Padding(
@@ -94,7 +96,8 @@ class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> 
                 horizontal: 16,
               ),
               child: Text(
-                  '${widget.controller.value.captionOffset.inMilliseconds}ms'),
+                '${widget.controller.value.captionOffset.inMilliseconds}ms',
+              ),
             ),
           ),
         ),
@@ -111,10 +114,7 @@ class VideoPlayerControlsOverlayState extends State<VideoPlayerControlsOverlay> 
             itemBuilder: (BuildContext context) {
               return <PopupMenuItem<double>>[
                 for (final double speed in _examplePlaybackRates)
-                  PopupMenuItem<double>(
-                    value: speed,
-                    child: Text('${speed}x'),
-                  )
+                  PopupMenuItem<double>(value: speed, child: Text('${speed}x')),
               ];
             },
             child: Padding(

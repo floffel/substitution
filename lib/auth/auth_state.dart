@@ -6,11 +6,7 @@ import 'package:matrix/matrix.dart';
 /// Corresponds to the `identity_providers` entries in the `m.login.sso` flow:
 /// https://spec.matrix.org/v1.7/client-server-api/#get_matrixclientv3login
 class SsoProvider {
-  const SsoProvider({
-    required this.id,
-    required this.name,
-    this.icon,
-  });
+  const SsoProvider({required this.id, required this.name, this.icon});
 
   /// The provider ID used in the SSO redirect URL path, e.g. "google", "github".
   final String id;
@@ -65,9 +61,10 @@ class AuthState extends ChangeNotifier {
   List<SsoProvider> get ssoProviders {
     if (_loginFlows == null) return const [];
 
-    final ssoFlow = _loginFlows!
-        .where((f) => f.type == AuthenticationTypes.sso)
-        .firstOrNull;
+    final ssoFlow =
+        _loginFlows!
+            .where((f) => f.type == AuthenticationTypes.sso)
+            .firstOrNull;
 
     if (ssoFlow == null) return const [];
 

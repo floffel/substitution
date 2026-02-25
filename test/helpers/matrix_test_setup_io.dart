@@ -19,8 +19,10 @@ void restoreHttpOverridesImpl() {
 Future<T> runWithHttpOverridesImpl<T>(Future<T> Function() body) {
   return io.HttpOverrides.runZoned(
     () => body(),
-    createHttpClient: (_) =>
-        io.HttpClient()..badCertificateCallback = (cert, host, port) => true,
+    createHttpClient:
+        (_) =>
+            io.HttpClient()
+              ..badCertificateCallback = (cert, host, port) => true,
   );
 }
 

@@ -127,8 +127,11 @@ Future<void> handleAgeGate(WidgetTester tester) async {
 /// Waits for at least [count] rooms to be joined and visible in the UI.
 ///
 /// Throws an [Exception] if the condition is not met within the timeout.
-Future<void> waitForJoinedRooms(WidgetTester tester, int count,
-    {Duration timeout = const Duration(seconds: 30)}) async {
+Future<void> waitForJoinedRooms(
+  WidgetTester tester,
+  int count, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
   debugPrint('Waiting for at least $count joined rooms to be visible...');
   final stopWatch = Stopwatch()..start();
 
@@ -159,12 +162,15 @@ Future<void> waitForJoinedRooms(WidgetTester tester, int count,
 
   final finalCount = find.byType(ListTile).evaluate().length;
   throw Exception(
-      'Timeout waiting for $count rooms. Only $finalCount found after ${timeout.inSeconds}s');
+    'Timeout waiting for $count rooms. Only $finalCount found after ${timeout.inSeconds}s',
+  );
 }
 
 /// Waits for the Matrix client to be fully synced (initial sync complete).
-Future<void> waitForSync(WidgetTester tester,
-    {Duration timeout = const Duration(seconds: 30)}) async {
+Future<void> waitForSync(
+  WidgetTester tester, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
   debugPrint('Waiting for Matrix initial sync to complete...');
   final stopWatch = Stopwatch()..start();
 

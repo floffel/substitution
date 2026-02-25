@@ -29,8 +29,9 @@ void main() {
       when(() => mockRoom.name).thenReturn('Test Room');
     });
 
-    testWidgets('When offline, cached posts are still displayed',
-        (WidgetTester tester) async {
+    testWidgets('When offline, cached posts are still displayed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -62,8 +63,9 @@ void main() {
       expect(find.text('@testuser:matrix.org'), findsOneWidget);
     });
 
-    testWidgets('When offline, "offline" banner is shown',
-        (WidgetTester tester) async {
+    testWidgets('When offline, "offline" banner is shown', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -71,13 +73,7 @@ void main() {
               value: mockClient,
               child: Stack(
                 children: [
-                  ListView(
-                    children: [
-                      ListTile(
-                        title: Text(mockEvent.body),
-                      ),
-                    ],
-                  ),
+                  ListView(children: [ListTile(title: Text(mockEvent.body))]),
                   MaterialBanner(
                     content: const Text('Offline — showing cached content'),
                     actions: [
@@ -100,8 +96,9 @@ void main() {
       expect(find.text('Offline — showing cached content'), findsOneWidget);
     });
 
-    testWidgets('When coming back online, new posts are fetched',
-        (WidgetTester tester) async {
+    testWidgets('When coming back online, new posts are fetched', (
+      WidgetTester tester,
+    ) async {
       bool fetchedNewData = false;
 
       await tester.pumpWidget(
@@ -110,12 +107,9 @@ void main() {
             body: Provider<Client>.value(
               value: mockClient,
               child: FutureBuilder<void>(
-                future: Future.delayed(
-                  const Duration(milliseconds: 100),
-                  () {
-                    fetchedNewData = true;
-                  },
-                ),
+                future: Future.delayed(const Duration(milliseconds: 100), () {
+                  fetchedNewData = true;
+                }),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return const Text('Data fetched');
@@ -139,8 +133,9 @@ void main() {
       expect(find.text('Data fetched'), findsOneWidget);
     });
 
-    testWidgets('Network failure with cached data shows error indicator',
-        (WidgetTester tester) async {
+    testWidgets('Network failure with cached data shows error indicator', (
+      WidgetTester tester,
+    ) async {
       final completer = Completer<void>();
 
       await tester.pumpWidget(

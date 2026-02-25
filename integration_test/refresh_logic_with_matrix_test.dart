@@ -12,7 +12,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
-    show skipIfNoMatrix, waitForMatrixClient;
+    show skipIfNoMatrix, waitForMatrixClient, effectiveMatrixServer;
+import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -70,62 +71,17 @@ void main() {
       }
     });
 
-    Future<void> loginUser(WidgetTester tester) async {
-      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      final client = app.globalMatrixClient;
-      if (client == null) throw Exception("globalMatrixClient not found");
-
-      debugPrint("Starting programmatic login for test user...");
-      // On Android emulators, localhost resolves to the emulator itself.
-      // Translate to 10.0.2.2 to reach the host machine's Matrix server.
-      var effectiveServer = testMatrixServer;
-      if (!kIsWeb &&
-          defaultTargetPlatform == TargetPlatform.android &&
-          effectiveServer.contains('localhost')) {
-        effectiveServer = effectiveServer.replaceAll('localhost', '10.0.2.2');
-        debugPrint('Android: translated server to $effectiveServer');
-      }
-      client.homeserver = Uri.parse(effectiveServer);
-      await client.checkHomeserver(client.homeserver!);
-
-      await client.login(
-        LoginType.mLoginPassword,
-        identifier: AuthenticationUserIdentifier(user: testUser),
-        password: testPassword,
-      );
-
-      debugPrint("Login success, navigating to Feed...");
-      // Pump briefly to let any immediate transitions settle.
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 250));
-      }
-      // Find a context that is inside the GoRouter subtree.
-      Element? navContext;
-      if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
-        navContext = tester.element(find.byType(app.IntroductionPage).first);
-      } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
-        navContext = tester.element(find.byType(Scaffold).first);
-      }
-      if (navContext != null) {
-        GoRouter.of(navContext).go("/");
-      } else {
-        debugPrint('⚠ No router context found — cannot navigate to feed');
-      }
-
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byIcon(Icons.menu).evaluate().isNotEmpty) break;
-      }
-    }
-
     testWidgets(
       'Home feed refreshes automatically when a room is joined in settings',
       (WidgetTester tester) async {
+        AgeGatePage.confirmed = true;
         app.main();
-        await waitForMatrixClient(tester);
-
-        await loginUser(tester);
+        await login_helper.loginUser(
+          tester,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
         // 1. Initial State: Verified to be on Home Feed
         expect(find.byType(home_page.HomePage), findsOneWidget);
@@ -199,9 +155,13 @@ void main() {
         await tester.pump(); // trigger rebuild
         for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));
-          // If the room has messages, they should appear. 
+          // If the room has messages, they should appear.
           // test_general usually has 5 messages seeded if "populate_with_messages" is true.
-          if (find.textContaining('Welcome to this test room').evaluate().isNotEmpty) break;
+          if (find
+              .textContaining('Welcome to this test room')
+              .evaluate()
+              .isNotEmpty)
+            break;
         }
         // The automatic refresh should have triggered when we joined the room.
         // test_general has no seeded messages (the init_test_data.py only seeds messages

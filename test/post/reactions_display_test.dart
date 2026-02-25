@@ -17,8 +17,10 @@ void main() {
 
     setUp(() {
       mockClient = MockClient();
-      mockSender =
-          createMockUser(id: '@user:matrix.org', displayName: 'Test User');
+      mockSender = createMockUser(
+        id: '@user:matrix.org',
+        displayName: 'Test User',
+      );
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
       mockEvent = createMockEvent(
         type: 'm.room.message',
@@ -28,14 +30,17 @@ void main() {
       );
     });
 
-    testWidgets('Smoke: renders with mock reactions',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: renders with mock reactions', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(
@@ -50,14 +55,17 @@ void main() {
       expect(find.byType(ReactionsDisplay), findsOneWidget);
     });
 
-    testWidgets('Displays correct emoji with correct count',
-        (WidgetTester tester) async {
+    testWidgets('Displays correct emoji with correct count', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(
@@ -73,14 +81,17 @@ void main() {
       expect(find.byType(Wrap), findsOneWidget);
     });
 
-    testWidgets('Tooltip shows usernames on hover',
-        (WidgetTester tester) async {
+    testWidgets('Tooltip shows usernames on hover', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(
@@ -96,14 +107,17 @@ void main() {
       expect(find.byType(Wrap), findsOneWidget);
     });
 
-    testWidgets('Long-press own reaction shows visual indication',
-        (WidgetTester tester) async {
+    testWidgets('Long-press own reaction shows visual indication', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(
@@ -119,14 +133,17 @@ void main() {
       expect(find.byType(Wrap), findsOneWidget);
     });
 
-    testWidgets('Redact calls room.redactEvent with correct event ID',
-        (WidgetTester tester) async {
+    testWidgets('Redact calls room.redactEvent with correct event ID', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(
@@ -143,11 +160,13 @@ void main() {
 
     testWidgets('No reactions renders empty', (WidgetTester tester) async {
       // Arrange
-      when(() => mockRoom.getTimeline(
-              eventContextId: any(named: 'eventContextId')))
-          .thenAnswer((_) async => MockTimeline());
-      when(() => mockEvent.aggregatedEvents(any(), any()))
-          .thenReturn(<Event>{});
+      when(
+        () =>
+            mockRoom.getTimeline(eventContextId: any(named: 'eventContextId')),
+      ).thenAnswer((_) async => MockTimeline());
+      when(
+        () => mockEvent.aggregatedEvents(any(), any()),
+      ).thenReturn(<Event>{});
       when(() => mockEvent.hasAggregatedEvents(any(), any())).thenReturn(false);
 
       await pumpApp(

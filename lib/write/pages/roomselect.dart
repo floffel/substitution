@@ -26,14 +26,12 @@ class RoomSelectPageState extends State<RoomSelectPage> {
   bool postType = false;
 
   final WidgetStateProperty<Icon?> postTypeThumbIcon =
-      WidgetStateProperty.resolveWith<Icon?>(
-    (Set<WidgetState> states) {
-      if (states.contains(WidgetState.selected)) {
-        return const Icon(Icons.add_a_photo);
-      }
-      return const Icon(Icons.post_add);
-    },
-  );
+      WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.selected)) {
+          return const Icon(Icons.add_a_photo);
+        }
+        return const Icon(Icons.post_add);
+      });
 
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
     List<SubstitutionRoom> ret = [];
@@ -49,13 +47,15 @@ class RoomSelectPageState extends State<RoomSelectPage> {
 
       // check if we have more than 50 power in this room
 
-      ret.add(SubstitutionRoom(
-        name: r.name,
-        id: r.id,
-        avatarUrl: r.avatar?.getDownloadUri(client).toString(),
-        isInsideSubstitution: isInSubstitution,
-        joined: true,
-      ));
+      ret.add(
+        SubstitutionRoom(
+          name: r.name,
+          id: r.id,
+          avatarUrl: r.avatar?.getDownloadUri(client).toString(),
+          isInsideSubstitution: isInSubstitution,
+          joined: true,
+        ),
+      );
     }
 
     return ret;
@@ -64,46 +64,62 @@ class RoomSelectPageState extends State<RoomSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(children: [
-      const Text("write.roomselect.type_prompt").tr(),
-      Switch(
-        thumbIcon: postTypeThumbIcon,
-        value: postType,
-        activeThumbColor: Colors.red,
-        onChanged: (bool value) {
-          setState(() {
-            postType = value;
-          });
-        },
-      ),
-      const Text("write.roomselect.room_prompt").tr(),
-      FutureBuilder(
-          future: _getJoinedRooms(),
-          builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData) {
-              return const SizedBox.shrink();
-            }
+      child: Column(
+        children: [
+          const Text("write.roomselect.type_prompt").tr(),
+          Switch(
+            thumbIcon: postTypeThumbIcon,
+            value: postType,
+            activeThumbColor: Colors.red,
+            onChanged: (bool value) {
+              setState(() {
+                postType = value;
+              });
+            },
+          ),
+          const Text("write.roomselect.room_prompt").tr(),
+          FutureBuilder(
+            future: _getJoinedRooms(),
+            builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!snapshot.hasData) {
+                return const SizedBox.shrink();
+              }
 
-            return SingleChildScrollView(
+              return SingleChildScrollView(
                 child: Column(
-                    children: ListTile.divideTiles(context: context, tiles: [
-              ...snapshot.data?.map((l) {
-                    //return Text(l["id"]);
-                    return GestureDetector(
-                        onTap: () {
-                          debugPrint("postType: $postType");
+                  children:
+                      ListTile.divideTiles(
+                        context: context,
+                        tiles: [
+                          ...snapshot.data?.map((l) {
+                                //return Text(l["id"]);
+                                return GestureDetector(
+                                  onTap: () {
+                                    debugPrint("postType: $postType");
 
-                          context.push(
-                              "/${postType ? "file" : "write"}/${l.id}");
-                        },
-                        child: RoomWidget(room: l));
-                  }).toList() ??
-                  [const Text("write.roomselect.error_no_rooms").tr()]
-            ]).toList()));
-          }),
-    ]));
+                                    context.push(
+                                      "/${postType ? "file" : "write"}/${l.id}",
+                                    );
+                                  },
+                                  child: RoomWidget(room: l),
+                                );
+                              }).toList() ??
+                              [
+                                const Text(
+                                  "write.roomselect.error_no_rooms",
+                                ).tr(),
+                              ],
+                        ],
+                      ).toList(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

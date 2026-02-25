@@ -31,14 +31,14 @@ class FeedState extends State<Feed> {
         title: const Text("Substitution"),
         centerTitle: true,
         actions: <Widget>[
-          Builder(builder: (context) {
-            return IconButton(
-              onPressed: () => {
-                Scaffold.of(context).openEndDrawer(),
-              },
-              icon: const Icon(Icons.menu),
-            );
-          })
+          Builder(
+            builder: (context) {
+              return IconButton(
+                onPressed: () => {Scaffold.of(context).openEndDrawer()},
+                icon: const Icon(Icons.menu),
+              );
+            },
+          ),
         ],
       ),
       body: HomePage(roomId: widget.roomId),

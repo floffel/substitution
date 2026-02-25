@@ -31,50 +31,58 @@ class _DialogDeleteServerState extends State<DialogDeleteServer> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text("settings.dialog.delete.title")
-            .tr(args: [widget.server]), //Delete ${widget.server}?'),
-        content: const Text("settings.dialog.delete.desc")
-            .tr(args: [widget.server]), // Delete ${widget.server}?"),
-        actions: <Widget>[
-          if (_isLoading)
-            const CircularProgressIndicator()
-          else
-            TextButton(
-                child: const Text("settings.dialog.delete.button.submit").tr(),
-                onPressed: () async {
-                  final navigator = Navigator.of(context);
+      title: const Text(
+        "settings.dialog.delete.title",
+      ).tr(args: [widget.server]), //Delete ${widget.server}?'),
+      content: const Text(
+        "settings.dialog.delete.desc",
+      ).tr(args: [widget.server]), // Delete ${widget.server}?"),
+      actions: <Widget>[
+        if (_isLoading)
+          const CircularProgressIndicator()
+        else
+          TextButton(
+            child: const Text("settings.dialog.delete.button.submit").tr(),
+            onPressed: () async {
+              final navigator = Navigator.of(context);
+              setState(() {
+                _isLoading = true;
+              });
+
+              try {
+                // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
+                //       so we can just delete the substition flag and don't leave the room
+
+                var newServers = Map<String, dynamic>.from(await accountData);
+                newServers.remove(widget.server);
+
+                await client.setAccountData(
+                  client.userID!,
+                  "substitution.servers",
+                  newServers,
+                );
+
+                navigator.pop(true);
+              } catch (e) {
+                debugPrint("Error deleting server: $e");
+                // Show error?
+              } finally {
+                if (mounted) {
                   setState(() {
-                    _isLoading = true;
+                    _isLoading = false;
                   });
-
-                  try {
-                    // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
-                    //       so we can just delete the substition flag and don't leave the room
-                    
-                    var newServers = Map<String, dynamic>.from(await accountData);
-                    newServers.remove(widget.server);
-
-                    await client.setAccountData(
-                        client.userID!, "substitution.servers", newServers);
-
-                    navigator.pop(true);
-                  } catch (e) {
-                     debugPrint("Error deleting server: $e");
-                     // Show error?
-                  } finally {
-                    if (mounted) {
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    }
-                  }
-                }),
-          if (!_isLoading)
-            TextButton(
-                child: const Text("settings.dialog.delete.button.cancel").tr(),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                })
-        ]);
+                }
+              }
+            },
+          ),
+        if (!_isLoading)
+          TextButton(
+            child: const Text("settings.dialog.delete.button.cancel").tr(),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+      ],
+    );
   }
 }

@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
     show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -91,118 +92,27 @@ void main() {
       }
     });
 
-    Future<void> loginUser(WidgetTester tester) async {
-      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      // Ensure app.main() has completed runApp() before querying the widget tree.
-      await waitForMatrixClient(tester);
-      // Wait for any known first screen to appear
-      for (int i = 0; i < 30; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        final hasIntro = find.byType(IntroductionScreen).evaluate().isNotEmpty;
-        final hasUsername =
-            find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
-        final hasHost =
-            find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
-        if (hasIntro || hasUsername || hasHost) break;
-      }
-
-      // Only navigate through intro if IntroductionScreen is actually present.
-      // Use the "Next" button — canProgress() blocks PageView drags.
-      if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
-        for (int i = 0; i < 3; i++) {
-          final hasHost =
-              find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
-          final hasUsername =
-              find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
-          if (hasHost || hasUsername) break;
-
-          final nextButtonFinder = find.text('Next');
-          if (nextButtonFinder.evaluate().isNotEmpty) {
-            await tester.tap(nextButtonFinder.first);
-          } else {
-            break;
-          }
-          await tester.pumpAndSettle(const Duration(milliseconds: 500));
-          for (int ps = 0; ps < 2; ps++) {
-            await tester.pump(const Duration(milliseconds: 500));
-          }
-        }
-      }
-
-      // Enter host if visible
-      final hostInput = find.byKey(const Key('hostServerInput'));
-      if (hostInput.evaluate().isNotEmpty) {
-        await tester.enterText(
-          hostInput,
-          effectiveMatrixServer(testMatrixServer),
-        );
-        for (int ps = 0; ps < 4; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        await tester.tap(find.byKey(const Key('hostSubmitButton')));
-
-        // Wait for login page
-        for (int i = 0; i < 30; i++) {
-          await tester.pump(const Duration(milliseconds: 500));
-          if (find
-              .byKey(const Key('loginUsernameInput'))
-              .evaluate()
-              .isNotEmpty) {
-            break;
-          }
-        }
-      }
-
-      // Enter credentials
-      await tester.enterText(
-        find.byKey(const Key('loginUsernameInput')),
-        testUser,
-      );
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-      await tester.enterText(
-        find.byKey(const Key('loginPasswordInput')),
-        testPassword,
-      );
-      for (int ps = 0; ps < 4; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
-      }
-
-      await tester.tap(find.byKey(const Key('loginSubmitButton')));
-
-      // Wait for Go button
-      for (int i = 0; i < 40; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) break;
-      }
-
-      final goButton = find.byKey(const Key('introGoButton'));
-      if (goButton.evaluate().isNotEmpty) {
-        await tester.tap(goButton);
-      }
-
-      // Wait for feed
-      for (int i = 0; i < 20; i++) {
-        await tester.pump(const Duration(milliseconds: 500));
-        if (find.byType(Scrollable).evaluate().isNotEmpty) break;
-      }
-    }
-
     testWidgets('Pull to refresh in populated feed works', (
       WidgetTester tester,
     ) async {
+      AgeGatePage.confirmed = true;
       app.main();
-      await loginUser(tester);
+      await login_helper.loginUser(
+        tester,
+        matrixServer: testMatrixServer,
+        username: testUser,
+        password: testPassword,
+      );
 
       // Verify feed has content
       expect(find.byType(Scrollable).first, findsOneWidget);
 
       // Perform pull to refresh
       await tester.drag(find.byType(Scrollable).first, const Offset(0, 400));
-      await tester.pumpAndSettle();
+      // Use bounded pump instead of pumpAndSettle to avoid timeout with live Matrix sync
+      for (int i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 300));
+      }
 
       // Verify no crash happened and content is still there
       expect(find.byType(Scrollable).first, findsOneWidget);
@@ -211,13 +121,22 @@ void main() {
     testWidgets('Pull to refresh in empty room room handles null check', (
       WidgetTester tester,
     ) async {
+      AgeGatePage.confirmed = true;
       app.main();
-      await loginUser(tester);
+      await login_helper.loginUser(
+        tester,
+        matrixServer: testMatrixServer,
+        username: testUser,
+        password: testPassword,
+      );
 
       // Even if the room is populated, we just want to ensure _fetchFutureEvents doesn't crash
       // after the fix.
       await tester.drag(find.byType(Scrollable).first, const Offset(0, 400));
-      await tester.pumpAndSettle();
+      // Use bounded pump instead of pumpAndSettle to avoid timeout with live Matrix sync
+      for (int i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 300));
+      }
 
       expect(find.byType(Scrollable).first, findsOneWidget);
     });

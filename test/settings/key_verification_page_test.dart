@@ -48,8 +48,7 @@ class MockDeviceKeys extends Mock implements DeviceKeys {
 
 void main() {
   group('Key Verification Page Widget Tests', () {
-    setUp(() {
-    });
+    setUp(() {});
 
     test('Device list structure', () {
       // Arrange

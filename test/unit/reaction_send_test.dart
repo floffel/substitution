@@ -13,8 +13,10 @@ void main() {
 
     setUp(() {
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
-      mockSender =
-          createMockUser(id: '@user:matrix.org', displayName: 'Test User');
+      mockSender = createMockUser(
+        id: '@user:matrix.org',
+        displayName: 'Test User',
+      );
       mockEvent = createMockEvent(
         type: 'm.room.message',
         body: 'Test message',
@@ -23,29 +25,33 @@ void main() {
       );
     });
 
-    test('should call event.room.sendReaction with correct event ID and emoji',
-        () async {
-      // Arrange
-      const emoji = '👍';
-      const eventId = r'$event123';
+    test(
+      'should call event.room.sendReaction with correct event ID and emoji',
+      () async {
+        // Arrange
+        const emoji = '👍';
+        const eventId = r'$event123';
 
-      when(() => mockEvent.eventId).thenReturn(eventId);
-      when(() => mockRoom.sendReaction(eventId, emoji))
-          .thenAnswer((_) async => 'reaction_event_id');
+        when(() => mockEvent.eventId).thenReturn(eventId);
+        when(
+          () => mockRoom.sendReaction(eventId, emoji),
+        ).thenAnswer((_) async => 'reaction_event_id');
 
-      // Act
-      await mockEvent.room.sendReaction(mockEvent.eventId, emoji);
+        // Act
+        await mockEvent.room.sendReaction(mockEvent.eventId, emoji);
 
-      // Assert
-      verify(() => mockRoom.sendReaction(eventId, emoji)).called(1);
-    });
+        // Assert
+        verify(() => mockRoom.sendReaction(eventId, emoji)).called(1);
+      },
+    );
 
     test('should map selected emoji to correct unicode key', () async {
       // Arrange
       final emojis = ['👍', '❤️', '😂', '🎉', '🔥'];
 
-      when(() => mockRoom.sendReaction(any(), any()))
-          .thenAnswer((_) async => 'reaction_event_id');
+      when(
+        () => mockRoom.sendReaction(any(), any()),
+      ).thenAnswer((_) async => 'reaction_event_id');
 
       // Act & Assert
       for (final emoji in emojis) {

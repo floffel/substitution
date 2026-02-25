@@ -6,8 +6,7 @@ class MockConnectivityPlus extends Mock implements Connectivity {}
 
 void main() {
   group('Connectivity Service Tests', () {
-    setUp(() {
-    });
+    setUp(() {});
 
     test('isOnline returns true when connected', () async {
       // Create a real connectivity service and mock the dependency
@@ -24,9 +23,7 @@ void main() {
 
     test('Stream emits correct events on change', () async {
       // For this test, we verify that a stream can emit connectivity changes
-      final stream = Stream<ConnectivityResult>.value(
-        ConnectivityResult.wifi,
-      );
+      final stream = Stream<ConnectivityResult>.value(ConnectivityResult.wifi);
 
       final results = <ConnectivityResult>[];
 

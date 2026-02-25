@@ -22,21 +22,23 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
 
   // Map: (String smileyString, meta)
   Future<
-      Map<
-          String,
-          ({
-            List<String> userNames,
-            bool isOwnSmiley,
-            Event? displayEvent
-          })>> get reactions async {
+    Map<
+      String,
+      ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+    >
+  >
+  get reactions async {
     debugPrint("start getting reactions");
 
-    Map<String,
-            ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>
-        ret = {};
+    Map<
+      String,
+      ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+    >
+    ret = {};
 
-    Timeline timeline = await widget.event.room
-        .getTimeline(eventContextId: widget.event.eventId);
+    Timeline timeline = await widget.event.room.getTimeline(
+      eventContextId: widget.event.eventId,
+    );
     // TODO: we need to transfere the timeline from the previous
     //  component
 
@@ -44,10 +46,15 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     debugPrint(widget.event.eventId);
     debugPrint("has aggregated events?");
     debugPrint(
-        widget.event.hasAggregatedEvents(timeline, RelationshipTypes.reaction).toString());
+      widget.event
+          .hasAggregatedEvents(timeline, RelationshipTypes.reaction)
+          .toString(),
+    );
 
-    Set<Event> events =
-        widget.event.aggregatedEvents(timeline, RelationshipTypes.reaction);
+    Set<Event> events = widget.event.aggregatedEvents(
+      timeline,
+      RelationshipTypes.reaction,
+    );
 
     debugPrint("got events");
     debugPrint(events.toString());
@@ -77,10 +84,10 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
         ret[smiley] = (
           userNames: [
             ...(ret[smiley]?.userNames ?? []),
-            sender.displayName ?? "post.widget.reactions.unknown_sender".tr()
+            sender.displayName ?? "post.widget.reactions.unknown_sender".tr(),
           ],
           isOwnSmiley: isOwnSmiley,
-          displayEvent: isOwnSmiley ? displayEvent : null
+          displayEvent: isOwnSmiley ? displayEvent : null,
         );
       }
     }
@@ -91,48 +98,60 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: reactions,
-        builder: (ctx, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-                child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator()));
-          }
-          // todo: show loading animation!
-          return Wrap(spacing: 1.0, runSpacing: 4.0, children: [
+      future: reactions,
+      builder: (ctx, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        // todo: show loading animation!
+        return Wrap(
+          spacing: 1.0,
+          runSpacing: 4.0,
+          children: [
             ...snapshot.data?.entries.map((var e) {
                   return Tooltip(
-                      message: "post.widgets.reaction.sent_by"
-                          .tr(args: [e.value.userNames.join(', ')]),
-                      child: GestureDetector(
-                          onLongPress: () {
-                            if (e.value.displayEvent != null) {
-                              e.value.displayEvent!.redactEvent();
-                              setState(() {});
-                            }
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.all(2.0),
-                              decoration: e.value.isOwnSmiley
-                                  ? BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.red[400]!),
-                                      shape: BoxShape.circle)
-                                  : null,
-                              // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
-                              child: Text(
-                                e.key,
-                                style: const TextStyle(
-                                  fontSize: 24.0,
-                                                                        fontFamily: AppConstants.defaultEmojiFontFamily,
-                                  
-                                  fontFamilyFallback: ["Noto Emoji"],
-                                ),
-                              ))));
+                    message: "post.widgets.reaction.sent_by".tr(
+                      args: [e.value.userNames.join(', ')],
+                    ),
+                    child: GestureDetector(
+                      onLongPress: () {
+                        if (e.value.displayEvent != null) {
+                          e.value.displayEvent!.redactEvent();
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(2.0),
+                        decoration:
+                            e.value.isOwnSmiley
+                                ? BoxDecoration(
+                                  border: Border.all(color: Colors.red[400]!),
+                                  shape: BoxShape.circle,
+                                )
+                                : null,
+                        // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
+                        child: Text(
+                          e.key,
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontFamily: AppConstants.defaultEmojiFontFamily,
+
+                            fontFamilyFallback: ["Noto Emoji"],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 }) ??
-                []
-          ]);
-        });
+                [],
+          ],
+        );
+      },
+    );
   }
 }

@@ -63,13 +63,13 @@ void main() {
             providers: [
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
+                value: mockConnectivityService,
+              ),
               ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
+                value: SubstitutionService(mockClient),
+              ),
             ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+            child: MaterialApp(home: const HomePage()),
           ),
         ),
       );
@@ -78,8 +78,9 @@ void main() {
       expect(find.byType(HomePage), findsOneWidget);
     });
 
-    testWidgets('Posts from multiple rooms appear in chronological order',
-        (WidgetTester tester) async {
+    testWidgets('Posts from multiple rooms appear in chronological order', (
+      WidgetTester tester,
+    ) async {
       final mockRoom1 = MockRoom();
       final mockRoom2 = MockRoom();
       final mockTimeline1 = MockTimeline();
@@ -95,12 +96,15 @@ void main() {
       when(() => mockTimeline1.room).thenReturn(mockRoom1);
       when(() => mockTimeline2.room).thenReturn(mockRoom2);
 
-      when(() => mockClient.getRoomById('!room1:matrix.org'))
-          .thenReturn(mockRoom1);
-      when(() => mockClient.getRoomById('!room2:matrix.org'))
-          .thenReturn(mockRoom2);
-      when(() => mockClient.getJoinedRooms())
-          .thenAnswer((_) async => ['!room1:matrix.org', '!room2:matrix.org']);
+      when(
+        () => mockClient.getRoomById('!room1:matrix.org'),
+      ).thenReturn(mockRoom1);
+      when(
+        () => mockClient.getRoomById('!room2:matrix.org'),
+      ).thenReturn(mockRoom2);
+      when(
+        () => mockClient.getJoinedRooms(),
+      ).thenAnswer((_) async => ['!room1:matrix.org', '!room2:matrix.org']);
 
       // Note: isRoomInSubstitution is an extension method, not directly mockable
       // This test validates that multiple rooms can be displayed together
@@ -112,8 +116,9 @@ void main() {
       expect(mockRoom1.id, isNot(mockRoom2.id));
     });
 
-    testWidgets('HomePage title and structure present',
-        (WidgetTester tester) async {
+    testWidgets('HomePage title and structure present', (
+      WidgetTester tester,
+    ) async {
       final mockConnectivityService = MockConnectivityService();
 
       await tester.pumpWidget(
@@ -125,13 +130,13 @@ void main() {
             providers: [
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
+                value: mockConnectivityService,
+              ),
               ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
+                value: SubstitutionService(mockClient),
+              ),
             ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+            child: MaterialApp(home: const HomePage()),
           ),
         ),
       );
@@ -142,8 +147,9 @@ void main() {
       expect(find.byType(Scaffold), findsWidgets);
     });
 
-    testWidgets('Verify HomePage uses RefreshIndicator for pull-to-refresh',
-        (WidgetTester tester) async {
+    testWidgets('Verify HomePage uses RefreshIndicator for pull-to-refresh', (
+      WidgetTester tester,
+    ) async {
       final mockConnectivityService = MockConnectivityService();
 
       await tester.pumpWidget(
@@ -155,13 +161,13 @@ void main() {
             providers: [
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
+                value: mockConnectivityService,
+              ),
               ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
+                value: SubstitutionService(mockClient),
+              ),
             ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+            child: MaterialApp(home: const HomePage()),
           ),
         ),
       );
@@ -173,39 +179,41 @@ void main() {
     });
 
     testWidgets(
-        'HomePage initializes with PagingController for infinite scroll',
-        (WidgetTester tester) async {
-      final mockConnectivityService = MockConnectivityService();
+      'HomePage initializes with PagingController for infinite scroll',
+      (WidgetTester tester) async {
+        final mockConnectivityService = MockConnectivityService();
 
-      await tester.pumpWidget(
-        EasyLocalization(
-          supportedLocales: const [Locale('en', 'US')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          child: MultiProvider(
-            providers: [
-              Provider<Client>.value(value: mockClient),
-              Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
-              ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
-            ],
-            child: MaterialApp(
-              home: const HomePage(),
+        await tester.pumpWidget(
+          EasyLocalization(
+            supportedLocales: const [Locale('en', 'US')],
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en', 'US'),
+            child: MultiProvider(
+              providers: [
+                Provider<Client>.value(value: mockClient),
+                Provider<ConnectivityService>.value(
+                  value: mockConnectivityService,
+                ),
+                ChangeNotifierProvider<SubstitutionService>.value(
+                  value: SubstitutionService(mockClient),
+                ),
+              ],
+              child: MaterialApp(home: const HomePage()),
             ),
           ),
-        ),
-      );
+        );
 
-      await tester.pump();
+        await tester.pump();
 
-      // Verify the page structure includes a list-like widget
-      // (PagedListView uses PagingController internally)
-      expect(find.byType(HomePage), findsOneWidget);
-    });
+        // Verify the page structure includes a list-like widget
+        // (PagedListView uses PagingController internally)
+        expect(find.byType(HomePage), findsOneWidget);
+      },
+    );
 
-    testWidgets('Empty feed shows "find new rooms" action',
-        (WidgetTester tester) async {
+    testWidgets('Empty feed shows "find new rooms" action', (
+      WidgetTester tester,
+    ) async {
       final mockConnectivityService = MockConnectivityService();
 
       await tester.pumpWidget(
@@ -217,13 +225,13 @@ void main() {
             providers: [
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
+                value: mockConnectivityService,
+              ),
               ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
+                value: SubstitutionService(mockClient),
+              ),
             ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+            child: MaterialApp(home: const HomePage()),
           ),
         ),
       );
@@ -239,8 +247,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
-    testWidgets('Feed with followed rooms but no events shows empty state',
-        (WidgetTester tester) async {
+    testWidgets('Feed with followed rooms but no events shows empty state', (
+      WidgetTester tester,
+    ) async {
       final mockConnectivityService = MockConnectivityService();
 
       final mockRoomEmpty = MockRoom();
@@ -251,19 +260,24 @@ void main() {
       when(() => mockTimelineEmpty.room).thenReturn(mockRoomEmpty);
       when(() => mockTimelineEmpty.events).thenReturn([]);
       when(() => mockTimelineEmpty.canRequestHistory).thenReturn(false);
-      when(() => mockRoomEmpty.getTimeline())
-          .thenAnswer((_) async => mockTimelineEmpty);
+      when(
+        () => mockRoomEmpty.getTimeline(),
+      ).thenAnswer((_) async => mockTimelineEmpty);
 
-      when(() => mockClient.getRoomById('!empty:matrix.org'))
-          .thenReturn(mockRoomEmpty);
-      when(() => mockClient.getJoinedRooms())
-          .thenAnswer((_) async => ['!empty:matrix.org']);
+      when(
+        () => mockClient.getRoomById('!empty:matrix.org'),
+      ).thenReturn(mockRoomEmpty);
+      when(
+        () => mockClient.getJoinedRooms(),
+      ).thenAnswer((_) async => ['!empty:matrix.org']);
 
-      when(() => mockClient.getAccountDataPerRoom(
-            '@user:matrix.org',
-            '!empty:matrix.org',
-            'substitution',
-          )).thenAnswer((_) async => {'joined': true});
+      when(
+        () => mockClient.getAccountDataPerRoom(
+          '@user:matrix.org',
+          '!empty:matrix.org',
+          'substitution',
+        ),
+      ).thenAnswer((_) async => {'joined': true});
 
       await tester.pumpWidget(
         EasyLocalization(
@@ -274,13 +288,13 @@ void main() {
             providers: [
               Provider<Client>.value(value: mockClient),
               Provider<ConnectivityService>.value(
-                  value: mockConnectivityService),
+                value: mockConnectivityService,
+              ),
               ChangeNotifierProvider<SubstitutionService>.value(
-                  value: SubstitutionService(mockClient)),
+                value: SubstitutionService(mockClient),
+              ),
             ],
-            child: MaterialApp(
-              home: const HomePage(),
-            ),
+            child: MaterialApp(home: const HomePage()),
           ),
         ),
       );

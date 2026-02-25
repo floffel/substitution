@@ -25,7 +25,6 @@ class FollowFeedSettings extends StatefulWidget {
   FollowFeedSettingsState createState() => FollowFeedSettingsState();
 }
 
-
 class FollowFeedPageKey {
   String? nextBatch;
   bool reachedEnd = false;
@@ -39,7 +38,8 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   final roomSearchContrainer = TextEditingController();
 
   String? searchText; // todo: if input is "" => searchText shall be null
-  late final PagingController<FollowFeedPageKey?, SubstitutionRoom> _pagingController;
+  late final PagingController<FollowFeedPageKey?, SubstitutionRoom>
+  _pagingController;
   int _searchGeneration = 0;
 
   Client get client => Provider.of<Client>(context, listen: false);
@@ -58,7 +58,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   }
 
   Future<void> _joinRoom(String id) async {
-    await context.read<SubstitutionService>().joinRoom(id, serverNames: [selectedServer]);
+    await context.read<SubstitutionService>().joinRoom(
+      id,
+      serverNames: [selectedServer],
+    );
     _resetList();
   }
 
@@ -78,14 +81,18 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   Future<List<SubstitutionRoom>> _fetchRooms(FollowFeedPageKey? pageKey) async {
     final currentGeneration = _searchGeneration;
-    debugPrint("[FollowFeeds] Fetching rooms for generation $currentGeneration, server: '$selectedServer', search: '$searchText'");
+    debugPrint(
+      "[FollowFeeds] Fetching rooms for generation $currentGeneration, server: '$selectedServer', search: '$searchText'",
+    );
 
     FollowFeedPageKey key = pageKey ?? FollowFeedPageKey(nextBatch: null);
 
     List<SubstitutionRoom> newData = [];
 
     if (selectedServer.isEmpty) {
-      debugPrint("[FollowFeeds] Selected server is empty, returning empty list.");
+      debugPrint(
+        "[FollowFeeds] Selected server is empty, returning empty list.",
+      );
       key.reachedEnd = true;
       return newData;
     }
@@ -93,7 +100,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     try {
       // Fetch public rooms with a timeout to avoid infinite hangs
       debugPrint("[FollowFeeds] Calling queryPublicRooms...");
-      final String? queryServer = selectedServer == (client.userID?.split(':').last ?? "") ? null : selectedServer;
+      final String? queryServer =
+          selectedServer == (client.userID?.split(':').last ?? "")
+              ? null
+              : selectedServer;
       QueryPublicRoomsResponse resp = await client
           .queryPublicRooms(
             server: queryServer,
@@ -101,10 +111,14 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             filter: PublicRoomQueryFilter(genericSearchTerm: searchText),
             since: key.nextBatch,
           )
-          .timeout(const Duration(seconds: 15), onTimeout: () {
-        throw TimeoutException("Matrix queryPublicRooms timed out after 15 seconds");
-      });
-
+          .timeout(
+            const Duration(seconds: 15),
+            onTimeout: () {
+              throw TimeoutException(
+                "Matrix queryPublicRooms timed out after 15 seconds",
+              );
+            },
+          );
 
       // Check for race condition
       if (currentGeneration != _searchGeneration) {
@@ -121,25 +135,29 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
       for (var chunk in resp.chunk) {
         final isJoined = joinedRooms.contains(chunk.roomId);
-        
+
         // Optimization: Only check substitution status for rooms we are joined to.
         // Public rooms we haven't joined yet can't have our account data anyway.
         bool isInSubstitution = false;
         if (isJoined) {
-           isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
+          isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
         }
 
-        newData.add(SubstitutionRoom(
-          name: chunk.name ?? "Unknown Room",
-          id: chunk.roomId,
-          avatarUrl: chunk.avatarUrl?.toString(),
-          isInsideSubstitution: isInSubstitution,
-          joined: isJoined,
-        ));
+        newData.add(
+          SubstitutionRoom(
+            name: chunk.name ?? "Unknown Room",
+            id: chunk.roomId,
+            avatarUrl: chunk.avatarUrl?.toString(),
+            isInsideSubstitution: isInSubstitution,
+            joined: isJoined,
+          ),
+        );
       }
 
       // Check for end of pagination
-      if (resp.nextBatch == null || resp.nextBatch!.isEmpty || resp.chunk.isEmpty) {
+      if (resp.nextBatch == null ||
+          resp.nextBatch!.isEmpty ||
+          resp.chunk.isEmpty) {
         key.reachedEnd = true;
       }
 
@@ -188,7 +206,8 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     super.initState();
 
     // Try to initialize selectedServer immediately
-    final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
+    final defaultServer =
+        client.userID?.split(':').last ?? client.homeserver?.host;
     if (defaultServer != null) {
       selectedServer = defaultServer;
     }
@@ -223,129 +242,167 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      const Text("settings.followfeeds.filter_server_header").tr(),
-      Padding(
+    return Column(
+      children: [
+        const Text("settings.followfeeds.filter_server_header").tr(),
+        Padding(
           padding: const EdgeInsets.all(16.0),
           child: FutureBuilder(
-              future: accountData.then((data) {
-                 // Ensure default server is in the list
-                 final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
-                 if (defaultServer != null && !data.containsKey(defaultServer)) {
+            future: accountData
+                .then((data) {
+                  // Ensure default server is in the list
+                  final defaultServer =
+                      client.userID?.split(':').last ?? client.homeserver?.host;
+                  if (defaultServer != null &&
+                      !data.containsKey(defaultServer)) {
                     // clone map to avoid mutation issues if unmodifiable
                     final newData = Map<String, Object?>.from(data);
                     newData[defaultServer] = {"added_automatically": true};
                     return newData;
-                 }
-                 return data;
-              }).catchError((e) {
+                  }
+                  return data;
+                })
+                .catchError((e) {
                   // Handle error if account data fetch fails (e.g. initially empty)
-                  final defaultServer = client.userID?.split(':').last ?? client.homeserver?.host;
+                  final defaultServer =
+                      client.userID?.split(':').last ?? client.homeserver?.host;
                   if (defaultServer != null) {
-                    return {defaultServer: {"added_automatically": true}};
+                    return {
+                      defaultServer: {"added_automatically": true},
+                    };
                   }
                   return <String, Object?>{};
-              }),
-              builder: (ctx, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Wrap(
-                    // select Servers to display or add new server
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ...snapshot.data!.entries.map((s) => GestureDetector(
-                              child: ChoiceChip(
-                                  label: Text(s.key),
-                                  selected: selectedServer == s.key,
-                                  onSelected: (bool selected) async {
-                                    await _setServerAddr(selected ? s.key : "");
-                                  }),
-                              onSecondaryTap: () async =>
-                                  await showDeleteDialog(s.key),
-                              onLongPress: () async =>
-                                  await showDeleteDialog(s.key))),
-                      ActionChip(
-                        avatar: const Icon(Icons.add),
-                        label: const Text(
-                                "settings.followfeeds.buttons.add_server")
-                            .tr(),
-                        onPressed: () async => await showAddDialog(),
-                      ),
-                      ActionChip(
-                        avatar: const Icon(Icons.add_box),
-                        label: const Text(
-                                "settings.ownfeeds.buttons.create_room")
-                            .tr(),
-                        onPressed: () async {
-                          await showDialog<void>(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return const DialogCreateRoom();
-                            },
-                          );
-                          setState(() {
-                             _resetList();
-                          });
+                }),
+            builder: (ctx, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Wrap(
+                // select Servers to display or add new server
+                spacing: 8.0,
+                runSpacing: 4.0,
+                alignment: WrapAlignment.center,
+                children: [
+                  ...snapshot.data!.entries.map(
+                    (s) => GestureDetector(
+                      child: ChoiceChip(
+                        label: Text(s.key),
+                        selected: selectedServer == s.key,
+                        onSelected: (bool selected) async {
+                          await _setServerAddr(selected ? s.key : "");
                         },
-                      )
-                    ]);
-              })),
-      Padding(
+                      ),
+                      onSecondaryTap: () async => await showDeleteDialog(s.key),
+                      onLongPress: () async => await showDeleteDialog(s.key),
+                    ),
+                  ),
+                  ActionChip(
+                    avatar: const Icon(Icons.add),
+                    label:
+                        const Text(
+                          "settings.followfeeds.buttons.add_server",
+                        ).tr(),
+                    onPressed: () async => await showAddDialog(),
+                  ),
+                  ActionChip(
+                    avatar: const Icon(Icons.add_box),
+                    label:
+                        const Text(
+                          "settings.ownfeeds.buttons.create_room",
+                        ).tr(),
+                    onPressed: () async {
+                      await showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return const DialogCreateRoom();
+                        },
+                      );
+                      setState(() {
+                        _resetList();
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(children: [
-            const Text("settings.followfeeds.filter_rooms_header").tr(),
-            TextFormField(
+          child: Column(
+            children: [
+              const Text("settings.followfeeds.filter_rooms_header").tr(),
+              TextFormField(
                 controller: roomSearchContrainer,
                 decoration: InputDecoration(
                   labelText: "settings.followfeeds.roomname_placeholder".tr(),
                 ),
-                onChanged: (String text) => {
+                onChanged:
+                    (String text) => {
                       setState(() {
-                         searchText = text.isEmpty ? null : text;
+                        searchText = text.isEmpty ? null : text;
                         _resetList();
-                      })
-                    }),
-          ])),
-      Expanded(
+                      }),
+                    },
+              ),
+            ],
+          ),
+        ),
+        Expanded(
           // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
           child: PagedListView<FollowFeedPageKey?, SubstitutionRoom>.separated(
-              state: _pagingController.value,
-              fetchNextPage: _pagingController.fetchNextPage,
-              separatorBuilder: (context, index) => const Divider(),
-              builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
-                  noItemsFoundIndicatorBuilder: (context) => Center(
+            state: _pagingController.value,
+            fetchNextPage: _pagingController.fetchNextPage,
+            separatorBuilder: (context, index) => const Divider(),
+            builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
+              noItemsFoundIndicatorBuilder:
+                  (context) => Center(
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
-                      child: Text(
-                        "settings.followfeeds.no_rooms_found",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ).tr(),
+                      child:
+                          Text(
+                            "settings.followfeeds.no_rooms_found",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ).tr(),
                     ),
                   ),
-                  firstPageErrorIndicatorBuilder: (context) => Center(
+              firstPageErrorIndicatorBuilder:
+                  (context) => Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 48,
+                        ),
                         const SizedBox(height: 16),
-                        const Text("settings.followfeeds.error_loading_rooms").tr(),
+                        const Text(
+                          "settings.followfeeds.error_loading_rooms",
+                        ).tr(),
                         const SizedBox(height: 8),
                         ElevatedButton(
                           onPressed: () => _pagingController.refresh(),
-                          child: const Text("settings.followfeeds.buttons.retry").tr(),
-                        )
+                          child:
+                              const Text(
+                                "settings.followfeeds.buttons.retry",
+                              ).tr(),
+                        ),
                       ],
                     ),
                   ),
-                  itemBuilder: (context, item, index) => RoomWidget(
-                      room: item,
-                      leaveRoom: _leaveRoom,
-                      joinRoom: _joinRoom)))),
-    ]);
+              itemBuilder:
+                  (context, item, index) => RoomWidget(
+                    room: item,
+                    leaveRoom: _leaveRoom,
+                    joinRoom: _joinRoom,
+                  ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

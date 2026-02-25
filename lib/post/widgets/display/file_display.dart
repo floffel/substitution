@@ -18,8 +18,9 @@ class FileDisplay extends StatefulWidget {
   final ({
     Event origEvent,
     Event displayEvent,
-    VideoPlayerController? videoController
-  }) file;
+    VideoPlayerController? videoController,
+  })
+  file;
 
   @override
   FileDisplayState createState() => FileDisplayState();
@@ -72,18 +73,21 @@ class FileDisplayState extends State<FileDisplay> {
       // TODO: m.emote ? :)
 
       // TODO: make each type a widget so we can use if else etc., would make things much more clean
-      MessageTypes.Image => kIsWeb
-          ? FutureBuilder(
+      MessageTypes.Image =>
+        kIsWeb
+            ? FutureBuilder(
               // download decrypted file and make it an url
-              future:
-                  getDecryptedFileObjectUrlForEvent(widget.file.displayEvent),
+              future: getDecryptedFileObjectUrlForEvent(
+                widget.file.displayEvent,
+              ),
               builder: (ctx, snapshot) {
                 if (snapshot.hasData) {
                   return Image.network(snapshot.data!, fit: BoxFit.contain);
                 }
                 return const Text("post.widgets.filedisplay.decrypting").tr();
-              })
-          : FutureBuilder(
+              },
+            )
+            : FutureBuilder(
               // download decrypted file
               future: getDecryptedFileForEvent(widget.file.displayEvent),
               builder: (ctx, snapshot) {
@@ -91,55 +95,71 @@ class FileDisplayState extends State<FileDisplay> {
                   return imageFromFile(snapshot.data!, fit: BoxFit.contain);
                 }
                 return const Text("post.widgets.filedisplay.decrypting").tr();
-              }),
+              },
+            ),
       MessageTypes.Video => // Todo: Styling... mby use a card?
         _controller == null
             ? const Text("post.widgets.filedisplay.video_desktop_error").tr()
-            : Column(children: [
+            : Column(
+              children: [
                 Center(
-                  child: _controller!.value.isInitialized
-                      ? AspectRatio(
-                          aspectRatio: _controller!.value.aspectRatio,
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              VideoPlayer(_controller!),
-                              VideoPlayerControlsOverlay(
-                                  controller: _controller!),
-                              VideoProgressIndicator(_controller!,
-                                  allowScrubbing: true),
-                            ],
-                          ))
-                      : Container(),
+                  child:
+                      _controller!.value.isInitialized
+                          ? AspectRatio(
+                            aspectRatio: _controller!.value.aspectRatio,
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                VideoPlayer(_controller!),
+                                VideoPlayerControlsOverlay(
+                                  controller: _controller!,
+                                ),
+                                VideoProgressIndicator(
+                                  _controller!,
+                                  allowScrubbing: true,
+                                ),
+                              ],
+                            ),
+                          )
+                          : Container(),
                 ),
-              ]),
-      MessageTypes.Audio => _controller == null
-          ? const Text("post.widgets.filedisplay.audio_desktop_error").tr()
-          : Column(children: [
-              Center(
-                child: _controller!.value.isInitialized
-                    ? Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Icon(Icons.audiotrack, size: 48),
-                          AspectRatio(
-                              aspectRatio:
-                                  16 / 9, // Force aspect ratio for controls
-                              child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  VideoPlayerControlsOverlay(
-                                      controller: _controller!),
-                                  VideoProgressIndicator(_controller!,
-                                      allowScrubbing: true),
-                                ],
-                              ))
-                        ],
-                      )
-                    : const CircularProgressIndicator(),
-              ),
-            ]),
-      String() => Container() // handled elsewhere
+              ],
+            ),
+      MessageTypes.Audio =>
+        _controller == null
+            ? const Text("post.widgets.filedisplay.audio_desktop_error").tr()
+            : Column(
+              children: [
+                Center(
+                  child:
+                      _controller!.value.isInitialized
+                          ? Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Icon(Icons.audiotrack, size: 48),
+                              AspectRatio(
+                                aspectRatio:
+                                    16 / 9, // Force aspect ratio for controls
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    VideoPlayerControlsOverlay(
+                                      controller: _controller!,
+                                    ),
+                                    VideoProgressIndicator(
+                                      _controller!,
+                                      allowScrubbing: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                          : const CircularProgressIndicator(),
+                ),
+              ],
+            ),
+      String() => Container(), // handled elsewhere
     };
   }
 }

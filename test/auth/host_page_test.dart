@@ -16,8 +16,9 @@ void main() {
       mockClient = MockClient();
     });
 
-    testWidgets('1. Smoke test: renders text field and submit button',
-        (WidgetTester tester) async {
+    testWidgets('1. Smoke test: renders text field and submit button', (
+      WidgetTester tester,
+    ) async {
       await pumpApp(
         tester,
         HostPage(onComplete: () {}),
@@ -28,8 +29,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
-    testWidgets('2. Entering URL and tapping submit calls checkHomeserver',
-        (WidgetTester tester) async {
+    testWidgets('2. Entering URL and tapping submit calls checkHomeserver', (
+      WidgetTester tester,
+    ) async {
       // Widget treats bare hostnames as https:// URLs
       final expectedUri = Uri.https('matrix.org', '');
 
@@ -47,9 +49,11 @@ void main() {
 
       await pumpApp(
         tester,
-        HostPage(onComplete: () {
-          onCompleteCalled = true;
-        }),
+        HostPage(
+          onComplete: () {
+            onCompleteCalled = true;
+          },
+        ),
         mockClient: mockClient,
       );
 
@@ -63,8 +67,9 @@ void main() {
       expect(onCompleteCalled, isTrue);
     });
 
-    testWidgets('3. Successful homeserver check calls onComplete',
-        (WidgetTester tester) async {
+    testWidgets('3. Successful homeserver check calls onComplete', (
+      WidgetTester tester,
+    ) async {
       when(() => mockClient.checkHomeserver(any())).thenAnswer(
         (_) async => (
           null,
@@ -78,9 +83,11 @@ void main() {
 
       await pumpApp(
         tester,
-        HostPage(onComplete: () {
-          onCompleteCalled = true;
-        }),
+        HostPage(
+          onComplete: () {
+            onCompleteCalled = true;
+          },
+        ),
         mockClient: mockClient,
       );
 

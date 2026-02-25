@@ -13,8 +13,10 @@ void main() {
 
     setUp(() {
       mockRoom = createMockRoom(name: 'Test Room', id: '!room:matrix.org');
-      mockUser1 =
-          createMockUser(id: '@user1:matrix.org', displayName: 'User One');
+      mockUser1 = createMockUser(
+        id: '@user1:matrix.org',
+        displayName: 'User One',
+      );
       createMockUser(id: '@user2:matrix.org', displayName: 'User Two');
       createMockUser(id: '@user3:matrix.org', displayName: 'User Three');
       mockEvent = createMockEvent(
@@ -25,48 +27,54 @@ void main() {
       );
     });
 
-    test('Multiple reactions with same emoji should be counted correctly',
-        () async {
-      // Arrange
-      final thumbsUpEmoji = '👍';
-      final reactionMap = <String,
-          ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>{
-        thumbsUpEmoji: (
-          userNames: ['User One', 'User Two', 'User Three'],
-          isOwnSmiley: false,
-          displayEvent: null
-        )
-      };
+    test(
+      'Multiple reactions with same emoji should be counted correctly',
+      () async {
+        // Arrange
+        final thumbsUpEmoji = '👍';
+        final reactionMap = <
+          String,
+          ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+        >{
+          thumbsUpEmoji: (
+            userNames: ['User One', 'User Two', 'User Three'],
+            isOwnSmiley: false,
+            displayEvent: null,
+          ),
+        };
 
-      // Act
-      final count = reactionMap[thumbsUpEmoji]?.userNames.length ?? 0;
+        // Act
+        final count = reactionMap[thumbsUpEmoji]?.userNames.length ?? 0;
 
-      // Assert
-      expect(count, equals(3));
-      expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User One'));
-      expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User Two'));
-      expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User Three'));
-    });
+        // Assert
+        expect(count, equals(3));
+        expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User One'));
+        expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User Two'));
+        expect(reactionMap[thumbsUpEmoji]?.userNames, contains('User Three'));
+      },
+    );
 
     test('User IDs should be tracked per reaction emoji', () async {
       // Arrange
-      final reactionMap = <String,
-          ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>{
+      final reactionMap = <
+        String,
+        ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+      >{
         '👍': (
           userNames: ['User One', 'User Two'],
           isOwnSmiley: false,
-          displayEvent: null
+          displayEvent: null,
         ),
         '❤️': (
           userNames: ['User Two', 'User Three'],
           isOwnSmiley: false,
-          displayEvent: null
+          displayEvent: null,
         ),
         '😂': (
           userNames: ['User One'],
           isOwnSmiley: true,
-          displayEvent: mockEvent
-        )
+          displayEvent: mockEvent,
+        ),
       };
 
       // Act & Assert
@@ -75,24 +83,31 @@ void main() {
       expect(reactionMap['😂']?.userNames.length, equals(1));
 
       expect(
-          reactionMap['👍']?.userNames, containsAll(['User One', 'User Two']));
-      expect(reactionMap['❤️']?.userNames,
-          containsAll(['User Two', 'User Three']));
+        reactionMap['👍']?.userNames,
+        containsAll(['User One', 'User Two']),
+      );
+      expect(
+        reactionMap['❤️']?.userNames,
+        containsAll(['User Two', 'User Three']),
+      );
       expect(reactionMap['😂']?.userNames, contains('User One'));
     });
 
     test('Duplicate reactions from same user should be deduplicated', () async {
       // Arrange
       // In the real implementation, the aggregation logic prevents duplicates
-      final reactionMap = <String,
-          ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})>{};
+      final reactionMap =
+          <
+            String,
+            ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+          >{};
 
       // Simulate adding reactions - the second one from the same user is ignored
       final emoji = '👍';
       reactionMap[emoji] = (
         userNames: ['User One', 'User Two'],
         isOwnSmiley: false,
-        displayEvent: null
+        displayEvent: null,
       );
 
       // Act
@@ -102,11 +117,11 @@ void main() {
       // With deduplication, User One should appear only once
       expect(count, equals(2));
       expect(
-          reactionMap[emoji]
-              ?.userNames
-              .where((name) => name == 'User One')
-              .length,
-          equals(1));
+        reactionMap[emoji]?.userNames
+            .where((name) => name == 'User One')
+            .length,
+        equals(1),
+      );
     });
   });
 }

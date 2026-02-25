@@ -60,17 +60,17 @@ void main() {
             Provider<Client>.value(value: mockClient),
             Provider<ConnectivityService>.value(value: mockConnectivityService),
             ChangeNotifierProvider<SubstitutionService>.value(
-                value: SubstitutionService(mockClient)),
+              value: SubstitutionService(mockClient),
+            ),
           ],
-          child: MaterialApp(
-            home: const HomePage(),
-          ),
+          child: MaterialApp(home: const HomePage()),
         ),
       );
     }
 
-    testWidgets('Initial load fetches first page via PagingController',
-        (WidgetTester tester) async {
+    testWidgets('Initial load fetches first page via PagingController', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
@@ -82,8 +82,9 @@ void main() {
       // This is validated by the widget rendering successfully
     });
 
-    testWidgets('PagedListView is present for infinite scroll',
-        (WidgetTester tester) async {
+    testWidgets('PagedListView is present for infinite scroll', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
@@ -92,8 +93,9 @@ void main() {
       expect(find.byType(HomePage), findsOneWidget);
     });
 
-    testWidgets('Loading indicator visible during fetch',
-        (WidgetTester tester) async {
+    testWidgets('Loading indicator visible during fetch', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
 
       // During loading, a progress indicator might be shown
@@ -101,8 +103,9 @@ void main() {
       expect(find.byType(RefreshIndicator), findsWidgets);
     });
 
-    testWidgets('No loading indicator when no more events',
-        (WidgetTester tester) async {
+    testWidgets('No loading indicator when no more events', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();
@@ -112,8 +115,9 @@ void main() {
       expect(find.byType(HomePage), findsOneWidget);
     });
 
-    testWidgets('RefreshIndicator available for manual refresh',
-        (WidgetTester tester) async {
+    testWidgets('RefreshIndicator available for manual refresh', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
 
       await tester.pump();

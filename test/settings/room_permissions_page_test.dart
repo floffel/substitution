@@ -19,8 +19,9 @@ void main() {
       );
 
       // Mock getRoomById
-      when(() => mockClient.getRoomById('!testroom:matrix.org'))
-          .thenReturn(mockRoom);
+      when(
+        () => mockClient.getRoomById('!testroom:matrix.org'),
+      ).thenReturn(mockRoom);
 
       // Mock getState for power levels
       when(() => mockRoom.getState('m.room.power_levels')).thenReturn(null);
@@ -32,8 +33,9 @@ void main() {
       when(() => mockRoom.getParticipants()).thenReturn([]);
     });
 
-    testWidgets('Smoke: renders page and verifies content loads',
-        (WidgetTester tester) async {
+    testWidgets('Smoke: renders page and verifies content loads', (
+      WidgetTester tester,
+    ) async {
       await pumpApp(
         tester,
         RoomPermissionsPage(roomId: '!testroom:matrix.org'),
@@ -47,16 +49,18 @@ void main() {
       expect(find.byType(RoomPermissionsPage), findsOneWidget);
     });
 
-    testWidgets('Non-admin users see read-only view',
-        (WidgetTester tester) async {
+    testWidgets('Non-admin users see read-only view', (
+      WidgetTester tester,
+    ) async {
       final memberRoom = createMockRoom(
         name: 'Member Room',
         id: '!memberroom:matrix.org',
         powerLevel: 50, // Non-admin power level
       );
 
-      when(() => mockClient.getRoomById('!memberroom:matrix.org'))
-          .thenReturn(memberRoom);
+      when(
+        () => mockClient.getRoomById('!memberroom:matrix.org'),
+      ).thenReturn(memberRoom);
       when(() => memberRoom.getState('m.room.power_levels')).thenReturn(null);
       when(() => memberRoom.states).thenReturn({});
       when(() => memberRoom.getParticipants()).thenReturn([]);
@@ -73,8 +77,9 @@ void main() {
       expect(find.byType(RoomPermissionsPage), findsOneWidget);
     });
 
-    testWidgets('Admin users can access full permissions UI',
-        (WidgetTester tester) async {
+    testWidgets('Admin users can access full permissions UI', (
+      WidgetTester tester,
+    ) async {
       await pumpApp(
         tester,
         RoomPermissionsPage(roomId: '!testroom:matrix.org'),
@@ -87,8 +92,9 @@ void main() {
       expect(find.byType(RoomPermissionsPage), findsOneWidget);
     });
 
-    testWidgets('Room is fetched correctly on initialization',
-        (WidgetTester tester) async {
+    testWidgets('Room is fetched correctly on initialization', (
+      WidgetTester tester,
+    ) async {
       await pumpApp(
         tester,
         RoomPermissionsPage(roomId: '!testroom:matrix.org'),
@@ -98,8 +104,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify getRoomById was called with correct room ID
-      verify(() => mockClient.getRoomById('!testroom:matrix.org'))
-          .called(greaterThanOrEqualTo(1));
+      verify(
+        () => mockClient.getRoomById('!testroom:matrix.org'),
+      ).called(greaterThanOrEqualTo(1));
     });
   });
 }

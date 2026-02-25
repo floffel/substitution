@@ -15,8 +15,9 @@ void main() {
     await EasyLocalization.ensureInitialized();
   });
 
-  testWidgets('Clear Cache dialog renders with warning',
-      (WidgetTester tester) async {
+  testWidgets('Clear Cache dialog renders with warning', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('en', 'US')],
@@ -49,8 +50,9 @@ void main() {
     expect(find.byType(ElevatedButton), findsOneWidget);
   });
 
-  testWidgets('Tapping button opens confirmation dialog',
-      (WidgetTester tester) async {
+  testWidgets('Tapping button opens confirmation dialog', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('en', 'US')],
@@ -86,8 +88,9 @@ void main() {
     expect(find.byType(AlertDialog), findsOneWidget);
   });
 
-  testWidgets('Cancel dismisses dialog without action',
-      (WidgetTester tester) async {
+  testWidgets('Cancel dismisses dialog without action', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('en', 'US')],
@@ -169,12 +172,14 @@ void main() {
 
     expect(find.text('Clear Cache'), findsOneWidget);
     expect(
-        find.text('This will delete all local data. You will be logged out.'),
-        findsOneWidget);
+      find.text('This will delete all local data. You will be logged out.'),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('Clear button shows with appropriate styling',
-      (WidgetTester tester) async {
+  testWidgets('Clear button shows with appropriate styling', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('en', 'US')],
