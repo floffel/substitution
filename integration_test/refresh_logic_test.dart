@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +9,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
-    show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+    show skipIfNoMatrix;
 import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
@@ -145,7 +144,7 @@ void main() {
       WidgetTester tester,
     ) async {
       app.main();
-      await loginUser(tester);
+      await login_helper.loginUser(tester);
 
       // Get the client from the app
       final client = app.globalMatrixClient!;

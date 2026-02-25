@@ -18,7 +18,6 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:substitution/post/widgets/display/file_display.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +27,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
-    show waitForMatrixClient, skipIfNoMatrix, effectiveMatrixServer;
+    show skipIfNoMatrix;
 import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
