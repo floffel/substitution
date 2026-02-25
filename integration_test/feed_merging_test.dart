@@ -90,18 +90,26 @@ void main() {
           password: testPassword,
         );
 
-        // Pump to let pending router transitions settle after login (avoid
-        // pumpAndSettle which stalls on the Matrix sync loop).
+        // Pump briefly to let any immediate transitions settle.
         for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 250));
         }
 
-        // Use MaterialApp as the GoRouter context anchor — it is always in the tree.
-        final BuildContext context = tester.element(
-          find.byType(MaterialApp).first,
-        );
+        // Find a context that is inside the GoRouter subtree.
+        // IntroductionPage is shown before login; Scaffold is inside any page.
+        // MaterialApp.router is NOT inside the router, so GoRouter.of won't work on it.
+        Element? navContext;
+        if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
+          navContext = tester.element(find.byType(app.IntroductionPage).first);
+        } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
+          navContext = tester.element(find.byType(Scaffold).first);
+        }
         // ignore: use_build_context_synchronously
-        GoRouter.of(context).go("/");
+        if (navContext != null) {
+          GoRouter.of(navContext).go("/");
+        } else {
+          debugPrint('⚠ No router context found — cannot navigate to feed');
+        }
         for (int ps = 0; ps < 8; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
@@ -151,8 +159,17 @@ void main() {
         }
 
         // 5. Navigate to Home Feed (to force refresh)
+        // Re-query context since the widget tree may have changed since initial navigation.
+        Element? navContext2;
+        if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
+          navContext2 = tester.element(find.byType(app.IntroductionPage).first);
+        } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
+          navContext2 = tester.element(find.byType(Scaffold).first);
+        }
         // ignore: use_build_context_synchronously
-        GoRouter.of(context).go("/");
+        if (navContext2 != null) {
+          GoRouter.of(navContext2).go("/");
+        }
         // Use timed pumps instead of pumpAndSettle to avoid stalling on Matrix sync loop.
         for (int i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 500));

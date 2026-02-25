@@ -94,13 +94,22 @@ void main() {
       );
 
       debugPrint("Login success, navigating to Feed...");
-      // Pump to let any pending router transitions settle after login.
+      // Pump briefly to let any immediate transitions settle.
       for (int ps = 0; ps < 4; ps++) {
         await tester.pump(const Duration(milliseconds: 250));
       }
-      // Use MaterialApp as the GoRouter context anchor — it is always in the tree.
-      final navContext = tester.element(find.byType(MaterialApp).first);
-      GoRouter.of(navContext).go("/");
+      // Find a context that is inside the GoRouter subtree.
+      Element? navContext;
+      if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
+        navContext = tester.element(find.byType(app.IntroductionPage).first);
+      } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
+        navContext = tester.element(find.byType(Scaffold).first);
+      }
+      if (navContext != null) {
+        GoRouter.of(navContext).go("/");
+      } else {
+        debugPrint('⚠ No router context found — cannot navigate to feed');
+      }
 
       for (int i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 500));
