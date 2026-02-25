@@ -108,6 +108,8 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
+      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
       // Ensure app.main() has completed runApp() before querying the widget tree.
       await waitForMatrixClient(tester);
       // Wait for any known first screen to appear

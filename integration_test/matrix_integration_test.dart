@@ -89,13 +89,20 @@ void main() {
     });
 
     tearDown(() async {
-      // Cleanup - logout and dispose
+      // Cleanup - logout, dispose, and close database
       try {
         if (client.isLogged()) {
           await client.logout();
         }
       } catch (e) {
         // Ignore cleanup errors
+      }
+      // Dispose the client to stop the background sync loop and prevent
+      // uncaught async exceptions leaking into subsequent tests.
+      try {
+        await client.dispose();
+      } catch (e) {
+        // Ignore dispose errors
       }
 
       // Close SQLite database

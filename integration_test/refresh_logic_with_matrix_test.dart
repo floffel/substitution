@@ -71,6 +71,8 @@ void main() {
     });
 
     Future<void> loginUser(WidgetTester tester) async {
+      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
       final client = app.globalMatrixClient;
       if (client == null) throw Exception("globalMatrixClient not found");
 

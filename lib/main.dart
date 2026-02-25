@@ -59,7 +59,14 @@ void main() async {
     databaseFactory = databaseFactoryFfi;
   }
 
-  usePathUrlStrategy();
+  // usePathUrlStrategy() can only be called once per browser session.
+  // Guard against the assertion error when multiple integration tests
+  // each call app.main() (e.g., discovery_flow_test.dart on Web).
+  try {
+    usePathUrlStrategy();
+  } catch (_) {
+    // Already set — safe to ignore in tests.
+  }
 
   /*
   // @logging This is to debug GoRouter, wich will not output anything without it
@@ -68,8 +75,9 @@ void main() async {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   }); // */
 
-  final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: "rootNav");
+  final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
+    debugLabel: "rootNav",
+  );
 
   // Keep testRedirect as a convenience alias used by all protected routes.
   String? testRedirect(BuildContext context, GoRouterState state) =>
@@ -80,235 +88,281 @@ void main() async {
   await AgeGatePage.initConfirmed();
 
   GoRouter router = GoRouter(
-      debugLogDiagnostics: true,
-      navigatorKey: rootNavigatorKey,
-      initialLocation: '/',
-      routes: [
-        GoRoute(
-          path: '/age-gate',
-          builder: (_, _) => const AgeGatePage(),
-        ),
-        GoRoute(
-          path: '/',
-          redirect: testRedirect,
-          builder: (_, _) => const Feed(),
-          //parentNavigatorKey: rootNavigatorKey,
-          pageBuilder: (_, _) {
-            // needed b.c. /feed:roomId has the same widget
-            return CustomTransitionPage<void>(
-                key: UniqueKey(),
-                child: const Feed(),
-                transitionsBuilder: (_, _, _, child) => child);
-          },
-        ),
-        GoRoute(
-          redirect: testRedirect,
-          path: '/write/select/room', // write/select/room
-          builder: (_, _) =>
-              ScaffoldWithNavigation(child: const RoomSelectPage()),
-        ),
-        GoRoute(
-          path: '/intro',
-          builder: (context, state) =>
-              const ScaffoldWithNavigation(showNavigation: false, child: IntroductionPage()),
-        ),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/feed/:roomId',
-            builder: (context, state) => Feed(
-                roomId: state.pathParameters['roomId']!.startsWith("!")
-                    ? state.pathParameters['roomId']!
-                    : "#${state.pathParameters['roomId']!}")),
-        GoRoute(
-          redirect: testRedirect,
-          path: '/post/:id',
-          builder: (context, state) {
-            final eventId = state.pathParameters['id']!;
-            final roomId = state.uri.queryParameters['room']!;
-            return ScaffoldWithNavigation(
-                child: Post(eventId: eventId, roomId: roomId));
-          },
-        ),
-        GoRoute(
-          redirect: testRedirect,
-          path: '/profile/:userId',
-          builder: (context, state) {
-            final userId = state.pathParameters['userId']!;
-            return ScaffoldWithNavigation(
-              child: UserProfilePage(userId: Uri.decodeComponent(userId)),
-            );
-          },
-        ),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/write/:roomid',
-            builder: (contxt, state) {
-              final String? eventId = state.uri.queryParameters['event'];
-              final String roomId = state.pathParameters['roomid']!;
-              return ScaffoldWithNavigation(
-                  child: TextMessageWrite(eventId: eventId, roomId: roomId));
-            }),
-        GoRoute(
-            // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
-            redirect: testRedirect,
-            path: '/file/:roomid',
-            builder: (contxt, state) {
-              final String? eventId = state.uri.queryParameters['event'];
-              final String roomId = state.pathParameters['roomid']!;
-              return ScaffoldWithNavigation(
-                  child: FileMessageWrite(eventId: eventId, roomId: roomId));
-            }),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/settings/room/:roomId/permissions',
-            builder: (context, state) {
-              final roomId = state.pathParameters['roomId']!;
-              return ScaffoldWithNavigation(
-                  child: RoomPermissionsPage(roomId: roomId));
-            }),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/settings/feed',
-            builder: (context, state) =>
-                ScaffoldWithNavigation(child: const FollowFeedSettings())),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/settings/ownfeeds',
-            builder: (context, state) =>
-                ScaffoldWithNavigation(child: const OwnFeedSettings())),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/settings/security',
-            builder: (context, state) =>
-                ScaffoldWithNavigation(child: const KeyVerificationPage())),
-        GoRoute(
-            path: '/settings/legal',
-            builder: (context, state) =>
-                const ScaffoldWithNavigation(child: LegalPage())),
-        GoRoute(
-            redirect: testRedirect,
-            path: '/settings/profile',
-            builder: (context, state) =>
-                ScaffoldWithNavigation(child: const ProfilePage())),
-        GoRoute(
-            path: '/auth/host',
-            builder: (context, state) => const ScaffoldWithNavigation(
-                showNavigation: false,
-                child: AuthFlow(authPageRoute: 'host'))),
-        GoRoute(
-            path: '/auth/login',
-            builder: (context, state) => const ScaffoldWithNavigation(
-                showNavigation: false,
-                child: AuthFlow(authPageRoute: 'login'))),
-        GoRoute(
-          path: '/login-callback',
-          builder: (context, state) {
-            return Scaffold(
-              body: FutureBuilder<void>(
-                future: () async {
-                  final token = state.uri.queryParameters['loginToken'];
-                  final homeserverStr = state.uri.queryParameters['homeserver'];
+    debugLogDiagnostics: true,
+    navigatorKey: rootNavigatorKey,
+    initialLocation: '/',
+    routes: [
+      GoRoute(path: '/age-gate', builder: (_, _) => const AgeGatePage()),
+      GoRoute(
+        path: '/',
+        redirect: testRedirect,
+        builder: (_, _) => const Feed(),
+        //parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (_, _) {
+          // needed b.c. /feed:roomId has the same widget
+          return CustomTransitionPage<void>(
+            key: UniqueKey(),
+            child: const Feed(),
+            transitionsBuilder: (_, _, _, child) => child,
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/write/select/room', // write/select/room
+        builder:
+            (_, _) => ScaffoldWithNavigation(child: const RoomSelectPage()),
+      ),
+      GoRoute(
+        path: '/intro',
+        builder:
+            (context, state) => const ScaffoldWithNavigation(
+              showNavigation: false,
+              child: IntroductionPage(),
+            ),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/feed/:roomId',
+        builder:
+            (context, state) => Feed(
+              roomId:
+                  state.pathParameters['roomId']!.startsWith("!")
+                      ? state.pathParameters['roomId']!
+                      : "#${state.pathParameters['roomId']!}",
+            ),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/post/:id',
+        builder: (context, state) {
+          final eventId = state.pathParameters['id']!;
+          final roomId = state.uri.queryParameters['room']!;
+          return ScaffoldWithNavigation(
+            child: Post(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/profile/:userId',
+        builder: (context, state) {
+          final userId = state.pathParameters['userId']!;
+          return ScaffoldWithNavigation(
+            child: UserProfilePage(userId: Uri.decodeComponent(userId)),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/write/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: TextMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
+        redirect: testRedirect,
+        path: '/file/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: FileMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/room/:roomId/permissions',
+        builder: (context, state) {
+          final roomId = state.pathParameters['roomId']!;
+          return ScaffoldWithNavigation(
+            child: RoomPermissionsPage(roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/feed',
+        builder:
+            (context, state) =>
+                ScaffoldWithNavigation(child: const FollowFeedSettings()),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/ownfeeds',
+        builder:
+            (context, state) =>
+                ScaffoldWithNavigation(child: const OwnFeedSettings()),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/security',
+        builder:
+            (context, state) =>
+                ScaffoldWithNavigation(child: const KeyVerificationPage()),
+      ),
+      GoRoute(
+        path: '/settings/legal',
+        builder:
+            (context, state) =>
+                const ScaffoldWithNavigation(child: LegalPage()),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/profile',
+        builder:
+            (context, state) =>
+                ScaffoldWithNavigation(child: const ProfilePage()),
+      ),
+      GoRoute(
+        path: '/auth/host',
+        builder:
+            (context, state) => const ScaffoldWithNavigation(
+              showNavigation: false,
+              child: AuthFlow(authPageRoute: 'host'),
+            ),
+      ),
+      GoRoute(
+        path: '/auth/login',
+        builder:
+            (context, state) => const ScaffoldWithNavigation(
+              showNavigation: false,
+              child: AuthFlow(authPageRoute: 'login'),
+            ),
+      ),
+      GoRoute(
+        path: '/login-callback',
+        builder: (context, state) {
+          return Scaffold(
+            body: FutureBuilder<void>(
+              future: () async {
+                final token = state.uri.queryParameters['loginToken'];
+                final homeserverStr = state.uri.queryParameters['homeserver'];
 
+                debugPrint(
+                  "Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr",
+                );
+
+                if (token == null) {
+                  throw Exception("No login token received");
+                }
+
+                final client = Provider.of<Client>(context, listen: false);
+
+                // Configure homeserver if provided and not set
+                if (homeserverStr != null) {
+                  client.homeserver = Uri.parse(homeserverStr);
+                  debugPrint("Configured client homeserver to: $homeserverStr");
+                } else if (client.homeserver == null) {
                   debugPrint(
-                      "Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+                    "Warning: No homeserver configured for token login!",
+                  );
+                }
 
-                  if (token == null) {
-                    throw Exception("No login token received");
-                  }
-
-                  final client = Provider.of<Client>(context, listen: false);
-
-                  // Configure homeserver if provided and not set
-                  if (homeserverStr != null) {
-                    client.homeserver = Uri.parse(homeserverStr);
-                    debugPrint(
-                        "Configured client homeserver to: $homeserverStr");
-                  } else if (client.homeserver == null) {
-                    debugPrint(
-                        "Warning: No homeserver configured for token login!");
-                  }
-
-                  debugPrint("[SSO] Attempting login with token...");
-                  try {
-                    // Fix: m.login.token requires 'token' parameter, not 'password'
-                    // Add timeout to detect hangs
-                    await client
-                        .login(LoginType.mLoginToken, token: token)
-                        .timeout(const Duration(seconds: 15), onTimeout: () {
-                      throw TimeoutException(
-                          "Login timed out after 15 seconds");
-                    });
-                    debugPrint("[SSO] Login successful!");
-                  } catch (e, stack) {
-                    debugPrint("[SSO] Login ERROR: $e");
-                    debugPrint(stack.toString());
-                    rethrow;
-                  }
-                }(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.error,
-                                color: Colors.red, size: 48),
-                            const SizedBox(height: 16),
-                            Text("Login Failed",
-                                style: Theme.of(context).textTheme.titleLarge),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(snapshot.error.toString(),
-                                  textAlign: TextAlign.center),
-                            ),
-                            ElevatedButton(
-                                onPressed: () => context.go('/auth/login'),
-                                child: const Text("Back to Login"))
-                          ],
-                        ),
+                debugPrint("[SSO] Attempting login with token...");
+                try {
+                  // Fix: m.login.token requires 'token' parameter, not 'password'
+                  // Add timeout to detect hangs
+                  await client
+                      .login(LoginType.mLoginToken, token: token)
+                      .timeout(
+                        const Duration(seconds: 15),
+                        onTimeout: () {
+                          throw TimeoutException(
+                            "Login timed out after 15 seconds",
+                          );
+                        },
                       );
-                    }
-                    // Success - Show manual continue button
+                  debugPrint("[SSO] Login successful!");
+                } catch (e, stack) {
+                  debugPrint("[SSO] Login ERROR: $e");
+                  debugPrint(stack.toString());
+                  rethrow;
+                }
+              }(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.check_circle,
-                              color: Colors.green, size: 64),
-                          const SizedBox(height: 24),
-                          Text("Login Successful!",
-                              style: Theme.of(context).textTheme.headlineSmall),
-                          const SizedBox(height: 8),
-                          const Text("You can now proceed to the app."),
-                          const SizedBox(height: 32),
-                          FilledButton.icon(
-                              onPressed: () {
-                                debugPrint(
-                                    "User clicked Continue button. Navigating to /");
-                                context.go('/');
-                              },
-                              icon: const Icon(Icons.arrow_forward),
-                              label: const Text("Continue to App"))
+                          const Icon(Icons.error, color: Colors.red, size: 48),
+                          const SizedBox(height: 16),
+                          Text(
+                            "Login Failed",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              snapshot.error.toString(),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => context.go('/auth/login'),
+                            child: const Text("Back to Login"),
+                          ),
                         ],
                       ),
                     );
                   }
-                  return const Center(
-                      child: Column(
+                  // Success - Show manual continue button
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 64,
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          "Login Successful!",
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text("You can now proceed to the app."),
+                        const SizedBox(height: 32),
+                        FilledButton.icon(
+                          onPressed: () {
+                            debugPrint(
+                              "User clicked Continue button. Navigating to /",
+                            );
+                            context.go('/');
+                          },
+                          icon: const Icon(Icons.arrow_forward),
+                          label: const Text("Continue to App"),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return const Center(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircularProgressIndicator(),
                       SizedBox(height: 16),
-                      Text("Logging in...")
+                      Text("Logging in..."),
                     ],
-                  ));
-                },
-              ),
-            );
-          },
-        ),
-      ]);
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    ],
+  );
 
   // await Hive.initFlutter();
 
@@ -343,9 +397,7 @@ void main() async {
     );
   } else {
     // Web support: use default (IndexedDB)
-    matrixDatabase = await MatrixSdkDatabase.init(
-      "Substitution",
-    );
+    matrixDatabase = await MatrixSdkDatabase.init("Substitution");
   }
 
   // Dispose previous client if any (for test isolation)
@@ -379,9 +431,10 @@ void main() async {
       // Dart parses "login-callback" as the HOST, not the path.
       final host = uri.host;
       final path = uri.path;
-      final routePath = host.isNotEmpty
-          ? '/$host$path'
-          : (path.startsWith('/') ? path : '/$path');
+      final routePath =
+          host.isNotEmpty
+              ? '/$host$path'
+              : (path.startsWith('/') ? path : '/$path');
 
       debugPrint("[app_links] route path: $routePath");
 
@@ -391,7 +444,8 @@ void main() async {
         final token = uri.queryParameters['loginToken'];
         final homeserverStr = uri.queryParameters['homeserver'];
         debugPrint(
-            "[SSO] token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr");
+          "[SSO] token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr",
+        );
 
         if (token == null) {
           debugPrint("[SSO] No loginToken in callback URL — aborting");
@@ -420,23 +474,29 @@ void main() async {
     });
   }
 
-  runApp(EasyLocalization(
+  runApp(
+    EasyLocalization(
       supportedLocales: const [
         Locale('en', 'US'),
         Locale('de', 'DE'),
-        Locale('fr', 'FR')
+        Locale('fr', 'FR'),
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
-      child: SubstitutionApp(client: client, router: router)));
+      child: SubstitutionApp(client: client, router: router),
+    ),
+  );
 }
 
 class SubstitutionApp extends StatelessWidget {
   final Client client;
   final GoRouter router;
 
-  const SubstitutionApp(
-      {super.key, required this.client, required this.router});
+  const SubstitutionApp({
+    super.key,
+    required this.client,
+    required this.router,
+  });
 
   // This widget is the root of your application.
   @override
@@ -463,17 +523,20 @@ class SubstitutionApp extends StatelessWidget {
             brightness: Brightness.dark,
           ),
           themeMode: themeService.themeMode,
-          builder: (context, child) => MultiProvider(
-            providers: [
-              Provider<Client>(create: (context) => client),
-              ChangeNotifierProvider<SubstitutionService>(
-                  create: (context) => SubstitutionService(client)),
-              Provider<ConnectivityService>(
-                  create: (_) => ConnectivityService()),
-              ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
-            ],
-            child: child,
-          ),
+          builder:
+              (context, child) => MultiProvider(
+                providers: [
+                  Provider<Client>(create: (context) => client),
+                  ChangeNotifierProvider<SubstitutionService>(
+                    create: (context) => SubstitutionService(client),
+                  ),
+                  Provider<ConnectivityService>(
+                    create: (_) => ConnectivityService(),
+                  ),
+                  ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
+                ],
+                child: child,
+              ),
         );
       },
     );
@@ -499,113 +562,136 @@ class _IntroductionState extends State<IntroductionPage> {
         PageViewModel(
           title: "intro.welcome.title".tr(),
           image: const Image(image: AssetImage('assets/icon/logo.png')),
-          bodyWidget: Column(children: [
-            Row(
+          bodyWidget: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(child: const Text("intro.welcome.desc").tr()),
-                ]),
-          ]),
+                ],
+              ),
+            ],
+          ),
         ),
         PageViewModel(
           title: "intro.account.title".tr(),
           bodyWidget: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                const Text("intro.account.desc").tr(),
-              ]),
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text("intro.account.desc").tr(),
+            ],
+          ),
         ),
         PageViewModel(
-            title: "intro.host.title".tr(),
-            bodyWidget: Column(children: [
+          title: "intro.host.title".tr(),
+          bodyWidget: Column(
+            children: [
               if (client.isLogged()) ...[
                 //Spacer(),
                 const SizedBox(height: 30),
                 Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.green[200],
-                      border: Border.all(width: 1, color: Colors.grey),
-                    ),
-                    child:
-                        Icon(Icons.check, size: 60, color: Colors.grey[800])),
-                const SizedBox(height: 30),
-                const Text("intro.isLoggedIn").tr()
-              ] else ...[
-                HostPage(onComplete: () => {_introKey.currentState?.next()})
-              ],
-            ])),
-        PageViewModel(
-          title: "intro.login.title".tr(),
-          bodyWidget: Column(children: [
-            if (client.isLogged()) ...[
-              //Spacer(),
-              const SizedBox(height: 30),
-              Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.green[200],
                     border: Border.all(width: 1, color: Colors.grey),
                   ),
-                  child: Icon(Icons.check, size: 60, color: Colors.grey[800])),
-              const SizedBox(height: 30),
-              const Text("intro.isLoggedIn").tr()
-            ] else
-              LoginPage(onComplete: () {
-                _introKey.currentState?.next();
-                setState(() {});
-              })
-          ]),
+                  child: Icon(Icons.check, size: 60, color: Colors.grey[800]),
+                ),
+                const SizedBox(height: 30),
+                const Text("intro.isLoggedIn").tr(),
+              ] else ...[
+                HostPage(onComplete: () => {_introKey.currentState?.next()}),
+              ],
+            ],
+          ),
+        ),
+        PageViewModel(
+          title: "intro.login.title".tr(),
+          bodyWidget: Column(
+            children: [
+              if (client.isLogged()) ...[
+                //Spacer(),
+                const SizedBox(height: 30),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.green[200],
+                    border: Border.all(width: 1, color: Colors.grey),
+                  ),
+                  child: Icon(Icons.check, size: 60, color: Colors.grey[800]),
+                ),
+                const SizedBox(height: 30),
+                const Text("intro.isLoggedIn").tr(),
+              ] else
+                LoginPage(
+                  onComplete: () {
+                    _introKey.currentState?.next();
+                    setState(() {});
+                  },
+                ),
+            ],
+          ),
         ),
         PageViewModel(
           title: "intro.finished.title".tr(),
-          bodyWidget: Column(children: [
-            if (!client.isLogged()) ...[
-              const Text("intro.isNotLoggedIn").tr()
-            ] else ...[
-              const Text("intro.finished.desc").tr(),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  String id = AppConstants.substitutionRoomAlias;
+          bodyWidget: Column(
+            children: [
+              if (!client.isLogged()) ...[
+                const Text("intro.isNotLoggedIn").tr(),
+              ] else ...[
+                const Text("intro.finished.desc").tr(),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    String id = AppConstants.substitutionRoomAlias;
 
-                  final goRouter = GoRouter.of(context);
-                  try {
-                    // try, so it'll not fail if we already joined the room. TODO; make this an optional step and handle, if we don't follow any rooms
+                    final goRouter = GoRouter.of(context);
+                    try {
+                      // try, so it'll not fail if we already joined the room. TODO; make this an optional step and handle, if we don't follow any rooms
 
-                    await client.joinRoom(id, serverName: ["matrix.org"]);
-                    await client.setAccountDataPerRoom(
-                        client.userID!, id, "substitution", {"joined": true});
-                  } catch (e) {
-                    debugPrint("Error joining default room: $e");
-                  }
+                      await client.joinRoom(id, serverName: ["matrix.org"]);
+                      await client.setAccountDataPerRoom(
+                        client.userID!,
+                        id,
+                        "substitution",
+                        {"joined": true},
+                      );
+                    } catch (e) {
+                      debugPrint("Error joining default room: $e");
+                    }
 
-                  goRouter.go("/");
-                },
-                child: const Text("intro.finished.buttons.add_to_room_and_go")
-                    .tr(),
-              ),
-              ElevatedButton(
-                key: const Key('introGoButton'),
-                // todo: nicer button...
-                onPressed: () async {
-                  // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
-                  if (mounted) {
-                    context.go("/");
-                  }
-                },
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  const Icon(Icons.east),
-                  const SizedBox(width: 8),
-                  const Text("intro.finished.buttons.go").tr()
-                ]),
-              ),
+                    goRouter.go("/");
+                  },
+                  child:
+                      const Text(
+                        "intro.finished.buttons.add_to_room_and_go",
+                      ).tr(),
+                ),
+                ElevatedButton(
+                  key: const Key('introGoButton'),
+                  // todo: nicer button...
+                  onPressed: () async {
+                    // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
+                    if (mounted) {
+                      context.go("/");
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.east),
+                      const SizedBox(width: 8),
+                      const Text("intro.finished.buttons.go").tr(),
+                    ],
+                  ),
+                ),
+              ],
             ],
-          ]),
+          ),
         ),
       ],
       canProgress: (int toPage) {

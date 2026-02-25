@@ -121,6 +121,8 @@ void main() {
     /// Log in as [testUser] via the onboarding flow and wait until the feed
     /// is visible.
     Future<void> loginAndReachFeed(WidgetTester tester) async {
+      // Skip gracefully when no Matrix server is available (e.g. iOS CI, no Docker).
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
       await waitForMatrixClient(tester);
       // Wait for the IntroductionScreen to appear
       for (int i = 0; i < 20; i++) {
