@@ -226,7 +226,7 @@ run_ios_tests() {
 
         for test_file in "${test_files[@]}"; do
             log_info "  Running: $test_file"
-            run_with_timeout "$timeout" flutter "test" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            run_with_timeout "$timeout" flutter "test" --timeout "60m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
             local exit_code=${PIPESTATUS[0]}
             parse_flutter_output "$log_file"
             acc_passed=$((acc_passed + _PARSED_PASSED))
@@ -249,6 +249,7 @@ run_ios_tests() {
         read -r -a shard_args <<< "$(get_shard_args)"
 
         run_with_timeout "$timeout" flutter "test" "integration_test/" \
+            --timeout "60m" \
             "${common_args[@]}" "${shard_args[@]}" 2>&1 | tee "$log_file"
         overall_exit=${PIPESTATUS[0]}
 

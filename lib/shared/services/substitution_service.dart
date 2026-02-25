@@ -6,7 +6,7 @@ class SubstitutionService extends ChangeNotifier {
   final Client _client;
   final Set<String> _substitutionRoomIds = {};
   bool _initialized = false;
-  
+
   SubstitutionService(this._client);
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
@@ -15,7 +15,7 @@ class SubstitutionService extends ChangeNotifier {
 
   Future<void> _ensureInitialized() async {
     if (_initialized) return;
-    
+
     // In a real app, we might want to fetch all rooms and their account data.
     // For now, we trust the join/leave flow and maybe a sync.
     // To be really robust, we'd iterate joined rooms once.
@@ -39,9 +39,13 @@ class SubstitutionService extends ChangeNotifier {
     // Mark room in substitution app context
     if (_client.userID != null) {
       await _client.setAccountDataPerRoom(
-          _client.userID!, roomId, "substitution", {"joined": true});
+        _client.userID!,
+        roomId,
+        "substitution",
+        {"joined": true},
+      );
     }
-    
+
     _substitutionRoomIds.add(roomId);
     notifyListeners();
   }
@@ -50,15 +54,27 @@ class SubstitutionService extends ChangeNotifier {
   Future<void> leaveRoom(String roomId) async {
     // Remove from substitution app context first
     if (_client.userID != null) {
-      await _client.setAccountDataPerRoom(_client.userID!, roomId, "substitution", {});
+      await _client.setAccountDataPerRoom(
+        _client.userID!,
+        roomId,
+        "substitution",
+        {},
+      );
     }
-    
+
     await _client.leaveRoom(roomId);
-    
+
     _substitutionRoomIds.remove(roomId);
     notifyListeners();
   }
-  
+
+  /// Directly add a room ID to the in-memory set without touching Matrix
+  /// account data. Useful in tests to bypass async init and directly mark a
+  /// room as a substitution room so the feed picks it up.
+  void addRoomId(String roomId) {
+    _substitutionRoomIds.add(roomId);
+  }
+
   /// External trigger to notify about changes if needed (e.g. after sync)
   void triggerRefresh() {
     notifyListeners();

@@ -39,6 +39,9 @@ import 'package:app_links/app_links.dart';
 // Global client reference for test teardown use only
 Client? globalMatrixClient;
 
+// Global SubstitutionService reference for test access only
+SubstitutionService? globalSubstitutionService;
+
 /// Route guard used by all protected routes.
 /// Redirects to `/age-gate` if the user hasn't confirmed their age, or to
 /// `/intro` if they are not logged in. Returns `null` to allow navigation.
@@ -528,7 +531,11 @@ class SubstitutionApp extends StatelessWidget {
                 providers: [
                   Provider<Client>(create: (context) => client),
                   ChangeNotifierProvider<SubstitutionService>(
-                    create: (context) => SubstitutionService(client),
+                    create: (context) {
+                      final svc = SubstitutionService(client);
+                      globalSubstitutionService = svc;
+                      return svc;
+                    },
                   ),
                   Provider<ConnectivityService>(
                     create: (_) => ConnectivityService(),

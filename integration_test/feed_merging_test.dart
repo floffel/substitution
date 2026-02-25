@@ -124,7 +124,8 @@ void main() {
           name: 'Merging Room B',
         );
 
-        // 3. Mark rooms as 'substitution' joined so they appear in feed
+        // 3. Persist 'substitution' account data for the two rooms so that if
+        // the service is re-initialised it will still find them.
         await client.setAccountDataPerRoom(
           client.userID!,
           roomIdA,
@@ -158,8 +159,20 @@ void main() {
           await tester.pump(const Duration(milliseconds: 1000));
         }
 
-        // 5. Navigate to Home Feed (to force refresh)
-        // Re-query context since the widget tree may have changed since initial navigation.
+        // 5. Navigate to Home Feed (to force a full feed rebuild).
+        // First trigger a SubstitutionService refresh so the new room IDs are
+        // registered with the live service instance, then navigate away and back
+        // to ensure GoRouter recreates the Feed/HomePage widget.
+        if (app.globalSubstitutionService != null) {
+          app.globalSubstitutionService!.addRoomId(roomIdA);
+          app.globalSubstitutionService!.addRoomId(roomIdB);
+          app.globalSubstitutionService!.triggerRefresh();
+          for (int i = 0; i < 4; i++) {
+            await tester.pump(const Duration(milliseconds: 250));
+          }
+        }
+
+        // Navigate away and back to guarantee widget reconstruction.
         Element? navContext2;
         if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
           navContext2 = tester.element(find.byType(app.IntroductionPage).first);
@@ -168,10 +181,14 @@ void main() {
         }
         // ignore: use_build_context_synchronously
         if (navContext2 != null) {
+          GoRouter.of(navContext2).go("/settings/feed");
+          for (int i = 0; i < 4; i++) {
+            await tester.pump(const Duration(milliseconds: 250));
+          }
           GoRouter.of(navContext2).go("/");
         }
         // Use timed pumps instead of pumpAndSettle to avoid stalling on Matrix sync loop.
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

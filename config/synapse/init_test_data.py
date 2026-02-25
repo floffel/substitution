@@ -269,33 +269,43 @@ def create_room(access_token: str, room_name: str, topic: str) -> Optional[str]:
 
 
 def publish_room(access_token: str, room_id: str, use_admin_api: bool = False) -> bool:
-    """Publish a room to the public directory.
+    """Publish a room to the public directory using the standard Matrix client API.
 
-    When use_admin_api=True, uses the Synapse Admin API which does not require
-    the caller to be a room member. When False, uses the standard Matrix client
-    API which requires the caller to have joined the room first.
+    Requires the caller to be a member of the room (created it, or joined).
+    The use_admin_api parameter is kept for compatibility but ignored;
+    the standard client API is always used.
     """
     headers = {"Authorization": f"Bearer {access_token}"}
     payload = {"visibility": "public"}
-
-    if use_admin_api:
-        # Synapse Admin API: no room membership required, only server-admin token
-        url = f"{SYNAPSE_URL}/_synapse/admin/v1/rooms/{room_id}/visibility"
-    else:
-        url = f"{SYNAPSE_URL}/_matrix/client/v3/directory/list/room/{room_id}"
+    url = f"{SYNAPSE_URL}/_matrix/client/v3/directory/list/room/{room_id}"
 
     response = requests.put(url, json=payload, headers=headers)
 
     if response.status_code == 200:
-        print(f"  ✓ Published room to directory (admin_api={use_admin_api})")
+        print(f"  ✓ Published room to directory")
         return True
     else:
         print(f"  ⚠ Failed to publish room: {response.status_code} {response.text}")
-        # If admin API failed (shouldn't happen), fall back to client API
-        if use_admin_api:
-            print(f"  ↩ Falling back to client API for room publishing")
-            return publish_room(access_token, room_id, use_admin_api=False)
         return False
+
+
+def verify_public_rooms(access_token: str) -> None:
+    """Verify that rooms appear in the public directory (for debugging)."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(
+        f"{SYNAPSE_URL}/_matrix/client/v3/publicRooms?limit=20",
+        headers=headers,
+    )
+    if response.status_code == 200:
+        data = response.json()
+        rooms = data.get("chunk", [])
+        print(f"  📋 Public room directory has {len(rooms)} room(s):")
+        for room in rooms:
+            print(f"    - {room.get('name', 'unnamed')} ({room.get('room_id', '?')})")
+    else:
+        print(
+            f"  ⚠ Could not query public rooms: {response.status_code} {response.text}"
+        )
 
 
 def join_room(access_token: str, room_id: str) -> bool:
@@ -699,16 +709,16 @@ def main():
     print("Creating test rooms and populating with data...")
     rooms = {}
 
-    # Log in as testadmin to publish rooms (requires server admin role)
+    # Log in as testadmin (kept for future use; not currently used for publishing)
     admin_token = None
     if "testadmin" in users:
         admin_token = login_user(
             users["testadmin"]["user_id"], users["testadmin"]["password"]
         )
         if admin_token:
-            print("✓ Admin token acquired for room publishing")
+            print("✓ Admin token acquired")
         else:
-            print("⚠ Could not get admin token; room publishing may fail")
+            print("⚠ Could not get admin token")
 
     # Use first user to create rooms and post messages
     if users:
@@ -727,16 +737,9 @@ def main():
                 if room_id:
                     rooms[room_config["name"]] = room_id
 
-                    # Publish room to directory.
-                    # Use the Synapse Admin API when admin_token is available,
-                    # because the standard client API requires room membership
-                    # and publish_room is called before users join the room.
-                    if admin_token:
-                        publish_room(admin_token, room_id, use_admin_api=True)
-                    else:
-                        publish_room(token, room_id, use_admin_api=False)
-
-                    # Invite other users and make them join
+                    # Invite other users and make them join first.
+                    # We need the room creator (token) OR an admin (admin_token) to be
+                    # a member before we can publish the room to the public directory.
                     if room_config.get("invite_users", True):
                         for username, user_info in users.items():
                             if user_info["user_id"] != first_user["user_id"]:
@@ -756,6 +759,12 @@ def main():
                                     print(f"  ✓ User {username} joined room")
                     else:
                         print(f"  ℹ Skipping user invites for room (discovery test)")
+
+                    # Publish room to directory AFTER joining.
+                    # The standard Matrix client API requires room membership to publish.
+                    # The room creator (token) is always a member (they created the room),
+                    # so we can use their token directly.
+                    publish_room(token, room_id, use_admin_api=False)
 
                     # Populate with text messages if configured
                     if room_config.get("populate_with_messages", False):
@@ -811,6 +820,15 @@ def main():
         f"  test_photos  - 3 text + image/video/audio messages (for testing photo/media content)"
     )
     print(f"  test_art     - 0 messages (for testing empty rooms)")
+
+    # Verify rooms are in the public directory
+    if users:
+        first_username = list(users.keys())[0]
+        first_user = users[first_username]
+        verify_token = login_user(first_user["user_id"], first_user["password"])
+        if verify_token:
+            print()
+            verify_public_rooms(verify_token)
     print()
 
 
