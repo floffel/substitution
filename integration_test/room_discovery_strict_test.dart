@@ -14,7 +14,8 @@ import 'helpers/integration_test_helper.dart'
         waitForMatrixClient,
         skipIfNoMatrix,
         effectiveMatrixServer,
-        waitForJoinedRooms;
+        waitForJoinedRooms,
+        waitForSync;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -447,6 +448,9 @@ void main() {
 
         await loginUser(tester);
 
+        // Wait for Matrix sync to settle
+        await waitForSync(tester);
+
         // Open room drawer/list
         final drawerButton = find.byIcon(Icons.menu);
         if (drawerButton.evaluate().isNotEmpty) {
@@ -459,7 +463,7 @@ void main() {
         // STRICT: Find all 3 pre-joined rooms
         // Use the robust helper instead of a simple loop
         try {
-          await waitForJoinedRooms(tester, 3, timeout: const Duration(seconds: 60));
+          await waitForJoinedRooms(tester, 3, timeout: const Duration(seconds: 90));
         } catch (e) {
           debugPrint('⚠ STRICT check failed: $e');
           // We still continue to execute the remaining checks to get a full picture

@@ -440,9 +440,9 @@ class HomePageState extends State<HomePage> {
     );
 
     // Initialize SubstitutionService cache
-    _substitutionService.init();
+    final serviceInit = _substitutionService.init();
 
-    _timelinesFuture = _fetchTimelines();
+    _timelinesFuture = serviceInit.then((_) => _fetchTimelines());
 
     _pagingController = PagingController<
       Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,

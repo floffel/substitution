@@ -5,17 +5,18 @@ import '../extensions/client_extensions.dart';
 class SubstitutionService extends ChangeNotifier {
   final Client _client;
   final Set<String> _substitutionRoomIds = {};
-  bool _initialized = false;
+  Future<void>? _initFuture;
 
   SubstitutionService(this._client);
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
   /// from the Matrix server's account data.
-  Future<void> init() => _ensureInitialized();
+  Future<void> init() {
+    _initFuture ??= _ensureInitialized();
+    return _initFuture!;
+  }
 
   Future<void> _ensureInitialized() async {
-    if (_initialized) return;
-
     // In a real app, we might want to fetch all rooms and their account data.
     // For now, we trust the join/leave flow and maybe a sync.
     // To be really robust, we'd iterate joined rooms once.
@@ -25,7 +26,6 @@ class SubstitutionService extends ChangeNotifier {
         _substitutionRoomIds.add(roomId);
       }
     }
-    _initialized = true;
   }
 
   bool isSubstitutionRoom(String roomId) {

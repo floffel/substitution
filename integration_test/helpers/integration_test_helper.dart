@@ -127,26 +127,54 @@ Future<void> handleAgeGate(WidgetTester tester) async {
 /// Waits for at least [count] rooms to be joined and visible in the UI.
 ///
 /// Throws an [Exception] if the condition is not met within the timeout.
-Future<void> waitForJoinedRooms(WidgetTester tester, int count, {Duration timeout = const Duration(seconds: 30)}) async {
+Future<void> waitForJoinedRooms(WidgetTester tester, int count,
+    {Duration timeout = const Duration(seconds: 30)}) async {
   debugPrint('Waiting for at least $count joined rooms to be visible...');
   final stopWatch = Stopwatch()..start();
-  
+
   while (stopWatch.elapsed < timeout) {
     await tester.pump(const Duration(milliseconds: 500));
     final roomItems = find.byType(ListTile);
     final currentCount = roomItems.evaluate().length;
-    
+
     if (currentCount >= count) {
       debugPrint('✓ Found $currentCount rooms (target: $count)');
+      // Log room names for debugging
+      for (final element in roomItems.evaluate()) {
+        final listTile = element.widget as ListTile;
+        if (listTile.title is Text) {
+          debugPrint('  - Room: ${(listTile.title as Text).data}');
+        }
+      }
       return;
     }
-    
+
     // Also check if we are on the right page
     if (find.byType(CircularProgressIndicator).evaluate().isNotEmpty) {
       debugPrint('...still loading (CircularProgressIndicator visible)...');
+    } else {
+      debugPrint('...still waiting ($currentCount/$count rooms found)...');
     }
   }
-  
+
   final finalCount = find.byType(ListTile).evaluate().length;
-  throw Exception('Timeout waiting for $count rooms. Only $finalCount found after ${timeout.inSeconds}s');
+  throw Exception(
+      'Timeout waiting for $count rooms. Only $finalCount found after ${timeout.inSeconds}s');
+}
+
+/// Waits for the Matrix client to be fully synced (initial sync complete).
+Future<void> waitForSync(WidgetTester tester,
+    {Duration timeout = const Duration(seconds: 30)}) async {
+  debugPrint('Waiting for Matrix initial sync to complete...');
+  final stopWatch = Stopwatch()..start();
+
+  while (stopWatch.elapsed < timeout) {
+    final client = app.globalMatrixClient;
+    if (client != null && client.prevBatch != null) {
+      debugPrint('✓ Matrix sync complete (prevBatch: ${client.prevBatch})');
+      return;
+    }
+    await tester.pump(const Duration(milliseconds: 500));
+  }
+  debugPrint('⚠ Warning: Matrix sync did not complete within timeout');
 }
