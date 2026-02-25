@@ -20,9 +20,7 @@ class LegalPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('settings.legal.title').tr(),
-        leading: BackButton(
-          onPressed: () => context.pop(),
-        ),
+        leading: BackButton(onPressed: () => context.pop()),
       ),
       body: ListView(
         children: [
@@ -54,7 +52,14 @@ class LegalPage extends StatelessWidget {
                 applicationName: 'Substitution',
                 applicationIcon: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/icon/logo.png', width: 64, height: 64),
+                  child: Image.asset(
+                    'assets/icon/logo.png',
+                    width: 64,
+                    height: 64,
+                    errorBuilder:
+                        (ctx, err, stack) =>
+                            const Icon(Icons.image_not_supported, size: 64),
+                  ),
                 ),
               );
             },

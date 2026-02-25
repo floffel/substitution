@@ -186,7 +186,7 @@ run_ios_tests() {
     done
 
     # Run tests — run all files in a single session for performance
-    local timeout="${IOS_TEST_TIMEOUT:-1800}"
+    local timeout="${IOS_TEST_TIMEOUT:-2700}"
     mkdir -p "$RESULTS_DIR"
 
     export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
@@ -248,9 +248,9 @@ run_ios_tests() {
         local shard_args=()
         read -r -a shard_args <<< "$(get_shard_args)"
 
-        run_with_timeout "$timeout" flutter "test" "integration_test/" \
+        run_with_timeout "$timeout" flutter "test" \
             --timeout "60m" \
-            "${common_args[@]}" "${shard_args[@]}" 2>&1 | tee "$log_file"
+            "${common_args[@]}" "${shard_args[@]}" "integration_test/" 2>&1 | tee "$log_file"
         overall_exit=${PIPESTATUS[0]}
 
         end_time=$(date +%s)

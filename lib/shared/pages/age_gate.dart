@@ -23,7 +23,8 @@ class AgeGatePage extends StatelessWidget {
   Future<void> _confirm(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_prefKey, true);
-    AgeGatePage.confirmed = true; // update in-memory flag so router redirect works
+    AgeGatePage.confirmed =
+        true; // update in-memory flag so router redirect works
     if (!context.mounted) return;
     context.go('/');
   }
@@ -38,7 +39,8 @@ class AgeGatePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height -
+              minHeight:
+                  MediaQuery.of(context).size.height -
                   MediaQuery.of(context).padding.top -
                   MediaQuery.of(context).padding.bottom -
                   96,
@@ -48,12 +50,20 @@ class AgeGatePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  Image.asset('assets/icon/logo.png', width: 80, height: 80),
+                  Image.asset(
+                    'assets/icon/logo.png',
+                    width: 80,
+                    height: 80,
+                    errorBuilder:
+                        (ctx, err, stack) =>
+                            const Icon(Icons.image_not_supported, size: 80),
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     'age_gate.title'.tr(),
-                    style: theme.textTheme.headlineSmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
@@ -94,9 +104,12 @@ class AgeGatePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextButton(
-                    onPressed: () => launchUrl(
-                      Uri.parse('https://github.com/floffel/substitution/blob/main/PRIVACY.md'),
-                    ),
+                    onPressed:
+                        () => launchUrl(
+                          Uri.parse(
+                            'https://github.com/floffel/substitution/blob/main/PRIVACY.md',
+                          ),
+                        ),
                     child: const Text('age_gate.privacy_link').tr(),
                   ),
                 ],
@@ -111,10 +124,7 @@ class AgeGatePage extends StatelessWidget {
   Widget _bullet(BuildContext context, String key) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('• '),
-        Expanded(child: Text(key).tr()),
-      ],
+      children: [const Text('• '), Expanded(child: Text(key).tr())],
     );
   }
 }

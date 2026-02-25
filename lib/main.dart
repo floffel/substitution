@@ -568,7 +568,12 @@ class _IntroductionState extends State<IntroductionPage> {
       pages: [
         PageViewModel(
           title: "intro.welcome.title".tr(),
-          image: const Image(image: AssetImage('assets/icon/logo.png')),
+          image: Image(
+            image: const AssetImage('assets/icon/logo.png'),
+            errorBuilder:
+                (ctx, err, stack) =>
+                    const Icon(Icons.image_not_supported, size: 80),
+          ),
           bodyWidget: Column(
             children: [
               Row(

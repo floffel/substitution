@@ -173,19 +173,28 @@ void main() {
         }
 
         // Navigate away and back to guarantee widget reconstruction.
-        Element? navContext2;
-        if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
-          navContext2 = tester.element(find.byType(app.IntroductionPage).first);
-        } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
-          navContext2 = tester.element(find.byType(Scaffold).first);
+        // Re-query the context each time because navigating invalidates old elements.
+        Element? findNavContext() {
+          if (find.byType(app.IntroductionPage).evaluate().isNotEmpty) {
+            return tester.element(find.byType(app.IntroductionPage).first);
+          } else if (find.byType(Scaffold).evaluate().isNotEmpty) {
+            return tester.element(find.byType(Scaffold).first);
+          }
+          return null;
         }
+
+        final navCtxA = findNavContext();
         // ignore: use_build_context_synchronously
-        if (navContext2 != null) {
-          GoRouter.of(navContext2).go("/settings/feed");
-          for (int i = 0; i < 4; i++) {
+        if (navCtxA != null) {
+          GoRouter.of(navCtxA).go("/settings/feed");
+          for (int i = 0; i < 8; i++) {
             await tester.pump(const Duration(milliseconds: 250));
           }
-          GoRouter.of(navContext2).go("/");
+        }
+        final navCtxB = findNavContext();
+        // ignore: use_build_context_synchronously
+        if (navCtxB != null) {
+          GoRouter.of(navCtxB).go("/");
         }
         // Use timed pumps instead of pumpAndSettle to avoid stalling on Matrix sync loop.
         for (int i = 0; i < 30; i++) {

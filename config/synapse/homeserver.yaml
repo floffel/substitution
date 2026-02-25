@@ -49,6 +49,13 @@ allow_guest_access: false
 allow_public_rooms_publishing: true
 allow_public_rooms_without_auth: true
 
+# Allow any local user to publish rooms to the public room directory.
+# In modern Synapse the room_list_publication_rules list controls this;
+# an empty (or absent) list means "deny all" regardless of the deprecated
+# allow_public_rooms_publishing flag.
+room_list_publication_rules:
+  - action: allow
+
 # Session management
 session_lifetime: "24h"
 
