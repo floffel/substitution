@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:substitution/main.dart' as app;
 import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient, waitForSync;
 
 /// Drives the full login flow from a cold-start app state.
