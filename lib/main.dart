@@ -56,12 +56,15 @@ void main() async {
   // Dispose previous client if any (for test isolation)
   if (globalMatrixClient != null) {
     try {
+      debugPrint("Main: Disposing lingering client...");
       final oldClient = globalMatrixClient!;
       globalMatrixClient = null;
       globalSubstitutionService = null;
-      // Stop sync and dispose to prevent database locks and frame scheduling
       oldClient.abortSync();
       await oldClient.dispose();
+      // Allow OS to release file locks
+      await Future.delayed(const Duration(milliseconds: 500));
+      debugPrint("Main: Lingering client disposed.");
     } catch (e) {
       debugPrint("Error disposing previous client at main start: $e");
     }

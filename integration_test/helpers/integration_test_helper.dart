@@ -215,9 +215,18 @@ Future<void> fastWait(
   final end = DateTime.now().add(timeout);
   while (DateTime.now().isBefore(end)) {
     if (condition()) return;
-    // Pump exactly one frame to advance the app state
-    await tester.pump();
+    // Pump with a small duration to allow microtasks and timers to run
+    await tester.pump(const Duration(milliseconds: 100));
   }
+  
+  // Timeout reached, dump tree for debugging
+  debugPrint('TIMEOUT in fastWait! Current widget tree:');
+  try {
+    debugPrint(tester.allWidgets.map((w) => w.runtimeType.toString()).join(', '));
+  } catch (e) {
+    debugPrint('Could not dump widgets: $e');
+  }
+  
   throw Exception('Timeout waiting for condition');
 }
 
@@ -229,4 +238,14 @@ Future<void> waitUntilVisible(
 }) async {
   debugPrint('Fast-Wait: Waiting for $finder...');
   await fastWait(tester, () => finder.evaluate().isNotEmpty, timeout: timeout);
+}
+
+/// Pumps the app until the given finder finds no widgets.
+Future<void> waitUntilNotVisible(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  debugPrint('Waiting for $finder to disappear...');
+  await fastWait(tester, () => finder.evaluate().isEmpty, timeout: timeout);
 }

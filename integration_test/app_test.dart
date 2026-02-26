@@ -56,7 +56,7 @@ void main() {
     }
 
     // Verify the app is running by checking for Scrollable (Feed)
-    expect($.tester.any(find.byType(Scrollable)), true);
+    await fastWait($.tester, () => $.tester.any(find.byType(Scrollable)));
     debugPrint('Patrol: Base check passed.');
   });
 }

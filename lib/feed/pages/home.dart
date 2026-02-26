@@ -302,19 +302,6 @@ class HomePageState extends State<HomePage> {
               event.relationshipType != RelationshipTypes.thread;
           final isNotEdit = event.relationshipType != RelationshipTypes.edit;
           final powerLevel = event.room.getPowerLevelByUserId(event.senderId);
-          final passesFilter =
-              isMsg &&
-              isNotReply &&
-              isNotThread &&
-              isNotEdit &&
-              powerLevel >= 50;
-          if (!passesFilter) {
-            debugPrint(
-              "[FeedFilter] REJECTED event=${event.eventId} type=${event.type} "
-              "isMsg=$isMsg rel=${event.relationshipType} "
-              "powerLevel=$powerLevel sender=${event.senderId}",
-            );
-          }
           if (isMsg &&
               isNotReply &&
               isNotThread &&
@@ -472,7 +459,9 @@ class HomePageState extends State<HomePage> {
         _latestNextPageKey = result.nextKey;
         return result.events;
       },
-    );
+    )..addListener(() {
+      if (mounted) setState(() {});
+    });
 
     // Initialize connectivity tracking
     _connectivityStream = _connectivityService.onConnectivityChanged;

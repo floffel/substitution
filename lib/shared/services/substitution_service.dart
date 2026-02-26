@@ -13,7 +13,14 @@ class SubstitutionService extends ChangeNotifier {
   /// Returns the number of rooms currently tracked.
   int get roomCount => _substitutionRoomIds.length;
 
-  SubstitutionService(this._client);
+  SubstitutionService(this._client) {
+    // Listen for sync completion to trigger UI updates (e.g. new messages)
+    _client.onSyncStatus.stream.listen((status) {
+      if (status.status == SyncStatus.finished) {
+        notifyListeners();
+      }
+    });
+  }
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
   /// from the Matrix server's account data.
