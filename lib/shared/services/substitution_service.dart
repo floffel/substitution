@@ -20,11 +20,26 @@ class SubstitutionService extends ChangeNotifier {
     // In a real app, we might want to fetch all rooms and their account data.
     // For now, we trust the join/leave flow and maybe a sync.
     // To be really robust, we'd iterate joined rooms once.
+
+    // Wait for initial sync if not yet synced to ensure local roomAccountData is populated
+    if (_client.prevBatch == null) {
+      try {
+        await _client.onSync.stream.firstWhere((_) => _client.prevBatch != null).timeout(const Duration(seconds: 30));
+      } catch (_) {
+        // Timeout reached, proceed anyway
+      }
+    }
+
     final joined = await _client.getJoinedRooms();
     bool changed = false;
-    for (final roomId in joined) {
-      if (await _client.isRoomInSubstitution(roomId)) {
-        if (_substitutionRoomIds.add(roomId)) {
+
+    final results = await Future.wait(
+      joined.map((roomId) => _client.isRoomInSubstitution(roomId))
+    );
+
+    for (int i = 0; i < joined.length; i++) {
+      if (results[i]) {
+        if (_substitutionRoomIds.add(joined[i])) {
           changed = true;
         }
       }
