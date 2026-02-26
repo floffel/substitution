@@ -8,10 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/key_verification.dart';
 import 'package:substitution/feed/pages/home.dart';
-import 'package:patrol/patrol.dart';
 import 'package:go_router/go_router.dart';
-import 'package:matrix/matrix.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, waitUntilNotVisible;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -64,7 +62,9 @@ void main() {
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      )) return;
+      )) {
+        return;
+      }
 
       // 1. Navigate directly to Security page
       debugPrint('SECURITY: Navigating to KeyVerificationPage...');

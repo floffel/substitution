@@ -1,12 +1,10 @@
 import 'dart:io' as dart_io;
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'package:patrol/patrol.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 import 'helpers/patrol_wrapper.dart';
 

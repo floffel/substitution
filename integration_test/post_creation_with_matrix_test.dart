@@ -9,12 +9,9 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/write/pages/roomselect.dart';
 import 'package:substitution/write/pages/textmessage.dart';
 import 'package:substitution/feed/pages/home.dart';
-import 'package:substitution/post/widgets/post.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:patrol/patrol.dart';
-import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, waitUntilNotVisible;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -67,7 +64,9 @@ void main() {
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      )) return;
+      )) {
+        return;
+      }
 
       final client = app.globalMatrixClient!;
       final service = app.globalSubstitutionService!;

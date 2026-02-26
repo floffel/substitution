@@ -12,7 +12,7 @@ import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/write/pages/textmessage.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:patrol/patrol.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, waitUntilNotVisible;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 

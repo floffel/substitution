@@ -1,5 +1,4 @@
 import 'dart:io' as dart_io;
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
@@ -10,7 +9,7 @@ import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:patrol/patrol.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, waitUntilNotVisible;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -74,7 +73,9 @@ void main() {
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      )) return;
+      )) {
+        return;
+      }
 
       await waitForFeedReady($);
       
@@ -82,7 +83,7 @@ void main() {
       final rooms = await client.getJoinedRooms();
       // Find 'test_general' room ID from the seeded data
       final testGeneralRoomId = rooms.firstWhere((id) => client.getRoomById(id)?.name == 'test_general');
-      final testArtRoomId = rooms.firstWhere((id) => client.getRoomById(id)?.name == 'test_art');
+       // testArtRoomId removed
 
       debugPrint('ROOM_FEED: Navigating to test_general ($testGeneralRoomId)...');
       
