@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:substitution/shared/pages/age_gate.dart';
 import 'integration_test_helper.dart'
     show skipIfNoMatrix, waitForMatrixClient, waitForSync, waitUntilVisible, settle;
 

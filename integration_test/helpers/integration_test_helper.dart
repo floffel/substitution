@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:io' as dart_io show Socket;
 import 'package:substitution/main.dart' as app;
+import 'package:matrix/matrix.dart';
 
 /// Returns the effective Matrix server URL for the current platform.
 ///

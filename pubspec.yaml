@@ -72,6 +72,7 @@ dependencies:
   shared_preferences: any
   connectivity_plus: any
 dev_dependencies:
+  patrol: ^3.11.0
   integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
