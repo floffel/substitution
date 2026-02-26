@@ -81,9 +81,9 @@ Future<bool> skipIfNoMatrix({
 /// before attempting to use it.
 Future<void> waitForMatrixClient(WidgetTester tester) async {
   debugPrint('Waiting for globalMatrixClient to be initialized...');
-  for (int i = 0; i < 40; i++) {
-    if (app.globalMatrixClient != null) {
-      debugPrint('globalMatrixClient initialized!');
+  for (int i = 0; i < 60; i++) {
+    if (app.globalMatrixClient != null && find.byType(MaterialApp).evaluate().isNotEmpty) {
+      debugPrint('globalMatrixClient initialized and UI mounted!');
       return;
     }
     await tester.pump(const Duration(milliseconds: 500));
