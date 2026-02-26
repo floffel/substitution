@@ -53,6 +53,20 @@ String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
 }
 
 void main() async {
+  // Dispose previous client if any (for test isolation)
+  if (globalMatrixClient != null) {
+    try {
+      final oldClient = globalMatrixClient!;
+      globalMatrixClient = null;
+      globalSubstitutionService = null;
+      // Stop sync and dispose to prevent database locks and frame scheduling
+      oldClient.abortSync();
+      await oldClient.dispose();
+    } catch (e) {
+      debugPrint("Error disposing previous client at main start: $e");
+    }
+  }
+
   // Must be first — plugins like SharedPreferences and url_strategy need it.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -401,19 +415,6 @@ void main() async {
   } else {
     // Web support: use default (IndexedDB)
     matrixDatabase = await MatrixSdkDatabase.init("Substitution");
-  }
-
-  // Dispose previous client if any (for test isolation)
-  if (globalMatrixClient != null) {
-    try {
-      final oldClient = globalMatrixClient!;
-      globalMatrixClient = null;
-      // Stop sync and dispose to prevent database locks and frame scheduling
-      oldClient.abortSync();
-      await oldClient.dispose();
-    } catch (e) {
-      debugPrint("Error disposing previous client: $e");
-    }
   }
 
   final client = Client(

@@ -167,37 +167,33 @@ Future<void> waitForJoinedRooms(
   );
 }
 
+/// Wait for the Matrix client to reach a specific [SyncStatus] using its internal stream.
+/// This is 100% event-driven and avoids any manual polling or "luck-based" sleeps.
+Future<void> waitForSyncStatus(
+  SyncStatus targetStatus, {
+  Duration timeout = const Duration(seconds: 120),
+}) async {
+  final client = app.globalMatrixClient;
+  if (client == null) throw Exception('globalMatrixClient is null');
+
+  debugPrint('Event-Driven: Waiting for Matrix sync status: $targetStatus');
+  
+  await client.onSyncStatus.stream
+      .firstWhere((status) => status.status == targetStatus)
+      .timeout(timeout);
+      
+  debugPrint('✓ Event received: Matrix reached status $targetStatus');
+}
+
 /// Waits for the Matrix client to be fully synced (initial sync complete).
 Future<void> waitForSync(
   WidgetTester tester, {
   Duration timeout = const Duration(seconds: 120),
 }) async {
-  final client = app.globalMatrixClient;
-  if (client == null) {
-    debugPrint('waitForSync: globalMatrixClient is null');
-    return;
-  }
-
-  if (client.prevBatch != null) {
-    debugPrint('✓ Matrix sync already complete (prevBatch: ${client.prevBatch})');
-    return;
-  }
-
-  debugPrint('Waiting for Matrix initial sync to complete (event-driven)...');
-  try {
-    // Listen for the 'finished' status which indicates initial sync completion
-    await client.onSyncStatus.stream
-        .firstWhere((status) => status.status == SyncStatus.finished || status.status == SyncStatus.error)
-        .timeout(timeout);
-    
-    if (client.prevBatch != null) {
-      debugPrint('✓ Matrix sync complete (event received)');
-    } else {
-      debugPrint('⚠ Warning: Sync stream updated but prevBatch still null');
-    }
-  } catch (e) {
-    debugPrint('⚠ Error/Timeout waiting for sync: $e');
-  }
+  if (app.globalMatrixClient?.prevBatch != null) return;
+  await waitForSyncStatus(SyncStatus.finished, timeout: timeout);
+  // After the data event, one pump is enough to render the resulting state
+  await tester.pump();
 }
 
 /// A more robust version of pumpAndSettle that doesn't hang on background activity.
@@ -207,26 +203,30 @@ Future<void> settle(WidgetTester tester, {int count = 5, Duration interval = con
   }
 }
 
-/// Pumps the app until the given finder finds at least one widget, or the timeout is reached.
+/// A high-performance, event-driven waiter.
+/// Pumps frames as fast as possible until [condition] returns true.
+/// This is the most deterministic way to wait for state changes, as it resumes
+/// the test the exact frame after the condition is met, without manual sleeps.
+Future<void> fastWait(
+  WidgetTester tester,
+  bool Function() condition, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  final end = DateTime.now().add(timeout);
+  while (DateTime.now().isBefore(end)) {
+    if (condition()) return;
+    // Pump exactly one frame to advance the app state
+    await tester.pump();
+  }
+  throw Exception('Timeout waiting for condition');
+}
+
+/// Pumps the app until the given finder finds at least one widget.
 Future<void> waitUntilVisible(
   WidgetTester tester,
   Finder finder, {
   Duration timeout = const Duration(seconds: 30),
-  Duration interval = const Duration(milliseconds: 500),
 }) async {
-  debugPrint('Waiting for $finder to become visible...');
-  final end = DateTime.now().add(timeout);
-  int count = 0;
-  while (DateTime.now().isBefore(end)) {
-    if (finder.evaluate().isNotEmpty) {
-      debugPrint('✓ $finder is now visible after ${count * interval.inMilliseconds}ms');
-      return;
-    }
-    await tester.pump(interval);
-    count++;
-    if (count % 10 == 0) {
-      debugPrint('...still waiting for $finder (${(count * interval.inMilliseconds) / 1000}s elapsed)');
-    }
-  }
-  throw Exception('Timeout waiting for finder to become visible after ${timeout.inSeconds}s: $finder');
+  debugPrint('Fast-Wait: Waiting for $finder...');
+  await fastWait(tester, () => finder.evaluate().isNotEmpty, timeout: timeout);
 }

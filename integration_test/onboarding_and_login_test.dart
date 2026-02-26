@@ -34,6 +34,21 @@ void main() {
       }
     });
 
+    tearDown(() async {
+      await app.globalMatrixClient?.dispose();
+      app.globalMatrixClient = null;
+      if (!kIsWeb) {
+        try {
+          final appDocDir = await getApplicationDocumentsDirectory();
+          final dbPath = '${appDocDir.path}/matrix_database.db';
+          final dbFile = dart_io.File(dbPath);
+          if (await dbFile.exists()) {
+            await dbFile.delete();
+          }
+        } catch (_) {}
+      }
+    });
+
     testWidgets('Complete onboarding: host selection -> login -> view feed', (tester) async {
       final $ = wrapTester(tester);
       AgeGatePage.confirmed = true;

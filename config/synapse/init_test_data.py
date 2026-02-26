@@ -230,6 +230,24 @@ def create_room(access_token: str, room_name: str, topic: str) -> Optional[str]:
                 "content": {"history_visibility": "shared"},
                 "state_key": "",
             },
+            {
+                "type": "m.room.power_levels",
+                "content": {
+                    "users": {
+                        "@testuser1:test.matrix.local": 100,
+                        "@testuser2:test.matrix.local": 100,
+                        "@testadmin:test.matrix.local": 100,
+                    },
+                    "users_default": 0,
+                    "events_default": 0,
+                    "state_default": 50,
+                    "ban": 50,
+                    "kick": 50,
+                    "redact": 50,
+                    "invite": 0,
+                },
+                "state_key": "",
+            },
         ],
     }
 
@@ -671,6 +689,22 @@ def set_room_avatar(access_token: str, room_id: str, mxc_uri: str) -> bool:
         return False
 
 
+def mark_room_as_substitution(access_token: str, room_id: str, user_id: str) -> bool:
+    """Mark a room as a 'substitution' room in account data."""
+    headers = {"Authorization": f"Bearer {access_token}"}
+    payload = {"joined": True}
+    url = f"{SYNAPSE_URL}/_matrix/client/v3/user/{user_id}/rooms/{room_id}/account_data/substitution"
+
+    response = requests.put(url, json=payload, headers=headers)
+
+    if response.status_code == 200:
+        print(f"  ✓ Marked {room_id} as substitution room for {user_id}")
+        return True
+    else:
+        print(f"  ⚠ Failed to mark room as substitution: {response.status_code} {response.text}")
+        return False
+
+
 def main():
     """Initialize Matrix test server."""
     print("Initializing Matrix Synapse test server...")
@@ -720,12 +754,9 @@ def main():
         else:
             print("⚠ Could not get admin token")
 
-    # Use first user to create rooms and post messages
-    if users:
-        first_username = list(users.keys())[0]
-        first_user = users[first_username]
-        # Login using the user_id that was returned by registration
-        token = login_user(first_user["user_id"], first_user["password"])
+    # Use testuser1 to create rooms so they have max power level (creator)
+    if "testuser1" in users:
+        token = login_user(users["testuser1"]["user_id"], users["testuser1"]["password"])
 
         if token:
             for room_config in TEST_ROOMS:
@@ -737,12 +768,13 @@ def main():
                 if room_id:
                     rooms[room_config["name"]] = room_id
 
+                    # Mark as substitution room for testuser1
+                    mark_room_as_substitution(token, room_id, users["testuser1"]["user_id"])
+
                     # Invite other users and make them join first.
-                    # We need the room creator (token) OR an admin (admin_token) to be
-                    # a member before we can publish the room to the public directory.
                     if room_config.get("invite_users", True):
                         for username, user_info in users.items():
-                            if user_info["user_id"] != first_user["user_id"]:
+                            if user_info["user_id"] != users["testuser1"]["user_id"]:
                                 # Invite
                                 payload = {"user_id": user_info["user_id"]}
                                 requests.post(

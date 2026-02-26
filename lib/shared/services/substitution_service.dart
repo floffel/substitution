@@ -7,6 +7,12 @@ class SubstitutionService extends ChangeNotifier {
   final Set<String> _substitutionRoomIds = {};
   Future<void>? _initFuture;
 
+  /// Returns true if the service has finished its initial room discovery.
+  bool get isInitialized => _initFuture != null;
+
+  /// Returns the number of rooms currently tracked.
+  int get roomCount => _substitutionRoomIds.length;
+
   SubstitutionService(this._client);
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache

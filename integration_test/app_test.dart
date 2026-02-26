@@ -9,9 +9,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/integration_test_helper.dart' show fastWait;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  tearDown(() async {
+    await app.globalMatrixClient?.dispose();
+    app.globalMatrixClient = null;
+    if (!kIsWeb) {
+      try {
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
+        if (await dbFile.exists()) {
+          await dbFile.delete();
+        }
+      } catch (_) {}
+    }
+  });
 
   testWidgets('Substitution App - Base Patrol Integration Tests', (tester) async {
     final $ = wrapTester(tester);
@@ -33,7 +48,7 @@ void main() {
 
     // App starts and displays home page
     debugPrint('Patrol: Starting app check...');
-    await $(MaterialApp).waitUntilVisible();
+    await fastWait($.tester, () => $(MaterialApp).exists);
     
     // Check if we need to login
     if (app.globalMatrixClient?.isLogged() != true) {

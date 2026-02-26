@@ -33,6 +33,20 @@ void main() {
       }
     });
 
+    tearDown(() async {
+      await app.globalMatrixClient?.dispose();
+      app.globalMatrixClient = null;
+      if (!kIsWeb) {
+        try {
+          final appDocDir = await getApplicationDocumentsDirectory();
+          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
+          if (await dbFile.exists()) {
+            await dbFile.delete();
+          }
+        } catch (_) {}
+      }
+    });
+
     testWidgets('STRICT: Users can see messages in shared room', (tester) async {
       final $ = wrapTester(tester);
       AgeGatePage.confirmed = true;

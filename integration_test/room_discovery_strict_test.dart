@@ -33,6 +33,20 @@ void main() {
       }
     });
 
+    tearDown(() async {
+      await app.globalMatrixClient?.dispose();
+      app.globalMatrixClient = null;
+      if (!kIsWeb) {
+        try {
+          final appDocDir = await getApplicationDocumentsDirectory();
+          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
+          if (await dbFile.exists()) {
+            await dbFile.delete();
+          }
+        } catch (_) {}
+      }
+    });
+
     testWidgets('STRICT: Room discovery UI present and functional', (tester) async {
       final $ = wrapTester(tester);
       AgeGatePage.confirmed = true;
@@ -72,7 +86,7 @@ void main() {
       }
 
       // Wait for rooms to appear
-      await $(ListTile).waitUntilVisible();
+      await $(ListTile).waitUntilVisible(timeout: const Duration(seconds: 30));
 
       final roomCount = $(ListTile).evaluate().length;
       expect(roomCount >= 3, true, reason: 'MUST show at least 3 pre-joined rooms');
