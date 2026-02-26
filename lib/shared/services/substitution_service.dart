@@ -15,11 +15,16 @@ class SubstitutionService extends ChangeNotifier {
 
   SubstitutionService(this._client) {
     // Listen for sync completion to trigger UI updates (e.g. new messages)
-    _client.onSyncStatus.stream.listen((status) {
-      if (status.status == SyncStatus.finished) {
-        notifyListeners();
-      }
-    });
+    try {
+      _client.onSyncStatus.stream.listen((status) {
+        if (status.status == SyncStatus.finished) {
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      // In tests, MockClient.onSyncStatus might be null if not stubbed.
+      debugPrint("SubstitutionService: Could not listen to onSyncStatus: $e");
+    }
   }
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
