@@ -53,11 +53,15 @@ docker_wait_for_matrix() {
             return 0
         fi
         ((retry++))
-        log_debug "Matrix not ready yet ($retry/$max_retries)..."
+        if [[ $((retry % 5)) -eq 0 ]]; then
+            log_info "Matrix not ready yet ($retry/$max_retries)..."
+        fi
         sleep 2
     done
 
     log_error "Matrix server did not become ready after $((max_retries * 2))s"
+    log_info "Printing matrix-synapse logs for debugging:"
+    docker compose -f "$compose_file" logs matrix-synapse | tail -50
     return 1
 }
 

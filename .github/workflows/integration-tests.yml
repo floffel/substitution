@@ -120,10 +120,13 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
           docker compose up -d postgres matrix-synapse redis
-          sleep 10
+          sleep 15
           docker compose run --rm matrix-init
-          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
 
       - name: 'Run web tests'
         env:
@@ -192,10 +195,13 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
           docker compose up -d postgres matrix-synapse redis
-          sleep 10
+          sleep 15
           docker compose run --rm matrix-init
-          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
 
       - name: 'Run Linux integration tests'
         env:
@@ -293,10 +299,13 @@ jobs:
 
       - name: 'Start Matrix test server'
         run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
           docker compose up -d postgres matrix-synapse redis
-          sleep 10
+          sleep 15
           docker compose run --rm matrix-init
-          timeout 60 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do sleep 2; done'
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
 
       - name: 'Run Android integration tests'
         uses: reactivecircus/android-emulator-runner@v2

@@ -191,3 +191,27 @@ Future<void> settle(WidgetTester tester, {int count = 5, Duration interval = con
     await tester.pump(interval);
   }
 }
+
+/// Pumps the app until the given finder finds at least one widget, or the timeout is reached.
+Future<void> waitUntilVisible(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+  Duration interval = const Duration(milliseconds: 500),
+}) async {
+  debugPrint('Waiting for $finder to become visible...');
+  final end = DateTime.now().add(timeout);
+  int count = 0;
+  while (DateTime.now().isBefore(end)) {
+    if (finder.evaluate().isNotEmpty) {
+      debugPrint('✓ $finder is now visible after ${count * interval.inMilliseconds}ms');
+      return;
+    }
+    await tester.pump(interval);
+    count++;
+    if (count % 10 == 0) {
+      debugPrint('...still waiting for $finder (${(count * interval.inMilliseconds) / 1000}s elapsed)');
+    }
+  }
+  throw Exception('Timeout waiting for finder to become visible after ${timeout.inSeconds}s: $finder');
+}

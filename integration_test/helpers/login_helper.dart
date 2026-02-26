@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
-import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient, waitForSync;
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'integration_test_helper.dart'
+    show skipIfNoMatrix, waitForMatrixClient, waitForSync, waitUntilVisible, settle;
 
 /// Drives the full login flow from a cold-start app state.
 ///
@@ -58,66 +60,57 @@ Future<void> loginUser(
 
   // ── Step 1: Age Gate ───────────────────────────────────────────────────
   debugPrint('Step 1: Checking for Age Gate, Intro, or Login fields...');
-  // Wait up to 15 s for any known first screen.
-  for (int i = 0; i < 30; i++) {
-    await tester.pump(const Duration(milliseconds: 500));
-    final hasAgeGate =
-        find.byKey(const Key('ageGateConfirmButton')).evaluate().isNotEmpty;
-    final hasIntro = find.byType(IntroductionScreen).evaluate().isNotEmpty;
-    final hasUsername =
-        find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
-    final hasHost =
-        find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
-    if (hasAgeGate || hasIntro || hasUsername || hasHost) {
-      debugPrint(
-        'Found screen! AgeGate: $hasAgeGate, Intro: $hasIntro, Username: $hasUsername, Host: $hasHost',
-      );
-      break;
-    }
+  // Wait for any known first screen
+  try {
+    await waitUntilVisible(
+      tester,
+      find.byWidgetPredicate(
+        (w) =>
+            w.key == const Key('ageGateConfirmButton') ||
+            w is IntroductionScreen ||
+            w.key == const Key('loginUsernameInput') ||
+            w.key == const Key('hostServerInput'),
+      ),
+      timeout: const Duration(seconds: 20),
+    );
+  } catch (_) {
+    debugPrint('Warning: No known screen found after 20s');
   }
 
   final ageGateFinder = find.byKey(const Key('ageGateConfirmButton'));
   if (ageGateFinder.evaluate().isNotEmpty) {
     debugPrint('Tapping Age Gate confirm button...');
-    // ensureVisible scrolls the button into view before tapping,
-    // which is required on Web where the viewport may be too small.
     try {
       await tester.ensureVisible(ageGateFinder);
-      for (int ps = 0; ps < 2; ps++) {
-        await tester.pump(const Duration(milliseconds: 250));
-      }
+      await settle(
+        tester,
+        count: 2,
+        interval: const Duration(milliseconds: 250),
+      );
     } catch (e) {
       debugPrint('ensureVisible failed: $e — tapping anyway');
     }
     await tester.tap(ageGateFinder, warnIfMissed: false);
-    // Wait up to 10 s for the intro screen or login page to appear
-    for (int i = 0; i < 20; i++) {
-      await tester.pump(const Duration(milliseconds: 500));
-      final hasIntro = find.byType(IntroductionScreen).evaluate().isNotEmpty;
-      final hasUsername =
-          find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty;
-      final hasHost =
-          find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
-      if (hasIntro || hasUsername || hasHost) {
-        debugPrint(
-          'Transition after Age Gate complete. Intro: $hasIntro, Username: $hasUsername, Host: $hasHost',
-        );
-        break;
-      }
-    }
+    // Wait for the next screen
+    try {
+      await waitUntilVisible(
+        tester,
+        find.byWidgetPredicate(
+          (w) =>
+              w is IntroductionScreen ||
+              w.key == const Key('loginUsernameInput') ||
+              w.key == const Key('hostServerInput'),
+        ),
+        timeout: const Duration(seconds: 15),
+      );
+    } catch (_) {}
   }
 
   // ── Step 2: Onboarding Next-button taps ───────────────────────────────
   if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
     debugPrint('Step 2: Navigating through onboarding...');
-    for (int ps = 0; ps < 2; ps++) {
-      await tester.pump(const Duration(milliseconds: 500));
-    }
+    await settle(tester, count: 2);
 
-    // The IntroductionScreen uses canProgress() to gate page transitions,
-    // so dragging the PageView is blocked.  We must tap the "Next" button
-    // to advance pages 0 → 1 → 2 (Host page).  Pages 2→3 and 3→4 are
-    // triggered programmatically by HostPage.onComplete / LoginPage.onComplete.
     for (int i = 0; i < 3; i++) {
       final hasHost =
           find.byKey(const Key('hostServerInput')).evaluate().isNotEmpty;
@@ -144,7 +137,6 @@ Future<void> loginUser(
       }
 
       if (!buttonFound) {
-        // Fallback: find by widgetWithText on TextButton/ElevatedButton
         for (final label in nextLabels) {
           final nextTextButton = find.widgetWithText(TextButton, label);
           if (nextTextButton.evaluate().isNotEmpty) {
@@ -163,10 +155,11 @@ Future<void> loginUser(
         break;
       }
 
-      // Wait for animation to finish without using pumpAndSettle which can hang
-      for (int ps = 0; ps < 10; ps++) {
-        await tester.pump(const Duration(milliseconds: 100));
-      }
+      await settle(
+        tester,
+        count: 10,
+        interval: const Duration(milliseconds: 100),
+      );
     }
     debugPrint('Onboarding navigation complete.');
   }
@@ -176,33 +169,29 @@ Future<void> loginUser(
   if (hostFinder.evaluate().isNotEmpty) {
     debugPrint('Step 3: Entering host URL: $matrixServer');
     await tester.enterText(hostFinder, matrixServer);
-    for (int ps = 0; ps < 2; ps++) {
-      await tester.pump(const Duration(milliseconds: 500));
-    }
+    await settle(tester, count: 2);
 
     final submitButton = find.byKey(const Key('hostSubmitButton'));
     debugPrint('Tapping host submit button...');
     await tester.ensureVisible(submitButton);
-    for (int ps = 0; ps < 2; ps++) {
-      await tester.pump(const Duration(milliseconds: 500));
-    }
+    await settle(tester, count: 2);
     await tester.tap(submitButton, warnIfMissed: false);
 
-    // Wait up to 15 s for the login page to appear
+    // Wait for the login page to appear
     debugPrint('Waiting for login page to appear...');
-    for (int i = 0; i < 30; i++) {
-      await tester.pump(const Duration(milliseconds: 500));
-      if (find.byKey(const Key('loginUsernameInput')).evaluate().isNotEmpty) {
-        debugPrint('Login page reached.');
-        break;
-      }
+    try {
+      await waitUntilVisible(
+        tester,
+        find.byKey(const Key('loginUsernameInput')),
+        timeout: const Duration(seconds: 20),
+      );
+      debugPrint('Login page reached.');
+    } catch (e) {
+      debugPrint('Failed to reach login page: $e');
     }
   } else {
-    // Host already configured — let any pending transitions settle
     debugPrint('Host page skipped (already configured or not visible).');
-    for (int ps = 0; ps < 2; ps++) {
-      await tester.pump(const Duration(milliseconds: 500));
-    }
+    await settle(tester, count: 2);
   }
 
   // ── Step 4: Login page ─────────────────────────────────────────────────
@@ -214,62 +203,51 @@ Future<void> loginUser(
       'All visible text: ${tester.allWidgets.whereType<Text>().map((t) => t.data).join(', ')}',
     );
   }
-  expect(
-    usernameField,
-    findsOneWidget,
-    reason: 'Username field should be visible on the login page',
-  );
+  expect(usernameField, findsOneWidget);
 
-  debugPrint('Entering username: $username');
+  debugPrint('Entering credentials for $username...');
   await tester.enterText(usernameField, username);
-  for (int ps = 0; ps < 2; ps++) {
-    await tester.pump(const Duration(milliseconds: 500));
-  }
+  await settle(tester, count: 2);
 
-  debugPrint('Entering password...');
-  await tester.enterText(find.byKey(const Key('loginPasswordInput')), password);
-  for (int ps = 0; ps < 2; ps++) {
-    await tester.pump(const Duration(milliseconds: 500));
-  }
+  final passwordField = find.byKey(const Key('loginPasswordInput'));
+  await tester.enterText(passwordField, password);
+  await settle(tester, count: 2);
 
   final loginButton = find.byKey(const Key('loginSubmitButton'));
-  debugPrint('Tapping login submit button...');
   await tester.ensureVisible(loginButton);
-  for (int ps = 0; ps < 2; ps++) {
-    await tester.pump(const Duration(milliseconds: 500));
-  }
+  await settle(tester, count: 2);
+  debugPrint('Tapping login submit button...');
   await tester.tap(loginButton, warnIfMissed: false);
 
   // ── Step 5: Finished page ──────────────────────────────────────────────
-  debugPrint('Step 5: Waiting for finished page (introGoButton)...');
+  debugPrint('Step 5: Waiting for Finished page or Feed...');
   for (int i = 0; i < 40; i++) {
     await tester.pump(const Duration(milliseconds: 500));
-    if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) {
-      debugPrint('Finished page reached.');
-      break;
-    } else if (find.byType(Scrollable).evaluate().isNotEmpty) {
-      debugPrint('Feed reached without finished page.');
-      break;
-    }
+    final hasGo = find.byKey(const Key('introGoButton')).evaluate().isNotEmpty;
+    final hasFeed = find.byType(Scrollable).evaluate().isNotEmpty;
+    if (hasGo || hasFeed) break;
   }
 
   final goButton = find.byKey(const Key('introGoButton'));
   if (goButton.evaluate().isNotEmpty) {
-    debugPrint('Tapping Go button...');
+    debugPrint('Finished page reached. Tapping Go button...');
     await tester.tap(goButton, warnIfMissed: false);
-  }
-
-  // Wait for the client to complete initial sync before proceeding to the feed.
-  // This ensures local roomAccountData is populated and we don't hang doing HTTP requests.
-  await waitForSync(tester, timeout: const Duration(seconds: 45));
-
-  // Pump without pumpAndSettle to avoid stalling on the Matrix sync loop
-  debugPrint('Waiting for feed (Scrollable)...');
-  for (int i = 0; i < 20; i++) {
-    await tester.pump(const Duration(milliseconds: 500));
-    if (find.byType(Scrollable).evaluate().isNotEmpty) {
-      debugPrint('Feed reached.');
-      break;
+    // Final wait for feed
+    try {
+      await waitUntilVisible(
+        tester,
+        find.byType(Scrollable),
+        timeout: const Duration(seconds: 15),
+      );
+      debugPrint('Feed reached after finished page.');
+    } catch (_) {
+      debugPrint('Warning: Feed not reached within 15s after Go');
     }
+  } else if (find.byType(Scrollable).evaluate().isNotEmpty) {
+    debugPrint('Feed reached without finished page.');
   }
+
+  // Final Wait for Matrix Sync to fully settle the state
+  await waitForSync(tester);
+  debugPrint('Login process complete.');
 }

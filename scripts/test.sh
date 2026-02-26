@@ -55,7 +55,7 @@
 #   IOS_DEVICE_NAME         iOS simulator name
 #   IOS_SIMULATOR_ID        iOS simulator UDID
 #   ANDROID_BOOT_TIMEOUT    Android emulator boot timeout (default: 180)
-#   ANDROID_TEST_TIMEOUT    Android test timeout (default: 600)
+#   ANDROID_TEST_TIMEOUT    Android test timeout (default: 1200)
 #   ANDROID_AVD_NAME        Android AVD name (default: android_test)
 #   LINUX_TEST_TIMEOUT      Linux test timeout in seconds (default: 600)
 #   CHROME_EXECUTABLE       Path to Chrome/Chromium binary
