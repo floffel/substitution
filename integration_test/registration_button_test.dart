@@ -2,15 +2,16 @@ import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
-import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer;
+import 'package:substitution/shared/pages/age_gate.dart';
+import 'package:patrol/patrol.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
-  group('Registration Options Test with Real Matrix Server', () {
+  group('Registration Options Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
@@ -18,21 +19,15 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      SharedPreferences.setMockInitialValues({'age_confirmed': true});
-      AgeGatePage.confirmed = true;
-      if (!kIsWeb) {
-        final appDocDir = await getApplicationDocumentsDirectory();
-        final dbPath = '${appDocDir.path}/matrix_database.db';
-        final dbFile = dart_io.File(dbPath);
-        if (await dbFile.exists()) {
-          await dbFile.delete();
-        }
-      }
-    });
-
-    tearDown(() async {
+      
+      debugPrint('REGISTRATION: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
+      app.globalSubstitutionService = null;
+
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
+      
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -44,29 +39,44 @@ void main() {
       }
     });
 
-    testWidgets('Login page shows SSO and Web Register buttons', (tester) async {
+    tearDown(() async {
+      debugPrint('REGISTRATION: Tearing down...');
+      await app.globalMatrixClient?.dispose();
+      app.globalMatrixClient = null;
+      app.globalSubstitutionService = null;
+    });
+
+    testWidgets('Login page shows Web Register button after host entry', (tester) async {
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      
       final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
       app.main();
       
-      await $(MaterialApp).waitUntilVisible();
+      await waitForMatrixClient($.tester);
+      
+      // Wait for app to load
+      await fastWait($.tester, () => $(Key('hostServerInput')).exists || $(Key('ageGateConfirmButton')).exists);
+      
+      if ($(Key('ageGateConfirmButton')).exists) {
+        await $(Key('ageGateConfirmButton')).tap();
+        await $.tester.pumpAndSettle();
+      }
 
-      // Find host input
+      // 1. Enter Host
+      debugPrint('REGISTRATION: Entering host URL...');
       final hostInput = $(Key('hostServerInput'));
-      if (hostInput.exists) {
-        await hostInput.enterText(effectiveMatrixServer(testMatrixServer));
-        await $(Key('hostSubmitButton')).tap();
-      }
+      await hostInput.waitUntilVisible();
+      await hostInput.enterText(effectiveMatrixServer(testMatrixServer));
+      await $(Key('hostSubmitButton')).tap();
+      await $.tester.pumpAndSettle();
 
-      // Verify web register button is visible (it waits implicitly)
-      expect($(Key('registerWebButton')).exists, true);
-
-      // Verify SSO button visibility
-      if ($(OutlinedButton).exists) {
-        debugPrint('✓ Found SSO alternatives');
-      }
-
-      debugPrint('✓ Registration buttons verify successfully');
+      // 2. Verify Registration button
+      debugPrint('REGISTRATION: Waiting for register button...');
+      final registerButton = $(Key('registerWebButton'));
+      await registerButton.waitUntilVisible(timeout: const Duration(seconds: 30));
+      
+      expect(registerButton.exists, true);
+      debugPrint('✓ REGISTRATION: Web register button found');
     }, timeout: const Timeout(Duration(minutes: 5)));
   });
 }

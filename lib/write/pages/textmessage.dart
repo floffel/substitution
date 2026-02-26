@@ -58,6 +58,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   */
 
   final quill.QuillController _controller = quill.QuillController.basic();
+  quill.QuillController get controller => _controller;
 
   // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!

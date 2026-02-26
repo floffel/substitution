@@ -37,8 +37,8 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
 
   Future<void> _refreshDevices() async {
     try {
-      // The Matrix SDK handles device key fetching automatically
-      // We just need to trigger a refresh of the device keys
+      setState(() => _error = null);
+      await client.sync();
       setState(() {});
     } catch (e) {
       setState(() {

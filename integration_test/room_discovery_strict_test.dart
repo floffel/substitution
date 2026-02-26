@@ -6,12 +6,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'package:substitution/settings/pages/followfeeds.dart';
+import 'package:substitution/settings/widgets/roomwidget.dart';
+import 'package:substitution/feed/pages/home.dart';
+import 'package:patrol/patrol.dart';
+import 'package:go_router/go_router.dart';
+import 'package:matrix/matrix.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, waitUntilNotVisible;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
-  group('Room Discovery, Join & Leave with Real Matrix Server', () {
+  group('Room Discovery Strict Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
       defaultValue: 'http://localhost:8008',
@@ -21,21 +27,15 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      SharedPreferences.setMockInitialValues({'age_confirmed': true});
-      AgeGatePage.confirmed = true;
-      if (!kIsWeb) {
-        final appDocDir = await getApplicationDocumentsDirectory();
-        final dbPath = '${appDocDir.path}/matrix_database.db';
-        final dbFile = dart_io.File(dbPath);
-        if (await dbFile.exists()) {
-          await dbFile.delete();
-        }
-      }
-    });
-
-    tearDown(() async {
+      
+      debugPrint('DISCOVERY_STRICT: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
+      app.globalSubstitutionService = null;
+
+      SharedPreferences.setMockInitialValues({'age_confirmed': true});
+      AgeGatePage.confirmed = true;
+      
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -47,50 +47,82 @@ void main() {
       }
     });
 
-    testWidgets('STRICT: Room discovery UI present and functional', (tester) async {
+    tearDown(() async {
+      debugPrint('DISCOVERY_STRICT: Tearing down...');
+      await app.globalMatrixClient?.dispose();
+      app.globalMatrixClient = null;
+      app.globalSubstitutionService = null;
+    });
+
+    testWidgets('STRICT: Discovery page loads and shows seeded rooms', (tester) async {
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      
       final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
       app.main();
-      await patrol_helper.loginUser(
+      
+      if (!await patrol_helper.loginUser(
         $,
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      );
+      )) return;
 
-      // Open room drawer/list
-      final menuButton = $(Icons.menu);
-      if (menuButton.exists) {
-        await menuButton.tap();
-      }
+      // 1. Navigate directly to discovery page
+      debugPrint('DISCOVERY_STRICT: Navigating to discovery...');
+      final navContext = $.tester.element(find.byType(HomePage));
+      navContext.push('/settings/feed');
+      await $.tester.pumpAndSettle();
 
-      expect($(ListTile).exists, true, reason: 'MUST show list of discoverable rooms');
-      debugPrint('✓ STRICT: Room discovery UI present and functional');
+      // 2. Verify page content
+      expect($(FollowFeedSettings).exists, true);
+      
+      // 3. Wait for rooms to appear (seeded data)
+      debugPrint('DISCOVERY_STRICT: Waiting for room list...');
+      await fastWait($.tester, () => $(RoomWidget).evaluate().length >= 3, timeout: const Duration(seconds: 30));
+      
+      final roomCount = $(RoomWidget).evaluate().length;
+      expect(roomCount >= 3, true, reason: 'MUST show at least 3 pre-joined rooms');
+      debugPrint('✓ DISCOVERY_STRICT: Found $roomCount rooms in list');
     }, timeout: const Timeout(Duration(minutes: 5)));
 
-    testWidgets('STRICT: All 3 joined rooms are visible in room list', (tester) async {
+    testWidgets('STRICT: Search filters the room list correctly', (tester) async {
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      
       final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
       app.main();
-      await patrol_helper.loginUser(
+      
+      if (!await patrol_helper.loginUser(
         $,
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      );
+      )) return;
 
-      // Open room drawer/list
-      final drawerButton = $(Icons.menu);
-      if (drawerButton.exists) {
-        await drawerButton.tap();
-      }
+      // 1. Navigate to discovery
+      final navContext = $.tester.element(find.byType(HomePage));
+      navContext.push('/settings/feed');
+      await $.tester.pumpAndSettle();
 
-      // Wait for rooms to appear
-      await $(ListTile).waitUntilVisible(timeout: const Duration(seconds: 30));
+      // 2. Wait for initial list
+      await fastWait($.tester, () => $(RoomWidget).exists);
+      final initialCount = $(RoomWidget).evaluate().length;
 
-      final roomCount = $(ListTile).evaluate().length;
-      expect(roomCount >= 3, true, reason: 'MUST show at least 3 pre-joined rooms');
-      debugPrint('✓ STRICT: Found $roomCount rooms in list');
+      // 3. Enter unique search term
+      debugPrint('DISCOVERY_STRICT: Searching for test_art...');
+      await $(TextField).first.enterText('test_art');
+      await $.tester.pumpAndSettle();
+
+      // 4. Wait for filtered results
+      await fastWait($.tester, () {
+        final count = $(RoomWidget).evaluate().length;
+        // Search should narrow down the list
+        return count > 0 && count < initialCount;
+      }, timeout: const Duration(seconds: 30));
+
+      expect($(find.textContaining('test_art')).exists, true);
+      expect($(find.textContaining('test_general')).exists, false);
+      
+      debugPrint('✓ DISCOVERY_STRICT: Search filtering verified');
     }, timeout: const Timeout(Duration(minutes: 5)));
   });
 }

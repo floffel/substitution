@@ -18,14 +18,20 @@ class SubstitutionService extends ChangeNotifier {
     try {
       _client.onSyncStatus.stream.listen((status) {
         if (status.status == SyncStatus.finished) {
-          notifyListeners();
+          // Throttled notification to avoid rapid refresh loops in the UI
+          final now = DateTime.now();
+          if (_lastSyncNotify == null || now.difference(_lastSyncNotify!) > const Duration(seconds: 5)) {
+            _lastSyncNotify = now;
+            notifyListeners();
+          }
         }
       });
     } catch (e) {
       // In tests, MockClient.onSyncStatus might be null if not stubbed.
-      debugPrint("SubstitutionService: Could not listen to onSyncStatus: $e");
     }
   }
+
+  DateTime? _lastSyncNotify;
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
   /// from the Matrix server's account data.

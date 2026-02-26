@@ -6,22 +6,25 @@ import 'package:matrix/matrix.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
-import 'integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer, fastWait;
+import 'integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 
 /// Patrol version of the login helper.
 /// 
 /// Uses Patrol's implicit waiting combined with event-driven synchronization
 /// to make the flow extremely robust and as fast as the hardware allows.
-Future<void> loginUser(
+Future<bool> loginUser(
   PatrolIntegrationTester $, {
   String matrixServer = 'http://localhost:8008',
   String username = 'testuser1',
   String password = 'testpass123',
 }) async {
   // 1. Skip if server not reachable
-  if (!await skipIfNoMatrix(matrixServer: matrixServer)) return;
+  if (!await skipIfNoMatrix(matrixServer: matrixServer)) return false;
 
-  // 2. Wait for ANY valid starting screen (event-driven)
+  // 2. Wait for globalMatrixClient to be initialized
+  await waitForMatrixClient($.tester);
+
+  // 3. Wait for ANY valid starting screen (event-driven)
   debugPrint('Patrol: Waiting for app to render first screen...');
   await fastWait($.tester, () => 
     $(MaterialApp).exists && (
@@ -36,7 +39,7 @@ Future<void> loginUser(
   if (app.globalMatrixClient?.isLogged() == true) {
     if ($(Scrollable).exists) {
       debugPrint('Already logged in and on the feed page. Skipping login flow.');
-      return;
+      return true;
     }
   }
 
@@ -130,4 +133,5 @@ Future<void> loginUser(
   // Final rendering check - as fast as possible
   await fastWait($.tester, () => $(Scrollable).exists);
   debugPrint('Patrol: Login process complete.');
+  return true;
 }
