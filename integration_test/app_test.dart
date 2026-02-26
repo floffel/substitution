@@ -52,7 +52,7 @@ void main() {
       await handleAgeGate(tester);
 
       // Wait for the app to stabilize
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -64,7 +64,7 @@ void main() {
       app.main();
       await waitForMatrixClient(tester);
       await handleAgeGate(tester);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -76,7 +76,7 @@ void main() {
       app.main();
       await waitForMatrixClient(tester);
       await handleAgeGate(tester);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -88,7 +88,7 @@ void main() {
       app.main();
       await waitForMatrixClient(tester);
       await handleAgeGate(tester);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -96,13 +96,13 @@ void main() {
       tester.view.physicalSize = const ui.Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       // Test landscape orientation
       tester.view.physicalSize = const ui.Size(2400, 1080);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 

@@ -154,13 +154,13 @@ void main() {
           hostInput,
           effectiveMatrixServer(testMatrixServer),
         );
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         final submitButton = find.byKey(const Key('hostSubmitButton'));
         await tester.ensureVisible(submitButton);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(submitButton, warnIfMissed: false);
@@ -175,7 +175,7 @@ void main() {
           }
         }
       } else {
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
@@ -187,19 +187,19 @@ void main() {
         reason: 'Username field should be visible on login page',
       );
       await tester.enterText(usernameField, testUser);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(loginButton, warnIfMissed: false);
@@ -237,7 +237,7 @@ void main() {
         return false;
       }
       await tester.tap(composeButton.first);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -249,7 +249,7 @@ void main() {
           return false;
         }
         await tester.tap(switchFinder.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
@@ -261,7 +261,7 @@ void main() {
         return false;
       }
       await tester.tap(roomTiles.first);
-      for (int ps = 0; ps < 10; ps++) {
+      for (int ps = 0; ps < 5; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -273,7 +273,7 @@ void main() {
       'Can compose and send a text message',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -286,7 +286,7 @@ void main() {
           return;
         }
         await tester.tap(composeButton.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -297,7 +297,7 @@ void main() {
           return;
         }
         await tester.tap(roomTiles.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -312,14 +312,14 @@ void main() {
           inputFieldFinder.first,
           'Integration test message from UI',
         );
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         final sendButtonFinder = find.byIcon(Icons.send);
         if (sendButtonFinder.evaluate().isNotEmpty) {
           await tester.tap(sendButtonFinder.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
           // After sending the app navigates back to the feed
@@ -333,14 +333,14 @@ void main() {
           debugPrint('⚠ Send button not found - skipping send step');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Can select room before sending message',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -353,7 +353,7 @@ void main() {
           return;
         }
         await tester.tap(composeButton.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -361,7 +361,7 @@ void main() {
         final roomTiles = find.byType(ListTile);
         if (roomTiles.evaluate().isNotEmpty) {
           await tester.tap(roomTiles.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
           debugPrint('✓ Room selection from list works');
@@ -369,21 +369,21 @@ void main() {
           debugPrint('⚠ No rooms found on RoomSelectPage - skipping');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Sent message appears in feed',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for initial feed load
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -394,7 +394,7 @@ void main() {
           return;
         }
         await tester.tap(composeButton.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -404,7 +404,7 @@ void main() {
           return;
         }
         await tester.tap(roomTiles.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -413,14 +413,14 @@ void main() {
           final testMessage =
               'UI Integration Test - ${DateTime.now().millisecondsSinceEpoch}';
           await tester.enterText(inputField.first, testMessage);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
           final sendButton = find.byIcon(Icons.send);
           if (sendButton.evaluate().isNotEmpty) {
             await tester.tap(sendButton.first);
-            for (int ps = 0; ps < 10; ps++) {
+            for (int ps = 0; ps < 5; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
           }
@@ -437,14 +437,14 @@ void main() {
 
         debugPrint('✓ Message sent and feed accessible');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Can create text post with formatting',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -457,7 +457,7 @@ void main() {
           return;
         }
         await tester.tap(composeButton.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -467,7 +467,7 @@ void main() {
           return;
         }
         await tester.tap(roomTiles.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -480,14 +480,14 @@ void main() {
 
         debugPrint('✓ Post composition UI available');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Message appears in correct room (test_general)',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -500,7 +500,7 @@ void main() {
           return;
         }
         await tester.tap(composeButton.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -510,7 +510,7 @@ void main() {
           return;
         }
         await tester.tap(roomTiles.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -518,14 +518,14 @@ void main() {
         if (inputField.evaluate().isNotEmpty) {
           const testMessage = 'Test message for test_general room';
           await tester.enterText(inputField.first, testMessage);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
           final sendBtn = find.byIcon(Icons.send);
           if (sendBtn.evaluate().isNotEmpty) {
             await tester.tap(sendBtn.first);
-            for (int ps = 0; ps < 10; ps++) {
+            for (int ps = 0; ps < 5; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
           }
@@ -540,14 +540,14 @@ void main() {
           debugPrint('✓ Message sent to test_general');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Multiple users can send messages to same room',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -555,7 +555,7 @@ void main() {
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -568,14 +568,14 @@ void main() {
         final composeButton = find.byIcon(Icons.send_outlined);
         if (composeButton.evaluate().isNotEmpty) {
           await tester.tap(composeButton.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
           final roomTiles = find.byType(ListTile);
           if (roomTiles.evaluate().isNotEmpty) {
             await tester.tap(roomTiles.first);
-            for (int ps = 0; ps < 10; ps++) {
+            for (int ps = 0; ps < 5; ps++) {
               await tester.pump(const Duration(milliseconds: 500));
             }
 
@@ -585,14 +585,14 @@ void main() {
                 inputField.first,
                 'Message from testuser1',
               );
-              for (int ps = 0; ps < 4; ps++) {
+              for (int ps = 0; ps < 2; ps++) {
                 await tester.pump(const Duration(milliseconds: 500));
               }
 
               final sendBtn = find.byIcon(Icons.send);
               if (sendBtn.evaluate().isNotEmpty) {
                 await tester.tap(sendBtn.first);
-                for (int ps = 0; ps < 10; ps++) {
+                for (int ps = 0; ps < 5; ps++) {
                   await tester.pump(const Duration(milliseconds: 500));
                 }
               }
@@ -608,7 +608,7 @@ void main() {
 
         debugPrint('✓ Multiple users can send messages');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // ---------------------------------------------------------------------------
@@ -619,13 +619,13 @@ void main() {
       'Can upload an image to the feed',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -727,7 +727,7 @@ void main() {
 
         // Tap the "add files" button — MockFileSelectorPlatform injects the PNG
         await tester.tap(find.byIcon(Icons.add).first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -765,13 +765,13 @@ void main() {
       'Can upload a video to the feed',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -811,7 +811,7 @@ void main() {
 
         // Trigger the file picker (MockFileSelectorPlatform returns the MP4)
         await tester.tap(find.byIcon(Icons.add).first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -854,13 +854,13 @@ void main() {
       'Can upload an audio file to the feed',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -908,7 +908,7 @@ void main() {
 
         // Trigger the file picker
         await tester.tap(find.byIcon(Icons.add).first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

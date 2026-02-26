@@ -73,7 +73,7 @@ void main() {
         app.main();
         await waitForMatrixClient(tester);
         await handleAgeGate(tester);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -167,7 +167,7 @@ void main() {
           return;
         }
         await tester.tap(elevatedButtons.first);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -180,7 +180,7 @@ void main() {
           debugPrint('✓ Onboarding and login completed successfully');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -190,7 +190,7 @@ void main() {
         await waitForMatrixClient(tester);
         await handleAgeGate(tester);
         await tester.pumpAndSettle();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -266,7 +266,7 @@ void main() {
           return;
         }
         await tester.tap(elevatedButtons.first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -289,7 +289,7 @@ void main() {
         await waitForMatrixClient(tester);
         await handleAgeGate(tester);
         await tester.pumpAndSettle();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

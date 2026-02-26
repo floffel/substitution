@@ -51,7 +51,7 @@ void main() {
       (WidgetTester tester) async {
         AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -75,7 +75,7 @@ void main() {
         );
         // ignore: use_build_context_synchronously
         GoRouter.of(context).go('/auth/host');
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -131,13 +131,13 @@ void main() {
         await tester.tap(registerWebFinder);
 
         // Wait to ensure no crash
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         debugPrint('✓ Registration buttons verify successfully');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

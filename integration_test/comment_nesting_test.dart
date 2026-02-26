@@ -112,7 +112,7 @@ void main() {
       'Deeply nested comments render without overflow and can be collapsed',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -204,7 +204,7 @@ void main() {
         debugPrint(
           '✓ Recursively generated thread with $maxNestingLevel layers',
         );
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

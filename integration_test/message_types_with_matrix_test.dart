@@ -185,7 +185,7 @@ void main() {
         // Scroll down several times to load more events
         for (int i = 0; i < 5; i++) {
           await tester.drag(scrollable.first, const Offset(0, -300));
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -255,7 +255,7 @@ void main() {
 
         for (int i = 0; i < 5; i++) {
           await tester.drag(scrollable.first, const Offset(0, -300));
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -308,7 +308,7 @@ void main() {
 
         for (int i = 0; i < 5; i++) {
           await tester.drag(scrollable.first, const Offset(0, -300));
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -365,7 +365,7 @@ void main() {
         // Scroll through the entire visible timeline
         for (int i = 0; i < 10; i++) {
           await tester.drag(scrollable.first, const Offset(0, -300));
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }

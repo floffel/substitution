@@ -91,7 +91,7 @@ void main() {
         );
 
         // Pump briefly to let any immediate transitions settle.
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 250));
         }
 
@@ -110,7 +110,7 @@ void main() {
         } else {
           debugPrint('⚠ No router context found — cannot navigate to feed');
         }
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

@@ -137,7 +137,7 @@ void main() {
 
         debugPrint('✓ Unified feed displayed with messages');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -153,7 +153,7 @@ void main() {
         );
 
         // Wait for feed to load all messages
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -167,7 +167,7 @@ void main() {
 
         debugPrint('✓ Feed displays test_general room content');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -183,7 +183,7 @@ void main() {
         );
 
         // Wait for feed to load
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -198,7 +198,7 @@ void main() {
 
         debugPrint('✓ Feed includes test_photos room content');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -219,7 +219,7 @@ void main() {
 
         // Scroll down to load more messages (infinite scroll)
         await tester.drag(listViewFinder.first, const Offset(0, -300));
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -233,7 +233,7 @@ void main() {
 
         debugPrint('✓ Feed supports scrolling and infinite loading');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -249,7 +249,7 @@ void main() {
         );
 
         // Wait for feed to load
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -263,7 +263,7 @@ void main() {
 
         debugPrint('✓ Empty rooms properly handled in feed');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

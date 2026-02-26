@@ -109,7 +109,7 @@ Future<void> loginUser(
   // ── Step 2: Onboarding Next-button taps ───────────────────────────────
   if (find.byType(IntroductionScreen).evaluate().isNotEmpty) {
     debugPrint('Step 2: Navigating through onboarding...');
-    for (int ps = 0; ps < 4; ps++) {
+    for (int ps = 0; ps < 2; ps++) {
       await tester.pump(const Duration(milliseconds: 500));
     }
 
@@ -159,14 +159,14 @@ Future<void> loginUser(
   if (hostFinder.evaluate().isNotEmpty) {
     debugPrint('Step 3: Entering host URL: $matrixServer');
     await tester.enterText(hostFinder, matrixServer);
-    for (int ps = 0; ps < 4; ps++) {
+    for (int ps = 0; ps < 2; ps++) {
       await tester.pump(const Duration(milliseconds: 500));
     }
 
     final submitButton = find.byKey(const Key('hostSubmitButton'));
     debugPrint('Tapping host submit button...');
     await tester.ensureVisible(submitButton);
-    for (int ps = 0; ps < 4; ps++) {
+    for (int ps = 0; ps < 2; ps++) {
       await tester.pump(const Duration(milliseconds: 500));
     }
     await tester.tap(submitButton, warnIfMissed: false);
@@ -183,7 +183,7 @@ Future<void> loginUser(
   } else {
     // Host already configured — let any pending transitions settle
     debugPrint('Host page skipped (already configured or not visible).');
-    for (int ps = 0; ps < 4; ps++) {
+    for (int ps = 0; ps < 2; ps++) {
       await tester.pump(const Duration(milliseconds: 500));
     }
   }
@@ -205,20 +205,20 @@ Future<void> loginUser(
 
   debugPrint('Entering username: $username');
   await tester.enterText(usernameField, username);
-  for (int ps = 0; ps < 4; ps++) {
+  for (int ps = 0; ps < 2; ps++) {
     await tester.pump(const Duration(milliseconds: 500));
   }
 
   debugPrint('Entering password...');
   await tester.enterText(find.byKey(const Key('loginPasswordInput')), password);
-  for (int ps = 0; ps < 4; ps++) {
+  for (int ps = 0; ps < 2; ps++) {
     await tester.pump(const Duration(milliseconds: 500));
   }
 
   final loginButton = find.byKey(const Key('loginSubmitButton'));
   debugPrint('Tapping login submit button...');
   await tester.ensureVisible(loginButton);
-  for (int ps = 0; ps < 4; ps++) {
+  for (int ps = 0; ps < 2; ps++) {
     await tester.pump(const Duration(milliseconds: 500));
   }
   await tester.tap(loginButton, warnIfMissed: false);
@@ -230,26 +230,29 @@ Future<void> loginUser(
     if (find.byKey(const Key('introGoButton')).evaluate().isNotEmpty) {
       debugPrint('Finished page reached.');
       break;
+    } else if (find.byType(Scrollable).evaluate().isNotEmpty) {
+      debugPrint('Feed reached without finished page.');
+      break;
     }
   }
 
   final goButton = find.byKey(const Key('introGoButton'));
   if (goButton.evaluate().isNotEmpty) {
     debugPrint('Tapping Go button...');
-    
-    // Wait for the client to complete initial sync before proceeding to HomePage.
-    // This ensures local roomAccountData is populated and we don't hang doing HTTP requests.
-    await waitForSync(tester, timeout: const Duration(seconds: 45));
-
     await tester.tap(goButton, warnIfMissed: false);
-    // Pump without pumpAndSettle to avoid stalling on the Matrix sync loop
-    debugPrint('Waiting for feed (Scrollable)...');
-    for (int i = 0; i < 20; i++) {
-      await tester.pump(const Duration(milliseconds: 500));
-      if (find.byType(Scrollable).evaluate().isNotEmpty) {
-        debugPrint('Feed reached.');
-        break;
-      }
+  }
+
+  // Wait for the client to complete initial sync before proceeding to the feed.
+  // This ensures local roomAccountData is populated and we don't hang doing HTTP requests.
+  await waitForSync(tester, timeout: const Duration(seconds: 45));
+
+  // Pump without pumpAndSettle to avoid stalling on the Matrix sync loop
+  debugPrint('Waiting for feed (Scrollable)...');
+  for (int i = 0; i < 20; i++) {
+    await tester.pump(const Duration(milliseconds: 500));
+    if (find.byType(Scrollable).evaluate().isNotEmpty) {
+      debugPrint('Feed reached.');
+      break;
     }
   }
 }

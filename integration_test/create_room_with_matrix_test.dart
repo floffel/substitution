@@ -120,7 +120,7 @@ void main() {
 
       debugPrint("Login success, navigating to Feed...");
       // Pump briefly to let any immediate transitions settle.
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 250));
       }
       // Find a context that is inside the GoRouter subtree.

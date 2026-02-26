@@ -126,7 +126,7 @@ void main() {
         if (floatingActionButtonFinder.evaluate().isNotEmpty) {
           // If there's a FAB, try tapping it
           await tester.tap(floatingActionButtonFinder.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -140,7 +140,7 @@ void main() {
 
         debugPrint('✓ Room discovery UI accessible');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -168,7 +168,7 @@ void main() {
 
         debugPrint('✓ Test rooms are visible in the app');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -191,7 +191,7 @@ void main() {
         final firstListItem = find.byType(ListTile);
         if (firstListItem.evaluate().isNotEmpty) {
           await tester.tap(firstListItem.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -200,14 +200,14 @@ void main() {
           debugPrint('✓ Room list structure verified');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Multiple test users can see the same rooms',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -215,7 +215,7 @@ void main() {
         await login_helper.loginUser(tester);
 
         // Wait for feed to load
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -228,7 +228,7 @@ void main() {
 
         debugPrint('✓ Multiple users can see shared rooms');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

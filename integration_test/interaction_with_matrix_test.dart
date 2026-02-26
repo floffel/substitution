@@ -118,7 +118,7 @@ void main() {
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -133,7 +133,7 @@ void main() {
         if (messageWidgets.evaluate().isNotEmpty) {
           // Long-press first message
           await tester.longPress(messageWidgets.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -161,7 +161,7 @@ void main() {
       await loginUser(tester);
 
       // Wait for feed to load
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
@@ -175,7 +175,7 @@ void main() {
       if (messageWidgets.evaluate().isNotEmpty) {
         // Try to access message options (might be tap, long-press, or menu button)
         await tester.tap(messageWidgets.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -184,7 +184,7 @@ void main() {
 
         if (replyButton.evaluate().isNotEmpty) {
           await tester.tap(replyButton.first);
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -212,7 +212,7 @@ void main() {
         await loginUser(tester);
 
         // Wait for feed
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -238,7 +238,7 @@ void main() {
         await loginUser(tester);
 
         // Wait for feed
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -248,7 +248,7 @@ void main() {
         if (avatarFinder.evaluate().isNotEmpty) {
           // Tap on an avatar
           await tester.tap(avatarFinder.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -278,7 +278,7 @@ void main() {
         expect(listViewFinder, findsWidgets);
 
         // Scroll to find and interact with a message
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -308,7 +308,7 @@ void main() {
 
         // Try scrolling to reveal more context
         await tester.drag(listViewFinder.first, const Offset(0, -200));
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 

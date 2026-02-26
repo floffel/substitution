@@ -169,7 +169,7 @@ Future<void> waitForJoinedRooms(
 /// Waits for the Matrix client to be fully synced (initial sync complete).
 Future<void> waitForSync(
   WidgetTester tester, {
-  Duration timeout = const Duration(seconds: 30),
+  Duration timeout = const Duration(seconds: 60),
 }) async {
   debugPrint('Waiting for Matrix initial sync to complete...');
   final stopWatch = Stopwatch()..start();

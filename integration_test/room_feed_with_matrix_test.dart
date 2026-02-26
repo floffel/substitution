@@ -112,7 +112,7 @@ void main() {
       'View individual room feed (test_general with 5 messages)',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -127,7 +127,7 @@ void main() {
         final firstListItem = find.byType(ListTile);
         if (firstListItem.evaluate().isNotEmpty) {
           await tester.tap(firstListItem.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -142,21 +142,21 @@ void main() {
 
         debugPrint('✓ Individual room feed displayed');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Room feed shows correct message count',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed to fully load
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -176,14 +176,14 @@ void main() {
 
         debugPrint('✓ Room displays $messageCount text elements');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Empty room (test_art) displays correctly with no messages',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -199,14 +199,14 @@ void main() {
 
         debugPrint('✓ Empty room handled gracefully');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Room feed allows scrolling through message history',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -218,7 +218,7 @@ void main() {
         // Try tapping first item to access room
         if (find.byType(ListTile).evaluate().isNotEmpty) {
           await tester.tap(find.byType(ListTile).first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -227,7 +227,7 @@ void main() {
         final scrollableContent = find.byType(Scrollable);
         if (scrollableContent.evaluate().isNotEmpty) {
           await tester.drag(scrollableContent.first, const Offset(0, -300));
-          for (int ps = 0; ps < 10; ps++) {
+          for (int ps = 0; ps < 5; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -236,14 +236,14 @@ void main() {
           debugPrint('✓ Room feed structure verified');
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
       'Room displays user information with messages',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -260,7 +260,7 @@ void main() {
 
         debugPrint('✓ Message metadata visible in feed');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

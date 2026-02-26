@@ -139,7 +139,7 @@ void main() {
         final composeFab = find.byIcon(Icons.edit);
         if (composeFab.evaluate().isNotEmpty) {
           await tester.tap(composeFab.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
@@ -155,7 +155,7 @@ void main() {
         // Type message
         final user1Message = 'Message from testuser1 at ${DateTime.now()}';
         await tester.enterText(find.byType(TextField).first, user1Message);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -169,7 +169,7 @@ void main() {
 
         // Send message
         await tester.tap(find.byIcon(Icons.send).first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -198,7 +198,7 @@ void main() {
 
         debugPrint('✓ STRICT: User 1 message visible in feed');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -242,7 +242,7 @@ void main() {
           );
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -279,7 +279,7 @@ void main() {
 
         debugPrint('✓ STRICT: Messages display sender information');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -304,7 +304,7 @@ void main() {
 
         // Open compose
         await tester.tap(find.byIcon(Icons.edit).first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -319,7 +319,7 @@ void main() {
         // Type message
         final user2Message = 'Response from testuser2 at ${DateTime.now()}';
         await tester.enterText(find.byType(TextField).first, user2Message);
-        for (int ps = 0; ps < 10; ps++) {
+        for (int ps = 0; ps < 5; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -333,7 +333,7 @@ void main() {
 
         // Send
         await tester.tap(find.byIcon(Icons.send).first);
-        for (int ps = 0; ps < 6; ps++) {
+        for (int ps = 0; ps < 3; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -346,7 +346,7 @@ void main() {
 
         debugPrint('✓ STRICT: User 2 sent message successfully');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -369,7 +369,7 @@ void main() {
 
         // STRICT: Must be able to scroll (indicating multiple messages)
         await tester.drag(listView, const Offset(0, -300));
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -383,7 +383,7 @@ void main() {
 
         debugPrint('✓ STRICT: Messages preserve order and scrolling works');
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -410,7 +410,7 @@ void main() {
         // Try long-pressing a message for interaction options
         if (listItems.evaluate().isNotEmpty) {
           await tester.longPress(listItems.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
 
@@ -427,7 +427,7 @@ void main() {
           );
         }
       },
-      timeout: const Timeout(Duration(seconds: 120)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

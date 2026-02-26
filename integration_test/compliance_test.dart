@@ -147,13 +147,13 @@ void main() {
           hostInput,
           effectiveMatrixServer(testMatrixServer),
         );
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         final submitButton = find.byKey(const Key('hostSubmitButton'));
         await tester.ensureVisible(submitButton);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
         await tester.tap(submitButton, warnIfMissed: false);
@@ -168,7 +168,7 @@ void main() {
           }
         }
       } else {
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
       }
@@ -179,19 +179,19 @@ void main() {
         return;
       }
       await tester.enterText(usernameField, testUser);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final passwordField = find.byKey(const Key('loginPasswordInput'));
       await tester.enterText(passwordField, testPassword);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
 
       final loginButton = find.byKey(const Key('loginSubmitButton'));
       await tester.ensureVisible(loginButton);
-      for (int ps = 0; ps < 4; ps++) {
+      for (int ps = 0; ps < 2; ps++) {
         await tester.pump(const Duration(milliseconds: 500));
       }
       await tester.tap(loginButton, warnIfMissed: false);
@@ -220,14 +220,14 @@ void main() {
       (WidgetTester tester) async {
         AgeGatePage.confirmed = true;
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -238,7 +238,7 @@ void main() {
           return;
         }
         await tester.tap(menuIcon.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -252,7 +252,7 @@ void main() {
 
         // Tap the Legal item
         await tester.tap(gavelIcon.first);
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -291,14 +291,14 @@ void main() {
       'Post has a three-dot popup menu with Report/Block option',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
         // Wait for feed to load
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -314,7 +314,7 @@ void main() {
 
         // Tap the first popup menu button (⋮)
         await tester.tap(popupMenuFinder.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -334,13 +334,13 @@ void main() {
       'Tapping Report/Block opens dialog with report reason and block checkbox',
       (WidgetTester tester) async {
         app.main();
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
         await loginUser(tester);
 
-        for (int ps = 0; ps < 8; ps++) {
+        for (int ps = 0; ps < 4; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -353,7 +353,7 @@ void main() {
 
         // Open popup menu on the first post
         await tester.tap(popupMenuFinder.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -364,7 +364,7 @@ void main() {
           return;
         }
         await tester.tap(reportBlockItem.first);
-        for (int ps = 0; ps < 4; ps++) {
+        for (int ps = 0; ps < 2; ps++) {
           await tester.pump(const Duration(milliseconds: 500));
         }
 
@@ -391,7 +391,7 @@ void main() {
         final cancelButton = find.text('Cancel');
         if (cancelButton.evaluate().isNotEmpty) {
           await tester.tap(cancelButton.first);
-          for (int ps = 0; ps < 4; ps++) {
+          for (int ps = 0; ps < 2; ps++) {
             await tester.pump(const Duration(milliseconds: 500));
           }
         }
