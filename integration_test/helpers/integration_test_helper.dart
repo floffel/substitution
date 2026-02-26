@@ -171,18 +171,32 @@ Future<void> waitForSync(
   WidgetTester tester, {
   Duration timeout = const Duration(seconds: 120),
 }) async {
-  debugPrint('Waiting for Matrix initial sync to complete...');
-  final stopWatch = Stopwatch()..start();
-
-  while (stopWatch.elapsed < timeout) {
-    final client = app.globalMatrixClient;
-    if (client != null && client.prevBatch != null) {
-      debugPrint('✓ Matrix sync complete (prevBatch: ${client.prevBatch})');
-      return;
-    }
-    await tester.pump(const Duration(milliseconds: 500));
+  final client = app.globalMatrixClient;
+  if (client == null) {
+    debugPrint('waitForSync: globalMatrixClient is null');
+    return;
   }
-  debugPrint('⚠ Warning: Matrix sync did not complete within timeout');
+
+  if (client.prevBatch != null) {
+    debugPrint('✓ Matrix sync already complete (prevBatch: ${client.prevBatch})');
+    return;
+  }
+
+  debugPrint('Waiting for Matrix initial sync to complete (event-driven)...');
+  try {
+    // Listen for the 'finished' status which indicates initial sync completion
+    await client.onSyncStatus.stream
+        .firstWhere((status) => status.status == SyncStatus.finished || status.status == SyncStatus.error)
+        .timeout(timeout);
+    
+    if (client.prevBatch != null) {
+      debugPrint('✓ Matrix sync complete (event received)');
+    } else {
+      debugPrint('⚠ Warning: Sync stream updated but prevBatch still null');
+    }
+  } catch (e) {
+    debugPrint('⚠ Error/Timeout waiting for sync: $e');
+  }
 }
 
 /// A more robust version of pumpAndSettle that doesn't hang on background activity.

@@ -19,15 +19,13 @@ docker_start_services() {
 
     log_info "Starting Docker test infrastructure..."
 
-    # Start infrastructure services
-    docker compose -f "$compose_file" up -d postgres matrix-synapse redis 2>&1 | tail -10
-    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-        log_error "Failed to start Docker services"
+    # Start infrastructure services and wait for healthchecks
+    if docker compose -f "$compose_file" up -d --wait postgres matrix-synapse redis 2>&1 | tail -10; then
+        log_success "Docker services are healthy"
+    else
+        log_error "Failed to start Docker services or they timed out"
         return 1
     fi
-
-    # Wait for Synapse healthcheck
-    docker_wait_for_matrix || return 1
 
     # Run the init container to seed test data
     log_info "Seeding test data..."
