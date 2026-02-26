@@ -406,8 +406,14 @@ void main() async {
   // Dispose previous client if any (for test isolation)
   if (globalMatrixClient != null) {
     try {
-      await globalMatrixClient!.dispose();
-    } catch (_) {}
+      final oldClient = globalMatrixClient!;
+      globalMatrixClient = null;
+      // Stop sync and dispose to prevent database locks and frame scheduling
+      oldClient.abortSync();
+      await oldClient.dispose();
+    } catch (e) {
+      debugPrint("Error disposing previous client: $e");
+    }
   }
 
   final client = Client(

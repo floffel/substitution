@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
 import 'integration_test_helper.dart' show skipIfNoMatrix, waitForMatrixClient, waitForSync;
 
@@ -129,26 +130,42 @@ Future<void> loginUser(
         break;
       }
 
-      // Tap the Next button by text — the translated value for en-US is "Next"
-      final nextButtonFinder = find.text('Next');
-      if (nextButtonFinder.evaluate().isNotEmpty) {
-        debugPrint('Tapping Next button at step $i...');
-        await tester.tap(nextButtonFinder.first);
-      } else {
-        // Fallback: find by widgetWithText on TextButton/ElevatedButton
-        final nextTextButton = find.widgetWithText(TextButton, 'Next');
-        if (nextTextButton.evaluate().isNotEmpty) {
-          debugPrint('Tapping Next TextButton at step $i (fallback)...');
-          await tester.tap(nextTextButton.first);
-        } else {
-          debugPrint('Next button not found at step $i — stopping early.');
+      // Tap the Next button by text — trying both literal and translated
+      final nextLabels = ['Next', 'intro.buttons.next'.tr()];
+      bool buttonFound = false;
+      for (final label in nextLabels) {
+        final nextButtonFinder = find.text(label);
+        if (nextButtonFinder.evaluate().isNotEmpty) {
+          debugPrint('Tapping Next button with label "$label" at step $i...');
+          await tester.tap(nextButtonFinder.first);
+          buttonFound = true;
           break;
         }
       }
-      // Wait for animation to finish
-      await tester.pumpAndSettle(const Duration(milliseconds: 500));
-      for (int ps = 0; ps < 2; ps++) {
-        await tester.pump(const Duration(milliseconds: 500));
+
+      if (!buttonFound) {
+        // Fallback: find by widgetWithText on TextButton/ElevatedButton
+        for (final label in nextLabels) {
+          final nextTextButton = find.widgetWithText(TextButton, label);
+          if (nextTextButton.evaluate().isNotEmpty) {
+            debugPrint(
+              'Tapping Next TextButton with label "$label" at step $i (fallback)...',
+            );
+            await tester.tap(nextTextButton.first);
+            buttonFound = true;
+            break;
+          }
+        }
+      }
+
+      if (!buttonFound) {
+        debugPrint('Next button not found at step $i — stopping early.');
+        break;
+      }
+
+      // Wait for animation to finish without using pumpAndSettle which can hang
+      for (int ps = 0; ps < 10; ps++) {
+        await tester.pump(const Duration(milliseconds: 100));
       }
     }
     debugPrint('Onboarding navigation complete.');

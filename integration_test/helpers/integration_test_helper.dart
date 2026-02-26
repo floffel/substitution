@@ -184,3 +184,10 @@ Future<void> waitForSync(
   }
   debugPrint('⚠ Warning: Matrix sync did not complete within timeout');
 }
+
+/// A more robust version of pumpAndSettle that doesn't hang on background activity.
+Future<void> settle(WidgetTester tester, {int count = 5, Duration interval = const Duration(milliseconds: 500)}) async {
+  for (int i = 0; i < count; i++) {
+    await tester.pump(interval);
+  }
+}

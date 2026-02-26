@@ -1,29 +1,19 @@
+import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:io' as dart_io;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
-    show skipIfNoMatrix;
+    show skipIfNoMatrix, settle;
 import 'helpers/login_helper.dart' as login_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() async {
-    if (!kIsWeb &&
-        (defaultTargetPlatform == TargetPlatform.linux ||
-            defaultTargetPlatform == TargetPlatform.windows ||
-            defaultTargetPlatform == TargetPlatform.macOS)) {
-      sqfliteFfiInit();
-      databaseFactory = databaseFactoryFfi;
-    }
-  });
 
   group('Feed with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
@@ -35,14 +25,23 @@ void main() {
 
     Database? sqliteDatabase;
 
+    setUpAll(() async {
+      if (!kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.linux ||
+              defaultTargetPlatform == TargetPlatform.windows ||
+              defaultTargetPlatform == TargetPlatform.macOS)) {
+        sqfliteFfiInit();
+        databaseFactory = databaseFactoryFfi;
+      }
+    });
+
     setUp(() async {
-      // Skip if no Matrix server is available (e.g. iOS CI which has no Docker)
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      // Bypass the age gate so the app goes straight to /intro on cold start.
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      // Delete main app database to ensure fresh login (no persisted session)
+
+      // Delete existing databases for isolation
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -50,28 +49,26 @@ void main() {
           if (await mainDb.exists()) {
             await mainDb.delete();
           }
+          final sqliteDb = dart_io.File('${appDocDir.path}/substitution.db');
+          if (await sqliteDb.exists()) {
+            await sqliteDb.delete();
+          }
         } catch (e) {
           // Ignore cleanup errors
         }
       }
-      // Initialize SQLite database for tests
+
+      // Initialize SQLite database
       if (!kIsWeb) {
         final appDocDir = await getApplicationDocumentsDirectory();
-        final dbPath =
-            '${appDocDir.path}/matrix_test_${DateTime.now().millisecondsSinceEpoch}.db';
-
+        final dbPath = '${appDocDir.path}/substitution.db';
         sqliteDatabase = await openDatabase(
           dbPath,
           version: 1,
-          onCreate: (db, version) {
-            return db.execute('''
-              CREATE TABLE clients (
-                id TEXT PRIMARY KEY,
-                homeserver_url TEXT,
-                token TEXT,
-                user_id TEXT
-              )
-            ''');
+          onCreate: (db, version) async {
+            await db.execute(
+              'CREATE TABLE IF NOT EXISTS rooms (id TEXT PRIMARY KEY, name TEXT)',
+            );
           },
         );
       }
@@ -119,14 +116,10 @@ void main() {
           password: testPassword,
         );
 
-        // Verify feed is displayed
-        expect(
-          find.byType(Scrollable),
-          findsWidgets,
-          reason: 'Feed should display a list of messages',
-        );
+        // Verify feed displayed
+        expect(find.byType(Scrollable), findsWidgets);
 
-        // Verify messages are loaded
+        // Check for common text elements in the feed
         final textWidgetsFinder = find.byType(Text);
         if (textWidgetsFinder.evaluate().isEmpty) {
           debugPrint(
@@ -153,9 +146,7 @@ void main() {
         );
 
         // Wait for feed to load all messages
-        for (int ps = 0; ps < 3; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await settle(tester, count: 3);
 
         // Look for sample messages from test_general room
         // The init script creates: "Hello everyone! Welcome to this test room."
@@ -183,9 +174,7 @@ void main() {
         );
 
         // Wait for feed to load
-        for (int ps = 0; ps < 3; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await settle(tester, count: 3);
 
         // Verify feed content includes messages
         final listViewFinder = find.byType(Scrollable);
@@ -219,9 +208,7 @@ void main() {
 
         // Scroll down to load more messages (infinite scroll)
         await tester.drag(listViewFinder.first, const Offset(0, -300));
-        for (int ps = 0; ps < 2; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
+        await settle(tester, count: 2);
 
         // Verify more content is available
         if (find.byType(Text).evaluate().isEmpty) {
@@ -248,13 +235,7 @@ void main() {
           password: testPassword,
         );
 
-        // Wait for feed to load
-        for (int ps = 0; ps < 3; ps++) {
-          await tester.pump(const Duration(milliseconds: 500));
-        }
-
-        // Empty rooms shouldn't contribute messages to the feed,
-        // but the room should still be accessible
+        // Verify feed displayed
         expect(
           find.byType(Scrollable),
           findsWidgets,

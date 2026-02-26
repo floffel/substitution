@@ -211,7 +211,7 @@ void main() {
         // Directly navigate to Post View rather than scrolling to find it
         final context = tester.element(find.byType(Scrollable).first);
         GoRouter.of(context).go('/post/$rootId?room=${room.id}');
-        await tester.pumpAndSettle();
+        for (int i = 0; i < 5; i++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Give the Post view time to resolve all FutureBuilders for the nested comment tree.
         for (int i = 0; i < 10; i++) {
@@ -274,7 +274,7 @@ void main() {
         // Tap the first ancestor button of the text
         await tester.ensureVisible(continueButtonFinder.first);
         await tester.tap(continueButtonFinder.first);
-        await tester.pumpAndSettle();
+        for (int i = 0; i < 5; i++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         // Verify we can go back (GoRouter pushed a new entry — canPop should be true)
         final navContext = tester.element(find.byType(Scaffold).first);
@@ -290,7 +290,7 @@ void main() {
 
         // Pop back programmatically (back navigation)
         GoRouter.of(navContext).pop();
-        await tester.pumpAndSettle();
+        for (int i = 0; i < 5; i++) { await tester.pump(const Duration(milliseconds: 500)); }
 
         debugPrint('✓ Returned to main thread view successfully');
       },
