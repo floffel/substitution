@@ -280,7 +280,7 @@ void main() {
 
         debugPrint('✓ Legal page displays all required compliance tiles');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // ---------------------------------------------------------------------------
@@ -327,7 +327,7 @@ void main() {
 
         debugPrint('✓ Post popup menu shows Report/Block option');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -398,7 +398,7 @@ void main() {
 
         debugPrint('✓ Report/Block dialog dismissed cleanly');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

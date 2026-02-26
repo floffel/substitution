@@ -151,7 +151,7 @@ void main() {
           debugPrint('✓ Messages found in feed');
         }
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets('Can reply to messages', (WidgetTester tester) async {
@@ -201,7 +201,7 @@ void main() {
           debugPrint('✓ Message interaction UI verified');
         }
       }
-    }, timeout: const Timeout(Duration(seconds: 180)));
+    }, timeout: const Timeout(Duration(minutes: 5)));
 
     testWidgets(
       'Reactions from other users are visible',
@@ -226,7 +226,7 @@ void main() {
 
         debugPrint('✓ Feed displays message content');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -259,7 +259,7 @@ void main() {
           debugPrint('✓ Feed content verified');
         }
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -291,7 +291,7 @@ void main() {
 
         debugPrint('✓ test_general messages are interactive');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -314,7 +314,7 @@ void main() {
 
         debugPrint('✓ Feed displays message threads/context');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

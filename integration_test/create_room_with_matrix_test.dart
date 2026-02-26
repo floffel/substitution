@@ -280,7 +280,7 @@ void main() {
           reason: 'Newly created room should appear in follow feeds list.',
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

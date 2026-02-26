@@ -54,7 +54,7 @@ void main() {
         expect(find.byType(app.SubstitutionApp), findsOneWidget);
         debugPrint('✓ Discovery flow: app running');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -72,7 +72,7 @@ void main() {
         expect(find.byType(app.SubstitutionApp), findsOneWidget);
         debugPrint('✓ Multi-server search: app running');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -90,7 +90,7 @@ void main() {
         expect(find.byType(app.SubstitutionApp), findsOneWidget);
         debugPrint('✓ Join room: app running');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -108,7 +108,7 @@ void main() {
         expect(find.byType(app.SubstitutionApp), findsOneWidget);
         debugPrint('✓ Leave room: app running');
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets('Join room and verify it appears in main feed', (

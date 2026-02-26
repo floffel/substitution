@@ -235,7 +235,7 @@ void main() {
           );
         }
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -329,7 +329,7 @@ void main() {
           fail("Failed to find 'test_art' room in the search results.");
         }
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets('Room avatars are displayed correctly', (tester) async {

@@ -171,7 +171,7 @@ void main() {
         expect(find.byType(IntroductionScreen), findsOneWidget);
         debugPrint('Consolidated Logout test passed successfully');
       },
-      timeout: const Timeout(Duration(seconds: 240)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

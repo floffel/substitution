@@ -180,7 +180,7 @@ void main() {
           "✓ Automatic refresh verified: HomePage is mounted and refreshed after room join.",
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

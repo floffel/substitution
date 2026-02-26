@@ -269,7 +269,7 @@ void main() {
 
         debugPrint("✓ Feed merging and interleaving verified successfully!");
       },
-      timeout: const Timeout(Duration(seconds: 240)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

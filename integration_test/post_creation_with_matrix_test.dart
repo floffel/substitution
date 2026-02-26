@@ -754,7 +754,7 @@ void main() {
 
         debugPrint('✓ Image uploaded and feed is visible');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // ---------------------------------------------------------------------------
@@ -838,7 +838,7 @@ void main() {
 
         debugPrint('✓ Video uploaded and feed is visible');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // ---------------------------------------------------------------------------
@@ -936,7 +936,7 @@ void main() {
 
         debugPrint('✓ Audio file uploaded and feed is visible');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

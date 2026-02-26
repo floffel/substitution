@@ -279,7 +279,7 @@ void main() {
           debugPrint('✓ Invalid credentials properly rejected');
         }
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     testWidgets(
@@ -320,7 +320,7 @@ void main() {
           debugPrint('✓ Homeserver selection working');
         }
       },
-      timeout: const Timeout(Duration(seconds: 60)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }

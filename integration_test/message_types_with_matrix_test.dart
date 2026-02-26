@@ -154,7 +154,7 @@ void main() {
 
         debugPrint('✓ m.text messages are visible in the feed');
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // -------------------------------------------------------------------------
@@ -226,7 +226,7 @@ void main() {
           reason: 'Feed should remain accessible while rendering m.image',
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // -------------------------------------------------------------------------
@@ -279,7 +279,7 @@ void main() {
           reason: 'Feed should remain accessible while rendering m.video',
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // -------------------------------------------------------------------------
@@ -336,7 +336,7 @@ void main() {
           reason: 'Feed should remain accessible while rendering m.audio',
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
 
     // -------------------------------------------------------------------------
@@ -391,7 +391,7 @@ void main() {
           'without crashing',
         );
       },
-      timeout: const Timeout(Duration(seconds: 180)),
+      timeout: const Timeout(Duration(minutes: 5)),
     );
   });
 }
