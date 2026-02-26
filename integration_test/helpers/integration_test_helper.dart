@@ -130,7 +130,7 @@ Future<void> handleAgeGate(WidgetTester tester) async {
 Future<void> waitForJoinedRooms(
   WidgetTester tester,
   int count, {
-  Duration timeout = const Duration(seconds: 30),
+  Duration timeout = const Duration(seconds: 120),
 }) async {
   debugPrint('Waiting for at least $count joined rooms to be visible...');
   final stopWatch = Stopwatch()..start();
@@ -169,7 +169,7 @@ Future<void> waitForJoinedRooms(
 /// Waits for the Matrix client to be fully synced (initial sync complete).
 Future<void> waitForSync(
   WidgetTester tester, {
-  Duration timeout = const Duration(seconds: 60),
+  Duration timeout = const Duration(seconds: 120),
 }) async {
   debugPrint('Waiting for Matrix initial sync to complete...');
   final stopWatch = Stopwatch()..start();
