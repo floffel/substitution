@@ -76,6 +76,13 @@ Future<bool> skipIfNoMatrix({
   return true;
 }
 
+/// Disables all animations to make tests more deterministic and faster in CI.
+void disableAnimations(WidgetTester tester) {
+  // Use a very high duration to effectively disable animations
+  tester.binding.setSurfaceSize(const Size(1280, 1024));
+  debugDisableShadows = true;
+}
+
 /// Waits for [app.globalMatrixClient] to be initialized.
 ///
 /// Tests that call [app.main()] should wait for the client to be ready
