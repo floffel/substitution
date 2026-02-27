@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,6 +16,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Room Discovery Strict Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -25,7 +27,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       debugPrint('DISCOVERY_STRICT: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -33,7 +35,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -52,79 +54,95 @@ void main() {
       app.globalSubstitutionService = null;
     });
 
-    testWidgets('STRICT: Discovery page loads and shows seeded rooms', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+    testWidgets(
+      'STRICT: Discovery page loads and shows seeded rooms',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      // 1. Navigate directly to discovery page
-      debugPrint('DISCOVERY_STRICT: Navigating to discovery...');
-      final navContext = $.tester.element(find.byType(HomePage));
-      navContext.push('/settings/feed');
-      await $.tester.pumpAndSettle();
+        final $ = wrapTester(tester);
+        app.main();
 
-      // 2. Verify page content
-      expect($(FollowFeedSettings).exists, true);
-      
-      // 3. Wait for rooms to appear (seeded data)
-      debugPrint('DISCOVERY_STRICT: Waiting for room list...');
-      await fastWait($.tester, () => $(RoomWidget).evaluate().length >= 3, timeout: const Duration(seconds: 30));
-      
-      final roomCount = $(RoomWidget).evaluate().length;
-      expect(roomCount >= 3, true, reason: 'MUST show at least 3 pre-joined rooms');
-      debugPrint('✓ DISCOVERY_STRICT: Found $roomCount rooms in list');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
 
-    testWidgets('STRICT: Search filters the room list correctly', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+        // 1. Navigate directly to discovery page
+        debugPrint('DISCOVERY_STRICT: Navigating to discovery...');
+        final navContext = $.tester.element(find.byType(HomePage));
+        navContext.push('/settings/feed');
+        await $.tester.pumpAndSettle();
 
-      // 1. Navigate to discovery
-      final navContext = $.tester.element(find.byType(HomePage));
-      navContext.push('/settings/feed');
-      await $.tester.pumpAndSettle();
+        // 2. Verify page content
+        expect($(FollowFeedSettings).exists, true);
 
-      // 2. Wait for initial list
-      await fastWait($.tester, () => $(RoomWidget).exists);
-      final initialCount = $(RoomWidget).evaluate().length;
+        // 3. Wait for rooms to appear (seeded data)
+        debugPrint('DISCOVERY_STRICT: Waiting for room list...');
+        await fastWait(
+          $.tester,
+          () => $(RoomWidget).evaluate().length >= 3,
+          timeout: const Duration(seconds: 30),
+        );
 
-      // 3. Enter unique search term
-      debugPrint('DISCOVERY_STRICT: Searching for test_art...');
-      await $(TextField).first.enterText('test_art');
-      await $.tester.pumpAndSettle();
+        final roomCount = $(RoomWidget).evaluate().length;
+        expect(
+          roomCount >= 3,
+          true,
+          reason: 'MUST show at least 3 pre-joined rooms',
+        );
+        debugPrint('✓ DISCOVERY_STRICT: Found $roomCount rooms in list');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
-      // 4. Wait for filtered results
-      await fastWait($.tester, () {
-        final count = $(RoomWidget).evaluate().length;
-        // Search should narrow down the list
-        return count > 0 && count < initialCount;
-      }, timeout: const Duration(seconds: 30));
+    testWidgets(
+      'STRICT: Search filters the room list correctly',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      expect($(find.textContaining('test_art')).exists, true);
-      expect($(find.textContaining('test_general')).exists, false);
-      
-      debugPrint('✓ DISCOVERY_STRICT: Search filtering verified');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        final $ = wrapTester(tester);
+        app.main();
+
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
+
+        // 1. Navigate to discovery
+        final navContext = $.tester.element(find.byType(HomePage));
+        navContext.push('/settings/feed');
+        await $.tester.pumpAndSettle();
+
+        // 2. Wait for initial list
+        await fastWait($.tester, () => $(RoomWidget).exists);
+        final initialCount = $(RoomWidget).evaluate().length;
+
+        // 3. Enter unique search term
+        debugPrint('DISCOVERY_STRICT: Searching for test_art...');
+        await $(TextField).first.enterText('test_art');
+        await $.tester.pumpAndSettle();
+
+        // 4. Wait for filtered results
+        await fastWait($.tester, () {
+          final count = $(RoomWidget).evaluate().length;
+          // Search should narrow down the list
+          return count > 0 && count < initialCount;
+        }, timeout: const Duration(seconds: 30));
+
+        expect($(find.textContaining('test_art')).exists, true);
+        expect($(find.textContaining('test_general')).exists, false);
+
+        debugPrint('✓ DISCOVERY_STRICT: Search filtering verified');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

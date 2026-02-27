@@ -20,7 +20,8 @@ class SubstitutionService extends ChangeNotifier {
         if (status.status == SyncStatus.finished) {
           // Throttled notification to avoid rapid refresh loops in the UI
           final now = DateTime.now();
-          if (_lastSyncNotify == null || now.difference(_lastSyncNotify!) > const Duration(seconds: 5)) {
+          if (_lastSyncNotify == null ||
+              now.difference(_lastSyncNotify!) > const Duration(seconds: 5)) {
             _lastSyncNotify = now;
             notifyListeners();
           }
@@ -48,7 +49,9 @@ class SubstitutionService extends ChangeNotifier {
     // Wait for initial sync if not yet synced to ensure local roomAccountData is populated
     if (_client.prevBatch == null) {
       try {
-        await _client.onSync.stream.firstWhere((_) => _client.prevBatch != null).timeout(const Duration(seconds: 30));
+        await _client.onSync.stream
+            .firstWhere((_) => _client.prevBatch != null)
+            .timeout(const Duration(seconds: 30));
       } catch (_) {
         // Timeout reached, proceed anyway
       }
@@ -58,7 +61,7 @@ class SubstitutionService extends ChangeNotifier {
     bool changed = false;
 
     final results = await Future.wait(
-      joined.map((roomId) => _client.isRoomInSubstitution(roomId))
+      joined.map((roomId) => _client.isRoomInSubstitution(roomId)),
     );
 
     for (int i = 0; i < joined.length; i++) {

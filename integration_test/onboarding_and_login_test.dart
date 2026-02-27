@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Onboarding & Login Flow with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -49,20 +51,24 @@ void main() {
       }
     });
 
-    testWidgets('Complete onboarding: host selection -> login -> view feed', (tester) async {
-      final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
-      app.main();
-      
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'Complete onboarding: host selection -> login -> view feed',
+      (tester) async {
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
+        app.main();
 
-      expect($(Scrollable).exists, true);
-      debugPrint('✓ Full onboarding and login verified');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
+
+        expect($(Scrollable).exists, true);
+        debugPrint('✓ Full onboarding and login verified');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

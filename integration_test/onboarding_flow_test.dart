@@ -11,6 +11,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 class MockClient extends Mock implements Client {}
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
     if (!kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.linux ||

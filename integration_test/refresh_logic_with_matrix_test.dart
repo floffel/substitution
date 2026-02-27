@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +13,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Refresh Logic Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -22,7 +24,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       debugPrint('REFRESH: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -30,7 +32,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -49,70 +51,90 @@ void main() {
       app.globalSubstitutionService = null;
     });
 
-    testWidgets('Feed updates automatically when new message arrives', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+    testWidgets(
+      'Feed updates automatically when new message arrives',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      // 1. Wait for feed to be ready
-      await fastWait($.tester, () => $(PostWidget).exists, timeout: const Duration(seconds: 60));
-      
-      final client = app.globalMatrixClient!;
-      final rooms = await client.getJoinedRooms();
-      final room = client.getRoomById(rooms.first)!;
+        final $ = wrapTester(tester);
+        app.main();
 
-      // 2. Send a message in the background (programmatically)
-      final uniqueBody = 'AUTO_REFRESH_${DateTime.now().millisecondsSinceEpoch}';
-      debugPrint('REFRESH: Sending background message: $uniqueBody');
-      await room.sendTextEvent(uniqueBody);
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
 
-      // 3. Verify that it appears in the UI WITHOUT manual refresh
-      debugPrint('REFRESH: Waiting for automatic UI update...');
-      await fastWait($.tester, () {
-        return find.textContaining(uniqueBody, skipOffstage: false).evaluate().isNotEmpty;
-      }, timeout: const Duration(seconds: 60));
+        // 1. Wait for feed to be ready
+        await fastWait(
+          $.tester,
+          () => $(PostWidget).exists,
+          timeout: const Duration(seconds: 60),
+        );
 
-      expect($(find.textContaining(uniqueBody)).exists, true);
-      debugPrint('✓ REFRESH: Automatic update verified');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        final client = app.globalMatrixClient!;
+        final rooms = await client.getJoinedRooms();
+        final room = client.getRoomById(rooms.first)!;
 
-    testWidgets('Manual pull-to-refresh triggers feed reload', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+        // 2. Send a message in the background (programmatically)
+        final uniqueBody =
+            'AUTO_REFRESH_${DateTime.now().millisecondsSinceEpoch}';
+        debugPrint('REFRESH: Sending background message: $uniqueBody');
+        await room.sendTextEvent(uniqueBody);
 
-      // 1. Wait for feed
-      await fastWait($.tester, () => $(PostWidget).exists, timeout: const Duration(seconds: 60));
+        // 3. Verify that it appears in the UI WITHOUT manual refresh
+        debugPrint('REFRESH: Waiting for automatic UI update...');
+        await fastWait($.tester, () {
+          return find
+              .textContaining(uniqueBody, skipOffstage: false)
+              .evaluate()
+              .isNotEmpty;
+        }, timeout: const Duration(seconds: 60));
 
-      // 2. Perform pull-to-refresh
-      debugPrint('REFRESH: Performing pull-to-refresh...');
-      final scrollable = $(Scrollable).first;
-      await $.tester.drag(scrollable, const Offset(0, 500)); // Drag down
-      await $.tester.pumpAndSettle();
+        expect($(find.textContaining(uniqueBody)).exists, true);
+        debugPrint('✓ REFRESH: Automatic update verified');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
-      // 3. Verify that the refresh indicator appeared and disappeared
-      // (The app uses RefreshIndicator in HomePage)
-      debugPrint('✓ REFRESH: Manual refresh triggered');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+    testWidgets(
+      'Manual pull-to-refresh triggers feed reload',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+
+        final $ = wrapTester(tester);
+        app.main();
+
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
+
+        // 1. Wait for feed
+        await fastWait(
+          $.tester,
+          () => $(PostWidget).exists,
+          timeout: const Duration(seconds: 60),
+        );
+
+        // 2. Perform pull-to-refresh
+        debugPrint('REFRESH: Performing pull-to-refresh...');
+        final scrollable = $(Scrollable).first;
+        await $.tester.drag(scrollable, const Offset(0, 500)); // Drag down
+        await $.tester.pumpAndSettle();
+
+        // 3. Verify that the refresh indicator appeared and disappeared
+        // (The app uses RefreshIndicator in HomePage)
+        debugPrint('✓ REFRESH: Manual refresh triggered');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

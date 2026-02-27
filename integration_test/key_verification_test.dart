@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +15,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Key Verification Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -24,7 +26,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       debugPrint('SECURITY: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -32,7 +34,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -51,43 +53,47 @@ void main() {
       app.globalSubstitutionService = null;
     });
 
-    testWidgets('Can view device list in security settings', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+    testWidgets(
+      'Can view device list in security settings',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      // 1. Navigate directly to Security page
-      debugPrint('SECURITY: Navigating to KeyVerificationPage...');
-      final navContext = $.tester.element(find.byType(HomePage));
-      navContext.push('/settings/security');
-      await $.tester.pumpAndSettle();
+        final $ = wrapTester(tester);
+        app.main();
 
-      // 2. Verify KeyVerificationPage
-      expect($(KeyVerificationPage).exists, true);
-      
-      // 3. Wait for UI to settle
-      await $.tester.pumpAndSettle();
-      
-      // 4. Verify 'Refresh' functionality via Pull-to-Refresh
-      // Even if no devices are found, we want to make sure the UI is interactive
-      debugPrint('SECURITY: Performing pull-to-refresh...');
-      final listFinder = find.byType(ListView);
-      if (listFinder.evaluate().isNotEmpty) {
-        await $.tester.drag(listFinder.first, const Offset(0, 500));
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
+
+        // 1. Navigate directly to Security page
+        debugPrint('SECURITY: Navigating to KeyVerificationPage...');
+        final navContext = $.tester.element(find.byType(HomePage));
+        navContext.push('/settings/security');
         await $.tester.pumpAndSettle();
-      }
-      
-      debugPrint('✓ SECURITY: Security page verified');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+
+        // 2. Verify KeyVerificationPage
+        expect($(KeyVerificationPage).exists, true);
+
+        // 3. Wait for UI to settle
+        await $.tester.pumpAndSettle();
+
+        // 4. Verify 'Refresh' functionality via Pull-to-Refresh
+        // Even if no devices are found, we want to make sure the UI is interactive
+        debugPrint('SECURITY: Performing pull-to-refresh...');
+        final listFinder = find.byType(ListView);
+        if (listFinder.evaluate().isNotEmpty) {
+          await $.tester.drag(listFinder.first, const Offset(0, 500));
+          await $.tester.pumpAndSettle();
+        }
+
+        debugPrint('✓ SECURITY: Security page verified');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +18,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Strict Message Interaction (Reactions & Replies)', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -27,7 +29,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       // FRESH SETUP per test
       debugPrint('STRICT: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -36,7 +38,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -57,8 +59,13 @@ void main() {
     // Helper to wait for the feed to be truly ready with content
     Future<void> waitForFeedReady(PatrolIntegrationTester $) async {
       debugPrint('STRICT: Waiting for logic state (rooms)...');
-      await fastWait($.tester, () => app.globalSubstitutionService?.roomCount != null && app.globalSubstitutionService!.roomCount > 0);
-      
+      await fastWait(
+        $.tester,
+        () =>
+            app.globalSubstitutionService?.roomCount != null &&
+            app.globalSubstitutionService!.roomCount > 0,
+      );
+
       debugPrint('STRICT: Waiting for logic state (PagingController)...');
       await fastWait($.tester, () {
         try {
@@ -69,66 +76,86 @@ void main() {
           return false;
         }
       }, timeout: const Duration(seconds: 60));
-      
+
       // One final pump to ensure everything is settled
       await $.tester.pumpAndSettle();
     }
 
-    testWidgets('STRICT: Tap message shows reaction and reply options', (tester) async {
-      final $ = wrapTester(tester);
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'STRICT: Tap message shows reaction and reply options',
+      (tester) async {
+        final $ = wrapTester(tester);
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      await waitForFeedReady($);
-      
-      expect($(PostWidget).exists, true, reason: 'MUST display messages');
-      // The icons are visible directly on the card in this app version
-      expect($(Icons.favorite_rounded).exists, true, reason: 'MUST show reaction button');
-      expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
-      
-      debugPrint('✓ STRICT: Feed reached and messages interactive');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        await waitForFeedReady($);
 
-    testWidgets('STRICT: Reaction option exists', (tester) async {
-      final $ = wrapTester(tester);
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+        expect($(PostWidget).exists, true, reason: 'MUST display messages');
+        // The icons are visible directly on the card in this app version
+        expect(
+          $(Icons.favorite_rounded).exists,
+          true,
+          reason: 'MUST show reaction button',
+        );
+        expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
 
-      await waitForFeedReady($);
-      expect($(Icons.favorite_rounded).exists, true, reason: 'MUST show reaction button');
-      debugPrint('✓ STRICT: Reaction button found');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        debugPrint('✓ STRICT: Feed reached and messages interactive');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
-    testWidgets('STRICT: Can open emoji picker and react to message', (tester) async {
-      final $ = wrapTester(tester);
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'STRICT: Reaction option exists',
+      (tester) async {
+        final $ = wrapTester(tester);
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      await waitForFeedReady($);
-      
-      final reactionButton = $(Icons.favorite_rounded).first;
-      await reactionButton.tap();
+        await waitForFeedReady($);
+        expect(
+          $(Icons.favorite_rounded).exists,
+          true,
+          reason: 'MUST show reaction button',
+        );
+        debugPrint('✓ STRICT: Reaction button found');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
-      // STRICT: Check for emoji picker
-      await fastWait($.tester, () => $(EmojiPicker).exists);
-      expect($(EmojiPicker).exists, true, reason: 'MUST show emoji picker');
-      debugPrint('✓ STRICT: Emoji picker displayed');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+    testWidgets(
+      'STRICT: Can open emoji picker and react to message',
+      (tester) async {
+        final $ = wrapTester(tester);
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
+
+        await waitForFeedReady($);
+
+        final reactionButton = $(Icons.favorite_rounded).first;
+        await reactionButton.tap();
+
+        // STRICT: Check for emoji picker
+        await fastWait($.tester, () => $(EmojiPicker).exists);
+        expect($(EmojiPicker).exists, true, reason: 'MUST show emoji picker');
+        debugPrint('✓ STRICT: Emoji picker displayed');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
     testWidgets('STRICT: Reply option exists', (tester) async {
       final $ = wrapTester(tester);
@@ -145,29 +172,45 @@ void main() {
       debugPrint('✓ STRICT: Reply button found');
     }, timeout: const Timeout(Duration(minutes: 5)));
 
-    testWidgets('STRICT: Can open reply composer', (tester) async {
-      final $ = wrapTester(tester);
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'STRICT: Can open reply composer',
+      (tester) async {
+        final $ = wrapTester(tester);
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      await waitForFeedReady($);
+        await waitForFeedReady($);
 
-      final replyButton = $(Icons.reply).first;
-      await replyButton.tap();
-      
-      // STRICT: Wait for the new page to appear
-      await fastWait($.tester, () => find.byType(TextMessageWrite).evaluate().isNotEmpty, timeout: const Duration(seconds: 30));
-      await $.tester.pumpAndSettle();
+        final replyButton = $(Icons.reply).first;
+        await replyButton.tap();
 
-      // STRICT: Check for reply composer editor
-      await fastWait($.tester, () => find.byType(quill.QuillEditor).evaluate().isNotEmpty, timeout: const Duration(seconds: 30));
-      expect($(quill.QuillEditor).exists, true, reason: 'MUST show reply composer editor');
-      debugPrint('✓ STRICT: Reply composer opened');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        // STRICT: Wait for the new page to appear
+        await fastWait(
+          $.tester,
+          () => find.byType(TextMessageWrite).evaluate().isNotEmpty,
+          timeout: const Duration(seconds: 30),
+        );
+        await $.tester.pumpAndSettle();
+
+        // STRICT: Check for reply composer editor
+        await fastWait(
+          $.tester,
+          () => find.byType(quill.QuillEditor).evaluate().isNotEmpty,
+          timeout: const Duration(seconds: 30),
+        );
+        expect(
+          $(quill.QuillEditor).exists,
+          true,
+          reason: 'MUST show reply composer editor',
+        );
+        debugPrint('✓ STRICT: Reply composer opened');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

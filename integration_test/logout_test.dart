@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +13,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Logout Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -46,35 +48,39 @@ void main() {
       }
     });
 
-    testWidgets('Consolidated Logout test: Login -> Logout -> Verify back to intro', (tester) async {
-      final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
-      app.main();
+    testWidgets(
+      'Consolidated Logout test: Login -> Logout -> Verify back to intro',
+      (tester) async {
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
+        app.main();
 
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: 'testuser1',
-        password: 'testpass123',
-      );
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: 'testuser1',
+          password: 'testpass123',
+        );
 
-      debugPrint('Login success confirmed.');
+        debugPrint('Login success confirmed.');
 
-      // Navigate to Settings
-      await $(Icons.settings).tap();
+        // Navigate to Settings
+        await $(Icons.settings).tap();
 
-      // Trigger Logout
-      await $(Icons.logout).tap();
+        // Trigger Logout
+        await $(Icons.logout).tap();
 
-      // Confirm Logout dialog
-      final confirmButton = $(find.text('Logout'));
-      if (confirmButton.exists) {
-        await confirmButton.tap();
-        await $(IntroductionScreen).waitUntilVisible();
-      }
+        // Confirm Logout dialog
+        final confirmButton = $(find.text('Logout'));
+        if (confirmButton.exists) {
+          await confirmButton.tap();
+          await $(IntroductionScreen).waitUntilVisible();
+        }
 
-      expect($(IntroductionScreen).exists, true);
-      debugPrint('Consolidated Logout test passed successfully');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        expect($(IntroductionScreen).exists, true);
+        debugPrint('Consolidated Logout test passed successfully');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

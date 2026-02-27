@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,6 +17,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Content Creation Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -26,7 +28,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       debugPrint('POST_CREATION: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -34,7 +36,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -53,89 +55,109 @@ void main() {
       app.globalSubstitutionService = null;
     });
 
-    testWidgets('Full flow: FAB -> Select Room -> Write -> Send -> Verify', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) {
-        return;
-      }
+    testWidgets(
+      'Full flow: FAB -> Select Room -> Write -> Send -> Verify',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      final client = app.globalMatrixClient!;
-      final service = app.globalSubstitutionService!;
+        final $ = wrapTester(tester);
+        app.main();
 
-      // 1. Create a fresh room for this test to avoid noise
-      debugPrint('POST_CREATION: Creating fresh room...');
-      final roomName = 'Creation Room ${DateTime.now().millisecondsSinceEpoch}';
-      final roomId = await client.createRoom(
-        name: roomName,
-        preset: CreateRoomPreset.publicChat,
-        powerLevelContentOverride: {'users_default': 50},
-      );
-      
-      // Wait for SDK to sync the room
-      await fastWait($.tester, () => client.getRoomById(roomId) != null);
-      
-      // Mark as substitution
-      service.addRoomId(roomId);
-      await client.setAccountDataPerRoom(client.userID!, roomId, "substitution", {"joined": true});
-      service.triggerRefresh();
-      await $.tester.pumpAndSettle();
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
 
-      // 2. Tap Send icon in AppBar to start posting
-      debugPrint('POST_CREATION: Tapping New Post button...');
-      final newPostButton = $(Icons.send_outlined);
-      await newPostButton.waitUntilVisible();
-      await newPostButton.tap();
-      await $.tester.pumpAndSettle();
+        final client = app.globalMatrixClient!;
+        final service = app.globalSubstitutionService!;
 
-      // 3. Verify RoomSelectPage and pick our fresh room
-      expect($(RoomSelectPage).exists, true);
-      debugPrint('POST_CREATION: Picking room $roomName...');
-      await $(find.textContaining(roomName)).tap();
-      await $.tester.pumpAndSettle();
+        // 1. Create a fresh room for this test to avoid noise
+        debugPrint('POST_CREATION: Creating fresh room...');
+        final roomName =
+            'Creation Room ${DateTime.now().millisecondsSinceEpoch}';
+        final roomId = await client.createRoom(
+          name: roomName,
+          preset: CreateRoomPreset.publicChat,
+          powerLevelContentOverride: {'users_default': 50},
+        );
 
-      // 4. Verify TextMessageWrite page
-      expect($(TextMessageWrite).exists, true);
-      
-      // 5. Enter unique message text
-      final uniqueBody = 'UNIQUE_POST_${DateTime.now().millisecondsSinceEpoch}';
-      debugPrint('POST_CREATION: Entering text: $uniqueBody...');
-      
-      final editorFinder = find.byType(quill.QuillEditor);
-      await $(editorFinder).waitUntilVisible();
-      
-      // Set text directly on the controller for 100% reliability in tests
-      final state = $.tester.state<TextMessageWriteState>(find.byType(TextMessageWrite));
-      state.controller.document.insert(0, uniqueBody);
-      await $.tester.pumpAndSettle();
+        // Wait for SDK to sync the room
+        await fastWait($.tester, () => client.getRoomById(roomId) != null);
 
-      // 6. Tap Send button (Icons.send)
-      debugPrint('POST_CREATION: Tapping Send...');
-      final sendButton = $(Icons.send);
-      await sendButton.waitUntilVisible();
-      await sendButton.tap();
-      
-      // 7. Wait for navigation back to feed
-      debugPrint('POST_CREATION: Waiting for redirect to feed...');
-      await fastWait($.tester, () => $(HomePage).exists, timeout: const Duration(seconds: 30));
-      await $.tester.pumpAndSettle();
+        // Mark as substitution
+        service.addRoomId(roomId);
+        await client.setAccountDataPerRoom(
+          client.userID!,
+          roomId,
+          "substitution",
+          {"joined": true},
+        );
+        service.triggerRefresh();
+        await $.tester.pumpAndSettle();
 
-      // 8. Verify message appears in feed
-      debugPrint('POST_CREATION: Verifying message in feed...');
-      await fastWait($.tester, () {
-        return find.textContaining(uniqueBody, skipOffstage: false).evaluate().isNotEmpty;
-      }, timeout: const Duration(seconds: 60));
-      
-      expect($(find.textContaining(uniqueBody)).exists, true);
-      debugPrint('✓ POST_CREATION: Full flow verified successfully');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        // 2. Tap Send icon in AppBar to start posting
+        debugPrint('POST_CREATION: Tapping New Post button...');
+        final newPostButton = $(Icons.send_outlined);
+        await newPostButton.waitUntilVisible();
+        await newPostButton.tap();
+        await $.tester.pumpAndSettle();
+
+        // 3. Verify RoomSelectPage and pick our fresh room
+        expect($(RoomSelectPage).exists, true);
+        debugPrint('POST_CREATION: Picking room $roomName...');
+        await $(find.textContaining(roomName)).tap();
+        await $.tester.pumpAndSettle();
+
+        // 4. Verify TextMessageWrite page
+        expect($(TextMessageWrite).exists, true);
+
+        // 5. Enter unique message text
+        final uniqueBody =
+            'UNIQUE_POST_${DateTime.now().millisecondsSinceEpoch}';
+        debugPrint('POST_CREATION: Entering text: $uniqueBody...');
+
+        final editorFinder = find.byType(quill.QuillEditor);
+        await $(editorFinder).waitUntilVisible();
+
+        // Set text directly on the controller for 100% reliability in tests
+        final state = $.tester.state<TextMessageWriteState>(
+          find.byType(TextMessageWrite),
+        );
+        state.controller.document.insert(0, uniqueBody);
+        await $.tester.pumpAndSettle();
+
+        // 6. Tap Send button (Icons.send)
+        debugPrint('POST_CREATION: Tapping Send...');
+        final sendButton = $(Icons.send);
+        await sendButton.waitUntilVisible();
+        await sendButton.tap();
+
+        // 7. Wait for navigation back to feed
+        debugPrint('POST_CREATION: Waiting for redirect to feed...');
+        await fastWait(
+          $.tester,
+          () => $(HomePage).exists,
+          timeout: const Duration(seconds: 30),
+        );
+        await $.tester.pumpAndSettle();
+
+        // 8. Verify message appears in feed
+        debugPrint('POST_CREATION: Verifying message in feed...');
+        await fastWait($.tester, () {
+          return find
+              .textContaining(uniqueBody, skipOffstage: false)
+              .evaluate()
+              .isNotEmpty;
+        }, timeout: const Duration(seconds: 60));
+
+        expect($(find.textContaining(uniqueBody)).exists, true);
+        debugPrint('✓ POST_CREATION: Full flow verified successfully');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

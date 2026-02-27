@@ -12,6 +12,7 @@ import 'helpers/patrol_wrapper.dart';
 import 'helpers/integration_test_helper.dart' show fastWait;
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   tearDown(() async {
     await app.globalMatrixClient?.dispose();
@@ -27,7 +28,9 @@ void main() {
     }
   });
 
-  testWidgets('Substitution App - Base Patrol Integration Tests', (tester) async {
+  testWidgets('Substitution App - Base Patrol Integration Tests', (
+    tester,
+  ) async {
     final $ = wrapTester(tester);
 
     // Setup logic inside the test body
@@ -48,7 +51,7 @@ void main() {
     // App starts and displays home page
     debugPrint('Patrol: Starting app check...');
     await fastWait($.tester, () => $(MaterialApp).exists);
-    
+
     // Check if we need to login
     if (app.globalMatrixClient?.isLogged() != true) {
       await patrol_helper.loginUser($);

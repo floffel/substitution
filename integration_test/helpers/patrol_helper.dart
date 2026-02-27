@@ -6,10 +6,11 @@ import 'package:matrix/matrix.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
-import 'integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
+import 'integration_test_helper.dart'
+    show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 
 /// Patrol version of the login helper.
-/// 
+///
 /// Uses Patrol's implicit waiting combined with event-driven synchronization
 /// to make the flow extremely robust and as fast as the hardware allows.
 Future<bool> loginUser(
@@ -26,19 +27,22 @@ Future<bool> loginUser(
 
   // 3. Wait for ANY valid starting screen (event-driven)
   debugPrint('Patrol: Waiting for app to render first screen...');
-  await fastWait($.tester, () => 
-    $(MaterialApp).exists && (
-      $(Key('ageGateConfirmButton')).exists || 
-      $(IntroductionScreen).exists || 
-      $(Key('loginUsernameInput')).exists || 
-      $(Key('hostServerInput')).exists ||
-      $(Scrollable).exists
-    )
+  await fastWait(
+    $.tester,
+    () =>
+        $(MaterialApp).exists &&
+        ($(Key('ageGateConfirmButton')).exists ||
+            $(IntroductionScreen).exists ||
+            $(Key('loginUsernameInput')).exists ||
+            $(Key('hostServerInput')).exists ||
+            $(Scrollable).exists),
   );
-  
+
   if (app.globalMatrixClient?.isLogged() == true) {
     if ($(Scrollable).exists) {
-      debugPrint('Already logged in and on the feed page. Skipping login flow.');
+      debugPrint(
+        'Already logged in and on the feed page. Skipping login flow.',
+      );
       return true;
     }
   }
@@ -51,16 +55,24 @@ Future<bool> loginUser(
     if ($(Key('ageGateConfirmButton')).exists) {
       debugPrint('Patrol: Tapping Age Gate...');
       await $(Key('ageGateConfirmButton')).tap();
-      await fastWait($.tester, () => $(IntroductionScreen).exists || $(Key('hostServerInput')).exists || $(Key('loginUsernameInput')).exists);
+      await fastWait(
+        $.tester,
+        () =>
+            $(IntroductionScreen).exists ||
+            $(Key('hostServerInput')).exists ||
+            $(Key('loginUsernameInput')).exists,
+      );
     }
 
     // 4. Handle Intro Screen (Smart Navigation)
     if ($(IntroductionScreen).exists) {
       debugPrint('Patrol: Navigating through onboarding...');
-      
+
       for (int i = 0; i < 3; i++) {
-        if ($(Key('hostServerInput')).exists || $(Key('loginUsernameInput')).exists) break;
-        
+        if ($(Key('hostServerInput')).exists ||
+            $(Key('loginUsernameInput')).exists)
+          break;
+
         final nextButton = $(find.text('Next'));
         if (nextButton.exists) {
           await nextButton.tap();
@@ -73,7 +85,11 @@ Future<bool> loginUser(
           }
         }
         await $.tester.pump();
-        await fastWait($.tester, () => true, timeout: const Duration(milliseconds: 500)); 
+        await fastWait(
+          $.tester,
+          () => true,
+          timeout: const Duration(milliseconds: 500),
+        );
       }
     }
   }
@@ -86,14 +102,16 @@ Future<bool> loginUser(
     await $(Key('hostServerInput')).enterText(serverUrl);
     await $(Key('hostSubmitButton')).tap();
     // Wait up to 30s for transition to login page (network call)
-    await $(Key('loginUsernameInput')).waitUntilVisible(timeout: const Duration(seconds: 30));
+    await $(
+      Key('loginUsernameInput'),
+    ).waitUntilVisible(timeout: const Duration(seconds: 30));
   }
 
   // 6. Login Page
   debugPrint('Patrol: Entering credentials...');
   await $(Key('loginUsernameInput')).enterText(username);
   await $(Key('loginPasswordInput')).enterText(password);
-  
+
   // Set up an event listener for the successful sync
   final syncCompleter = Completer<void>();
   final client = app.globalMatrixClient!;

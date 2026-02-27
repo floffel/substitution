@@ -7,6 +7,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
     if (!kIsWeb &&

@@ -83,7 +83,8 @@ Future<bool> skipIfNoMatrix({
 Future<void> waitForMatrixClient(WidgetTester tester) async {
   debugPrint('Waiting for globalMatrixClient to be initialized...');
   for (int i = 0; i < 60; i++) {
-    if (app.globalMatrixClient != null && find.byType(MaterialApp).evaluate().isNotEmpty) {
+    if (app.globalMatrixClient != null &&
+        find.byType(MaterialApp).evaluate().isNotEmpty) {
       debugPrint('globalMatrixClient initialized and UI mounted!');
       return;
     }
@@ -177,11 +178,11 @@ Future<void> waitForSyncStatus(
   if (client == null) throw Exception('globalMatrixClient is null');
 
   debugPrint('Event-Driven: Waiting for Matrix sync status: $targetStatus');
-  
+
   await client.onSyncStatus.stream
       .firstWhere((status) => status.status == targetStatus)
       .timeout(timeout);
-      
+
   debugPrint('✓ Event received: Matrix reached status $targetStatus');
 }
 
@@ -197,7 +198,11 @@ Future<void> waitForSync(
 }
 
 /// A more robust version of pumpAndSettle that doesn't hang on background activity.
-Future<void> settle(WidgetTester tester, {int count = 5, Duration interval = const Duration(milliseconds: 500)}) async {
+Future<void> settle(
+  WidgetTester tester, {
+  int count = 5,
+  Duration interval = const Duration(milliseconds: 500),
+}) async {
   for (int i = 0; i < count; i++) {
     await tester.pump(interval);
   }
@@ -218,15 +223,17 @@ Future<void> fastWait(
     // Pump with a small duration to allow microtasks and timers to run
     await tester.pump(const Duration(milliseconds: 100));
   }
-  
+
   // Timeout reached, dump tree for debugging
   debugPrint('TIMEOUT in fastWait! Current widget tree:');
   try {
-    debugPrint(tester.allWidgets.map((w) => w.runtimeType.toString()).join(', '));
+    debugPrint(
+      tester.allWidgets.map((w) => w.runtimeType.toString()).join(', '),
+    );
   } catch (e) {
     debugPrint('Could not dump widgets: $e');
   }
-  
+
   throw Exception('Timeout waiting for condition');
 }
 

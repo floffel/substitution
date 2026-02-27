@@ -5,7 +5,12 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:substitution/main.dart' as app;
 import 'integration_test_helper.dart'
-    show skipIfNoMatrix, waitForMatrixClient, waitForSync, waitUntilVisible, settle;
+    show
+        skipIfNoMatrix,
+        waitForMatrixClient,
+        waitForSync,
+        waitUntilVisible,
+        settle;
 
 /// Drives the full login flow from a cold-start app state.
 ///
@@ -42,7 +47,9 @@ Future<void> loginUser(
     for (int i = 0; i < 10; i++) {
       await tester.pump(const Duration(milliseconds: 500));
       if (find.byType(Scrollable).evaluate().isNotEmpty) {
-        debugPrint('Already logged in and on the feed page. Skipping login flow.');
+        debugPrint(
+          'Already logged in and on the feed page. Skipping login flow.',
+        );
         return;
       }
     }

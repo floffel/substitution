@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Feed with Real Matrix Server', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -50,39 +52,47 @@ void main() {
       }
     });
 
-    testWidgets('Display unified feed from multiple rooms', (tester) async {
-      final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'Display unified feed from multiple rooms',
+      (tester) async {
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      expect($(Scrollable).exists, true);
-      debugPrint('✓ Unified feed displayed with messages');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        expect($(Scrollable).exists, true);
+        debugPrint('✓ Unified feed displayed with messages');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
 
-    testWidgets('Feed loads and shows messages chronologically', (tester) async {
-      final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'Feed loads and shows messages chronologically',
+      (tester) async {
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      final feed = $(Scrollable);
-      expect(feed.exists, true);
+        final feed = $(Scrollable);
+        expect(feed.exists, true);
 
-      // Scroll down to load more messages
-      await $.tester.drag(feed.first, const Offset(0, -500));
-      await $.tester.pump();
-      debugPrint('✓ Feed supports scrolling');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        // Scroll down to load more messages
+        await $.tester.drag(feed.first, const Offset(0, -500));
+        await $.tester.pump();
+        debugPrint('✓ Feed supports scrolling');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

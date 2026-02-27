@@ -13,6 +13,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
     if (!kIsWeb &&

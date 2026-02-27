@@ -1,3 +1,4 @@
+import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
@@ -10,6 +11,7 @@ import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Legal & Compliance Integration Tests', () {
     const testMatrixServer = String.fromEnvironment(
       'MATRIX_SERVER',
@@ -32,18 +34,22 @@ void main() {
       }
     });
 
-    testWidgets('Legal page accessibility check', (tester) async {
-      final $ = wrapTester(tester);
-      AgeGatePage.confirmed = true;
-      app.main();
-      await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      );
+    testWidgets(
+      'Legal page accessibility check',
+      (tester) async {
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
+        app.main();
+        await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        );
 
-      debugPrint('✓ Compliance test reached');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        debugPrint('✓ Compliance test reached');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }
