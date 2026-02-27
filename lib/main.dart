@@ -25,7 +25,6 @@ import '/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
@@ -89,10 +88,8 @@ void main() async {
 
   // Initialize FFI for Linux desktop support
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux) {
-    if (databaseFactory == null || databaseFactory is! DatabaseFactoryFfi) {
-      sqfliteFfiInit();
-      databaseFactory = databaseFactoryFfi;
-    }
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
   }
 
   // usePathUrlStrategy() can only be called once per browser session.
