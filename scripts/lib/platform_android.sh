@@ -239,7 +239,7 @@ run_android_tests() {
 
         for test_file in "${test_files[@]}"; do
             log_info "  Running: $test_file"
-            run_with_timeout "$timeout" flutter "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "$test_file" 2>&1 | tee -a "$log_file"
             local exit_code=${PIPESTATUS[0]}
             parse_flutter_output "$log_file"
             acc_passed=$((acc_passed + _PARSED_PASSED))
@@ -266,7 +266,7 @@ run_android_tests() {
         local shard_args=()
         read -r -a shard_args <<< "$(get_shard_args)"
 
-        run_with_timeout "$timeout" flutter "${common_args[@]}" "${shard_args[@]}" "integration_test/" \
+        run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "${shard_args[@]}" "integration_test/" \
             2>&1 | tee "$log_file"
         overall_exit=${PIPESTATUS[0]}
 

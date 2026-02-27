@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Room Feed Integration Tests', () {
     testWidgets(
       'Main feed -> tap room-specific link -> verify only that room\'s posts show',

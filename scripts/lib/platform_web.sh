@@ -124,7 +124,7 @@ _run_web_unit_tests() {
         log_info "  [$idx/$total_files] $test_file"
 
         local file_log="${RESULTS_DIR}/web-unit-file-${idx}.log"
-        run_with_timeout "$timeout" flutter "${common_args[@]}" "$test_file" \
+        run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "$test_file" \
             2>&1 | tee "$file_log" | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
 
@@ -296,7 +296,7 @@ _run_web_integration_tests() {
         log_info "  Running: $test_file"
         local file_log="${RESULTS_DIR}/web-drive-$(basename "$test_file").log"
 
-        run_with_timeout "$timeout" flutter "${common_args[@]}" "--target=$test_file" \
+        run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "--target=$test_file" \
             2>&1 | tee "$file_log" | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
 

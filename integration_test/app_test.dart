@@ -12,7 +12,6 @@ import 'helpers/patrol_wrapper.dart';
 import 'helpers/integration_test_helper.dart' show fastWait;
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   tearDown(() async {
     await app.globalMatrixClient?.dispose();
