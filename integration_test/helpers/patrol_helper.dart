@@ -70,8 +70,9 @@ Future<bool> loginUser(
 
       for (int i = 0; i < 3; i++) {
         if ($(Key('hostServerInput')).exists ||
-            $(Key('loginUsernameInput')).exists)
+            $(Key('loginUsernameInput')).exists) {
           break;
+        }
 
         final nextButton = $(find.text('Next'));
         if (nextButton.exists) {
