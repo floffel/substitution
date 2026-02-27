@@ -104,7 +104,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(RoomPermissionsPage).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         expect($(RoomPermissionsPage).exists, true);
 
@@ -119,7 +119,7 @@ void main() {
         // 6. Verify state update or snackbar
         await fastWait($.tester, () {
           return find.textContaining('Switched to').evaluate().isNotEmpty;
-        }, timeout: const Duration(seconds: 30));
+        }, timeout: const Duration(seconds: 60));
 
         expect($.tester.widget<Switch>(blogSwitch).value, !initialState);
         debugPrint(

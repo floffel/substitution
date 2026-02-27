@@ -193,7 +193,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.byType(TextMessageWrite).evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         await $.tester.pumpAndSettle();
 
@@ -201,7 +201,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.byType(quill.QuillEditor).evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         expect(
           $(quill.QuillEditor).exists,

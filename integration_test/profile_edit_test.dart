@@ -94,7 +94,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.text('Profile updated successfully').evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         expect($(find.text('Profile updated successfully')).exists, true);

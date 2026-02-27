@@ -21,7 +21,8 @@ class SubstitutionService extends ChangeNotifier {
           // Throttled notification to avoid rapid refresh loops in the UI
           final now = DateTime.now();
           if (_lastSyncNotify == null ||
-              now.difference(_lastSyncNotify!) > const Duration(seconds: 5)) {
+              now.difference(_lastSyncNotify!) >
+                  const Duration(milliseconds: 500)) {
             _lastSyncNotify = now;
             notifyListeners();
           }

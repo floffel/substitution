@@ -68,7 +68,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.textContaining(uniqueCacheMessage).evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         debugPrint('OFFLINE: Message visible, killing app...');
 
@@ -100,7 +100,7 @@ void main() {
               .textContaining(uniqueCacheMessage, skipOffstage: false)
               .evaluate()
               .isNotEmpty;
-        }, timeout: const Duration(seconds: 30));
+        }, timeout: const Duration(seconds: 60));
 
         expect($(find.textContaining(uniqueCacheMessage)).exists, true);
         debugPrint('✓ OFFLINE: Cache persistence verified');

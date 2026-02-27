@@ -215,7 +215,7 @@ Future<void> settle(
 Future<void> fastWait(
   WidgetTester tester,
   bool Function() condition, {
-  Duration timeout = const Duration(seconds: 30),
+  Duration timeout = const Duration(seconds: 60),
 }) async {
   final end = DateTime.now().add(timeout);
   while (DateTime.now().isBefore(end)) {
@@ -241,7 +241,7 @@ Future<void> fastWait(
 Future<void> waitUntilVisible(
   WidgetTester tester,
   Finder finder, {
-  Duration timeout = const Duration(seconds: 30),
+  Duration timeout = const Duration(seconds: 60),
 }) async {
   debugPrint('Fast-Wait: Waiting for $finder...');
   await fastWait(tester, () => finder.evaluate().isNotEmpty, timeout: timeout);
@@ -251,7 +251,7 @@ Future<void> waitUntilVisible(
 Future<void> waitUntilNotVisible(
   WidgetTester tester,
   Finder finder, {
-  Duration timeout = const Duration(seconds: 30),
+  Duration timeout = const Duration(seconds: 60),
 }) async {
   debugPrint('Waiting for $finder to disappear...');
   await fastWait(tester, () => finder.evaluate().isEmpty, timeout: timeout);

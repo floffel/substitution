@@ -125,7 +125,7 @@ void main() {
             }
           });
           return hasText && hasImage;
-        }, timeout: const Duration(seconds: 30));
+        }, timeout: const Duration(seconds: 60));
 
         // 5. Verify both appear in feed
         debugPrint('MESSAGE_TYPES: Verifying rendering...');

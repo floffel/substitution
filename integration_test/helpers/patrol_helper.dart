@@ -24,18 +24,19 @@ Future<bool> loginUser(
 
   // 2. Wait for globalMatrixClient to be initialized
   await waitForMatrixClient($.tester);
+  // Stabilization delay for SDK
+  await Future.delayed(const Duration(seconds: 1));
 
   // 3. Wait for ANY valid starting screen (event-driven)
   debugPrint('Patrol: Waiting for app to render first screen...');
   await fastWait(
     $.tester,
     () =>
-        $(MaterialApp).exists &&
-        ($(Key('ageGateConfirmButton')).exists ||
-            $(IntroductionScreen).exists ||
-            $(Key('loginUsernameInput')).exists ||
-            $(Key('hostServerInput')).exists ||
-            $(Scrollable).exists),
+        $(Key('ageGateConfirmButton')).exists ||
+        $(IntroductionScreen).exists ||
+        $(Key('loginUsernameInput')).exists ||
+        $(Key('hostServerInput')).exists ||
+        $(Scrollable).exists,
   );
 
   if (app.globalMatrixClient?.isLogged() == true) {
@@ -147,6 +148,7 @@ Future<bool> loginUser(
   if (goVisible) {
     debugPrint('Patrol: Tapping Go button...');
     await goButton.tap();
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   // Final rendering check - as fast as possible

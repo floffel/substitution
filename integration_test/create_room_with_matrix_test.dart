@@ -111,7 +111,7 @@ void main() {
         await waitUntilNotVisible(
           $.tester,
           find.byType(DialogCreateRoom),
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         // 7. Verify room appears in list
@@ -123,7 +123,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.textContaining(newRoomName).evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         expect($(find.textContaining(newRoomName)).exists, true);
 

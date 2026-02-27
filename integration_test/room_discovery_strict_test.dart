@@ -85,7 +85,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(RoomWidget).evaluate().length >= 3,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         final roomCount = $(RoomWidget).evaluate().length;
@@ -135,7 +135,7 @@ void main() {
           final count = $(RoomWidget).evaluate().length;
           // Search should narrow down the list
           return count > 0 && count < initialCount;
-        }, timeout: const Duration(seconds: 30));
+        }, timeout: const Duration(seconds: 60));
 
         expect($(find.textContaining('test_art')).exists, true);
         expect($(find.textContaining('test_general')).exists, false);

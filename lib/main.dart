@@ -25,6 +25,7 @@ import '/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
+import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
@@ -42,6 +43,9 @@ Client? globalMatrixClient;
 // Global SubstitutionService reference for test access only
 SubstitutionService? globalSubstitutionService;
 
+// Global database reference for test teardown use only
+Database? globalDatabase;
+
 /// Route guard used by all protected routes.
 /// Redirects to `/age-gate` if the user hasn't confirmed their age, or to
 /// `/intro` if they are not logged in. Returns `null` to allow navigation.
@@ -53,30 +57,42 @@ String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
 }
 
 void main() async {
-  // Dispose previous client if any (for test isolation)
-  if (globalMatrixClient != null) {
+  // Dispose previous client and database if any (for test isolation)
+  if (globalMatrixClient != null || globalDatabase != null) {
     try {
-      debugPrint("Main: Disposing lingering client...");
-      final oldClient = globalMatrixClient!;
+      debugPrint("Main: Disposing lingering resources...");
+      final oldClient = globalMatrixClient;
       globalMatrixClient = null;
       globalSubstitutionService = null;
-      oldClient.abortSync();
-      await oldClient.dispose();
+      if (oldClient != null) {
+        oldClient.abortSync();
+        await oldClient.dispose();
+      }
+      if (globalDatabase != null) {
+        await globalDatabase!.close();
+        globalDatabase = null;
+      }
       // Allow OS to release file locks
       await Future.delayed(const Duration(milliseconds: 500));
-      debugPrint("Main: Lingering client disposed.");
+      debugPrint("Main: Lingering resources disposed.");
     } catch (e) {
-      debugPrint("Error disposing previous client at main start: $e");
+      debugPrint("Error disposing previous resources at main start: $e");
     }
   }
 
   // Must be first — plugins like SharedPreferences and url_strategy need it.
-  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+  } catch (e) {
+    debugPrint("Binding already initialized: $e");
+  }
 
   // Initialize FFI for Linux desktop support
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux) {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
+    if (databaseFactory == null || databaseFactory is! DatabaseFactoryFfi) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
   }
 
   // usePathUrlStrategy() can only be called once per browser session.
@@ -410,6 +426,7 @@ void main() async {
         ''');
       },
     );
+    globalDatabase = database;
 
     matrixDatabase = await MatrixSdkDatabase.init(
       "Substitution",

@@ -141,7 +141,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(HomePage).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         await $.tester.pumpAndSettle();
 

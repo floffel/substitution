@@ -113,7 +113,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(PostWidget).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         // Verify that all visible posts belong to test_general

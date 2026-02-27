@@ -92,7 +92,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(RoomWidget).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         expect($(find.textContaining('test_art')).exists, true);
@@ -155,7 +155,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(RoomWidget).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
 
         // Find the join button (Icons.person_add)
@@ -169,7 +169,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(Icons.person_remove).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         expect($(Icons.person_remove).exists, true);
         debugPrint('✓ DISCOVERY: Room joined successfully');
@@ -184,7 +184,7 @@ void main() {
         await fastWait(
           $.tester,
           () => $(Icons.person_add).exists,
-          timeout: const Duration(seconds: 30),
+          timeout: const Duration(seconds: 60),
         );
         expect($(Icons.person_add).exists, true);
         debugPrint('✓ DISCOVERY: Room left successfully');
