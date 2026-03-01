@@ -35,8 +35,9 @@ void main() {
     setUp(() async {
       if (!await skipIfNoMatrix(
         matrixServer: effectiveMatrixServer(matrixServer),
-      ))
+      )) {
         return;
+      }
 
       // Initialize SQLite database
       late final MatrixSdkDatabase database;

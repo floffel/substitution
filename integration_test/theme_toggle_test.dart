@@ -58,8 +58,9 @@ void main() {
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        ))
+        )) {
           return;
+        }
 
         // 1. Open Menu
         debugPrint('THEME: Opening menu...');

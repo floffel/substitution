@@ -93,10 +93,10 @@ class HomePageState extends State<HomePage> {
       if (!currentClient.isLogged()) {
         return [];
       }
-      
+
       // Ensure SubstitutionService is initialized before querying rooms
       await _substitutionService.init();
-      
+
       final roomIds = await currentClient.getJoinedRooms();
       if (!mounted) return [];
 
@@ -151,7 +151,7 @@ class HomePageState extends State<HomePage> {
               displayEvent: e.getDisplayEvent(timeline),
             ));
           }
-          
+
           // If we didn't have a marker, only take the first N messages to avoid flooding
           if (lastCurrentEventId == null && newEvents.length >= _pageSize) {
             break;
@@ -176,12 +176,13 @@ class HomePageState extends State<HomePage> {
       // add ret to the top
       final currentPages = _pagingController.value.pages ?? [];
       final currentKeys = _pagingController.value.keys ?? [];
-      
+
       if (currentPages.isNotEmpty && currentKeys.isNotEmpty) {
-        final List<List<({Event origEvent, Event displayEvent})>> updatedPages = [
-          [...ret, ...currentPages.first],
-          ...currentPages.skip(1),
-        ];
+        final List<List<({Event origEvent, Event displayEvent})>> updatedPages =
+            [
+              [...ret, ...currentPages.first],
+              ...currentPages.skip(1),
+            ];
         _pagingController.value = _pagingController.value.copyWith(
           pages: updatedPages,
         );
@@ -192,23 +193,6 @@ class HomePageState extends State<HomePage> {
     } finally {
       _isFetchingFuture = false;
     }
-  }
-
-  bool _isSameKey(
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})> k1,
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? k2,
-  ) {
-    if (k2 == null) return false;
-    if (k1.length != k2.length) return false;
-    for (final entry in k1.entries) {
-      final other = k2[entry.key];
-      if (other == null) return false;
-      if (other.lastEventId != entry.value.lastEventId ||
-          other.wasExhausted != entry.value.wasExhausted) {
-        return false;
-      }
-    }
-    return true;
   }
 
   // beim update werden einfach "neue" events an timeline.events angehangen
@@ -265,8 +249,9 @@ class HomePageState extends State<HomePage> {
 
       // Find the starting point in the current timeline events
       if (meta.lastEventId != null) {
-        lastProcessedIndex =
-            timeline.events.indexWhere((e) => e.eventId == meta.lastEventId);
+        lastProcessedIndex = timeline.events.indexWhere(
+          (e) => e.eventId == meta.lastEventId,
+        );
       }
 
       while (roomCandidates.length < _pageSize && retryCount < 3) {
@@ -334,7 +319,9 @@ class HomePageState extends State<HomePage> {
           ret.where((e) => e.origEvent.roomId == timeline.room.id).toList();
 
       String? lastId =
-          eventsInRet.isNotEmpty ? eventsInRet.last.origEvent.eventId : meta.lastEventId;
+          eventsInRet.isNotEmpty
+              ? eventsInRet.last.origEvent.eventId
+              : meta.lastEventId;
 
       if (eventsInRet.isNotEmpty && firstEventIds[timeline.room.id] == null) {
         // Track the newest event ID we've displayed for this room
@@ -347,7 +334,9 @@ class HomePageState extends State<HomePage> {
         // it's not exhausted yet for the next fetch.
         final allTimelineCandidates = candidatesPerTimeline[timeline] ?? [];
         final retEventIds = ret.map((e) => e.origEvent.eventId).toSet();
-        if (allTimelineCandidates.any((e) => !retEventIds.contains(e.origEvent.eventId))) {
+        if (allTimelineCandidates.any(
+          (e) => !retEventIds.contains(e.origEvent.eventId),
+        )) {
           isExhausted = false;
         }
       }
@@ -358,10 +347,15 @@ class HomePageState extends State<HomePage> {
     }
 
     if (ret.isEmpty) {
-      return (events: ret, nextKey: null); // Explicitly stop if no candidates found
+      return (
+        events: ret,
+        nextKey: null,
+      ); // Explicitly stop if no candidates found
     }
 
-    debugPrint("HomePage: Returning ${ret.length} events, nextKey.isEmpty=${nextKey.isEmpty}");
+    debugPrint(
+      "HomePage: Returning ${ret.length} events, nextKey.isEmpty=${nextKey.isEmpty}",
+    );
     return (events: ret, nextKey: nextKey.isEmpty ? null : nextKey);
   }
 
@@ -453,11 +447,13 @@ class HomePageState extends State<HomePage> {
     // Check if room IDs actually changed before doing a heavy refresh
     final joinedRooms = await _client.getJoinedRooms();
     final joinedRoomIds = joinedRooms.toSet();
-    final newSubstitutionRoomIds = joinedRoomIds
-        .where((id) => _substitutionService.isSubstitutionRoom(id))
-        .toSet();
+    final newSubstitutionRoomIds =
+        joinedRoomIds
+            .where((id) => _substitutionService.isSubstitutionRoom(id))
+            .toSet();
 
-    bool roomsChanged = newSubstitutionRoomIds.length != _currentRoomIds.length ||
+    bool roomsChanged =
+        newSubstitutionRoomIds.length != _currentRoomIds.length ||
         !newSubstitutionRoomIds.every((id) => _currentRoomIds.contains(id));
 
     if (!roomsChanged) {
@@ -465,8 +461,10 @@ class HomePageState extends State<HomePage> {
       return;
     }
 
-    debugPrint("HomePage: Room set changed from ${_currentRoomIds.length} to ${newSubstitutionRoomIds.length} rooms. Refreshing...");
-    
+    debugPrint(
+      "HomePage: Room set changed from ${_currentRoomIds.length} to ${newSubstitutionRoomIds.length} rooms. Refreshing...",
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       setState(() {

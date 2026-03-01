@@ -29,8 +29,9 @@ void main() {
     setUp(() async {
       if (!await skipIfNoMatrix(
         matrixServer: effectiveMatrixServer(testMatrixServer),
-      ))
+      )) {
         return;
+      }
 
       debugPrint('ROOM_FEED: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -83,8 +84,9 @@ void main() {
       (tester) async {
         if (!await skipIfNoMatrix(
           matrixServer: effectiveMatrixServer(testMatrixServer),
-        ))
+        )) {
           return;
+        }
 
         final $ = wrapTester(tester);
         app.main();

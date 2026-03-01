@@ -26,7 +26,10 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(
-          matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+        matrixServer: effectiveMatrixServer(testMatrixServer),
+      )) {
+        return;
+      }
 
       debugPrint('ENGAGEMENT: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -78,7 +81,10 @@ void main() {
       'Can view feed messages and interact',
       (tester) async {
         if (!await skipIfNoMatrix(
-            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+          matrixServer: effectiveMatrixServer(testMatrixServer),
+        )) {
+          return;
+        }
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
@@ -117,7 +123,10 @@ void main() {
       'Can view user profile by tapping avatar',
       (tester) async {
         if (!await skipIfNoMatrix(
-            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+          matrixServer: effectiveMatrixServer(testMatrixServer),
+        )) {
+          return;
+        }
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
@@ -151,7 +160,10 @@ void main() {
       'Messages from test_general room are visible',
       (tester) async {
         if (!await skipIfNoMatrix(
-            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+          matrixServer: effectiveMatrixServer(testMatrixServer),
+        )) {
+          return;
+        }
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
