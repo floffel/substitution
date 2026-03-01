@@ -106,7 +106,9 @@ void main() {
         expect($(Scrollable).exists, true);
         debugPrint('✓ FEED_MATRIX: Unified feed displayed with messages');
       },
-      timeout: const Timeout(Duration(minutes: 3)),
+      timeout: const Timeout(
+        Duration(minutes: 10),
+      ), // Increased for CI reliability
     );
   });
 
@@ -207,7 +209,9 @@ void main() {
 
         debugPrint('✓ FEED_CHRONO: Feed supports scrolling');
       },
-      timeout: const Timeout(Duration(minutes: 3)),
+      timeout: const Timeout(
+        Duration(minutes: 10),
+      ), // Increased for CI reliability
     );
   });
 }

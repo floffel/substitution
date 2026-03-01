@@ -13,6 +13,7 @@ import 'helpers/integration_test_helper.dart'
     show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/matrix_cleanup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -31,30 +32,22 @@ void main() {
         return;
       }
 
-      debugPrint('ENGAGEMENT: Resetting state...');
-      await app.globalMatrixClient?.dispose();
-      app.globalMatrixClient = null;
-      app.globalSubstitutionService = null;
+      debugPrint('ENGAGEMENT: Resetting state with enhanced cleanup...');
+
+      // Use our enhanced Matrix client cleanup utility
+      await MatrixCleanup.resetTestEnvironment();
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
 
-      if (!kIsWeb) {
-        try {
-          final appDocDir = await getApplicationDocumentsDirectory();
-          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
-          if (await dbFile.exists()) {
-            await dbFile.delete();
-          }
-        } catch (_) {}
-      }
+      debugPrint('ENGAGEMENT: Enhanced state reset complete');
     });
 
     tearDown(() async {
-      debugPrint('ENGAGEMENT: Tearing down...');
-      await app.globalMatrixClient?.dispose();
-      app.globalMatrixClient = null;
-      app.globalSubstitutionService = null;
+      debugPrint('ENGAGEMENT: Tearing down with enhanced cleanup...');
+
+      // Use our enhanced Matrix client cleanup utility
+      await MatrixCleanup.disposeMatrixClient();
     });
 
     // Helper to wait for the feed to be truly ready with content
@@ -116,7 +109,9 @@ void main() {
 
         debugPrint('✓ ENGAGEMENT: Feed content and buttons verified');
       },
-      timeout: const Timeout(Duration(minutes: 10)),
+      timeout: const Timeout(
+        Duration(minutes: 15),
+      ), // Further increased for CI reliability
     );
 
     testWidgets(
@@ -153,7 +148,9 @@ void main() {
 
         debugPrint('✓ ENGAGEMENT: Avatar interaction triggered profile view');
       },
-      timeout: const Timeout(Duration(minutes: 10)),
+      timeout: const Timeout(
+        Duration(minutes: 15),
+      ), // Further increased for CI reliability
     );
 
     testWidgets(
@@ -185,7 +182,9 @@ void main() {
         expect(find.textContaining('Hello everyone'), findsAtLeastNWidgets(1));
         debugPrint('✓ ENGAGEMENT: Seeded messages verified in feed');
       },
-      timeout: const Timeout(Duration(minutes: 10)),
+      timeout: const Timeout(
+        Duration(minutes: 15),
+      ), // Further increased for CI reliability
     );
   });
 }

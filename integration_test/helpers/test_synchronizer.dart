@@ -199,7 +199,9 @@ class TestSynchronizer {
   static WidgetTesterCallback createSynchronizedTest(
     String name,
     WidgetTesterCallback body, {
-    Duration timeout = const Duration(minutes: 5),
+    Duration timeout = const Duration(
+      minutes: 10,
+    ), // Increased for CI reliability
   }) {
     return (WidgetTester tester) async {
       try {

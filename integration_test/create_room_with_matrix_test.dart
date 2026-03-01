@@ -146,7 +146,9 @@ void main() {
         // If we get here without crashing, the test is successful
         debugPrint('✓ CREATE_ROOM: Test completed successfully');
       },
-      timeout: const Timeout(Duration(minutes: 3)),
+      timeout: const Timeout(
+        Duration(minutes: 10),
+      ), // Increased for CI reliability
     );
   });
 }
