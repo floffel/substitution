@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  static const int _pageSize = 100;
   final adressContrainer = TextEditingController();
 
   late final PagingController<
@@ -47,6 +48,9 @@ class HomePageState extends State<HomePage> {
   late final Client _client;
   late final ConnectivityService _connectivityService;
   late final SubstitutionService _substitutionService;
+  Set<String> _currentRoomIds = {};
+  Set<String> get currentRoomIds => _currentRoomIds;
+  bool _isFetchingFuture = false;
 
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
@@ -64,7 +68,6 @@ class HomePageState extends State<HomePage> {
           roomId = aliasResolv.roomId!;
         }
         if (!mounted) return [];
-        debugPrint("roomId: $roomId");
       }
 
       final GetRoomEventsResponse resp = await currentClient.getRoomEvents(
@@ -79,7 +82,6 @@ class HomePageState extends State<HomePage> {
       );
       if (!mounted) return [];
 
-      debugPrint("getRoomEvents finished");
       // Prefer existing room from client if available
       final existingRoom = currentClient.getRoomById(roomId);
       if (existingRoom != null) {
@@ -89,9 +91,12 @@ class HomePageState extends State<HomePage> {
       }
     } else {
       if (!currentClient.isLogged()) {
-        debugPrint("HomePage: Client not logged in, skipping room fetch");
         return [];
       }
+      
+      // Ensure SubstitutionService is initialized before querying rooms
+      await _substitutionService.init();
+      
       final roomIds = await currentClient.getJoinedRooms();
       if (!mounted) return [];
 
@@ -99,10 +104,7 @@ class HomePageState extends State<HomePage> {
         Room? r = currentClient.getRoomById(roomId);
         if (r == null) continue;
 
-        debugPrint("checking room ${r.name} id: ${r.id}");
-
-        if (context.read<SubstitutionService>().isSubstitutionRoom(r.id)) {
-          debugPrint("--- adding room ${r.name} id: ${r.id}");
+        if (_substitutionService.isSubstitutionRoom(r.id)) {
           rooms.add(r);
         }
       }
@@ -110,108 +112,103 @@ class HomePageState extends State<HomePage> {
 
     if (!mounted) return [];
     final timelineFutures = rooms.map((r) => r.getTimeline()).toList();
+    _currentRoomIds = rooms.map((r) => r.id).toSet();
+    debugPrint("HomePage: Found ${_currentRoomIds.length} rooms for feed");
     return Future.wait(timelineFutures);
   }
 
   // fetch events that are unknown by the _pagingController because they are too new
 
   Future<void> _fetchFutureEvents() async {
-    // ich muss requestfuture machen und alle, die dann neu dazu gekommen sind, muss ich verarbeiten
-    // und vorne anhängen
+    if (_isFetchingFuture) return;
+    _isFetchingFuture = true;
 
-    // theoretisch könnte man das über die länge herausfinden,
-    // also neueElemente = alteElemente[0 bis alteElementeVorGteFuture.length]
-    //aber damit würde man falsche werte bekommen,
-    // wenn man irgendwie zwischen requestFuture noch ein request history bekommt und der schneller fertig ist,
-    // da dann ja die length nicht mehr stimmt und man würde sachen doppelt hinzufügen
-    // also müssen wir uns das vorhher erste element abspeichern und dann so viele adden bis man zu diesem element kommt
+    try {
+      List<({Event origEvent, Event displayEvent})> ret = [];
 
-    List<({Event origEvent, Event displayEvent})> ret = [];
-
-    final timelineLists = await _timelinesFuture;
-    if (!mounted) return;
-
-    for (Timeline timeline in timelineLists) {
-      List<({Event origEvent, Event displayEvent})> newEvents = [];
-
-      /*if (!timeline.canRequestFuture) {
-        debugPrint("can not request future!");
-        continue;
-      }*/
-
-      // todo: rename firstEventIds to something more meaningfull like lastCurrentEventIds
-      String? lastCurrentEventId = firstEventIds[timeline.room.id];
-      if (lastCurrentEventId == null) {
-        debugPrint(
-          "No first event ID for room ${timeline.room.id}, skipping future fetch",
-        );
-        continue;
-      }
-
-      //String lastCurrentEventId = timeline.events[0].eventId;
-
-      // todo: returns how many events we got back, so we could just splice the elements there
-      await timeline.getRoomEvents(
-        direction: Direction.b,
-      ); // handles canRequestFuture for us
-      //await timeline.requestFuture(
-      //    historyCount:
-      //        100); // normally, there should not be that much of new events, but we don't have a method to know if there ARE new events that wherend displayed yet
-
+      final timelineLists = await _timelinesFuture;
       if (!mounted) return;
 
-      debugPrint("requestedFuture");
+      for (Timeline timeline in timelineLists) {
+        List<({Event origEvent, Event displayEvent})> newEvents = [];
 
-      for (Event e in timeline.events) {
-        debugPrint(
-          "found event ${e.eventId}, lastCurrentEventId is $lastCurrentEventId",
-        );
+        String? lastCurrentEventId = firstEventIds[timeline.room.id];
 
-        if (e.eventId == lastCurrentEventId) {
-          break;
+        // Scan the current timeline events (already populated by sync loop)
+        for (Event e in timeline.events) {
+          // If we have a marker, stop when we reach it
+          if (lastCurrentEventId != null && e.eventId == lastCurrentEventId) {
+            break;
+          }
+
+          if (e.type == "m.room.message" &&
+              e.relationshipType != RelationshipTypes.reference &&
+              e.relationshipType != RelationshipTypes.thread &&
+              e.relationshipType != RelationshipTypes.edit &&
+              e.room.getPowerLevelByUserId(e.senderId) >= 50) {
+            newEvents.add((
+              origEvent: e,
+              displayEvent: e.getDisplayEvent(timeline),
+            ));
+          }
+          
+          // If we didn't have a marker, only take the first N messages to avoid flooding
+          if (lastCurrentEventId == null && newEvents.length >= _pageSize) {
+            break;
+          }
         }
 
-        if (e.type == "m.room.message" && // we only want messages
-            e.relationshipType !=
-                RelationshipTypes.reference && // ... no replys
-            e.relationshipType != RelationshipTypes.thread && // ... no threads
-            e.relationshipType !=
-                RelationshipTypes
-                    .edit && // ... no edits (will be catched later)
-            e.room.getPowerLevelByUserId(e.senderId) >=
-                50) //... only with powerlevel >= 50, so the admin of a room can limit who can post to timeline (leaving commenting is still possible with < 50)
-        {
-          // todo: check if this is an event we want to display
-          newEvents.add((
-            origEvent: e,
-            displayEvent: e.getDisplayEvent(timeline),
-          ));
-          debugPrint("added ${e.eventId}");
+        if (newEvents.isNotEmpty) {
+          firstEventIds[timeline.room.id] = newEvents.first.origEvent.eventId;
+          ret.addAll(newEvents);
         }
       }
 
-      if (newEvents.isNotEmpty) {
-        // sort... mby unnesseccarry (todo)
-        newEvents.sort(
-          (a, b) => b.displayEvent.originServerTs.compareTo(
-            a.displayEvent.originServerTs,
-          ),
-        );
-        firstEventIds[timeline.room.id] = newEvents[0].origEvent.eventId;
-      }
+      if (ret.isEmpty) return;
 
-      ret.addAll(newEvents);
+      // sort
+      ret.sort(
+        (a, b) => b.displayEvent.originServerTs.compareTo(
+          a.displayEvent.originServerTs,
+        ),
+      );
+
+      // add ret to the top
+      final currentPages = _pagingController.value.pages ?? [];
+      final currentKeys = _pagingController.value.keys ?? [];
+      
+      if (currentPages.isNotEmpty && currentKeys.isNotEmpty) {
+        final List<List<({Event origEvent, Event displayEvent})>> updatedPages = [
+          [...ret, ...currentPages.first],
+          ...currentPages.skip(1),
+        ];
+        _pagingController.value = _pagingController.value.copyWith(
+          pages: updatedPages,
+        );
+        debugPrint("HomePage: Prepended ${ret.length} new events to feed");
+      } else {
+        debugPrint("HomePage: Deferring prepend, no pages loaded yet");
+      }
+    } finally {
+      _isFetchingFuture = false;
     }
+  }
 
-    // sort (cloud be made cleverer, just compare the start of each newEvents and append or insert them (instead of ret.addAll(), see above))
-    ret.sort(
-      (a, b) => b.displayEvent.originServerTs.compareTo(
-        a.displayEvent.originServerTs,
-      ),
-    );
-
-    // add ret to the top
-    // Note: In new API, we don't directly manipulate items like this
+  bool _isSameKey(
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})> k1,
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? k2,
+  ) {
+    if (k2 == null) return false;
+    if (k1.length != k2.length) return false;
+    for (final entry in k1.entries) {
+      final other = k2[entry.key];
+      if (other == null) return false;
+      if (other.lastEventId != entry.value.lastEventId ||
+          other.wasExhausted != entry.value.wasExhausted) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // beim update werden einfach "neue" events an timeline.events angehangen
@@ -251,50 +248,37 @@ class HomePageState extends State<HomePage> {
           newPageKey[timeline] = (lastEventId: null, wasExhausted: false);
         }
       } else {
-        debugPrint("Page key is null, returning...");
-        return (
-          events: ret,
-          nextKey: newPageKey,
-        ); // TODO: no more elements to display, all timelines are exhausted. Mby display this...?
+        return (events: ret, nextKey: newPageKey);
       }
     }
 
-    debugPrint("start quering new events...");
+    List<({Event origEvent, Event displayEvent})> allCandidates = [];
+    Map<Timeline, List<({Event origEvent, Event displayEvent})>>
+    candidatesPerTimeline = {};
 
-    List<String> lastPostableEventIds = [];
-
-    timelineLoop:
     for (Timeline timeline in newPageKey!.keys.toList()) {
       ({String? lastEventId, bool wasExhausted}) meta = newPageKey[timeline]!;
 
-      List<({Event origEvent, Event displayEvent})> newEvents = [];
+      List<({Event origEvent, Event displayEvent})> roomCandidates = [];
       int retryCount = 0;
+      int lastProcessedIndex = -1;
 
-      while (newEvents.isEmpty && retryCount < 5) {
+      // Find the starting point in the current timeline events
+      if (meta.lastEventId != null) {
+        lastProcessedIndex =
+            timeline.events.indexWhere((e) => e.eventId == meta.lastEventId);
+      }
+
+      while (roomCandidates.length < _pageSize && retryCount < 3) {
         retryCount++;
-        // get events as long as we don't have some new ones to display or until the timeline is exhausted (=at it's starting point where the room was created)
-        // request new elements
-        if (timeline.canRequestHistory) {
-          await timeline.requestHistory(historyCount: 100);
-          if (!mounted) return (events: ret, nextKey: newPageKey);
-        }
 
-        // find the first event to display, e.g. the one after the one we displayed last. If we did not display any event, meta.lastEventId will be null and we can just display the first event
-        bool foundNewStart = false;
-        for (Event event in timeline.events) {
-          // we have to make any event uniq, as sometimes getRoomEvents lead to doubled events in timeline.events
-          if (!foundNewStart) {
-            if (meta.lastEventId == null) {
-              foundNewStart = true;
-            } else if (event.eventId == meta.lastEventId) {
-              foundNewStart = true;
-              continue;
-            } else {
-              continue;
-            }
-          }
+        final int countBefore = timeline.events.length;
 
-          // filter events to only grap message's
+        // Process events from the last point reached
+        for (int i = lastProcessedIndex + 1; i < timeline.events.length; i++) {
+          final event = timeline.events[i];
+          lastProcessedIndex = i;
+
           final isMsg = event.type == "m.room.message";
           final isNotReply =
               event.relationshipType != RelationshipTypes.reference;
@@ -302,115 +286,83 @@ class HomePageState extends State<HomePage> {
               event.relationshipType != RelationshipTypes.thread;
           final isNotEdit = event.relationshipType != RelationshipTypes.edit;
           final powerLevel = event.room.getPowerLevelByUserId(event.senderId);
+
           if (isMsg &&
               isNotReply &&
               isNotThread &&
               isNotEdit &&
               powerLevel >= 50) {
-            // we have a new event to handle
-            newEvents.add((
+            roomCandidates.add((
               origEvent: event,
               displayEvent: event.getDisplayEvent(timeline),
             ));
           }
         }
 
-        if (!timeline.canRequestHistory) {
-          // history of this timeline is exhausted, no need to add more
-          debugPrint(
-            "cannot request more history... events.isEmpty? ${timeline.events.isEmpty}, room.prev_batch: ${timeline.room.prev_batch}",
-          );
+        if (roomCandidates.length < _pageSize && timeline.canRequestHistory) {
+          await timeline.requestHistory(historyCount: _pageSize);
+          if (!mounted) return (events: ret, nextKey: newPageKey);
 
-          newPageKey.remove(timeline);
-
-          if (newEvents.isEmpty) {
-            // if not empty -> add the events to ret, or we loos em
-            // continue with the next timeline if we got no new events
-            continue timelineLoop;
+          // If count didn't increase, the server has no more history for us despite what canRequestHistory says
+          if (timeline.events.length <= countBefore) {
+            break;
           }
+        } else {
+          break;
         }
       }
 
-      // get the id of the last postable event of this timeline
-      lastPostableEventIds.add(
-        newEvents.last.origEvent.eventId,
-      ); // TODO!! Mby use displayEventId, would add updates from post to the timeline, would double it
-      ret.addAll(newEvents);
-
-      if (firstEventIds[timeline.room.id] == null) {
-        // first run, so we need to add the first ones of each timeline.. TODO: this affects performance...
-
-        newEvents.sort(
-          (a, b) => b.displayEvent.originServerTs.compareTo(
-            a.displayEvent.originServerTs,
-          ),
-        );
-        firstEventIds[timeline.room.id] = newEvents[0].origEvent.eventId;
-      }
+      candidatesPerTimeline[timeline] = roomCandidates;
+      allCandidates.addAll(roomCandidates);
     }
 
-    // sort
-    ret.sort(
+    // Sort all candidates newest first
+    allCandidates.sort(
       (a, b) => b.displayEvent.originServerTs.compareTo(
         a.displayEvent.originServerTs,
       ),
     );
 
-    // delete all events after the first "last" event and modify newPageKey accordingly to the last event of each timeline before that event happend
-    for (var el in ret) {
-      if (lastPostableEventIds.contains(el.origEvent.eventId)) {
-        /* this is the red line, after this element, no element shall be added to the output */
+    // Take top N posts for this page
+    ret = allCandidates.take(_pageSize).toList();
 
-        // TODO: one should test if dart always recalculates re.indexOf(el) or if it caches
-        ret.removeWhere((i) => ret.indexOf(i) > ret.indexOf(el));
-        break;
+    // Update the next key based on what we are actually returning
+    Map<Timeline, ({String? lastEventId, bool wasExhausted})> nextKey = {};
+    for (Timeline timeline in newPageKey.keys.toList()) {
+      final meta = newPageKey[timeline]!;
+      final eventsInRet =
+          ret.where((e) => e.origEvent.roomId == timeline.room.id).toList();
+
+      String? lastId =
+          eventsInRet.isNotEmpty ? eventsInRet.last.origEvent.eventId : meta.lastEventId;
+
+      if (eventsInRet.isNotEmpty && firstEventIds[timeline.room.id] == null) {
+        // Track the newest event ID we've displayed for this room
+        firstEventIds[timeline.room.id] = eventsInRet.first.origEvent.eventId;
       }
-    }
 
-    // set the id's of the last events accordingly, if the events are postable, else leave the id as it was
-    // todo: this is pritty bad performance wise... mby find a better solution with copieng ret and deleting all keys that are from the timeline after we finished one or so...
-    // todo: track the first one
-
-    bool exhausted = false;
-    timelineLoop:
-    for (MapEntry e in newPageKey.entries) {
-      for (var el in ret.reversed) {
-        if (el.origEvent.room.id == e.key.room.id) {
-          // todo: mby better to compare the room address rather than the timeline object?
-          // todo: or displayEvent? set it below for newPageKey[...] = ... accordingly
-          if (!exhausted) {
-            // the timeline of the last postable element was exhausted
-            exhausted = true;
-            newPageKey[e.key] = (
-              lastEventId: el.origEvent.eventId,
-              wasExhausted: true,
-            );
-          } else {
-            newPageKey[e.key] = (
-              lastEventId: el.origEvent.eventId,
-              wasExhausted: false,
-            );
-          }
-          continue timelineLoop;
+      bool isExhausted = !timeline.canRequestHistory;
+      if (isExhausted) {
+        // If there are still candidate messages from this timeline that we didn't include in 'ret',
+        // it's not exhausted yet for the next fetch.
+        final allTimelineCandidates = candidatesPerTimeline[timeline] ?? [];
+        final retEventIds = ret.map((e) => e.origEvent.eventId).toSet();
+        if (allTimelineCandidates.any((e) => !retEventIds.contains(e.origEvent.eventId))) {
+          isExhausted = false;
         }
       }
-    }
 
-    debugPrint("finished...");
+      if (!isExhausted) {
+        nextKey[timeline] = (lastEventId: lastId, wasExhausted: false);
+      }
+    }
 
     if (ret.isEmpty) {
-      debugPrint("ret is empty...");
-
-      if (newPageKey.isEmpty) {
-        debugPrint("no new things to append...");
-        return (events: ret, nextKey: newPageKey); // no new things to append
-      }
-
-      debugPrint("mby new things to append -> fetch another page...");
-      // In new API, we don't recursively call like this
+      return (events: ret, nextKey: null); // Explicitly stop if no candidates found
     }
 
-    return (events: ret, nextKey: newPageKey);
+    debugPrint("HomePage: Returning ${ret.length} events, nextKey.isEmpty=${nextKey.isEmpty}");
+    return (events: ret, nextKey: nextKey.isEmpty ? null : nextKey);
   }
 
   @override
@@ -440,19 +392,12 @@ class HomePageState extends State<HomePage> {
           return {}; // Initial load key
         }
 
-        // If the last fetched page was empty, we are at the end of the list
-        if (state.pages != null &&
-            state.pages!.isNotEmpty &&
-            state.pages!.last.isEmpty) {
+        // Explicitly terminate if _latestNextPageKey is null or empty
+        if (_latestNextPageKey == null || _latestNextPageKey!.isEmpty) {
           return null;
         }
 
-        // If the map is completely empty, it means all timelines exhausted.
-        if (_latestNextPageKey != null && _latestNextPageKey!.isEmpty) {
-          return null;
-        }
-
-        return _latestNextPageKey ?? state.keys!.lastOrNull;
+        return _latestNextPageKey;
       },
       fetchPage: (pageKey) async {
         final result = await _fetchEvents(pageKey);
@@ -502,9 +447,26 @@ class HomePageState extends State<HomePage> {
     _substitutionService.addListener(_handleRoomChanges);
   }
 
-  void _handleRoomChanges() {
+  void _handleRoomChanges() async {
     if (!mounted) return;
-    debugPrint("HomePage: Room changes detected, refreshing feed...");
+
+    // Check if room IDs actually changed before doing a heavy refresh
+    final joinedRooms = await _client.getJoinedRooms();
+    final joinedRoomIds = joinedRooms.toSet();
+    final newSubstitutionRoomIds = joinedRoomIds
+        .where((id) => _substitutionService.isSubstitutionRoom(id))
+        .toSet();
+
+    bool roomsChanged = newSubstitutionRoomIds.length != _currentRoomIds.length ||
+        !newSubstitutionRoomIds.every((id) => _currentRoomIds.contains(id));
+
+    if (!roomsChanged) {
+      _fetchFutureEvents();
+      return;
+    }
+
+    debugPrint("HomePage: Room set changed from ${_currentRoomIds.length} to ${newSubstitutionRoomIds.length} rooms. Refreshing...");
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       setState(() {
@@ -548,6 +510,7 @@ class HomePageState extends State<HomePage> {
                     Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
                     ({Event origEvent, Event displayEvent})
                   >.separated(
+                    key: const ValueKey('feedListView'),
                     state: _pagingController.value,
                     fetchNextPage: _pagingController.fetchNextPage,
                     separatorBuilder: (context, index) => const Divider(),

@@ -1,4 +1,3 @@
-import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,6 +6,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
+import 'package:substitution/shared/services/theme_service.dart';
+import 'package:patrol/patrol.dart';
+import 'package:provider/provider.dart';
+import 'package:integration_test/integration_test.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
@@ -23,7 +26,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-
+      
       debugPrint('THEME: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -31,7 +34,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-
+      
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -43,58 +46,58 @@ void main() {
       }
     });
 
-    testWidgets(
-      'User can toggle dark mode and see UI changes',
-      (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+    testWidgets('User can toggle dark mode and see UI changes', (tester) async {
+      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      
+      final $ = wrapTester(tester);
+      app.main();
+      
+      if (!await patrol_helper.loginUser(
+        $,
+        matrixServer: testMatrixServer,
+        username: testUser,
+        password: testPassword,
+      )) return;
 
-        final $ = wrapTester(tester);
-        app.main();
+      // 1. Open Menu
+      debugPrint('THEME: Opening menu...');
+      await $(Icons.menu).waitUntilVisible();
+      await $(Icons.menu).tap();
+      await $.tester.pumpAndSettle();
 
-        if (!await patrol_helper.loginUser(
-          $,
-          matrixServer: testMatrixServer,
-          username: testUser,
-          password: testPassword,
-        )) {
-          return;
+      // 2. Find ThemeService by searching all elements
+      debugPrint('THEME: Searching for ThemeService...');
+      
+      ThemeService? themeService;
+      void findProvider(Element element) {
+        if (themeService != null) return;
+        try {
+          themeService = Provider.of<ThemeService>(element, listen: false);
+        } catch (_) {
+          element.visitChildren(findProvider);
         }
+      }
+      $.tester.allElements.forEach(findProvider);
 
-        // 1. Open Menu
-        debugPrint('THEME: Opening menu...');
-        await $(Icons.menu).waitUntilVisible();
-        await $(Icons.menu).tap();
-        await $.tester.pumpAndSettle();
+      if (themeService == null) {
+        throw Exception("Could not find ThemeService in widget tree");
+      }
+      
+      final bool initiallyDark = themeService!.themeMode == ThemeMode.dark;
+      debugPrint('THEME: Initially dark (logic): $initiallyDark');
 
-        // 2. Find Dark Mode Switch
-        debugPrint('THEME: Toggling switch...');
-        final themeTileFinder = find.byType(SwitchListTile);
-        await $(themeTileFinder).waitUntilVisible();
-
-        final bool initiallyDark =
-            $.tester.widget<SwitchListTile>(themeTileFinder).value;
-        debugPrint('THEME: Initially dark: $initiallyDark');
-
-        // 3. Toggle by tapping the text part of the SwitchListTile
-        // Tapping the whole tile is usually most reliable for SwitchListTile
-        await $.tester.tap(themeTileFinder);
-        await $.tester.pumpAndSettle();
-
-        // 4. Wait for state change (either via UI or logic)
-        debugPrint('THEME: Waiting for state update...');
-        await fastWait($.tester, () {
-          final currentVal =
-              $.tester.widget<SwitchListTile>(themeTileFinder).value;
-          return currentVal == !initiallyDark;
-        }, timeout: const Duration(seconds: 10));
-
-        expect(
-          $.tester.widget<SwitchListTile>(themeTileFinder).value,
-          !initiallyDark,
-        );
-        debugPrint('✓ THEME: Toggle successful');
-      },
-      timeout: const Timeout(Duration(minutes: 5)),
-    );
+      // 3. Toggle by tapping the switch tile
+      debugPrint('THEME: Tapping switch tile...');
+      final themeTile = $(find.text('Dark Mode'));
+      await themeTile.waitUntilVisible();
+      await themeTile.tap();
+      
+      // 4. Wait for logic state change
+      debugPrint('THEME: Waiting for logic state update...');
+      await fastWait($.tester, () => themeService!.themeMode == (initiallyDark ? ThemeMode.light : ThemeMode.dark));
+      
+      expect(themeService!.themeMode, initiallyDark ? ThemeMode.light : ThemeMode.dark);
+      debugPrint('✓ THEME: Toggle successful');
+    }, timeout: const Timeout(Duration(minutes: 5)));
   });
 }

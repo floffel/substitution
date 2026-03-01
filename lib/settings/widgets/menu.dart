@@ -129,9 +129,14 @@ class _MenuState extends State<Menu> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   );
                 }
-                return const Text(
-                  "settings.menu.logged_in_as",
-                ).tr(args: [snapshot.data!.displayName!]);
+                return SizedBox(
+                  width: 180,
+                  child: Text(
+                    "settings.menu.logged_in_as".tr(args: [snapshot.data!.displayName!]),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                );
               },
             ),
           ),

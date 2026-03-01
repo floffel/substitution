@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/platform_ios_cleanup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,20 @@ void main() {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       debugPrint('NESTING: Resetting state...');
-      await app.globalMatrixClient?.dispose();
+
+      // Enhanced resource cleanup for iOS stability
+      try {
+        if (app.globalMatrixClient != null) {
+          debugPrint('NESTING: Disposing existing Matrix client...');
+          app.globalMatrixClient!.abortSync();
+          await app.globalMatrixClient!.dispose();
+        }
+      } catch (e) {
+        debugPrint(
+          'NESTING: Error disposing Matrix client, continuing anyway: $e',
+        );
+      }
+
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 
@@ -41,10 +55,17 @@ void main() {
           final appDocDir = await getApplicationDocumentsDirectory();
           final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
           if (await dbFile.exists()) {
+            debugPrint('NESTING: Deleting old database file...');
             await dbFile.delete();
           }
-        } catch (_) {}
+        } catch (e) {
+          debugPrint('NESTING: Error cleaning database file: $e');
+        }
       }
+
+      // Extended delay for iOS resource cleanup
+      await Future.delayed(const Duration(milliseconds: 1000));
+      debugPrint('NESTING: State reset complete');
     });
 
     tearDown(() async {

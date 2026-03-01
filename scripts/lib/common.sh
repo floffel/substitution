@@ -45,28 +45,137 @@ detect_os() {
 run_with_timeout() {
     local seconds="$1"; shift
 
+    # First try the built-in timeout commands
     if command -v timeout &>/dev/null; then
         timeout "$seconds" "$@"; return $?
     fi
     if command -v gtimeout &>/dev/null; then
         gtimeout "$seconds" "$@"; return $?
     fi
+
+    # Enhanced Python timeout with better error handling
     if command -v python3 &>/dev/null; then
-        python3 - "$seconds" "$@" <<'PY'
-import subprocess, sys
-try:
-    r = subprocess.run(sys.argv[2:], timeout=int(sys.argv[1]))
-    sys.exit(r.returncode)
-except subprocess.TimeoutExpired:
+        local temp_script="/tmp/flutter_test_timeout_$$.py"
+        
+        # Create robust Python timeout script
+        cat > "$temp_script" <<'PYTHON_TIMEOUT_SCRIPT'
+#!/usr/bin/env python3
+import subprocess, sys, json, os, signal
+
+def timeout_handler(signum, frame):
+    print("Process timed out", file=sys.stderr)
     sys.exit(124)
-PY
-        return $?
+
+# Set up signal handler for timeout
+signal.signal(signal.SIGALRM, timeout_handler)
+
+try:
+    # Parse command arguments more carefully
+    if len(sys.argv) < 2:
+        print("Usage: timeout.py seconds [command...]", file=sys.stderr)
+        sys.exit(1)
+    
+    timeout_seconds = int(sys.argv[1])
+    
+    # Handle the command arguments which might be JSON-encoded
+    if len(sys.argv) == 3:
+        # Try to parse as JSON first
+        try:
+            cmd_args = json.loads(sys.argv[2])
+            if not isinstance(cmd_args, list):
+                raise ValueError("Command args must be a list")
+        except (json.JSONDecodeError, ValueError):
+            # Fall back to treating as direct arguments
+            cmd_args = sys.argv[2:]
+    else:
+        # Direct command line arguments starting from index 2
+        cmd_args = sys.argv[2:]
+    
+    # Set the alarm for timeout
+    signal.alarm(timeout_seconds)
+    
+    # Run the command
+    result = subprocess.run(cmd_args, timeout=timeout_seconds)
+    
+    # Cancel alarm if command completed successfully
+    signal.alarm(0)
+    
+    sys.exit(result.returncode)
+
+except subprocess.TimeoutExpired:
+    print(f"Command timed out after {timeout_seconds} seconds", file=sys.stderr)
+    sys.exit(124)
+
+except Exception as e:
+    print(f"Error running command: {e}", file=sys.stderr)
+    sys.exit(1)
+
+PYTHON_TIMEOUT_SCRIPT
+
+        # Use JSON encoding for command arguments to handle complex quoting
+        if [[ $# -gt 0 ]]; then
+            # Encode all arguments as a JSON array
+            local json_args=$(printf '%s\n' "$@" | python3 -c "
+import sys, json
+args = []
+for line in sys.stdin:
+    if line.strip():  # Skip empty lines
+        args.append(line.rstrip('\n'))
+print(json.dumps(args))
+" 2>/dev/null)
+
+            if [[ -n "$json_args" ]]; then
+                python3 "$temp_script" "$seconds" "$json_args"
+            else
+                # Fallback to direct execution if JSON encoding fails
+                python3 "$temp_script" "$seconds"
+            fi
+        else
+            # Just the timeout, no command
+            python3 "$temp_script" "$seconds"
+        fi
+        
+        local exit_code=$?
+        rm -f "$temp_script"
+        return $exit_code
     fi
+
+    # Perl fallback with better error handling
     if command -v perl &>/dev/null; then
-        perl -e 'alarm shift; exec @ARGV' "$seconds" "$@"; return $?
+        # Run in subshell to prevent hanging
+        ( 
+            perl -e '
+                use POSIX ":sys_wait_h";
+                my $timeout = shift @ARGV;
+                local %ENV;
+                
+                # Set up timeout using alarm
+                eval {
+                    alarm($timeout);
+                    
+                    my $cmd = join(" ", @ARGV);
+                    system($cmd);
+                    
+                    alarm(0);  # Cancel timeout
+                };
+                
+                if ($@) {
+                    warn "Timeout occurred: $@";
+                    exit(124);
+                }
+                
+                # Check if the process exited with error
+                my $status = $? >> 8;
+                exit($status);
+            ' "$seconds" "$@"
+        )
+        
+        return $?
     fi
 
     log_warn "No timeout utility found; running without timeout"
+    
+    # Fallback: run command and hope it completes
     "$@"
 }
 

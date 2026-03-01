@@ -1,5 +1,7 @@
 import "package:integration_test/integration_test.dart";
 import 'dart:io' as dart_io;
+import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
@@ -9,6 +11,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart'
     show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/patrol_helper.dart' as patrol_helper;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -57,18 +60,24 @@ void main() {
 
         await waitForMatrixClient($.tester);
 
-        // Wait for app to load
+        // Wait for ANY valid starting screen
         await fastWait(
           $.tester,
           () =>
+              $(Key('ageGateConfirmButton')).exists ||
+              $(IntroductionScreen).exists ||
+              $(Key('loginUsernameInput')).exists ||
               $(Key('hostServerInput')).exists ||
-              $(Key('ageGateConfirmButton')).exists,
+              $(Scrollable).exists,
         );
 
-        if ($(Key('ageGateConfirmButton')).exists) {
-          await $(Key('ageGateConfirmButton')).tap();
-          await $.tester.pumpAndSettle();
-        }
+        await patrol_helper.navigateThroughOnboarding($);
+
+        // Wait for app to load Host input
+        await fastWait(
+          $.tester,
+          () => $(Key('hostServerInput')).exists,
+        );
 
         // 1. Enter Host
         debugPrint('REGISTRATION: Entering host URL...');

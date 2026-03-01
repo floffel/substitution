@@ -28,9 +28,21 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-
       debugPrint('DISCOVERY: Resetting state...');
-      await app.globalMatrixClient?.dispose();
+
+      // Enhanced resource cleanup for iOS stability
+      try {
+        if (app.globalMatrixClient != null) {
+          debugPrint('DISCOVERY: Disposing existing Matrix client...');
+          app.globalMatrixClient!.abortSync();
+          await app.globalMatrixClient!.dispose();
+        }
+      } catch (e) {
+        debugPrint(
+          'DISCOVERY: Error disposing Matrix client, continuing anyway: $e',
+        );
+      }
+
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 
@@ -42,10 +54,17 @@ void main() {
           final appDocDir = await getApplicationDocumentsDirectory();
           final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
           if (await dbFile.exists()) {
+            debugPrint('DISCOVERY: Deleting old database file...');
             await dbFile.delete();
           }
-        } catch (_) {}
+        } catch (e) {
+          debugPrint('DISCOVERY: Error cleaning database file: $e');
+        }
       }
+
+      // Extended delay for iOS resource cleanup
+      await Future.delayed(const Duration(milliseconds: 1000));
+      debugPrint('DISCOVERY: State reset complete');
     });
 
     tearDown(() async {

@@ -52,12 +52,19 @@ ANDROID_AVD_NAME="${ANDROID_AVD_NAME:-android_test}"
 
 # Start the Android emulator in headless mode
 android_start_emulator() {
-    local avd_name="$ANDROID_AVD_NAME"
+    local avd_name="$1"
+    if [[ -z "$avd_name" ]]; then
+        log_error "No AVD name specified"
+        return 1
+    fi
 
-    # Check if a device is already running (e.g. on CI)
-    if adb devices 2>/dev/null | grep -q "device$"; then
-        log_info "Detected an already running Android device/emulator. Skipping start."
-        return 0
+    log_info "Starting Android emulator: $avd_name"
+
+    local accel_args=()
+    # Note: KVM is Linux-specific, so we skip this check on macOS
+    if [[ -x /usr/bin/kvm ]] || [[ -c /dev/kvm ]]; then
+        log_info "KVM available — using hardware acceleration"
+        accel_args=("-accel" "on" "-qemu" "-enable-kvm")
     fi
 
     # Kill any existing emulator (only if we are the ones starting it)
@@ -171,6 +178,22 @@ android_stop_emulator() {
 run_android_tests() {
     log_header "Android Tests (Emulator)"
 
+    # Set up Android environment for macOS
+    export ANDROID_HOME="${ANDROID_HOME:-/Users/florian/Library/Android/sdk}"
+    export PATH="$PATH:$ANDROID_HOME/emulator"
+    
+    # Auto-detect available AVD if not specified
+    if [[ -z "${ANDROID_AVD_NAME:-}" ]]; then
+        local available_avds
+        if command -v emulator &>/dev/null; then
+            available_avds=$(emulator -list-avds 2>/dev/null | head -1)
+            if [[ -n "$available_avds" ]]; then
+                export ANDROID_AVD_NAME="$available_avds"
+                log_info "Auto-detected Android AVD: $ANDROID_AVD_NAME"
+            fi
+        fi
+    fi
+    
     # Validate environment
     if ! android_detect_sdk; then
         log_error "Android SDK not found. Set ANDROID_SDK_ROOT or ANDROID_HOME."
@@ -192,7 +215,7 @@ run_android_tests() {
     start_virtual_display || true
 
     # Start emulator
-    android_start_emulator || return 1
+    android_start_emulator "${ANDROID_AVD_NAME:-Medium_Phone_API_36.1}" || return 1
     android_wait_for_boot  || return 1
 
     # Run tests
@@ -208,6 +231,7 @@ run_android_tests() {
         "--reporter=expanded"
         "--concurrency=1"
         "--dart-define=INTEGRATION_TEST=true"
+        "--dart-define=is_integration_test=true"
         "--dart-define=MATRIX_SERVER=${MATRIX_SERVER}"
         "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
         "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"

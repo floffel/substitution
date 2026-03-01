@@ -9,6 +9,59 @@ import 'package:substitution/main.dart' as app;
 import 'integration_test_helper.dart'
     show skipIfNoMatrix, effectiveMatrixServer, fastWait, waitForMatrixClient;
 
+Future<void> navigateThroughOnboarding(PatrolIntegrationTester $) async {
+  // Fast-Path: If we are already on the Host or Login page, don't try to navigate Intro
+  if (!$(IntroductionScreen).exists && !$(Key('ageGateConfirmButton')).exists) {
+    debugPrint('Patrol: Onboarding already bypassed, jumping to host/login');
+    return;
+  }
+
+  // 3. Handle Age Gate (Conditional)
+  if ($(Key('ageGateConfirmButton')).exists) {
+    debugPrint('Patrol: Tapping Age Gate...');
+    await $(Key('ageGateConfirmButton')).tap();
+    await fastWait(
+      $.tester,
+      () =>
+          $(IntroductionScreen).exists ||
+          $(Key('hostServerInput')).exists ||
+          $(Key('loginUsernameInput')).exists,
+    );
+  }
+
+  // 4. Handle Intro Screen (Smart Navigation)
+  if ($(IntroductionScreen).exists) {
+    debugPrint('Patrol: Navigating through onboarding...');
+
+    for (int i = 0; i < 3; i++) {
+      if ($(Key('hostServerInput')).exists ||
+          $(Key('loginUsernameInput')).exists) {
+        break;
+      }
+
+      final nextButton = $(find.byIcon(Icons.arrow_forward));
+      if (nextButton.exists) {
+        await nextButton.tap();
+      } else {
+        final nextText = $(find.text('Next'));
+        if (nextText.exists) {
+          await nextText.tap();
+        } else {
+          final nextTranslated = $(find.text('intro.buttons.next'.tr()));
+          if (nextTranslated.exists) {
+            await nextTranslated.tap();
+          } else {
+            break;
+          }
+        }
+      }
+      await $.tester.pump();
+      await fastWait($.tester, () => true,
+          timeout: const Duration(milliseconds: 500));
+    }
+  }
+}
+
 /// Patrol version of the login helper.
 ///
 /// Uses Patrol's implicit waiting combined with event-driven synchronization
@@ -48,53 +101,7 @@ Future<bool> loginUser(
     }
   }
 
-  // Fast-Path: If we are already on the Host or Login page, don't try to navigate Intro
-  if (!$(IntroductionScreen).exists && !$(Key('ageGateConfirmButton')).exists) {
-    debugPrint('Patrol: Onboarding already bypassed, jumping to host/login');
-  } else {
-    // 3. Handle Age Gate (Conditional)
-    if ($(Key('ageGateConfirmButton')).exists) {
-      debugPrint('Patrol: Tapping Age Gate...');
-      await $(Key('ageGateConfirmButton')).tap();
-      await fastWait(
-        $.tester,
-        () =>
-            $(IntroductionScreen).exists ||
-            $(Key('hostServerInput')).exists ||
-            $(Key('loginUsernameInput')).exists,
-      );
-    }
-
-    // 4. Handle Intro Screen (Smart Navigation)
-    if ($(IntroductionScreen).exists) {
-      debugPrint('Patrol: Navigating through onboarding...');
-
-      for (int i = 0; i < 3; i++) {
-        if ($(Key('hostServerInput')).exists ||
-            $(Key('loginUsernameInput')).exists) {
-          break;
-        }
-
-        final nextButton = $(find.text('Next'));
-        if (nextButton.exists) {
-          await nextButton.tap();
-        } else {
-          final nextTranslated = $(find.text('intro.buttons.next'.tr()));
-          if (nextTranslated.exists) {
-            await nextTranslated.tap();
-          } else {
-            break;
-          }
-        }
-        await $.tester.pump();
-        await fastWait(
-          $.tester,
-          () => true,
-          timeout: const Duration(milliseconds: 500),
-        );
-      }
-    }
-  }
+  await navigateThroughOnboarding($);
 
   final serverUrl = effectiveMatrixServer(matrixServer);
 

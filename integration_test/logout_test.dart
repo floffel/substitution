@@ -64,8 +64,10 @@ void main() {
 
         debugPrint('Login success confirmed.');
 
-        // Navigate to Settings
-        await $(Icons.settings).tap();
+        // Navigate to Menu
+        await $(Icons.menu).waitUntilVisible();
+        await $(Icons.menu).tap();
+        await $.tester.pumpAndSettle();
 
         // Trigger Logout
         await $(Icons.logout).tap();

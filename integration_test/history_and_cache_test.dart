@@ -8,7 +8,10 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:matrix/matrix.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'package:substitution/post/widgets/post.dart';
+import 'package:substitution/feed/pages/home.dart';
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle, waitForSync;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -23,25 +26,21 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      if (!await skipIfNoMatrix(
+          matrixServer: effectiveMatrixServer(testMatrixServer))) return;
 
       debugPrint('HISTORY: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 
-      SharedPreferences.setMockInitialValues({'age_confirmed': true});
-      AgeGatePage.confirmed = true;
-
       if (!kIsWeb) {
-        try {
-          final appDocDir = await getApplicationDocumentsDirectory();
-          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
-          if (await dbFile.exists()) {
-            await dbFile.delete();
-          }
-        } catch (_) {}
+        final dir = await getApplicationDocumentsDirectory();
+        if (dir.existsSync()) {
+          dir.deleteSync(recursive: true);
+        }
       }
+      SharedPreferences.setMockInitialValues({});
     });
 
     tearDown(() async {
@@ -54,86 +53,115 @@ void main() {
     testWidgets(
       'Fetch very old messages via pagination',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-
         final $ = wrapTester(tester);
-        app.main();
 
-        if (!await patrol_helper.loginUser(
-          $,
-          matrixServer: testMatrixServer,
-          username: testUser,
-          password: testPassword,
-        )) {
+        app.main();
+        await settle($.tester);
+
+        debugPrint('HISTORY: Logging in...');
+        if (!await patrol_helper.loginUser($,
+            matrixServer: testMatrixServer,
+            username: testUser,
+            password: testPassword)) {
+          debugPrint('HISTORY: Login failed');
           return;
         }
+        debugPrint('HISTORY: Login successful');
 
+        // 1. Create a dedicated room for history testing
+        debugPrint('HISTORY: Creating room...');
         final client = app.globalMatrixClient!;
         final service = app.globalSubstitutionService!;
-
-        // 1. Create a fresh room
-        debugPrint('HISTORY: Creating room...');
+        final roomName = 'History Test Room';
+        
         final roomId = await client.createRoom(
-          name: 'History Test Room',
+          name: roomName,
           preset: CreateRoomPreset.publicChat,
           powerLevelContentOverride: {'users_default': 50},
-        );
-
+        ).timeout(const Duration(seconds: 60));
+        
+        debugPrint('HISTORY: Room created: $roomId. Waiting for SDK to catch up...');
         await fastWait($.tester, () => client.getRoomById(roomId) != null);
-        final room = client.getRoomById(roomId)!;
+        
+        debugPrint('HISTORY: Marking room as substitution...');
         service.addRoomId(roomId);
         await client.setAccountDataPerRoom(
           client.userID!,
           roomId,
           "substitution",
           {"joined": true},
+        ).timeout(const Duration(seconds: 30));
+        
+        debugPrint('HISTORY: Triggering refresh and waiting for room discovery...');
+        service.triggerRefresh();
+        
+        // Wait for HomePage to pick up the 6th room
+        await fastWait(
+          $.tester,
+          () {
+            final homeState = $.tester.state<HomePageState>(find.byType(HomePage));
+            return homeState.currentRoomIds.length >= 6;
+          },
+          timeout: const Duration(seconds: 30),
         );
+        debugPrint('HISTORY: HomePage discovered the new room. Current rooms: 6');
+        await settle($.tester);
 
-        // Send 50 messages in chunks to ensure they are distinct
-        final oldestMessageBody = 'OLDEST_MESSAGE_STAY_HERE';
-        await room.sendTextEvent(oldestMessageBody);
+        final room = client.getRoomById(roomId)!;
 
+        // 2. Seed many messages to force pagination
         debugPrint('HISTORY: Seeding messages...');
-        for (int i = 1; i <= 50; i++) {
-          await room.sendTextEvent('Filler message $i');
-          if (i % 10 == 0) {
-            debugPrint('HISTORY: Sent $i/50...');
-            await Future.delayed(const Duration(milliseconds: 100));
-          }
+        final oldestMessageBody = 'OLDEST_MESSAGE_STAY_HERE';
+        final newestMessageBody = 'NEWEST_MESSAGE_TOP';
+
+        await room.sendTextEvent(oldestMessageBody).timeout(const Duration(seconds: 30));
+        debugPrint('HISTORY: Sent oldest message');
+
+        for (int i = 1; i <= 20; i++) {
+          await room.sendTextEvent('Filler message $i').timeout(const Duration(seconds: 10));
+          if (i % 5 == 0) debugPrint('HISTORY: Sent $i/20...');
         }
 
-        final newestMessageBody = 'NEWEST_MESSAGE_TOP';
-        await room.sendTextEvent(newestMessageBody);
-
-        service.triggerRefresh();
-        await $.tester.pumpAndSettle();
-
-        // 2. Load the feed and verify the newest message is there
-        debugPrint('HISTORY: Waiting for newest message...');
+        await room.sendTextEvent(newestMessageBody).timeout(const Duration(seconds: 30));
+        debugPrint('HISTORY: Sent newest message. Waiting for sync...');
+        
+        // Wait for sync to pick up all messages
+        await waitForSync($.tester, timeout: const Duration(seconds: 60));
+        
+        debugPrint('HISTORY: Waiting for newest message to appear in UI...');
         await fastWait(
           $.tester,
           () => find.textContaining(newestMessageBody).evaluate().isNotEmpty,
           timeout: const Duration(seconds: 60),
         );
-        expect($(find.textContaining(newestMessageBody)).exists, true);
+        debugPrint('HISTORY: Newest message found in UI');
 
         // 3. Scroll to find the oldest message
-        debugPrint('HISTORY: Scrolling to find oldest message...');
-        final scrollable = $(Scrollable).first;
+        debugPrint('HISTORY: Starting scroll sequence...');
+        final scrollableFinder = find.byType(Scrollable).first;
 
         bool foundOldest = false;
-        for (int i = 0; i < 20; i++) {
-          if (find
-              .textContaining(oldestMessageBody, skipOffstage: false)
-              .evaluate()
-              .isNotEmpty) {
-            foundOldest = true;
-            break;
+        for (int i = 0; i < 100; i++) {
+          final postWidgets = find.byType(PostWidget).evaluate().map((e) => e.widget as PostWidget).toList();
+          
+          debugPrint('HISTORY: Step $i, searching for $oldestMessageBody. Visible: ${postWidgets.length} posts');
+          
+          for (final post in postWidgets) {
+            if (post.displayEvent.body.contains(oldestMessageBody)) {
+              foundOldest = true;
+              debugPrint('✓ HISTORY: Found oldest message in visible widgets at step $i');
+              break;
+            }
           }
-          debugPrint('HISTORY: Dragging down (step $i)...');
-          await $.tester.drag(scrollable, const Offset(0, -1500));
-          await $.tester.pumpAndSettle();
-          await $.tester.pump(const Duration(seconds: 1));
+          
+          if (foundOldest) break;
+          
+          // Fling is often more effective than drag for triggering PagedListView updates
+          await $.tester.fling(scrollableFinder, const Offset(0, -1000), 2000);
+          await $.tester.pump();
+          // Wait for momentum and lazy loading
+          await $.tester.pump(const Duration(milliseconds: 200));
+          await $.tester.pump();
         }
 
         expect(

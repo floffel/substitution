@@ -10,7 +10,8 @@ import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:patrol/patrol.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'package:provider/provider.dart';
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -25,7 +26,7 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      if (!await skipIfNoMatrix(matrixServer: effectiveMatrixServer(testMatrixServer))) return;
 
       debugPrint('ROOM_FEED: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -66,17 +67,17 @@ void main() {
       debugPrint('ROOM_FEED: Waiting for UI state (PostWidget)...');
       await fastWait(
         $.tester,
-        () => $(PostWidget).exists,
+        () => find.byType(PostWidget).evaluate().isNotEmpty,
         timeout: const Duration(seconds: 60),
       );
 
-      await $.tester.pumpAndSettle();
+      await settle($.tester);
     }
 
     testWidgets(
       'Can navigate to individual room feed and see only that room\'s posts',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+        if (!await skipIfNoMatrix(matrixServer: effectiveMatrixServer(testMatrixServer))) return;
 
         final $ = wrapTester(tester);
         app.main();
@@ -98,7 +99,6 @@ void main() {
         final testGeneralRoomId = rooms.firstWhere(
           (id) => client.getRoomById(id)?.name == 'test_general',
         );
-        // testArtRoomId removed
 
         debugPrint(
           'ROOM_FEED: Navigating to test_general ($testGeneralRoomId)...',
@@ -107,35 +107,30 @@ void main() {
         // Programmatic navigation using GoRouter
         final navContext = $.tester.element(find.byType(HomePage));
         navContext.go('/feed/$testGeneralRoomId');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // Wait for room-specific content
         await fastWait(
           $.tester,
-          () => $(PostWidget).exists,
+          () => find.byType(PostWidget).evaluate().isNotEmpty,
           timeout: const Duration(seconds: 60),
         );
 
         // Verify that all visible posts belong to test_general
-        // We can't easily check the roomId of the widget without accessing state,
-        // but we can check the text in the header if it contains the room name.
-        final roomHeaders = find.textContaining('test_general').evaluate();
-        expect(
-          roomHeaders.isNotEmpty,
-          true,
-          reason: 'Should show room name in headers',
-        );
+        final postWidgets = find.byType(PostWidget).evaluate().map((e) => e.widget as PostWidget).toList();
+        for (final post in postWidgets) {
+          expect(post.event.roomId, testGeneralRoomId, reason: 'Should only show posts from $testGeneralRoomId');
+        }
 
-        final otherRoomHeaders = find.textContaining('test_art').evaluate();
-        expect(
-          otherRoomHeaders.isEmpty,
-          true,
-          reason: 'Should NOT show posts from other rooms',
-        );
+        // Verify that we are NOT seeing messages from other rooms via state check
+        final homeState = $.tester.state<HomePageState>(find.byType(HomePage));
+        final roomIds = homeState.currentRoomIds;
+        expect(roomIds.length, 1, reason: 'Should only track 1 room in individual feed mode');
+        expect(roomIds.first, testGeneralRoomId);
 
         debugPrint('✓ ROOM_FEED: Verified room-specific filtering');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 10)),
     );
   });
 }

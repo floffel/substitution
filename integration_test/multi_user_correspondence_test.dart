@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:matrix/matrix.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, effectiveMatrixServer;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -102,7 +102,7 @@ void main() {
         final client2 = Client('BackgroundUser', database: bgDatabase);
         await client2.init();
 
-        final hsUri = Uri.parse(testMatrixServer);
+        final hsUri = Uri.parse(effectiveMatrixServer(testMatrixServer));
         await client2.checkHomeserver(hsUri);
 
         await client2.login(

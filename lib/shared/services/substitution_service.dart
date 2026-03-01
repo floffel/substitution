@@ -22,7 +22,7 @@ class SubstitutionService extends ChangeNotifier {
           final now = DateTime.now();
           if (_lastSyncNotify == null ||
               now.difference(_lastSyncNotify!) >
-                  const Duration(milliseconds: 500)) {
+                  const Duration(seconds: 2)) {
             _lastSyncNotify = now;
             notifyListeners();
           }

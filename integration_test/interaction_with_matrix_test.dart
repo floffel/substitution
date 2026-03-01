@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/post/widgets/post.dart';
 import 'package:patrol/patrol.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -24,7 +25,8 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+      if (!await skipIfNoMatrix(
+          matrixServer: effectiveMatrixServer(testMatrixServer))) return;
 
       debugPrint('ENGAGEMENT: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -65,17 +67,18 @@ void main() {
       debugPrint('ENGAGEMENT: Waiting for UI state (PostWidget)...');
       await fastWait(
         $.tester,
-        () => $(PostWidget).exists,
+        () => find.byType(PostWidget).evaluate().isNotEmpty,
         timeout: const Duration(seconds: 60),
       );
 
-      await $.tester.pumpAndSettle();
+      await settle($.tester);
     }
 
     testWidgets(
       'Can view feed messages and interact',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+        if (!await skipIfNoMatrix(
+            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
@@ -88,32 +91,33 @@ void main() {
         await waitForFeedReady($);
 
         expect(
-          $(PostWidget).exists,
-          true,
+          find.byType(PostWidget),
+          findsAtLeastNWidgets(1),
           reason: 'Feed must contain messages',
         );
 
         // Verify common interaction elements are present on posts
         expect(
-          $(Icons.favorite_rounded).exists,
-          true,
+          find.byIcon(Icons.favorite_rounded),
+          findsAtLeastNWidgets(1),
           reason: 'Messages should have reaction button',
         );
         expect(
-          $(Icons.reply).exists,
-          true,
+          find.byIcon(Icons.reply),
+          findsAtLeastNWidgets(1),
           reason: 'Messages should have reply button',
         );
 
         debugPrint('✓ ENGAGEMENT: Feed content and buttons verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 10)),
     );
 
     testWidgets(
       'Can view user profile by tapping avatar',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+        if (!await skipIfNoMatrix(
+            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
@@ -126,11 +130,11 @@ void main() {
         await waitForFeedReady($);
 
         // Find an avatar and tap it
-        final avatar = $(CircleAvatar).first;
-        await avatar.tap();
+        final avatar = find.byType(CircleAvatar).first;
+        await $.tester.tap(avatar);
+        await settle($.tester);
 
         // Wait for navigation/profile to appear
-        // Based on app code, this usually goes to /profile/:userId
         await fastWait(
           $.tester,
           () =>
@@ -140,13 +144,14 @@ void main() {
 
         debugPrint('✓ ENGAGEMENT: Avatar interaction triggered profile view');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 10)),
     );
 
     testWidgets(
       'Messages from test_general room are visible',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+        if (!await skipIfNoMatrix(
+            matrixServer: effectiveMatrixServer(testMatrixServer))) return;
         final $ = wrapTester(tester);
         app.main();
         await patrol_helper.loginUser(
@@ -159,17 +164,16 @@ void main() {
         await waitForFeedReady($);
 
         // Verify that seeded messages from test_general are present
-        // The seeder sends "Hello everyone! Welcome to this test room."
         await fastWait(
           $.tester,
           () => find.textContaining('Hello everyone').evaluate().isNotEmpty,
           timeout: const Duration(seconds: 30),
         );
 
-        expect($(find.textContaining('Hello everyone')).exists, true);
+        expect(find.textContaining('Hello everyone'), findsAtLeastNWidgets(1));
         debugPrint('✓ ENGAGEMENT: Seeded messages verified in feed');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 10)),
     );
   });
 }

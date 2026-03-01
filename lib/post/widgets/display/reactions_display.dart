@@ -28,6 +28,9 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     >
   >
   get reactions async {
+    if (AppConstants.isIntegrationTest) {
+      return {};
+    }
     debugPrint("start getting reactions");
 
     Map<

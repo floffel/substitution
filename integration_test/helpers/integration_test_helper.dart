@@ -28,26 +28,25 @@ Future<bool> isMatrixServerReachable({
   String matrixServer = 'http://localhost:8008',
 }) async {
   if (kIsWeb) return true;
+  // On Android emulators, reachability checks via Socket can be flaky
+  // and often return 'Connection refused' even when the server is reachable.
+  // We skip the check here and let the client initialization handle it.
+  if (defaultTargetPlatform == TargetPlatform.android) return true;
+  
   try {
     final uri = Uri.parse(matrixServer);
     var host = uri.host.isEmpty ? 'localhost' : uri.host;
     final port = uri.port > 0 ? uri.port : 8008;
 
-    // On Android emulators, localhost points to the emulator itself.
-    // To reach the host machine, we must use 10.0.2.2.
-    if (defaultTargetPlatform == TargetPlatform.android &&
-        host == 'localhost') {
-      host = '10.0.2.2';
-    }
-
     final socket = await dart_io.Socket.connect(
       host,
       port,
-      timeout: const Duration(seconds: 3),
+      timeout: const Duration(seconds: 10),
     );
     await socket.close();
     return true;
-  } catch (_) {
+  } catch (e) {
+    debugPrint('Matrix reachability check failed for $matrixServer: $e');
     return false;
   }
 }
@@ -78,9 +77,11 @@ Future<bool> skipIfNoMatrix({
 
 /// Disables all animations to make tests more deterministic and faster in CI.
 void disableAnimations(WidgetTester tester) {
-  // Use a very high duration to effectively disable animations
-  tester.binding.setSurfaceSize(const Size(1280, 1024));
-  debugDisableShadows = true;
+  // Use a large surface size to prevent layout overflow errors in desktop tests
+  tester.view.physicalSize = const Size(1280, 1024);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(() => tester.view.resetPhysicalSize());
+  addTearDown(() => tester.view.resetDevicePixelRatio());
 }
 
 /// Waits for [app.globalMatrixClient] to be initialized.

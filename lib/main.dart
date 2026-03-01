@@ -56,23 +56,43 @@ String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
 }
 
 void main() async {
+  // Check if we are running in an integration test environment
+  AppConstants.isIntegrationTest = const bool.fromEnvironment(
+    'INTEGRATION_TEST',
+    defaultValue: false,
+  );
+
   // Dispose previous client and database if any (for test isolation)
   if (globalMatrixClient != null || globalDatabase != null) {
     try {
       debugPrint("Main: Disposing lingering resources...");
       final oldClient = globalMatrixClient;
+      final oldDatabase = globalDatabase;
       globalMatrixClient = null;
       globalSubstitutionService = null;
+      globalDatabase = null;
+
+      // Dispose client resources with proper error handling
       if (oldClient != null) {
-        oldClient.abortSync();
-        await oldClient.dispose();
+        try {
+          oldClient.abortSync();
+          await oldClient.dispose();
+        } catch (e) {
+          debugPrint("Error disposing Matrix client: $e");
+        }
       }
-      if (globalDatabase != null) {
-        await globalDatabase!.close();
-        globalDatabase = null;
+
+      // Close database with proper error handling
+      if (oldDatabase != null) {
+        try {
+          await oldDatabase.close();
+        } catch (e) {
+          debugPrint("Error closing database: $e");
+        }
       }
-      // Allow OS to release file locks
-      await Future.delayed(const Duration(milliseconds: 500));
+
+      // Extended delay for iOS to fully release file locks and memory
+      await Future.delayed(const Duration(milliseconds: 1000));
       debugPrint("Main: Lingering resources disposed.");
     } catch (e) {
       debugPrint("Error disposing previous resources at main start: $e");

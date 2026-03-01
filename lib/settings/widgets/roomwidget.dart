@@ -62,11 +62,19 @@ class RoomWidgetState extends State<RoomWidget> {
                 onForegroundImageError: (ctx, obj) {
                   debugPrint("Failed to load avatar: ${widget.room.avatarUrl}");
                 },
-                child: Text(widget.room.name[0].toUpperCase()),
+                child: Text(
+                  widget.room.name.isNotEmpty
+                      ? widget.room.name[0].toUpperCase()
+                      : '?',
+                ),
               )
               : CircleAvatar(
                 radius: 20,
-                child: Text(widget.room.name[0].toUpperCase()),
+                child: Text(
+                  widget.room.name.isNotEmpty
+                      ? widget.room.name[0].toUpperCase()
+                      : '?',
+                ),
               ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

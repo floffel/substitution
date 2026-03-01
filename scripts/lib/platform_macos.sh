@@ -82,6 +82,7 @@ run_macos_tests() {
             "test" "$test_file"
             "--device-id=macos"
             "--reporter=compact"
+            "--dart-define=is_integration_test=true"
             "--dart-define=MATRIX_SERVER=${MATRIX_SERVER:-http://localhost:8008}"
             "--dart-define=MATRIX_TEST_USER=${MATRIX_TEST_USER:-testuser1}"
             "--dart-define=MATRIX_TEST_PASSWORD=${MATRIX_TEST_PASSWORD:-testpass123}"
