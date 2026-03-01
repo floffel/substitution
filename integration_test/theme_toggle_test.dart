@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/shared/services/theme_service.dart';
-import 'package:patrol/patrol.dart';
 import 'package:provider/provider.dart';
 import 'package:integration_test/integration_test.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
@@ -26,7 +25,7 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
+
       debugPrint('THEME: Resetting state...');
       await app.globalMatrixClient?.dispose();
       app.globalMatrixClient = null;
@@ -34,7 +33,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'age_confirmed': true});
       AgeGatePage.confirmed = true;
-      
+
       if (!kIsWeb) {
         try {
           final appDocDir = await getApplicationDocumentsDirectory();
@@ -46,58 +45,72 @@ void main() {
       }
     });
 
-    testWidgets('User can toggle dark mode and see UI changes', (tester) async {
-      if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
-      
-      final $ = wrapTester(tester);
-      app.main();
-      
-      if (!await patrol_helper.loginUser(
-        $,
-        matrixServer: testMatrixServer,
-        username: testUser,
-        password: testPassword,
-      )) return;
+    testWidgets(
+      'User can toggle dark mode and see UI changes',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
-      // 1. Open Menu
-      debugPrint('THEME: Opening menu...');
-      await $(Icons.menu).waitUntilVisible();
-      await $(Icons.menu).tap();
-      await $.tester.pumpAndSettle();
+        final $ = wrapTester(tester);
+        app.main();
 
-      // 2. Find ThemeService by searching all elements
-      debugPrint('THEME: Searching for ThemeService...');
-      
-      ThemeService? themeService;
-      void findProvider(Element element) {
-        if (themeService != null) return;
-        try {
-          themeService = Provider.of<ThemeService>(element, listen: false);
-        } catch (_) {
-          element.visitChildren(findProvider);
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        ))
+          return;
+
+        // 1. Open Menu
+        debugPrint('THEME: Opening menu...');
+        await $(Icons.menu).waitUntilVisible();
+        await $(Icons.menu).tap();
+        await $.tester.pumpAndSettle();
+
+        // 2. Find ThemeService by searching all elements
+        debugPrint('THEME: Searching for ThemeService...');
+
+        ThemeService? themeService;
+        void findProvider(Element element) {
+          if (themeService != null) return;
+          try {
+            themeService = Provider.of<ThemeService>(element, listen: false);
+          } catch (_) {
+            element.visitChildren(findProvider);
+          }
         }
-      }
-      $.tester.allElements.forEach(findProvider);
 
-      if (themeService == null) {
-        throw Exception("Could not find ThemeService in widget tree");
-      }
-      
-      final bool initiallyDark = themeService!.themeMode == ThemeMode.dark;
-      debugPrint('THEME: Initially dark (logic): $initiallyDark');
+        $.tester.allElements.forEach(findProvider);
 
-      // 3. Toggle by tapping the switch tile
-      debugPrint('THEME: Tapping switch tile...');
-      final themeTile = $(find.text('Dark Mode'));
-      await themeTile.waitUntilVisible();
-      await themeTile.tap();
-      
-      // 4. Wait for logic state change
-      debugPrint('THEME: Waiting for logic state update...');
-      await fastWait($.tester, () => themeService!.themeMode == (initiallyDark ? ThemeMode.light : ThemeMode.dark));
-      
-      expect(themeService!.themeMode, initiallyDark ? ThemeMode.light : ThemeMode.dark);
-      debugPrint('✓ THEME: Toggle successful');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+        if (themeService == null) {
+          throw Exception("Could not find ThemeService in widget tree");
+        }
+
+        final bool initiallyDark = themeService!.themeMode == ThemeMode.dark;
+        debugPrint('THEME: Initially dark (logic): $initiallyDark');
+
+        // 3. Toggle by tapping the switch tile
+        debugPrint('THEME: Tapping switch tile...');
+        final themeTile = $(find.text('Dark Mode'));
+        await themeTile.waitUntilVisible();
+        await themeTile.tap();
+
+        // 4. Wait for logic state change
+        debugPrint('THEME: Waiting for logic state update...');
+        await fastWait(
+          $.tester,
+          () =>
+              themeService!.themeMode ==
+              (initiallyDark ? ThemeMode.light : ThemeMode.dark),
+        );
+
+        expect(
+          themeService!.themeMode,
+          initiallyDark ? ThemeMode.light : ThemeMode.dark,
+        );
+        debugPrint('✓ THEME: Toggle successful');
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
   });
 }

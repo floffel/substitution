@@ -22,7 +22,7 @@ class RetryWrapper {
           '${description ?? "Operation"} attempt ${attempt + 1}/$_maxRetries',
         );
         return await operation().timeout(timeout);
-      } catch (e, stackTrace) {
+      } catch (e, _) {
         lastError = e is Exception ? e : Exception(e.toString());
         debugPrint(
           '${description ?? "Operation"} failed (attempt ${attempt + 1}): $e',
@@ -58,7 +58,7 @@ class RetryWrapper {
           '${description ?? "Widget operation"} attempt ${attempt + 1}/$_maxRetries',
         );
         return await Future.microtask(operation);
-      } catch (e, stackTrace) {
+      } catch (e, _) {
         lastError = e is Exception ? e : Exception(e.toString());
         debugPrint(
           '${description ?? "Widget operation"} failed (attempt ${attempt + 1}): $e',

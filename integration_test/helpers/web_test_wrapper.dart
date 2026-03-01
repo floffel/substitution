@@ -1,12 +1,8 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Web-specific test wrapper to handle browser differences and timeout issues
 class WebTestWrapper {
-  static const Duration _defaultTimeout = Duration(seconds: 30);
-
   /// Enhanced pump and settle with Web-specific optimizations
   static Future<void> webEnhancedPumpAndSettle(
     WidgetTester tester, {
@@ -256,8 +252,6 @@ class WebTestWrapper {
 
         // Simple connectivity test by trying to pump
         debugPrint('Web browser basic check passed');
-        return true;
-
         return true;
       } catch (e) {
         debugPrint(

@@ -1,12 +1,12 @@
 import "package:integration_test/integration_test.dart";
-import 'dart:io' as dart_io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:substitution/shared/pages/age_gate.dart';
+
 import 'package:matrix/matrix.dart';
 import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/feed/pages/home.dart';
@@ -27,7 +27,10 @@ void main() {
 
     setUp(() async {
       if (!await skipIfNoMatrix(
-          matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+        matrixServer: effectiveMatrixServer(testMatrixServer),
+      )) {
+        return;
+      }
 
       debugPrint('HISTORY: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -59,10 +62,12 @@ void main() {
         await settle($.tester);
 
         debugPrint('HISTORY: Logging in...');
-        if (!await patrol_helper.loginUser($,
-            matrixServer: testMatrixServer,
-            username: testUser,
-            password: testPassword)) {
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
           debugPrint('HISTORY: Login failed');
           return;
         }
@@ -73,38 +78,43 @@ void main() {
         final client = app.globalMatrixClient!;
         final service = app.globalSubstitutionService!;
         final roomName = 'History Test Room';
-        
-        final roomId = await client.createRoom(
-          name: roomName,
-          preset: CreateRoomPreset.publicChat,
-          powerLevelContentOverride: {'users_default': 50},
-        ).timeout(const Duration(seconds: 60));
-        
-        debugPrint('HISTORY: Room created: $roomId. Waiting for SDK to catch up...');
+
+        final roomId = await client
+            .createRoom(
+              name: roomName,
+              preset: CreateRoomPreset.publicChat,
+              powerLevelContentOverride: {'users_default': 50},
+            )
+            .timeout(const Duration(seconds: 60));
+
+        debugPrint(
+          'HISTORY: Room created: $roomId. Waiting for SDK to catch up...',
+        );
         await fastWait($.tester, () => client.getRoomById(roomId) != null);
-        
+
         debugPrint('HISTORY: Marking room as substitution...');
         service.addRoomId(roomId);
-        await client.setAccountDataPerRoom(
-          client.userID!,
-          roomId,
-          "substitution",
-          {"joined": true},
-        ).timeout(const Duration(seconds: 30));
-        
-        debugPrint('HISTORY: Triggering refresh and waiting for room discovery...');
-        service.triggerRefresh();
-        
-        // Wait for HomePage to pick up the 6th room
-        await fastWait(
-          $.tester,
-          () {
-            final homeState = $.tester.state<HomePageState>(find.byType(HomePage));
-            return homeState.currentRoomIds.length >= 6;
-          },
-          timeout: const Duration(seconds: 30),
+        await client
+            .setAccountDataPerRoom(client.userID!, roomId, "substitution", {
+              "joined": true,
+            })
+            .timeout(const Duration(seconds: 30));
+
+        debugPrint(
+          'HISTORY: Triggering refresh and waiting for room discovery...',
         );
-        debugPrint('HISTORY: HomePage discovered the new room. Current rooms: 6');
+        service.triggerRefresh();
+
+        // Wait for HomePage to pick up the 6th room
+        await fastWait($.tester, () {
+          final homeState = $.tester.state<HomePageState>(
+            find.byType(HomePage),
+          );
+          return homeState.currentRoomIds.length >= 6;
+        }, timeout: const Duration(seconds: 30));
+        debugPrint(
+          'HISTORY: HomePage discovered the new room. Current rooms: 6',
+        );
         await settle($.tester);
 
         final room = client.getRoomById(roomId)!;
@@ -114,20 +124,26 @@ void main() {
         final oldestMessageBody = 'OLDEST_MESSAGE_STAY_HERE';
         final newestMessageBody = 'NEWEST_MESSAGE_TOP';
 
-        await room.sendTextEvent(oldestMessageBody).timeout(const Duration(seconds: 30));
+        await room
+            .sendTextEvent(oldestMessageBody)
+            .timeout(const Duration(seconds: 30));
         debugPrint('HISTORY: Sent oldest message');
 
         for (int i = 1; i <= 20; i++) {
-          await room.sendTextEvent('Filler message $i').timeout(const Duration(seconds: 10));
+          await room
+              .sendTextEvent('Filler message $i')
+              .timeout(const Duration(seconds: 10));
           if (i % 5 == 0) debugPrint('HISTORY: Sent $i/20...');
         }
 
-        await room.sendTextEvent(newestMessageBody).timeout(const Duration(seconds: 30));
+        await room
+            .sendTextEvent(newestMessageBody)
+            .timeout(const Duration(seconds: 30));
         debugPrint('HISTORY: Sent newest message. Waiting for sync...');
-        
+
         // Wait for sync to pick up all messages
         await waitForSync($.tester, timeout: const Duration(seconds: 60));
-        
+
         debugPrint('HISTORY: Waiting for newest message to appear in UI...');
         await fastWait(
           $.tester,
@@ -142,20 +158,29 @@ void main() {
 
         bool foundOldest = false;
         for (int i = 0; i < 100; i++) {
-          final postWidgets = find.byType(PostWidget).evaluate().map((e) => e.widget as PostWidget).toList();
-          
-          debugPrint('HISTORY: Step $i, searching for $oldestMessageBody. Visible: ${postWidgets.length} posts');
-          
+          final postWidgets =
+              find
+                  .byType(PostWidget)
+                  .evaluate()
+                  .map((e) => e.widget as PostWidget)
+                  .toList();
+
+          debugPrint(
+            'HISTORY: Step $i, searching for $oldestMessageBody. Visible: ${postWidgets.length} posts',
+          );
+
           for (final post in postWidgets) {
             if (post.displayEvent.body.contains(oldestMessageBody)) {
               foundOldest = true;
-              debugPrint('✓ HISTORY: Found oldest message in visible widgets at step $i');
+              debugPrint(
+                '✓ HISTORY: Found oldest message in visible widgets at step $i',
+              );
               break;
             }
           }
-          
+
           if (foundOldest) break;
-          
+
           // Fling is often more effective than drag for triggering PagedListView updates
           await $.tester.fling(scrollableFinder, const Offset(0, -1000), 2000);
           await $.tester.pump();

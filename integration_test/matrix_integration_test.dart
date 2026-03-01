@@ -4,7 +4,8 @@ import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, effectiveMatrixServer;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, effectiveMatrixServer;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,10 @@ void main() {
     Database? sqliteDatabase;
 
     setUp(() async {
-      if (!await skipIfNoMatrix(matrixServer: effectiveMatrixServer(matrixServer))) return;
+      if (!await skipIfNoMatrix(
+        matrixServer: effectiveMatrixServer(matrixServer),
+      ))
+        return;
 
       // Initialize SQLite database
       late final MatrixSdkDatabase database;
@@ -107,12 +111,9 @@ void main() {
     Room? findRoom(String search) {
       if (client == null) return null;
       for (final room in client!.rooms) {
-        final localizedName = room.getLocalizedName();
         final name = room.name;
         final alias = room.canonicalAlias;
-        if (localizedName.contains(search) || 
-            name.contains(search) || 
-            alias.contains(search)) {
+        if (name.contains(search) || alias.contains(search)) {
           return room;
         }
       }
@@ -132,7 +133,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
 
       // Login with test user
       await client!.login(
@@ -149,7 +152,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
 
       // Attempt login
       final response = await client!.login(
@@ -168,7 +173,9 @@ void main() {
 
     testWidgets('Verify test rooms exist', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -183,10 +190,9 @@ void main() {
 
       // Look for test rooms
       final hasTestRoom = client!.rooms.any((r) {
-        final ln = r.getLocalizedName();
         final n = r.name;
         final a = r.canonicalAlias;
-        return ln.contains('test_') || n.contains('test_') || a.contains('test_');
+        return n.contains('test_') || a.contains('test_');
       });
       expect(hasTestRoom, true);
     });
@@ -195,7 +201,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -216,7 +224,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -236,7 +246,9 @@ void main() {
 
     testWidgets('Send message to test room', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -258,7 +270,9 @@ void main() {
 
     testWidgets('Login as different test user', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
 
       // Login as testuser2
       await client!.login(
@@ -273,7 +287,9 @@ void main() {
 
     testWidgets('Rooms are public and joinable', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -287,14 +303,16 @@ void main() {
         generalRoom = findRoom('general');
         photosRoom = findRoom('photos');
         artRoom = findRoom('art');
-        
+
         if (generalRoom != null && photosRoom != null && artRoom != null) break;
         await Future.delayed(const Duration(seconds: 1));
       }
 
       if (generalRoom == null || photosRoom == null || artRoom == null) {
-        throw Exception('Test rooms not found. \n'
-            'Rooms: ${client!.rooms.map((e) => "${e.id}: '${e.name}' | '${e.getLocalizedName()}' (${e.canonicalAlias})").toList()}');
+        throw Exception(
+          'Test rooms not found. \n'
+          'Rooms: ${client!.rooms.map((e) => "${e.id}: '${e.name}' (${e.canonicalAlias})").toList()}',
+        );
       }
 
       expect(generalRoom, isNotNull);
@@ -304,7 +322,9 @@ void main() {
 
     testWidgets('List joined rooms', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -324,7 +344,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -344,9 +366,13 @@ void main() {
       expect(timeline.events.isNotEmpty, true);
     });
 
-    testWidgets('Empty room should have no messages', (WidgetTester tester) async {
+    testWidgets('Empty room should have no messages', (
+      WidgetTester tester,
+    ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -370,7 +396,9 @@ void main() {
 
     testWidgets('Multiple users in same room', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -391,7 +419,9 @@ void main() {
 
     testWidgets('Send and receive message', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -412,7 +442,9 @@ void main() {
 
     testWidgets('Sync with server', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -428,7 +460,9 @@ void main() {
 
     testWidgets('Create and join room', (WidgetTester tester) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -452,7 +486,9 @@ void main() {
       WidgetTester tester,
     ) async {
       if (client == null) return;
-      await client!.checkHomeserver(Uri.parse(effectiveMatrixServer(matrixServer)));
+      await client!.checkHomeserver(
+        Uri.parse(effectiveMatrixServer(matrixServer)),
+      );
       await client!.login(
         LoginType.mLoginPassword,
         identifier: AuthenticationUserIdentifier(user: testUser),
@@ -466,14 +502,16 @@ void main() {
         generalRoom = findRoom('general');
         photosRoom = findRoom('photos');
         artRoom = findRoom('art');
-        
+
         if (generalRoom != null && photosRoom != null && artRoom != null) break;
         await Future.delayed(const Duration(seconds: 1));
       }
 
       if (generalRoom == null || photosRoom == null || artRoom == null) {
-        throw Exception('Test rooms not found. \n'
-            'Rooms: ${client!.rooms.map((e) => "${e.id}: '${e.name}' | '${e.getLocalizedName()}' (${e.canonicalAlias})").toList()}');
+        throw Exception(
+          'Test rooms not found. \n'
+          'Rooms: ${client!.rooms.map((e) => "${e.id}: '${e.name}' (${e.canonicalAlias})").toList()}',
+        );
       }
 
       // Get timelines for all rooms

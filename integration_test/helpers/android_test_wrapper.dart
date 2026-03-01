@@ -1,12 +1,8 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Android-specific test wrapper to handle platform differences
 class AndroidTestWrapper {
-  static const Duration _defaultTimeout = Duration(seconds: 30);
-
   /// Enhanced pump and settle with Android-specific optimizations
   static Future<void> enhancedPumpAndSettle(
     WidgetTester tester, {

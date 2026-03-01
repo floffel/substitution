@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show fastWait, effectiveMatrixServer, settle;
+import 'helpers/integration_test_helper.dart' show fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -62,12 +62,18 @@ void main() {
         final uniqueCacheMessage =
             'OFFLINE_CACHE_${DateTime.now().millisecondsSinceEpoch}';
         final client = app.globalMatrixClient!;
-        
+
         // Wait for rooms to be available
-        await fastWait($.tester, () => client.rooms.isNotEmpty, timeout: const Duration(seconds: 30));
+        await fastWait(
+          $.tester,
+          () => client.rooms.isNotEmpty,
+          timeout: const Duration(seconds: 30),
+        );
         final room = client.rooms.firstWhere((r) => r.name.contains('general'));
 
-        debugPrint('OFFLINE: Sending message to be cached: $uniqueCacheMessage');
+        debugPrint(
+          'OFFLINE: Sending message to be cached: $uniqueCacheMessage',
+        );
         await room.sendTextEvent(uniqueCacheMessage);
 
         await fastWait(
@@ -83,7 +89,7 @@ void main() {
         await client.dispose();
         app.globalMatrixClient = null;
         app.globalSubstitutionService = null;
-        
+
         // Clear widget tree completely
         await $.tester.pumpWidget(const SizedBox());
         await Future.delayed(const Duration(seconds: 1));

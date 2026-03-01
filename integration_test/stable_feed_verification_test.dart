@@ -7,8 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart'
-    show skipIfNoMatrix, waitForMatrixClient;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 import 'helpers/test_synchronizer.dart';

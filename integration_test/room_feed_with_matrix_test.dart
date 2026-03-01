@@ -10,8 +10,9 @@ import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:patrol/patrol.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle;
+
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -26,7 +27,10 @@ void main() {
     const testPassword = 'testpass123';
 
     setUp(() async {
-      if (!await skipIfNoMatrix(matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+      if (!await skipIfNoMatrix(
+        matrixServer: effectiveMatrixServer(testMatrixServer),
+      ))
+        return;
 
       debugPrint('ROOM_FEED: Resetting state...');
       await app.globalMatrixClient?.dispose();
@@ -77,7 +81,10 @@ void main() {
     testWidgets(
       'Can navigate to individual room feed and see only that room\'s posts',
       (tester) async {
-        if (!await skipIfNoMatrix(matrixServer: effectiveMatrixServer(testMatrixServer))) return;
+        if (!await skipIfNoMatrix(
+          matrixServer: effectiveMatrixServer(testMatrixServer),
+        ))
+          return;
 
         final $ = wrapTester(tester);
         app.main();
@@ -117,15 +124,28 @@ void main() {
         );
 
         // Verify that all visible posts belong to test_general
-        final postWidgets = find.byType(PostWidget).evaluate().map((e) => e.widget as PostWidget).toList();
+        final postWidgets =
+            find
+                .byType(PostWidget)
+                .evaluate()
+                .map((e) => e.widget as PostWidget)
+                .toList();
         for (final post in postWidgets) {
-          expect(post.event.roomId, testGeneralRoomId, reason: 'Should only show posts from $testGeneralRoomId');
+          expect(
+            post.event.roomId,
+            testGeneralRoomId,
+            reason: 'Should only show posts from $testGeneralRoomId',
+          );
         }
 
         // Verify that we are NOT seeing messages from other rooms via state check
         final homeState = $.tester.state<HomePageState>(find.byType(HomePage));
         final roomIds = homeState.currentRoomIds;
-        expect(roomIds.length, 1, reason: 'Should only track 1 room in individual feed mode');
+        expect(
+          roomIds.length,
+          1,
+          reason: 'Should only track 1 room in individual feed mode',
+        );
         expect(roomIds.first, testGeneralRoomId);
 
         debugPrint('✓ ROOM_FEED: Verified room-specific filtering');

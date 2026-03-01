@@ -14,7 +14,6 @@ import 'package:go_router/go_router.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
-import 'helpers/platform_ios_cleanup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
