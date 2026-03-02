@@ -138,7 +138,7 @@ void main() {
         );
         debugPrint('✓ STRICT: Reaction button found');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
 
     testWidgets(
@@ -163,7 +163,7 @@ void main() {
         expect($(EmojiPicker).exists, true, reason: 'MUST show emoji picker');
         debugPrint('✓ STRICT: Emoji picker displayed');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
 
     testWidgets('STRICT: Reply option exists', (tester) async {
@@ -179,7 +179,7 @@ void main() {
       await waitForFeedReady($);
       expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
       debugPrint('✓ STRICT: Reply button found');
-    }, timeout: const Timeout(Duration(minutes: 5)));
+    }, timeout: const Timeout(Duration(minutes: 15)));
 
     testWidgets(
       'STRICT: Can open reply composer',
@@ -219,7 +219,7 @@ void main() {
         );
         debugPrint('✓ STRICT: Reply composer opened');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

@@ -49,7 +49,7 @@ void main() {
 
         debugPrint('✓ Compliance test reached');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

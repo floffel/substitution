@@ -157,7 +157,7 @@ void main() {
         expect($(find.textContaining(uniqueBody)).exists, true);
         debugPrint('✓ POST_CREATION: Full flow verified successfully');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

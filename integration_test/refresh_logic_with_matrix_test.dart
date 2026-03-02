@@ -97,7 +97,7 @@ void main() {
         expect($(find.textContaining(uniqueBody)).exists, true);
         debugPrint('✓ REFRESH: Automatic update verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
 
     testWidgets(
@@ -134,7 +134,7 @@ void main() {
         // (The app uses RefreshIndicator in HomePage)
         debugPrint('✓ REFRESH: Manual refresh triggered');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

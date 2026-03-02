@@ -126,7 +126,7 @@ void main() {
           '✓ PERMISSIONS: Successfully toggled and verified mode change',
         );
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

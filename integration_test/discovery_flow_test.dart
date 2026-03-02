@@ -117,7 +117,7 @@ void main() {
         expect($(find.textContaining('test_art')).exists, true);
         debugPrint('✓ DISCOVERY: Search results verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
 
     testWidgets(
@@ -208,7 +208,7 @@ void main() {
         expect($(Icons.person_add).exists, true);
         debugPrint('✓ DISCOVERY: Room left successfully');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

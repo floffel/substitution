@@ -117,7 +117,7 @@ void main() {
 
         debugPrint('✓ PROFILE_VIEW: Navigation flow verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

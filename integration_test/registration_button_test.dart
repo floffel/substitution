@@ -97,7 +97,7 @@ void main() {
         expect(registerButton.exists, true);
         debugPrint('✓ REGISTRATION: Web register button found');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

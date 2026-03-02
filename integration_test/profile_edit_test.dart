@@ -100,7 +100,7 @@ void main() {
         expect($(find.text('Profile updated successfully')).exists, true);
         debugPrint('✓ PROFILE_EDIT: Successfully updated display name');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

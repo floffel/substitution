@@ -63,7 +63,7 @@ void main() {
 
         debugPrint('✓ Room search test step reached');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

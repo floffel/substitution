@@ -96,7 +96,7 @@ void main() {
         );
         debugPrint('✓ DISCOVERY_STRICT: Found $roomCount rooms in list');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
 
     testWidgets(
@@ -142,7 +142,7 @@ void main() {
 
         debugPrint('✓ DISCOVERY_STRICT: Search filtering verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

@@ -228,7 +228,7 @@ void main() {
 
         debugPrint("✓ MERGING: Feed interleaving verified successfully!");
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

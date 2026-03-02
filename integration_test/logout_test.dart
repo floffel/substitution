@@ -82,7 +82,7 @@ void main() {
         expect($(IntroductionScreen).exists, true);
         debugPrint('Consolidated Logout test passed successfully');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }

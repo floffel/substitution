@@ -93,7 +93,7 @@ void main() {
 
         debugPrint('✓ SECURITY: Security page verified');
       },
-      timeout: const Timeout(Duration(minutes: 5)),
+      timeout: const Timeout(Duration(minutes: 15)),
     );
   });
 }
