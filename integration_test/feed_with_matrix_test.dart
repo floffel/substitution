@@ -11,6 +11,7 @@ import 'helpers/integration_test_helper.dart'
     show skipIfNoMatrix, waitForMatrixClient;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/matrix_cleanup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
