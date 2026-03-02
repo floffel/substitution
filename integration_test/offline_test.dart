@@ -10,6 +10,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'helpers/integration_test_helper.dart' show fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
+import 'helpers/matrix_cleanup.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +22,20 @@ void main() {
     const testUser = 'testuser1';
     const testPassword = 'testpass123';
 
+    setUp(() async {
+      debugPrint('OFFLINE: Resetting state with enhanced cleanup...');
+
+      // Use our enhanced Matrix client cleanup utility
+      await MatrixCleanup.resetTestEnvironment();
+
+      debugPrint('OFFLINE: Enhanced state reset complete');
+    });
+
     tearDown(() async {
-      debugPrint('OFFLINE: Tearing down...');
-      await app.globalMatrixClient?.dispose();
-      app.globalMatrixClient = null;
-      app.globalSubstitutionService = null;
+      debugPrint('OFFLINE: Tearing down with enhanced cleanup...');
+
+      // Use our enhanced Matrix client cleanup utility
+      await MatrixCleanup.disposeMatrixClient();
     });
 
     testWidgets(
