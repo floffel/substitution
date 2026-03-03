@@ -15,7 +15,11 @@ void main() {
       // Just check if app can start without crashing
       app.main();
 
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      // Pump several frames instead of pumpAndSettle (which can hang
+      // indefinitely if the app has background timers, e.g. Matrix reconnects)
+      for (int i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
 
       // Basic expectation
       expect(find.byType(MaterialApp), findsOneWidget);

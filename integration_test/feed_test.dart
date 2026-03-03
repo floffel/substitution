@@ -10,7 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart';
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, waitForMatrixClient;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +68,7 @@ void main() {
     testWidgets(
       'Feed displays posts from multiple rooms in chronological order',
       (WidgetTester tester) async {
+        if (!await skipIfNoMatrix()) return;
         app.main();
         await waitForMatrixClient(tester);
 

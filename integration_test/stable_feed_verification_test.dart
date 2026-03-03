@@ -100,7 +100,8 @@ void main() {
           final $ = wrapTester(tester);
           AgeGatePage.confirmed = true;
 
-          // Initialize with proper synchronization
+          // Start the app, then wait for it to initialize
+          app.main();
           await TestSynchronizer.synchronizedWaitForMatrixClient($.tester);
 
           debugPrint('STABLE_FEED: Starting login...');
