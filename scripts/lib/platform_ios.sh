@@ -206,60 +206,64 @@ run_ios_tests() {
     start_time=$(date +%s)
     local overall_exit=0
 
+    # Collect all test files
+    local all_files=()
+    while IFS= read -r -d '' f; do
+        all_files+=("$f")
+    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
+
+    # Apply TEST_FILTER if set
+    local test_files=()
     if [[ -n "${TEST_FILTER:-}" ]]; then
-        # Per-file filtered mode
-        local all_files=()
-        while IFS= read -r -d '' f; do
-            all_files+=("$f")
-        done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
-
-        local test_files=()
         filter_test_files test_files "$TEST_FILTER" "${all_files[@]}"
-
-        if [[ ${#test_files[@]} -eq 0 ]]; then
-            log_warn "No iOS integration test files remain after applying filter."
-            record_target_result "ios" 0 0 0 0
-            return 0
-        fi
-
-        log_info "Running ${#test_files[@]} filtered integration test(s) on iOS (timeout: ${timeout}s each)..."
-        : > "$log_file"
-        local acc_passed=0 acc_failed=0 acc_skipped=0
-
-        for test_file in "${test_files[@]}"; do
-            log_info "  Running: $test_file"
-            run_with_timeout "$timeout" flutter "test" --no-pub --timeout "60m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
-            local exit_code=${PIPESTATUS[0]}
-            parse_flutter_output "$log_file"
-            acc_passed=$((acc_passed + _PARSED_PASSED))
-            acc_failed=$((acc_failed + _PARSED_FAILED))
-            acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
-            if [[ $exit_code -eq 124 ]]; then
-                log_error "Timed out after ${timeout}s: $test_file"; overall_exit=1; break
-            elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
-                overall_exit=1
-            fi
-        done
-
-        end_time=$(date +%s)
-        duration=$((end_time - start_time))
-        record_target_result "ios" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
     else
-        # Bulk mode
-        log_info "Running all integration tests on iOS (timeout: ${timeout}s)..."
-        local shard_args=()
-        read -r -a shard_args <<< "$(get_shard_args)"
-
-        run_with_timeout "$timeout" flutter "test" --no-pub \
-            --timeout "60m" \
-            "${common_args[@]}" "${shard_args[@]}" "integration_test/" 2>&1 | tee "$log_file"
-        overall_exit=${PIPESTATUS[0]}
-
-        end_time=$(date +%s)
-        duration=$((end_time - start_time))
-        parse_flutter_output "$log_file"
-        record_target_result "ios" "$_PARSED_PASSED" "$_PARSED_FAILED" "$_PARSED_SKIPPED" "$duration"
+        test_files=("${all_files[@]}")
     fi
+
+    # Apply sharding: select only files for this shard index (file-based, like web runner)
+    if [[ -n "${SHARD_INDEX:-}" ]] && [[ -n "${TOTAL_SHARDS:-}" ]]; then
+        local total_files=${#test_files[@]}
+        local shard_files=()
+        local idx=0
+        for f in "${test_files[@]}"; do
+            if (( idx % TOTAL_SHARDS == SHARD_INDEX )); then
+                shard_files+=("$f")
+            fi
+            idx=$((idx + 1))
+        done
+        log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
+        log_info "Files in this shard: ${shard_files[*]}"
+        test_files=("${shard_files[@]}")
+    fi
+
+    if [[ ${#test_files[@]} -eq 0 ]]; then
+        log_warn "No iOS integration test files found for this shard."
+        record_target_result "ios" 0 0 0 0
+        return 0
+    fi
+
+    log_info "Running ${#test_files[@]} iOS integration test file(s) (timeout: ${timeout}s each)..."
+    : > "$log_file"
+    local acc_passed=0 acc_failed=0 acc_skipped=0
+
+    for test_file in "${test_files[@]}"; do
+        log_info "  Running: $test_file"
+        run_with_timeout "$timeout" flutter "test" --no-pub --timeout "60m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+        local exit_code=${PIPESTATUS[0]}
+        parse_flutter_output "$log_file"
+        acc_passed=$((acc_passed + _PARSED_PASSED))
+        acc_failed=$((acc_failed + _PARSED_FAILED))
+        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+        if [[ $exit_code -eq 124 ]]; then
+            log_error "Timed out after ${timeout}s: $test_file"; overall_exit=1; break
+        elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
+            overall_exit=1
+        fi
+    done
+
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
+    record_target_result "ios" "$acc_passed" "$acc_failed" "$acc_skipped" "$duration"
 
     if [[ $overall_exit -eq 124 ]]; then
         log_error "iOS tests timed out after ${timeout}s"

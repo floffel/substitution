@@ -133,8 +133,24 @@ run_linux_tests() {
             test_files=("${all_files[@]}")
         fi
 
+        # Apply sharding: select only files for this shard index
+        if [[ -n "${SHARD_INDEX:-}" ]] && [[ -n "${TOTAL_SHARDS:-}" ]]; then
+            local total_files=${#test_files[@]}
+            local shard_files=()
+            local idx=0
+            for f in "${test_files[@]}"; do
+                if (( idx % TOTAL_SHARDS == SHARD_INDEX )); then
+                    shard_files+=("$f")
+                fi
+                idx=$((idx + 1))
+            done
+            log_info "Shard ${SHARD_INDEX}/${TOTAL_SHARDS}: running ${#shard_files[@]} of $total_files files"
+            log_info "Files in this shard: ${shard_files[*]}"
+            test_files=("${shard_files[@]}")
+        fi
+
         if [[ ${#test_files[@]} -eq 0 ]]; then
-            log_warn "No Linux integration test files found."
+            log_warn "No Linux integration test files found for this shard."
             record_target_result "linux" 0 0 0 0
             return 0
         fi

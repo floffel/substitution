@@ -49,6 +49,8 @@ android_setup_path() {
 ANDROID_EMULATOR_PID=""
 ANDROID_DEVICE_ID="emulator-5554"
 ANDROID_AVD_NAME="${ANDROID_AVD_NAME:-android_test}"
+# Set to true when we started the emulator ourselves (not pre-started by CI runner)
+ANDROID_EMULATOR_OWNED=false
 
 # Start the Android emulator in headless mode
 android_start_emulator() {
@@ -167,8 +169,12 @@ android_stop_emulator() {
         kill "$ANDROID_EMULATOR_PID" 2>/dev/null || true
         ANDROID_EMULATOR_PID=""
     fi
-    pkill -f emulator 2>/dev/null || true
-    adb kill-server 2>/dev/null || true
+    # Only pkill the emulator process if we started it ourselves.
+    # If CI pre-started the emulator (android-emulator-runner), leave it running.
+    if [[ "${ANDROID_EMULATOR_OWNED:-false}" == "true" ]]; then
+        pkill -f emulator 2>/dev/null || true
+        adb kill-server 2>/dev/null || true
+    fi
 }
 
 # ---------------------------------------------------------------------------
@@ -214,9 +220,27 @@ run_android_tests() {
     # Virtual display (Linux headless)
     start_virtual_display || true
 
-    # Start emulator
-    android_start_emulator "${ANDROID_AVD_NAME:-Medium_Phone_API_36.1}" || return 1
-    android_wait_for_boot  || return 1
+    # Check if an emulator is already running (e.g., started by android-emulator-runner in CI).
+    # If adb already sees a connected emulator device, skip our own emulator start/wait.
+    local already_running=false
+    if adb devices 2>/dev/null | grep -q "emulator"; then
+        log_info "Emulator already connected (detected via adb devices) — skipping emulator start"
+        already_running=true
+        # Identify the device id from adb devices
+        local detected_device
+        detected_device=$(adb devices 2>/dev/null | grep "emulator" | awk '{print $1}' | head -1)
+        if [[ -n "$detected_device" ]]; then
+            ANDROID_DEVICE_ID="$detected_device"
+            log_info "Using device: $ANDROID_DEVICE_ID"
+        fi
+    fi
+
+    if [[ "$already_running" == "false" ]]; then
+        # Start emulator ourselves
+        android_start_emulator "${ANDROID_AVD_NAME:-Medium_Phone_API_36.1}" || return 1
+        android_wait_for_boot  || return 1
+        ANDROID_EMULATOR_OWNED=true
+    fi
 
     # Run tests
     local log_file="${RESULTS_DIR}/android-tests.log"
