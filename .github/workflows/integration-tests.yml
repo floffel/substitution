@@ -162,6 +162,7 @@ jobs:
     needs: [setup, plan-tests]
     strategy:
       fail-fast: false
+      max-parallel: 12
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
     timeout-minutes: 40
@@ -227,7 +228,7 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
-        run: docker compose down -v
+        run: sleep 3 && timeout 60 docker compose down || true
 
   # ============================================================================
   # iOS TESTS (macOS runner, ~30-40 minutes)
