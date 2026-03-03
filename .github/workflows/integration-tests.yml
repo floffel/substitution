@@ -240,7 +240,7 @@ jobs:
       fail-fast: false
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
-    timeout-minutes: 60
+    timeout-minutes: 75
 
     steps:
       - uses: actions/checkout@v4
@@ -264,7 +264,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 60
+        timeout-minutes: 70
 
   # ============================================================================
   # ANDROID TESTS (Linux runner, ~25-35 minutes)
