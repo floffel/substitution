@@ -32,7 +32,7 @@ Future<bool> isMatrixServerReachable({
   // and often return 'Connection refused' even when the server is reachable.
   // We skip the check here and let the client initialization handle it.
   if (defaultTargetPlatform == TargetPlatform.android) return true;
-  
+
   try {
     final uri = Uri.parse(matrixServer);
     var host = uri.host.isEmpty ? 'localhost' : uri.host;
@@ -88,16 +88,45 @@ void disableAnimations(WidgetTester tester) {
 ///
 /// Tests that call [app.main()] should wait for the client to be ready
 /// before attempting to use it.
+///
+/// On Android (and other native platforms), the Flutter engine may be busy
+/// with native initialisation (database open, JIT warm-up) right after a
+/// fresh APK install.  Calling [WidgetTester.pump] while the engine is blocked
+/// causes the integration-test driver to wait up to ~20 s for a response, then
+/// mark the test as "did not complete".
+///
+/// To avoid that, we use [WidgetTester.runAsync] to let real-time pass (via
+/// [Future.delayed]) between pump calls, keeping the engine's event loop alive
+/// and ensuring the driver never loses contact with the device.
 Future<void> waitForMatrixClient(WidgetTester tester) async {
   debugPrint('Waiting for globalMatrixClient to be initialized...');
-  for (int i = 0; i < 60; i++) {
-    if (app.globalMatrixClient != null &&
-        find.byType(MaterialApp).evaluate().isNotEmpty) {
-      debugPrint('globalMatrixClient initialized and UI mounted!');
-      return;
+
+  // Allow up to 60 seconds of real wall-clock time.
+  const maxWait = Duration(seconds: 60);
+  final deadline = DateTime.now().add(maxWait);
+
+  while (DateTime.now().isBefore(deadline)) {
+    // runAsync lets real async work (database init, etc.) make progress
+    // without requiring the Flutter frame scheduler to tick.
+    final ready = await tester.runAsync<bool>(() async {
+      // Give the engine a short real-time slice to process native callbacks.
+      await Future.delayed(const Duration(milliseconds: 200));
+      return app.globalMatrixClient != null;
+    });
+
+    if (ready == true) {
+      // Client is ready; now do a single pump to let the widget tree render.
+      await tester.pump();
+      if (find.byType(MaterialApp).evaluate().isNotEmpty) {
+        debugPrint('globalMatrixClient initialized and UI mounted!');
+        return;
+      }
     }
-    await tester.pump(const Duration(milliseconds: 500));
+
+    // Pump a short frame to keep animations / GoRouter routing going.
+    await tester.pump(const Duration(milliseconds: 100));
   }
+
   throw Exception('Timeout waiting for globalMatrixClient initialization');
 }
 

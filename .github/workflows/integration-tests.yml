@@ -228,7 +228,13 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
-        run: sleep 3 && timeout 60 docker compose down || true
+        run: |
+          # Use docker kill + rm instead of compose down to reduce memory pressure.
+          # `docker compose down` spawns a full Python process which can OOM the runner
+          # after a heavy test shard; individual docker commands are much lighter.
+          docker ps -q | xargs -r docker kill 2>/dev/null || true
+          docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
+          docker network prune -f 2>/dev/null || true
 
   # ============================================================================
   # iOS TESTS (macOS runner, ~30-40 minutes)
