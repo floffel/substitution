@@ -88,7 +88,9 @@ void main() {
           {"joined": true},
         );
         service.triggerRefresh();
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         final room = client.getRoomById(roomId)!;
         final timeline = await room.getTimeline();

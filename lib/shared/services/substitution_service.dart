@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:matrix/matrix.dart';
 import '../extensions/client_extensions.dart';
@@ -6,6 +7,7 @@ class SubstitutionService extends ChangeNotifier {
   final Client _client;
   final Set<String> _substitutionRoomIds = {};
   Future<void>? _initFuture;
+  StreamSubscription? _syncSubscription;
 
   /// Returns true if the service has finished its initial room discovery.
   bool get isInitialized => _initFuture != null;
@@ -16,13 +18,12 @@ class SubstitutionService extends ChangeNotifier {
   SubstitutionService(this._client) {
     // Listen for sync completion to trigger UI updates (e.g. new messages)
     try {
-      _client.onSyncStatus.stream.listen((status) {
+      _syncSubscription = _client.onSyncStatus.stream.listen((status) {
         if (status.status == SyncStatus.finished) {
           // Throttled notification to avoid rapid refresh loops in the UI
           final now = DateTime.now();
           if (_lastSyncNotify == null ||
-              now.difference(_lastSyncNotify!) >
-                  const Duration(seconds: 2)) {
+              now.difference(_lastSyncNotify!) > const Duration(seconds: 2)) {
             _lastSyncNotify = now;
             notifyListeners();
           }
@@ -34,6 +35,12 @@ class SubstitutionService extends ChangeNotifier {
   }
 
   DateTime? _lastSyncNotify;
+
+  @override
+  void dispose() {
+    _syncSubscription?.cancel();
+    super.dispose();
+  }
 
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
   /// from the Matrix server's account data.

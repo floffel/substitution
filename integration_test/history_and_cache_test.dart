@@ -11,7 +11,13 @@ import 'package:matrix/matrix.dart';
 import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'helpers/integration_test_helper.dart'
-    show skipIfNoMatrix, fastWait, effectiveMatrixServer, settle, waitForSync;
+    show
+        skipIfNoMatrix,
+        fastWait,
+        effectiveMatrixServer,
+        settle,
+        waitForSync,
+        waitForMatrixClient;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -59,7 +65,7 @@ void main() {
         final $ = wrapTester(tester);
 
         app.main();
-        await settle($.tester);
+        await waitForMatrixClient($.tester);
 
         debugPrint('HISTORY: Logging in...');
         if (!await patrol_helper.loginUser(

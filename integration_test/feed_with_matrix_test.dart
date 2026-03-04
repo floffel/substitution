@@ -205,7 +205,9 @@ void main() {
         // Simple scroll test without complex interactions
         debugPrint('FEED_CHRONO: Performing basic scroll...');
         await $.tester.drag(feed.first, const Offset(0, -100));
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         debugPrint('✓ FEED_CHRONO: Feed supports scrolling');
       },

@@ -266,33 +266,31 @@ run_ios_tests() {
         log_success "Pre-build complete — subsequent flutter test calls will use incremental build"
     fi
 
-    log_info "Running ${#test_files[@]} iOS integration test file(s) (timeout: ${timeout}s each)..."
+    log_info "Running ${#test_files[@]} iOS integration test file(s) in a single session (timeout: ${timeout}s)..."
     : > "$log_file"
     local acc_passed=0 acc_failed=0 acc_skipped=0
 
-    for test_file in "${test_files[@]}"; do
-        log_info "  Running: $test_file"
-        run_with_timeout "$timeout" flutter "test" --no-pub --timeout "60m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
-        local exit_code=${PIPESTATUS[0]}
-        parse_flutter_output "$log_file"
-        acc_passed=$((acc_passed + _PARSED_PASSED))
-        acc_failed=$((acc_failed + _PARSED_FAILED))
-        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
-        if [[ $exit_code -eq 124 ]]; then
-            log_error "Timed out after ${timeout}s: $test_file"; overall_exit=1; break
-        elif [[ $exit_code -ne 0 ]]; then
-            if [[ $_PARSED_FAILED -gt 0 ]]; then
-                log_warn "FAILED: $test_file"
-                overall_exit=1
-            elif [[ $_PARSED_PASSED -gt 0 ]]; then
-                log_warn "flutter test exited $exit_code for $test_file but $_PARSED_PASSED passed, 0 failed — treating as success"
-                # Do NOT set overall_exit=1 here
-            else
-                log_warn "FAILED (no test output parsed): $test_file"
-                overall_exit=1
-            fi
+    run_with_timeout "$timeout" flutter "test" --no-pub --timeout "60m" "${common_args[@]}" "${test_files[@]}" 2>&1 | tee -a "$log_file"
+    local exit_code=${PIPESTATUS[0]}
+    parse_flutter_output "$log_file"
+    acc_passed=$((acc_passed + _PARSED_PASSED))
+    acc_failed=$((acc_failed + _PARSED_FAILED))
+    acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+    if [[ $exit_code -eq 124 ]]; then
+        log_error "Timed out after ${timeout}s"
+        overall_exit=1
+    elif [[ $exit_code -ne 0 ]]; then
+        if [[ $_PARSED_FAILED -gt 0 ]]; then
+            log_warn "FAILED: some tests failed"
+            overall_exit=1
+        elif [[ $_PARSED_PASSED -gt 0 ]]; then
+            log_warn "flutter test exited $exit_code but $_PARSED_PASSED passed, 0 failed — treating as success"
+            # Do NOT set overall_exit=1 here
+        else
+            log_warn "FAILED (no test output parsed)"
+            overall_exit=1
         fi
-    done
+    fi
 
     end_time=$(date +%s)
     duration=$((end_time - start_time))

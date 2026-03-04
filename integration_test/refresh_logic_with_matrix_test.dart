@@ -128,7 +128,9 @@ void main() {
         debugPrint('REFRESH: Performing pull-to-refresh...');
         final scrollable = $(Scrollable).first;
         await $.tester.drag(scrollable, const Offset(0, 500)); // Drag down
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 3. Verify that the refresh indicator appeared and disappeared
         // (The app uses RefreshIndicator in HomePage)

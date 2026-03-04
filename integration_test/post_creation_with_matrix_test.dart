@@ -97,20 +97,26 @@ void main() {
           {"joined": true},
         );
         service.triggerRefresh();
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 2. Tap Send icon in AppBar to start posting
         debugPrint('POST_CREATION: Tapping New Post button...');
         final newPostButton = $(Icons.send_outlined);
         await newPostButton.waitUntilVisible();
         await newPostButton.tap();
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 3. Verify RoomSelectPage and pick our fresh room
         expect($(RoomSelectPage).exists, true);
         debugPrint('POST_CREATION: Picking room $roomName...');
         await $(find.textContaining(roomName)).tap();
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 4. Verify TextMessageWrite page
         expect($(TextMessageWrite).exists, true);
@@ -128,7 +134,9 @@ void main() {
           find.byType(TextMessageWrite),
         );
         state.controller.document.insert(0, uniqueBody);
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 6. Tap Send button (Icons.send)
         debugPrint('POST_CREATION: Tapping Send...');
@@ -143,7 +151,9 @@ void main() {
           () => $(HomePage).exists,
           timeout: const Duration(seconds: 60),
         );
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // 8. Verify message appears in feed
         debugPrint('POST_CREATION: Verifying message in feed...');

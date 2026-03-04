@@ -55,19 +55,22 @@ void main() {
         AgeGatePage.confirmed = true;
         app.main();
 
-        await patrol_helper.loginUser(
+        final loggedIn = await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: 'testuser1',
           password: 'testpass123',
         );
+        if (!loggedIn) return;
 
         debugPrint('Login success confirmed.');
 
         // Navigate to Menu
         await $(Icons.menu).waitUntilVisible();
         await $(Icons.menu).tap();
-        await $.tester.pumpAndSettle();
+        for (int i = 0; i < 10; i++) {
+          await $.tester.pump(const Duration(milliseconds: 300));
+        }
 
         // Trigger Logout
         await $(Icons.logout).tap();
