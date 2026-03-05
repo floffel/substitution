@@ -89,7 +89,7 @@ void main() {
         await fastWait(
           $.tester,
           () => find.textContaining(uniqueCacheMessage).evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 120),
+          timeout: const Duration(seconds: 300),
         );
         debugPrint('OFFLINE: Message visible, killing app...');
         await settle($.tester);

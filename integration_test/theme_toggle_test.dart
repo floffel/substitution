@@ -28,7 +28,14 @@ void main() {
       if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
 
       debugPrint('THEME: Resetting state...');
-      await app.globalMatrixClient?.dispose();
+      // Abort any in-progress sync before disposing to avoid waiting for the
+      // current sync timeout (which can take 30+ s and cause "did not complete").
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (e) {
+        debugPrint('THEME: Matrix client cleanup warning (continuing): $e');
+      }
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 

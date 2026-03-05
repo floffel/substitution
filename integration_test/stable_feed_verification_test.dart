@@ -7,10 +7,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, waitForMatrixClient, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
-import 'helpers/test_synchronizer.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -90,45 +90,40 @@ void main() {
 
     testWidgets(
       'Feed loads and shows messages chronologically - Stable Version',
-      TestSynchronizer.createSynchronizedTest(
-        'Stable Chronological Feed Verification',
-        (tester) async {
-          debugPrint(
-            'STABLE_FEED: Starting chronological feed verification...',
-          );
+      (tester) async {
+        debugPrint('STABLE_FEED: Starting chronological feed verification...');
 
-          final $ = wrapTester(tester);
-          AgeGatePage.confirmed = true;
+        final $ = wrapTester(tester);
+        AgeGatePage.confirmed = true;
 
-          // Start the app, then wait for it to initialize
-          app.main();
-          await TestSynchronizer.synchronizedWaitForMatrixClient($.tester);
+        // Start the app, then wait for it to initialize
+        app.main();
+        await waitForMatrixClient($.tester);
 
-          debugPrint('STABLE_FEED: Starting login...');
+        debugPrint('STABLE_FEED: Starting login...');
 
-          if (!await patrol_helper.loginUser(
-            $,
-            matrixServer: testMatrixServer,
-            username: testUser,
-            password: testPassword,
-          )) {
-            debugPrint('STABLE_FEED: Login failed - test skipped');
-            return;
-          }
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          debugPrint('STABLE_FEED: Login failed - test skipped');
+          return;
+        }
 
-          await TestSynchronizer.synchronizedPumpAndSettle($.tester);
+        await settle($.tester);
 
-          // Verify feed exists and is functional without problematic scroll operations
-          final feed = $(Scrollable);
+        // Verify feed exists and is functional without problematic scroll operations
+        final feed = $(Scrollable);
 
-          debugPrint('STABLE_FEED: Verifying scrollable feed element...');
+        debugPrint('STABLE_FEED: Verifying scrollable feed element...');
 
-          // Just verify the basic functionality without complex interactions
-          expect(feed.exists, true);
+        // Just verify the basic functionality without complex interactions
+        expect(feed.exists, true);
 
-          debugPrint('STABLE_FEED: Feed verification completed');
-        },
-      ),
+        debugPrint('STABLE_FEED: Feed verification completed');
+      },
     );
   });
 }

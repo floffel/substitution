@@ -29,11 +29,18 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
     );
   }
 
+  // Increase NativeAutomatorConfig.findTimeout from the default 10s to 3
+  // minutes.  This is the gRPC heartbeat timeout between the Dart test runner
+  // and the Patrol native server on the device.  Without this, the native
+  // automator declares the test dead after 10s whenever waitForMatrixClient
+  // (which pumps for up to 90s) is in progress.
+  const nativeConfig = NativeAutomatorConfig(findTimeout: Duration(minutes: 3));
+
   return PatrolIntegrationTester(
     tester: tester,
     config: config,
-    nativeAutomator: NativeAutomator(config: const NativeAutomatorConfig()),
-    nativeAutomator2: NativeAutomator2(config: const NativeAutomatorConfig()),
+    nativeAutomator: NativeAutomator(config: nativeConfig),
+    nativeAutomator2: NativeAutomator2(config: nativeConfig),
   );
 }
 

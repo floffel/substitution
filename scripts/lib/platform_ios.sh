@@ -276,12 +276,19 @@ run_ios_tests() {
             log_info "Pre-installing app bundle to simulator..."
             # run_with_timeout guards against simctl install hanging indefinitely
             # (observed to hang 47+ min on cold simulators in CI, exhausting the job).
-            run_with_timeout 120 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Pre-install failed or timed out (non-fatal)"
-            log_info "Pre-launching app to warm up simulator runtime..."
-            xcrun simctl launch "$sim_id" art.substitution.substitution 2>&1 || log_warn "Pre-launch failed (non-fatal)"
-            sleep 5
-            # Terminate the pre-launched instance so flutter test gets a clean start
-            xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
+            local preinstall_exit=0
+            run_with_timeout 120 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || { preinstall_exit=$?; log_warn "Pre-install failed or timed out (exit $preinstall_exit, non-fatal)"; }
+            if [[ $preinstall_exit -eq 0 ]]; then
+              log_info "Pre-launching app to warm up simulator runtime..."
+              # Guard the launch step; if the simulator is in a bad state after
+              # install, simctl launch can hang indefinitely too.
+              run_with_timeout 60 xcrun simctl launch "$sim_id" art.substitution.substitution 2>&1 || log_warn "Pre-launch failed (non-fatal)"
+              sleep 5
+              # Terminate the pre-launched instance so flutter test gets a clean start
+              xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
+            else
+              log_warn "Skipping pre-launch because pre-install failed"
+            fi
             sleep 2
             log_success "Pre-install/launch complete — simulator app pipeline warmed"
         else
