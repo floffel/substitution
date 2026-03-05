@@ -360,6 +360,16 @@ run_android_tests() {
                 overall_exit=1
             fi
         fi
+
+        # Recovery pause between test files: kill the app process and allow the
+        # emulator a few seconds to reclaim memory/CPU before the next install.
+        # Without this, a resource-exhausted emulator causes the next flutter
+        # test to hang in the "loading" phase and trigger the 12-min heartbeat
+        # timeout.
+        log_info "  Recovery: terminating app and pausing before next test..."
+        adb -s "$ANDROID_DEVICE_ID" shell am force-stop art.substitution.substitution 2>/dev/null || true
+        adb -s "$ANDROID_DEVICE_ID" shell am kill art.substitution.substitution 2>/dev/null || true
+        sleep 5
     done
 
     local end_time

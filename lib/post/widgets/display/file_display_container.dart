@@ -163,12 +163,19 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
   void initState() {
     super.initState();
 
-    relatedFiles.then((f) {
-      files = f;
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    relatedFiles
+        .then((f) {
+          files = f;
+          if (mounted) {
+            setState(() {});
+          }
+        })
+        .catchError((e) {
+          // Ignore errors from relatedFiles (e.g. M_NOT_FOUND when the event
+          // context is no longer available on the server). The widget will
+          // gracefully show only the primary file that was already set.
+          debugPrint('FileDisplayContainer: relatedFiles error (ignored): $e');
+        });
   }
 
   Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {

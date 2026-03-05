@@ -174,22 +174,25 @@ run_ios_tests() {
         return 1
     fi
 
-    # Wait for responsiveness — use a generous timeout to ensure the simulator
-    # is fully operational before we start tests.  Launching an app on a
-    # not-yet-responsive simulator causes 8-10 minute stalls that exhaust the
-    # 12-minute test heartbeat timer.
-    log_info "Waiting for simulator responsiveness..."
-    local wait_start elapsed
-    wait_start=$(date +%s)
-    while true; do
-        xcrun simctl status_bar "$sim_id" show 2>/dev/null && break
-        elapsed=$(( $(date +%s) - wait_start ))
-        [[ $elapsed -ge 300 ]] && { log_warn "Simulator still not fully responsive after 5 min — continuing anyway"; break; }
-        sleep 5
-    done
-    # Extra settle time after responsiveness check to let system services start
-    log_info "Simulator responsive — waiting 10s for full stabilisation..."
-    sleep 10
+    # Wait for the simulator to be fully booted using bootstatus (more reliable
+    # than the simctl status_bar trick which can succeed while the SpringBoard
+    # and system services are still initialising).
+    log_info "Waiting for simulator full boot (bootstatus)..."
+    local bootstatus_timeout=600
+    if ! run_with_timeout "$bootstatus_timeout" xcrun simctl bootstatus "$sim_id" -b 2>&1; then
+        log_warn "bootstatus timed out or failed — falling back to status_bar poll"
+        local wait_start elapsed
+        wait_start=$(date +%s)
+        while true; do
+            xcrun simctl status_bar "$sim_id" show 2>/dev/null && break
+            elapsed=$(( $(date +%s) - wait_start ))
+            [[ $elapsed -ge 120 ]] && { log_warn "Simulator still not responsive after 2 min — continuing anyway"; break; }
+            sleep 5
+        done
+    fi
+    # Extra settle time after boot to let SpringBoard and system services stabilise
+    log_info "Simulator booted — waiting 15s for full stabilisation..."
+    sleep 15
 
     # Run tests — run all files in a single session for performance
     local timeout="${IOS_TEST_TIMEOUT:-2700}"
@@ -264,6 +267,24 @@ run_ios_tests() {
         log_warn "Pre-build failed or timed out (exit $prebuild_exit) — continuing anyway (first test may be slow)"
     else
         log_success "Pre-build complete — subsequent flutter test calls will use incremental build"
+        # Pre-install and pre-launch the app to warm up the simulator's app
+        # install pipeline.  Without this, flutter test's own install/launch
+        # step can hang for 8-10 minutes on a freshly-booted simulator,
+        # triggering the 12-minute heartbeat timeout before any test runs.
+        local app_bundle="build/ios/iphonesimulator/Runner.app"
+        if [[ -d "$app_bundle" ]]; then
+            log_info "Pre-installing app bundle to simulator..."
+            xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Pre-install failed (non-fatal)"
+            log_info "Pre-launching app to warm up simulator runtime..."
+            xcrun simctl launch "$sim_id" art.substitution.substitution 2>&1 || log_warn "Pre-launch failed (non-fatal)"
+            sleep 5
+            # Terminate the pre-launched instance so flutter test gets a clean start
+            xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
+            sleep 2
+            log_success "Pre-install/launch complete — simulator app pipeline warmed"
+        else
+            log_warn "App bundle not found at $app_bundle — skipping pre-install (first test may be slow)"
+        fi
     fi
 
     log_info "Running ${#test_files[@]} iOS integration test file(s) in a single session (timeout: ${timeout}s)..."
