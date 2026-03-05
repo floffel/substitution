@@ -274,7 +274,9 @@ run_ios_tests() {
         local app_bundle="build/ios/iphonesimulator/Runner.app"
         if [[ -d "$app_bundle" ]]; then
             log_info "Pre-installing app bundle to simulator..."
-            xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Pre-install failed (non-fatal)"
+            # run_with_timeout guards against simctl install hanging indefinitely
+            # (observed to hang 47+ min on cold simulators in CI, exhausting the job).
+            run_with_timeout 120 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Pre-install failed or timed out (non-fatal)"
             log_info "Pre-launching app to warm up simulator runtime..."
             xcrun simctl launch "$sim_id" art.substitution.substitution 2>&1 || log_warn "Pre-launch failed (non-fatal)"
             sleep 5

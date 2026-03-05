@@ -10,12 +10,20 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   disableAnimations(tester);
 
+  // Use a generous existsTimeout/visibleTimeout so Patrol finders don't fire
+  // prematurely while waitForMatrixClient (up to 90s) is running.
+  const config = PatrolTesterConfig(
+    existsTimeout: Duration(minutes: 3),
+    visibleTimeout: Duration(minutes: 3),
+  );
+
   // Use mocks for all non-mobile platforms (Desktop) to avoid unnecessary
   // Platform access and potential crashes in Patrol's native automators.
-  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) {
+  if (defaultTargetPlatform != TargetPlatform.android &&
+      defaultTargetPlatform != TargetPlatform.iOS) {
     return PatrolIntegrationTester(
       tester: tester,
-      config: const PatrolTesterConfig(),
+      config: config,
       nativeAutomator: _MockNativeAutomator(),
       nativeAutomator2: _MockNativeAutomator2(),
     );
@@ -23,7 +31,7 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
 
   return PatrolIntegrationTester(
     tester: tester,
-    config: const PatrolTesterConfig(),
+    config: config,
     nativeAutomator: NativeAutomator(config: const NativeAutomatorConfig()),
     nativeAutomator2: NativeAutomator2(config: const NativeAutomatorConfig()),
   );

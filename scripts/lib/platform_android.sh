@@ -244,7 +244,7 @@ run_android_tests() {
 
     # Run tests
     local log_file="${RESULTS_DIR}/android-tests.log"
-    local timeout="${ANDROID_TEST_TIMEOUT:-2400}"
+    local timeout="${ANDROID_TEST_TIMEOUT:-600}"
     mkdir -p "$RESULTS_DIR"
 
     export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"

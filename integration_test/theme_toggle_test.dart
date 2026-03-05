@@ -9,7 +9,8 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/shared/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import 'package:integration_test/integration_test.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -66,7 +67,9 @@ void main() {
         debugPrint('THEME: Opening menu...');
         await $(Icons.menu).waitUntilVisible();
         await $(Icons.menu).tap();
-        await $.tester.pumpAndSettle();
+        // Use settle() instead of pumpAndSettle() — the drawer has background
+        // animations that never settle, causing pumpAndSettle to hang forever.
+        await settle($.tester);
 
         // 2. Find ThemeService by searching all elements
         debugPrint('THEME: Searching for ThemeService...');
