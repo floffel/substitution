@@ -150,8 +150,9 @@ void main() {
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        ))
+        )) {
           return;
+        }
 
         await waitForFeedReady($);
         expect(
@@ -180,8 +181,9 @@ void main() {
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        ))
+        )) {
           return;
+        }
 
         await waitForFeedReady($);
 
@@ -210,8 +212,9 @@ void main() {
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      ))
+      )) {
         return;
+      }
 
       await waitForFeedReady($);
       expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
@@ -234,8 +237,9 @@ void main() {
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        ))
+        )) {
           return;
+        }
 
         await waitForFeedReady($);
 

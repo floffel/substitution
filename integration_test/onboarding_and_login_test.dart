@@ -68,8 +68,9 @@ void main() {
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        ))
+        )) {
           return;
+        }
 
         expect($(Scrollable).exists, true);
         debugPrint('✓ Full onboarding and login verified');
