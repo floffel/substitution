@@ -34,7 +34,12 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
   // and the Patrol native server on the device.  Without this, the native
   // automator declares the test dead after 10s whenever waitForMatrixClient
   // (which pumps for up to 90s) is in progress.
-  const nativeConfig = NativeAutomatorConfig(findTimeout: Duration(minutes: 3));
+  // connectionTimeout must be strictly greater than findTimeout (asserted by
+  // the Patrol constructor), so raise it to 5 minutes.
+  const nativeConfig = NativeAutomatorConfig(
+    connectionTimeout: Duration(minutes: 5),
+    findTimeout: Duration(minutes: 3),
+  );
 
   return PatrolIntegrationTester(
     tester: tester,
