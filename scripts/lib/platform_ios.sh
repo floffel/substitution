@@ -287,7 +287,27 @@ run_ios_tests() {
               # Terminate the pre-launched instance so flutter test gets a clean start
               xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
             else
-              log_warn "Skipping pre-launch because pre-install failed"
+              log_warn "Pre-install failed — attempting simulator erase and reboot to recover..."
+              xcrun simctl shutdown "$sim_id" 2>/dev/null || true
+              sleep 2
+              xcrun simctl erase "$sim_id" 2>/dev/null || true
+              sleep 5
+              xcrun simctl boot "$sim_id" 2>/dev/null || true
+              # Wait up to 120s for the simulator to come back up
+              local reboot_wait=0
+              while [[ $reboot_wait -lt 120 ]]; do
+                local sim_state
+                sim_state=$(xcrun simctl list devices | grep "$sim_id" | grep -o 'Booted' || true)
+                if [[ "$sim_state" == "Booted" ]]; then
+                  log_info "Simulator rebooted after erase"
+                  break
+                fi
+                sleep 5
+                reboot_wait=$((reboot_wait + 5))
+              done
+              sleep 10
+              log_info "Attempting re-install after simulator erase..."
+              run_with_timeout 180 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Re-install after erase also failed (non-fatal)"
             fi
             sleep 2
             log_success "Pre-install/launch complete — simulator app pipeline warmed"

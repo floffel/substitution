@@ -34,7 +34,12 @@ void main() {
       }
 
       debugPrint('ROOM_FEED: Resetting state...');
-      await app.globalMatrixClient?.dispose();
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (e) {
+        debugPrint('TEST: Matrix client cleanup warning: $e');
+      }
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 
@@ -54,7 +59,12 @@ void main() {
 
     tearDown(() async {
       debugPrint('ROOM_FEED: Tearing down...');
-      await app.globalMatrixClient?.dispose();
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (e) {
+        debugPrint('TEST: Matrix client cleanup warning: $e');
+      }
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
     });

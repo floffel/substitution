@@ -15,7 +15,12 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   tearDown(() async {
-    await app.globalMatrixClient?.dispose();
+    try {
+      app.globalMatrixClient?.abortSync();
+      await app.globalMatrixClient?.dispose();
+    } catch (e) {
+      debugPrint('TEST: Matrix client cleanup warning: $e');
+    }
     app.globalMatrixClient = null;
     if (!kIsWeb) {
       try {
