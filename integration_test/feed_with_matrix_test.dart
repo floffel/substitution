@@ -27,7 +27,12 @@ void main() {
       debugPrint('FEED_MATRIX: Resetting state...');
 
       // Complete cleanup before each test
-      await app.globalMatrixClient?.dispose();
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (e) {
+        debugPrint('TEST: Matrix client cleanup warning: $e');
+      }
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 
@@ -125,7 +130,12 @@ void main() {
       debugPrint('FEED_CHRONO: Resetting state...');
 
       // Complete cleanup before each test
-      await app.globalMatrixClient?.dispose();
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (e) {
+        debugPrint('TEST: Matrix client cleanup warning: $e');
+      }
       app.globalMatrixClient = null;
       app.globalSubstitutionService = null;
 

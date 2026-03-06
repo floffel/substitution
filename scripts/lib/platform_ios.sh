@@ -307,7 +307,13 @@ run_ios_tests() {
               done
               sleep 10
               log_info "Attempting re-install after simulator erase..."
-              run_with_timeout 180 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || log_warn "Re-install after erase also failed (non-fatal)"
+              local reinstall_exit=0
+              run_with_timeout 180 xcrun simctl install "$sim_id" "$app_bundle" 2>&1 || { reinstall_exit=$?; true; }
+              if [[ $reinstall_exit -ne 0 ]]; then
+                log_warn "Re-install after erase also failed (non-fatal)"
+                log_error "Simulator unrecoverable after erase+reboot — aborting to avoid flutter test hang"
+                return 1
+              fi
             fi
             sleep 2
             log_success "Pre-install/launch complete — simulator app pipeline warmed"

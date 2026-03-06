@@ -145,12 +145,13 @@ void main() {
         }
         final $ = wrapTester(tester);
         app.main();
-        await patrol_helper.loginUser(
+        if (!await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        );
+        ))
+          return;
 
         await waitForFeedReady($);
         expect(
@@ -174,12 +175,13 @@ void main() {
         }
         final $ = wrapTester(tester);
         app.main();
-        await patrol_helper.loginUser(
+        if (!await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        );
+        ))
+          return;
 
         await waitForFeedReady($);
 
@@ -203,12 +205,13 @@ void main() {
       }
       final $ = wrapTester(tester);
       app.main();
-      await patrol_helper.loginUser(
+      if (!await patrol_helper.loginUser(
         $,
         matrixServer: testMatrixServer,
         username: testUser,
         password: testPassword,
-      );
+      ))
+        return;
 
       await waitForFeedReady($);
       expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
@@ -226,12 +229,13 @@ void main() {
         }
         final $ = wrapTester(tester);
         app.main();
-        await patrol_helper.loginUser(
+        if (!await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        );
+        ))
+          return;
 
         await waitForFeedReady($);
 

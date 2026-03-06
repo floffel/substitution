@@ -58,13 +58,15 @@ void main() {
       (tester) async {
         final $ = wrapTester(tester);
         AgeGatePage.confirmed = true;
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
         app.main();
-        await patrol_helper.loginUser(
+        if (!await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        );
+        ))
+          return;
 
         debugPrint('✓ Room search test step reached');
       },

@@ -63,12 +63,13 @@ void main() {
         AgeGatePage.confirmed = true;
         app.main();
 
-        await patrol_helper.loginUser(
+        if (!await patrol_helper.loginUser(
           $,
           matrixServer: testMatrixServer,
           username: testUser,
           password: testPassword,
-        );
+        ))
+          return;
 
         expect($(Scrollable).exists, true);
         debugPrint('✓ Full onboarding and login verified');
