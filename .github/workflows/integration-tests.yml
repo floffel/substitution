@@ -151,10 +151,11 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
+        continue-on-error: true
         run: docker compose down -v
 
-  # ============================================================================
-  # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
+   # ============================================================================
+   # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
   # ============================================================================
   linux-tests:
     runs-on: ubuntu-latest
@@ -228,6 +229,8 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
+        timeout-minutes: 2
+        continue-on-error: true
         run: |
           # Use docker kill + rm instead of compose down to reduce memory pressure.
           # `docker compose down` spawns a full Python process which can OOM the runner
@@ -236,8 +239,8 @@ jobs:
           docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
           docker network prune -f 2>/dev/null || true
 
-  # ============================================================================
-  # iOS TESTS (macOS runner, ~30-40 minutes)
+   # ============================================================================
+   # iOS TESTS (macOS runner, ~30-40 minutes)
   # ============================================================================
   ios-tests:
     runs-on: macos-latest
@@ -394,10 +397,11 @@ jobs:
 
       - name: 'Stop Matrix test server'
         if: always()
+        continue-on-error: true
         run: docker compose down -v
 
-  # ============================================================================
-  # FINAL STATUS CHECK
+   # ============================================================================
+   # FINAL STATUS CHECK
   # ============================================================================
   all-tests-passed:
     runs-on: ubuntu-latest
