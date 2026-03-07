@@ -342,11 +342,46 @@ run_android_tests() {
         run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "$test_file" 2>&1 | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
         parse_flutter_output "$log_file"
-        acc_passed=$((acc_passed + _PARSED_PASSED))
-        acc_failed=$((acc_failed + _PARSED_FAILED))
-        acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
+        local test_passed=$_PARSED_PASSED
+        local test_failed=$_PARSED_FAILED
+        local test_skipped=$_PARSED_SKIPPED
+
+        # -----------------------------------------------------------------
+        # Retry logic: if the test timed out AND produced no parseable
+        # output (i.e. the app never started — "loading" phase hang due to
+        # a transient emulator startup failure), retry once after giving
+        # the emulator time to recover.  This handles the flaky 2/19 shard
+        # pattern where the app process silently fails to connect to the
+        # test driver after APK install.
+        # -----------------------------------------------------------------
+        if [[ $exit_code -eq 124 ]] && [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
+            log_warn "  Timeout with no test output for $test_file — likely emulator startup failure. Retrying once..."
+            # Give the emulator time to settle before the retry
+            adb -s "$ANDROID_DEVICE_ID" shell am force-stop art.substitution.substitution 2>/dev/null || true
+            adb -s "$ANDROID_DEVICE_ID" shell am kill art.substitution.substitution 2>/dev/null || true
+            adb -s "$ANDROID_DEVICE_ID" shell pm clear art.substitution.substitution 2>/dev/null || true
+            sleep 10
+
+            run_with_timeout "$timeout" flutter "${common_args[@]}" --no-pub "$test_file" 2>&1 | tee -a "$log_file"
+            exit_code=${PIPESTATUS[0]}
+            parse_flutter_output "$log_file"
+            test_passed=$_PARSED_PASSED
+            test_failed=$_PARSED_FAILED
+            test_skipped=$_PARSED_SKIPPED
+        fi
+
+        acc_passed=$((acc_passed + test_passed))
+        acc_failed=$((acc_failed + test_failed))
+        acc_skipped=$((acc_skipped + test_skipped))
+
         if [[ $exit_code -eq 124 ]]; then
             log_error "Timed out after ${timeout}s: $test_file"
+            # If still no test output after retry, count this as 1 failure so
+            # the summary correctly reflects the timeout rather than showing
+            # "0 failed" with a non-zero exit code.
+            if [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
+                acc_failed=$((acc_failed + 1))
+            fi
             overall_exit=1
         elif [[ $exit_code -ne 0 ]]; then
             if [[ $_PARSED_FAILED -gt 0 ]]; then
