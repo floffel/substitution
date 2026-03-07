@@ -346,27 +346,34 @@ run_ios_tests() {
 
     for test_file in "${test_files[@]}"; do
         log_info "  Running: $test_file"
-        run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+        # Use a per-file log for accurate stat parsing, plus append to the
+        # aggregate log for debugging.  parse_flutter_output uses tail -1
+        # across the whole file, so mixing multiple test runs in one file
+        # causes it to return stats from the wrong (last) run.
+        local file_log="${RESULTS_DIR}/ios-$(basename "$test_file" .dart).log"
+        : > "$file_log"
+        run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$file_log" | tee -a "$log_file"
         local exit_code=${PIPESTATUS[0]}
-        parse_flutter_output "$log_file"
+        parse_flutter_output "$file_log"
         local test_passed=$_PARSED_PASSED
         local test_failed=$_PARSED_FAILED
         local test_skipped=$_PARSED_SKIPPED
 
         # -----------------------------------------------------------------
-        # Retry logic: if the test timed out AND produced no parseable
-        # output (the app never launched — "loading" phase hang due to a
-        # transient simulator startup issue), retry once after giving the
-        # simulator time to recover.
+        # Retry logic: if the test timed out OR exited non-zero AND produced
+        # no parseable output (the app never launched — "loading" phase hang
+        # due to a transient simulator startup issue), retry once after
+        # giving the simulator time to recover.
         # -----------------------------------------------------------------
-        if [[ $exit_code -eq 124 ]] && [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
-            log_warn "  Timeout with no test output for $test_file — likely simulator startup failure. Retrying once..."
+        if [[ $exit_code -ne 0 ]] && [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
+            log_warn "  Exit $exit_code with no test output for $test_file — likely simulator startup failure. Retrying once..."
             xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
             sleep 10
 
-            run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            : > "$file_log"
+            run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$file_log" | tee -a "$log_file"
             exit_code=${PIPESTATUS[0]}
-            parse_flutter_output "$log_file"
+            parse_flutter_output "$file_log"
             test_passed=$_PARSED_PASSED
             test_failed=$_PARSED_FAILED
             test_skipped=$_PARSED_SKIPPED
@@ -386,14 +393,15 @@ run_ios_tests() {
             fi
             overall_exit=1
         elif [[ $exit_code -ne 0 ]]; then
-            if [[ $_PARSED_FAILED -gt 0 ]]; then
+            if [[ ${test_failed:-0} -gt 0 ]]; then
                 log_warn "FAILED: $test_file"
                 overall_exit=1
-            elif [[ $_PARSED_PASSED -gt 0 ]]; then
-                log_warn "flutter test exited $exit_code for $test_file but $_PARSED_PASSED passed, 0 failed — treating as success"
+            elif [[ ${test_passed:-0} -gt 0 ]]; then
+                log_warn "flutter test exited $exit_code for $test_file but ${test_passed} passed, 0 failed — treating as success"
                 # Do NOT set overall_exit=1 here
             else
                 log_warn "FAILED (no test output parsed): $test_file"
+                acc_failed=$((acc_failed + 1))
                 overall_exit=1
             fi
         fi

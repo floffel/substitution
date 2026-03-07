@@ -162,9 +162,15 @@ run_linux_tests() {
 
         for test_file in "${test_files[@]}"; do
             log_info "  Running: $test_file"
-            run_with_timeout "$timeout" flutter test --no-pub "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            # Use a per-file log for accurate stat parsing, plus append to the
+            # aggregate log for debugging.  parse_flutter_output uses tail -1
+            # across the whole file, so mixing multiple test runs in one file
+            # causes it to return stats from the wrong (last) run.
+            local file_log="${RESULTS_DIR}/linux-$(basename "$test_file" .dart).log"
+            : > "$file_log"
+            run_with_timeout "$timeout" flutter test --no-pub "${common_args[@]}" "$test_file" 2>&1 | tee -a "$file_log" | tee -a "$log_file"
             local exit_code=${PIPESTATUS[0]}
-            parse_flutter_output "$log_file"
+            parse_flutter_output "$file_log"
             acc_passed=$((acc_passed + _PARSED_PASSED))
             acc_failed=$((acc_failed + _PARSED_FAILED)) 
             acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
@@ -172,6 +178,10 @@ run_linux_tests() {
             if [[ $exit_code -eq 124 ]]; then
                 log_error "Timed out after ${timeout}s: $test_file"; overall_exit=1; break
             elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
+                overall_exit=1
+            elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_PASSED -eq 0 ]] && [[ $_PARSED_FAILED -eq 0 ]]; then
+                log_warn "FAILED (no test output parsed): $test_file"
+                acc_failed=$((acc_failed + 1))
                 overall_exit=1
             fi
         done
