@@ -180,22 +180,39 @@ run_ios_tests() {
     log_info "Waiting for simulator full boot (bootstatus)..."
     local bootstatus_timeout=600
     if ! run_with_timeout "$bootstatus_timeout" xcrun simctl bootstatus "$sim_id" -b 2>&1; then
-        log_warn "bootstatus timed out or failed — falling back to status_bar poll"
-        local wait_start elapsed
-        wait_start=$(date +%s)
-        while true; do
-            xcrun simctl status_bar "$sim_id" show 2>/dev/null && break
-            elapsed=$(( $(date +%s) - wait_start ))
-            [[ $elapsed -ge 120 ]] && { log_warn "Simulator still not responsive after 2 min — continuing anyway"; break; }
+        # bootstatus timed out — the simulator is in "Booted" state per simctl
+        # but SpringBoard never finished initialising.  This leaves the device
+        # in a wedged state where simctl install will hang indefinitely.
+        # The only reliable recovery is a full erase+reboot cycle.
+        log_warn "bootstatus timed out — simulator in bad state. Performing erase+reboot to recover..."
+        xcrun simctl shutdown "$sim_id" 2>/dev/null || true
+        sleep 3
+        xcrun simctl erase "$sim_id" 2>/dev/null || true
+        sleep 5
+        xcrun simctl boot "$sim_id" 2>/dev/null || true
+        # Wait up to 3 minutes for Booted state after erase
+        local reboot_wait=0
+        while [[ $reboot_wait -lt 180 ]]; do
+            local reboot_state
+            reboot_state=$(ios_get_simulator_state "$sim_id")
+            if [[ "$reboot_state" == "Booted" ]]; then
+                log_info "Simulator rebooted after erase (${reboot_wait}s)"
+                break
+            fi
             sleep 5
+            reboot_wait=$((reboot_wait + 5))
         done
+        # Second bootstatus attempt with a shorter timeout — if this also fails
+        # we continue anyway (install has its own recovery path below).
+        if ! run_with_timeout 120 xcrun simctl bootstatus "$sim_id" -b 2>&1; then
+            log_warn "Second bootstatus also timed out — continuing (install recovery will handle bad state)"
+        fi
     fi
     # Extra settle time after boot to let SpringBoard and system services stabilise
     log_info "Simulator booted — waiting 15s for full stabilisation..."
     sleep 15
 
-    # Run tests — run all files in a single session for performance
-    local timeout="${IOS_TEST_TIMEOUT:-2700}"
+    # Run tests — per-file mode (each file gets its own flutter test invocation)
     mkdir -p "$RESULTS_DIR"
 
     export MATRIX_SERVER="${MATRIX_SERVER:-http://localhost:8008}"
@@ -294,8 +311,8 @@ run_ios_tests() {
               sleep 5
               xcrun simctl boot "$sim_id" 2>/dev/null || true
               # Wait up to 120s for the simulator to come back up
-              local reboot_wait=0
-              while [[ $reboot_wait -lt 120 ]]; do
+              local install_reboot_wait=0
+              while [[ $install_reboot_wait -lt 120 ]]; do
                 local sim_state
                 sim_state=$(xcrun simctl list devices | grep "$sim_id" | grep -o 'Booted' || true)
                 if [[ "$sim_state" == "Booted" ]]; then
@@ -303,7 +320,7 @@ run_ios_tests() {
                   break
                 fi
                 sleep 5
-                reboot_wait=$((reboot_wait + 5))
+                install_reboot_wait=$((install_reboot_wait + 5))
               done
               sleep 10
               log_info "Attempting re-install after simulator erase..."
@@ -322,31 +339,73 @@ run_ios_tests() {
         fi
     fi
 
-    log_info "Running ${#test_files[@]} iOS integration test file(s) in a single session (timeout: ${timeout}s)..."
+    log_info "Running ${#test_files[@]} iOS integration test file(s) individually (timeout: ${IOS_FILE_TIMEOUT:-600}s each)..."
     : > "$log_file"
     local acc_passed=0 acc_failed=0 acc_skipped=0
+    local file_timeout="${IOS_FILE_TIMEOUT:-600}"
 
-    run_with_timeout "$timeout" flutter "test" --no-pub --timeout "60m" "${common_args[@]}" "${test_files[@]}" 2>&1 | tee -a "$log_file"
-    local exit_code=${PIPESTATUS[0]}
-    parse_flutter_output "$log_file"
-    acc_passed=$((acc_passed + _PARSED_PASSED))
-    acc_failed=$((acc_failed + _PARSED_FAILED))
-    acc_skipped=$((acc_skipped + _PARSED_SKIPPED))
-    if [[ $exit_code -eq 124 ]]; then
-        log_error "Timed out after ${timeout}s"
-        overall_exit=1
-    elif [[ $exit_code -ne 0 ]]; then
-        if [[ $_PARSED_FAILED -gt 0 ]]; then
-            log_warn "FAILED: some tests failed"
-            overall_exit=1
-        elif [[ $_PARSED_PASSED -gt 0 ]]; then
-            log_warn "flutter test exited $exit_code but $_PARSED_PASSED passed, 0 failed — treating as success"
-            # Do NOT set overall_exit=1 here
-        else
-            log_warn "FAILED (no test output parsed)"
-            overall_exit=1
+    for test_file in "${test_files[@]}"; do
+        log_info "  Running: $test_file"
+        run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+        local exit_code=${PIPESTATUS[0]}
+        parse_flutter_output "$log_file"
+        local test_passed=$_PARSED_PASSED
+        local test_failed=$_PARSED_FAILED
+        local test_skipped=$_PARSED_SKIPPED
+
+        # -----------------------------------------------------------------
+        # Retry logic: if the test timed out AND produced no parseable
+        # output (the app never launched — "loading" phase hang due to a
+        # transient simulator startup issue), retry once after giving the
+        # simulator time to recover.
+        # -----------------------------------------------------------------
+        if [[ $exit_code -eq 124 ]] && [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
+            log_warn "  Timeout with no test output for $test_file — likely simulator startup failure. Retrying once..."
+            xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
+            sleep 10
+
+            run_with_timeout "$file_timeout" flutter "test" --no-pub --timeout "8m" "${common_args[@]}" "$test_file" 2>&1 | tee -a "$log_file"
+            exit_code=${PIPESTATUS[0]}
+            parse_flutter_output "$log_file"
+            test_passed=$_PARSED_PASSED
+            test_failed=$_PARSED_FAILED
+            test_skipped=$_PARSED_SKIPPED
         fi
-    fi
+
+        acc_passed=$((acc_passed + test_passed))
+        acc_failed=$((acc_failed + test_failed))
+        acc_skipped=$((acc_skipped + test_skipped))
+
+        if [[ $exit_code -eq 124 ]]; then
+            log_error "Timed out after ${file_timeout}s: $test_file"
+            # If still no test output after retry, count as 1 failure so the
+            # summary correctly reflects the timeout instead of showing
+            # "0 failed" with a non-zero exit code.
+            if [[ ${test_passed:-0} -eq 0 ]] && [[ ${test_failed:-0} -eq 0 ]]; then
+                acc_failed=$((acc_failed + 1))
+            fi
+            overall_exit=1
+        elif [[ $exit_code -ne 0 ]]; then
+            if [[ $_PARSED_FAILED -gt 0 ]]; then
+                log_warn "FAILED: $test_file"
+                overall_exit=1
+            elif [[ $_PARSED_PASSED -gt 0 ]]; then
+                log_warn "flutter test exited $exit_code for $test_file but $_PARSED_PASSED passed, 0 failed — treating as success"
+                # Do NOT set overall_exit=1 here
+            else
+                log_warn "FAILED (no test output parsed): $test_file"
+                overall_exit=1
+            fi
+        fi
+
+        # Recovery pause between test files: terminate the app and give the
+        # simulator a few seconds to reclaim memory before the next install.
+        # Without this, a resource-exhausted simulator can cause the next
+        # flutter test to hang in the "loading" phase (same pattern as Android).
+        log_info "  Recovery: terminating app and pausing before next test..."
+        xcrun simctl terminate "$sim_id" art.substitution.substitution 2>/dev/null || true
+        sleep 5
+    done
 
     end_time=$(date +%s)
     duration=$((end_time - start_time))

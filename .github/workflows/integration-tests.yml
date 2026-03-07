@@ -247,10 +247,55 @@ jobs:
       fail-fast: false
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
-    timeout-minutes: 75
+    timeout-minutes: 90
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: 'Boot iOS Simulator early'
+        # Boot the simulator now so it is fully ready (or close to it) by the
+        # time the test script runs.  On cold GitHub-hosted macOS VMs the
+        # simulator can take 10+ minutes to reach a truly responsive state;
+        # starting it here — while Flutter is being downloaded and pub get runs
+        # — gives it a 3-5 minute head start and dramatically reduces the
+        # fraction of shards that hit the bootstatus/install timeout.
+        # IOS_SIMULATOR_ID is exported so platform_ios.sh skips its own
+        # simulator-discovery and uses this exact UDID.
+        run: |
+          SIM_UDID=$(xcrun simctl list devices available --json \
+            | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          for p in ['iPhone 17', 'iPhone 16', 'iPhone 15', 'iPhone 14', 'iPhone 13']:
+            for sims in d.get('devices', {}).values():
+              for s in sims:
+                if p in s['name'] and s.get('isAvailable', False):
+                  print(s['udid']); sys.exit(0)
+          # fallback: first available iPhone
+          for sims in d.get('devices', {}).values():
+            for s in sims:
+              if 'iPhone' in s['name'] and s.get('isAvailable', False):
+                print(s['udid']); sys.exit(0)
+          ")
+          if [ -z "$SIM_UDID" ]; then
+            echo "ERROR: No available iPhone simulator found" >&2
+            xcrun simctl list devices available
+            exit 1
+          fi
+          echo "Booting simulator: $SIM_UDID"
+          echo "IOS_SIMULATOR_ID=$SIM_UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM_UDID" 2>/dev/null || true
+          # Poll up to 5 minutes for Booted state; non-fatal if still slow —
+          # platform_ios.sh handles further waiting via bootstatus.
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$SIM_UDID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$SIM_UDID" || true
 
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
@@ -271,7 +316,7 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 70
+        timeout-minutes: 85
 
   # ============================================================================
   # ANDROID TESTS (Linux runner, ~25-35 minutes)
