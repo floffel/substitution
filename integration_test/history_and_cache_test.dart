@@ -123,10 +123,16 @@ void main() {
 
         // Wait for HomePage to pick up the 6th room
         await fastWait($.tester, () {
-          final homeState = $.tester.state<HomePageState>(
-            find.byType(HomePage),
-          );
-          return homeState.currentRoomIds.length >= 6;
+          try {
+            final homeState = $.tester.state<HomePageState>(
+              find.byType(HomePage),
+            );
+            return homeState.currentRoomIds.length >= 6;
+          } catch (_) {
+            // tester.state() throws StateError if the widget is not yet in the
+            // tree (0 or >1 matches). Return false so fastWait retries.
+            return false;
+          }
         }, timeout: const Duration(seconds: 30));
         debugPrint(
           'HISTORY: HomePage discovered the new room. Current rooms: 6',

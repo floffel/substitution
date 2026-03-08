@@ -203,9 +203,12 @@ run_ios_tests() {
             reboot_wait=$((reboot_wait + 5))
         done
         # Second bootstatus attempt with a shorter timeout — if this also fails
-        # we continue anyway (install has its own recovery path below).
+        # the simulator is unrecoverable and flutter test will hang indefinitely.
+        # Return 1 immediately so the CI job fails fast instead of hanging for
+        # the full 85-minute job timeout.
         if ! run_with_timeout 120 xcrun simctl bootstatus "$sim_id" -b 2>&1; then
-            log_warn "Second bootstatus also timed out — continuing (install recovery will handle bad state)"
+            log_error "Second bootstatus also timed out — simulator unrecoverable, aborting to avoid flutter test hang"
+            return 1
         fi
     fi
     # Extra settle time after boot to let SpringBoard and system services stabilise

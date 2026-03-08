@@ -42,15 +42,9 @@ void main() {
         debugPrint('TEST: Matrix client cleanup warning: $e');
       }
       app.globalMatrixClient = null;
-      if (!kIsWeb) {
-        try {
-          final appDocDir = await getApplicationDocumentsDirectory();
-          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
-          if (await dbFile.exists()) {
-            await dbFile.delete();
-          }
-        } catch (_) {}
-      }
+      // DB deletion omitted: setUp already deletes the DB before each test,
+      // so deleting here races with Sqflite's WAL flush and throws
+      // SqfliteDatabaseException after the test has passed, falsely failing it.
     });
 
     testWidgets(

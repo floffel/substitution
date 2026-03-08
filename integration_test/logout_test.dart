@@ -35,6 +35,11 @@ void main() {
     });
 
     tearDown(() async {
+      // Dispose the Matrix client cleanly.
+      // DB deletion is intentionally omitted here: deleting the file
+      // immediately after dispose() races with Sqflite's internal WAL flush,
+      // causing a spurious SqfliteDatabaseException after the test has already
+      // passed. The setUp above deletes the DB before each test run instead.
       try {
         app.globalMatrixClient?.abortSync();
         await app.globalMatrixClient?.dispose();
@@ -42,15 +47,6 @@ void main() {
         debugPrint('TEST: Matrix client cleanup warning: $e');
       }
       app.globalMatrixClient = null;
-      if (!kIsWeb) {
-        try {
-          final appDocDir = await getApplicationDocumentsDirectory();
-          final dbFile = dart_io.File('${appDocDir.path}/matrix_database.db');
-          if (await dbFile.exists()) {
-            await dbFile.delete();
-          }
-        } catch (_) {}
-      }
     });
 
     testWidgets(

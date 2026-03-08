@@ -312,6 +312,8 @@ jobs:
           flutter pub get
 
       - name: 'Run iOS integration tests (Batched)'
+        id: ios-tests-run
+        continue-on-error: true
         env:
           # Note: Local Matrix server is not available on macOS runners (no Docker).
           # Tests depending on a local server may fail or should be skipped.
@@ -319,6 +321,37 @@ jobs:
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 85
+
+      - name: 'Retry iOS integration tests after simulator recovery'
+        # Only retry when the first attempt failed. The most common cause is a
+        # wedged simulator (both bootstatus attempts timed out and platform_ios.sh
+        # returned 1 early). Erase + reboot gives a fresh simulator before
+        # retrying, which resolves the hang without wasting the full 85-minute
+        # job timeout.
+        if: steps.ios-tests-run.outcome == 'failure'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          echo "First attempt failed — erasing and rebooting simulator before retry..."
+          xcrun simctl shutdown "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 3
+          xcrun simctl erase "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 5
+          xcrun simctl boot "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          # Wait up to 5 minutes for Booted state
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" || true
+          ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 85
 
   # ============================================================================
