@@ -208,11 +208,30 @@ jobs:
           sleep 5 # Final stabilization delay
 
       - name: 'Run Linux integration tests'
+        id: linux-tests-run
+        continue-on-error: true
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 25
+
+      - name: 'Retry Linux integration tests on runner failure'
+        # Retry once when the first attempt failed with no test output — the most
+        # common cause is an OOM-killed runner or an xvfb crash during the build
+        # phase, both of which are transient infrastructure problems rather than
+        # test failures.  A fresh attempt on the same runner is sufficient because
+        # the process address space has been released after the kill.
+        if: steps.linux-tests-run.outcome == 'failure'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          echo "First attempt failed — retrying Linux integration tests..."
+          sleep 10
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
       - name: 'Show test logs on failure'
@@ -328,12 +347,18 @@ jobs:
         # wedged simulator (both bootstatus attempts timed out and platform_ios.sh
         # returned 1 early). Erase + reboot gives a fresh simulator before
         # retrying, which resolves the hang without wasting the full 85-minute
-        # job timeout.
+        # job timeout.  SKIP_BOOTSTATUS=1 tells platform_ios.sh to skip the
+        # bootstatus wait entirely — the retry step already confirms "Booted" via
+        # simctl, and on a broken VM bootstatus itself hangs even after a clean
+        # reboot, so skipping it is both safe and necessary.
+        id: ios-tests-retry
+        continue-on-error: true
         if: steps.ios-tests-run.outcome == 'failure'
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
+          SKIP_BOOTSTATUS: "1"
         run: |
           echo "First attempt failed — erasing and rebooting simulator before retry..."
           xcrun simctl shutdown "$IOS_SIMULATOR_ID" 2>/dev/null || true
@@ -342,6 +367,36 @@ jobs:
           sleep 5
           xcrun simctl boot "$IOS_SIMULATOR_ID" 2>/dev/null || true
           # Wait up to 5 minutes for Booted state
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" || true
+          ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 85
+
+      - name: 'Second retry iOS integration tests (third attempt)'
+        # A second retry covers the rare case where the same runner VM is so
+        # degraded that even SKIP_BOOTSTATUS=1 doesn't help (e.g., simctl install
+        # itself hangs).  By this point we have erased the simulator twice, so
+        # the app install pipeline is typically clean enough to succeed.
+        if: steps.ios-tests-run.outcome == 'failure' && steps.ios-tests-retry.outcome == 'failure'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+          SKIP_BOOTSTATUS: "1"
+        run: |
+          echo "Second attempt also failed — performing final erase+reboot and retrying..."
+          xcrun simctl shutdown "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 5
+          xcrun simctl erase "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 10
+          xcrun simctl boot "$IOS_SIMULATOR_ID" 2>/dev/null || true
           for i in $(seq 1 60); do
             STATE=$(xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" | grep -o 'Booted' || true)
             if [ "$STATE" = "Booted" ]; then

@@ -177,43 +177,54 @@ run_ios_tests() {
     # Wait for the simulator to be fully booted using bootstatus (more reliable
     # than the simctl status_bar trick which can succeed while the SpringBoard
     # and system services are still initialising).
-    log_info "Waiting for simulator full boot (bootstatus)..."
-    local bootstatus_timeout=600
-    if ! run_with_timeout "$bootstatus_timeout" xcrun simctl bootstatus "$sim_id" -b 2>&1; then
-        # bootstatus timed out — the simulator is in "Booted" state per simctl
-        # but SpringBoard never finished initialising.  This leaves the device
-        # in a wedged state where simctl install will hang indefinitely.
-        # The only reliable recovery is a full erase+reboot cycle.
-        log_warn "bootstatus timed out — simulator in bad state. Performing erase+reboot to recover..."
-        xcrun simctl shutdown "$sim_id" 2>/dev/null || true
-        sleep 3
-        xcrun simctl erase "$sim_id" 2>/dev/null || true
-        sleep 5
-        xcrun simctl boot "$sim_id" 2>/dev/null || true
-        # Wait up to 3 minutes for Booted state after erase
-        local reboot_wait=0
-        while [[ $reboot_wait -lt 180 ]]; do
-            local reboot_state
-            reboot_state=$(ios_get_simulator_state "$sim_id")
-            if [[ "$reboot_state" == "Booted" ]]; then
-                log_info "Simulator rebooted after erase (${reboot_wait}s)"
-                break
-            fi
+    #
+    # SKIP_BOOTSTATUS=1 lets CI retry steps bypass this check entirely when the
+    # simulator has already been confirmed "Booted" by the retry step's own
+    # erase+reboot+poll cycle.  On a broken VM the bootstatus binary itself
+    # hangs indefinitely even though simctl reports "Booted"; skipping it on a
+    # known-good reboot avoids the hang without sacrificing correctness.
+    if [[ "${SKIP_BOOTSTATUS:-}" == "1" ]]; then
+        log_info "SKIP_BOOTSTATUS=1 — skipping bootstatus wait (simulator already confirmed Booted by caller)"
+        sleep 5  # brief settle to let SpringBoard stabilise
+    else
+        log_info "Waiting for simulator full boot (bootstatus)..."
+        local bootstatus_timeout=120
+        if ! run_with_timeout "$bootstatus_timeout" xcrun simctl bootstatus "$sim_id" -b 2>&1; then
+            # bootstatus timed out — the simulator is in "Booted" state per simctl
+            # but SpringBoard never finished initialising.  This leaves the device
+            # in a wedged state where simctl install will hang indefinitely.
+            # The only reliable recovery is a full erase+reboot cycle.
+            log_warn "bootstatus timed out — simulator in bad state. Performing erase+reboot to recover..."
+            xcrun simctl shutdown "$sim_id" 2>/dev/null || true
+            sleep 3
+            xcrun simctl erase "$sim_id" 2>/dev/null || true
             sleep 5
-            reboot_wait=$((reboot_wait + 5))
-        done
-        # Second bootstatus attempt with a shorter timeout — if this also fails
-        # the simulator is unrecoverable and flutter test will hang indefinitely.
-        # Return 1 immediately so the CI job fails fast instead of hanging for
-        # the full 85-minute job timeout.
-        if ! run_with_timeout 120 xcrun simctl bootstatus "$sim_id" -b 2>&1; then
-            log_error "Second bootstatus also timed out — simulator unrecoverable, aborting to avoid flutter test hang"
-            return 1
+            xcrun simctl boot "$sim_id" 2>/dev/null || true
+            # Wait up to 3 minutes for Booted state after erase
+            local reboot_wait=0
+            while [[ $reboot_wait -lt 180 ]]; do
+                local reboot_state
+                reboot_state=$(ios_get_simulator_state "$sim_id")
+                if [[ "$reboot_state" == "Booted" ]]; then
+                    log_info "Simulator rebooted after erase (${reboot_wait}s)"
+                    break
+                fi
+                sleep 5
+                reboot_wait=$((reboot_wait + 5))
+            done
+            # Second bootstatus attempt with a shorter timeout — if this also fails
+            # the simulator is unrecoverable and flutter test will hang indefinitely.
+            # Return 1 immediately so the CI job fails fast instead of hanging for
+            # the full 85-minute job timeout.
+            if ! run_with_timeout 120 xcrun simctl bootstatus "$sim_id" -b 2>&1; then
+                log_error "Second bootstatus also timed out — simulator unrecoverable, aborting to avoid flutter test hang"
+                return 1
+            fi
         fi
-    fi
-    # Extra settle time after boot to let SpringBoard and system services stabilise
-    log_info "Simulator booted — waiting 15s for full stabilisation..."
-    sleep 15
+        # Extra settle time after boot to let SpringBoard and system services stabilise
+        log_info "Simulator booted — waiting 15s for full stabilisation..."
+        sleep 15
+    fi  # end SKIP_BOOTSTATUS check
 
     # Run tests — per-file mode (each file gets its own flutter test invocation)
     mkdir -p "$RESULTS_DIR"
