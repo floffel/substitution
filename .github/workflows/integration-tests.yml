@@ -28,8 +28,8 @@ jobs:
           TOTAL_TESTS=$(find integration_test -maxdepth 1 -name '*_test.dart' | wc -l)
           echo "Total integration tests: $TOTAL_TESTS"
           
-          # Max 2 tests per runner (increased sharding for speed and reliability)
-          MAX_PER_RUNNER=2
+          # Max 3 tests per runner
+          MAX_PER_RUNNER=3
           SHARD_COUNT=$(( (TOTAL_TESTS + MAX_PER_RUNNER - 1) / MAX_PER_RUNNER ))
           
           if [ "$SHARD_COUNT" -eq 0 ]; then SHARD_COUNT=1; fi
