@@ -154,13 +154,67 @@ jobs:
         continue-on-error: true
         run: docker compose down -v
 
+  # ============================================================================
+  # LINUX DESKTOP PRE-BUILD (compile once, share artifact across shards)
+  # Running the Flutter Linux compile separately — before Docker starts — avoids
+  # the OOM-kill that occurs when cmake/ninja and the Matrix server containers
+  # compete for RAM on the same runner.
+  # ============================================================================
+  linux-build:
+    runs-on: ubuntu-latest
+    name: 'Linux Desktop Build'
+    needs: [setup, plan-tests]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Install Linux desktop dependencies'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+            libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libblkid-dev libdbus-1-dev libatk1.0-dev
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --linux
+          flutter pub get
+
+      - name: 'Enable Linux desktop'
+        run: flutter config --enable-linux-desktop
+
+      - name: 'Build Linux desktop app'
+        run: |
+          flutter build linux --debug --no-pub \
+            --dart-define=INTEGRATION_TEST=true \
+            --dart-define=is_integration_test=true \
+            --dart-define=MATRIX_SERVER=http://localhost:8008 \
+            --dart-define=MATRIX_TEST_USER=testuser1 \
+            --dart-define=MATRIX_TEST_PASSWORD=testpass123
+
+      - name: 'Upload Linux build artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build-bundle
+          path: build/linux/x64/debug/bundle/
+          retention-days: 1
+
    # ============================================================================
    # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
   # ============================================================================
   linux-tests:
     runs-on: ubuntu-latest
     name: 'Linux Desktop Tests'
-    needs: [setup, plan-tests]
+    needs: [setup, plan-tests, linux-build]
     strategy:
       fail-fast: false
       max-parallel: 12
@@ -170,16 +224,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: 'Create swap file'
-        run: |
-          sudo swapoff /swapfile || true
-          sudo rm -f /swapfile
-          sudo fallocate -l 6G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
-          free -h
 
       - name: 'Install Linux desktop dependencies'
         run: |
@@ -205,6 +249,12 @@ jobs:
 
       - name: 'Enable Linux desktop'
         run: flutter config --enable-linux-desktop
+
+      - name: 'Download Linux build artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-build-bundle
+          path: build/linux/x64/debug/bundle/
 
       - name: 'Start Matrix test server'
         run: |
