@@ -180,8 +180,13 @@ run_linux_tests() {
             elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_FAILED -gt 0 ]]; then
                 overall_exit=1
             elif [[ $exit_code -ne 0 ]] && [[ $_PARSED_PASSED -eq 0 ]] && [[ $_PARSED_FAILED -eq 0 ]]; then
-                log_warn "FAILED (no test output parsed): $test_file"
-                acc_failed=$((acc_failed + 1))
+                # No test output was parsed — the process crashed or was killed
+                # before any test ran (e.g. OOM, xvfb crash, Dart VM abort).
+                # This is an infrastructure failure, not a test failure.  We
+                # still mark the overall run as failed so the CI retry step can
+                # catch it, but we do NOT increment acc_failed so the summary
+                # does not falsely count a flaky runner as a broken test.
+                log_warn "CRASHED (no test output parsed): $test_file"
                 overall_exit=1
             fi
         done

@@ -119,23 +119,40 @@ void main() {
         debugPrint(
           'HISTORY: Triggering refresh and waiting for room discovery...',
         );
+
+        // Capture the room count before triggering refresh so we wait for
+        // exactly one new room regardless of how many the user already has.
+        int roomCountBefore = 0;
+        try {
+          final homeState = $.tester.state<HomePageState>(
+            find.byType(HomePage),
+          );
+          roomCountBefore = homeState.currentRoomIds.length;
+        } catch (_) {}
+        debugPrint('HISTORY: Room count before refresh: $roomCountBefore');
+
         service.triggerRefresh();
 
-        // Wait for HomePage to pick up the 6th room
+        // Wait for HomePage to pick up the newly created room.
         await fastWait($.tester, () {
           try {
             final homeState = $.tester.state<HomePageState>(
               find.byType(HomePage),
             );
-            return homeState.currentRoomIds.length >= 6;
+            return homeState.currentRoomIds.length > roomCountBefore;
           } catch (_) {
             // tester.state() throws StateError if the widget is not yet in the
             // tree (0 or >1 matches). Return false so fastWait retries.
             return false;
           }
         }, timeout: const Duration(seconds: 30));
+        final roomCountAfter =
+            $.tester
+                .state<HomePageState>(find.byType(HomePage))
+                .currentRoomIds
+                .length;
         debugPrint(
-          'HISTORY: HomePage discovered the new room. Current rooms: 6',
+          'HISTORY: HomePage discovered the new room. Current rooms: $roomCountAfter',
         );
         await settle($.tester);
 
