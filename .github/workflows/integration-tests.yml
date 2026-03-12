@@ -171,6 +171,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 'Create swap file'
+        run: |
+          sudo fallocate -l 6G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
+
       - name: 'Install Linux desktop dependencies'
         run: |
           sudo apt-get update -q
@@ -454,6 +462,8 @@ jobs:
           sleep 5 # Final stabilization delay
 
       - name: 'Run Android integration tests'
+        id: android-tests-run
+        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         env:
           MATRIX_SERVER: http://localhost:8008
@@ -470,6 +480,32 @@ jobs:
           emulator-boot-timeout: 900
           disable-animations: true
           script: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+
+      - name: 'Retry Android integration tests on emulator failure'
+        # Retry once when the first attempt failed. The most common causes are
+        # the emulator staying offline (device never boots / ADB can't connect)
+        # or the Dart VM Service timing out after install — both are transient
+        # emulator reliability issues rather than test failures.  A fresh
+        # emulator session on the same runner typically succeeds.
+        if: steps.android-tests-run.outcome == 'failure'
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel_4
+          ram-size: 2048M
+          heap-size: 512M
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-boot-timeout: 900
+          disable-animations: true
+          script: |
+            echo "First attempt failed — retrying Android integration tests..."
+            ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
 
       - name: 'Show test logs on failure'
         if: failure()
