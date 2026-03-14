@@ -225,13 +225,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: 'Create swap file'
-        # GitHub-hosted ubuntu-latest runners have ~7 GB RAM with no swap.
-        # The Flutter Linux desktop test process + GTK + Matrix server
-        # containers together can push the runner over its RAM limit, causing
-        # the OOM killer to terminate the runner daemon mid-job (all remaining
-        # steps including the retry then never execute).  A 4 GB swapfile
-        # provides enough virtual memory headroom for the heaviest shards.
+        # GitHub-hosted ubuntu-latest runners have ~7 GB RAM with a small
+        # default swapfile.  The Flutter Linux desktop test process + GTK +
+        # Matrix server containers together can push the runner over its RAM
+        # limit, causing the OOM killer to terminate the runner daemon mid-job
+        # (all remaining steps including the retry then never execute).
+        # Remove the existing swapfile and replace it with a larger one.
         run: |
+          sudo swapoff /swapfile || true
+          sudo rm -f /swapfile
           sudo fallocate -l 4G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
