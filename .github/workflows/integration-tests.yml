@@ -291,29 +291,31 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 25
-
-      - name: 'Free memory after test run'
-        # Kill any orphan Flutter/GTK processes that may hold RAM after the
-        # test subprocess exits, then compact the kernel slab cache.  This
-        # gives the runner daemon headroom to evaluate the retry condition
-        # without being OOM-killed between steps.
-        if: always()
         run: |
-          pkill -f "flutter" 2>/dev/null || true
+          # Run tests; capture exit code so cleanup runs before the step exits.
+          # Killing orphan processes and dropping the page cache inside this
+          # step (rather than in a separate step) ensures cleanup happens before
+          # the runner daemon evaluates the retry condition.  An OOM-killed
+          # runner between steps is the root cause of the consistent shard-10
+          # failure; this removes the inter-step RAM spike.
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
+            ./scripts/test.sh linux --no-docker \
+            --shard ${{ matrix.shard }} \
+            --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+          EXIT_CODE=$?
+          # Free memory immediately after the GTK process exits
           pkill -f "substitution" 2>/dev/null || true
           pkill -f "Xvfb" 2>/dev/null || true
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
           free -h
+          exit $EXIT_CODE
+        timeout-minutes: 25
 
       - name: 'Retry Linux integration tests on runner failure'
-        # Retry once when the first attempt failed with no test output — the most
-        # common cause is an OOM-killed runner or an xvfb crash during the build
-        # phase, both of which are transient infrastructure problems rather than
-        # test failures.  A fresh attempt on the same runner is sufficient because
-        # the process address space has been released after the kill.
+        # Retry once when the first attempt failed.  Memory has already been
+        # freed by the cleanup commands at the end of the previous step, so
+        # the runner has headroom to start a fresh xvfb-run session.
         if: steps.linux-tests-run.outcome == 'failure'
         env:
           MATRIX_SERVER: http://localhost:8008
@@ -322,7 +324,10 @@ jobs:
         run: |
           echo "First attempt failed — retrying Linux integration tests..."
           sleep 10
-          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
+            ./scripts/test.sh linux --no-docker \
+            --shard ${{ matrix.shard }} \
+            --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
       - name: 'Show test logs on failure'
