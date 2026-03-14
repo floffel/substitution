@@ -217,7 +217,6 @@ jobs:
     needs: [setup, plan-tests, linux-build]
     strategy:
       fail-fast: false
-      max-parallel: 12
       matrix:
         shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
     timeout-minutes: 40
