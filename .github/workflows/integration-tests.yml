@@ -294,6 +294,20 @@ jobs:
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" ./scripts/test.sh linux --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
         timeout-minutes: 25
 
+      - name: 'Free memory after test run'
+        # Kill any orphan Flutter/GTK processes that may hold RAM after the
+        # test subprocess exits, then compact the kernel slab cache.  This
+        # gives the runner daemon headroom to evaluate the retry condition
+        # without being OOM-killed between steps.
+        if: always()
+        run: |
+          pkill -f "flutter" 2>/dev/null || true
+          pkill -f "substitution" 2>/dev/null || true
+          pkill -f "Xvfb" 2>/dev/null || true
+          sync
+          echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
+          free -h
+
       - name: 'Retry Linux integration tests on runner failure'
         # Retry once when the first attempt failed with no test output — the most
         # common cause is an OOM-killed runner or an xvfb crash during the build
