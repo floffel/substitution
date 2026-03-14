@@ -158,7 +158,10 @@ void main() {
 
         final room = client.getRoomById(roomId)!;
 
-        // 2. Seed many messages to force pagination
+        // 2. Seed messages to force pagination.  10 filler messages are enough
+        // to push the oldest message off the initial sync window; keeping the
+        // count low reduces per-runner RAM usage and avoids OOM-kills on the
+        // shared GitHub-hosted Linux runners.
         debugPrint('HISTORY: Seeding messages...');
         final oldestMessageBody = 'OLDEST_MESSAGE_STAY_HERE';
         final newestMessageBody = 'NEWEST_MESSAGE_TOP';
@@ -168,11 +171,11 @@ void main() {
             .timeout(const Duration(seconds: 30));
         debugPrint('HISTORY: Sent oldest message');
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 10; i++) {
           await room
               .sendTextEvent('Filler message $i')
               .timeout(const Duration(seconds: 10));
-          if (i % 5 == 0) debugPrint('HISTORY: Sent $i/20...');
+          if (i % 5 == 0) debugPrint('HISTORY: Sent $i/10...');
         }
 
         await room
@@ -196,7 +199,7 @@ void main() {
         final scrollableFinder = find.byType(Scrollable).first;
 
         bool foundOldest = false;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 40; i++) {
           final postWidgets =
               find
                   .byType(PostWidget)
