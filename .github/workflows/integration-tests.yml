@@ -230,14 +230,16 @@ jobs:
         # Matrix server containers together can push the runner over its RAM
         # limit, causing the OOM killer to terminate the runner daemon mid-job
         # (all remaining steps including the retry then never execute).
-        # Remove the existing swapfile and replace it with a larger one.
+        # Remove the existing swapfile and replace it with a larger one;
+        # also lower swappiness so the kernel pages to swap earlier.
         run: |
           sudo swapoff /swapfile || true
           sudo rm -f /swapfile
-          sudo fallocate -l 4G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
+          sudo fallocate -l 6G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=6144
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
           sudo swapon /swapfile
+          sudo sysctl vm.swappiness=60
           free -h
 
       - name: 'Install Linux desktop dependencies'
