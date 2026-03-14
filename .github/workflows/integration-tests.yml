@@ -303,9 +303,14 @@ jobs:
             --shard ${{ matrix.shard }} \
             --total-shards ${{ needs.plan-tests.outputs.shard_count }}
           EXIT_CODE=$?
-          # Free memory immediately after the GTK process exits
+          # Free memory immediately after the GTK process exits.
+          # Sleep briefly so the kernel can complete process-exit cleanup
+          # (freeing page tables, kmalloc, etc.) before the runner daemon
+          # transitions to the next step — the transition itself can OOM the
+          # runner if kernel cleanup hasn't finished.
           pkill -f "substitution" 2>/dev/null || true
           pkill -f "Xvfb" 2>/dev/null || true
+          sleep 5
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
           free -h
