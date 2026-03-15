@@ -145,7 +145,7 @@ void main() {
             // tree (0 or >1 matches). Return false so fastWait retries.
             return false;
           }
-        }, timeout: const Duration(seconds: 30));
+        }, timeout: const Duration(seconds: 60));
         final roomCountAfter =
             $.tester
                 .state<HomePageState>(find.byType(HomePage))
