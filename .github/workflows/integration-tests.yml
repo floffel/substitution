@@ -314,6 +314,18 @@ jobs:
           # runner daemon has to evaluate the next step condition.
           docker ps -q | xargs -r docker kill 2>/dev/null || true
           docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
+          # Print test logs here (inside the step) so we see them even if the
+          # runner daemon is OOM-killed before the separate log-display step runs.
+          if [[ $EXIT_CODE -ne 0 ]]; then
+            echo "=== TEST FAILED (exit code $EXIT_CODE) — test-results/ ==="
+            ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+            for f in test-results/*.log; do
+              [ -f "$f" ] || continue
+              echo ""
+              echo "=== $f ==="
+              tail -200 "$f"
+            done
+          fi
           sleep 5
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
@@ -321,21 +333,11 @@ jobs:
           exit $EXIT_CODE
         timeout-minutes: 25
 
-      - name: 'Show test logs on failure'
+      - name: 'Fail job if tests failed'
         if: steps.linux-tests-run.outcome == 'failure'
         run: |
-          echo "=== test-results/ ==="
-          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
-          for f in test-results/*.log; do
-            [ -f "$f" ] || continue
-            echo ""
-            echo "=== $f ==="
-            tail -100 "$f"
-          done
-
-      - name: 'Fail if tests failed'
-        if: steps.linux-tests-run.outcome == 'failure'
-        run: exit 1
+          echo "Linux integration tests failed — failing the job."
+          exit 1
 
       - name: 'Stop Matrix test server'
         if: always()
