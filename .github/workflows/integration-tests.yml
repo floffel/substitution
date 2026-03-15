@@ -317,26 +317,8 @@ jobs:
           exit $EXIT_CODE
         timeout-minutes: 25
 
-      - name: 'Retry Linux integration tests on runner failure'
-        # Retry once when the first attempt failed.  Memory has already been
-        # freed by the cleanup commands at the end of the previous step, so
-        # the runner has headroom to start a fresh xvfb-run session.
-        if: steps.linux-tests-run.outcome == 'failure'
-        env:
-          MATRIX_SERVER: http://localhost:8008
-          MATRIX_TEST_USER: testuser1
-          MATRIX_TEST_PASSWORD: testpass123
-        run: |
-          echo "First attempt failed — retrying Linux integration tests..."
-          sleep 10
-          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
-            ./scripts/test.sh linux --no-docker \
-            --shard ${{ matrix.shard }} \
-            --total-shards ${{ needs.plan-tests.outputs.shard_count }}
-        timeout-minutes: 25
-
       - name: 'Show test logs on failure'
-        if: failure()
+        if: steps.linux-tests-run.outcome == 'failure'
         run: |
           echo "=== test-results/ ==="
           ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
@@ -346,6 +328,10 @@ jobs:
             echo "=== $f ==="
             tail -100 "$f"
           done
+
+      - name: 'Fail if tests failed'
+        if: steps.linux-tests-run.outcome == 'failure'
+        run: exit 1
 
       - name: 'Stop Matrix test server'
         if: always()
