@@ -310,6 +310,10 @@ jobs:
           # runner if kernel cleanup hasn't finished.
           pkill -f "substitution" 2>/dev/null || true
           pkill -f "Xvfb" 2>/dev/null || true
+          # Stop Docker containers immediately so they release RAM before the
+          # runner daemon has to evaluate the next step condition.
+          docker ps -q | xargs -r docker kill 2>/dev/null || true
+          docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
           sleep 5
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
