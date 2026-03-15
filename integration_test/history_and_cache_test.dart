@@ -89,6 +89,17 @@ void main() {
         }
         debugPrint('HISTORY: Login successful');
 
+        // Wait for SubstitutionService to be initialized.
+        // On Linux the provider is created lazily during the first build of
+        // SubstitutionApp; after loginUser returns the navigation may still
+        // be completing and globalSubstitutionService can briefly be null.
+        debugPrint('HISTORY: Waiting for SubstitutionService...');
+        await fastWait(
+          $.tester,
+          () => app.globalSubstitutionService != null,
+          timeout: const Duration(seconds: 30),
+        );
+
         // 1. Create a dedicated room for history testing
         debugPrint('HISTORY: Creating room...');
         final client = app.globalMatrixClient!;
