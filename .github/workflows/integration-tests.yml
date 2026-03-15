@@ -326,7 +326,9 @@ jobs:
               tail -200 "$f"
             done
           fi
-          sleep 5
+          # Wait 30s for kernel to fully reclaim memory from killed processes
+          # before the runner daemon spawns the next step.
+          sleep 30
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
           free -h
