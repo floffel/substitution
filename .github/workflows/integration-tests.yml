@@ -658,7 +658,7 @@ jobs:
         id: extract_alias
         run: |
           # Use keytool to list the alias and extract it
-          ALIAS=$(keytool -list -v -keystore android/app/upload-keystore.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" | grep "Alias name:" | head -n 1 | cut -d' ' -f3-)
+          ALIAS=$(keytool -list -v -keystore android/app/upload-keystore.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" | grep "Alias name:" | grep -i "upload" | head -n 1 | cut -d' ' -f3-)
           echo "alias=$ALIAS" >> $GITHUB_OUTPUT
           # Mask the alias in logs just in case, though it's not a sensitive secret
           echo "::add-mask::$ALIAS"
