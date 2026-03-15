@@ -1,0 +1,138 @@
+version: '3.8'
+
+# Docker Compose for Integration Test Infrastructure
+#
+# This file defines the backend services needed for integration tests:
+# PostgreSQL, Matrix Synapse, Redis, and test data initialization.
+#
+# Test runners are managed by ./scripts/test.sh, not by Docker.
+#
+# Usage:
+#   ./scripts/test.sh unit         # Unit tests (no Docker needed)
+#   ./scripts/test.sh web          # Web tests (auto-starts Docker)
+#   ./scripts/test.sh ios          # iOS simulator tests
+#   ./scripts/test.sh android      # Android emulator tests
+#   ./scripts/test.sh all          # Run everything
+#   ./scripts/test.sh --no-docker  # Skip Docker lifecycle management
+
+services:
+  # PostgreSQL database for Matrix Synapse
+  # NOTE: Using anonymous volumes instead of named volumes for test runs.
+  # This ensures a clean database on each docker-compose up, preventing
+  # "alias already taken" errors when init_test_data.py tries to create
+  # test rooms. Data persists for the duration of the test run (needed
+  # for tests to query the server) but is discarded when containers stop.
+  # For persistent data in production, use named volumes instead.
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: synapse_password
+      POSTGRES_DB: synapse
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synapse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - substitution_network
+
+  # Dex OIDC identity provider (test SSO)
+  #
+  # Acts as a local OpenID Connect server so Synapse can delegate SSO logins
+  # without requiring real Google/GitHub credentials. Test users are defined
+  # as static passwords in config/dex/config.yaml.
+  #
+  # Discovery endpoint: http://localhost:5556/dex/.well-known/openid-configuration
+  dex:
+    image: ghcr.io/dexidp/dex:v2.40.0
+    volumes:
+      - ./config/dex/config.yaml:/etc/dex/config.yaml:ro
+    ports:
+      - "5556:5556"
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q",
+             "http://localhost:5556/dex/.well-known/openid-configuration"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - substitution_network
+
+  # Matrix Synapse server
+  # NOTE: Similar to postgres, synapse_data uses an anonymous volume.
+  # Configuration files (in ./config/synapse) are mounted read-only and
+  # persist across runs, but server data and database state are fresh
+  # on each startup. This is ideal for testing.
+  matrix-synapse:
+    image: matrixdotorg/synapse:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dex:
+        condition: service_healthy
+    environment:
+      SYNAPSE_SERVER_NAME: test.matrix.local
+      SYNAPSE_REPORT_STATS: "no"
+      UID: "991"
+      GID: "991"
+      AUTHLIB_INSECURE_TRANSPORT: "1"
+    volumes:
+      - /data
+      - ./config/synapse:/data/conf
+    ports:
+      - "8008:8008"
+      - "8448:8448"
+    networks:
+      - substitution_network
+    entrypoint: /bin/bash
+    command: -c "exec python3 -m synapse.app.homeserver --config-path=/data/conf/homeserver.yaml --config-path=/data/conf/log.yaml"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/_matrix/client/versions"]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  # Initialize Matrix test data (users, rooms, etc.)
+  matrix-init:
+    image: python:3.11-alpine
+    depends_on:
+      matrix-synapse:
+        condition: service_healthy
+    volumes:
+      - ./config/synapse/init_test_data.py:/init_test_data.py:ro
+    networks:
+      - substitution_network
+    command: >
+      sh -c "
+      pip install requests &&
+      python3 /init_test_data.py
+      "
+
+  # Redis cache (optional, for session caching)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - substitution_network
+
+# No named volumes defined - using anonymous volumes for test environments
+# This ensures clean data on each startup (see postgres and matrix-synapse service comments)
+
+networks:
+  substitution_network:
+    driver: bridge
+

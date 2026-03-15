@@ -5,23 +5,54 @@
     "error": "Error: {}",
     "approve": "Ok",
     "error_no_image": "No Image",
+    "age_gate": {
+        "title": "Before you continue",
+        "description": "Substitution is a social networking client for the Matrix protocol. By continuing, you confirm the following:",
+        "point_client": "Substitution is a client app only. Your data is stored on the Matrix homeserver you choose, not on servers operated by Substitution.",
+        "point_servers": "Substitution does not control the content policies of external homeservers you connect to. You are responsible for choosing a trustworthy server.",
+        "point_age": "You are 16 years of age or older (or the minimum age required in your country). Substitution is not intended for minors.",
+        "point_content": "Substitution has zero tolerance for illegal or objectionable content. Use the in-app reporting tools to flag violations.",
+        "confirm": "I confirm — I am 16 or older",
+        "privacy_link": "Read our Privacy Policy"
+    },
     "feed": {
         "pages": {
             "home": {
-                "roomlabel": "Room: {}"
+                "roomlabel": "Room: {}",
+                "empty": "Your feed is empty. Follow some rooms to see posts!",
+                "empty_button": "Find new rooms"
             }
         }
     },
     "post": {
+        "error": {
+            "not_found": "Post not found or unavailable."
+        },
+        "menu": {
+            "report_block": "Report / Block"
+        },
+        "dialog": {
+            "report_block_title": "Report Content or Block User",
+            "report_desc": "Please describe why you are reporting this content (optional).",
+            "report_reason": "Reason for report",
+            "report_reason_hint": "This content is offensive because...",
+            "block_user_checkbox": "Also block this user",
+            "block_user_desc": "You will no longer see content from {}",
+            "submit": "Submit",
+            "cancel": "Cancel",
+            "report_block_success": "Report submitted. Thank you.",
+            "report_block_error": "An error occurred: {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "No comments yet."
             }
         },
+        "continue_thread": "Continue this thread...",
         "mixins": {
             "iconpicker": {
                 "title": "Choose icon"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -31,7 +62,8 @@
             },
             "filedisplay": {
                 "decrypting": "File is being decrypted...",
-                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!"
+                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!",
+                "audio_desktop_error": "Audio can't be played on Linux, Windows nor MacOS."
             },
             "reaction": {
                 "unknown_sender": "unknown",
@@ -45,13 +77,23 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "imprint": "Imprint",
+            "licenses": "Open Source Licenses"
+        },
         "followfeeds": {
             "filter_server_header": "Choose a server from the list or add a new one:",
             "filter_rooms_header": "Search a room to follow or unfollow:",
             "roomname_placeholder": "Enter a roomname",
             "buttons": {
-                "add_server": "Add Server"
-            }
+                "add_server": "Add Server",
+                "retry": "Retry"
+            },
+            "no_rooms_found": "No rooms found for the given search criteria.",
+            "error_loading_rooms": "Error: Failed to load rooms"
         },
         "ownfeeds": {
             "header": "Manage your own rooms",
@@ -64,7 +106,7 @@
             "logout": "Logout",
             "login": "Login",
             "home_site_label": "Home",
-            "feeds_site_label": "Feeds/Rooms"
+            "feeds_site_label": "Feeds"
         },
         "room": {
             "desc": "Roomname: {}",
@@ -102,7 +144,7 @@
     },
     "intro": {
         "isLoggedIn": "Awesome, you are already logged in. \nYou can continue with the next Steps",
-        "isNotLoggedIn": "Please login forst",
+        "isNotLoggedIn": "Please login first",
         "buttons": {
             "next": "Next",
             "back": "Back"
@@ -134,12 +176,12 @@
         "host": {
             "header": "Connect to your Homeserver",
             "body": "Please pick a Matrix Homeserver. You can then choose to login or to browse public available rooms.",
-             "inputs": {
-                 "homeserver_label": "Adress of your Homeserver"
-             },
-             "buttons": {
-                 "login_label": "Login"
-             }
+            "inputs": {
+                "homeserver_label": "Adress of your Homeserver"
+            },
+            "buttons": {
+                "login_label": "Login"
+            }
         },
         "login": {
             "loading": "Logging you in...",
@@ -150,13 +192,15 @@
                 "password_label": "Password"
             },
             "buttons": {
-                "login_label": "Login"
+                "login_label": "Login",
+                "sso_label": "Sign in with {}",
+                "register_web_label": "Register"
             }
         }
     },
     "write": {
-        "answer": "Answer",     
-        "roomheader": "Room: {}", 
+        "answer": "Answer",
+        "roomheader": "Room: {}",
         "filemessage": {
             "upload_files": "Add new files for upload",
             "title_header": "Titel:",
@@ -166,14 +210,14 @@
             "upload_file_complete": "Uploading {} is complete!",
             "upload_complete": "All files have been uploaded!",
             "buttons": {
-                "upload_stop": "Don't retry",
-                "upload_retry": "Retry upload"
+                "upload_stop": "Cancel",
+                "upload_retry": "Retry"
             }
         },
         "roomselect": {
-          "type_prompt": "Choose the type of message that you like to post",
-          "room_prompt": "Choose the room in wich like to post:",
-          "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
+            "type_prompt": "Choose the type of message that you like to post",
+            "room_prompt": "Choose the room in wich like to post:",
+            "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
         },
         "textmessage": {
             "answer_promt": "Enter your Text:",

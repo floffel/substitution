@@ -1,0 +1,146 @@
+server_name: "test.matrix.local"
+report_stats: false
+pid_file: /data/homeserver.pid
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: false
+    bind_addresses: ['0.0.0.0']
+    resources:
+      - names: [client, federation]
+        compress: false
+
+# CORS configuration for web clients
+allowed_origins:
+  - "*"
+
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: synapse_password
+    database: synapse
+    host: postgres
+    port: 5432
+    cp_min: 10
+    cp_max: 10
+  # Allow unsafe locale for testing
+  allow_unsafe_locale: true
+
+log_config: "/data/conf/log.yaml"
+
+media_store_path: /data/media_store
+uploads_path: /data/uploads
+
+# Key generation
+signing_key_path: "/data/conf/test.matrix.local.signing.key"
+macaroon_secret_key: "thisismytestsecretkeyformacaroons_changemeplease"
+
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+# Enable user registration for testing
+enable_registration: true
+enable_registration_without_verification: true
+registration_shared_secret: "test_registration_secret"
+allow_guest_access: false
+allow_public_rooms_publishing: true
+allow_public_rooms_without_auth: true
+
+# Allow any local user to publish rooms to the public room directory.
+# In modern Synapse the room_list_publication_rules list controls this;
+# an empty (or absent) list means "deny all" regardless of the deprecated
+# allow_public_rooms_publishing flag.
+room_list_publication_rules:
+  - action: allow
+
+# Session management
+session_lifetime: "24h"
+
+# Rate limiting
+# NOTE: These settings are for TEST ENVIRONMENT ONLY
+# In production, these should be set to appropriate limits to prevent abuse
+# 
+# Disable rate limiting globally for testing
+enable_ratelimiting: false
+
+# Message rate limits (still enforced to prevent spam in tests)
+rc_message:
+  per_second: 10
+  burst_count: 20
+
+# Authentication rate limits (DISABLED for testing)
+# Covers token auth, password auth, and other auth flows
+# Production defaults: per_second: 0.003, burst_count: 5
+rc_auth:
+  address:
+    per_second: 1000000  # Effectively unlimited for testing
+    burst_count: 1000000
+  account:
+    per_second: 1000000  # Effectively unlimited for testing
+    burst_count: 1000000
+
+# Registration rate limits (DISABLED for testing - allows rapid user creation)
+# Production value: per_second: 0.17, burst_count: 3 (allows ~10 registrations/min)
+# Test value: disabled (allows unlimited registrations)
+rc_registration:
+  per_second: 1000000  # Effectively unlimited for testing
+  burst_count: 1000000
+
+# Login rate limits (DISABLED for testing)
+# Production defaults: per_second: 0.003, burst_count: 5 (very restrictive)
+# Test values: effectively unlimited for both per-address and per-account limits
+rc_login:
+  address:
+    per_second: 1000000
+    burst_count: 1000000
+  account:
+    per_second: 1000000
+    burst_count: 1000000
+
+# Prevent user enumeration
+user_directory:
+  enabled: true
+  search_all_users: false
+  prefer_local_users: true
+
+# Set trusted proxies if needed
+# trusted_proxies:
+#   - '172.16.0.0/12'
+
+# Password configuration
+password_config:
+  enabled: true
+  pepper: "test_pepper_change_this"
+
+# SSO via local Dex OIDC provider (TEST ENVIRONMENT ONLY)
+#
+# Dex runs as a separate Docker service and acts as a Google-compatible OIDC
+# IdP. This lets us exercise the full SSO flow in CI without real credentials.
+#
+# The `idp_name` shown here ("Local OIDC") is what Synapse reports in the
+# GET /_matrix/client/v3/login response under identity_providers[].name.
+# The Flutter app reads this name and displays it on the SSO button.
+oidc_providers:
+  - idp_id: dex
+    idp_name: "Local OIDC"
+    issuer: "http://dex:5556/dex"
+    allow_http_url_for_metadata: true
+    client_id: "synapse"
+    client_secret: "synapse-dex-secret"
+    scopes: ["openid", "profile", "email"]
+    user_mapping_provider:
+      config:
+        # Use the part before '@' in the email as the Matrix localpart
+        localpart_template: "{{ user.email.split('@')[0] }}"
+        display_name_template: "{{ user.name or user.email }}"
+
+# Enable user presence tracking
+presence:
+  enabled: true
+
+# Experimental features (if needed)
+# experimental_features:
+#   spaces_enabled: true

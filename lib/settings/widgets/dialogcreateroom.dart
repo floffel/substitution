@@ -13,7 +13,8 @@ class DialogCreateRoom extends StatefulWidget {
 }
 
 class DialogCreateRoomState extends State<DialogCreateRoom> {
-  get client => Provider.of<matrix.Client>(context, listen: false);
+  matrix.Client get client =>
+      Provider.of<matrix.Client>(context, listen: false);
   bool loading = false;
   String? error;
 
@@ -23,34 +24,49 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
   final _roomAliasContainer = TextEditingController();
 
   Future<void> _createRoom() async {
-    loading = true;
-    error = null;
-    final String roomId;
+    setState(() {
+      loading = true;
+      error = null;
+    });
+
+    String? roomId;
 
     try {
       roomId = await client.createRoom(
-          isDirect: true,
-          name: _roomNameContainer.text,
-          topic: _roomTopicContainer.text,
-          roomAliasName: _roomAliasContainer.text,
-          visibility: matrix.Visibility.public);
+        isDirect:
+            false, // Changed to false as public rooms are usually not direct
+        name: _roomNameContainer.text,
+        topic: _roomTopicContainer.text,
+        roomAliasName:
+            _roomAliasContainer.text.isNotEmpty
+                ? _roomAliasContainer.text
+                : null,
+        visibility: matrix.Visibility.public,
+      );
+
+      final room = client.getRoomById(roomId);
+      if (room == null || room.membership != matrix.Membership.join) {
+        // Wait for room actually appears in sync
+        await client.waitForRoomInSync(roomId, join: true);
+      }
+
+      await client.setAccountDataPerRoom(
+        client.userID!,
+        roomId,
+        "substitution",
+        {"joined": true},
+      );
+
+      if (!mounted) return;
+      context.pop();
     } catch (e) {
-      error = "$e"; // TODO: nicer error message...
-      loading = false;
+      if (!mounted) return;
+      setState(() {
+        error = "$e"; // TODO: nicer error message...
+        loading = false;
+      });
       return;
     }
-
-    final room = client.getRoomById(roomId);
-    if (room == null || room.membership != matrix.Membership.join) {
-      // Wait for room actually appears in sync
-      await client.waitForRoomInSync(roomId, join: true);
-    }
-
-    await client.setAccountDataPerRoom(
-        client.userID!, roomId, "substitution", {"joined": true});
-    loading = false;
-    if (!mounted) return;
-    context.pop();
   }
 
   @override
@@ -64,41 +80,52 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('settings.dialog.create.title').tr(),
-        content: Column(children: [
+      title: const Text('settings.dialog.create.title').tr(),
+      content: Column(
+        children: [
           error != null ? Text(error!) : Container(),
           loading
               ? const CircularProgressIndicator()
               : Form(
-                  key: _formKey,
-                  child: Column(children: [
+                key: _formKey,
+                child: Column(
+                  children: [
                     TextFormField(
                       controller: _roomNameContainer,
                       decoration: InputDecoration(
-                          labelText:
-                              "settings.dialog.create.placeholder_name".tr()),
+                        labelText:
+                            "settings.dialog.create.placeholder_name".tr(),
+                      ),
                     ),
                     TextFormField(
                       controller: _roomAliasContainer,
                       decoration: InputDecoration(
-                          labelText:
-                              "settings.dialog.create.placeholder_alias".tr()),
+                        labelText:
+                            "settings.dialog.create.placeholder_alias".tr(),
+                      ),
                       // todo: validate if the alias is already taken
                     ),
                     TextFormField(
                       controller: _roomTopicContainer,
                       decoration: InputDecoration(
-                          labelText:
-                              "settings.dialog.create.placeholder_topic".tr()),
-                    )
-                  ]),
-                )
-        ]),
-        actions: <Widget>[
+                        labelText:
+                            "settings.dialog.create.placeholder_topic".tr(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        ],
+      ),
+      actions: <Widget>[
+        if (loading)
+          const CircularProgressIndicator()
+        else
           TextButton(
             child: const Text('settings.dialog.create.submit').tr(),
             onPressed: () async => await _createRoom(),
           ),
-        ]);
+      ],
+    );
   }
 }

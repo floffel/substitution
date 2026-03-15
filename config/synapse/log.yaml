@@ -1,0 +1,25 @@
+version: 1
+
+disable_existing_loggers: false
+
+formatters:
+  precise:
+    format: '%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(request)s - %(message)s'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: precise
+    stream: ext://sys.stdout
+
+loggers:
+  synapse.storage.SQL:
+    level: INFO
+  synapse.http.matrixfederationclient:
+    level: DEBUG
+  tests.utils:
+    level: DEBUG
+
+root:
+  handlers: [console]
+  level: INFO

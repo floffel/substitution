@@ -1,3 +1,5 @@
+import '/shared/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +8,11 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 mixin IconPicker {
-  Future<void> pickIcon(BuildContext context, Event event,
-      {Event? postEvent}) async {
+  Future<void> pickIcon(
+    BuildContext context,
+    Event event, {
+    Event? postEvent,
+  }) async {
     // fallack method. Not pritty
     await showDialog(
       //isScrollControlled: false,
@@ -17,14 +22,14 @@ mixin IconPicker {
           config: Config(
             height: 256,
             emojiTextStyle: const TextStyle(
-              fontFamily:
-                  'Apple Color Emoji', // TODO: Investigate what to use on other platforms
+              fontFamily: AppConstants.defaultEmojiFontFamily,
               fontFamilyFallback: ["Noto Emoji"],
             ),
             checkPlatformCompatibility: true,
             emojiViewConfig: EmojiViewConfig(
               // Issue: https://github.com/flutter/flutter/issues/28894
-              emojiSizeMax: 28 *
+              emojiSizeMax:
+                  28 *
                   (foundation.defaultTargetPlatform == TargetPlatform.iOS
                       ? 1.20
                       : 1.0),
@@ -40,7 +45,7 @@ mixin IconPicker {
             searchViewConfig: const SearchViewConfig(),
           ),
           onEmojiSelected: (category, emoji) async {
-            print("sending emoji {emoji.emoji}");
+            debugPrint("sending emoji {emoji.emoji}");
             await event.room.sendReaction(event.eventId, emoji.emoji);
             if (!context.mounted) return;
             Navigator.of(context).pop();
@@ -54,13 +59,19 @@ mixin IconPicker {
     }
 
     if (postEvent != null) {
-      context.push(Uri(
+      context.push(
+        Uri(
           path: "/post/${postEvent.eventId}",
-          queryParameters: {'room': postEvent.roomId}).toString());
+          queryParameters: {'room': postEvent.roomId},
+        ).toString(),
+      );
     } else {
-      context.push(Uri(
+      context.push(
+        Uri(
           path: "/post/${event.eventId}",
-          queryParameters: {'room': event.roomId}).toString());
+          queryParameters: {'room': event.roomId},
+        ).toString(),
+      );
     }
   }
 }

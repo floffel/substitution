@@ -5,23 +5,51 @@
     "error": "Erreur: {}",
     "approve": "D'accord",
     "error_no_image": "Pas d'image",
+    "age_gate": {
+        "title": "Avant de continuer",
+        "description": "Substitution est un client de réseau social pour le protocole Matrix. En continuant, vous confirmez ce qui suit :",
+        "point_client": "Substitution est uniquement une application cliente. Vos données sont stockées sur le serveur Matrix que vous choisissez, pas sur des serveurs exploités par Substitution.",
+        "point_servers": "Substitution ne contrôle pas les politiques de contenu des serveurs externes. Vous êtes responsable du choix d'un serveur de confiance.",
+        "point_age": "Vous avez 16 ans ou plus (ou l'âge minimum requis dans votre pays). Substitution n'est pas destiné aux mineurs.",
+        "point_content": "Substitution ne tolère aucun contenu illégal ou choquant. Utilisez les outils de signalement intégrés pour signaler les violations.",
+        "confirm": "Je confirme — j'ai 16 ans ou plus",
+        "privacy_link": "Lire notre politique de confidentialité"
+    },
     "feed": {
         "pages": {
             "home": {
-                "roomlabel": "Chambre: {}"
+                "roomlabel": "Chambre: {}",
+                "empty": "Votre fil d'actualité est vide. Suivez des salles pour voir des publications!",
+                "empty_button": "Trouver des salles"
             }
         }
     },
     "post": {
+        "menu": {
+            "report_block": "Signaler / Bloquer"
+        },
+        "dialog": {
+            "report_block_title": "Signaler le contenu ou bloquer l'utilisateur",
+            "report_desc": "Veuillez décrire pourquoi vous signalez ce contenu (facultatif).",
+            "report_reason": "Motif du signalement",
+            "report_reason_hint": "Ce contenu est offensant parce que...",
+            "block_user_checkbox": "Bloquer également cet utilisateur",
+            "block_user_desc": "Vous ne verrez plus de contenu de {}",
+            "submit": "Soumettre",
+            "cancel": "Annuler",
+            "report_block_success": "Signalement envoyé. Merci.",
+            "report_block_error": "Une erreur s'est produite : {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "Aucun commentaire pour l'instant."
             }
         },
+        "continue_thread": "Continuer ce fil...",
         "mixins": {
             "iconpicker": {
                 "title": "Choisir l'icône"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -45,13 +73,23 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Légal",
+            "tos": "Conditions d'utilisation",
+            "privacy": "Politique de confidentialité",
+            "imprint": "Mentions légales",
+            "licenses": "Licences Open Source"
+        },
         "followfeeds": {
             "filter_server_header": "Choisissez un serveur dans la liste ou ajoutez-en un nouveau:",
             "filter_rooms_header": "Recherchez une salle à suivre ou à ne plus suivre:",
             "roomname_placeholder": "Entrez un nom de salle",
             "buttons": {
-                "add_server": "Ajouter un serveur"
-            }
+                "add_server": "Ajouter un serveur",
+                "retry": "Réessayer"
+            },
+            "no_rooms_found": "Aucun salon trouvé pour les critères de recherche donnés.",
+            "error_loading_rooms": "Erreur : échec du chargement des espaces"
         },
         "ownfeeds": {
             "header": "Gérez vos propres espaces",
@@ -134,12 +172,12 @@
         "host": {
             "header": "Connectez-vous à votre serveur domestique",
             "body": "Veuillez choisir un serveur domestique Matrix. Vous pouvez ensuite choisir de vous connecter ou de parcourir les salles publiques disponibles.",
-             "inputs": {
-                 "homeserver_label": "Adresse de votre serveur domestique"
-             },
-             "buttons": {
-                 "login_label": "Se connecter"
-             }
+            "inputs": {
+                "homeserver_label": "Adresse de votre serveur domestique"
+            },
+            "buttons": {
+                "login_label": "Se connecter"
+            }
         },
         "login": {
             "loading": "Vous connecter...",
@@ -150,13 +188,15 @@
                 "password_label": "Mot de passe"
             },
             "buttons": {
-                "login_label": "Se connecter"
+                "login_label": "Se connecter",
+                "sso_label": "Se connecter avec {}",
+                "register_web_label": "S'inscrire"
             }
         }
     },
     "write": {
-        "answer": "Répondre",     
-        "roomheader": "Chambre: {}", 
+        "answer": "Répondre",
+        "roomheader": "Chambre: {}",
         "filemessage": {
             "upload_files": "Ajouter de nouveaux fichiers à télécharger",
             "title_header": "Titre:",
@@ -171,16 +211,16 @@
             }
         },
         "roomselect": {
-          "type_prompt": "Choisissez le type de message que vous souhaitez publier:",
-          "room_prompt": "Choisissez le salon dans lequel vous souhaitez poster:",
-          "error_no_rooms": "Vous n'avez rejoint aucune salle ou vous n'avez pas le droit de publier."
+            "type_prompt": "Choisissez le type de message que vous souhaitez publier:",
+            "room_prompt": "Choisissez le salon dans lequel vous souhaitez poster:",
+            "error_no_rooms": "Vous n'avez rejoint aucune salle ou vous n'avez pas le droit de publier."
         },
         "textmessage": {
             "answer_promt": "Entrez votre texte:",
             "input_placeholder": "Entrez votre texte ici...",
             "send_start": "Le message est envoyé...",
             "send_failed": "Le message n'a pas pu être envoyé. Essayer à nouveau?",
-            "send_complete": "Le message a été envoyé avec succès!",            
+            "send_complete": "Le message a été envoyé avec succès!",
             "buttons": {
                 "send_stop": "N'essayez plus",
                 "resend": "Oui, réessaye"

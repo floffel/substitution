@@ -1,0 +1,746 @@
+name: Integration Tests (Multi-Platform)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  CACHE_VERSION: v1
+
+jobs:
+  # ============================================================================
+  # DISCOVERY JOB - Calculate shards for dynamic matrix
+  # ============================================================================
+  plan-tests:
+    runs-on: ubuntu-latest
+    name: 'Plan Test Shards'
+    outputs:
+      shard_count: ${{ steps.set-shards.outputs.shard_count }}
+      shard_matrix: ${{ steps.set-shards.outputs.shard_matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-shards
+        run: |
+          # Count integration test files
+          TOTAL_TESTS=$(find integration_test -maxdepth 1 -name '*_test.dart' | wc -l)
+          echo "Total integration tests: $TOTAL_TESTS"
+          
+           # Max 2 tests per runner
+           MAX_PER_RUNNER=2
+          SHARD_COUNT=$(( (TOTAL_TESTS + MAX_PER_RUNNER - 1) / MAX_PER_RUNNER ))
+          
+          if [ "$SHARD_COUNT" -eq 0 ]; then SHARD_COUNT=1; fi
+          echo "Calculated shard count: $SHARD_COUNT"
+          
+          # Create a JSON array [0, 1, 2, ..., SHARD_COUNT-1]
+          MATRIX_JSON=$(seq 0 $((SHARD_COUNT - 1)) | jq -R . | jq -s -c .)
+          echo "shard_matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
+          echo "shard_count=$SHARD_COUNT" >> $GITHUB_OUTPUT
+
+  # ============================================================================
+  # SETUP JOB - Check that code is ready for testing
+  # ============================================================================
+  setup:
+    needs: plan-tests
+    runs-on: ubuntu-latest
+    name: 'Setup & Validation'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: flutter pub get
+
+      - name: 'Validate Flutter setup'
+        run: flutter doctor -v
+
+      - name: 'Analyze code'
+        run: flutter analyze --no-pub
+
+  # ============================================================================
+  # UNIT TESTS (no Docker needed, ~2 minutes)
+  # ============================================================================
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: 'Unit & Widget Tests'
+    needs: setup
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: flutter pub get
+
+      - name: 'Run unit tests'
+        run: ./scripts/test.sh unit --no-docker
+
+  # ============================================================================
+  # WEB TESTS (Linux runner, ~15-20 minutes)
+  # Runs two phases: unit/widget tests on Chrome, then integration_test/ on web device.
+  # ============================================================================
+  web-tests:
+    runs-on: ubuntu-latest
+    name: 'Web Tests'
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
+    timeout-minutes: 50
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: flutter pub get
+
+      - name: 'Enable web'
+        run: flutter config --enable-web
+
+      - name: 'Start Matrix test server'
+        run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
+          sleep 15
+          docker compose run --rm matrix-init
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
+          sleep 5 # Final stabilization delay
+
+      - name: 'Run web tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: ./scripts/test.sh web --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 45
+
+      - name: 'Show test logs on failure'
+        if: failure()
+        run: |
+          echo "=== test-results/ ==="
+          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+          for f in test-results/*.log; do
+            [ -f "$f" ] || continue
+            echo ""
+            echo "=== $f ==="
+            tail -100 "$f"
+          done
+
+      - name: 'Stop Matrix test server'
+        if: always()
+        continue-on-error: true
+        run: docker compose down -v
+
+  # ============================================================================
+  # LINUX DESKTOP PRE-BUILD (compile once, share artifact across shards)
+  # Running the Flutter Linux compile separately — before Docker starts — avoids
+  # the OOM-kill that occurs when cmake/ninja and the Matrix server containers
+  # compete for RAM on the same runner.
+  # ============================================================================
+  linux-build:
+    runs-on: ubuntu-latest
+    name: 'Linux Desktop Build'
+    needs: [setup, plan-tests]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Install Linux desktop dependencies'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+            libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libblkid-dev libdbus-1-dev libatk1.0-dev
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --linux
+          flutter pub get
+
+      - name: 'Enable Linux desktop'
+        run: flutter config --enable-linux-desktop
+
+      - name: 'Build Linux desktop app'
+        run: |
+          flutter build linux --debug --no-pub \
+            --dart-define=INTEGRATION_TEST=true \
+            --dart-define=is_integration_test=true \
+            --dart-define=MATRIX_SERVER=http://localhost:8008 \
+            --dart-define=MATRIX_TEST_USER=testuser1 \
+            --dart-define=MATRIX_TEST_PASSWORD=testpass123
+
+      - name: 'Upload Linux build artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build-bundle
+          path: build/linux/x64/debug/bundle/
+          retention-days: 1
+
+   # ============================================================================
+   # LINUX DESKTOP TESTS (Linux runner, ~20-30 minutes)
+  # ============================================================================
+  linux-tests:
+    runs-on: ubuntu-latest
+    name: 'Linux Desktop Tests'
+    needs: [setup, plan-tests, linux-build]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Create swap file'
+        # GitHub-hosted ubuntu-latest runners have ~7 GB RAM with a small
+        # default swapfile.  The Flutter Linux desktop test process + GTK +
+        # Matrix server containers together can push the runner over its RAM
+        # limit, causing the OOM killer to terminate the runner daemon mid-job
+        # (all remaining steps including the retry then never execute).
+        # Remove the existing swapfile and replace it with a larger one;
+        # also lower swappiness so the kernel pages to swap earlier.
+        # Protect the runner daemon (PID 1's child) from OOM kill so that step
+        # transitions always succeed even under heavy memory pressure.
+        run: |
+          sudo swapoff /swapfile || true
+          sudo rm -f /swapfile
+          sudo fallocate -l 6G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=6144
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          sudo sysctl vm.swappiness=60
+          # OOM-protect the Actions runner daemon so the kernel never kills it.
+          # oom_score_adj = -1000 means "never OOM-kill this process".
+          # The runner daemon is the direct child of PID 1 on GitHub-hosted runners.
+          RUNNER_PID=$(pgrep -f "Runner.Worker" | head -1 || pgrep -f "runner" | head -1 || echo "")
+          if [ -n "$RUNNER_PID" ]; then
+            echo -1000 | sudo tee /proc/$RUNNER_PID/oom_score_adj > /dev/null 2>&1 || true
+            echo "OOM-protected runner PID $RUNNER_PID"
+          fi
+          # Also protect this shell (the step runner) and its parent
+          echo -1000 | sudo tee /proc/$$/oom_score_adj > /dev/null 2>&1 || true
+          echo -1000 | sudo tee /proc/$PPID/oom_score_adj > /dev/null 2>&1 || true
+          free -h
+
+      - name: 'Install Linux desktop dependencies'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+            libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libblkid-dev libdbus-1-dev libatk1.0-dev \
+            xvfb
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --linux
+          flutter pub get
+
+      - name: 'Enable Linux desktop'
+        run: flutter config --enable-linux-desktop
+
+      - name: 'Download Linux build artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-build-bundle
+          path: build/linux/x64/debug/bundle/
+
+      - name: 'Start Matrix test server'
+        run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
+          sleep 15
+          docker compose run --rm matrix-init
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
+          sleep 5 # Final stabilization delay
+
+      - name: 'Run Linux integration tests'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: |
+          # Run tests; capture exit code so cleanup runs before the step exits.
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
+            ./scripts/test.sh linux --no-docker \
+            --shard ${{ matrix.shard }} \
+            --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+          EXIT_CODE=$?
+          pkill -f "substitution" 2>/dev/null || true
+          pkill -f "Xvfb" 2>/dev/null || true
+          docker ps -q | xargs -r docker kill 2>/dev/null || true
+          docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
+          # Print test logs inline so they're visible in this step's output.
+          if [[ $EXIT_CODE -ne 0 ]]; then
+            echo "=== TEST FAILED (exit code $EXIT_CODE) — test-results/ ==="
+            ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+            for f in test-results/*.log; do
+              [ -f "$f" ] || continue
+              echo ""; echo "=== $f ==="; tail -200 "$f"
+            done
+          fi
+          sleep 10
+          sync
+          echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
+          free -h
+          exit $EXIT_CODE
+        timeout-minutes: 25
+
+      - name: 'Stop Matrix test server'
+        if: always()
+        timeout-minutes: 2
+        continue-on-error: true
+        run: |
+          # Use docker kill + rm instead of compose down to reduce memory pressure.
+          # `docker compose down` spawns a full Python process which can OOM the runner
+          # after a heavy test shard; individual docker commands are much lighter.
+          docker ps -q | xargs -r docker kill 2>/dev/null || true
+          docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
+          docker network prune -f 2>/dev/null || true
+
+   # ============================================================================
+   # iOS TESTS (macOS runner, ~30-40 minutes)
+  # ============================================================================
+  ios-tests:
+    runs-on: macos-latest
+    name: 'iOS Tests (Simulator)'
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Boot iOS Simulator early'
+        # Boot the simulator now so it is fully ready (or close to it) by the
+        # time the test script runs.  On cold GitHub-hosted macOS VMs the
+        # simulator can take 10+ minutes to reach a truly responsive state;
+        # starting it here — while Flutter is being downloaded and pub get runs
+        # — gives it a 3-5 minute head start and dramatically reduces the
+        # fraction of shards that hit the bootstatus/install timeout.
+        # IOS_SIMULATOR_ID is exported so platform_ios.sh skips its own
+        # simulator-discovery and uses this exact UDID.
+        run: |
+          SIM_UDID=$(xcrun simctl list devices available --json \
+            | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          for p in ['iPhone 17', 'iPhone 16', 'iPhone 15', 'iPhone 14', 'iPhone 13']:
+            for sims in d.get('devices', {}).values():
+              for s in sims:
+                if p in s['name'] and s.get('isAvailable', False):
+                  print(s['udid']); sys.exit(0)
+          # fallback: first available iPhone
+          for sims in d.get('devices', {}).values():
+            for s in sims:
+              if 'iPhone' in s['name'] and s.get('isAvailable', False):
+                print(s['udid']); sys.exit(0)
+          ")
+          if [ -z "$SIM_UDID" ]; then
+            echo "ERROR: No available iPhone simulator found" >&2
+            xcrun simctl list devices available
+            exit 1
+          fi
+          echo "Booting simulator: $SIM_UDID"
+          echo "IOS_SIMULATOR_ID=$SIM_UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM_UDID" 2>/dev/null || true
+          # Poll up to 5 minutes for Booted state; non-fatal if still slow —
+          # platform_ios.sh handles further waiting via bootstatus.
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$SIM_UDID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$SIM_UDID" || true
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --ios
+          flutter pub get
+
+      - name: 'Run iOS integration tests (Batched)'
+        id: ios-tests-run
+        continue-on-error: true
+        env:
+          # Note: Local Matrix server is not available on macOS runners (no Docker).
+          # Tests depending on a local server may fail or should be skipped.
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        run: ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 85
+
+      - name: 'Retry iOS integration tests after simulator recovery'
+        # Only retry when the first attempt failed. The most common cause is a
+        # wedged simulator (both bootstatus attempts timed out and platform_ios.sh
+        # returned 1 early). Erase + reboot gives a fresh simulator before
+        # retrying, which resolves the hang without wasting the full 85-minute
+        # job timeout.  SKIP_BOOTSTATUS=1 tells platform_ios.sh to skip the
+        # bootstatus wait entirely — the retry step already confirms "Booted" via
+        # simctl, and on a broken VM bootstatus itself hangs even after a clean
+        # reboot, so skipping it is both safe and necessary.
+        id: ios-tests-retry
+        continue-on-error: true
+        if: steps.ios-tests-run.outcome == 'failure'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+          SKIP_BOOTSTATUS: "1"
+        run: |
+          echo "First attempt failed — erasing and rebooting simulator before retry..."
+          xcrun simctl shutdown "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 3
+          xcrun simctl erase "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 5
+          xcrun simctl boot "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          # Wait up to 5 minutes for Booted state
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" || true
+          ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 85
+
+      - name: 'Second retry iOS integration tests (third attempt)'
+        # A second retry covers the rare case where the same runner VM is so
+        # degraded that even SKIP_BOOTSTATUS=1 doesn't help (e.g., simctl install
+        # itself hangs).  By this point we have erased the simulator twice, so
+        # the app install pipeline is typically clean enough to succeed.
+        if: steps.ios-tests-run.outcome == 'failure' && steps.ios-tests-retry.outcome == 'failure'
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+          SKIP_BOOTSTATUS: "1"
+        run: |
+          echo "Second attempt also failed — performing final erase+reboot and retrying..."
+          xcrun simctl shutdown "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 5
+          xcrun simctl erase "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          sleep 10
+          xcrun simctl boot "$IOS_SIMULATOR_ID" 2>/dev/null || true
+          for i in $(seq 1 60); do
+            STATE=$(xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" | grep -o 'Booted' || true)
+            if [ "$STATE" = "Booted" ]; then
+              echo "Simulator reached Booted state after $((i * 5))s"
+              break
+            fi
+            sleep 5
+          done
+          xcrun simctl list devices | grep "$IOS_SIMULATOR_ID" || true
+          ./scripts/test.sh ios --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+        timeout-minutes: 85
+
+  # ============================================================================
+  # ANDROID TESTS (Linux runner, ~25-35 minutes)
+  # ============================================================================
+  android-tests:
+    runs-on: ubuntu-latest
+    name: 'Android Tests'
+    needs: [setup, plan-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan-tests.outputs.shard_matrix) }}
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Java'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --android
+          flutter pub get
+
+      - name: 'Start Matrix test server'
+        run: |
+          # Pre-pull images to avoid timeouts during startup
+          docker compose pull postgres matrix-synapse redis
+          docker compose up -d postgres matrix-synapse redis
+          sleep 15
+          docker compose run --rm matrix-init
+          # Use a longer timeout for readiness check
+          timeout 120 bash -c 'until curl -sf http://localhost:8008/_matrix/client/versions > /dev/null 2>&1; do echo "Waiting for Synapse..."; sleep 5; done'
+          sleep 5 # Final stabilization delay
+
+      - name: 'Run Android integration tests'
+        id: android-tests-run
+        continue-on-error: true
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel_4
+          ram-size: 2048M
+          heap-size: 512M
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-boot-timeout: 900
+          disable-animations: true
+          script: ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+
+      - name: 'Retry Android integration tests on emulator failure'
+        # Retry once when the first attempt failed. The most common causes are
+        # the emulator staying offline (device never boots / ADB can't connect)
+        # or the Dart VM Service timing out after install — both are transient
+        # emulator reliability issues rather than test failures.  A fresh
+        # emulator session on the same runner typically succeeds.
+        if: steps.android-tests-run.outcome == 'failure'
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          MATRIX_SERVER: http://localhost:8008
+          MATRIX_TEST_USER: testuser1
+          MATRIX_TEST_PASSWORD: testpass123
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel_4
+          ram-size: 2048M
+          heap-size: 512M
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-boot-timeout: 900
+          disable-animations: true
+          script: |
+            echo "First attempt failed — retrying Android integration tests..."
+            ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+
+      - name: 'Show test logs on failure'
+        if: failure()
+        run: |
+          echo "=== test-results/ ==="
+          ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
+          for f in test-results/*.log; do
+            [ -f "$f" ] || continue
+            echo ""
+            echo "=== $f ==="
+            tail -100 "$f"
+          done
+
+      - name: 'Stop Matrix test server'
+        if: always()
+        continue-on-error: true
+        run: docker compose down -v
+
+   # ============================================================================
+   # FINAL STATUS CHECK
+  # ============================================================================
+  all-tests-passed:
+    runs-on: ubuntu-latest
+    name: 'All Tests Passed'
+    needs: [unit-tests, web-tests, linux-tests, ios-tests, android-tests]
+    if: always()
+    steps:
+      - name: 'Check all jobs passed'
+        run: |
+          # Note: result is 'success', 'failure', 'cancelled', or 'skipped'
+          # For matrix jobs, needs.JOB_NAME.result is 'success' only if ALL shards pass.
+          if [ "${{ needs.unit-tests.result }}" != "success" ] || \
+             [ "${{ needs.web-tests.result }}" != "success" ] || \
+             [ "${{ needs.linux-tests.result }}" != "success" ] || \
+             [ "${{ needs.ios-tests.result }}" != "success" ] || \
+             [ "${{ needs.android-tests.result }}" != "success" ]; then
+            echo "One or more test jobs failed"
+            echo "  unit-tests:    ${{ needs.unit-tests.result }}"
+            echo "  web-tests:     ${{ needs.web-tests.result }}"
+            echo "  linux-tests:   ${{ needs.linux-tests.result }}"
+            echo "  ios-tests:     ${{ needs.ios-tests.result }}"
+            echo "  android-tests: ${{ needs.android-tests.result }}"
+            exit 1
+          fi
+          echo "All test jobs passed"
+
+  # ============================================================================
+  # DEPLOYMENT JOB - Only runs on main after all tests pass
+  # ============================================================================
+  deploy-to-play-store:
+    name: 'Deploy to Play Store (Internal)'
+    needs: all-tests-passed
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Java'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Decode Keystore'
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+
+      - name: 'Extract Key Alias'
+        id: extract_alias
+        run: |
+          # Use keytool to list the alias and extract it
+          ALIAS=$(keytool -list -v -keystore android/app/upload-keystore.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" | grep "Alias name:" | head -n 1 | cut -d' ' -f3-)
+          echo "alias=$ALIAS" >> $GITHUB_OUTPUT
+          # Mask the alias in logs just in case, though it's not a sensitive secret
+          echo "::add-mask::$ALIAS"
+
+      - name: 'Create key.properties'
+        run: |
+          echo "storeFile=upload-keystore.jks" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ steps.extract_alias.outputs.alias }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+
+      - name: 'Build App Bundle'
+        run: flutter build appbundle --release
+
+      - name: 'Setup Python for Deployment'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 'Install Play Store API Client'
+        run: pip install google-api-python-client google-auth
+
+      - name: 'Upload to Play Store'
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python3 - <<EOF
+          import sys
+          import json
+          import os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+
+          def publish():
+              package_name = 'art.substitution.substitution'
+              json_key_content = os.environ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON']
+              aab_path = 'build/app/outputs/bundle/release/app-release.aab'
+              track = 'internal'
+
+              print(f"Authenticating for {package_name}...")
+              credentials = service_account.Credentials.from_service_account_info(
+                  json.loads(json_key_content)
+              )
+              service = build('androidpublisher', 'v3', credentials=credentials)
+
+              print("Initiating new edit...")
+              edit_request = service.edits().insert(packageName=package_name, body={})
+              edit_response = edit_request.execute()
+              edit_id = edit_response['id']
+
+              try:
+                  print(f"Uploading AAB: {aab_path}")
+                  bundle_upload = service.edits().bundles().upload(
+                      packageName=package_name,
+                      editId=edit_id,
+                      media_body=MediaFileUpload(aab_path, mimetype='application/octet-stream')
+                  ).execute()
+
+                  version_code = bundle_upload['versionCode']
+                  print(f"Successfully uploaded version {version_code}")
+
+                  print(f"Assigning to track: {track}")
+                  service.edits().tracks().update(
+                      packageName=package_name,
+                      editId=edit_id,
+                      track=track,
+                      body={
+                          'releases': [{
+                              'versionCodes': [str(version_code)],
+                              'status': 'completed'
+                          }]
+                      }
+                  ).execute()
+
+                  print("Committing changes...")
+                  service.edits().commit(packageName=package_name, editId=edit_id).execute()
+                  print("Published successfully to Internal track!")
+              except Exception as e:
+                  print(f"Error during publishing: {e}")
+                  sys.exit(1)
+
+          if __name__ == '__main__':
+              publish()
+          EOF

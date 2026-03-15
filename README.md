@@ -52,6 +52,49 @@ popd
 
 or (if you are on my machine): ```make```
 
+### How to test
+
+#### Matrix test server (required for integration tests)
+Start the test infrastructure (Matrix + Postgres + Redis) in one terminal:
+
+```bash
+docker-compose up
+```
+
+The Matrix server will be available at `http://localhost:8008` and test data will be created automatically.
+
+#### Environment variables
+
+Integration tests read Matrix server configuration from `--dart-define` values. The scripts below set these automatically.
+
+- `MATRIX_SERVER` (default: `http://localhost:8008`)
+- `MATRIX_TEST_USER` (default: `testuser1`)
+- `MATRIX_TEST_PASSWORD` (default: `testpass123`)
+
+#### Web tests (fastest)
+
+```bash
+./scripts/run-web-tests.sh
+```
+
+#### Android tests (Docker emulator)
+
+```bash
+./scripts/run-android-tests.sh
+```
+
+#### iOS tests (Simulator)
+
+The iOS Simulator cannot reach `localhost` on your host machine, so use your host IP for `MATRIX_SERVER`.
+
+```bash
+# macOS: find your local IP
+ipconfig getifaddr en0
+
+# Run iOS tests with host IP
+MATRIX_SERVER=http://YOUR_LOCAL_IP:8008 ./scripts/run-ios-tests.sh
+```
+
 
 ### TODOs
 Most todos are inside the code, just ```grep -Ri "TODO"``` to get a list.

@@ -21,16 +21,8 @@ class Feed extends StatefulWidget {
 
 class FeedState extends State<Feed> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      key: scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => {context.push("/write/select/room")},
@@ -39,12 +31,14 @@ class FeedState extends State<Feed> {
         title: const Text("Substitution"),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              scaffoldKey.currentState?.openEndDrawer(),
+          Builder(
+            builder: (context) {
+              return IconButton(
+                onPressed: () => {Scaffold.of(context).openEndDrawer()},
+                icon: const Icon(Icons.menu),
+              );
             },
-            icon: const Icon(Icons.menu),
-          )
+          ),
         ],
       ),
       body: HomePage(roomId: widget.roomId),

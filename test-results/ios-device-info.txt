@@ -1,0 +1,7 @@
+Simulator ID: A6BCA64D-4FF0-4CAF-BD30-F5BAA5505835
+Test started: Di. 17 Feb. 2026 00:00:41 CET
+Matrix server: http://localhost:8008
+---
+Runtime: com.apple.CoreSimulator.SimRuntime.iOS-26-2
+Name: iPhone 17 Pro
+Availability: Available

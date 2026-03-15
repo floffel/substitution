@@ -1,0 +1,275 @@
+Resolving dependencies...
+Downloading packages...
+  _fe_analyzer_shared 91.0.0 (96.0.0 available)
+  analyzer 8.4.1 (10.2.0 available)
+  app_links 6.4.1 (7.0.0 available)
+  archive 4.0.7 (4.0.9 available)
+  characters 1.4.0 (1.4.1 available)
+  connectivity_plus 5.0.2 (7.0.0 available)
+  connectivity_plus_platform_interface 1.2.4 (2.0.1 available)
+  ffi 2.1.5 (2.2.0 available)
+  image 4.7.2 (4.8.0 available)
+  js 0.6.7 (0.7.2 available)
+  json_annotation 4.10.0 (4.11.0 available)
+  matcher 0.12.17 (0.12.18 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  matrix 6.0.0 (6.1.1 available)
+  meta 1.17.0 (1.18.1 available)
+  objective_c 9.2.5 (9.3.0 available)
+  petitparser 7.0.1 (7.0.2 available)
+  sqflite_common_ffi 2.3.7+1 (2.4.0+2 available)
+  sqlite3 2.9.4 (3.1.6 available)
+  test_api 0.7.7 (0.7.9 available)
+  test_core 0.6.12 (0.6.15 available)
+  unorm_dart 0.2.0 (0.3.2 available)
+  url_launcher_ios 6.3.6 (6.4.1 available)
+  uuid 4.5.2 (4.5.3 available)
+  vector_graphics_compiler 1.1.20 (1.2.0 available)
+  video_player 2.10.1 (2.11.0 available)
+  video_player_android 2.9.1 (2.9.4 available)
+  video_player_avfoundation 2.9.1 (2.9.3 available)
+  vodozemac 0.4.0 (0.5.0 available)
+Got dependencies!
+29 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:01 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:02 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      Building macOS application...                                   00:03 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:04 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:05 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:06 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:07 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:08 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:09 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:10 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:11 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:12 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:13 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:14 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:15 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      
+✓ Built build/macos/Build/Products/Debug/substitution.app
+00:16 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      Failed to foreground app; open returned 1
+00:17 +0: loading /Users/florian/Code/substitution/integration_test/registration_button_test.dart                                                                                                      00:17 +0: Registration Options Test with Real Matrix Server Login page shows SSO and Web Register buttons                                                                                              00:17 +0: Registration Options Test with Real Matrix Server Login page shows SSO and Web Register buttons                                                                                              
+[90m[🌎 Easy Localization] [DEBUG] Localization initialized[0m
+[Matrix] [32mInitialize client Substitution[0m
+[Matrix] [32mUser is not logged in.[0m
+[90m[🌎 Easy Localization] [DEBUG] Start[0m
+[90m[🌎 Easy Localization] [DEBUG] Init state[0m
+[90m[🌎 Easy Localization] [DEBUG] Build[0m
+[90m[🌎 Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[🌎 Easy Localization] [DEBUG] Init provider[0m
+[90m[🌎 Easy Localization] [DEBUG] Load Localization Delegate[0m
+[90m[🌎 Easy Localization] [DEBUG] Load asset from assets/translations[0m
+[90m[🌎 Easy Localization] [DEBUG] Build[0m
+[90m[🌎 Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[🌎 Easy Localization] [DEBUG] Init provider[0m
+══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
+The following assertion was thrown building TextField(controller:
+TextEditingController#3ead8(TextEditingValue(text: ┤matrix.org├, selection: TextSelection.invalid,
+composing: TextRange(start: -1, end: -1))), enabled: true, decoration: InputDecoration(icon:
+Icon(IconData(U+0E1E5)), labelText: "Adresse deines Homeserver", floatingLabelBehavior:
+FloatingLabelBehavior.auto, floatingLabelAlignment: FloatingLabelAlignment.start, prefixText:
+https://, alignLabelWithHint: false), autocorrect: true, dirty, dependencies: [MediaQuery,
+UnmanagedRestorationScope], state: _TextFieldState#ad6d7):
+No Material widget found.
+TextField widgets require a Material widget ancestor within the closest LookupBoundary.
+In Material Design, most widgets are conceptually "printed" on a sheet of material. In Flutter's
+material library, that material is represented by the Material widget. It is the Material widget
+that renders ink splashes, for instance. Because of this, many material library widgets require that
+there be a Material widget in the tree above them.
+To introduce a Material widget, you can either directly include one, or use a widget that contains
+Material itself, such as a Card, Dialog, Drawer, or Scaffold.
+The specific widget that could not find a Material ancestor was:
+  TextField
+The ancestors of this widget were:
+  ...
+  UnmanagedRestorationScope
+  Semantics
+  TextFormField-[<'hostServerInput'>]
+  Column
+  HostPage
+  ...
+
+The relevant error-causing widget was:
+  TextFormField-[<'hostServerInput'>]
+  TextFormField:file:///Users/florian/Code/substitution/lib/auth/pages/host_page.dart:114:9
+
+When the exception was thrown, this was the stack:
+#0      debugCheckHasMaterial.<anonymous closure> (package:flutter/src/material/debug.dart:40:7)
+#1      debugCheckHasMaterial (package:flutter/src/material/debug.dart:67:4)
+#2      _TextFieldState.build (package:flutter/src/material/text_field.dart:1521:12)
+#3      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (18 frames)
+#27     Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#28     MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#29     MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (46 frames)
+#75     Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#76     MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#77     MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (194 frames)
+#271    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#272    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#273    Element.updateChild (package:flutter/src/widgets/framework.dart:4059:18)
+#274    Element.updateChildren (package:flutter/src/widgets/framework.dart:4258:32)
+#275    MultiChildRenderObjectElement.update (package:flutter/src/widgets/framework.dart:7302:17)
+#276    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#277    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#278    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#279    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#280    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#281    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#282    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#283    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#284    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#285    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#286    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#287    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#288    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#289    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#290    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#291    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#292    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#293    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#294    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#295    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#296    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#297    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#298    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#299    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#300    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#301    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#302    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#303    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#304    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#305    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#306    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#307    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#308    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#309    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#310    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#311    SingleChildRenderObjectElement.update (package:flutter/src/widgets/framework.dart:7125:14)
+#312    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#313    SingleChildRenderObjectElement.update (package:flutter/src/widgets/framework.dart:7125:14)
+#314    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#315    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#316    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#317    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#318    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#319    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#320    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#321    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#322    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#323    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#324    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#325    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#326    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#327    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#328    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#329    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#330    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#331    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#332    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#333    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#334    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#335    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#336    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#337    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#338    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#339    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#340    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#341    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#342    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#343    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#344    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#345    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#346    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#347    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#348    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#349    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#350    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#351    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#352    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#353    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#354    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#355    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#356    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#357    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#358    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#359    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#360    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#361    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#362    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#363    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#364    WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1262:21)
+#365    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#366    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#367    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#368    LiveTestWidgetsFlutterBinding.handleDrawFrame (package:flutter_test/src/binding.dart:1886:13)
+#369    SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1200:5)
+#373    _invoke (dart:ui/hooks.dart:358:10)
+#374    PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:444:5)
+#375    _drawFrame (dart:ui/hooks.dart:328:31)
+(elided 3 frames from dart:async)
+
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 99635 pixels on the bottom.
+
+The relevant error-causing widget was:
+  Column Column:file:///Users/florian/Code/substitution/lib/auth/pages/host_page.dart:101:12
+
+The overflowing RenderFlex has an orientation of Axis.vertical.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#b077e OVERFLOWING:
+  creator: Column ← HostPage ← AuthFlow ← Builder ← Semantics ← Builder ←
+    RepaintBoundary-[GlobalKey#66452] ← IgnorePointer ← ListenableBuilder ← Stack ←
+    _CupertinoBackGestureDetector<void> ← DecoratedBox ← ⋯
+  parentData: <none> (can use size)
+  constraints: BoxConstraints(w=800.0, h=600.0)
+  size: Size(800.0, 600.0)
+  direction: vertical
+  mainAxisAlignment: start
+  mainAxisSize: min
+  crossAxisAlignment: center
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.state (package:flutter_test/src/controller.dart:912:42)
+#2      WidgetTester.showKeyboard.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1125:42)
+#5      TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#6      WidgetTester.showKeyboard (package:flutter_test/src/widget_tester.dart:1124:27)
+#7      WidgetTester.enterText.<anonymous closure> (package:flutter_test/src/widget_tester.dart:1160:13)
+#10     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#11     WidgetTester.enterText (package:flutter_test/src/widget_tester.dart:1159:27)
+#12     main.<anonymous closure>.<anonymous closure> (file:///Users/florian/Code/substitution/integration_test/registration_button_test.dart:64:22)
+<asynchronous suspension>
+#13     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#14     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+The test description was:
+  Login page shows SSO and Web Register buttons
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (3) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:24 +0 -1: Registration Options Test with Real Matrix Server Login page shows SSO and Web Register buttons [E]                                                                                       
+  Test failed. See exception logs above.
+  The test description was: Login page shows SSO and Web Register buttons
+  
+
+To run this test again: /opt/homebrew/share/flutter/bin/cache/dart-sdk/bin/dart test /Users/florian/Code/substitution/integration_test/registration_button_test.dart -p vm --plain-name 'Registration Options Test with Real Matrix Server Login page shows SSO and Web Register buttons'
+00:24 +0 -1: (tearDownAll)                                                                                                                                                                             00:24 +0 -1: Some tests failed.                                                                                                                                                                        

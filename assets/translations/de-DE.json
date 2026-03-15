@@ -5,23 +5,54 @@
     "error": "Fehler: {}",
     "approve": "Ok",
     "error_no_image": "Ohne Bild",
+    "age_gate": {
+        "title": "Bevor du fortfährst",
+        "description": "Substitution ist ein Social-Networking-Client für das Matrix-Protokoll. Mit dem Fortfahren bestätigst du Folgendes:",
+        "point_client": "Substitution ist nur eine Client-App. Deine Daten werden auf dem von dir gewählten Matrix-Homeserver gespeichert, nicht auf Servern von Substitution.",
+        "point_servers": "Substitution kontrolliert nicht die Inhaltsrichtlinien externer Homeserver. Du bist selbst verantwortlich für die Wahl eines vertrauenswürdigen Servers.",
+        "point_age": "Du bist 16 Jahre oder älter (oder das in deinem Land geltende Mindestalter). Substitution ist nicht für Minderjährige gedacht.",
+        "point_content": "Substitution toleriert keine illegalen oder anstößigen Inhalte. Nutze die In-App-Meldefunktion, um Verstöße zu melden.",
+        "confirm": "Ich bestätige - ich bin 16 oder älter",
+        "privacy_link": "Datenschutzerklärung lesen"
+    },
     "feed": {
         "pages": {
             "home": {
-                "roomlabel": "Raumübersicht: {}"
+                "roomlabel": "Raumübersicht: {}",
+                "empty": "Dein Feed ist leer. Folge Räumen, um Beiträge zu sehen!",
+                "empty_button": "Räume finden"
             }
         }
     },
     "post": {
+        "error": {
+            "not_found": "Beitrag nicht gefunden oder nicht verfügbar."
+        },
+        "menu": {
+            "report_block": "Melden / Blockieren"
+        },
+        "dialog": {
+            "report_block_title": "Inhalt melden oder Benutzer blockieren",
+            "report_desc": "Bitte beschreibe, warum du diesen Inhalt meldest (optional).",
+            "report_reason": "Grund der Meldung",
+            "report_reason_hint": "Dieser Inhalt ist anstößig, weil...",
+            "block_user_checkbox": "Diesen Benutzer auch blockieren",
+            "block_user_desc": "Du wirst keine Inhalte mehr von {} sehen",
+            "submit": "Absenden",
+            "cancel": "Abbrechen",
+            "report_block_success": "Meldung wurde abgeschickt. Danke.",
+            "report_block_error": "Ein Fehler ist aufgetreten: {}"
+        },
         "pages": {
             "post": {
                 "no_comments": "Keine Kommentare vorhanden."
             }
         },
+        "continue_thread": "Diesen Thread fortsetzen...",
         "mixins": {
             "iconpicker": {
                 "title": "Icon auswählen"
-            }  
+            }
         },
         "widgets": {
             "filecomponent": {
@@ -31,7 +62,8 @@
             },
             "filedisplay": {
                 "decrypting": "Datei wird gerade entschlüsselt",
-                "video_desktop_error": "Auf Linux, Windows und MacOS können (noch) keine Videos abgespielt werden. Contribute das Feature doch auf Github!"
+                "video_desktop_error": "Auf Linux, Windows und MacOS können (noch) keine Videos abgespielt werden. Contribute das Feature doch auf Github!",
+                "audio_desktop_error": "Audio kann auf Linux, Windows und MacOS noch nicht abgespielt werden."
             },
             "reaction": {
                 "unknown_sender": "Unbekannt",
@@ -45,13 +77,23 @@
         }
     },
     "settings": {
+        "legal": {
+            "title": "Rechtliches",
+            "tos": "Nutzungsbedingungen (AGB)",
+            "privacy": "Datenschutzerklärung",
+            "imprint": "Impressum",
+            "licenses": "Open-Source-Lizenzen"
+        },
         "followfeeds": {
             "filter_server_header": "Server zum filtern auswählen, oder einen neuen hinzufügen:",
             "filter_rooms_header": "Suche nach einem Raum, um ihm zu folgen oder zu entfolgen:",
             "roomname_placeholder": "Raumname eingeben",
             "buttons": {
-                "add_server": "Server hinzufügen"
-            }
+                "add_server": "Server hinzufügen",
+                "retry": "Wiederholen"
+            },
+            "no_rooms_found": "Keine Räume für die angegebenen Suchkriterien gefunden.",
+            "error_loading_rooms": "Fehler: Räume konnten nicht geladen werden"
         },
         "ownfeeds": {
             "header": "Manage deine eigenen Räume",
@@ -64,7 +106,7 @@
             "logout": "Ausloggen",
             "login": "Jetzt einloggen",
             "home_site_label": "Home",
-            "feeds_site_label": "Feeds/Räume"
+            "feeds_site_label": "Feeds"
         },
         "room": {
             "desc": "Raumname: {}",
@@ -123,7 +165,7 @@
         },
         "finished": {
             "title": "Los gehts",
-            "desc": "Super, du hast dich erfolgreich eingeloggt. Du kannst jetzt noch auswählen, ob du dem Substitution-Startraum folgen möchtest oder einfach so fortfahren möchtest. Es kann losgehen. Viel Spass!",
+            "desc": "Super, du hast dich erfolgreich eingeloggt. Du kannst jetzt noch auswählen, ob du dem Substitution-Startraum folgen oder einfach so fortfahren möchtest. Es kann losgehen. Viel Spass!",
             "buttons": {
                 "add_to_room_and_go": "Substitution-Raum folgen und loslegen!",
                 "go": "Los gehts!"
@@ -150,13 +192,15 @@
                 "password_label": "Passwort"
             },
             "buttons": {
-                "login_label": "Login"
+                "login_label": "Login",
+                "sso_label": "Mit {} anmelden",
+                "register_web_label": "Registrieren"
             }
         }
     },
     "write": {
-        "answer": "Antworte auf:",     
-        "roomheader": "Raum: {}", 
+        "answer": "Antworte auf:",
+        "roomheader": "Raum: {}",
         "filemessage": {
             "upload_files": "Neue Dateien zum upload hinzufügen",
             "title_header": "Titel:",
@@ -166,14 +210,14 @@
             "upload_file_complete": "Hochladen der Datei {} ist erfolgreich abgeschlossen!",
             "upload_complete": "Alle Dateien wurden erfolgreich hochgeladen!",
             "buttons": {
-                "upload_stop": "Nein",
-                "upload_retry": "Upload wiederholen"
+                "upload_stop": "Abbrechen",
+                "upload_retry": "Wiederholen"
             }
         },
         "roomselect": {
-          "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
-          "room_prompt": "Bitte den Raum auswählen, in den gepostet werden soll:",
-          "error_no_rooms": "Es konnten noch keine Räume gefunden werden, bitte füge erst welche hinzu"
+            "type_prompt": "Bitte den typ wählen, der gepostet werden soll",
+            "room_prompt": "Bitte den Raum auswählen, in den gepostet werden soll:",
+            "error_no_rooms": "Es konnten noch keine Räume gefunden werden, bitte füge erst welche hinzu"
         },
         "textmessage": {
             "answer_promt": "Antwort eingeben:",

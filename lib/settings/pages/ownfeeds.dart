@@ -1,5 +1,7 @@
 import '/settings/widgets/roomwidget.dart';
 import '/settings/widgets/dialogcreateroom.dart';
+import '/shared/extensions/client_extensions.dart';
+import '/shared/models/substitution_room.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +32,7 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
   String selectedServer =
       ""; // todo: must be initialized with the first server, or we'll error in here!
 
-  List<Map<String, dynamic>> data =
+  List<SubstitutionRoom> data =
       []; // todo: this is adapted from _getJoinedRooms, make it a struct-like type!
 
   @override
@@ -39,20 +41,12 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
   }
 
   // TODO: this is NOT! exactly but mostly (only added check if the user has powerlevel > 50, removed server filtering) the same method as in followfeeds.dart -> make it abstract, or a mixin or something
-  Future<List<Map<String, dynamic>>> _getJoinedRooms() async {
-    List<Map<String, dynamic>> newData = [];
+  Future<List<SubstitutionRoom>> _getJoinedRooms() async {
+    List<SubstitutionRoom> newData = [];
 
     for (String roomId in await client.getJoinedRooms()) {
       Room r = client.getRoomById(roomId)!;
-      bool isInSubstitution = false;
-
-      // get if in substitution, stolen from _fetchRooms, todo: make it a function or so...
-      // todo: this only works with logged in clients!
-      try {
-        isInSubstitution = (await client.getAccountDataPerRoom(
-                client.userID!, roomId, "substitution"))["joined"] ==
-            true;
-      } catch (_) {} // we cannot get the account data
+      bool isInSubstitution = await client.isRoomInSubstitution(roomId);
 
       if (!isInSubstitution) {
         continue;
@@ -63,15 +57,15 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
         continue; // checks if the user has the posting privilege (>=50)
       }
 
-      Map<String, dynamic> add = {
-        // todo: do it with a typedef https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart
-        "name": r.name,
-        "id": r.id,
-        "isInsideSubstitution": isInSubstitution,
-        "joined": true,
-      };
-
-      newData.add(add);
+      newData.add(
+        SubstitutionRoom(
+          name: r.name,
+          id: r.id,
+          avatarUrl: r.avatar?.getDownloadUri(client).toString(),
+          isInsideSubstitution: isInSubstitution,
+          joined: true,
+        ),
+      );
     }
 
     return newData;
@@ -83,9 +77,11 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      const Text("settings.ownfeeds.header").tr(),
-      TextButton(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text("settings.ownfeeds.header").tr(),
+        TextButton(
           child: const Text("settings.ownfeeds.buttons.create_room").tr(),
           onPressed: () async {
             await showDialog<void>(
@@ -96,21 +92,36 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
               },
             );
             setState(() {});
-          }),
-      FutureBuilder(
+          },
+        ),
+        FutureBuilder(
           future: _getJoinedRooms(),
           builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
             if (!snapshot.hasData) {
-              return const Text("loading").tr();
+              return const SizedBox.shrink();
             }
 
             return Column(
-                children: ListTile.divideTiles(context: ctx, tiles: [
-              ...snapshot.data?.map((d) => RoomWidget(items: d
-                  // todo: delete room
-                  )) ?? []
-            ]).toList());
-          })
-    ]);
+              children:
+                  ListTile.divideTiles(
+                    context: ctx,
+                    tiles: [
+                      ...snapshot.data?.map(
+                            (d) => RoomWidget(
+                              room: d,
+                              // todo: delete room
+                            ),
+                          ) ??
+                          [],
+                    ],
+                  ).toList(),
+            );
+          },
+        ),
+      ],
+    );
   }
 }

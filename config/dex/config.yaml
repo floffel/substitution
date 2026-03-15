@@ -1,0 +1,54 @@
+# Dex OIDC Provider Configuration — TEST ENVIRONMENT ONLY
+#
+# Dex acts as a local OpenID Connect identity provider so that Synapse can
+# delegate SSO logins to it without needing real Google/GitHub credentials.
+#
+# Endpoints (reachable from within the Docker network):
+#   Issuer / discovery: http://dex:5556/dex
+#   Auth:               http://dex:5556/dex/auth
+#   Token:              http://dex:5556/dex/token
+#
+# The Synapse OIDC callback URL (configured in homeserver.yaml) must be listed
+# in the OAuth2 client's redirectURIs below.
+
+issuer: http://dex:5556/dex
+
+storage:
+  type: memory
+
+web:
+  http: 0.0.0.0:5556
+  allowedOrigins:
+    - "*"
+
+# Log level for debugging
+logger:
+  level: debug
+
+# OAuth2 client registered for Synapse
+staticClients:
+  - id: synapse
+    secret: synapse-dex-secret
+    name: Synapse Matrix Server
+    redirectURIs:
+      # Synapse's OIDC callback — must match the redirect_uri Synapse sends
+      - http://localhost:8008/_synapse/client/oidc/callback
+      # Also allow the Docker-internal address (when Synapse calls Dex internally)
+      - http://matrix-synapse:8008/_synapse/client/oidc/callback
+
+# Static test users — no external IdP required
+enablePasswordDB: true
+
+staticPasswords:
+  - email: sso_testuser@test.local
+    # bcrypt hash of "sso_testpass"
+    # Generate with: htpasswd -bnBC 10 "" sso_testpass | tr -d ':\n'
+    hash: "$2y$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8F4K"
+    username: sso_testuser
+    userID: "sso_testuser"
+
+# Expose standard OIDC claims
+oauth2:
+  skipApprovalScreen: true
+  responseTypes:
+    - code

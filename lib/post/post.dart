@@ -21,15 +21,26 @@ class Post extends StatefulWidget {
 }
 
 class PostState extends State<Post> {
-  Future<({Event? origEvent, Event? displayEvent})> get event async {
-    Room room = Provider.of<Client>(context, listen: false).getRoomById(widget
-        .roomId)!; // todo: passive programming, go to 404 or smthg if room does not exist
+  Future<({Event? origEvent, Event? displayEvent})?> get event async {
+    final client = Provider.of<Client>(context, listen: false);
 
-    Event event = (await room.getEventById(
-        widget.eventId))!; // TODO: passive programming! Error handling!
+    // Check if room exists
+    final Room? room = client.getRoomById(widget.roomId);
+    if (room == null) {
+      debugPrint("Room ${widget.roomId} not found.");
+      return null;
+    }
 
-    Timeline timeline =
-        await event.room.getTimeline(eventContextId: event.eventId);
+    // Check if event exists
+    final Event? event = await room.getEventById(widget.eventId);
+    if (event == null) {
+      debugPrint("Event ${widget.eventId} not found in room ${widget.roomId}.");
+      return null;
+    }
+
+    Timeline timeline = await event.room.getTimeline(
+      eventContextId: event.eventId,
+    );
 
     return (origEvent: event, displayEvent: event.getDisplayEvent(timeline));
   }
@@ -41,17 +52,43 @@ class PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: event,
-        builder: (ctx, snapshot) {
-          if (!snapshot.hasData) {
-            return const Text("loading").tr();
-          }
+    return FutureBuilder<({Event? origEvent, Event? displayEvent})?>(
+      future: event,
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          // TODO: passive programming, error handling, if data == null or origEvent == null
-          return PostPage(
-              event: (snapshot.data!.origEvent!),
-              displayEvent: (snapshot.data!.displayEvent!));
-        });
+        if (snapshot.hasError) {
+          return Center(child: Text("Error: ${snapshot.error}"));
+        }
+
+        if (!snapshot.hasData || snapshot.data == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("post.error.not_found").tr(), // Add translation key
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("Go Back"),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final data = snapshot.data!;
+        if (data.origEvent == null || data.displayEvent == null) {
+          return const Center(child: Text("Event data incomplete"));
+        }
+
+        return PostPage(
+          event: data.origEvent!,
+          displayEvent: data.displayEvent!,
+        );
+      },
+    );
   }
 }

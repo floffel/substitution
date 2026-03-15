@@ -8,7 +8,7 @@ class DialogAddServer extends StatefulWidget {
   const DialogAddServer({super.key});
 
   @override
-  _DialogAddServerState createState() => _DialogAddServerState();
+  State<DialogAddServer> createState() => _DialogAddServerState();
 }
 
 class _DialogAddServerState extends State<DialogAddServer> {
@@ -19,6 +19,7 @@ class _DialogAddServerState extends State<DialogAddServer> {
 
   String lastValidatedMatrixServerAddr = "";
   bool isInvalidMatrixServer = true;
+  bool _isLoading = false;
 
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
   // TODO: this throws an exception if the account data is not valid!
@@ -26,7 +27,9 @@ class _DialogAddServerState extends State<DialogAddServer> {
   Future<Map<String, Object?>> get accountData async {
     try {
       return await client.getAccountData(
-          client.userID!, "substitution.servers");
+        client.userID!,
+        "substitution.servers",
+      );
     } catch (e) {
       // no account data (e.g. no server is set)
       return {};
@@ -39,8 +42,9 @@ class _DialogAddServerState extends State<DialogAddServer> {
     isInvalidMatrixServer = true;
 
     Room room = Room(
-        id: '#substitution:$serverAddr',
-        client: Provider.of<Client>(context, listen: false));
+      id: '#substitution:$serverAddr',
+      client: Provider.of<Client>(context, listen: false),
+    );
 
     debugPrint("room.lastEvent: ${room.name}");
 
@@ -67,21 +71,10 @@ class _DialogAddServerState extends State<DialogAddServer> {
     }
     if (!isInvalidMatrixServer && lastValidatedMatrixServerAddr == serverAddr) {
       return null;
-    } else {
-      checkHost(serverAddr!);
-      return "The provided adress contains no for this app configured matrix server";
     }
-    //Room? room = Provider.of<Client>(context, listen: false)
-    //    .getRoomById('#substitution:$serverAddr');
 
-    /*if (room == null) {
-        // TODO: intl
-        return "The provided adress contains no for this app configured matrix server";
-      } else if (!room.isSpace) {
-        return "The provided adress contains an oddly configured room, we cannot use it";
-      }*/
-
-    return null;
+    checkHost(serverAddr!);
+    return "The provided adress contains no for this app configured matrix server";
   }
 
   Future<void> addRoom() async {
@@ -93,28 +86,53 @@ class _DialogAddServerState extends State<DialogAddServer> {
     var navState = Navigator.of(context);
     var scavMsg = ScaffoldMessenger.of(context);
 
-    // TODO: make this async test as soon as the user entered the new server
-    // TODO: mby wrap it in a try/catch block, b.c. it can error if the server won't allow querying (over federation/public)
-    QueryPublicRoomsResponse resp = await client.queryPublicRooms(
-        server: _matrixServerAdressContrainer.text, limit: 1);
+    setState(() {
+      _isLoading = true;
+    });
 
-    if ((resp.totalRoomCountEstimate ?? 0) > 0) {
-      // TODO: show loading animation
+    try {
+      // TODO: make this async test as soon as the user entered the new server
+      // TODO: mby wrap it in a try/catch block, b.c. it can error if the server won't allow querying (over federation/public)
+      QueryPublicRoomsResponse resp = await client.queryPublicRooms(
+        server: _matrixServerAdressContrainer.text,
+        limit: 1,
+      );
 
-      await client.setAccountData(client.userID!, "substitution.servers",
-          {_matrixServerAdressContrainer.text: null, ...await accountData});
+      if ((resp.totalRoomCountEstimate ?? 0) > 0) {
+        await client.setAccountData(client.userID!, "substitution.servers", {
+          _matrixServerAdressContrainer.text: null,
+          ...await accountData,
+        });
 
-      scavMsg.showSnackBar(SnackBar(
-        content: const Text("settings.dialog.add.snackbar.success").tr(),
-      ));
+        if (!mounted) return;
+        scavMsg.showSnackBar(
+          SnackBar(
+            content: const Text("settings.dialog.add.snackbar.success").tr(),
+          ),
+        );
 
-      navState.pop(true);
-    } else {
-      scavMsg.showSnackBar(SnackBar(
-        content: const Text("settings.dialog.add.snackbar.error_homeserver")
-            .tr(), // todo intl
-      ));
-      navState.pop(false);
+        navState.pop(true);
+      } else {
+        if (!mounted) return;
+        scavMsg.showSnackBar(
+          SnackBar(
+            content:
+                const Text(
+                  "settings.dialog.add.snackbar.error_homeserver",
+                ).tr(), // todo intl
+          ),
+        );
+        // Keep dialog open to allow retry
+      }
+    } catch (e) {
+      if (!mounted) return;
+      scavMsg.showSnackBar(SnackBar(content: Text("Error: $e")));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -126,17 +144,17 @@ class _DialogAddServerState extends State<DialogAddServer> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('settings.dialog.add.title').tr(),
-        content: Form(
-          key: _matrixServerPopupFormKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: TextFormField(
-            controller: _matrixServerAdressContrainer,
-            decoration: InputDecoration(
-              prefixText: 'https://',
-              icon: const Icon(Icons.dns),
-              labelText: "settings.dialog.add.input_placeholder".tr(),
-              /*suffixIcon: Icon(
+      title: const Text('settings.dialog.add.title').tr(),
+      content: Form(
+        key: _matrixServerPopupFormKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: TextFormField(
+          controller: _matrixServerAdressContrainer,
+          decoration: InputDecoration(
+            prefixText: 'https://',
+            icon: const Icon(Icons.dns),
+            labelText: "settings.dialog.add.input_placeholder".tr(),
+            /*suffixIcon: Icon(
                                               (_matrixServerPopupFormKey
                                                               .currentState !=
                                                           null &&
@@ -146,16 +164,21 @@ class _DialogAddServerState extends State<DialogAddServer> {
                                                   ? Icons.check_circle
                                                   : Icons
                                                       .cancel), // while checking: Icons.help, matrix-server: Icons.check_circle, no matrix server: Icons.cancel
-                                          */ // todo: do with validation
-            ),
-            //validator: validateMatrixServer, TODO: I don't know how to check if a room really exists
+                                          */
+            // todo: do with validation
           ),
+          //validator: validateMatrixServer, TODO: I don't know how to check if a room really exists
         ),
-        actions: <Widget>[
+      ),
+      actions: <Widget>[
+        if (_isLoading)
+          const CircularProgressIndicator()
+        else
           TextButton(
             child: const Text('settings.dialog.add.button.submit').tr(),
             onPressed: () async => await addRoom(),
           ),
-        ]);
+      ],
+    );
   }
 }

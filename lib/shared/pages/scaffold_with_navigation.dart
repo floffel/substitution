@@ -4,36 +4,55 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ScaffoldWithNavigation extends StatelessWidget {
-  ScaffoldWithNavigation({super.key, required this.child});
-
+class ScaffoldWithNavigation extends StatefulWidget {
   final Widget child;
+  final bool showNavigation;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  const ScaffoldWithNavigation({
+    super.key,
+    required this.child,
+    this.showNavigation = true,
+  });
 
+  @override
+  State<ScaffoldWithNavigation> createState() => _ScaffoldWithNavigationState();
+}
+
+class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.pop(true)},
-          icon: const Icon(Icons.arrow_back),
-        ),
+        leading:
+            widget.showNavigation
+                ? IconButton(
+                  onPressed: () => context.pop(true),
+                  icon: const Icon(Icons.arrow_back),
+                )
+                : null,
         title: const Text("app_name").tr(),
         centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {
-              _scaffoldKey.currentState?.openEndDrawer(),
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
+        actions:
+            widget.showNavigation
+                ? <Widget>[
+                  Builder(
+                    builder: (context) {
+                      return IconButton(
+                        onPressed: () => Scaffold.of(context).openEndDrawer(),
+                        icon: const Icon(Icons.menu),
+                      );
+                    },
+                  ),
+                ]
+                : null,
       ),
       body: SafeArea(
-          child: Padding(padding: const EdgeInsets.all(16.0), child: child)),
-      endDrawer: const Menu(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: widget.child,
+        ),
+      ),
+      endDrawer: widget.showNavigation ? const Menu() : null,
     );
   }
 }

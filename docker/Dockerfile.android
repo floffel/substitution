@@ -1,0 +1,191 @@
+################################################################################
+# DOCKERFILE FOR ANDROID PLATFORM TESTING
+#
+# Builds a Flutter Android testing environment with Android SDK and emulator.
+# Configured for CI/CD with x86_64 architecture and KVM support.
+#
+# Build: docker build -f docker/Dockerfile.android -t substitution-android-test .
+# Run:   docker-compose run --rm android-test
+################################################################################
+
+FROM ubuntu:22.04
+
+LABEL maintainer="Substitution Team"
+LABEL description="Flutter Android Platform Testing Environment"
+
+# Build arguments
+ARG FLUTTER_VERSION=stable
+ARG ANDROID_API_LEVEL=33
+ARG ANDROID_BUILD_TOOLS_VERSION=34.0.0
+
+# Environment setup
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV ANDROID_HOME=${ANDROID_SDK_ROOT}
+ENV ANDROID_SDK_TOOLS_VERSION=9477386
+ENV FLUTTER_HOME=/opt/flutter
+ENV PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/tools/bin:$PATH
+
+# Set timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Build tools
+    build-essential \
+    cmake \
+    pkg-config \
+    # Git and downloads
+    git \
+    curl \
+    wget \
+    unzip \
+    # Java (required for Android)
+    openjdk-11-jdk-headless \
+    # Android emulator dependencies
+    libqt5gui5 \
+    libqt5core5a \
+    libxext6 \
+    libxrender1 \
+    libxrandr2 \
+    libxcursor1 \
+    libxinerama1 \
+    libxi6 \
+    libxfixes3 \
+    libx11-6 \
+    # Audio libraries
+    pulseaudio \
+    libpulse0 \
+    # Standard dependencies
+    libssl-dev \
+    libffi-dev \
+    libsqlite3-0 \
+    libsqlite3-dev \
+    libglu1-mesa \
+    # Virtual display (fallback for headless)
+    xvfb \
+    # Network utilities
+    netcat-traditional \
+    # Timezone data
+    tzdata \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Install Flutter
+RUN mkdir -p /opt && \
+    git clone --depth 1 https://github.com/flutter/flutter.git \
+    -b ${FLUTTER_VERSION} ${FLUTTER_HOME} && \
+    ${FLUTTER_HOME}/bin/flutter config --no-analytics && \
+    ${FLUTTER_HOME}/bin/flutter config --enable-android && \
+    ${FLUTTER_HOME}/bin/flutter precache
+
+# Create Android SDK directory structure
+RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    mkdir -p ${ANDROID_SDK_ROOT}/platforms && \
+    mkdir -p ${ANDROID_SDK_ROOT}/build-tools && \
+    mkdir -p ${ANDROID_SDK_ROOT}/system-images && \
+    mkdir -p /root/.android/avd
+
+# Download and extract Android SDK tools
+RUN cd /tmp && \
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip && \
+    unzip -q commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip && \
+    mv cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
+    rm commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip && \
+    ls -la ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/ || true
+
+# Accept licenses and install Android components (with retries)
+RUN for i in {1..3}; do \
+    yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses 2>/dev/null || true; \
+    done && \
+    sdkmanager --sdk_root=${ANDROID_SDK_ROOT} \
+    "platform-tools" \
+    "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
+    "platforms;android-${ANDROID_API_LEVEL}" \
+    2>&1 | head -50 && \
+    echo "Android SDK components installed successfully"
+
+# Pre-create AVD (Android Virtual Device) with config
+RUN mkdir -p /root/.android/avd/android_test.avd && \
+    cat > /root/.android/avd/android_test.ini << 'EOF'
+path=/root/.android/avd/android_test.avd
+path.rel=android_test.avd
+target=android-33
+EOF
+
+# Create emulator configuration
+RUN cat > /root/.android/avd/android_test.avd/config.ini << 'EOF'
+# Emulator configuration for CI/CD testing
+hw.device.name=pixel_5
+hw.device.manufacturer=Google
+image.sysdir.1=system-images/android-33/google_apis/x86_64/
+hw.keyboard=yes
+hw.gpu.mode=off
+hw.gpu.enabled=no
+hw.ramSize=2048
+disk.dataPartition.size=6000
+hw.sdCard=yes
+sdcard.size=512M
+hw.sensors.orientation=yes
+hw.sensors.proximity=yes
+hw.battery=yes
+hw.dPad=yes
+hw.qemu.camera=emulated
+hw.camera.front=emulated
+hw.camera.back=emulated
+hw.audio=no
+ro.hardware.keystore=ranchu
+hw.lcd.density=420
+hw.lcd.height=1920
+hw.lcd.width=1080
+hw.mainKeys=no
+hw.gps=yes
+window.height=1920
+window.width=1080
+vm.heapSize=512
+kernel.newDeviceNaming=yes
+kernel.parameters=
+boot.prop.disable_rescue=true
+ro.boot.bootloader=generic_arm64
+ro.boot.baseband=unknown
+ro.boot.serialno=generic_arm64
+ro.bootloader=generic_arm64
+ro.bootimage.build.fingerprint=generic_arm64
+ro.baseband=unknown
+ro.secure=1
+ro.boot.serialno=generic_arm64
+EOF
+
+# Verify Flutter and Android installations
+RUN echo "=== Flutter Version ===" && \
+    flutter --version && \
+    echo "" && \
+    echo "=== Dart Version ===" && \
+    dart --version && \
+    echo "" && \
+    echo "=== Java Version ===" && \
+    java -version && \
+    echo "" && \
+    echo "=== Android SDK Tools ===" && \
+    ls -la ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/ && \
+    echo "" && \
+    echo "=== Installed Android Components ===" && \
+    sdkmanager --list --sdk_root=${ANDROID_SDK_ROOT} 2>/dev/null | head -20 || true
+
+# Copy test runner script
+COPY scripts/run-android-tests.sh /usr/local/bin/run-android-tests.sh
+RUN chmod +x /usr/local/bin/run-android-tests.sh
+
+WORKDIR /project
+
+# Expose adb port for external debugging (optional)
+EXPOSE 5037
+
+# Health check to verify emulator availability
+HEALTHCHECK --interval=10s --timeout=30s --retries=3 \
+    CMD which emulator > /dev/null || exit 1
+
+# Default command: Run test runner script
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "run-android-tests.sh"]
