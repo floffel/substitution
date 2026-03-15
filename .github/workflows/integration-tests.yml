@@ -232,6 +232,8 @@ jobs:
         # (all remaining steps including the retry then never execute).
         # Remove the existing swapfile and replace it with a larger one;
         # also lower swappiness so the kernel pages to swap earlier.
+        # Protect the runner daemon (PID 1's child) from OOM kill so that step
+        # transitions always succeed even under heavy memory pressure.
         run: |
           sudo swapoff /swapfile || true
           sudo rm -f /swapfile
@@ -240,6 +242,17 @@ jobs:
           sudo mkswap /swapfile
           sudo swapon /swapfile
           sudo sysctl vm.swappiness=60
+          # OOM-protect the Actions runner daemon so the kernel never kills it.
+          # oom_score_adj = -1000 means "never OOM-kill this process".
+          # The runner daemon is the direct child of PID 1 on GitHub-hosted runners.
+          RUNNER_PID=$(pgrep -f "Runner.Worker" | head -1 || pgrep -f "runner" | head -1 || echo "")
+          if [ -n "$RUNNER_PID" ]; then
+            echo -1000 | sudo tee /proc/$RUNNER_PID/oom_score_adj > /dev/null 2>&1 || true
+            echo "OOM-protected runner PID $RUNNER_PID"
+          fi
+          # Also protect this shell (the step runner) and its parent
+          echo -1000 | sudo tee /proc/$$/oom_score_adj > /dev/null 2>&1 || true
+          echo -1000 | sudo tee /proc/$PPID/oom_score_adj > /dev/null 2>&1 || true
           free -h
 
       - name: 'Install Linux desktop dependencies'
@@ -285,61 +298,36 @@ jobs:
           sleep 5 # Final stabilization delay
 
       - name: 'Run Linux integration tests'
-        id: linux-tests-run
-        continue-on-error: true
         env:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
         run: |
           # Run tests; capture exit code so cleanup runs before the step exits.
-          # Killing orphan processes and dropping the page cache inside this
-          # step (rather than in a separate step) ensures cleanup happens before
-          # the runner daemon evaluates the retry condition.  An OOM-killed
-          # runner between steps is the root cause of the consistent shard-10
-          # failure; this removes the inter-step RAM spike.
           xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" \
             ./scripts/test.sh linux --no-docker \
             --shard ${{ matrix.shard }} \
             --total-shards ${{ needs.plan-tests.outputs.shard_count }}
           EXIT_CODE=$?
-          # Free memory immediately after the GTK process exits.
-          # Sleep briefly so the kernel can complete process-exit cleanup
-          # (freeing page tables, kmalloc, etc.) before the runner daemon
-          # transitions to the next step — the transition itself can OOM the
-          # runner if kernel cleanup hasn't finished.
           pkill -f "substitution" 2>/dev/null || true
           pkill -f "Xvfb" 2>/dev/null || true
-          # Stop Docker containers immediately so they release RAM before the
-          # runner daemon has to evaluate the next step condition.
           docker ps -q | xargs -r docker kill 2>/dev/null || true
           docker ps -aq | xargs -r docker rm -f 2>/dev/null || true
-          # Print test logs here (inside the step) so we see them even if the
-          # runner daemon is OOM-killed before the separate log-display step runs.
+          # Print test logs inline so they're visible in this step's output.
           if [[ $EXIT_CODE -ne 0 ]]; then
             echo "=== TEST FAILED (exit code $EXIT_CODE) — test-results/ ==="
             ls -la test-results/ 2>/dev/null || echo "(no test-results dir)"
             for f in test-results/*.log; do
               [ -f "$f" ] || continue
-              echo ""
-              echo "=== $f ==="
-              tail -200 "$f"
+              echo ""; echo "=== $f ==="; tail -200 "$f"
             done
           fi
-          # Wait 30s for kernel to fully reclaim memory from killed processes
-          # before the runner daemon spawns the next step.
-          sleep 30
+          sleep 10
           sync
           echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
           free -h
           exit $EXIT_CODE
         timeout-minutes: 25
-
-      - name: 'Fail job if tests failed'
-        if: steps.linux-tests-run.outcome == 'failure'
-        run: |
-          echo "Linux integration tests failed — failing the job."
-          exit 1
 
       - name: 'Stop Matrix test server'
         if: always()
