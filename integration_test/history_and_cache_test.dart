@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:substitution/main.dart' as app;
 import 'package:path_provider/path_provider.dart';
+import 'dart:io' show File;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,8 +51,19 @@ void main() {
 
       if (!kIsWeb) {
         final dir = await getApplicationDocumentsDirectory();
-        if (dir.existsSync()) {
-          dir.deleteSync(recursive: true);
+        // On Linux, getApplicationDocumentsDirectory() can return the process
+        // working directory.  Deleting it recursively removes the CWD and
+        // causes all subsequent filesystem operations (including loading the
+        // next test file) to fail with ENOENT.  Delete only the known
+        // database file instead of the whole directory.
+        final dbFile = File('${dir.path}/matrix_database.db');
+        if (dbFile.existsSync()) {
+          dbFile.deleteSync();
+        }
+        // Also remove WAL/SHM sidecar files if present.
+        for (final suffix in ['-wal', '-shm']) {
+          final sidecar = File('${dir.path}/matrix_database.db$suffix');
+          if (sidecar.existsSync()) sidecar.deleteSync();
         }
       }
       SharedPreferences.setMockInitialValues({});
