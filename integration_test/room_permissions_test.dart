@@ -103,7 +103,7 @@ void main() {
         );
         final settingsButton = find.descendant(
           of: roomTile,
-          matching: find.byIcon(Icons.settings),
+          matching: find.byIcon(Icons.settings_rounded),
         );
 
         await $(settingsButton).tap();

@@ -123,12 +123,12 @@ void main() {
           expect($(PostWidget).exists, true, reason: 'MUST display messages');
           // The icons are visible directly on the card in this app version
           expect(
-            $(Icons.favorite_border).exists,
+            $(Icons.favorite_border_rounded).exists,
             true,
             reason: 'MUST show reaction button',
           );
           expect(
-            $(Icons.chat_bubble_outline).exists,
+            $(Icons.chat_bubble_outline_rounded).exists,
             true,
             reason: 'MUST show reply button',
           );
@@ -191,7 +191,7 @@ void main() {
 
         await waitForFeedReady($);
 
-        final reactionButton = $(Icons.favorite_border).first;
+        final reactionButton = $(Icons.favorite_border_rounded).first;
         await reactionButton.tap();
 
         // STRICT: Check for emoji picker
@@ -222,7 +222,7 @@ void main() {
 
       await waitForFeedReady($);
       expect(
-        $(Icons.chat_bubble_outline).exists,
+        $(Icons.chat_bubble_outline_rounded).exists,
         true,
         reason: 'MUST show reply button',
       );
@@ -251,7 +251,7 @@ void main() {
 
         await waitForFeedReady($);
 
-        final replyButton = $(Icons.chat_bubble_outline).first;
+        final replyButton = $(Icons.chat_bubble_outline_rounded).first;
         await replyButton.tap();
 
         // STRICT: Wait for the new page to appear

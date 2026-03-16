@@ -126,7 +126,8 @@
         "room": {
             "desc": "Raumname: {}",
             "leave": "Raum verlassen",
-            "join": "Raum betreten und zu substitution hinzufügen"
+            "join": "Raum betreten und zu substitution hinzufügen",
+            "permissions": "Berechtigungen"
         },
         "dialog": {
             "delete": {

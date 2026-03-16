@@ -111,9 +111,9 @@ void main() {
           await $.tester.pump(const Duration(milliseconds: 300));
         }
 
-        // 2. Tap Send icon in AppBar to start posting
+        // 2. Tap FAB to start posting
         debugPrint('POST_CREATION: Tapping New Post button...');
-        final newPostButton = $(Icons.send_outlined);
+        final newPostButton = $(Icons.add_rounded);
         await newPostButton.waitUntilVisible();
         await newPostButton.tap();
         for (int i = 0; i < 10; i++) {

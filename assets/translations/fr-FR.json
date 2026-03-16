@@ -122,7 +122,8 @@
         "room": {
             "desc": "Nom de la salle: {}",
             "leave": "Quitter la pièce",
-            "join": "Entrez dans la pièce et ajoutez-la à la substitution"
+            "join": "Entrez dans la pièce et ajoutez-la à la substitution",
+            "permissions": "Permissions"
         },
         "dialog": {
             "delete": {

@@ -182,24 +182,24 @@ void main() {
           timeout: const Duration(seconds: 60),
         );
 
-        // Find the join button (Icons.person_add)
-        final joinButton = $(Icons.person_add);
+        // Find the join button (Icons.person_add_rounded)
+        final joinButton = $(Icons.person_add_rounded);
         await joinButton.waitUntilVisible();
         debugPrint('DISCOVERY: Tapping join button...');
         await joinButton.first.tap();
 
-        // Wait for join to complete (button should change to Icons.person_remove)
+        // Wait for join to complete (button should change to Icons.person_remove_rounded)
         debugPrint('DISCOVERY: Waiting for join to complete...');
         await fastWait(
           $.tester,
-          () => $(Icons.person_remove).exists,
+          () => $(Icons.person_remove_rounded).exists,
           timeout: const Duration(seconds: 60),
         );
-        expect($(Icons.person_remove).exists, true);
+        expect($(Icons.person_remove_rounded).exists, true);
         debugPrint('✓ DISCOVERY: Room joined successfully');
 
         // Now leave it
-        final leaveButton = $(Icons.person_remove);
+        final leaveButton = $(Icons.person_remove_rounded);
         debugPrint('DISCOVERY: Tapping leave button...');
         await leaveButton.first.tap();
 
@@ -207,10 +207,10 @@ void main() {
         debugPrint('DISCOVERY: Waiting for leave to complete...');
         await fastWait(
           $.tester,
-          () => $(Icons.person_add).exists,
+          () => $(Icons.person_add_rounded).exists,
           timeout: const Duration(seconds: 60),
         );
-        expect($(Icons.person_add).exists, true);
+        expect($(Icons.person_add_rounded).exists, true);
         debugPrint('✓ DISCOVERY: Room left successfully');
       },
       timeout: const Timeout(Duration(minutes: 15)),
