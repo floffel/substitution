@@ -143,127 +143,121 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Edit Profile')),
-      body:
-          _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                padding: const EdgeInsets.all(16),
+    return _isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : ListView(
+          children: [
+            // Avatar
+            Center(
+              child: Stack(
                 children: [
-                  // Avatar
-                  Center(
-                    child: Stack(
-                      children: [
-                        if (_selectedAvatarFile != null)
-                          FutureBuilder<Uint8List>(
-                            future: _selectedAvatarFile!.readAsBytes(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return CircleAvatar(
-                                  radius: 60,
-                                  backgroundImage: MemoryImage(snapshot.data!),
-                                );
-                              }
-                              return const CircleAvatar(
-                                radius: 60,
-                                child: Icon(Icons.person, size: 60),
-                              );
-                            },
-                          )
-                        else if (_currentProfile?.avatarUrl != null)
-                          CircleAvatar(
+                  if (_selectedAvatarFile != null)
+                    FutureBuilder<Uint8List>(
+                      future: _selectedAvatarFile!.readAsBytes(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return CircleAvatar(
                             radius: 60,
-                            backgroundImage: NetworkImage(
-                              _currentProfile!.avatarUrl!
-                                  .getDownloadUri(
-                                    Provider.of<Client>(context, listen: false),
-                                  )
-                                  .toString(),
-                            ),
-                          )
-                        else
-                          CircleAvatar(
-                            radius: 60,
-                            child: Text(
-                              _currentProfile?.displayName?.isNotEmpty ?? false
-                                  ? _currentProfile!.displayName![0]
-                                      .toUpperCase()
-                                  : '?',
-                              style: const TextStyle(fontSize: 36),
-                            ),
-                          ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: FloatingActionButton(
-                            mini: true,
-                            onPressed: _pickAvatar,
-                            child: const Icon(Icons.camera_alt),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-
-                  // Display Name
-                  TextFormField(
-                    controller: _displayNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Display Name',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Display name cannot be empty';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Save Button
-                  ElevatedButton(
-                    onPressed: _isSaving ? null : _saveProfile,
-                    child:
-                        _isSaving
-                            ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                            backgroundImage: MemoryImage(snapshot.data!),
+                          );
+                        }
+                        return const CircleAvatar(
+                          radius: 60,
+                          child: Icon(Icons.person, size: 60),
+                        );
+                      },
+                    )
+                  else if (_currentProfile?.avatarUrl != null)
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(
+                        _currentProfile!.avatarUrl!
+                            .getDownloadUri(
+                              Provider.of<Client>(context, listen: false),
                             )
-                            : const Text('Save Profile'),
-                  ),
-                  const SizedBox(height: 64),
-                  const Divider(),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Danger Zone',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                            .toString(),
+                      ),
+                    )
+                  else
+                    CircleAvatar(
+                      radius: 60,
+                      child: Text(
+                        _currentProfile?.displayName?.isNotEmpty ?? false
+                            ? _currentProfile!.displayName![0].toUpperCase()
+                            : '?',
+                        style: const TextStyle(fontSize: 36),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: _pickAvatar,
+                      child: const Icon(Icons.camera_alt),
                     ),
-                    icon: const Icon(Icons.delete_forever),
-                    label: const Text('Delete Account'),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => const DialogDeleteAccount(),
-                      );
-                    },
                   ),
                 ],
               ),
-    );
+            ),
+            const SizedBox(height: 32),
+
+            // Display Name
+            TextFormField(
+              controller: _displayNameController,
+              decoration: const InputDecoration(
+                labelText: 'Display Name',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Display name cannot be empty';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+
+            // Save Button
+            ElevatedButton(
+              onPressed: _isSaving ? null : _saveProfile,
+              child:
+                  _isSaving
+                      ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                      : const Text('Save Profile'),
+            ),
+            const SizedBox(height: 64),
+            const Divider(),
+            const SizedBox(height: 16),
+            const Text(
+              'Danger Zone',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.red,
+                side: const BorderSide(color: Colors.red),
+              ),
+              icon: const Icon(Icons.delete_forever),
+              label: const Text('Delete Account'),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => const DialogDeleteAccount(),
+                );
+              },
+            ),
+          ],
+        );
   }
 }

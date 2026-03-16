@@ -88,10 +88,7 @@ class _KeyVerificationPageState extends State<KeyVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Security & Encryption')),
-      body: _buildDeviceList(),
-    );
+    return _buildDeviceList();
   }
 
   Widget _buildDeviceList() {

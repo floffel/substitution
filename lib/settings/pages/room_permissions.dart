@@ -134,33 +134,21 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Room Permissions')),
-        body: const Center(child: CircularProgressIndicator()),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (errorMessage != null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Room Permissions')),
-        body: Center(child: Text(errorMessage!)),
-      );
+      return Center(child: Text(errorMessage!));
     }
 
     if (room == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Room Permissions')),
-        body: const Center(child: Text('Room not found')),
-      );
+      return const Center(child: Text('Room not found'));
     }
 
     // Check if user is admin
     final isAdmin = room!.ownPowerLevel >= 100;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(room!.name)),
-      body: isAdmin ? _buildAdminView() : _buildReadOnlyView(),
-    );
+    return isAdmin ? _buildAdminView() : _buildReadOnlyView();
   }
 
   Widget _buildAdminView() {
