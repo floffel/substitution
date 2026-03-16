@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-// TODO: in most cases, we don't need a 404 but rather a "loading" page. Implement that one and use it wherever a 404 is not applicable
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class Error404Page extends StatefulWidget {
@@ -22,9 +21,49 @@ class Error404PageState extends State<Error404Page> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(title: const Text("404"), centerTitle: true),
-      body: const Text("Das ist ein Fehler..."),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: colorScheme.errorContainer.withValues(alpha: 0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.search_off_rounded,
+                  size: 48,
+                  color: colorScheme.error,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                '404',
+                style: theme.textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.error,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'error_page_not_found'.tr(),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

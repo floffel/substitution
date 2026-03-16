@@ -33,11 +33,10 @@ class FollowFeedPageKey {
 }
 
 class FollowFeedSettingsState extends State<FollowFeedSettings> {
-  String selectedServer =
-      ""; // todo: must be initialized with the first server, or we'll error in here!
+  String selectedServer = "";
   final roomSearchContrainer = TextEditingController();
 
-  String? searchText; // todo: if input is "" => searchText shall be null
+  String? searchText;
   late final PagingController<FollowFeedPageKey?, SubstitutionRoom>
   _pagingController;
   int _searchGeneration = 0;
@@ -46,14 +45,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   void _resetList() {
     _searchGeneration++;
-    // Re-initialize controller logic or refresh?
-    // PagingController from home.dart doesn't seem to have refresh() method visible in usages?
-    // But it has dispose().
-    // Let's assume we can trigger refresh by replacing the controller or using a method if available.
-    // If standard PagingController has refresh(), we can use it.
-    // But analysis said appendPage is missing. Maybe refresh is there?
-    // Let's try to keep refresh().
-    // If it fails, we might need to recreate the controller.
     _pagingController.refresh();
   }
 
@@ -71,8 +62,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   }
 
   Future<void> _setServerAddr(String serverAddr) async {
-    // var newData = await _getJoinedRooms(serverAddr); // unused?
-
     setState(() {
       selectedServer = serverAddr;
       _resetList();
@@ -98,7 +87,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     }
 
     try {
-      // Fetch public rooms with a timeout to avoid infinite hangs
       debugPrint("[FollowFeeds] Calling queryPublicRooms...");
       final String? queryServer =
           selectedServer == (client.userID?.split(':').last ?? "")
@@ -120,7 +108,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             },
           );
 
-      // Check for race condition
       if (currentGeneration != _searchGeneration) {
         return [];
       }
@@ -130,14 +117,11 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
         key.reachedEnd = true;
       }
 
-      // Optimization: Fetch all joined rooms once instead of inside the loop
       final joinedRooms = await client.getJoinedRooms();
 
       for (var chunk in resp.chunk) {
         final isJoined = joinedRooms.contains(chunk.roomId);
 
-        // Optimization: Only check substitution status for rooms we are joined to.
-        // Public rooms we haven't joined yet can't have our account data anyway.
         bool isInSubstitution = false;
         if (isJoined) {
           isInSubstitution = await client.isRoomInSubstitution(chunk.roomId);
@@ -154,7 +138,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
         );
       }
 
-      // Check for end of pagination
       if (resp.nextBatch == null ||
           resp.nextBatch!.isEmpty ||
           resp.chunk.isEmpty) {
@@ -171,9 +154,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     }
   }
 
-  // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
-  // TODO: this throws an exception if the account data is not valid!
-  // so we have to ensure, that the account data exists!
   Future<Map<String, Object?>> get accountData async =>
       await client.getAccountData(client.userID!, "substitution.servers");
 
@@ -192,7 +172,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   Future<void> showAddDialog() async {
     await showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return const DialogAddServer();
       },
@@ -205,7 +185,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   void initState() {
     super.initState();
 
-    // Try to initialize selectedServer immediately
     final defaultServer =
         client.userID?.split(':').last ?? client.homeserver?.host;
     if (defaultServer != null) {
@@ -221,8 +200,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
         if (lastKey?.isLastPage == true) {
           return null;
         }
-        // Return a fresh copy or the same object if we update it in place?
-        // Let's return the same object, but ensure it's updated correctly in _fetchRooms
         return lastKey;
       },
       fetchPage: (pageKey) async {
@@ -242,20 +219,36 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children: [
-        const Text("settings.followfeeds.filter_server_header").tr(),
+        // Server filter section
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "settings.followfeeds.filter_server_header".tr(),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FutureBuilder(
             future: accountData
                 .then((data) {
-                  // Ensure default server is in the list
                   final defaultServer =
                       client.userID?.split(':').last ?? client.homeserver?.host;
                   if (defaultServer != null &&
                       !data.containsKey(defaultServer)) {
-                    // clone map to avoid mutation issues if unmodifiable
                     final newData = Map<String, Object?>.from(data);
                     newData[defaultServer] = {"added_automatically": true};
                     return newData;
@@ -263,7 +256,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                   return data;
                 })
                 .catchError((e) {
-                  // Handle error if account data fetch fails (e.g. initially empty)
                   final defaultServer =
                       client.userID?.split(':').last ?? client.homeserver?.host;
                   if (defaultServer != null) {
@@ -278,9 +270,8 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                 return const Center(child: CircularProgressIndicator());
               }
               return Wrap(
-                // select Servers to display or add new server
                 spacing: 8.0,
-                runSpacing: 4.0,
+                runSpacing: 6.0,
                 alignment: WrapAlignment.center,
                 children: [
                   ...snapshot.data!.entries.map(
@@ -297,7 +288,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                     ),
                   ),
                   ActionChip(
-                    avatar: const Icon(Icons.add),
+                    avatar: const Icon(Icons.add_rounded, size: 18),
                     label:
                         const Text(
                           "settings.followfeeds.buttons.add_server",
@@ -305,7 +296,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                     onPressed: () async => await showAddDialog(),
                   ),
                   ActionChip(
-                    avatar: const Icon(Icons.add_box),
+                    avatar: const Icon(Icons.add_box_rounded, size: 18),
                     label:
                         const Text(
                           "settings.ownfeeds.buttons.create_room",
@@ -328,14 +319,24 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             },
           ),
         ),
+
+        // Search field
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("settings.followfeeds.filter_rooms_header").tr(),
+              Text(
+                "settings.followfeeds.filter_rooms_header".tr(),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
               TextFormField(
                 controller: roomSearchContrainer,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search_rounded),
                   labelText: "settings.followfeeds.roomname_placeholder".tr(),
                 ),
                 onChanged:
@@ -349,23 +350,38 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             ],
           ),
         ),
+
+        // Room list
         Expanded(
-          // https://stackoverflow.com/questions/45669202/how-to-add-a-listview-to-a-column-in-flutter
           child: PagedListView<FollowFeedPageKey?, SubstitutionRoom>.separated(
             state: _pagingController.value,
             fetchNextPage: _pagingController.fetchNextPage,
-            separatorBuilder: (context, index) => const Divider(),
+            separatorBuilder: (context, index) => const SizedBox(height: 2),
             builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
               noItemsFoundIndicatorBuilder:
                   (context) => Center(
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
-                      child:
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.search_off_rounded,
+                            size: 48,
+                            color: colorScheme.onSurfaceVariant.withValues(
+                              alpha: 0.4,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
                           Text(
                             "settings.followfeeds.no_rooms_found",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
                           ).tr(),
+                        ],
+                      ),
                     ),
                   ),
               firstPageErrorIndicatorBuilder:
@@ -373,19 +389,20 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
+                        Icon(
+                          Icons.error_outline_rounded,
+                          color: colorScheme.error,
                           size: 48,
                         ),
                         const SizedBox(height: 16),
                         const Text(
                           "settings.followfeeds.error_loading_rooms",
                         ).tr(),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
+                        const SizedBox(height: 12),
+                        FilledButton.tonalIcon(
                           onPressed: () => _pagingController.refresh(),
-                          child:
+                          icon: const Icon(Icons.refresh_rounded),
+                          label:
                               const Text(
                                 "settings.followfeeds.buttons.retry",
                               ).tr(),

@@ -43,15 +43,27 @@ class RoomWidgetState extends State<RoomWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return ListTile(
-      title: const Text('settings.room.desc').tr(args: [widget.room.name]),
-      subtitle: Text(widget.room.id),
+      title: Text(
+        'settings.room.desc'.tr(args: [widget.room.name]),
+        style: theme.textTheme.titleSmall,
+      ),
+      subtitle: Text(
+        widget.room.id,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       leading:
           widget.room.avatarUrl != null
               ? CircleAvatar(
-                radius: 20,
-                backgroundColor:
-                    Theme.of(context).colorScheme.surfaceContainerHighest,
+                radius: 22,
+                backgroundColor: colorScheme.primaryContainer,
                 foregroundImage: NetworkImage(
                   widget.room.avatarUrl!.startsWith('mxc://')
                       ? Uri.parse(
@@ -66,14 +78,23 @@ class RoomWidgetState extends State<RoomWidget> {
                   widget.room.name.isNotEmpty
                       ? widget.room.name[0].toUpperCase()
                       : '?',
+                  style: TextStyle(
+                    color: colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               )
               : CircleAvatar(
-                radius: 20,
+                radius: 22,
+                backgroundColor: colorScheme.primaryContainer,
                 child: Text(
                   widget.room.name.isNotEmpty
                       ? widget.room.name[0].toUpperCase()
                       : '?',
+                  style: TextStyle(
+                    color: colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
       trailing: Row(
@@ -81,7 +102,10 @@ class RoomWidgetState extends State<RoomWidget> {
         children: [
           if (isAdminRoom)
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: Icon(
+                Icons.settings_rounded,
+                color: colorScheme.onSurfaceVariant,
+              ),
               tooltip: 'settings.room.permissions'.tr(),
               onPressed: () {
                 context.push('/settings/room/${widget.room.id}/permissions');
@@ -89,7 +113,10 @@ class RoomWidgetState extends State<RoomWidget> {
             ),
           showLeaveRoom
               ? IconButton(
-                icon: const Icon(Icons.person_remove),
+                icon: Icon(
+                  Icons.person_remove_rounded,
+                  color: colorScheme.error,
+                ),
                 tooltip: 'settings.room.leave'.tr(),
                 onPressed: () async {
                   await widget.leaveRoom!(widget.room.id);
@@ -97,7 +124,10 @@ class RoomWidgetState extends State<RoomWidget> {
               )
               : showJoinRoom
               ? IconButton(
-                icon: const Icon(Icons.person_add),
+                icon: Icon(
+                  Icons.person_add_rounded,
+                  color: colorScheme.primary,
+                ),
                 tooltip: 'settings.room.join'.tr(),
                 onPressed: () async {
                   await widget.joinRoom!(widget.room.id);
@@ -106,8 +136,8 @@ class RoomWidgetState extends State<RoomWidget> {
               : const SizedBox.shrink(),
           if (showDeleteRoom) ...[
             IconButton(
-              icon: const Icon(Icons.delete),
-              tooltip: 'settings.room.delete'.tr(), // todo intl
+              icon: Icon(Icons.delete_rounded, color: colorScheme.error),
+              tooltip: 'settings.room.delete'.tr(),
               onPressed: () async {
                 await widget.deleteRoom!(widget.room.id);
               },

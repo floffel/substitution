@@ -5,6 +5,7 @@
     "error": "Fehler: {}",
     "approve": "Ok",
     "error_no_image": "Ohne Bild",
+    "error_page_not_found": "Diese Seite konnte nicht gefunden werden.",
     "age_gate": {
         "title": "Bevor du fortfährst",
         "description": "Substitution ist ein Social-Networking-Client für das Matrix-Protokoll. Mit dem Fortfahren bestätigst du Folgendes:",

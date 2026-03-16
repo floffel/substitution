@@ -5,6 +5,7 @@
     "error": "Erreur: {}",
     "approve": "D'accord",
     "error_no_image": "Pas d'image",
+    "error_page_not_found": "Cette page est introuvable.",
     "age_gate": {
         "title": "Avant de continuer",
         "description": "Substitution est un client de réseau social pour le protocole Matrix. En continuant, vous confirmez ce qui suit :",

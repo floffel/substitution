@@ -25,6 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameContrainer = TextEditingController();
   final passwordContrainer = TextEditingController();
+  bool _obscurePassword = true;
 
   Future<bool> login() async {
     final client = Provider.of<Client>(context, listen: false);
@@ -36,15 +37,20 @@ class _LoginPageState extends State<LoginPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text("loading").tr(),
-            content: AspectRatio(
-              aspectRatio: .7,
-              child: FittedBox(
-                child: Column(
-                  children: [
-                    const CircularProgressIndicator(),
-                    const Text('auth.login.loading').tr(),
-                  ],
-                ),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(
+                    'auth.login.loading'.tr(),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -56,8 +62,6 @@ class _LoginPageState extends State<LoginPage> {
         identifier: AuthenticationUserIdentifier(user: usernameContrainer.text),
         password: passwordContrainer.text,
       );
-
-      // TODO: get the ids etc.
 
       if (!mounted) return false;
       context.pop();
@@ -71,13 +75,19 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            icon: Icon(
+              Icons.error_outline_rounded,
+              color: Theme.of(context).colorScheme.error,
+              size: 32,
+            ),
             title: const Text('loading').tr(),
-            content: AspectRatio(
-              aspectRatio: 1,
-              child: FittedBox(child: const Text("error").tr(args: ["$e"])),
+            content: Text(
+              "error".tr(args: ["$e"]),
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
             ),
             actions: <Widget>[
-              TextButton(
+              FilledButton(
                 child: const Text("approve").tr(),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -93,11 +103,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// Builds the SSO redirect URL for the given [provider].
-  ///
-  /// Uses the provider-specific path when an [SsoProvider.id] is available:
-  ///   `/_matrix/client/v3/login/sso/redirect/{idpId}?redirectUrl=...`
-  /// Falls back to the generic path when the id is empty:
-  ///   `/_matrix/client/v3/login/sso/redirect?redirectUrl=...`
   Uri _buildSsoUrl(SsoProvider provider) {
     final client = Provider.of<Client>(context, listen: false);
     final homeserver = client.homeserver ?? Uri.parse('https://matrix.org');
@@ -146,6 +151,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final authState = context.watch<AuthState>();
     final hasPassword = authState.hasPasswordFlow;
     final ssoProviders = authState.ssoProviders;
@@ -156,40 +163,63 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           const SizedBox(height: 8),
 
-          // Password fields — only shown when the server supports password login.
+          // Password fields
           if (hasPassword) ...[
             TextFormField(
               key: const Key('loginUsernameInput'),
               controller: usernameContrainer,
               decoration: InputDecoration(
-                icon: const Icon(Icons.perm_identity),
+                prefixIcon: const Icon(Icons.person_outline_rounded),
                 labelText: "auth.login.inputs.username_label".tr(),
               ),
+              textInputAction: TextInputAction.next,
             ),
+            const SizedBox(height: 12),
             TextFormField(
               key: const Key('loginPasswordInput'),
-              obscureText: true,
+              obscureText: _obscurePassword,
               controller: passwordContrainer,
               decoration: InputDecoration(
-                icon: const Icon(Icons.password),
+                prefixIcon: const Icon(Icons.lock_outline_rounded),
                 labelText: "auth.login.inputs.password_label".tr(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              key: const Key('loginSubmitButton'),
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 18),
-                padding: const EdgeInsets.all(14),
-              ),
-              onPressed: () async {
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: (_) async {
                 if (await login() && mounted) {
                   widget.onComplete();
                 }
               },
-              child: const Text("auth.login.buttons.login_label").tr(),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                key: const Key('loginSubmitButton'),
+                onPressed: () async {
+                  if (await login() && mounted) {
+                    widget.onComplete();
+                  }
+                },
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size.fromHeight(52),
+                ),
+                child: const Text("auth.login.buttons.login_label").tr(),
+              ),
+            ),
+            const SizedBox(height: 8),
             TextButton(
               key: const Key('registerWebButton'),
               onPressed: () async {
@@ -210,22 +240,42 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
 
-          // SSO buttons — one per identity provider advertised by the server.
+          // SSO buttons
           if (ssoProviders.isNotEmpty) ...[
-            if (hasPassword) const SizedBox(height: 20),
+            if (hasPassword) ...[
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: colorScheme.outlineVariant)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'or',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Divider(color: colorScheme.outlineVariant)),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
             ...ssoProviders.map(
               (provider) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: OutlinedButton.icon(
-                  key: Key('ssoButton_${provider.id}'),
-                  icon: const Icon(Icons.login),
-                  label: Text(
-                    'auth.login.buttons.sso_label'.tr(args: [provider.name]),
-                  ),
-                  onPressed: () => loginSSO(provider),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.all(14),
-                    minimumSize: const Size.fromHeight(52),
+                padding: const EdgeInsets.only(bottom: 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    key: Key('ssoButton_${provider.id}'),
+                    icon: const Icon(Icons.login_rounded),
+                    label: Text(
+                      'auth.login.buttons.sso_label'.tr(args: [provider.name]),
+                    ),
+                    onPressed: () => loginSSO(provider),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(52),
+                    ),
                   ),
                 ),
               ),

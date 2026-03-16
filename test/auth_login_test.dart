@@ -78,7 +78,7 @@ void main() {
 
     expect(find.byType(LoginPage), findsOneWidget);
     expect(find.byType(TextFormField), findsNWidgets(2)); // Username + Password
-    expect(find.byType(ElevatedButton), findsOneWidget); // Login button
+    expect(find.byType(FilledButton), findsOneWidget); // Login button
     expect(find.byType(OutlinedButton), findsNothing); // No SSO buttons
   });
 
@@ -122,7 +122,7 @@ void main() {
       await tester.enterText(find.byType(TextFormField).at(1), 'testpass');
 
       // Tap login button
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(FilledButton));
       await tester.pump(); // Single pump to allow method to execute
 
       // Verify login was called
@@ -164,7 +164,7 @@ void main() {
 
       await tester.enterText(find.byType(TextFormField).at(0), 'user');
       await tester.enterText(find.byType(TextFormField).at(1), 'wrong');
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(FilledButton).first);
       await tester.pump();
 
       // Error dialog should appear
@@ -204,7 +204,7 @@ void main() {
 
         // Password fields and login button should be hidden
         expect(find.byType(TextFormField), findsNothing);
-        expect(find.byType(ElevatedButton), findsNothing);
+        expect(find.byType(FilledButton), findsNothing);
 
         // One SSO button per provider
         expect(find.byKey(const Key('ssoButton_google')), findsOneWidget);
@@ -245,7 +245,7 @@ void main() {
 
         // Password fields visible
         expect(find.byType(TextFormField), findsNWidgets(2));
-        expect(find.byType(ElevatedButton), findsOneWidget);
+        expect(find.byType(FilledButton), findsOneWidget);
 
         // SSO button also visible
         expect(find.byKey(const Key('ssoButton_google')), findsOneWidget);
@@ -276,7 +276,7 @@ void main() {
 
         // Should show password form by default (safe fallback)
         expect(find.byType(TextFormField), findsNWidgets(2));
-        expect(find.byType(ElevatedButton), findsOneWidget);
+        expect(find.byType(FilledButton), findsOneWidget);
         // No SSO buttons yet
         expect(find.byType(OutlinedButton), findsNothing);
       },
@@ -315,7 +315,7 @@ void main() {
 
         // Password form is present
         expect(find.byType(TextFormField), findsNWidgets(2));
-        expect(find.byType(ElevatedButton), findsOneWidget);
+        expect(find.byType(FilledButton), findsOneWidget);
 
         // Exactly one SSO button (the unnamed fallback)
         expect(find.byType(OutlinedButton), findsOneWidget);
@@ -346,7 +346,7 @@ void main() {
 
         // Password form is present (tchncs.de supports both)
         expect(find.byType(TextFormField), findsNWidgets(2));
-        expect(find.byType(ElevatedButton), findsOneWidget);
+        expect(find.byType(FilledButton), findsOneWidget);
 
         // Exactly 5 SSO buttons — one per identity provider
         expect(find.byType(OutlinedButton), findsNWidgets(5));

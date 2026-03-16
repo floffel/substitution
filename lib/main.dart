@@ -344,71 +344,120 @@ void main() async {
               }(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
+                  final theme = Theme.of(context);
+                  final colorScheme = theme.colorScheme;
+
                   if (snapshot.hasError) {
                     return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.error, color: Colors.red, size: 48),
-                          const SizedBox(height: 16),
-                          Text(
-                            "Login Failed",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              snapshot.error.toString(),
-                              textAlign: TextAlign.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: colorScheme.errorContainer.withValues(
+                                  alpha: 0.3,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.error_outline_rounded,
+                                color: colorScheme.error,
+                                size: 48,
+                              ),
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () => context.go('/auth/login'),
-                            child: const Text("Back to Login"),
-                          ),
-                        ],
+                            const SizedBox(height: 24),
+                            Text(
+                              "Login Failed",
+                              style: theme.textTheme.headlineSmall,
+                            ),
+                            const SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: Text(
+                                snapshot.error.toString(),
+                                textAlign: TextAlign.center,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            FilledButton.icon(
+                              onPressed: () => context.go('/auth/login'),
+                              icon: const Icon(Icons.arrow_back_rounded),
+                              label: const Text("Back to Login"),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }
-                  // Success - Show manual continue button
+                  // Success
                   return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
-                          size: 64,
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          "Login Successful!",
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(height: 8),
-                        const Text("You can now proceed to the app."),
-                        const SizedBox(height: 32),
-                        FilledButton.icon(
-                          onPressed: () {
-                            debugPrint(
-                              "User clicked Continue button. Navigating to /",
-                            );
-                            context.go('/');
-                          },
-                          icon: const Icon(Icons.arrow_forward),
-                          label: const Text("Continue to App"),
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: colorScheme.primaryContainer.withValues(
+                                alpha: 0.4,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_circle_rounded,
+                              color: colorScheme.primary,
+                              size: 64,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            "Login Successful!",
+                            style: theme.textTheme.headlineSmall,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "You can now proceed to the app.",
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          FilledButton.icon(
+                            onPressed: () {
+                              debugPrint(
+                                "User clicked Continue button. Navigating to /",
+                              );
+                              context.go('/');
+                            },
+                            icon: const Icon(Icons.arrow_forward_rounded),
+                            label: const Text("Continue to App"),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
-                return const Center(
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(),
-                      SizedBox(height: 16),
-                      Text("Logging in..."),
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Logging in...",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -643,18 +692,22 @@ class _IntroductionState extends State<IntroductionPage> {
           bodyWidget: Column(
             children: [
               if (client.isLogged()) ...[
-                //Spacer(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green[200],
-                    border: Border.all(width: 1, color: Colors.grey),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer.withValues(alpha: 0.4),
                   ),
-                  child: Icon(Icons.check, size: 60, color: Colors.grey[800]),
+                  child: Icon(
+                    Icons.check_circle_rounded,
+                    size: 56,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Text("intro.isLoggedIn").tr(),
               ] else ...[
                 HostPage(onComplete: () => {_introKey.currentState?.next()}),
@@ -667,18 +720,22 @@ class _IntroductionState extends State<IntroductionPage> {
           bodyWidget: Column(
             children: [
               if (client.isLogged()) ...[
-                //Spacer(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green[200],
-                    border: Border.all(width: 1, color: Colors.grey),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer.withValues(alpha: 0.4),
                   ),
-                  child: Icon(Icons.check, size: 60, color: Colors.grey[800]),
+                  child: Icon(
+                    Icons.check_circle_rounded,
+                    size: 56,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Text("intro.isLoggedIn").tr(),
               ] else
                 LoginPage(
@@ -699,48 +756,46 @@ class _IntroductionState extends State<IntroductionPage> {
               ] else ...[
                 const Text("intro.finished.desc").tr(),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    String id = AppConstants.substitutionRoomAlias;
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () async {
+                      String id = AppConstants.substitutionRoomAlias;
 
-                    final goRouter = GoRouter.of(context);
-                    try {
-                      // try, so it'll not fail if we already joined the room. TODO; make this an optional step and handle, if we don't follow any rooms
+                      final goRouter = GoRouter.of(context);
+                      try {
+                        await client.joinRoom(id, serverName: ["matrix.org"]);
+                        await client.setAccountDataPerRoom(
+                          client.userID!,
+                          id,
+                          "substitution",
+                          {"joined": true},
+                        );
+                      } catch (e) {
+                        debugPrint("Error joining default room: $e");
+                      }
 
-                      await client.joinRoom(id, serverName: ["matrix.org"]);
-                      await client.setAccountDataPerRoom(
-                        client.userID!,
-                        id,
-                        "substitution",
-                        {"joined": true},
-                      );
-                    } catch (e) {
-                      debugPrint("Error joining default room: $e");
-                    }
-
-                    goRouter.go("/");
-                  },
-                  child:
-                      const Text(
-                        "intro.finished.buttons.add_to_room_and_go",
-                      ).tr(),
+                      goRouter.go("/");
+                    },
+                    icon: const Icon(Icons.group_add_rounded),
+                    label:
+                        const Text(
+                          "intro.finished.buttons.add_to_room_and_go",
+                        ).tr(),
+                  ),
                 ),
-                ElevatedButton(
-                  key: const Key('introGoButton'),
-                  // todo: nicer button...
-                  onPressed: () async {
-                    // todo: adapted from settings/pages/followFeeds.dart -> make it a mixin
-                    if (mounted) {
-                      context.go("/");
-                    }
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.east),
-                      const SizedBox(width: 8),
-                      const Text("intro.finished.buttons.go").tr(),
-                    ],
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    key: const Key('introGoButton'),
+                    onPressed: () async {
+                      if (mounted) {
+                        context.go("/");
+                      }
+                    },
+                    icon: const Icon(Icons.arrow_forward_rounded),
+                    label: const Text("intro.finished.buttons.go").tr(),
                   ),
                 ),
               ],

@@ -20,27 +20,18 @@ class OwnFeedSettings extends StatefulWidget {
   OwnFeedSettingsState createState() => OwnFeedSettingsState();
 }
 
-/*
-TODO: hier sollen die _eigenen_ feeds gemanaged werden, also quasi für "influencer",
-also so sachen wie "löschen" des feeds, vielleicht "automatische konfiguration", etc.
-*/
-
 class OwnFeedSettingsState extends State<OwnFeedSettings> {
   Client get client => Provider.of<Client>(context, listen: false);
 
-  // TODO: this is exactly the same method as in followfeeds.dart -> make it abstract, or a mixin or something
-  String selectedServer =
-      ""; // todo: must be initialized with the first server, or we'll error in here!
+  String selectedServer = "";
 
-  List<SubstitutionRoom> data =
-      []; // todo: this is adapted from _getJoinedRooms, make it a struct-like type!
+  List<SubstitutionRoom> data = [];
 
   @override
   void initState() {
     super.initState();
   }
 
-  // TODO: this is NOT! exactly but mostly (only added check if the user has powerlevel > 50, removed server filtering) the same method as in followfeeds.dart -> make it abstract, or a mixin or something
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
     List<SubstitutionRoom> newData = [];
 
@@ -52,9 +43,8 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
         continue;
       }
 
-      // todo: could be a field inside add, if one would make this method a mixin
       if (r.ownPowerLevel < 50) {
-        continue; // checks if the user has the posting privilege (>=50)
+        continue;
       }
 
       newData.add(
@@ -71,55 +61,112 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
     return newData;
   }
 
-  // TODO: this is exactly the same method as in followfeeds.dart -> make it abstract, or a mixin or something
   Future<Map<String, Object?>> get accountData async =>
       await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text("settings.ownfeeds.header").tr(),
-        TextButton(
-          child: const Text("settings.ownfeeds.buttons.create_room").tr(),
-          onPressed: () async {
-            await showDialog<void>(
-              context: context,
-              barrierDismissible: true,
-              builder: (BuildContext context) {
-                return const DialogCreateRoom();
-              },
-            );
-            setState(() {});
-          },
-        ),
-        FutureBuilder(
-          future: _getJoinedRooms(),
-          builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData) {
-              return const SizedBox.shrink();
-            }
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-            return Column(
-              children:
-                  ListTile.divideTiles(
-                    context: ctx,
-                    tiles: [
-                      ...snapshot.data?.map(
-                            (d) => RoomWidget(
-                              room: d,
-                              // todo: delete room
-                            ),
-                          ) ??
-                          [],
-                    ],
-                  ).toList(),
-            );
-          },
+    return Column(
+      children: [
+        // Header
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colorScheme.primaryContainer.withValues(alpha: 0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.rss_feed_rounded,
+                  size: 32,
+                  color: colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                "settings.ownfeeds.header".tr(),
+                style: theme.textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+
+        // Create room button
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: SizedBox(
+            width: double.infinity,
+            child: FilledButton.tonalIcon(
+              icon: const Icon(Icons.add_rounded),
+              label: const Text("settings.ownfeeds.buttons.create_room").tr(),
+              onPressed: () async {
+                await showDialog<void>(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return const DialogCreateRoom();
+                  },
+                );
+                setState(() {});
+              },
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        // Room list
+        Expanded(
+          child: FutureBuilder(
+            future: _getJoinedRooms(),
+            builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.inbox_rounded,
+                          size: 48,
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.4,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'No feeds yet',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                itemCount: snapshot.data!.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 2),
+                itemBuilder: (ctx, index) {
+                  return RoomWidget(room: snapshot.data![index]);
+                },
+              );
+            },
+          ),
         ),
       ],
     );

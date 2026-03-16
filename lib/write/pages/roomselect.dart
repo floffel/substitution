@@ -28,9 +28,9 @@ class RoomSelectPageState extends State<RoomSelectPage> {
   final WidgetStateProperty<Icon?> postTypeThumbIcon =
       WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.selected)) {
-          return const Icon(Icons.add_a_photo);
+          return const Icon(Icons.add_a_photo_rounded);
         }
-        return const Icon(Icons.post_add);
+        return const Icon(Icons.post_add_rounded);
       });
 
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
@@ -41,11 +41,8 @@ class RoomSelectPageState extends State<RoomSelectPage> {
       bool isInSubstitution = await client.isRoomInSubstitution(roomId);
 
       if (!isInSubstitution || r.ownPowerLevel < 50) {
-        // only posts with power >= 50 will be recognised, so we only show rooms with power >= 50
         continue;
       }
-
-      // check if we have more than 50 power in this room
 
       ret.add(
         SubstitutionRoom(
@@ -63,63 +60,124 @@ class RoomSelectPageState extends State<RoomSelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Text("write.roomselect.type_prompt").tr(),
-          Switch(
-            thumbIcon: postTypeThumbIcon,
-            value: postType,
-            activeThumbColor: Colors.red,
-            onChanged: (bool value) {
-              setState(() {
-                postType = value;
-              });
-            },
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Column(
+      children: [
+        // Post type selector card
+        Card(
+          margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.edit_note_rounded,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: const Text("write.roomselect.type_prompt").tr(),
+                ),
+                Switch(
+                  thumbIcon: postTypeThumbIcon,
+                  value: postType,
+                  onChanged: (bool value) {
+                    setState(() {
+                      postType = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
-          const Text("write.roomselect.room_prompt").tr(),
-          FutureBuilder(
+        ),
+
+        // Section header
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+          child: Row(
+            children: [
+              Icon(
+                Icons.forum_outlined,
+                size: 18,
+                color: colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "write.roomselect.room_prompt".tr(),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Room list
+        Expanded(
+          child: FutureBuilder(
             future: _getJoinedRooms(),
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (!snapshot.hasData) {
-                return const SizedBox.shrink();
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.inbox_rounded,
+                          size: 48,
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.4,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          "write.roomselect.error_no_rooms".tr(),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
 
-              return SingleChildScrollView(
-                child: Column(
-                  children:
-                      ListTile.divideTiles(
-                        context: context,
-                        tiles: [
-                          ...snapshot.data?.map((l) {
-                                //return Text(l["id"]);
-                                return GestureDetector(
-                                  onTap: () {
-                                    debugPrint("postType: $postType");
-
-                                    context.push(
-                                      "/${postType ? "file" : "write"}/${l.id}",
-                                    );
-                                  },
-                                  child: RoomWidget(room: l),
-                                );
-                              }).toList() ??
-                              [
-                                const Text(
-                                  "write.roomselect.error_no_rooms",
-                                ).tr(),
-                              ],
-                        ],
-                      ).toList(),
-                ),
+              return ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                itemCount: snapshot.data!.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 2),
+                itemBuilder: (ctx, index) {
+                  final room = snapshot.data![index];
+                  return Card(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(22),
+                      onTap: () {
+                        context.push(
+                          "/${postType ? "file" : "write"}/${room.id}",
+                        );
+                      },
+                      child: RoomWidget(room: room),
+                    ),
+                  );
+                },
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

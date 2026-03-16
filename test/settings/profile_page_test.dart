@@ -47,7 +47,7 @@ void main() {
 
     // Verify key widgets exist
     expect(find.byType(TextFormField), findsWidgets);
-    expect(find.byType(ElevatedButton), findsWidgets);
+    expect(find.byType(FilledButton), findsWidgets);
   });
 
   testWidgets('Displays current profile data', (WidgetTester tester) async {

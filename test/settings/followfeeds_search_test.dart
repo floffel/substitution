@@ -73,7 +73,7 @@ void main() {
 
         expect(find.byType(FollowFeedSettings), findsOneWidget);
         // Should find the "Add Server" button
-        expect(find.byIcon(Icons.add), findsOneWidget);
+        expect(find.byIcon(Icons.add_rounded), findsOneWidget);
       },
     );
 
@@ -337,7 +337,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 500));
 
       // Verify add button exists
-      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.add_rounded), findsOneWidget);
     });
   });
 }

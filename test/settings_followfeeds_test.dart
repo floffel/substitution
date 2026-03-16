@@ -72,6 +72,6 @@ void main() {
 
     expect(find.byType(FollowFeedSettings), findsOneWidget);
     // Should find the "Add Server" chip/button
-    expect(find.byIcon(Icons.add), findsOneWidget);
+    expect(find.byIcon(Icons.add_rounded), findsOneWidget);
   });
 }

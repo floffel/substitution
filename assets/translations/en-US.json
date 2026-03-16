@@ -5,6 +5,7 @@
     "error": "Error: {}",
     "approve": "Ok",
     "error_no_image": "No Image",
+    "error_page_not_found": "This page could not be found.",
     "age_gate": {
         "title": "Before you continue",
         "description": "Substitution is a social networking client for the Matrix protocol. By continuing, you confirm the following:",

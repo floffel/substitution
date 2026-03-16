@@ -127,10 +127,15 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           builder:
               (ctx) => AlertDialog(
+                icon: Icon(
+                  Icons.error_outline_rounded,
+                  color: Theme.of(ctx).colorScheme.error,
+                  size: 32,
+                ),
                 title: const Text('Error'),
                 content: Text('Failed to update profile: $e'),
                 actions: [
-                  TextButton(
+                  FilledButton(
                     onPressed: () => Navigator.pop(ctx),
                     child: const Text('OK'),
                   ),
@@ -141,123 +146,223 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Widget _buildAvatar() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    Widget avatarContent;
+
+    if (_selectedAvatarFile != null) {
+      avatarContent = FutureBuilder<Uint8List>(
+        future: _selectedAvatarFile!.readAsBytes(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return CircleAvatar(
+              radius: 56,
+              backgroundImage: MemoryImage(snapshot.data!),
+            );
+          }
+          return CircleAvatar(
+            radius: 56,
+            backgroundColor: colorScheme.primaryContainer,
+            child: Icon(
+              Icons.person_rounded,
+              size: 56,
+              color: colorScheme.primary,
+            ),
+          );
+        },
+      );
+    } else if (_currentProfile?.avatarUrl != null) {
+      avatarContent = CircleAvatar(
+        radius: 56,
+        backgroundImage: NetworkImage(
+          _currentProfile!.avatarUrl!
+              .getDownloadUri(Provider.of<Client>(context, listen: false))
+              .toString(),
+        ),
+      );
+    } else {
+      avatarContent = CircleAvatar(
+        radius: 56,
+        backgroundColor: colorScheme.primaryContainer,
+        child: Text(
+          _currentProfile?.displayName?.isNotEmpty ?? false
+              ? _currentProfile!.displayName![0].toUpperCase()
+              : '?',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w600,
+            color: colorScheme.onPrimaryContainer,
+          ),
+        ),
+      );
+    }
+
+    return Stack(
+      children: [
+        avatarContent,
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.camera_alt_rounded,
+                color: colorScheme.onPrimary,
+                size: 18,
+              ),
+              onPressed: _pickAvatar,
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+              padding: const EdgeInsets.all(8),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : ListView(
-          children: [
-            // Avatar
-            Center(
-              child: Stack(
-                children: [
-                  if (_selectedAvatarFile != null)
-                    FutureBuilder<Uint8List>(
-                      future: _selectedAvatarFile!.readAsBytes(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return CircleAvatar(
-                            radius: 60,
-                            backgroundImage: MemoryImage(snapshot.data!),
-                          );
-                        }
-                        return const CircleAvatar(
-                          radius: 60,
-                          child: Icon(Icons.person, size: 60),
-                        );
-                      },
-                    )
-                  else if (_currentProfile?.avatarUrl != null)
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: NetworkImage(
-                        _currentProfile!.avatarUrl!
-                            .getDownloadUri(
-                              Provider.of<Client>(context, listen: false),
-                            )
-                            .toString(),
-                      ),
-                    )
-                  else
-                    CircleAvatar(
-                      radius: 60,
-                      child: Text(
-                        _currentProfile?.displayName?.isNotEmpty ?? false
-                            ? _currentProfile!.displayName![0].toUpperCase()
-                            : '?',
-                        style: const TextStyle(fontSize: 36),
-                      ),
-                    ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: FloatingActionButton(
-                      mini: true,
-                      onPressed: _pickAvatar,
-                      child: const Icon(Icons.camera_alt),
-                    ),
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      children: [
+        // Avatar section
+        const SizedBox(height: 16),
+        Center(child: _buildAvatar()),
+        if (_currentProfile?.avatarUrl != null || _selectedAvatarFile != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Center(
+              child: Text(
+                'Tap the camera to change',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: 32),
+
+        // Profile info card
+        Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Profile Information',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _displayNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Display Name',
+                    prefixIcon: Icon(Icons.person_outline_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Display name cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: _isSaving ? null : _saveProfile,
+                    icon:
+                        _isSaving
+                            ? const SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                            : const Icon(Icons.save_rounded, size: 18),
+                    label: Text(_isSaving ? 'Saving...' : 'Save Profile'),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 32),
+          ),
+        ),
+        const SizedBox(height: 32),
 
-            // Display Name
-            TextFormField(
-              controller: _displayNameController,
-              decoration: const InputDecoration(
-                labelText: 'Display Name',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Display name cannot be empty';
-                }
-                return null;
-              },
+        // Danger zone
+        Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          color: colorScheme.errorContainer.withValues(alpha: 0.15),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.warning_rounded,
+                      size: 18,
+                      color: colorScheme.error,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Danger Zone',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colorScheme.error,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: colorScheme.error,
+                      side: BorderSide(
+                        color: colorScheme.error.withValues(alpha: 0.5),
+                      ),
+                    ),
+                    icon: const Icon(Icons.delete_forever_rounded, size: 18),
+                    label: const Text('Delete Account'),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const DialogDeleteAccount(),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 24),
-
-            // Save Button
-            ElevatedButton(
-              onPressed: _isSaving ? null : _saveProfile,
-              child:
-                  _isSaving
-                      ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : const Text('Save Profile'),
-            ),
-            const SizedBox(height: 64),
-            const Divider(),
-            const SizedBox(height: 16),
-            const Text(
-              'Danger Zone',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 16),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.red,
-                side: const BorderSide(color: Colors.red),
-              ),
-              icon: const Icon(Icons.delete_forever),
-              label: const Text('Delete Account'),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => const DialogDeleteAccount(),
-                );
-              },
-            ),
-          ],
-        );
+          ),
+        ),
+      ],
+    );
   }
 }

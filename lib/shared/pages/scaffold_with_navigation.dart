@@ -21,6 +21,8 @@ class ScaffoldWithNavigation extends StatefulWidget {
 class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         leading:
@@ -30,7 +32,12 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                   icon: const Icon(Icons.arrow_back_rounded),
                 )
                 : null,
-        title: const Text("app_name").tr(),
+        title: Text(
+          "app_name".tr(),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         centerTitle: true,
         actions:
             widget.showNavigation

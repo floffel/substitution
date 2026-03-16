@@ -26,7 +26,7 @@ void main() {
       );
 
       expect(find.byType(TextFormField), findsOneWidget);
-      expect(find.byType(ElevatedButton), findsOneWidget);
+      expect(find.byType(FilledButton), findsOneWidget);
     });
 
     testWidgets('2. Entering URL and tapping submit calls checkHomeserver', (
@@ -58,7 +58,7 @@ void main() {
       );
 
       // Default controller text is 'matrix.org'; just tap submit directly.
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(FilledButton));
       // Allow the async _setHost() to complete.
       await tester.pumpAndSettle();
 
@@ -94,7 +94,7 @@ void main() {
       await tester.enterText(find.byType(TextFormField), 'matrix.org');
       await tester.pump();
 
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(FilledButton));
       await tester.pumpAndSettle();
 
       expect(onCompleteCalled, isTrue);
