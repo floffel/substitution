@@ -113,6 +113,7 @@ MockEvent createMockEvent({
   when(() => mockEvent.messageType).thenReturn(MessageTypes.Text);
   when(() => mockEvent.eventId).thenReturn(r'$event123');
   when(() => mockEvent.roomId).thenReturn(room.id);
+  when(() => mockEvent.originServerTs).thenReturn(DateTime.now());
 
   return mockEvent;
 }
@@ -123,6 +124,7 @@ MockUser createMockUser({required String id, required String displayName}) {
 
   when(() => mockUser.id).thenReturn(id);
   when(() => mockUser.displayName).thenReturn(displayName);
+  when(() => mockUser.avatarUrl).thenReturn(null);
 
   return mockUser;
 }

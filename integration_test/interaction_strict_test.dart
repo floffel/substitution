@@ -123,11 +123,15 @@ void main() {
           expect($(PostWidget).exists, true, reason: 'MUST display messages');
           // The icons are visible directly on the card in this app version
           expect(
-            $(Icons.favorite_rounded).exists,
+            $(Icons.favorite_border).exists,
             true,
             reason: 'MUST show reaction button',
           );
-          expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
+          expect(
+            $(Icons.chat_bubble_outline).exists,
+            true,
+            reason: 'MUST show reply button',
+          );
 
           debugPrint('✓ STRICT: Feed reached and messages interactive');
         },
@@ -156,7 +160,7 @@ void main() {
 
         await waitForFeedReady($);
         expect(
-          $(Icons.favorite_rounded).exists,
+          $(Icons.favorite_border).exists,
           true,
           reason: 'MUST show reaction button',
         );
@@ -187,7 +191,7 @@ void main() {
 
         await waitForFeedReady($);
 
-        final reactionButton = $(Icons.favorite_rounded).first;
+        final reactionButton = $(Icons.favorite_border).first;
         await reactionButton.tap();
 
         // STRICT: Check for emoji picker
@@ -217,7 +221,11 @@ void main() {
       }
 
       await waitForFeedReady($);
-      expect($(Icons.reply).exists, true, reason: 'MUST show reply button');
+      expect(
+        $(Icons.chat_bubble_outline).exists,
+        true,
+        reason: 'MUST show reply button',
+      );
       debugPrint('✓ STRICT: Reply button found');
     }, timeout: const Timeout(Duration(minutes: 15)));
 
@@ -243,7 +251,7 @@ void main() {
 
         await waitForFeedReady($);
 
-        final replyButton = $(Icons.reply).first;
+        final replyButton = $(Icons.chat_bubble_outline).first;
         await replyButton.tap();
 
         // STRICT: Wait for the new page to appear

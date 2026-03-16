@@ -46,6 +46,8 @@
             }
         },
         "continue_thread": "Continuer ce fil...",
+        "replying_to": "En r\u00e9ponse \u00e0 {}",
+        "reply_placeholder": "\u00c9crire une r\u00e9ponse...",
         "mixins": {
             "iconpicker": {
                 "title": "Choisir l'icône"

@@ -94,12 +94,12 @@ void main() {
 
         // Verify common interaction elements are present on posts
         expect(
-          find.byIcon(Icons.favorite_rounded),
+          find.byIcon(Icons.favorite_border),
           findsAtLeastNWidgets(1),
           reason: 'Messages should have reaction button',
         );
         expect(
-          find.byIcon(Icons.reply),
+          find.byIcon(Icons.chat_bubble_outline),
           findsAtLeastNWidgets(1),
           reason: 'Messages should have reply button',
         );

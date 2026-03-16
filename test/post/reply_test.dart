@@ -58,7 +58,7 @@ void main() {
       );
 
       // Act
-      final replyButton = find.byIcon(Icons.reply);
+      final replyButton = find.byIcon(Icons.chat_bubble_outline);
 
       // Assert
       expect(replyButton, findsWidgets);
@@ -82,8 +82,8 @@ void main() {
 
       // Assert
       expect(find.byType(PostWidget), findsOneWidget);
-      expect(find.byIcon(Icons.reply), findsWidgets);
-      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.chat_bubble_outline), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border), findsWidgets);
     });
 
     testWidgets('Reply button and reaction button coexist', (
@@ -101,8 +101,8 @@ void main() {
       );
 
       // Act & Assert
-      expect(find.byIcon(Icons.reply), findsWidgets);
-      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.chat_bubble_outline), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border), findsWidgets);
     });
 
     testWidgets('PostWidget renders without errors', (

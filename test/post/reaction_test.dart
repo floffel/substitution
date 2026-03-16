@@ -60,7 +60,7 @@ void main() {
       await tester.pump();
 
       // Assert - reaction button should be visible
-      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border), findsWidgets);
     });
 
     testWidgets('Tap reaction icon opens emoji picker dialog', (
@@ -78,14 +78,14 @@ void main() {
       );
 
       // Act - find and tap the reaction (favorite) button
-      final reactionButtons = find.byIcon(Icons.favorite_rounded);
+      final reactionButtons = find.byIcon(Icons.favorite_border);
       expect(reactionButtons, findsWidgets);
 
       await tester.tap(reactionButtons.last);
       await tester.pump();
 
       // Assert - reaction button remains present after tap
-      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border), findsWidgets);
     });
 
     testWidgets('Reply button is present on post', (WidgetTester tester) async {
@@ -101,7 +101,7 @@ void main() {
       );
 
       // Assert - reply button should be visible
-      expect(find.byIcon(Icons.reply), findsWidgets);
+      expect(find.byIcon(Icons.chat_bubble_outline), findsWidgets);
     });
 
     testWidgets('PostWidget renders username and content', (

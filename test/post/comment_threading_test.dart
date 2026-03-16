@@ -97,8 +97,8 @@ void main() {
       await tester.pump();
 
       // Assert - buttons should be present
-      expect(find.byIcon(Icons.reply), findsWidgets);
-      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.chat_bubble_outline), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border), findsWidgets);
     });
 
     testWidgets('CommentWidget can be toggled (collapsed/expanded)', (

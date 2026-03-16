@@ -49,6 +49,8 @@
             }
         },
         "continue_thread": "Continue this thread...",
+        "replying_to": "Replying to {}",
+        "reply_placeholder": "Write a reply...",
         "mixins": {
             "iconpicker": {
                 "title": "Choose icon"
