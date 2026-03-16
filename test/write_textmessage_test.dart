@@ -5,6 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show FlutterQuillLocalizations;
 import 'package:substitution/write/pages/textmessage.dart';
 
 class MockClient extends Mock implements Client {}
@@ -52,8 +54,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -94,8 +99,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -105,8 +113,8 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 500));
 
-      // Verify ListView which contains the editor is present
-      expect(find.byType(ListView), findsWidgets);
+      // Verify Column layout which contains the editor is present
+      expect(find.byType(Column), findsWidgets);
     });
 
     testWidgets('Send button is present and has send icon', (
@@ -136,8 +144,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -179,8 +190,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -227,8 +241,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -278,8 +295,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -331,8 +351,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -379,8 +402,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(
                   roomId: '!room:matrix.org',
                   eventId: 'event_to_reply_to',
@@ -424,8 +450,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),
@@ -466,8 +495,11 @@ void main() {
           fallbackLocale: const Locale('en', 'US'),
           child: MultiProvider(
             providers: [Provider<Client>.value(value: mockClient)],
-            child: const MaterialApp(
-              home: Scaffold(
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              home: const Scaffold(
                 body: TextMessageWrite(roomId: '!room:matrix.org'),
               ),
             ),

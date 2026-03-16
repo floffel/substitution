@@ -31,6 +31,8 @@ import 'package:provider/provider.dart'; // provide the client across widgets/pa
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show FlutterQuillLocalizations;
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'dart:async';
 import 'package:app_links/app_links.dart';
@@ -556,7 +558,10 @@ class SubstitutionApp extends StatelessWidget {
           routerDelegate: router.routerDelegate,
           routeInformationParser: router.routeInformationParser,
           routeInformationProvider: router.routeInformationProvider,
-          localizationsDelegates: context.localizationDelegates,
+          localizationsDelegates: [
+            ...context.localizationDelegates,
+            FlutterQuillLocalizations.delegate,
+          ],
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           theme: ThemeData(

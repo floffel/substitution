@@ -59,6 +59,8 @@ class TextMessageWriteState extends State<TextMessageWrite> {
 
   final quill.QuillController _controller = quill.QuillController.basic();
   quill.QuillController get controller => _controller;
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
 
   // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
@@ -68,49 +70,116 @@ class TextMessageWriteState extends State<TextMessageWrite> {
       await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (widget.eventId != null) ...[
-          const Text("write.answer").tr(),
+  void dispose() {
+    _controller.dispose();
+    _editorFocusNode.dispose();
+    _editorScrollController.dispose();
+    super.dispose();
+  }
 
-          //eventTuple
-          FutureBuilder(
-            future: eventData,
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.data != null) {
-                return PostWidget(
-                  event: (snapshot.data!.event),
-                  displayEvent: (snapshot.data!.displayEvent),
-                );
-              } else {
-                return const Text("loading").tr(); // or some error/empty state
-              }
-            },
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Top section: reply preview + room info (scrollable if needed)
+        if (widget.eventId != null || room != null)
+          Flexible(
+            flex: 0,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (widget.eventId != null) ...[
+                    const Text("write.answer").tr(),
+                    FutureBuilder(
+                      future: eventData,
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (snapshot.data != null) {
+                          return PostWidget(
+                            event: (snapshot.data!.event),
+                            displayEvent: (snapshot.data!.displayEvent),
+                          );
+                        } else {
+                          return const Text(
+                            "loading",
+                          ).tr(); // or some error/empty state
+                        }
+                      },
+                    ),
+                  ],
+                  if (room != null) ...[
+                    const Text("write.roomheader").tr(args: [""]),
+                    ListTile(
+                      title: const Text(
+                        'write.roomheader',
+                      ).tr(args: [room!.name]),
+                      subtitle: Text(room!.id),
+                      leading:
+                          room!.avatar != null
+                              ? Image.network(
+                                room!.avatar!.getDownloadUri(client).toString(),
+                              )
+                              : const Text("error_no_image").tr(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
-        ],
-        if (room != null) ...[
-          const Text("write.roomheader").tr(args: [""]),
-          ListTile(
-            title: const Text('write.roomheader').tr(args: [room!.name]),
-            subtitle: Text(room!.id),
-            leading:
-                room!.avatar != null
-                    ? Image.network(
-                      room!.avatar!.getDownloadUri(client).toString(),
-                    )
-                    : const Text("error_no_image").tr(),
-          ),
-        ],
-        const Text("write.textmessage.answer_promt").tr(),
-        quill.QuillEditor(
+        // Formatting toolbar
+        quill.QuillSimpleToolbar(
           controller: _controller,
-          scrollController: ScrollController(),
-          focusNode: FocusNode(),
+          config: const quill.QuillSimpleToolbarConfig(
+            multiRowsDisplay: false,
+            showAlignmentButtons: false,
+            showBackgroundColorButton: false,
+            showCenterAlignment: false,
+            showClearFormat: false,
+            showCodeBlock: false,
+            showColorButton: false,
+            showDirection: false,
+            showFontFamily: false,
+            showFontSize: false,
+            showHeaderStyle: true,
+            showIndent: false,
+            showInlineCode: false,
+            showJustifyAlignment: false,
+            showLeftAlignment: false,
+            showRightAlignment: false,
+            showSearchButton: false,
+            showStrikeThrough: false,
+            showSubscript: false,
+            showSuperscript: false,
+          ),
         ),
+        const SizedBox(height: 8),
+        // Editor area (fills remaining space)
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).colorScheme.outline),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: quill.QuillEditor(
+              controller: _controller,
+              scrollController: _editorScrollController,
+              focusNode: _editorFocusNode,
+              config: quill.QuillEditorConfig(
+                placeholder: "write.textmessage.input_placeholder".tr(),
+                padding: const EdgeInsets.all(4),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        // Send button row
         Row(
           children: [
             const Spacer(),
