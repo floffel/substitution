@@ -1,4 +1,5 @@
 import '/post/widgets/post.dart';
+import '/shared/widgets/post_skeleton.dart';
 
 import '/shared/services/connectivity_service.dart';
 
@@ -488,10 +489,14 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       body: Stack(
         children: [
           RefreshIndicator(
+            color: colorScheme.primary,
             onRefresh: () async {
               await _fetchFutureEvents();
               if (!mounted) return;
@@ -499,9 +504,18 @@ class HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 if (widget.roomId != null) ...[
-                  const Text(
-                    "feed.pages.home.roomlabel",
-                  ).tr(args: [widget.roomId!]),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Chip(
+                      label: Text(
+                        "feed.pages.home.roomlabel",
+                      ).tr(args: [widget.roomId!]),
+                      avatar: const Icon(Icons.tag, size: 16),
+                    ),
+                  ),
                 ],
                 Expanded(
                   child: PagedListView<
@@ -511,29 +525,64 @@ class HomePageState extends State<HomePage> {
                     key: const ValueKey('feedListView'),
                     state: _pagingController.value,
                     fetchNextPage: _pagingController.fetchNextPage,
-                    separatorBuilder: (context, index) => const Divider(),
+                    // Use spacing instead of dividers for modern look
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 2),
                     builderDelegate: PagedChildBuilderDelegate<
                       ({Event origEvent, Event displayEvent})
                     >(
+                      // Shimmer skeleton loading instead of spinner
+                      firstPageProgressIndicatorBuilder:
+                          (context) => const PostSkeletonList(count: 4),
+                      newPageProgressIndicatorBuilder:
+                          (context) => const Padding(
+                            padding: EdgeInsets.all(24),
+                            child: Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
+                          ),
                       noItemsFoundIndicatorBuilder:
                           (context) => Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "feed.pages.home.empty",
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                  textAlign: TextAlign.center,
-                                ).tr(),
-                                const SizedBox(height: 16),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    context.push('/settings/feed');
-                                  },
-                                  child:
-                                      Text("feed.pages.home.empty_button").tr(),
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 32,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.art_track_outlined,
+                                    size: 72,
+                                    color: colorScheme.onSurfaceVariant
+                                        .withValues(alpha: 0.3),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    "feed.pages.home.empty",
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                          color: colorScheme.onSurfaceVariant,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ).tr(),
+                                  const SizedBox(height: 16),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.push('/settings/feed');
+                                    },
+                                    child:
+                                        Text(
+                                          "feed.pages.home.empty_button",
+                                        ).tr(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                       itemBuilder:
@@ -564,18 +613,48 @@ class HomePageState extends State<HomePage> {
               top: 0,
               left: 0,
               right: 0,
-              child: MaterialBanner(
-                content: const Text('Offline — showing cached content'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _showOfflineBanner = false;
-                      });
-                    },
-                    child: const Text('Dismiss'),
-                  ),
-                ],
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.wifi_off_rounded,
+                      color: colorScheme.onErrorContainer,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Offline — showing cached content',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onErrorContainer,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: colorScheme.onErrorContainer,
+                        size: 18,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _showOfflineBanner = false;
+                        });
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

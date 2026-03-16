@@ -27,7 +27,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
             widget.showNavigation
                 ? IconButton(
                   onPressed: () => context.pop(true),
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back_rounded),
                 )
                 : null,
         title: const Text("app_name").tr(),
@@ -48,7 +48,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: widget.child,
         ),
       ),

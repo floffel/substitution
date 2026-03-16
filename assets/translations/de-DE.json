@@ -15,7 +15,13 @@
         "confirm": "Ich bestätige - ich bin 16 oder älter",
         "privacy_link": "Datenschutzerklärung lesen"
     },
+    "cancel": "Abbrechen",
     "feed": {
+        "nav": {
+            "home": "Start",
+            "discover": "Entdecken",
+            "settings": "Einstellungen"
+        },
         "pages": {
             "home": {
                 "roomlabel": "Raumübersicht: {}",
@@ -106,9 +112,15 @@
         "menu": {
             "logged_in_as": "Eingeloggt als {}",
             "logout": "Ausloggen",
+            "logout_confirm": "Möchtest du dich wirklich ausloggen?",
             "login": "Jetzt einloggen",
+            "not_logged_in": "Logge dich ein, um alle Funktionen zu nutzen",
             "home_site_label": "Home",
-            "feeds_site_label": "Feeds"
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigation",
+            "account_label": "Konto",
+            "preferences_label": "Einstellungen",
+            "about_label": "Info"
         },
         "room": {
             "desc": "Raumname: {}",

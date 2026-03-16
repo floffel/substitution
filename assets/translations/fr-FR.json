@@ -15,7 +15,13 @@
         "confirm": "Je confirme — j'ai 16 ans ou plus",
         "privacy_link": "Lire notre politique de confidentialité"
     },
+    "cancel": "Annuler",
     "feed": {
+        "nav": {
+            "home": "Accueil",
+            "discover": "Découvrir",
+            "settings": "Paramètres"
+        },
         "pages": {
             "home": {
                 "roomlabel": "Chambre: {}",
@@ -102,9 +108,15 @@
         "menu": {
             "logged_in_as": "Connecté en tant que {}",
             "logout": "Se déconnecter",
+            "logout_confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
             "login": "Se connecter",
+            "not_logged_in": "Connectez-vous pour accéder à toutes les fonctionnalités",
             "home_site_label": "Maison",
-            "feeds_site_label": "Flux/salles"
+            "feeds_site_label": "Flux/salles",
+            "navigation_label": "Navigation",
+            "account_label": "Compte",
+            "preferences_label": "Préférences",
+            "about_label": "À propos"
         },
         "room": {
             "desc": "Nom de la salle: {}",

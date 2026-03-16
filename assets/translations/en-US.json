@@ -15,7 +15,13 @@
         "confirm": "I confirm — I am 16 or older",
         "privacy_link": "Read our Privacy Policy"
     },
+    "cancel": "Cancel",
     "feed": {
+        "nav": {
+            "home": "Home",
+            "discover": "Discover",
+            "settings": "Settings"
+        },
         "pages": {
             "home": {
                 "roomlabel": "Room: {}",
@@ -106,9 +112,15 @@
         "menu": {
             "logged_in_as": "Logged in as {}",
             "logout": "Logout",
+            "logout_confirm": "Are you sure you want to log out?",
             "login": "Login",
+            "not_logged_in": "Log in to access all features",
             "home_site_label": "Home",
-            "feeds_site_label": "Feeds"
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigation",
+            "account_label": "Account",
+            "preferences_label": "Preferences",
+            "about_label": "About"
         },
         "room": {
             "desc": "Roomname: {}",

@@ -19,6 +19,7 @@ import '/profile/pages/user_profile.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
 import '/shared/services/substitution_service.dart';
+import '/shared/theme/app_theme.dart';
 
 import '/shared/constants.dart';
 
@@ -564,16 +565,8 @@ class SubstitutionApp extends StatelessWidget {
           ],
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: Colors.green,
-            brightness: Brightness.light,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: Colors.green,
-            brightness: Brightness.dark,
-          ),
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
           themeMode: themeService.themeMode,
           builder:
               (context, child) => MultiProvider(

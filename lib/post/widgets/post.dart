@@ -38,31 +38,34 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
 
   Widget _buildAvatar() {
     final displayEvent = widget.displayEvent;
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (widget.hasAvatarURL(displayEvent)) {
       final uri =
           widget.avatarURL(displayEvent)!.getDownloadUri(client).toString();
       return ClipOval(
         child: Image.network(
           uri,
-          width: 40,
-          height: 40,
+          width: 44,
+          height: 44,
           fit: BoxFit.cover,
           errorBuilder: (ctx, obj, stack) {
             return ClipOval(
-              child: SvgPicture.network(uri, width: 40, height: 40),
+              child: SvgPicture.network(uri, width: 44, height: 44),
             );
           },
         ),
       );
     }
     return CircleAvatar(
-      radius: 20,
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      radius: 22,
+      backgroundColor: colorScheme.primaryContainer,
       child: Text(
         widget.username(displayEvent)[0].toUpperCase(),
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: colorScheme.onPrimaryContainer,
           fontWeight: FontWeight.w600,
+          fontSize: 16,
         ),
       ),
     );
@@ -73,22 +76,24 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final timestamp = relativeTime(widget.displayEvent.originServerTs);
+    final isTextPost = widget.displayEvent.messageType == MessageTypes.Text;
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(22.0),
         side: BorderSide(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          color: colorScheme.outlineVariant.withValues(alpha: 0.3),
         ),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // --- Header: Avatar, Username, Room, Timestamp ---
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 14.0, 12.0, 0),
+            padding: const EdgeInsets.fromLTRB(16.0, 14.0, 8.0, 0),
             child: Row(
               children: [
                 GestureDetector(
@@ -111,34 +116,54 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                         Text(
                           widget.username(widget.displayEvent),
                           style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
-                        Text(
-                          widget.displayEvent.room.name,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.displayEvent.room.name,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              child: Text(
+                                '\u00B7',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant
+                                      .withValues(alpha: 0.5),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              timestamp,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ),
-                Text(
-                  timestamp,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
                 PopupMenuButton<String>(
                   icon: Icon(
                     Icons.more_horiz,
-                    color: colorScheme.onSurfaceVariant,
+                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                     size: 20,
                   ),
                   onSelected: (value) {
@@ -172,68 +197,87 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
           ),
 
           // --- Content: Text or Media ---
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child:
-                widget.displayEvent.messageType == MessageTypes.Text
-                    ? Html(
-                      data:
-                          widget.displayEvent.formattedText.isNotEmpty
-                              ? widget.displayEvent.formattedText
-                              : widget.displayEvent.body,
-                    )
-                    : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: FileDisplayContainer(
-                        event: widget.event,
-                        displayEvent: widget.displayEvent,
-                      ),
-                    ),
-          ),
+          if (isTextPost)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Html(
+                data:
+                    widget.displayEvent.formattedText.isNotEmpty
+                        ? widget.displayEvent.formattedText
+                        : widget.displayEvent.body,
+              ),
+            )
+          else
+            // Edge-to-edge media – no horizontal padding
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: FileDisplayContainer(
+                event: widget.event,
+                displayEvent: widget.displayEvent,
+              ),
+            ),
 
           // --- Reactions ---
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0),
             child: ReactionsDisplay(event: widget.event),
           ),
 
           // --- Action bar ---
           Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 4.0),
+            padding: const EdgeInsets.fromLTRB(6.0, 0, 6.0, 4.0),
             child: Row(
               children: [
                 if (!widget.isDetailView)
-                  IconButton(
-                    onPressed:
-                        () async => {
-                          context.push(
-                            Uri(
-                              path: "/write/${widget.event.roomId}",
-                              queryParameters: {'event': widget.event.eventId},
-                            ).toString(),
-                          ),
-                        },
-                    icon: Icon(
-                      Icons.chat_bubble_outline,
-                      size: 20,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                  _ActionButton(
+                    icon: Icons.chat_bubble_outline_rounded,
                     tooltip: 'Reply',
+                    onPressed: () {
+                      context.push(
+                        Uri(
+                          path: "/write/${widget.event.roomId}",
+                          queryParameters: {'event': widget.event.eventId},
+                        ).toString(),
+                      );
+                    },
                   ),
-                IconButton(
-                  onPressed: () async => await pickIcon(context, widget.event),
-                  icon: Icon(
-                    Icons.favorite_border,
-                    size: 20,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                _ActionButton(
+                  icon: Icons.favorite_border_rounded,
                   tooltip: 'React',
+                  onPressed: () async => await pickIcon(context, widget.event),
                 ),
                 const Spacer(),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A small, rounded icon button for the action bar.
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 20),
+      tooltip: tooltip,
+      style: IconButton.styleFrom(
+        foregroundColor: colorScheme.onSurfaceVariant,
+        padding: const EdgeInsets.all(10),
       ),
     );
   }
