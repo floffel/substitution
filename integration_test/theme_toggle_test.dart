@@ -97,8 +97,16 @@ void main() {
           throw Exception("Could not find ThemeService in widget tree");
         }
 
-        final bool initiallyDark = themeService!.themeMode == ThemeMode.dark;
-        debugPrint('THEME: Initially dark (logic): $initiallyDark');
+        // Resolve effective brightness: ThemeMode.system defers to the OS,
+        // so we must check platformBrightness to know the actual visual state.
+        final bool initiallyDark;
+        if (themeService!.themeMode == ThemeMode.system) {
+          initiallyDark =
+              $.tester.platformDispatcher.platformBrightness == Brightness.dark;
+        } else {
+          initiallyDark = themeService!.themeMode == ThemeMode.dark;
+        }
+        debugPrint('THEME: Initially dark (resolved): $initiallyDark');
 
         // 3. Toggle by tapping the switch tile
         debugPrint('THEME: Tapping switch tile...');

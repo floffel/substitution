@@ -22,10 +22,10 @@ void main() {
       await service.setThemeMode(ThemeMode.light);
       expect(service.themeMode, ThemeMode.light);
 
-      await service.toggleTheme();
+      await service.toggleTheme(isDark: false);
       expect(service.themeMode, ThemeMode.dark);
 
-      await service.toggleTheme();
+      await service.toggleTheme(isDark: true);
       expect(service.themeMode, ThemeMode.light);
     });
 

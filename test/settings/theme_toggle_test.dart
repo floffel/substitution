@@ -24,10 +24,14 @@ void main() {
           value: themeService,
           child: MaterialApp(
             home: Scaffold(
-              body: SwitchListTile(
-                title: const Text('Dark Mode'),
-                value: themeService.themeMode == ThemeMode.dark,
-                onChanged: (_) {},
+              body: Builder(
+                builder: (context) {
+                  return SwitchListTile(
+                    title: const Text('Dark Mode'),
+                    value: context.watch<ThemeService>().isDark(context),
+                    onChanged: (_) {},
+                  );
+                },
               ),
             ),
           ),
@@ -58,9 +62,7 @@ void main() {
                 builder: (context) {
                   return SwitchListTile(
                     title: const Text('Dark Mode'),
-                    value:
-                        context.watch<ThemeService>().themeMode ==
-                        ThemeMode.dark,
+                    value: context.watch<ThemeService>().isDark(context),
                     onChanged: (_) {},
                   );
                 },
@@ -92,13 +94,14 @@ void main() {
             home: Scaffold(
               body: Builder(
                 builder: (context) {
+                  final ts = context.watch<ThemeService>();
                   return SwitchListTile(
                     title: const Text('Dark Mode'),
-                    value:
-                        context.watch<ThemeService>().themeMode ==
-                        ThemeMode.dark,
+                    value: ts.isDark(context),
                     onChanged: (_) async {
-                      await context.read<ThemeService>().toggleTheme();
+                      await context.read<ThemeService>().toggleTheme(
+                        isDark: ts.isDark(context),
+                      );
                     },
                   );
                 },

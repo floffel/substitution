@@ -132,7 +132,9 @@ class _MenuState extends State<Menu> {
                 return SizedBox(
                   width: 180,
                   child: Text(
-                    "settings.menu.logged_in_as".tr(args: [snapshot.data!.displayName!]),
+                    "settings.menu.logged_in_as".tr(
+                      args: [snapshot.data!.displayName!],
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -194,9 +196,10 @@ class _MenuState extends State<Menu> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SwitchListTile(
             title: const Text('Dark Mode'),
-            value: context.watch<ThemeService>().themeMode == ThemeMode.dark,
+            value: context.watch<ThemeService>().isDark(context),
             onChanged: (_) {
-              context.read<ThemeService>().toggleTheme();
+              final themeService = context.read<ThemeService>();
+              themeService.toggleTheme(isDark: themeService.isDark(context));
             },
           ),
         ),

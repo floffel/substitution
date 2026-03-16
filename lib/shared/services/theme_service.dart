@@ -41,9 +41,16 @@ class ThemeService extends ChangeNotifier {
     }
   }
 
-  Future<void> toggleTheme() async {
-    final next =
-        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+  /// Resolves the effective brightness, accounting for [ThemeMode.system].
+  bool isDark(BuildContext context) {
+    if (_themeMode == ThemeMode.system) {
+      return MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    }
+    return _themeMode == ThemeMode.dark;
+  }
+
+  Future<void> toggleTheme({required bool isDark}) async {
+    final next = isDark ? ThemeMode.light : ThemeMode.dark;
     await setThemeMode(next);
   }
 }
