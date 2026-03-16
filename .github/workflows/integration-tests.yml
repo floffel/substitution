@@ -3,6 +3,7 @@ name: Integration Tests (Multi-Platform)
 on:
   push:
     branches: [ main, develop ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main, develop ]
   workflow_dispatch: # Allow manual trigger
@@ -628,15 +629,42 @@ jobs:
           echo "All test jobs passed"
 
   # ============================================================================
-  # DEPLOYMENT JOB - Only runs on main after all tests pass
+  # DEPLOYMENT JOB - Only runs on version tags (v*) after all tests pass
   # ============================================================================
   deploy-to-play-store:
-    name: 'Deploy to Play Store (Internal)'
+    name: 'Deploy to Play Store (Production)'
     needs: all-tests-passed
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 'Extract Version & Generate Release Notes'
+        id: version_info
+        run: |
+          # Extract version name from tag (v1.2.0 -> 1.2.0)
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          VERSION_NAME="${TAG_NAME#v}"
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "Version name: $VERSION_NAME"
+
+          # Generate release notes from commits since previous tag
+          PREV_TAG=$(git tag --sort=-creatordate | grep '^v' | sed -n '2p')
+          if [ -n "$PREV_TAG" ]; then
+            NOTES=$(git log --oneline "$PREV_TAG"..HEAD --no-merges --format="- %s" | head -20)
+          else
+            NOTES=$(git log --oneline -10 --no-merges --format="- %s")
+          fi
+          if [ -z "$NOTES" ]; then
+            NOTES="Bug fixes and improvements"
+          fi
+          # Google Play release notes have a 500 char limit
+          NOTES="${NOTES:0:500}"
+          echo "RELEASE_NOTES<<DELIMITER" >> $GITHUB_ENV
+          echo "$NOTES" >> $GITHUB_ENV
+          echo "DELIMITER" >> $GITHUB_ENV
 
       - name: 'Setup Java'
         uses: actions/setup-java@v4
@@ -649,6 +677,52 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: 'Setup Python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 'Install Play Store API Client'
+        run: pip install google-api-python-client google-auth
+
+      - name: 'Get Next Version Code from Play Store'
+        id: version_code
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          NEXT_CODE=$(python3 - <<'PYEOF'
+          import json, os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+
+          package_name = 'art.substitution.substitution'
+          credentials = service_account.Credentials.from_service_account_info(
+              json.loads(os.environ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'])
+          )
+          service = build('androidpublisher', 'v3', credentials=credentials)
+          edit = service.edits().insert(packageName=package_name, body={}).execute()
+          edit_id = edit['id']
+
+          # Check all tracks for the highest versionCode
+          tracks = service.edits().tracks().list(
+              packageName=package_name, editId=edit_id
+          ).execute().get('tracks', [])
+
+          max_code = 0
+          for t in tracks:
+              for release in t.get('releases', []):
+                  for code in release.get('versionCodes', []):
+                      max_code = max(max_code, int(code))
+
+          # Clean up the edit (don't commit)
+          service.edits().delete(packageName=package_name, editId=edit_id).execute()
+
+          print(max_code + 1)
+          PYEOF
+          )
+          echo "next_version_code=$NEXT_CODE" >> $GITHUB_OUTPUT
+          echo "Next version code: $NEXT_CODE"
 
       - name: 'Decode Keystore'
         run: |
@@ -671,21 +745,17 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
 
       - name: 'Build App Bundle'
-        run: flutter build appbundle --release
-
-      - name: 'Setup Python for Deployment'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: 'Install Play Store API Client'
-        run: pip install google-api-python-client google-auth
+        run: |
+          flutter build appbundle --release \
+            --build-name=${{ steps.version_info.outputs.version_name }} \
+            --build-number=${{ steps.version_code.outputs.next_version_code }}
 
       - name: 'Upload to Play Store'
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
         run: |
-          python3 - <<EOF
+          python3 - <<'EOF'
           import sys
           import json
           import os
@@ -696,8 +766,9 @@ jobs:
           def publish():
               package_name = 'art.substitution.substitution'
               json_key_content = os.environ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON']
+              release_notes = os.environ.get('RELEASE_NOTES', 'Bug fixes and improvements')
               aab_path = 'build/app/outputs/bundle/release/app-release.aab'
-              track = 'internal'
+              track = 'production'
 
               print(f"Authenticating for {package_name}...")
               credentials = service_account.Credentials.from_service_account_info(
@@ -729,14 +800,18 @@ jobs:
                       body={
                           'releases': [{
                               'versionCodes': [str(version_code)],
-                              'status': 'completed'
+                              'status': 'completed',
+                              'releaseNotes': [{
+                                  'language': 'en-US',
+                                  'text': release_notes
+                              }]
                           }]
                       }
                   ).execute()
 
                   print("Committing changes...")
                   service.edits().commit(packageName=package_name, editId=edit_id).execute()
-                  print("Published successfully to Internal track!")
+                  print(f"Published successfully to Production track!")
               except Exception as e:
                   print(f"Error during publishing: {e}")
                   sys.exit(1)
