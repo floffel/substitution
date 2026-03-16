@@ -160,7 +160,7 @@ void main() {
 
         await waitForFeedReady($);
         expect(
-          $(Icons.favorite_border).exists,
+          $(Icons.favorite_border_rounded).exists,
           true,
           reason: 'MUST show reaction button',
         );
