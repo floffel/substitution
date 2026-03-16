@@ -8,6 +8,8 @@ PODS:
     - FlutterMacOS
   - file_selector_macos (0.0.1):
     - FlutterMacOS
+  - flutter_vodozemac (0.0.1):
+    - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - patrol (0.0.1):
     - CocoaAsyncSocket (~> 7.6)
@@ -32,6 +34,7 @@ DEPENDENCIES:
   - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos`)
   - emoji_picker_flutter (from `Flutter/ephemeral/.symlinks/plugins/emoji_picker_flutter/macos`)
   - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
+  - flutter_vodozemac (from `Flutter/ephemeral/.symlinks/plugins/flutter_vodozemac/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - patrol (from `Flutter/ephemeral/.symlinks/plugins/patrol/darwin`)
   - quill_native_bridge_macos (from `Flutter/ephemeral/.symlinks/plugins/quill_native_bridge_macos/macos`)
@@ -53,6 +56,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/emoji_picker_flutter/macos
   file_selector_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos
+  flutter_vodozemac:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_vodozemac/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   patrol:
@@ -74,6 +79,7 @@ SPEC CHECKSUMS:
   connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
   emoji_picker_flutter: 51ca408e289d84d1e460016b2a28721ec754fcf7
   file_selector_macos: 9e9e068e90ebee155097d00e89ae91edb2374db7
+  flutter_vodozemac: fd2ea9cb3e2a37beaac883a369811fbfe042fc53
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   patrol: 5df5d241d7f95f0df12a6906bbf45acb43a1e537
   quill_native_bridge_macos: 2b005cb56902bb740e0cd9620aa399dfac6b4882

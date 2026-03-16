@@ -185,6 +185,9 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+
       - name: 'Install dependencies'
         run: |
           flutter precache --linux
@@ -409,6 +412,11 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios,x86_64-apple-ios,aarch64-apple-ios-sim
+
       - name: 'Install dependencies'
         run: |
           flutter precache --ios
@@ -520,6 +528,11 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android,i686-linux-android
 
       - name: 'Install dependencies'
         run: |
@@ -743,6 +756,11 @@ jobs:
           echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ steps.extract_alias.outputs.alias }}" >> android/key.properties
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android,i686-linux-android
 
       - name: 'Build App Bundle'
         run: |
