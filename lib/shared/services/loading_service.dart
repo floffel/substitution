@@ -9,14 +9,22 @@ import 'package:flutter/widgets.dart';
 class LoadingService extends ChangeNotifier {
   final Set<String> _activeKeys = {};
   bool _notifyScheduled = false;
+  bool _disposed = false;
 
   /// Returns true when at least one operation is still in progress.
   bool get isLoading => _activeKeys.isNotEmpty;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 
   /// Safely notify listeners. If called during a build/layout phase, the
   /// notification is deferred to a post-frame callback to avoid the
   /// "setState() or markNeedsBuild() called during build" error.
   void _safeNotify() {
+    if (_disposed) return;
     final phase = SchedulerBinding.instance.schedulerPhase;
     if (phase == SchedulerPhase.persistentCallbacks ||
         phase == SchedulerPhase.midFrameMicrotasks) {
@@ -25,7 +33,8 @@ class LoadingService extends ChangeNotifier {
         _notifyScheduled = true;
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _notifyScheduled = false;
-          notifyListeners();
+          // Guard against disposal between scheduling and firing.
+          if (!_disposed) notifyListeners();
         });
       }
     } else {
