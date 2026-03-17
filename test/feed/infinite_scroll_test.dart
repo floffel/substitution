@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/feed/services/feed_state_cache.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
+import 'package:substitution/shared/services/loading_service.dart';
 import 'package:substitution/shared/services/substitution_service.dart';
 
 // Mock classes
@@ -64,6 +65,9 @@ void main() {
               value: SubstitutionService(mockClient),
             ),
             Provider<FeedStateCache>.value(value: FeedStateCache()),
+            ChangeNotifierProvider<LoadingService>(
+              create: (_) => LoadingService(),
+            ),
           ],
           child: MaterialApp(home: const HomePage()),
         ),

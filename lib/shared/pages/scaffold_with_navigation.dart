@@ -1,4 +1,5 @@
 import '/settings/widgets/menu.dart';
+import '/shared/widgets/top_loading_bar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -52,6 +53,10 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                   ),
                 ]
                 : null,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(TopLoadingBar.barHeight),
+          child: TopLoadingBar(),
+        ),
       ),
       body: SafeArea(
         child: Padding(

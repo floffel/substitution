@@ -1,6 +1,7 @@
 import '/post/interfaces/i_event.dart';
 import '/post/widgets/post.dart';
 import '/post/widgets/comment.dart';
+import '/shared/services/loading_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -31,14 +32,37 @@ class PostPageState extends State<PostPage> {
 
   bool _isSending = false;
 
+  /// Cached comments future — wraps [widget.comments] with LoadingService signals.
+  late Future<List<({Event origEvent, Event displayEvent})>> _commentsFuture;
+
   Client get client => Provider.of<Client>(context, listen: false);
   Room? get room =>
       widget.event.roomId != null
           ? client.getRoomById(widget.event.roomId!)
           : null;
 
+  Future<List<({Event origEvent, Event displayEvent})>> _loadComments() async {
+    final loadingService = Provider.of<LoadingService>(context, listen: false);
+    loadingService.setLoading('post_comments');
+    try {
+      return await widget.comments;
+    } finally {
+      loadingService.setDone('post_comments');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _commentsFuture = _loadComments();
+  }
+
   @override
   void dispose() {
+    Provider.of<LoadingService>(
+      context,
+      listen: false,
+    ).setDone('post_comments');
     _replyController.dispose();
     _replyFocusNode.dispose();
     super.dispose();
@@ -87,8 +111,10 @@ class PostPageState extends State<PostPage> {
       if (result != null && mounted) {
         _replyController.clear();
         _clearReplyTarget();
-        // Refresh comments
-        setState(() {});
+        // Refresh comments — create a fresh future so the FutureBuilder re-runs
+        setState(() {
+          _commentsFuture = _loadComments();
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('write.textmessage.send_complete').tr(),
@@ -120,14 +146,25 @@ class PostPageState extends State<PostPage> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              setState(() {});
+              setState(() {
+                _commentsFuture = _loadComments();
+              });
               return Future<void>.delayed(const Duration(seconds: 1));
             },
             child: FutureBuilder(
-              future: widget.comments,
+              future: _commentsFuture,
               builder: (ctx, snapshot) {
                 if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
+                  // TopLoadingBar handles the loading indicator.
+                  // Show the post immediately while comments load.
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: PostWidget(
+                      event: widget.event,
+                      displayEvent: widget.displayEvent,
+                      isDetailView: true,
+                    ),
+                  );
                 }
 
                 return SingleChildScrollView(
