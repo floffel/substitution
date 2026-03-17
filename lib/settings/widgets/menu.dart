@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:substitution/shared/services/theme_service.dart';
+import '/feed/feed.dart';
 
 // Define a custom Form widget.
 class Menu extends StatefulWidget {
@@ -50,8 +51,14 @@ class _MenuState extends State<Menu> {
             // Home
             context.go("/");
           } else if (index == 3) {
-            // Feeds/Räume
-            context.push("/settings/feed");
+            // Feeds/Räume — switch to Discover tab if inside Feed, else push route
+            final feedState = context.findAncestorStateOfType<FeedState>();
+            if (feedState != null) {
+              Navigator.of(context).pop(); // close drawer
+              feedState.switchToDiscover();
+            } else {
+              context.push("/settings/feed");
+            }
           } else if (index == 4) {
             // Eigene Feeds
             context.push("/settings/ownfeeds");
@@ -73,8 +80,14 @@ class _MenuState extends State<Menu> {
             // Home
             context.go("/");
           } else if (index == 2) {
-            // Feeds/Räume
-            context.push("/settings/feed");
+            // Feeds/Räume — switch to Discover tab if inside Feed, else push route
+            final feedState = context.findAncestorStateOfType<FeedState>();
+            if (feedState != null) {
+              Navigator.of(context).pop(); // close drawer
+              feedState.switchToDiscover();
+            } else {
+              context.push("/settings/feed");
+            }
           } else if (index == 3) {
             // Eigene Feeds
             context.push("/settings/ownfeeds");

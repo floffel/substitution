@@ -2,6 +2,7 @@ import '/feed/pages/home.dart';
 import '/settings/pages/followfeeds.dart';
 import '/settings/pages/settings_tab.dart';
 import '/settings/widgets/menu.dart';
+import '/shared/widgets/top_loading_bar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +24,10 @@ class Feed extends StatefulWidget {
 
 class FeedState extends State<Feed> {
   int _currentIndex = 0;
+
+  void switchToDiscover() {
+    setState(() => _currentIndex = 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,10 @@ class FeedState extends State<Feed> {
               },
             ),
           ],
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(TopLoadingBar.barHeight),
+            child: TopLoadingBar(),
+          ),
         ),
         body: HomePage(roomId: widget.roomId),
         endDrawer: const Menu(),
@@ -90,12 +99,16 @@ class FeedState extends State<Feed> {
             },
           ),
         ],
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(TopLoadingBar.barHeight),
+          child: TopLoadingBar(),
+        ),
       ),
       body: IndexedStack(
         index: _currentIndex,
         children: [
           // Tab 0: Feed
-          const HomePage(),
+          HomePage(onDiscoverTap: switchToDiscover),
           // Tab 1: Discover (feeds browser)
           const FollowFeedSettings(),
           // Tab 2: Settings

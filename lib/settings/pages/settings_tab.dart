@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:substitution/shared/services/theme_service.dart';
+import '/feed/feed.dart';
 
 /// A full-screen settings / profile tab that replaces the old navigation drawer.
 class SettingsTab extends StatefulWidget {
@@ -46,7 +47,7 @@ class _SettingsTabState extends State<SettingsTab> {
                   _buildSettingsTile(
                     icon: Icons.signpost_outlined,
                     label: 'settings.menu.feeds_site_label'.tr(),
-                    onTap: () => context.push('/settings/feed'),
+                    onTap: () => Feed.of(context).switchToDiscover(),
                   ),
                   _buildDivider(colorScheme),
                   _buildSettingsTile(

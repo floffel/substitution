@@ -1,6 +1,6 @@
 import '/feed/services/feed_state_cache.dart';
 import '/post/widgets/post.dart';
-import '/shared/widgets/post_skeleton.dart';
+import '/shared/services/loading_service.dart';
 
 import '/shared/services/connectivity_service.dart';
 
@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '/shared/services/substitution_service.dart';
+import '/shared/extensions/go_router_extensions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.roomId, this.onDiscoverTap});
@@ -54,6 +55,7 @@ class HomePageState extends State<HomePage> {
   late final ConnectivityService _connectivityService;
   late final SubstitutionService _substitutionService;
   late final FeedStateCache _feedStateCache;
+  late final LoadingService _loadingService;
   final ScrollController _scrollController = ScrollController();
   Set<String> _currentRoomIds = {};
   Set<String> get currentRoomIds => _currentRoomIds;
@@ -379,6 +381,7 @@ class HomePageState extends State<HomePage> {
       listen: false,
     );
     _feedStateCache = Provider.of<FeedStateCache>(context, listen: false);
+    _loadingService = Provider.of<LoadingService>(context, listen: false);
 
     // Initialize SubstitutionService cache
     _substitutionService.init();
@@ -417,9 +420,14 @@ class HomePageState extends State<HomePage> {
         return _latestNextPageKey;
       },
       fetchPage: (pageKey) async {
-        final result = await _fetchEvents(pageKey);
-        _latestNextPageKey = result.nextKey;
-        return result.events;
+        _loadingService.setLoading('feed');
+        try {
+          final result = await _fetchEvents(pageKey);
+          _latestNextPageKey = result.nextKey;
+          return result.events;
+        } finally {
+          _loadingService.setDone('feed');
+        }
       },
     )..addListener(() {
       if (mounted) setState(() {});
@@ -541,6 +549,7 @@ class HomePageState extends State<HomePage> {
       _feedStateCache.wasPageKeyInitialized = pageKeyInitialized;
     }
 
+    _loadingService.setDone('feed');
     _substitutionService.removeListener(_handleRoomChanges);
     _scrollController.dispose();
     _pagingController.dispose();
@@ -593,22 +602,13 @@ class HomePageState extends State<HomePage> {
                     builderDelegate: PagedChildBuilderDelegate<
                       ({Event origEvent, Event displayEvent})
                     >(
-                      // Shimmer skeleton loading instead of spinner
+                      // Loading is indicated by the TopLoadingBar — no
+                      // in-list spinners or skeletons that would cause layout
+                      // shifts when real content arrives.
                       firstPageProgressIndicatorBuilder:
-                          (context) => const PostSkeletonList(count: 4),
+                          (context) => const SizedBox.shrink(),
                       newPageProgressIndicatorBuilder:
-                          (context) => const Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Center(
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            ),
-                          ),
+                          (context) => const SizedBox.shrink(),
                       noItemsFoundIndicatorBuilder:
                           (context) => Center(
                             child: Padding(
@@ -654,7 +654,7 @@ class HomePageState extends State<HomePage> {
                       itemBuilder:
                           (context, item, index) => GestureDetector(
                             onTap:
-                                () => context.push(
+                                () => context.pushIfNew(
                                   Uri(
                                     path: "/post/${item.origEvent.eventId}",
                                     queryParameters: {
