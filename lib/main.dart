@@ -38,6 +38,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show FlutterQuillLocalizations;
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 // import 'package:logging/logging.dart' as l; // see @logging
@@ -67,6 +68,13 @@ void main() async {
     'INTEGRATION_TEST',
     defaultValue: false,
   );
+
+  // Disable runtime font fetching in integration tests to avoid network
+  // failures (HandshakeException) in CI environments where Google Fonts
+  // servers may be unreachable. Flutter falls back to the default platform font.
+  if (AppConstants.isIntegrationTest) {
+    GoogleFonts.config.allowRuntimeFetching = false;
+  }
 
   // Dispose previous client and database if any (for test isolation)
   if (globalMatrixClient != null || globalDatabase != null) {
