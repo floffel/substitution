@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
+import 'package:substitution/feed/services/feed_state_cache.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
 import 'package:substitution/shared/services/substitution_service.dart';
 
@@ -54,6 +55,7 @@ void main() {
             ChangeNotifierProvider<SubstitutionService>.value(
               value: substitutionService,
             ),
+            Provider<FeedStateCache>.value(value: FeedStateCache()),
           ],
           child: MaterialApp(
             home: const HomePage(), // HomePage is the Feed

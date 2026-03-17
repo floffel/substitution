@@ -1,3 +1,4 @@
+import '/feed/services/feed_state_cache.dart';
 import '/post/widgets/post.dart';
 import '/shared/widgets/post_skeleton.dart';
 
@@ -13,10 +14,13 @@ import 'package:easy_localization/easy_localization.dart';
 import '/shared/services/substitution_service.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.roomId});
+  const HomePage({super.key, this.roomId, this.onDiscoverTap});
 
   // only display content of this room, if set. Otherwise: display all followed rooms content
   final String? roomId;
+
+  /// Called when the user taps the "find rooms" CTA on the empty feed.
+  final VoidCallback? onDiscoverTap;
 
   @override
   HomePageState createState() => HomePageState();
@@ -49,6 +53,8 @@ class HomePageState extends State<HomePage> {
   late final Client _client;
   late final ConnectivityService _connectivityService;
   late final SubstitutionService _substitutionService;
+  late final FeedStateCache _feedStateCache;
+  final ScrollController _scrollController = ScrollController();
   Set<String> _currentRoomIds = {};
   Set<String> get currentRoomIds => _currentRoomIds;
   bool _isFetchingFuture = false;
@@ -372,11 +378,27 @@ class HomePageState extends State<HomePage> {
       context,
       listen: false,
     );
+    _feedStateCache = Provider.of<FeedStateCache>(context, listen: false);
 
     // Initialize SubstitutionService cache
     _substitutionService.init();
 
     _timelinesFuture = _fetchTimelines();
+
+    // Restore paging state from cache when navigating back
+    final bool restoreFromCache =
+        widget.roomId == null && _feedStateCache.hasCache;
+    if (restoreFromCache) {
+      pageKeyInitialized = _feedStateCache.wasPageKeyInitialized;
+      if (_feedStateCache.firstEventIds != null) {
+        firstEventIds = Map<String, String>.from(
+          _feedStateCache.firstEventIds!,
+        );
+      }
+      if (_feedStateCache.lastPageKey != null) {
+        _latestNextPageKey = _feedStateCache.lastPageKey;
+      }
+    }
 
     _pagingController = PagingController<
       Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
@@ -402,6 +424,28 @@ class HomePageState extends State<HomePage> {
     )..addListener(() {
       if (mounted) setState(() {});
     });
+
+    // Pre-populate the PagingController with cached items so the list renders
+    // immediately without showing a loading spinner.
+    if (restoreFromCache) {
+      final cached = _feedStateCache.cachedItems!;
+      _pagingController.value = _pagingController.value.copyWith(
+        pages: [cached],
+        keys: [_feedStateCache.lastPageKey],
+      );
+
+      // Restore the scroll offset after the list has been laid out.
+      final targetOffset = _feedStateCache.scrollOffset;
+      if (targetOffset > 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted &&
+              _scrollController.hasClients &&
+              _scrollController.position.maxScrollExtent >= targetOffset) {
+            _scrollController.jumpTo(targetOffset);
+          }
+        });
+      }
+    }
 
     // Initialize connectivity tracking
     _connectivityStream = _connectivityService.onConnectivityChanged;
@@ -468,6 +512,8 @@ class HomePageState extends State<HomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
+      // Clear the scroll cache so the rebuilt feed starts fresh.
+      _feedStateCache.clear();
       setState(() {
         // Reset paging state so that the next _fetchEvents call
         // re-reads the updated timeline list instead of returning early.
@@ -481,7 +527,22 @@ class HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    // Persist feed state for scroll restoration when navigating back.
+    // Only cache for the global feed (roomId == null), not per-room feeds.
+    if (widget.roomId == null) {
+      final pages = _pagingController.value.pages;
+      if (pages != null && pages.isNotEmpty) {
+        _feedStateCache.cachedItems = pages.expand((page) => page).toList();
+      }
+      _feedStateCache.scrollOffset =
+          _scrollController.hasClients ? _scrollController.offset : 0.0;
+      _feedStateCache.lastPageKey = _latestNextPageKey;
+      _feedStateCache.firstEventIds = Map<String, String>.from(firstEventIds);
+      _feedStateCache.wasPageKeyInitialized = pageKeyInitialized;
+    }
+
     _substitutionService.removeListener(_handleRoomChanges);
+    _scrollController.dispose();
     _pagingController.dispose();
     adressContrainer.dispose();
     super.dispose();
@@ -523,6 +584,7 @@ class HomePageState extends State<HomePage> {
                     ({Event origEvent, Event displayEvent})
                   >.separated(
                     key: const ValueKey('feedListView'),
+                    scrollController: _scrollController,
                     state: _pagingController.value,
                     fetchNextPage: _pagingController.fetchNextPage,
                     // Use spacing instead of dividers for modern look
@@ -574,7 +636,11 @@ class HomePageState extends State<HomePage> {
                                   const SizedBox(height: 16),
                                   ElevatedButton(
                                     onPressed: () {
-                                      context.push('/settings/feed');
+                                      if (widget.onDiscoverTap != null) {
+                                        widget.onDiscoverTap!();
+                                      } else {
+                                        context.push('/settings/feed');
+                                      }
                                     },
                                     child:
                                         Text(

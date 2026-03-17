@@ -16,6 +16,7 @@ import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
 import '/shared/pages/age_gate.dart';
 import '/profile/pages/user_profile.dart';
+import '/feed/services/feed_state_cache.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
 import '/shared/services/substitution_service.dart';
@@ -632,6 +633,7 @@ class SubstitutionApp extends StatelessWidget {
                     create: (_) => ConnectivityService(),
                   ),
                   ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
+                  Provider<FeedStateCache>(create: (_) => FeedStateCache()),
                 ],
                 child: child,
               ),
