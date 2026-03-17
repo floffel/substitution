@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '/shared/extensions/client_extensions.dart';
+import '/shared/extensions/go_router_extensions.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String userId;
@@ -18,6 +20,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   late Future<Profile> _profileFuture;
   late Future<List<Room>> _roomsFuture;
+  bool _isStartingChat = false;
+
+  bool get _isOwnProfile => widget.userId == client.userID;
 
   @override
   void initState() {
@@ -33,7 +38,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     for (final room in allRooms) {
       final powerLevel = room.getPowerLevelByUserId(widget.userId);
       if (powerLevel >= 50) {
-        // Check if room is in substitution (user's feeds)
         final isInSubstitution = await client.isRoomInSubstitution(room.id);
         if (isInSubstitution) {
           rooms.add(room);
@@ -43,6 +47,123 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     return rooms;
   }
+
+  // ── Send Message ──────────────────────────────────────────────────────────
+
+  Future<void> _startDirectChat() async {
+    setState(() => _isStartingChat = true);
+    try {
+      final roomId = await client.startDirectChat(widget.userId);
+      if (!mounted) return;
+      context.push('/chat/${Uri.encodeComponent(roomId)}');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('profile.error_start_chat'.tr(args: [e.toString()])),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isStartingChat = false);
+    }
+  }
+
+  // ── Block User ────────────────────────────────────────────────────────────
+
+  void _showBlockDialog(Profile profile) {
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: Text('profile.block_title'.tr()),
+            content: Text(
+              'profile.block_desc'.tr(
+                args: [profile.displayName ?? widget.userId],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text('cancel'.tr()),
+              ),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                  foregroundColor: Theme.of(context).colorScheme.onError,
+                ),
+                onPressed: () async {
+                  Navigator.of(ctx).pop();
+                  await _blockUser();
+                },
+                child: Text('profile.block_confirm'.tr()),
+              ),
+            ],
+          ),
+    );
+  }
+
+  Future<void> _blockUser() async {
+    try {
+      await client.ignoreUser(widget.userId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('profile.block_success'.tr())));
+      context.go('/');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('profile.block_error'.tr(args: [e.toString()]))),
+      );
+    }
+  }
+
+  // ── Report User ───────────────────────────────────────────────────────────
+
+  void _showReportDialog() {
+    final reasonController = TextEditingController();
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: Text('profile.report_title'.tr()),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('profile.report_desc'.tr()),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: reasonController,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: 'profile.report_reason'.tr(),
+                    hintText: 'profile.report_reason_hint'.tr(),
+                  ),
+                  maxLines: 3,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text('cancel'.tr()),
+              ),
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('profile.report_success'.tr())),
+                  );
+                },
+                child: Text('profile.report_submit'.tr()),
+              ),
+            ],
+          ),
+    );
+  }
+
+  // ── Build ─────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +204,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              // --- Profile Header with gradient background ---
+              // --- Profile Header ---
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -145,7 +266,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                     const SizedBox(height: 4),
 
-                    // Matrix ID as a chip
+                    // Matrix ID chip
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -168,15 +289,75 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              // --- Action Buttons (only for other users) ---
+              if (!_isOwnProfile) ...[
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      // Send Message (primary, takes most space)
+                      Expanded(
+                        child: FilledButton.icon(
+                          onPressed: _isStartingChat ? null : _startDirectChat,
+                          icon:
+                              _isStartingChat
+                                  ? SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: colorScheme.onPrimary,
+                                    ),
+                                  )
+                                  : const Icon(Icons.message_rounded, size: 18),
+                          label: Text('profile.send_message'.tr()),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Block (icon-only outlined button)
+                      Tooltip(
+                        message: 'profile.block_title'.tr(),
+                        child: OutlinedButton(
+                          onPressed: () => _showBlockDialog(profile),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: colorScheme.error,
+                            side: BorderSide(
+                              color: colorScheme.error.withValues(alpha: 0.5),
+                            ),
+                            padding: const EdgeInsets.all(12),
+                            minimumSize: const Size(48, 48),
+                          ),
+                          child: const Icon(Icons.block_rounded, size: 20),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Report (icon-only outlined button)
+                      Tooltip(
+                        message: 'profile.report_title'.tr(),
+                        child: OutlinedButton(
+                          onPressed: _showReportDialog,
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(12),
+                            minimumSize: const Size(48, 48),
+                          ),
+                          child: const Icon(Icons.flag_outlined, size: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ] else
+                const SizedBox(height: 8),
 
-              // --- Rooms Section ---
+              // --- Feeds Section ---
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Rooms',
+                    'profile.feeds_section'.tr(),
                     style: theme.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.0,
@@ -205,7 +386,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'Failed to load rooms',
+                        'Failed to load feeds',
                         style: theme.textTheme.bodySmall,
                       ),
                     );
@@ -227,7 +408,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'No rooms found',
+                            'profile.no_feeds'.tr(),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
@@ -285,7 +466,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   room.canonicalAlias.isNotEmpty
                                       ? room.canonicalAlias.replaceAll('#', '')
                                       : room.id;
-                              context.push('/feed/$roomId');
+                              context.pushIfNew('/feed/$roomId');
                             },
                           ),
                         );

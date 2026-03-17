@@ -4,6 +4,7 @@ import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/widgets/dialog_report_block.dart';
 import '/shared/utils/relative_time.dart';
+import '/shared/extensions/go_router_extensions.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -126,21 +127,25 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                 GestureDetector(
                   onTap: () {
                     final userId = widget.displayEvent.senderId;
-                    context.push('/profile/${Uri.encodeComponent(userId)}');
+                    context.pushIfNew(
+                      '/profile/${Uri.encodeComponent(userId)}',
+                    );
                   },
                   child: _buildAvatar(),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: GestureDetector(
-                    onTap:
-                        () => context.push(
-                          '/feed/${roomAddr.replaceAll('#', '')}',
-                        ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          final userId = widget.displayEvent.senderId;
+                          context.pushIfNew(
+                            '/profile/${Uri.encodeComponent(userId)}',
+                          );
+                        },
+                        child: Text(
                           widget.username(widget.displayEvent),
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
@@ -148,8 +153,14 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 2),
-                        Row(
+                      ),
+                      const SizedBox(height: 2),
+                      GestureDetector(
+                        onTap:
+                            () => context.pushIfNew(
+                              '/feed/${roomAddr.replaceAll('#', '')}',
+                            ),
+                        child: Row(
                           children: [
                             Flexible(
                               child: Text(
@@ -194,8 +205,8 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 PopupMenuButton<String>(

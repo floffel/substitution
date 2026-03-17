@@ -3,6 +3,7 @@ import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/interfaces/i_event.dart';
 import '/shared/utils/relative_time.dart';
+import '/shared/extensions/go_router_extensions.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -118,25 +119,27 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // --- Header: Avatar, Username, Timestamp, Actions ---
-          GestureDetector(
-            onTap:
-                () => setState(() {
-                  showComment = !showComment;
-                }),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    final userId = widget.displayEvent.senderId;
-                    context.push('/profile/${Uri.encodeComponent(userId)}');
-                  },
-                  child: _buildAvatar(),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Flexible(
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  final userId = widget.displayEvent.senderId;
+                  context.pushIfNew('/profile/${Uri.encodeComponent(userId)}');
+                },
+                child: _buildAvatar(),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: GestureDetector(
+                        onTap: () {
+                          final userId = widget.displayEvent.senderId;
+                          context.pushIfNew(
+                            '/profile/${Uri.encodeComponent(userId)}',
+                          );
+                        },
                         child: Text(
                           widget.username(widget.displayEvent),
                           style: theme.textTheme.titleSmall?.copyWith(
@@ -147,43 +150,49 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap:
+                          () => setState(() {
+                            showComment = !showComment;
+                          }),
+                      child: Text(
                         timestamp,
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: _handleReply,
-                  icon: Icon(
-                    Icons.chat_bubble_outline,
-                    size: 18,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  visualDensity: VisualDensity.compact,
-                  tooltip: 'Reply',
+              ),
+              IconButton(
+                onPressed: _handleReply,
+                icon: Icon(
+                  Icons.chat_bubble_outline,
+                  size: 18,
+                  color: colorScheme.onSurfaceVariant,
                 ),
-                IconButton(
-                  onPressed:
-                      () async => await pickIcon(
-                        context,
-                        widget.event,
-                        postEvent: widget.postEvent,
-                      ),
-                  icon: Icon(
-                    Icons.favorite_border,
-                    size: 18,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  visualDensity: VisualDensity.compact,
-                  tooltip: 'React',
+                visualDensity: VisualDensity.compact,
+                tooltip: 'Reply',
+              ),
+              IconButton(
+                onPressed:
+                    () async => await pickIcon(
+                      context,
+                      widget.event,
+                      postEvent: widget.postEvent,
+                    ),
+                icon: Icon(
+                  Icons.favorite_border,
+                  size: 18,
+                  color: colorScheme.onSurfaceVariant,
                 ),
-              ],
-            ),
+                visualDensity: VisualDensity.compact,
+                tooltip: 'React',
+              ),
+            ],
           ),
           if (showComment) ...[
             // --- Content ---
@@ -215,7 +224,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                 padding: const EdgeInsets.only(top: 8.0, left: 42.0),
                 child: TextButton.icon(
                   onPressed: () {
-                    GoRouter.of(context).push(
+                    context.pushIfNew(
                       '/post/${widget.event.eventId}?room=${widget.event.roomId}',
                     );
                   },
