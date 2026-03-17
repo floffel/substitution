@@ -9,8 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
 import 'package:substitution/settings/pages/room_permissions.dart';
-import 'package:substitution/feed/pages/home.dart';
-import 'package:go_router/go_router.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
@@ -81,10 +79,9 @@ void main() {
           return;
         }
 
-        // 1. Navigate directly to discovery/room list
-        debugPrint('PERMISSIONS: Navigating to discovery...');
-        final navContext = $.tester.element(find.byType(HomePage));
-        navContext.push('/settings/feed');
+        // 1. Navigate to Discover tab via bottom navigation
+        debugPrint('PERMISSIONS: Tapping Discover tab...');
+        await $.tester.tap(find.byIcon(Icons.explore_outlined));
         await $.tester.pumpAndSettle();
 
         // 2. Find a room where I am admin (test_general)

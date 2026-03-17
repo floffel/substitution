@@ -8,9 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/followfeeds.dart';
-import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
-import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
@@ -96,13 +94,12 @@ void main() {
           return;
         }
 
-        // Navigate directly to discovery page
-        debugPrint('DISCOVERY: Navigating to FollowFeedSettings...');
-        final navContext = $.tester.element(find.byType(HomePage));
-        navContext.push('/settings/feed');
+        // Navigate to Discover tab via bottom navigation
+        debugPrint('DISCOVERY: Tapping Discover tab...');
+        await $.tester.tap(find.byIcon(Icons.explore_outlined));
         await $.tester.pumpAndSettle();
 
-        // 3. Verify we are on FollowFeedSettings page
+        // 3. Verify FollowFeedSettings is visible in the Discover tab
         expect($(FollowFeedSettings).exists, true);
 
         // 4. Search for 'test_art' (seeded room)
@@ -164,10 +161,9 @@ void main() {
           );
         }
 
-        // Navigate directly to discovery page
-        debugPrint('DISCOVERY: Navigating to FollowFeedSettings...');
-        final navContext = $.tester.element(find.byType(HomePage));
-        navContext.push('/settings/feed');
+        // Navigate to Discover tab via bottom navigation
+        debugPrint('DISCOVERY: Tapping Discover tab...');
+        await $.tester.tap(find.byIcon(Icons.explore_outlined));
         await $.tester.pumpAndSettle();
 
         // Search for test_photos

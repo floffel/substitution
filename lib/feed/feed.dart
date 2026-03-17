@@ -1,4 +1,5 @@
 import '/feed/pages/home.dart';
+import '/settings/pages/followfeeds.dart';
 import '/settings/pages/settings_tab.dart';
 import '/settings/widgets/menu.dart';
 
@@ -26,7 +27,6 @@ class FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     // If viewing a specific room, show the old single-feed layout with back nav
     if (widget.roomId != null) {
@@ -97,7 +97,7 @@ class FeedState extends State<Feed> {
           // Tab 0: Feed
           const HomePage(),
           // Tab 1: Discover (feeds browser)
-          _buildDiscoverPlaceholder(theme, colorScheme),
+          const FollowFeedSettings(),
           // Tab 2: Settings
           const SettingsTab(),
         ],
@@ -107,11 +107,6 @@ class FeedState extends State<Feed> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          if (index == 1) {
-            // Discover tab — navigate to feed settings page
-            context.push('/settings/feed');
-            return;
-          }
           setState(() => _currentIndex = index);
         },
         destinations: [
@@ -143,29 +138,6 @@ class FeedState extends State<Feed> {
                 child: const Icon(Icons.add_rounded, size: 28),
               )
               : null,
-    );
-  }
-
-  Widget _buildDiscoverPlaceholder(ThemeData theme, ColorScheme colorScheme) {
-    // This is a placeholder. The actual discover action navigates to /settings/feed
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.explore_outlined,
-            size: 64,
-            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'feed.nav.discover'.tr(),
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
