@@ -21,6 +21,7 @@
         "nav": {
             "home": "Start",
             "discover": "Entdecken",
+            "messages": "Nachrichten",
             "settings": "Einstellungen"
         },
         "pages": {
@@ -259,5 +260,34 @@
                 "resend": "Ja, nochmal versuchen"
             }
         }
+    },
+    "profile": {
+        "send_message": "Nachricht",
+        "block_title": "Benutzer blockieren",
+        "block_desc": "{} blockieren? Du wirst ihre Inhalte nicht mehr sehen.",
+        "block_confirm": "Blockieren",
+        "block_success": "Benutzer blockiert.",
+        "block_error": "Benutzer konnte nicht blockiert werden: {}",
+        "report_title": "Benutzer melden",
+        "report_desc": "Bitte beschreibe den Grund für diese Meldung.",
+        "report_reason": "Grund",
+        "report_reason_hint": "Dieser Benutzer...",
+        "report_submit": "Absenden",
+        "report_success": "Meldung wurde abgeschickt. Danke.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Keine öffentlichen Feeds",
+        "error_start_chat": "Chat konnte nicht gestartet werden: {}"
+    },
+    "chat": {
+        "title": "Nachrichten",
+        "input_placeholder": "Nachricht schreiben...",
+        "no_messages": "Noch keine Nachrichten. Sag Hallo!",
+        "no_conversations": "Noch keine Unterhaltungen",
+        "no_conversations_hint": "Besuche ein Benutzerprofil und tippe auf 'Nachricht', um einen Chat zu starten.",
+        "media_message": "Mediendatei",
+        "conversation_started": "Unterhaltung gestartet",
+        "error_loading": "Unterhaltung konnte nicht geladen werden.",
+        "error_sending": "Nachricht konnte nicht gesendet werden.",
+        "view_profile": "Profil anzeigen"
     }
 }

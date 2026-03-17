@@ -90,7 +90,7 @@ void main() {
       expect(find.text('@testuser:matrix.org'), findsOneWidget);
     });
 
-    testWidgets('Shows list of rooms user posts in', (
+    testWidgets('Shows list of feeds user posts in', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(

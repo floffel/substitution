@@ -119,9 +119,8 @@ void main() {
         mockClient: mockClient,
       );
 
-      // Act - tap the comment header to toggle visibility
-      final commentRow = find.byType(Row).first;
-      await tester.tap(commentRow);
+      // Act - tap the comment body to toggle visibility (collapse/expand is on body tap)
+      await tester.tap(find.text('Reply message'));
       await tester.pump();
 
       // Assert - comment widget should still be present (state changed internally)

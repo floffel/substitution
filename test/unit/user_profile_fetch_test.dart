@@ -31,7 +31,7 @@ void main() {
     });
 
     test(
-      'Rooms are filtered to show only rooms where user has power level >= 50',
+      'Feeds are filtered to show only feeds where user has power level >= 50',
       () async {
         final userId = '@testuser:matrix.org';
 

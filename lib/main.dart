@@ -16,6 +16,7 @@ import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
 import '/shared/pages/age_gate.dart';
 import '/profile/pages/user_profile.dart';
+import '/chat/pages/chat_page.dart';
 import '/feed/services/feed_state_cache.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
@@ -209,6 +210,14 @@ void main() async {
           return ScaffoldWithNavigation(
             child: UserProfilePage(userId: Uri.decodeComponent(userId)),
           );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/chat/:roomId',
+        builder: (context, state) {
+          final roomId = Uri.decodeComponent(state.pathParameters['roomId']!);
+          return ChatPage(roomId: roomId);
         },
       ),
       GoRoute(

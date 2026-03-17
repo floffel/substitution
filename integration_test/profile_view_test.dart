@@ -106,8 +106,8 @@ void main() {
         // Verify user ID is present (contains @testuser1)
         expect($(find.textContaining('@$testUser')).exists, true);
 
-        // 4. Tap on a room in the profile (if any)
-        // The profile page lists rooms where the user has power level >= 50
+        // 4. Tap on a feed in the profile (if any)
+        // The profile page lists feeds where the user has power level >= 50
         debugPrint('PROFILE_VIEW: Looking for rooms in profile...');
         final roomTile = $(ListTile);
         if (roomTile.exists) {

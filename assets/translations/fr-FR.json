@@ -21,6 +21,7 @@
         "nav": {
             "home": "Accueil",
             "discover": "Découvrir",
+            "messages": "Messages",
             "settings": "Paramètres"
         },
         "pages": {
@@ -255,5 +256,34 @@
                 "resend": "Oui, réessaye"
             }
         }
+    },
+    "profile": {
+        "send_message": "Message",
+        "block_title": "Bloquer l'utilisateur",
+        "block_desc": "Bloquer {} ? Vous ne verrez plus son contenu.",
+        "block_confirm": "Bloquer",
+        "block_success": "Utilisateur bloqué.",
+        "block_error": "Impossible de bloquer l'utilisateur : {}",
+        "report_title": "Signaler l'utilisateur",
+        "report_desc": "Veuillez décrire la raison de ce signalement.",
+        "report_reason": "Raison",
+        "report_reason_hint": "Cet utilisateur...",
+        "report_submit": "Soumettre",
+        "report_success": "Signalement envoyé. Merci.",
+        "feeds_section": "FLUX",
+        "no_feeds": "Aucun flux public",
+        "error_start_chat": "Impossible de démarrer la conversation : {}"
+    },
+    "chat": {
+        "title": "Messages",
+        "input_placeholder": "Écrire un message...",
+        "no_messages": "Aucun message pour l'instant. Dites bonjour !",
+        "no_conversations": "Aucune conversation",
+        "no_conversations_hint": "Visitez le profil d'un utilisateur et appuyez sur 'Message' pour démarrer une conversation.",
+        "media_message": "Média",
+        "conversation_started": "Conversation démarrée",
+        "error_loading": "Impossible de charger cette conversation.",
+        "error_sending": "Échec de l'envoi du message.",
+        "view_profile": "Voir le profil"
     }
 }

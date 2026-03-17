@@ -3,6 +3,7 @@ import '/settings/pages/followfeeds.dart';
 import '/settings/pages/settings_tab.dart';
 import '/settings/widgets/menu.dart';
 import '/shared/widgets/top_loading_bar.dart';
+import '/chat/pages/chat_list_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -111,7 +112,9 @@ class FeedState extends State<Feed> {
           HomePage(onDiscoverTap: switchToDiscover),
           // Tab 1: Discover (feeds browser)
           const FollowFeedSettings(),
-          // Tab 2: Settings
+          // Tab 2: Messages (DMs)
+          const ChatListPage(),
+          // Tab 3: Settings
           const SettingsTab(),
         ],
       ),
@@ -132,6 +135,11 @@ class FeedState extends State<Feed> {
             icon: const Icon(Icons.explore_outlined),
             selectedIcon: const Icon(Icons.explore),
             label: 'feed.nav.discover'.tr(),
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.message_outlined),
+            selectedIcon: const Icon(Icons.message_rounded),
+            label: 'feed.nav.messages'.tr(),
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),

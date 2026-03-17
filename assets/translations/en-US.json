@@ -21,6 +21,7 @@
         "nav": {
             "home": "Home",
             "discover": "Discover",
+            "messages": "Messages",
             "settings": "Settings"
         },
         "pages": {
@@ -259,5 +260,34 @@
                 "resend": "Retry"
             }
         }
+    },
+    "profile": {
+        "send_message": "Message",
+        "block_title": "Block User",
+        "block_desc": "Block {}? You will no longer see their content.",
+        "block_confirm": "Block",
+        "block_success": "User blocked.",
+        "block_error": "Could not block user: {}",
+        "report_title": "Report User",
+        "report_desc": "Please describe the reason for reporting this user.",
+        "report_reason": "Reason",
+        "report_reason_hint": "This user is...",
+        "report_submit": "Submit",
+        "report_success": "Report submitted. Thank you.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "No public feeds",
+        "error_start_chat": "Could not start chat: {}"
+    },
+    "chat": {
+        "title": "Messages",
+        "input_placeholder": "Type a message...",
+        "no_messages": "No messages yet. Say hi!",
+        "no_conversations": "No conversations yet",
+        "no_conversations_hint": "Visit a user's profile and tap 'Message' to start a chat.",
+        "media_message": "Media",
+        "conversation_started": "Conversation started",
+        "error_loading": "Could not load this conversation.",
+        "error_sending": "Failed to send message.",
+        "view_profile": "View profile"
     }
 }
