@@ -71,6 +71,33 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
     );
   }
 
+  IconData get _e2eIcon {
+    if (widget.displayEvent.messageType == MessageTypes.BadEncrypted) {
+      return Icons.no_encryption_outlined;
+    }
+    if (widget.displayEvent.originalSource != null) {
+      return Icons.lock_outlined;
+    }
+    return Icons.lock_open_outlined;
+  }
+
+  Color _e2eColor(ColorScheme colorScheme) {
+    if (widget.displayEvent.messageType == MessageTypes.BadEncrypted) {
+      return colorScheme.error;
+    }
+    return colorScheme.onSurfaceVariant.withValues(alpha: 0.5);
+  }
+
+  String get _e2eTooltip {
+    if (widget.displayEvent.messageType == MessageTypes.BadEncrypted) {
+      return 'post.e2e.failed'.tr();
+    }
+    if (widget.displayEvent.originalSource != null) {
+      return 'post.e2e.encrypted'.tr();
+    }
+    return 'post.e2e.unencrypted'.tr();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -151,6 +178,17 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: colorScheme.onSurfaceVariant.withValues(
                                   alpha: 0.6,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: Tooltip(
+                                message: _e2eTooltip,
+                                child: Icon(
+                                  _e2eIcon,
+                                  size: 14,
+                                  color: _e2eColor(colorScheme),
                                 ),
                               ),
                             ),

@@ -42,6 +42,7 @@ void main() {
       () => mockDisplayEvent.senderFromMemoryOrFallback,
     ).thenReturn(mockUser);
     when(() => mockDisplayEvent.originServerTs).thenReturn(DateTime.now());
+    when(() => mockDisplayEvent.originalSource).thenReturn(null);
 
     when(() => mockUser.id).thenReturn('@user:matrix.org');
     when(() => mockUser.displayName).thenReturn('Test User');

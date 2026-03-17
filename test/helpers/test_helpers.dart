@@ -114,6 +114,7 @@ MockEvent createMockEvent({
   when(() => mockEvent.eventId).thenReturn(r'$event123');
   when(() => mockEvent.roomId).thenReturn(room.id);
   when(() => mockEvent.originServerTs).thenReturn(DateTime.now());
+  when(() => mockEvent.originalSource).thenReturn(null);
 
   return mockEvent;
 }

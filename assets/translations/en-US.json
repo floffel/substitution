@@ -38,6 +38,11 @@
         "menu": {
             "report_block": "Report / Block"
         },
+        "e2e": {
+            "encrypted": "End-to-end encrypted",
+            "unencrypted": "Not encrypted",
+            "failed": "Decryption failed"
+        },
         "dialog": {
             "report_block_title": "Report Content or Block User",
             "report_desc": "Please describe why you are reporting this content (optional).",

@@ -35,6 +35,11 @@
         "menu": {
             "report_block": "Signaler / Bloquer"
         },
+        "e2e": {
+            "encrypted": "Chiffré de bout en bout",
+            "unencrypted": "Non chiffré",
+            "failed": "Échec du déchiffrement"
+        },
         "dialog": {
             "report_block_title": "Signaler le contenu ou bloquer l'utilisateur",
             "report_desc": "Veuillez décrire pourquoi vous signalez ce contenu (facultatif).",

@@ -38,6 +38,11 @@
         "menu": {
             "report_block": "Melden / Blockieren"
         },
+        "e2e": {
+            "encrypted": "Ende-zu-Ende-verschlüsselt",
+            "unencrypted": "Nicht verschlüsselt",
+            "failed": "Entschlüsselung fehlgeschlagen"
+        },
         "dialog": {
             "report_block_title": "Inhalt melden oder Benutzer blockieren",
             "report_desc": "Bitte beschreibe, warum du diesen Inhalt meldest (optional).",
