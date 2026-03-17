@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "ስህተት",
+    "loading": "በመጫን ላይ...",
+    "error": "ስህተት: {}",
+    "approve": "እሺ",
+    "error_no_image": "ምስል የለም",
+    "error_page_not_found": "ይህ ገጽ ሊገኝ አልቻለም።",
+    "age_gate": {
+        "title": "ከመቀጠልዎ በፊት",
+        "description": "Substitution ለ Matrix ፕሮቶኮል የማህበራዊ ኔትወርክ ክላየንት ነው። በመቀጠል፣ የሚከተሉትን ያረጋግጣሉ፦",
+        "point_client": "Substitution የክላየንት መተግበሪያ ብቻ ነው። ውሂብዎ እርስዎ በሚመርጡት Matrix ቤት ሰርቨር ላይ ይቀመጣል፣ በ Substitution በሚተዳደሩ ሰርቨሮች ላይ አይደለም።",
+        "point_servers": "Substitution እርስዎ ከሚገናኙባቸው ውጫዊ ቤት ሰርቨሮች የይዘት ፖሊሲዎችን አይቆጣጠርም። ታማኝ ሰርቨር የመምረጥ ኃላፊነት የእርስዎ ነው።",
+        "point_age": "እርስዎ 16 ዓመት ወይም ከዚያ በላይ ነዎት (ወይም በሀገርዎ የሚፈለገው ዝቅተኛ ዕድሜ)። Substitution ለአካለ መጠን ያልደረሱ ልጆች አልተዘጋጀም።",
+        "point_content": "Substitution ለሕገ ወጥ ወይም ተቀባይነት ለሌለው ይዘት ምንም ዓይነት መቻቻል የለውም። ጥሰቶችን ለመዘገብ የመተግበሪያ ውስጥ ሪፖርት ማድረጊያ መሳሪያዎችን ይጠቀሙ።",
+        "confirm": "አረጋግጣለሁ — 16 ወይም ከዚያ በላይ ነኝ",
+        "privacy_link": "የግላዊነት ፖሊሲያችንን ያንብቡ"
+    },
+    "cancel": "ሰርዝ",
+    "feed": {
+        "nav": {
+            "home": "መነሻ",
+            "discover": "አግኝ",
+            "messages": "መልእክቶች",
+            "settings": "ቅንብሮች"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "ክፍል: {}",
+                "empty": "ፊድዎ ባዶ ነው። ልጥፎችን ለማየት አንዳንድ ክፍሎችን ይከተሉ!",
+                "empty_button": "አዳዲስ ክፍሎችን ያግኙ"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "ልጥፍ አልተገኘም ወይም አይገኝም።"
+        },
+        "menu": {
+            "report_block": "ሪፖርት / አግድ"
+        },
+        "e2e": {
+            "encrypted": "ከጫፍ ለጫፍ የተመሰጠረ",
+            "unencrypted": "ያልተመሰጠረ",
+            "failed": "ዲክሪፕሽን አልተሳካም"
+        },
+        "dialog": {
+            "report_block_title": "ይዘት ሪፖርት ያድርጉ ወይም ተጠቃሚ ያግዱ",
+            "report_desc": "እባክዎ ይህንን ይዘት ለምን ሪፖርት እንደሚያደርጉ ይግለጹ (አማራጭ)።",
+            "report_reason": "የሪፖርት ምክንያት",
+            "report_reason_hint": "ይህ ይዘት ተገቢ ያልሆነ ነው ምክንያቱም...",
+            "block_user_checkbox": "ይህንን ተጠቃሚ ደግሞ አግድ",
+            "block_user_desc": "ከ {} ይዘት ከአሁን በኋላ አያዩም",
+            "submit": "አስገባ",
+            "cancel": "ሰርዝ",
+            "report_block_success": "ሪፖርት ቀርቧል። አመሰግናለሁ።",
+            "report_block_error": "ስህተት ተከስቷል: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "እስካሁን ምንም አስተያየቶች የሉም።"
+            }
+        },
+        "continue_thread": "ይህንን ክር ይቀጥሉ...",
+        "replying_to": "ለ {} እየመለሱ",
+        "reply_placeholder": "መልስ ይጻፉ...",
+        "mixins": {
+            "iconpicker": {
+                "title": "አዶ ይምረጡ"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "ዝጋ"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "ፋይል እየተፈታ ነው...",
+                "video_desktop_error": "ቪዲዮዎች በ Linux፣ Windows ወይም MacOS ላይ ሊታዩ አይችሉም። ይህንን ባህሪ ማየት ከፈለጉ በ Github ላይ ያዋጡ!",
+                "audio_desktop_error": "ኦዲዮ በ Linux፣ Windows ወይም MacOS ላይ ሊጫወት አይችልም።"
+            },
+            "reaction": {
+                "unknown_sender": "ያልታወቀ",
+                "sent_by": "በ {} የተላከ"
+            },
+            "videoplayercontrol": {
+                "play": "አጫውት",
+                "caption_offset": "የጽሑፍ ማካካሻ",
+                "playback_speed": "የማጫወት ፍጥነት"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "ሕጋዊ",
+            "tos": "የአገልግሎት ውሎች",
+            "privacy": "የግላዊነት ፖሊሲ",
+            "imprint": "ህትመት",
+            "licenses": "ክፍት ምንጭ ፈቃዶች"
+        },
+        "followfeeds": {
+            "filter_server_header": "ከዝርዝሩ ሰርቨር ይምረጡ ወይም አዲስ ይጨምሩ:",
+            "filter_rooms_header": "ለመከተል ወይም ላለመከተል ክፍል ይፈልጉ:",
+            "roomname_placeholder": "የክፍል ስም ያስገቡ",
+            "buttons": {
+                "add_server": "ሰርቨር ጨምር",
+                "retry": "ደግመህ ሞክር"
+            },
+            "no_rooms_found": "ለተሰጠው የፍለጋ መመዘኛ ምንም ክፍሎች አልተገኙም።",
+            "error_loading_rooms": "ስህተት: ክፍሎችን መጫን አልተሳካም"
+        },
+        "ownfeeds": {
+            "header": "የራስዎን ክፍሎች ያስተዳድሩ",
+            "buttons": {
+                "create_room": "አዲስ ክፍል ይፍጠሩ"
+            }
+        },
+        "menu": {
+            "logged_in_as": "እንደ {} ገብተዋል",
+            "logout": "ውጣ",
+            "logout_confirm": "በእርግጥ መውጣት ይፈልጋሉ?",
+            "login": "ግባ",
+            "not_logged_in": "ሁሉንም ባህሪያት ለማግኘት ይግቡ",
+            "home_site_label": "መነሻ",
+            "feeds_site_label": "ፊዶች",
+            "navigation_label": "አሰሳ",
+            "account_label": "መለያ",
+            "preferences_label": "ምርጫዎች",
+            "about_label": "ስለ"
+        },
+        "room": {
+            "desc": "የክፍል ስም: {}",
+            "leave": "ክፍል ለቅ",
+            "join": "ክፍል ገብተህ ወደ Substitution ጨምር",
+            "join_short": "ተቀላቀል",
+            "permissions": "ፈቃዶች"
+        },
+        "dialog": {
+            "delete": {
+                "title": "ክፍል {} ለቅ",
+                "desc": "በእርግጥ ክፍል {} መልቀቅ ይፈልጋሉ?",
+                "button": {
+                    "submit": "አዎ፣ ለቅ",
+                    "cancel": "አይ፣ ሰርዝ"
+                }
+            },
+            "add": {
+                "title": "አዲስ ሰርቨር ጨምር",
+                "input_placeholder": "የሰርቨር አድራሻ ያስገቡ",
+                "button": {
+                    "submit": "ጨምር"
+                },
+                "snackbar": {
+                    "success": "ሰርቨር ተጨምሯል",
+                    "error_homeserver": "የገባው ቤት ሰርቨር ልክ አይደለም"
+                }
+            },
+            "create": {
+                "title": "አዲስ ክፍል ይፍጠሩ",
+                "placeholder_name": "የክፍል ስም",
+                "placeholder_alias": "የክፍል ቅጽል (የሕዝብ ክፍል አድራሻ)",
+                "placeholder_topic": "የክፍል ርዕስ",
+                "submit": "ፍጠር"
+            }
+        },
+        "room_preview": {
+            "members": "{} አባላት",
+            "latest_posts": "የቅርብ ጊዜ ልጥፎች",
+            "no_posts": "በዚህ ክፍል ውስጥ እስካሁን ምንም ልጥፎች የሉም።",
+            "no_peek": "የዚህ ክፍል ታሪክ ግላዊ ነው። ልጥፎቹን ለማየት ክፍሉን ይቀላቀሉ።",
+            "join_to_see": "ልጥፎችን ለማየት ተቀላቀል"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "አስደናቂ፣ አስቀድመው ገብተዋል። \nከቀጣዮቹ ደረጃዎች ጋር መቀጠል ይችላሉ",
+        "isNotLoggedIn": "እባክዎ መጀመሪያ ይግቡ",
+        "buttons": {
+            "next": "ቀጣይ",
+            "back": "ተመለስ"
+        },
+        "welcome": {
+            "title": "ወደ Substitution እንኳን በደህና መጡ",
+            "desc": "... በ Matrix ፕሮቶኮል ላይ ያለው አዲሱ ማህበራዊ ኔትወርክ"
+        },
+        "account": {
+            "title": "Matrix መለያዎች",
+            "desc": "ይህንን መተግበሪያ ለመጠቀም በማንኛውም ሰርቨር ላይ ባለ Matrix መለያ ውስጥ መግባት አለብዎት። እንዴት ማግኘት እንደሚችሉ ካላወቁ ይህንን ጣቢያ ይጎብኙ: https://matrix.org/"
+        },
+        "host": {
+            "title": "አስተናጋጅ ይምረጡ"
+        },
+        "login": {
+            "title": "ግባ"
+        },
+        "finished": {
+            "title": "እንሂድ",
+            "desc": "አስደናቂ፣ ገብተዋል። ለመተካት ዝግጁ ነን። አሁን የ Substitution አቀባበል ክፍልን መቀላቀል ይፈልጉ እንደሆነ መምረጥ ይችላሉ። እንሂድ፣ ይደሰቱ!",
+            "buttons": {
+                "add_to_room_and_go": "የ Substitution ክፍልን ተቀላቀል እና ሂድ!",
+                "go": "ብቻ ሂድ!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "ከቤት ሰርቨርዎ ጋር ይገናኙ",
+            "body": "እባክዎ Matrix ቤት ሰርቨር ይምረጡ። ከዚያ ለመግባት ወይም በሕዝብ የሚገኙ ክፍሎችን ለማሰስ መምረጥ ይችላሉ።",
+            "inputs": {
+                "homeserver_label": "የቤት ሰርቨርዎ አድራሻ"
+            },
+            "buttons": {
+                "login_label": "ግባ"
+            }
+        },
+        "login": {
+            "loading": "በማስገባት ላይ...",
+            "header": "ግባ",
+            "body": "እባክዎ በመረጃዎ ይግቡ።",
+            "inputs": {
+                "username_label": "የተጠቃሚ ስም",
+                "password_label": "የይለፍ ቃል"
+            },
+            "buttons": {
+                "login_label": "ግባ",
+                "sso_label": "በ {} ይግቡ",
+                "register_web_label": "ይመዝገቡ"
+            }
+        }
+    },
+    "write": {
+        "answer": "መልስ",
+        "roomheader": "ክፍል: {}",
+        "filemessage": {
+            "upload_files": "ለመስቀል አዲስ ፋይሎችን ጨምር",
+            "title_header": "ርዕስ:",
+            "upload_start": "መስቀል እየጀመረ ነው...",
+            "upload_file_process": "ፋይል {} በመስቀል ላይ",
+            "upload_error": "{} መስቀል አልተሳካም። ደግመህ ትሞክራለህ?",
+            "upload_file_complete": "{} መስቀል ተጠናቋል!",
+            "upload_complete": "ሁሉም ፋይሎች ተሰቅለዋል!",
+            "buttons": {
+                "upload_stop": "ሰርዝ",
+                "upload_retry": "ደግመህ ሞክር"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "ለመለጠፍ የሚፈልጉትን የመልእክት ዓይነት ይምረጡ",
+            "room_prompt": "ለመለጠፍ የሚፈልጉበትን ክፍል ይምረጡ:",
+            "error_no_rooms": "ምንም ክፍሎች አልተቀላቀሉም ወይም ለመለጠፍ መብት የለዎትም።"
+        },
+        "textmessage": {
+            "answer_promt": "ጽሑፍዎን ያስገቡ:",
+            "input_placeholder": "ጽሑፍዎን እዚህ ያስገቡ...",
+            "send_start": "መልእክት መላክ ጀመረ...",
+            "send_failed": "መልእክት መላክ አልተሳካም። መልእክቱን ደግመው ለመላክ ይፈልጋሉ?",
+            "send_complete": "መልእክት በተሳካ ሁኔታ ተልኳል!",
+            "buttons": {
+                "send_stop": "ደግመህ አትሞክር",
+                "resend": "ደግመህ ሞክር"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "መልእክት",
+        "block_title": "ተጠቃሚ አግድ",
+        "block_desc": "{} ይታገድ? ከአሁን በኋላ ይዘታቸውን አያዩም።",
+        "block_confirm": "አግድ",
+        "block_success": "ተጠቃሚ ታግዷል።",
+        "block_error": "ተጠቃሚን ማገድ አልተቻለም: {}",
+        "report_title": "ተጠቃሚ ሪፖርት ያድርጉ",
+        "report_desc": "እባክዎ ይህንን ተጠቃሚ ለምን ሪፖርት እንደሚያደርጉ ምክንያቱን ይግለጹ።",
+        "report_reason": "ምክንያት",
+        "report_reason_hint": "ይህ ተጠቃሚ...",
+        "report_submit": "አስገባ",
+        "report_success": "ሪፖርት ቀርቧል። አመሰግናለሁ።",
+        "feeds_section": "ፊዶች",
+        "no_feeds": "ምንም የሕዝብ ፊዶች የሉም",
+        "error_start_chat": "ውይይት መጀመር አልተቻለም: {}"
+    },
+    "chat": {
+        "title": "መልእክቶች",
+        "input_placeholder": "መልእክት ይጻፉ...",
+        "no_messages": "እስካሁን ምንም መልእክቶች የሉም። ሰላም ይበሉ!",
+        "no_conversations": "እስካሁን ምንም ውይይቶች የሉም",
+        "no_conversations_hint": "የተጠቃሚ ፕሮፋይል ይጎብኙ እና ውይይት ለመጀመር 'መልእክት' ላይ ይንኩ።",
+        "media_message": "ሚዲያ",
+        "conversation_started": "ውይይት ተጀምሯል",
+        "error_loading": "ይህንን ውይይት መጫን አልተቻለም።",
+        "error_sending": "መልእክት መላክ አልተሳካም።",
+        "view_profile": "ፕሮፋይል ይመልከቱ"
+    }
+}

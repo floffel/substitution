@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Napaka",
+    "loading": "Nalaganje...",
+    "error": "Napaka: {}",
+    "approve": "V redu",
+    "error_no_image": "Ni slike",
+    "error_page_not_found": "Te strani ni bilo mogoče najti.",
+    "age_gate": {
+        "title": "Preden nadaljujete",
+        "description": "Substitution je odjemalec družbenega omrežja za protokol Matrix. Z nadaljevanjem potrjujete naslednje:",
+        "point_client": "Substitution je le odjemalska aplikacija. Vaši podatki so shranjeni na domačem strežniku Matrix, ki ga izberete, ne na strežnikih, ki jih upravlja Substitution.",
+        "point_servers": "Substitution ne nadzoruje politik vsebine zunanjih domačih strežnikov, na katere se povezujete. Vi ste odgovorni za izbiro zaupanja vrednega strežnika.",
+        "point_age": "Stari ste 16 let ali več (ali minimalno starost, ki jo zahteva vaša država). Substitution ni namenjen mladoletnim.",
+        "point_content": "Substitution ima ničelno toleranco do nezakonitih ali neprimernih vsebin. Za prijavo kršitev uporabite orodja za prijavljanje v aplikaciji.",
+        "confirm": "Potrjujem — imam 16 let ali več",
+        "privacy_link": "Preberite našo politiko zasebnosti"
+    },
+    "cancel": "Prekliči",
+    "feed": {
+        "nav": { "home": "Domov", "discover": "Odkrivaj", "messages": "Sporočila", "settings": "Nastavitve" },
+        "pages": { "home": { "roomlabel": "Soba: {}", "empty": "Vaš vir je prazen. Sledite sobam, da vidite objave!", "empty_button": "Poišči nove sobe" } }
+    },
+    "post": {
+        "error": { "not_found": "Objava ni bila najdena ali ni na voljo." },
+        "menu": { "report_block": "Prijavi / Blokiraj" },
+        "e2e": { "encrypted": "Šifrirano od konca do konca", "unencrypted": "Ni šifrirano", "failed": "Dešifriranje ni uspelo" },
+        "dialog": {
+            "report_block_title": "Prijavi vsebino ali blokiraj uporabnika",
+            "report_desc": "Opišite, zakaj prijavljate to vsebino (neobvezno).",
+            "report_reason": "Razlog za prijavo",
+            "report_reason_hint": "Ta vsebina je žaljiva, ker...",
+            "block_user_checkbox": "Tudi blokiraj tega uporabnika",
+            "block_user_desc": "Ne boste več videli vsebin od {}",
+            "submit": "Pošlji", "cancel": "Prekliči",
+            "report_block_success": "Prijava je bila poslana. Hvala.",
+            "report_block_error": "Prišlo je do napake: {}"
+        },
+        "pages": { "post": { "no_comments": "Še ni komentarjev." } },
+        "continue_thread": "Nadaljuj to nit...",
+        "replying_to": "Odgovor za {}",
+        "reply_placeholder": "Napišite odgovor...",
+        "mixins": { "iconpicker": { "title": "Izberite ikono" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "zapri" } },
+            "filedisplay": { "decrypting": "Datoteka se dešifrira...", "video_desktop_error": "Videoposnetkov ni mogoče prikazati na Linux, Windows niti MacOS. Prispevajte na Github, če želite videti to funkcijo!", "audio_desktop_error": "Zvoka ni mogoče predvajati na Linux, Windows niti MacOS." },
+            "reaction": { "unknown_sender": "neznano", "sent_by": "Poslal/a {}" },
+            "videoplayercontrol": { "play": "predvajaj", "caption_offset": "odmik podnapisov", "playback_speed": "hitrost predvajanja" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Pravne informacije", "tos": "Pogoji uporabe", "privacy": "Politika zasebnosti", "imprint": "Impressum", "licenses": "Odprtokodne licence" },
+        "followfeeds": {
+            "filter_server_header": "Izberite strežnik s seznama ali dodajte novega:",
+            "filter_rooms_header": "Poiščite sobo za sledenje ali prenehanje sledenja:",
+            "roomname_placeholder": "Vnesite ime sobe",
+            "buttons": { "add_server": "Dodaj strežnik", "retry": "Poskusi znova" },
+            "no_rooms_found": "Za dane kriterije iskanja ni bilo najdenih sob.",
+            "error_loading_rooms": "Napaka: Nalaganje sob ni uspelo"
+        },
+        "ownfeeds": { "header": "Upravljajte svoje sobe", "buttons": { "create_room": "Ustvari novo sobo" } },
+        "menu": {
+            "logged_in_as": "Prijavljeni kot {}", "logout": "Odjava", "logout_confirm": "Ali ste prepričani, da se želite odjaviti?",
+            "login": "Prijava", "not_logged_in": "Prijavite se za dostop do vseh funkcij",
+            "home_site_label": "Domov", "feeds_site_label": "Viri", "navigation_label": "Navigacija",
+            "account_label": "Račun", "preferences_label": "Nastavitve", "about_label": "O aplikaciji"
+        },
+        "room": { "desc": "Ime sobe: {}", "leave": "Zapusti sobo", "join": "Vstopi v sobo in jo dodaj v substitution", "join_short": "Vstopi", "permissions": "Dovoljenja" },
+        "dialog": {
+            "delete": { "title": "Zapusti sobo {}", "desc": "Ali ste prepričani, da želite zapustiti sobo {}?", "button": { "submit": "Da, zapusti", "cancel": "Ne, prekliči" } },
+            "add": { "title": "Dodaj nov strežnik", "input_placeholder": "Vnesite naslov strežnika", "button": { "submit": "Dodaj" }, "snackbar": { "success": "Strežnik je bil dodan", "error_homeserver": "Vnesen domači strežnik ni veljaven" } },
+            "create": { "title": "Ustvari novo sobo", "placeholder_name": "ime sobe", "placeholder_alias": "vzdevek sobe (javni naslov)", "placeholder_topic": "tema sobe", "submit": "Ustvari" }
+        },
+        "room_preview": { "members": "{} članov", "latest_posts": "Najnovejše objave", "no_posts": "V tej sobi še ni objav.", "no_peek": "Zgodovina te sobe je zasebna. Pridružite se sobi, da vidite objave.", "join_to_see": "Pridružite se, da vidite objave" }
+    },
+    "intro": {
+        "isLoggedIn": "Odlično, že ste prijavljeni. \nLahko nadaljujete z naslednjimi koraki",
+        "isNotLoggedIn": "Najprej se prijavite",
+        "buttons": { "next": "Naprej", "back": "Nazaj" },
+        "welcome": { "title": "Dobrodošli v substitution", "desc": "... novo družbeno omrežje na osnovi protokola Matrix" },
+        "account": { "title": "Računi Matrix", "desc": "Za uporabo te aplikacije morate biti prijavljeni v račun Matrix na poljubnem strežniku. Če ne veste, kako ga pridobiti, obiščite to stran: https://matrix.org/" },
+        "host": { "title": "Izberite gostitelja" },
+        "login": { "title": "Prijava" },
+        "finished": { "title": "Gremo", "desc": "Odlično, prijavljeni ste. Pripravljeni smo na substitution. Zdaj lahko izberete, ali se želite pridružiti pozdravni sobi substitution. Gremo, in uživajte!", "buttons": { "add_to_room_and_go": "Pridruži se sobi Substitution in pojdi!", "go": "Samo pojdi!" } }
+    },
+    "auth": {
+        "host": { "header": "Povežite se z domačim strežnikom", "body": "Izberite domači strežnik Matrix. Nato se lahko prijavite ali brskate po javno dostopnih sobah.", "inputs": { "homeserver_label": "Naslov vašega domačega strežnika" }, "buttons": { "login_label": "Prijava" } },
+        "login": { "loading": "Prijavljanje...", "header": "Prijava", "body": "Prijavite se s svojimi poverilnicami.", "inputs": { "username_label": "Uporabniško ime", "password_label": "Geslo" }, "buttons": { "login_label": "Prijava", "sso_label": "Prijavite se z {}", "register_web_label": "Registracija" } }
+    },
+    "write": {
+        "answer": "Odgovori", "roomheader": "Soba: {}",
+        "filemessage": { "upload_files": "Dodajte nove datoteke za nalaganje", "title_header": "Naslov:", "upload_start": "Začetek nalaganja...", "upload_file_process": "Nalaganje datoteke {}", "upload_error": "Nalaganje {} ni uspelo. Poskusiti znova?", "upload_file_complete": "Nalaganje {} je končano!", "upload_complete": "Vse datoteke so bile naložene!", "buttons": { "upload_stop": "Prekliči", "upload_retry": "Poskusi znova" } },
+        "roomselect": { "type_prompt": "Izberite vrsto sporočila, ki ga želite objaviti", "room_prompt": "Izberite sobo, v kateri želite objaviti:", "error_no_rooms": "Niste se pridružili nobeni sobi ali nimate pravic za objavljanje." },
+        "textmessage": { "answer_promt": "Vnesite besedilo:", "input_placeholder": "Vnesite besedilo tukaj...", "send_start": "Pošiljanje sporočila se je začelo...", "send_failed": "Pošiljanje sporočila ni uspelo. Želite znova poslati sporočilo?", "send_complete": "Sporočilo je bilo uspešno poslano!", "buttons": { "send_stop": "Ne poskušaj znova", "resend": "Poskusi znova" } }
+    },
+    "profile": {
+        "send_message": "Sporočilo", "block_title": "Blokiraj uporabnika", "block_desc": "Blokiraj {}? Ne boste več videli njihovih vsebin.",
+        "block_confirm": "Blokiraj", "block_success": "Uporabnik je blokiran.", "block_error": "Uporabnika ni bilo mogoče blokirati: {}",
+        "report_title": "Prijavi uporabnika", "report_desc": "Opišite razlog za prijavo tega uporabnika.",
+        "report_reason": "Razlog", "report_reason_hint": "Ta uporabnik...", "report_submit": "Pošlji",
+        "report_success": "Prijava je bila poslana. Hvala.", "feeds_section": "VIRI", "no_feeds": "Ni javnih virov",
+        "error_start_chat": "Klepeta ni bilo mogoče začeti: {}"
+    },
+    "chat": {
+        "title": "Sporočila", "input_placeholder": "Napišite sporočilo...", "no_messages": "Še ni sporočil. Pozdravite se!",
+        "no_conversations": "Še ni pogovorov", "no_conversations_hint": "Obiščite profil uporabnika in tapnite 'Sporočilo', da začnete klepet.",
+        "media_message": "Mediji", "conversation_started": "Pogovor se je začel",
+        "error_loading": "Tega pogovora ni bilo mogoče naložiti.", "error_sending": "Pošiljanje sporočila ni uspelo.", "view_profile": "Prikaži profil"
+    }
+}

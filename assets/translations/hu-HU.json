@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Hiba",
+    "loading": "Betöltés...",
+    "error": "Hiba: {}",
+    "approve": "Ok",
+    "error_no_image": "Nincs kép",
+    "error_page_not_found": "Ez az oldal nem található.",
+    "age_gate": {
+        "title": "Mielőtt továbblépne",
+        "description": "A Substitution egy közösségi hálózati kliens a Matrix protokollhoz. A folytatással Ön megerősíti a következőket:",
+        "point_client": "A Substitution kizárólag kliensalkalmazás. Az Ön adatait az Ön által választott Matrix-kiszolgáló tárolja, nem a Substitution által üzemeltetett szerverek.",
+        "point_servers": "A Substitution nem ellenőrzi a külső kiszolgálók tartalmi irányelveit, amelyekhez csatlakozik. Ön felelős egy megbízható szerver kiválasztásáért.",
+        "point_age": "Ön 16 éves vagy annál idősebb (vagy eléri az országában megkövetelt minimális életkort). A Substitution nem kiskorúaknak készült.",
+        "point_content": "A Substitution zéró toleranciát tanúsít az illegális vagy kifogásolható tartalmakkal szemben. Használja az alkalmazáson belüli jelentési eszközöket a szabálysértések jelzésére.",
+        "confirm": "Megerősítem — 16 éves vagy idősebb vagyok",
+        "privacy_link": "Olvassa el adatvédelmi irányelveinket"
+    },
+    "cancel": "Mégse",
+    "feed": {
+        "nav": {
+            "home": "Kezdőlap",
+            "discover": "Felfedezés",
+            "messages": "Üzenetek",
+            "settings": "Beállítások"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Szoba: {}",
+                "empty": "A hírfolyamod üres. Kövess néhány szobát, hogy bejegyzéseket láss!",
+                "empty_button": "Új szobák keresése"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "A bejegyzés nem található vagy nem elérhető."
+        },
+        "menu": {
+            "report_block": "Jelentés / Letiltás"
+        },
+        "e2e": {
+            "encrypted": "Végpontok közötti titkosítás",
+            "unencrypted": "Nincs titkosítva",
+            "failed": "A visszafejtés sikertelen"
+        },
+        "dialog": {
+            "report_block_title": "Tartalom jelentése vagy felhasználó letiltása",
+            "report_desc": "Kérjük, írja le, miért jelenti ezt a tartalmat (opcionális).",
+            "report_reason": "Jelentés oka",
+            "report_reason_hint": "Ez a tartalom sértő, mert...",
+            "block_user_checkbox": "A felhasználó letiltása is",
+            "block_user_desc": "Többé nem fogja látni {} tartalmait",
+            "submit": "Küldés",
+            "cancel": "Mégse",
+            "report_block_success": "Jelentés elküldve. Köszönjük.",
+            "report_block_error": "Hiba történt: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Még nincsenek hozzászólások."
+            }
+        },
+        "continue_thread": "Téma folytatása...",
+        "replying_to": "Válasz neki: {}",
+        "reply_placeholder": "Válasz írása...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Ikon kiválasztása"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "bezárás"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "A fájl visszafejtése folyamatban...",
+                "video_desktop_error": "A videók nem jeleníthetők meg Linux, Windows és MacOS rendszeren. Járuljon hozzá a Github-on, ha szeretné látni ezt a funkciót!",
+                "audio_desktop_error": "A hang nem játszható le Linux, Windows és MacOS rendszeren."
+            },
+            "reaction": {
+                "unknown_sender": "ismeretlen",
+                "sent_by": "Küldte: {}"
+            },
+            "videoplayercontrol": {
+                "play": "lejátszás",
+                "caption_offset": "felirat eltolás",
+                "playback_speed": "lejátszási sebesség"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Jogi információk",
+            "tos": "Szolgáltatási feltételek",
+            "privacy": "Adatvédelmi irányelvek",
+            "imprint": "Impresszum",
+            "licenses": "Nyílt forráskódú licencek"
+        },
+        "followfeeds": {
+            "filter_server_header": "Válasszon szervert a listából, vagy adjon hozzá újat:",
+            "filter_rooms_header": "Szoba keresése követéshez vagy követés megszüntetéséhez:",
+            "roomname_placeholder": "Adja meg a szoba nevét",
+            "buttons": {
+                "add_server": "Szerver hozzáadása",
+                "retry": "Újrapróbálás"
+            },
+            "no_rooms_found": "Nem találhatók szobák a megadott keresési feltételeknek.",
+            "error_loading_rooms": "Hiba: A szobák betöltése sikertelen"
+        },
+        "ownfeeds": {
+            "header": "Saját szobák kezelése",
+            "buttons": {
+                "create_room": "Új szoba létrehozása"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Bejelentkezve mint {}",
+            "logout": "Kijelentkezés",
+            "logout_confirm": "Biztosan ki szeretne jelentkezni?",
+            "login": "Bejelentkezés",
+            "not_logged_in": "Jelentkezzen be az összes funkció eléréséhez",
+            "home_site_label": "Kezdőlap",
+            "feeds_site_label": "Hírfolyamok",
+            "navigation_label": "Navigáció",
+            "account_label": "Fiók",
+            "preferences_label": "Beállítások",
+            "about_label": "Névjegy"
+        },
+        "room": {
+            "desc": "Szoba neve: {}",
+            "leave": "Szoba elhagyása",
+            "join": "Belépés a szobába és hozzáadás a substitution-höz",
+            "join_short": "Csatlakozás",
+            "permissions": "Jogosultságok"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Szoba elhagyása: {}",
+                "desc": "Biztosan el szeretné hagyni a(z) {} szobát?",
+                "button": {
+                    "submit": "Igen, elhagyom",
+                    "cancel": "Nem, mégse"
+                }
+            },
+            "add": {
+                "title": "Új szerver hozzáadása",
+                "input_placeholder": "Adja meg a szerver címét",
+                "button": {
+                    "submit": "Hozzáadás"
+                },
+                "snackbar": {
+                    "success": "A szerver hozzáadva",
+                    "error_homeserver": "A megadott kiszolgáló érvénytelen"
+                }
+            },
+            "create": {
+                "title": "Új szoba létrehozása",
+                "placeholder_name": "szoba neve",
+                "placeholder_alias": "szoba alias (nyilvános szobacím)",
+                "placeholder_topic": "szoba témája",
+                "submit": "Létrehozás"
+            }
+        },
+        "room_preview": {
+            "members": "{} tag",
+            "latest_posts": "Legújabb bejegyzések",
+            "no_posts": "Ebben a szobában még nincsenek bejegyzések.",
+            "no_peek": "Ennek a szobának az előzményei privát jellegűek. Csatlakozzon a szobához a bejegyzések megtekintéséhez.",
+            "join_to_see": "Csatlakozzon a bejegyzések megtekintéséhez"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Remek, már be van jelentkezve. \nFolytathatja a következő lépésekkel",
+        "isNotLoggedIn": "Kérjük, először jelentkezzen be",
+        "buttons": {
+            "next": "Tovább",
+            "back": "Vissza"
+        },
+        "welcome": {
+            "title": "Üdvözöljük a substitution-ben",
+            "desc": "... az új közösségi hálózat a matrix protokollon"
+        },
+        "account": {
+            "title": "Matrix fiókok",
+            "desc": "Az alkalmazás használatához be kell jelentkeznie egy matrix fiókba egy tetszőleges szerveren. Ha nem tudja, hogyan szerezhet egyet, látogasson el erre az oldalra: https://matrix.org/"
+        },
+        "host": {
+            "title": "Válasszon kiszolgálót"
+        },
+        "login": {
+            "title": "Bejelentkezés"
+        },
+        "finished": {
+            "title": "Rajta",
+            "desc": "Remek, bejelentkezett. Készen állunk. Most eldöntheti, hogy csatlakozni szeretne-e a substitution üdvözlő szobához. Rajta, és jó szórakozást!",
+            "buttons": {
+                "add_to_room_and_go": "Csatlakozás a Substitution-szobához és indulás!",
+                "go": "Csak indulás!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Csatlakozás a kiszolgálóhoz",
+            "body": "Kérjük, válasszon egy Matrix kiszolgálót. Ezután választhat a bejelentkezés vagy a nyilvános szobák böngészése között.",
+            "inputs": {
+                "homeserver_label": "A kiszolgáló címe"
+            },
+            "buttons": {
+                "login_label": "Bejelentkezés"
+            }
+        },
+        "login": {
+            "loading": "Bejelentkezés folyamatban...",
+            "header": "Bejelentkezés",
+            "body": "Kérjük, jelentkezzen be hitelesítő adataival.",
+            "inputs": {
+                "username_label": "Felhasználónév",
+                "password_label": "Jelszó"
+            },
+            "buttons": {
+                "login_label": "Bejelentkezés",
+                "sso_label": "Bejelentkezés ezzel: {}",
+                "register_web_label": "Regisztráció"
+            }
+        }
+    },
+    "write": {
+        "answer": "Válasz",
+        "roomheader": "Szoba: {}",
+        "filemessage": {
+            "upload_files": "Új fájlok hozzáadása feltöltéshez",
+            "title_header": "Cím:",
+            "upload_start": "Feltöltés indítása...",
+            "upload_file_process": "{} fájl feltöltése",
+            "upload_error": "{} feltöltése sikertelen. Újrapróbálja a feltöltést?",
+            "upload_file_complete": "{} feltöltése kész!",
+            "upload_complete": "Minden fájl feltöltve!",
+            "buttons": {
+                "upload_stop": "Mégse",
+                "upload_retry": "Újrapróbálás"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Válassza ki a közzétenni kívánt üzenet típusát",
+            "room_prompt": "Válassza ki a szobát, amelyben közzé szeretné tenni:",
+            "error_no_rooms": "Nem csatlakozott egyetlen szobához sem, vagy nincs joga bejegyzést közzétenni."
+        },
+        "textmessage": {
+            "answer_promt": "Adja meg a szövegét:",
+            "input_placeholder": "Írja be a szöveget ide...",
+            "send_start": "Üzenet küldése megkezdődött...",
+            "send_failed": "Az üzenet küldése sikertelen. Újraküldi az üzenetet?",
+            "send_complete": "Az üzenet sikeresen elküldve!",
+            "buttons": {
+                "send_stop": "Ne próbálja újra",
+                "resend": "Újrapróbálás"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Üzenet",
+        "block_title": "Felhasználó letiltása",
+        "block_desc": "Letiltja a következőt: {}? Többé nem fogja látni a tartalmait.",
+        "block_confirm": "Letiltás",
+        "block_success": "Felhasználó letiltva.",
+        "block_error": "Nem sikerült letiltani a felhasználót: {}",
+        "report_title": "Felhasználó jelentése",
+        "report_desc": "Kérjük, írja le a felhasználó jelentésének okát.",
+        "report_reason": "Ok",
+        "report_reason_hint": "Ez a felhasználó...",
+        "report_submit": "Küldés",
+        "report_success": "Jelentés elküldve. Köszönjük.",
+        "feeds_section": "HÍRFOLYAMOK",
+        "no_feeds": "Nincsenek nyilvános hírfolyamok",
+        "error_start_chat": "Nem sikerült elindítani a csevegést: {}"
+    },
+    "chat": {
+        "title": "Üzenetek",
+        "input_placeholder": "Írjon üzenetet...",
+        "no_messages": "Még nincsenek üzenetek. Köszönjön!",
+        "no_conversations": "Még nincsenek beszélgetések",
+        "no_conversations_hint": "Látogasson el egy felhasználó profiljára, és koppintson az 'Üzenet' gombra a csevegés indításához.",
+        "media_message": "Média",
+        "conversation_started": "Beszélgetés elkezdődött",
+        "error_loading": "Nem sikerült betölteni ezt a beszélgetést.",
+        "error_sending": "Nem sikerült elküldeni az üzenetet.",
+        "view_profile": "Profil megtekintése"
+    }
+}

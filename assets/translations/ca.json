@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Error",
+    "loading": "Carregant...",
+    "error": "Error: {}",
+    "approve": "D'acord",
+    "error_no_image": "Sense imatge",
+    "error_page_not_found": "Aquesta pàgina no s'ha pogut trobar.",
+    "age_gate": {
+        "title": "Abans de continuar",
+        "description": "Substitution és un client de xarxa social per al protocol Matrix. En continuar, confirmes el següent:",
+        "point_client": "Substitution és només una aplicació client. Les teves dades s'emmagatzemen al servidor Matrix que triïs, no als servidors operats per Substitution.",
+        "point_servers": "Substitution no controla les polítiques de contingut dels servidors externs als quals et connectes. Tu ets responsable de triar un servidor de confiança.",
+        "point_age": "Tens 16 anys o més (o l'edat mínima requerida al teu país). Substitution no està destinat a menors.",
+        "point_content": "Substitution té tolerància zero amb el contingut il·legal o objectonable. Utilitza les eines de denúncia integrades per informar de les infraccions.",
+        "confirm": "Ho confirmo — tinc 16 anys o més",
+        "privacy_link": "Llegeix la nostra Política de privacitat"
+    },
+    "cancel": "Cancel·la",
+    "feed": {
+        "nav": {
+            "home": "Inici",
+            "discover": "Descobreix",
+            "messages": "Missatges",
+            "settings": "Configuració"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Sala: {}",
+                "empty": "El teu feed és buit. Segueix algunes sales per veure publicacions!",
+                "empty_button": "Troba noves sales"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "La publicació no s'ha trobat o no està disponible."
+        },
+        "menu": {
+            "report_block": "Denuncia / Bloqueja"
+        },
+        "e2e": {
+            "encrypted": "Xifrat d'extrem a extrem",
+            "unencrypted": "No xifrat",
+            "failed": "Error de desxifrat"
+        },
+        "dialog": {
+            "report_block_title": "Denuncia contingut o bloqueja usuari",
+            "report_desc": "Si us plau, descriu per què denuncies aquest contingut (opcional).",
+            "report_reason": "Motiu de la denúncia",
+            "report_reason_hint": "Aquest contingut és ofensiu perquè...",
+            "block_user_checkbox": "Bloqueja també aquest usuari",
+            "block_user_desc": "Ja no veuràs contingut de {}",
+            "submit": "Envia",
+            "cancel": "Cancel·la",
+            "report_block_success": "Denúncia enviada. Gràcies.",
+            "report_block_error": "S'ha produït un error: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Encara no hi ha comentaris."
+            }
+        },
+        "continue_thread": "Continua aquest fil...",
+        "replying_to": "Responent a {}",
+        "reply_placeholder": "Escriu una resposta...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Tria una icona"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "tanca"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "El fitxer s'està desxifrant...",
+                "video_desktop_error": "Els vídeos no es poden mostrar a Linux, Windows ni MacOS. Considera contribuir a Github si vols veure aquesta funcionalitat!",
+                "audio_desktop_error": "L'àudio no es pot reproduir a Linux, Windows ni MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "desconegut",
+                "sent_by": "Enviat per {}"
+            },
+            "videoplayercontrol": {
+                "play": "reprodueix",
+                "caption_offset": "desfasament dels subtítols",
+                "playback_speed": "velocitat de reproducció"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Condicions del servei",
+            "privacy": "Política de privacitat",
+            "imprint": "Avís legal",
+            "licenses": "Llicències de codi obert"
+        },
+        "followfeeds": {
+            "filter_server_header": "Tria un servidor de la llista o afegeix-ne un de nou:",
+            "filter_rooms_header": "Cerca una sala per seguir-la o deixar de seguir-la:",
+            "roomname_placeholder": "Introdueix un nom de sala",
+            "buttons": {
+                "add_server": "Afegeix servidor",
+                "retry": "Reintenta"
+            },
+            "no_rooms_found": "No s'han trobat sales per als criteris de cerca indicats.",
+            "error_loading_rooms": "Error: No s'han pogut carregar les sales"
+        },
+        "ownfeeds": {
+            "header": "Gestiona les teves pròpies sales",
+            "buttons": {
+                "create_room": "Crea una nova sala"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Sessió iniciada com a {}",
+            "logout": "Tanca la sessió",
+            "logout_confirm": "Estàs segur que vols tancar la sessió?",
+            "login": "Inicia sessió",
+            "not_logged_in": "Inicia sessió per accedir a totes les funcions",
+            "home_site_label": "Inici",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navegació",
+            "account_label": "Compte",
+            "preferences_label": "Preferències",
+            "about_label": "Quant a"
+        },
+        "room": {
+            "desc": "Nom de la sala: {}",
+            "leave": "Surt de la sala",
+            "join": "Entra a la sala i afegeix-la a Substitution",
+            "join_short": "Uneix-t'hi",
+            "permissions": "Permisos"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Surt de la sala {}",
+                "desc": "Estàs segur que vols sortir de la sala {}?",
+                "button": {
+                    "submit": "Sí, surt",
+                    "cancel": "No, cancel·la"
+                }
+            },
+            "add": {
+                "title": "Afegeix un nou servidor",
+                "input_placeholder": "Introdueix l'adreça del servidor",
+                "button": {
+                    "submit": "Afegeix"
+                },
+                "snackbar": {
+                    "success": "El servidor s'ha afegit",
+                    "error_homeserver": "El servidor introduït no és vàlid"
+                }
+            },
+            "create": {
+                "title": "Crea una nova sala",
+                "placeholder_name": "nom de la sala",
+                "placeholder_alias": "àlies de la sala (adreça pública)",
+                "placeholder_topic": "tema de la sala",
+                "submit": "Crea"
+            }
+        },
+        "room_preview": {
+            "members": "{} membres",
+            "latest_posts": "Últimes publicacions",
+            "no_posts": "Encara no hi ha publicacions en aquesta sala.",
+            "no_peek": "L'historial d'aquesta sala és privat. Uneix-te per veure les publicacions.",
+            "join_to_see": "Uneix-te per veure les publicacions"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Fantàstic, ja tens la sessió iniciada. \nPots continuar amb els passos següents",
+        "isNotLoggedIn": "Si us plau, inicia sessió primer",
+        "buttons": {
+            "next": "Següent",
+            "back": "Enrere"
+        },
+        "welcome": {
+            "title": "Benvingut a Substitution",
+            "desc": "... la nova xarxa social basada en el protocol Matrix"
+        },
+        "account": {
+            "title": "Comptes Matrix",
+            "desc": "Has de tenir la sessió iniciada en un compte Matrix a qualsevol servidor per poder utilitzar aquesta aplicació. Si no saps com obtenir-ne un, visita aquest lloc: https://matrix.org/"
+        },
+        "host": {
+            "title": "Tria un amfitrió"
+        },
+        "login": {
+            "title": "Inicia sessió"
+        },
+        "finished": {
+            "title": "Comencem",
+            "desc": "Fantàstic, has iniciat sessió. Estem a punt. Ara pots triar si vols unir-te a la sala de benvinguda de Substitution. Endavant i passa-t'ho bé!",
+            "buttons": {
+                "add_to_room_and_go": "Uneix-te a la sala de Substitution i endavant!",
+                "go": "Només endavant!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Connecta't al teu servidor",
+            "body": "Si us plau, tria un servidor Matrix. Després podràs iniciar sessió o explorar les sales disponibles públicament.",
+            "inputs": {
+                "homeserver_label": "Adreça del teu servidor"
+            },
+            "buttons": {
+                "login_label": "Inicia sessió"
+            }
+        },
+        "login": {
+            "loading": "Iniciant sessió...",
+            "header": "Inicia sessió",
+            "body": "Si us plau, inicia sessió amb les teves credencials.",
+            "inputs": {
+                "username_label": "Nom d'usuari",
+                "password_label": "Contrasenya"
+            },
+            "buttons": {
+                "login_label": "Inicia sessió",
+                "sso_label": "Inicia sessió amb {}",
+                "register_web_label": "Registra't"
+            }
+        }
+    },
+    "write": {
+        "answer": "Respon",
+        "roomheader": "Sala: {}",
+        "filemessage": {
+            "upload_files": "Afegeix nous fitxers per pujar",
+            "title_header": "Títol:",
+            "upload_start": "Iniciant la pujada...",
+            "upload_file_process": "Pujant el fitxer {}",
+            "upload_error": "La pujada de {} ha fallat. Vols reintentar?",
+            "upload_file_complete": "La pujada de {} s'ha completat!",
+            "upload_complete": "Tots els fitxers s'han pujat!",
+            "buttons": {
+                "upload_stop": "Cancel·la",
+                "upload_retry": "Reintenta"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Tria el tipus de missatge que vols publicar",
+            "room_prompt": "Tria la sala on vols publicar:",
+            "error_no_rooms": "No t'has unit a cap sala o no tens els permisos per publicar."
+        },
+        "textmessage": {
+            "answer_promt": "Introdueix el teu text:",
+            "input_placeholder": "Introdueix el teu text aquí...",
+            "send_start": "S'ha començat a enviar el missatge...",
+            "send_failed": "No s'ha pogut enviar el missatge. Vols reintentar?",
+            "send_complete": "El missatge s'ha enviat correctament!",
+            "buttons": {
+                "send_stop": "No reintentis",
+                "resend": "Reintenta"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Missatge",
+        "block_title": "Bloqueja l'usuari",
+        "block_desc": "Vols bloquejar {}? Ja no veuràs el seu contingut.",
+        "block_confirm": "Bloqueja",
+        "block_success": "Usuari bloquejat.",
+        "block_error": "No s'ha pogut bloquejar l'usuari: {}",
+        "report_title": "Denuncia l'usuari",
+        "report_desc": "Si us plau, descriu el motiu de la denúncia d'aquest usuari.",
+        "report_reason": "Motiu",
+        "report_reason_hint": "Aquest usuari...",
+        "report_submit": "Envia",
+        "report_success": "Denúncia enviada. Gràcies.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Sense feeds públics",
+        "error_start_chat": "No s'ha pogut iniciar el xat: {}"
+    },
+    "chat": {
+        "title": "Missatges",
+        "input_placeholder": "Escriu un missatge...",
+        "no_messages": "Encara no hi ha missatges. Saluda!",
+        "no_conversations": "Encara no hi ha converses",
+        "no_conversations_hint": "Visita el perfil d'un usuari i toca 'Missatge' per iniciar un xat.",
+        "media_message": "Multimèdia",
+        "conversation_started": "Conversa iniciada",
+        "error_loading": "No s'ha pogut carregar aquesta conversa.",
+        "error_sending": "No s'ha pogut enviar el missatge.",
+        "view_profile": "Veure perfil"
+    }
+}

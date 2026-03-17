@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "エラー",
+    "loading": "読み込み中...",
+    "error": "エラー: {}",
+    "approve": "OK",
+    "error_no_image": "画像なし",
+    "error_page_not_found": "このページは見つかりませんでした。",
+    "age_gate": {
+        "title": "続行する前に",
+        "description": "SubstitutionはMatrixプロトコル用のソーシャルネットワーキングクライアントです。続行することで、以下の内容を確認したものとみなされます：",
+        "point_client": "Substitutionはクライアントアプリのみです。あなたのデータは、Substitutionが運営するサーバーではなく、あなたが選択したMatrixホームサーバーに保存されます。",
+        "point_servers": "Substitutionは、あなたが接続する外部ホームサーバーのコンテンツポリシーを管理していません。信頼できるサーバーを選択する責任はあなたにあります。",
+        "point_age": "あなたは16歳以上（またはお住まいの国で定められた最低年齢以上）です。Substitutionは未成年者を対象としていません。",
+        "point_content": "Substitutionは違法または不適切なコンテンツに対してゼロトレランスの方針を取っています。違反を報告するには、アプリ内の報告ツールをご利用ください。",
+        "confirm": "確認します — 私は16歳以上です",
+        "privacy_link": "プライバシーポリシーを読む"
+    },
+    "cancel": "キャンセル",
+    "feed": {
+        "nav": {
+            "home": "ホーム",
+            "discover": "探索",
+            "messages": "メッセージ",
+            "settings": "設定"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "ルーム: {}",
+                "empty": "フィードは空です。ルームをフォローして投稿を表示しましょう！",
+                "empty_button": "新しいルームを探す"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "投稿が見つからないか、利用できません。"
+        },
+        "menu": {
+            "report_block": "報告 / ブロック"
+        },
+        "e2e": {
+            "encrypted": "エンドツーエンド暗号化済み",
+            "unencrypted": "暗号化されていません",
+            "failed": "復号に失敗しました"
+        },
+        "dialog": {
+            "report_block_title": "コンテンツを報告またはユーザーをブロック",
+            "report_desc": "このコンテンツを報告する理由を記述してください（任意）。",
+            "report_reason": "報告の理由",
+            "report_reason_hint": "このコンテンツが不適切である理由は...",
+            "block_user_checkbox": "このユーザーもブロックする",
+            "block_user_desc": "{}からのコンテンツは今後表示されなくなります",
+            "submit": "送信",
+            "cancel": "キャンセル",
+            "report_block_success": "報告が送信されました。ありがとうございます。",
+            "report_block_error": "エラーが発生しました: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "まだコメントはありません。"
+            }
+        },
+        "continue_thread": "このスレッドを続ける...",
+        "replying_to": "{}に返信中",
+        "reply_placeholder": "返信を書く...",
+        "mixins": {
+            "iconpicker": {
+                "title": "アイコンを選択"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "閉じる"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "ファイルを復号中...",
+                "video_desktop_error": "Linux、Windows、MacOSでは動画を表示できません。この機能の実装にご興味がある方は、Githubでの貢献をご検討ください！",
+                "audio_desktop_error": "Linux、Windows、MacOSでは音声を再生できません。"
+            },
+            "reaction": {
+                "unknown_sender": "不明",
+                "sent_by": "{}が送信"
+            },
+            "videoplayercontrol": {
+                "play": "再生",
+                "caption_offset": "字幕オフセット",
+                "playback_speed": "再生速度"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "法的情報",
+            "tos": "利用規約",
+            "privacy": "プライバシーポリシー",
+            "imprint": "運営者情報",
+            "licenses": "オープンソースライセンス"
+        },
+        "followfeeds": {
+            "filter_server_header": "リストからサーバーを選択するか、新しいサーバーを追加してください：",
+            "filter_rooms_header": "フォローまたはフォロー解除するルームを検索：",
+            "roomname_placeholder": "ルーム名を入力",
+            "buttons": {
+                "add_server": "サーバーを追加",
+                "retry": "再試行"
+            },
+            "no_rooms_found": "指定された検索条件に一致するルームが見つかりません。",
+            "error_loading_rooms": "エラー: ルームの読み込みに失敗しました"
+        },
+        "ownfeeds": {
+            "header": "自分のルームを管理",
+            "buttons": {
+                "create_room": "新しいルームを作成"
+            }
+        },
+        "menu": {
+            "logged_in_as": "{}としてログイン中",
+            "logout": "ログアウト",
+            "logout_confirm": "本当にログアウトしますか？",
+            "login": "ログイン",
+            "not_logged_in": "すべての機能を利用するにはログインしてください",
+            "home_site_label": "ホーム",
+            "feeds_site_label": "フィード",
+            "navigation_label": "ナビゲーション",
+            "account_label": "アカウント",
+            "preferences_label": "設定",
+            "about_label": "このアプリについて"
+        },
+        "room": {
+            "desc": "ルーム名: {}",
+            "leave": "ルームを退出",
+            "join": "ルームに参加してSubstitutionに追加",
+            "join_short": "参加",
+            "permissions": "権限"
+        },
+        "dialog": {
+            "delete": {
+                "title": "ルーム{}を退出",
+                "desc": "本当にルーム{}を退出しますか？",
+                "button": {
+                    "submit": "はい、退出します",
+                    "cancel": "いいえ、キャンセル"
+                }
+            },
+            "add": {
+                "title": "新しいサーバーを追加",
+                "input_placeholder": "サーバーアドレスを入力",
+                "button": {
+                    "submit": "追加"
+                },
+                "snackbar": {
+                    "success": "サーバーが追加されました",
+                    "error_homeserver": "入力されたホームサーバーは無効です"
+                }
+            },
+            "create": {
+                "title": "新しいルームを作成",
+                "placeholder_name": "ルーム名",
+                "placeholder_alias": "ルームエイリアス（公開ルームアドレス）",
+                "placeholder_topic": "ルームトピック",
+                "submit": "作成"
+            }
+        },
+        "room_preview": {
+            "members": "{}人のメンバー",
+            "latest_posts": "最新の投稿",
+            "no_posts": "このルームにはまだ投稿がありません。",
+            "no_peek": "このルームの履歴は非公開です。投稿を見るにはルームに参加してください。",
+            "join_to_see": "参加して投稿を見る"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "素晴らしい、すでにログインしています。\n次のステップに進むことができます",
+        "isNotLoggedIn": "まずログインしてください",
+        "buttons": {
+            "next": "次へ",
+            "back": "戻る"
+        },
+        "welcome": {
+            "title": "Substitutionへようこそ",
+            "desc": "... Matrixプロトコル上の新しいソーシャルネットワーク"
+        },
+        "account": {
+            "title": "Matrixアカウント",
+            "desc": "このアプリを使用するには、任意のサーバー上のMatrixアカウントにログインする必要があります。アカウントの取得方法がわからない場合は、こちらのサイトをご覧ください: https://matrix.org/"
+        },
+        "host": {
+            "title": "ホストを選択"
+        },
+        "login": {
+            "title": "ログイン"
+        },
+        "finished": {
+            "title": "さあ始めましょう",
+            "desc": "素晴らしい、ログインが完了しました。Substitutionの準備が整いました。Substitutionウェルカムルームに参加するかどうかを選択できます。さあ、楽しみましょう！",
+            "buttons": {
+                "add_to_room_and_go": "Substitutionルームに参加して開始！",
+                "go": "そのまま開始！"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "ホームサーバーに接続",
+            "body": "Matrixホームサーバーを選択してください。ログインするか、公開ルームを閲覧することができます。",
+            "inputs": {
+                "homeserver_label": "ホームサーバーのアドレス"
+            },
+            "buttons": {
+                "login_label": "ログイン"
+            }
+        },
+        "login": {
+            "loading": "ログイン中...",
+            "header": "ログイン",
+            "body": "認証情報でログインしてください。",
+            "inputs": {
+                "username_label": "ユーザー名",
+                "password_label": "パスワード"
+            },
+            "buttons": {
+                "login_label": "ログイン",
+                "sso_label": "{}でサインイン",
+                "register_web_label": "登録"
+            }
+        }
+    },
+    "write": {
+        "answer": "回答",
+        "roomheader": "ルーム: {}",
+        "filemessage": {
+            "upload_files": "アップロードする新しいファイルを追加",
+            "title_header": "タイトル:",
+            "upload_start": "アップロードを開始しています...",
+            "upload_file_process": "ファイル{}をアップロード中",
+            "upload_error": "{}のアップロードに失敗しました。再試行しますか？",
+            "upload_file_complete": "{}のアップロードが完了しました！",
+            "upload_complete": "すべてのファイルがアップロードされました！",
+            "buttons": {
+                "upload_stop": "キャンセル",
+                "upload_retry": "再試行"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "投稿するメッセージの種類を選択してください",
+            "room_prompt": "投稿するルームを選択してください：",
+            "error_no_rooms": "ルームに参加していないか、投稿する権限がありません。"
+        },
+        "textmessage": {
+            "answer_promt": "テキストを入力してください：",
+            "input_placeholder": "ここにテキストを入力...",
+            "send_start": "メッセージの送信を開始しました...",
+            "send_failed": "メッセージの送信に失敗しました。再送信しますか？",
+            "send_complete": "メッセージが正常に送信されました！",
+            "buttons": {
+                "send_stop": "再試行しない",
+                "resend": "再試行"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "メッセージ",
+        "block_title": "ユーザーをブロック",
+        "block_desc": "{}をブロックしますか？このユーザーのコンテンツは今後表示されなくなります。",
+        "block_confirm": "ブロック",
+        "block_success": "ユーザーをブロックしました。",
+        "block_error": "ユーザーをブロックできませんでした: {}",
+        "report_title": "ユーザーを報告",
+        "report_desc": "このユーザーを報告する理由を記述してください。",
+        "report_reason": "理由",
+        "report_reason_hint": "このユーザーは...",
+        "report_submit": "送信",
+        "report_success": "報告が送信されました。ありがとうございます。",
+        "feeds_section": "フィード",
+        "no_feeds": "公開フィードなし",
+        "error_start_chat": "チャットを開始できませんでした: {}"
+    },
+    "chat": {
+        "title": "メッセージ",
+        "input_placeholder": "メッセージを入力...",
+        "no_messages": "まだメッセージはありません。挨拶しましょう！",
+        "no_conversations": "まだ会話はありません",
+        "no_conversations_hint": "ユーザーのプロフィールにアクセスして「メッセージ」をタップすると、チャットを開始できます。",
+        "media_message": "メディア",
+        "conversation_started": "会話が開始されました",
+        "error_loading": "この会話を読み込めませんでした。",
+        "error_sending": "メッセージの送信に失敗しました。",
+        "view_profile": "プロフィールを表示"
+    }
+}

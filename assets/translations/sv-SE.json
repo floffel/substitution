@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Fel",
+    "loading": "Laddar...",
+    "error": "Fel: {}",
+    "approve": "Ok",
+    "error_no_image": "Ingen bild",
+    "error_page_not_found": "Sidan kunde inte hittas.",
+    "age_gate": {
+        "title": "Innan du fortsätter",
+        "description": "Substitution är en social nätverksklient för Matrix-protokollet. Genom att fortsätta bekräftar du följande:",
+        "point_client": "Substitution är enbart en klientapp. Dina data lagras på den Matrix-hemserver du väljer, inte på servrar som drivs av Substitution.",
+        "point_servers": "Substitution kontrollerar inte innehållspolicyerna för externa hemservrar som du ansluter till. Du ansvarar för att välja en pålitlig server.",
+        "point_age": "Du är 16 år eller äldre (eller den minimiålder som krävs i ditt land). Substitution är inte avsett för minderåriga.",
+        "point_content": "Substitution har nolltolerans för olagligt eller stötande innehåll. Använd rapporteringsverktygen i appen för att anmäla överträdelser.",
+        "confirm": "Jag bekräftar — jag är 16 eller äldre",
+        "privacy_link": "Läs vår integritetspolicy"
+    },
+    "cancel": "Avbryt",
+    "feed": {
+        "nav": { "home": "Hem", "discover": "Utforska", "messages": "Meddelanden", "settings": "Inställningar" },
+        "pages": { "home": { "roomlabel": "Rum: {}", "empty": "Ditt flöde är tomt. Följ några rum för att se inlägg!", "empty_button": "Hitta nya rum" } }
+    },
+    "post": {
+        "error": { "not_found": "Inlägget hittades inte eller är otillgängligt." },
+        "menu": { "report_block": "Rapportera / Blockera" },
+        "e2e": { "encrypted": "Ende-till-ende-krypterat", "unencrypted": "Inte krypterat", "failed": "Dekryptering misslyckades" },
+        "dialog": {
+            "report_block_title": "Rapportera innehåll eller blockera användare",
+            "report_desc": "Beskriv varför du rapporterar detta innehåll (valfritt).",
+            "report_reason": "Anledning till rapporten",
+            "report_reason_hint": "Detta innehåll är stötande eftersom...",
+            "block_user_checkbox": "Blockera även denna användare",
+            "block_user_desc": "Du kommer inte längre se innehåll från {}",
+            "submit": "Skicka", "cancel": "Avbryt",
+            "report_block_success": "Rapport skickad. Tack.",
+            "report_block_error": "Ett fel uppstod: {}"
+        },
+        "pages": { "post": { "no_comments": "Inga kommentarer ännu." } },
+        "continue_thread": "Fortsätt denna tråd...",
+        "replying_to": "Svarar till {}",
+        "reply_placeholder": "Skriv ett svar...",
+        "mixins": { "iconpicker": { "title": "Välj ikon" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "stäng" } },
+            "filedisplay": { "decrypting": "Filen dekrypteras...", "video_desktop_error": "Videor kan inte visas på Linux, Windows eller MacOS. Överväg att bidra på Github om du vill se denna funktion!", "audio_desktop_error": "Ljud kan inte spelas upp på Linux, Windows eller MacOS." },
+            "reaction": { "unknown_sender": "okänd", "sent_by": "Skickad av {}" },
+            "videoplayercontrol": { "play": "spela", "caption_offset": "undertextförskjutning", "playback_speed": "uppspelningshastighet" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Juridiskt", "tos": "Användarvillkor", "privacy": "Integritetspolicy", "imprint": "Impressum", "licenses": "Öppen källkod-licenser" },
+        "followfeeds": {
+            "filter_server_header": "Välj en server från listan eller lägg till en ny:",
+            "filter_rooms_header": "Sök efter ett rum att följa eller sluta följa:",
+            "roomname_placeholder": "Ange ett rumsnamn",
+            "buttons": { "add_server": "Lägg till server", "retry": "Försök igen" },
+            "no_rooms_found": "Inga rum hittades för de angivna sökkriterierna.",
+            "error_loading_rooms": "Fel: Kunde inte ladda rum"
+        },
+        "ownfeeds": { "header": "Hantera dina egna rum", "buttons": { "create_room": "Skapa ett nytt rum" } },
+        "menu": {
+            "logged_in_as": "Inloggad som {}", "logout": "Logga ut", "logout_confirm": "Är du säker på att du vill logga ut?",
+            "login": "Logga in", "not_logged_in": "Logga in för att få tillgång till alla funktioner",
+            "home_site_label": "Hem", "feeds_site_label": "Flöden", "navigation_label": "Navigering",
+            "account_label": "Konto", "preferences_label": "Inställningar", "about_label": "Om"
+        },
+        "room": { "desc": "Rumsnamn: {}", "leave": "Lämna rum", "join": "Gå med i rummet och lägg till det i substitution", "join_short": "Gå med", "permissions": "Behörigheter" },
+        "dialog": {
+            "delete": { "title": "Lämna rum {}", "desc": "Är du säker på att du vill lämna rum {}?", "button": { "submit": "Ja, lämna det", "cancel": "Nej, avbryt" } },
+            "add": { "title": "Lägg till en ny server", "input_placeholder": "Ange serveradress", "button": { "submit": "Lägg till" }, "snackbar": { "success": "Servern har lagts till", "error_homeserver": "Den angivna hemservern är inte giltig" } },
+            "create": { "title": "Skapa ett nytt rum", "placeholder_name": "rumsnamn", "placeholder_alias": "rumsalias (offentlig rumsadress)", "placeholder_topic": "rumsämne", "submit": "Skapa" }
+        },
+        "room_preview": { "members": "{} medlemmar", "latest_posts": "Senaste inlägg", "no_posts": "Inga inlägg ännu i detta rum.", "no_peek": "Detta rums historik är privat. Gå med i rummet för att se dess inlägg.", "join_to_see": "Gå med för att se inlägg" }
+    },
+    "intro": {
+        "isLoggedIn": "Toppen, du är redan inloggad. \nDu kan fortsätta med nästa steg",
+        "isNotLoggedIn": "Vänligen logga in först",
+        "buttons": { "next": "Nästa", "back": "Tillbaka" },
+        "welcome": { "title": "Välkommen till substitution", "desc": "... det nya sociala nätverket ovanpå matrix-protokollet" },
+        "account": { "title": "Matrix-konton", "desc": "Du måste vara inloggad på ett Matrix-konto på en valfri server för att kunna använda denna app. Om du inte vet hur du skaffar ett, besök denna sida: https://matrix.org/" },
+        "host": { "title": "Välj en värd" },
+        "login": { "title": "Logga in" },
+        "finished": { "title": "Nu kör vi", "desc": "Toppen, du har loggat in. Vi är redo att köra igång. Du kan nu välja om du vill gå med i substitution-välkomstrummet. Kör så, och ha kul!", "buttons": { "add_to_room_and_go": "Gå med i Substitution-rummet & kör!", "go": "Bara kör!" } }
+    },
+    "auth": {
+        "host": { "header": "Anslut till din hemserver", "body": "Vänligen välj en Matrix-hemserver. Du kan sedan välja att logga in eller bläddra bland offentligt tillgängliga rum.", "inputs": { "homeserver_label": "Adress till din hemserver" }, "buttons": { "login_label": "Logga in" } },
+        "login": { "loading": "Loggar in dig...", "header": "Logga in", "body": "Vänligen logga in med dina uppgifter.", "inputs": { "username_label": "Användarnamn", "password_label": "Lösenord" }, "buttons": { "login_label": "Logga in", "sso_label": "Logga in med {}", "register_web_label": "Registrera" } }
+    },
+    "write": {
+        "answer": "Svara", "roomheader": "Rum: {}",
+        "filemessage": { "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
+        "roomselect": { "type_prompt": "Välj vilken typ av meddelande du vill publicera", "room_prompt": "Välj rummet du vill publicera i:", "error_no_rooms": "Du har inte gått med i några rum eller saknar rättigheter att publicera." },
+        "textmessage": { "answer_promt": "Ange din text:", "input_placeholder": "Skriv din text här...", "send_start": "Börjar skicka meddelandet...", "send_failed": "Sändningen misslyckades. Vill du skicka meddelandet igen?", "send_complete": "Meddelandet har skickats!", "buttons": { "send_stop": "Försök inte igen", "resend": "Försök igen" } }
+    },
+    "profile": {
+        "send_message": "Meddelande", "block_title": "Blockera användare", "block_desc": "Blockera {}? Du kommer inte längre se deras innehåll.",
+        "block_confirm": "Blockera", "block_success": "Användaren blockerad.", "block_error": "Kunde inte blockera användaren: {}",
+        "report_title": "Rapportera användare", "report_desc": "Beskriv anledningen till att du rapporterar denna användare.",
+        "report_reason": "Anledning", "report_reason_hint": "Denna användare är...", "report_submit": "Skicka",
+        "report_success": "Rapport skickad. Tack.", "feeds_section": "FLÖDEN", "no_feeds": "Inga offentliga flöden",
+        "error_start_chat": "Kunde inte starta chatt: {}"
+    },
+    "chat": {
+        "title": "Meddelanden", "input_placeholder": "Skriv ett meddelande...", "no_messages": "Inga meddelanden ännu. Säg hej!",
+        "no_conversations": "Inga konversationer ännu", "no_conversations_hint": "Besök en användares profil och tryck på 'Meddelande' för att starta en chatt.",
+        "media_message": "Media", "conversation_started": "Konversation startad",
+        "error_loading": "Kunde inte ladda denna konversation.", "error_sending": "Kunde inte skicka meddelandet.", "view_profile": "Visa profil"
+    }
+}

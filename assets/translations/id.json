@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Kesalahan",
+    "loading": "Memuat...",
+    "error": "Kesalahan: {}",
+    "approve": "Ok",
+    "error_no_image": "Tidak ada gambar",
+    "error_page_not_found": "Halaman ini tidak ditemukan.",
+    "age_gate": {
+        "title": "Sebelum Anda melanjutkan",
+        "description": "Substitution adalah klien jejaring sosial untuk protokol Matrix. Dengan melanjutkan, Anda mengonfirmasi hal berikut:",
+        "point_client": "Substitution hanyalah aplikasi klien. Data Anda disimpan di homeserver Matrix yang Anda pilih, bukan di server yang dioperasikan oleh Substitution.",
+        "point_servers": "Substitution tidak mengontrol kebijakan konten dari homeserver eksternal yang Anda hubungkan. Anda bertanggung jawab untuk memilih server yang tepercaya.",
+        "point_age": "Anda berusia 16 tahun atau lebih (atau usia minimum yang disyaratkan di negara Anda). Substitution tidak ditujukan untuk anak di bawah umur.",
+        "point_content": "Substitution memiliki toleransi nol terhadap konten ilegal atau tidak pantas. Gunakan alat pelaporan dalam aplikasi untuk menandai pelanggaran.",
+        "confirm": "Saya mengonfirmasi — saya berusia 16 tahun atau lebih",
+        "privacy_link": "Baca Kebijakan Privasi kami"
+    },
+    "cancel": "Batal",
+    "feed": {
+        "nav": {
+            "home": "Beranda",
+            "discover": "Jelajahi",
+            "messages": "Pesan",
+            "settings": "Pengaturan"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Ruangan: {}",
+                "empty": "Feed Anda kosong. Ikuti beberapa ruangan untuk melihat postingan!",
+                "empty_button": "Temukan ruangan baru"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Postingan tidak ditemukan atau tidak tersedia."
+        },
+        "menu": {
+            "report_block": "Laporkan / Blokir"
+        },
+        "e2e": {
+            "encrypted": "Terenkripsi ujung ke ujung",
+            "unencrypted": "Tidak terenkripsi",
+            "failed": "Dekripsi gagal"
+        },
+        "dialog": {
+            "report_block_title": "Laporkan Konten atau Blokir Pengguna",
+            "report_desc": "Silakan jelaskan mengapa Anda melaporkan konten ini (opsional).",
+            "report_reason": "Alasan laporan",
+            "report_reason_hint": "Konten ini menyinggung karena...",
+            "block_user_checkbox": "Blokir juga pengguna ini",
+            "block_user_desc": "Anda tidak akan lagi melihat konten dari {}",
+            "submit": "Kirim",
+            "cancel": "Batal",
+            "report_block_success": "Laporan terkirim. Terima kasih.",
+            "report_block_error": "Terjadi kesalahan: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Belum ada komentar."
+            }
+        },
+        "continue_thread": "Lanjutkan utas ini...",
+        "replying_to": "Membalas {}",
+        "reply_placeholder": "Tulis balasan...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Pilih ikon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "tutup"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "File sedang didekripsi...",
+                "video_desktop_error": "Video tidak dapat ditampilkan di Linux, Windows maupun MacOS. Pertimbangkan untuk berkontribusi di Github jika Anda ingin melihat fitur ini!",
+                "audio_desktop_error": "Audio tidak dapat diputar di Linux, Windows maupun MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "tidak dikenal",
+                "sent_by": "Dikirim oleh {}"
+            },
+            "videoplayercontrol": {
+                "play": "putar",
+                "caption_offset": "offset teks",
+                "playback_speed": "kecepatan pemutaran"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Hukum",
+            "tos": "Ketentuan Layanan",
+            "privacy": "Kebijakan Privasi",
+            "imprint": "Imprint",
+            "licenses": "Lisensi Sumber Terbuka"
+        },
+        "followfeeds": {
+            "filter_server_header": "Pilih server dari daftar atau tambahkan yang baru:",
+            "filter_rooms_header": "Cari ruangan untuk diikuti atau berhenti diikuti:",
+            "roomname_placeholder": "Masukkan nama ruangan",
+            "buttons": {
+                "add_server": "Tambah Server",
+                "retry": "Coba Lagi"
+            },
+            "no_rooms_found": "Tidak ditemukan ruangan untuk kriteria pencarian yang diberikan.",
+            "error_loading_rooms": "Kesalahan: Gagal memuat ruangan"
+        },
+        "ownfeeds": {
+            "header": "Kelola ruangan Anda sendiri",
+            "buttons": {
+                "create_room": "Buat ruangan baru"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Masuk sebagai {}",
+            "logout": "Keluar",
+            "logout_confirm": "Apakah Anda yakin ingin keluar?",
+            "login": "Masuk",
+            "not_logged_in": "Masuk untuk mengakses semua fitur",
+            "home_site_label": "Beranda",
+            "feeds_site_label": "Feed",
+            "navigation_label": "Navigasi",
+            "account_label": "Akun",
+            "preferences_label": "Preferensi",
+            "about_label": "Tentang"
+        },
+        "room": {
+            "desc": "Nama ruangan: {}",
+            "leave": "Tinggalkan ruangan",
+            "join": "Masuk ruangan dan tambahkan ke substitution",
+            "join_short": "Bergabung",
+            "permissions": "Izin"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Tinggalkan ruangan {}",
+                "desc": "Apakah Anda yakin ingin meninggalkan ruangan {}?",
+                "button": {
+                    "submit": "Ya, tinggalkan",
+                    "cancel": "Tidak, batal"
+                }
+            },
+            "add": {
+                "title": "Tambah server baru",
+                "input_placeholder": "Masukkan alamat server",
+                "button": {
+                    "submit": "Tambah"
+                },
+                "snackbar": {
+                    "success": "Server telah ditambahkan",
+                    "error_homeserver": "Homeserver yang dimasukkan tidak valid"
+                }
+            },
+            "create": {
+                "title": "Buat ruangan baru",
+                "placeholder_name": "nama ruangan",
+                "placeholder_alias": "alias ruangan (alamat ruangan publik)",
+                "placeholder_topic": "topik ruangan",
+                "submit": "Buat"
+            }
+        },
+        "room_preview": {
+            "members": "{} anggota",
+            "latest_posts": "Postingan terbaru",
+            "no_posts": "Belum ada postingan di ruangan ini.",
+            "no_peek": "Riwayat ruangan ini bersifat pribadi. Bergabunglah untuk melihat postingannya.",
+            "join_to_see": "Bergabung untuk melihat postingan"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Hebat, Anda sudah masuk. \nAnda dapat melanjutkan ke langkah berikutnya",
+        "isNotLoggedIn": "Silakan masuk terlebih dahulu",
+        "buttons": {
+            "next": "Berikutnya",
+            "back": "Kembali"
+        },
+        "welcome": {
+            "title": "Selamat datang di substitution",
+            "desc": "... jejaring sosial baru di atas protokol matrix"
+        },
+        "account": {
+            "title": "Akun Matrix",
+            "desc": "Anda harus masuk ke akun matrix di server mana pun untuk dapat menggunakan aplikasi ini. Jika Anda tidak tahu cara mendapatkannya, kunjungi situs ini: https://matrix.org/"
+        },
+        "host": {
+            "title": "Pilih host"
+        },
+        "login": {
+            "title": "Masuk"
+        },
+        "finished": {
+            "title": "Ayo mulai",
+            "desc": "Hebat, Anda telah masuk. Kami siap untuk substitute. Anda sekarang dapat memilih apakah ingin bergabung dengan ruangan selamat datang substitution. Ayo, dan bersenang-senanglah!",
+            "buttons": {
+                "add_to_room_and_go": "Bergabung Substitution-Room & mulai!",
+                "go": "Langsung mulai!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Hubungkan ke Homeserver Anda",
+            "body": "Silakan pilih Matrix Homeserver. Anda kemudian dapat memilih untuk masuk atau menjelajahi ruangan publik yang tersedia.",
+            "inputs": {
+                "homeserver_label": "Alamat Homeserver Anda"
+            },
+            "buttons": {
+                "login_label": "Masuk"
+            }
+        },
+        "login": {
+            "loading": "Sedang memasukkan Anda...",
+            "header": "Masuk",
+            "body": "Silakan masuk dengan kredensial Anda.",
+            "inputs": {
+                "username_label": "Nama pengguna",
+                "password_label": "Kata sandi"
+            },
+            "buttons": {
+                "login_label": "Masuk",
+                "sso_label": "Masuk dengan {}",
+                "register_web_label": "Daftar"
+            }
+        }
+    },
+    "write": {
+        "answer": "Jawab",
+        "roomheader": "Ruangan: {}",
+        "filemessage": {
+            "upload_files": "Tambahkan file baru untuk diunggah",
+            "title_header": "Judul:",
+            "upload_start": "Memulai unggahan...",
+            "upload_file_process": "Mengunggah file {}",
+            "upload_error": "Pengunggahan {} gagal. Coba unggah lagi?",
+            "upload_file_complete": "Pengunggahan {} selesai!",
+            "upload_complete": "Semua file telah diunggah!",
+            "buttons": {
+                "upload_stop": "Batal",
+                "upload_retry": "Coba Lagi"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Pilih jenis pesan yang ingin Anda posting",
+            "room_prompt": "Pilih ruangan tempat Anda ingin memposting:",
+            "error_no_rooms": "Anda belum bergabung dengan ruangan mana pun atau Anda tidak memiliki hak untuk memposting."
+        },
+        "textmessage": {
+            "answer_promt": "Masukkan teks Anda:",
+            "input_placeholder": "Masukkan teks Anda di sini...",
+            "send_start": "Mulai mengirim pesan...",
+            "send_failed": "Pengiriman pesan gagal. Ingin mengirim ulang?",
+            "send_complete": "Pesan berhasil dikirim!",
+            "buttons": {
+                "send_stop": "Jangan coba lagi",
+                "resend": "Coba Lagi"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Pesan",
+        "block_title": "Blokir Pengguna",
+        "block_desc": "Blokir {}? Anda tidak akan lagi melihat konten mereka.",
+        "block_confirm": "Blokir",
+        "block_success": "Pengguna diblokir.",
+        "block_error": "Tidak dapat memblokir pengguna: {}",
+        "report_title": "Laporkan Pengguna",
+        "report_desc": "Silakan jelaskan alasan melaporkan pengguna ini.",
+        "report_reason": "Alasan",
+        "report_reason_hint": "Pengguna ini...",
+        "report_submit": "Kirim",
+        "report_success": "Laporan terkirim. Terima kasih.",
+        "feeds_section": "FEED",
+        "no_feeds": "Tidak ada feed publik",
+        "error_start_chat": "Tidak dapat memulai obrolan: {}"
+    },
+    "chat": {
+        "title": "Pesan",
+        "input_placeholder": "Ketik pesan...",
+        "no_messages": "Belum ada pesan. Sapa dulu!",
+        "no_conversations": "Belum ada percakapan",
+        "no_conversations_hint": "Kunjungi profil pengguna dan ketuk 'Pesan' untuk memulai obrolan.",
+        "media_message": "Media",
+        "conversation_started": "Percakapan dimulai",
+        "error_loading": "Tidak dapat memuat percakapan ini.",
+        "error_sending": "Gagal mengirim pesan.",
+        "view_profile": "Lihat profil"
+    }
+}

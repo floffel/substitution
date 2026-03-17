@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Errorea",
+    "loading": "Kargatzen...",
+    "error": "Errorea: {}",
+    "approve": "Ados",
+    "error_no_image": "Irudirik ez",
+    "error_page_not_found": "Orrialde hau ezin izan da aurkitu.",
+    "age_gate": {
+        "title": "Jarraitu aurretik",
+        "description": "Substitution Matrix protokoloko sare sozialetarako bezero-aplikazio bat da. Jarraituz gero, honako hau berresten duzu:",
+        "point_client": "Substitution bezero-aplikazio bat besterik ez da. Zure datuak aukeratzen duzun Matrix hasiera-zerbitzarian gordetzen dira, ez Substitution-ek kudeatutako zerbitzarietan.",
+        "point_servers": "Substitution-ek ez ditu kontrolatzen konektatzen zaren kanpoko hasiera-zerbitzarien eduki-politikak. Zure ardura da zerbitzari fidagarri bat aukeratzea.",
+        "point_age": "16 urte edo gehiago dituzu (edo zure herrialdean beharrezkoa den gutxieneko adina). Substitution ez dago adingabeentzat diseinatuta.",
+        "point_content": "Substitution-ek zero tolerantzia du legez kanpoko edo desegokiko edukiekin. Erabili aplikazio barruko salaketa-tresnak urraketak jakinarazteko.",
+        "confirm": "Berresten dut — 16 urte edo gehiago ditut",
+        "privacy_link": "Irakurri gure Pribatutasun Politika"
+    },
+    "cancel": "Utzi",
+    "feed": {
+        "nav": {
+            "home": "Hasiera",
+            "discover": "Esploratu",
+            "messages": "Mezuak",
+            "settings": "Ezarpenak"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Gela: {}",
+                "empty": "Zure jarioa hutsik dago. Jarraitu gela batzuk argitalpenak ikusteko!",
+                "empty_button": "Bilatu gela berriak"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Argitalpena ez da aurkitu edo ez dago eskuragarri."
+        },
+        "menu": {
+            "report_block": "Salatu / Blokeatu"
+        },
+        "e2e": {
+            "encrypted": "Muturretik muturrera zifratua",
+            "unencrypted": "Zifratu gabea",
+            "failed": "Deszifratzeak huts egin du"
+        },
+        "dialog": {
+            "report_block_title": "Edukia salatu edo erabiltzailea blokeatu",
+            "report_desc": "Mesedez, azaldu zergatik salatzen duzun eduki hau (aukerakoa).",
+            "report_reason": "Salatzearen arrazoia",
+            "report_reason_hint": "Eduki hau iraingarria da zeren...",
+            "block_user_checkbox": "Erabiltzaile hau ere blokeatu",
+            "block_user_desc": "Jada ez duzu {}-ren edukirik ikusiko",
+            "submit": "Bidali",
+            "cancel": "Utzi",
+            "report_block_success": "Salaketa bidalita. Eskerrik asko.",
+            "report_block_error": "Errore bat gertatu da: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Oraindik iruzkinik ez."
+            }
+        },
+        "continue_thread": "Hari honekin jarraitu...",
+        "replying_to": "{}-ri erantzuten",
+        "reply_placeholder": "Idatzi erantzun bat...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Aukeratu ikonoa"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "itxi"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Fitxategia deszifratzen ari da...",
+                "video_desktop_error": "Bideoak ezin dira bistaratu Linux, Windows ez eta MacOS sistemetan. Kontribuzio bat egin Github bidez, eginbide hau ikusi nahi baduzu!",
+                "audio_desktop_error": "Audioa ezin da erreproduzitu Linux, Windows ez eta MacOS sistemetan."
+            },
+            "reaction": {
+                "unknown_sender": "ezezaguna",
+                "sent_by": "{}-k bidalita"
+            },
+            "videoplayercontrol": {
+                "play": "erreproduzitu",
+                "caption_offset": "azpitituluen desplazamendua",
+                "playback_speed": "erreprodukzio-abiadura"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legala",
+            "tos": "Zerbitzu-baldintzak",
+            "privacy": "Pribatutasun Politika",
+            "imprint": "Lege-oharra",
+            "licenses": "Kode Irekiko Lizentziak"
+        },
+        "followfeeds": {
+            "filter_server_header": "Aukeratu zerbitzari bat zerrendatik edo gehitu berri bat:",
+            "filter_rooms_header": "Bilatu gela bat jarraitzeko edo jarraitzeari uzteko:",
+            "roomname_placeholder": "Sartu gela-izen bat",
+            "buttons": {
+                "add_server": "Gehitu zerbitzaria",
+                "retry": "Saiatu berriro"
+            },
+            "no_rooms_found": "Ez da gelarik aurkitu bilaketa-irizpide horiekin.",
+            "error_loading_rooms": "Errorea: Gelak kargatzeak huts egin du"
+        },
+        "ownfeeds": {
+            "header": "Kudeatu zure gelak",
+            "buttons": {
+                "create_room": "Sortu gela berri bat"
+            }
+        },
+        "menu": {
+            "logged_in_as": "{} gisa saioa hasita",
+            "logout": "Saioa itxi",
+            "logout_confirm": "Ziur zaude saioa itxi nahi duzula?",
+            "login": "Saioa hasi",
+            "not_logged_in": "Hasi saioa eginbide guztietara sartzeko",
+            "home_site_label": "Hasiera",
+            "feeds_site_label": "Jarioak",
+            "navigation_label": "Nabigazioa",
+            "account_label": "Kontua",
+            "preferences_label": "Hobespenak",
+            "about_label": "Honi buruz"
+        },
+        "room": {
+            "desc": "Gela-izena: {}",
+            "leave": "Gelatik irten",
+            "join": "Sartu gelan eta gehitu substitution-era",
+            "join_short": "Sartu",
+            "permissions": "Baimenak"
+        },
+        "dialog": {
+            "delete": {
+                "title": "{} gelatik irten",
+                "desc": "Ziur zaude {} gelatik irten nahi duzula?",
+                "button": {
+                    "submit": "Bai, irten",
+                    "cancel": "Ez, utzi"
+                }
+            },
+            "add": {
+                "title": "Gehitu zerbitzari berri bat",
+                "input_placeholder": "Sartu zerbitzariaren helbidea",
+                "button": {
+                    "submit": "Gehitu"
+                },
+                "snackbar": {
+                    "success": "Zerbitzaria gehitu da",
+                    "error_homeserver": "Sartutako hasiera-zerbitzaria ez da baliozkoa"
+                }
+            },
+            "create": {
+                "title": "Sortu gela berri bat",
+                "placeholder_name": "gela-izena",
+                "placeholder_alias": "gela-ezizena (gela publikoaren helbidea)",
+                "placeholder_topic": "gelaren gaia",
+                "submit": "Sortu"
+            }
+        },
+        "room_preview": {
+            "members": "{} kide",
+            "latest_posts": "Azken argitalpenak",
+            "no_posts": "Oraindik argitalpenik ez gela honetan.",
+            "no_peek": "Gela honen historia pribatua da. Sartu gelan bere argitalpenak ikusteko.",
+            "join_to_see": "Sartu argitalpenak ikusteko"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Bikain, dagoeneko saioa hasita daukazu. \nHurrengo urratseekin jarraitu dezakezu",
+        "isNotLoggedIn": "Mesedez, hasi saioa lehenik",
+        "buttons": {
+            "next": "Hurrengoa",
+            "back": "Atzera"
+        },
+        "welcome": {
+            "title": "Ongi etorri substitution-era",
+            "desc": "... Matrix protokoloaren gaineko sare sozial berria"
+        },
+        "account": {
+            "title": "Matrix kontuak",
+            "desc": "Matrix kontu batean saioa hasita egon behar duzu edozein zerbitzaritan aplikazio hau erabili ahal izateko. Ez badakizu nola lortu bat, bisitatu gune hau: https://matrix.org/"
+        },
+        "host": {
+            "title": "Aukeratu ostalari bat"
+        },
+        "login": {
+            "title": "Saioa hasi"
+        },
+        "finished": {
+            "title": "Goazen",
+            "desc": "Bikain, saioa hasi duzu. Substitution erabiltzeko prest gaude. Orain aukeratu dezakezu substitution-eko ongietorri-gelara sartu nahi duzun ala ez. Goazen, eta ondo pasa!",
+            "buttons": {
+                "add_to_room_and_go": "Sartu Substitution-gelara eta aurrera!",
+                "go": "Aurrera!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Konektatu zure hasiera-zerbitzarira",
+            "body": "Mesedez, aukeratu Matrix hasiera-zerbitzari bat. Ondoren, saioa hastea edo publikoki eskuragarri dauden gelak arakatzea aukeratu dezakezu.",
+            "inputs": {
+                "homeserver_label": "Zure hasiera-zerbitzariaren helbidea"
+            },
+            "buttons": {
+                "login_label": "Saioa hasi"
+            }
+        },
+        "login": {
+            "loading": "Saioa hasten...",
+            "header": "Saioa hasi",
+            "body": "Mesedez, hasi saioa zure kredentzialarekin.",
+            "inputs": {
+                "username_label": "Erabiltzaile-izena",
+                "password_label": "Pasahitza"
+            },
+            "buttons": {
+                "login_label": "Saioa hasi",
+                "sso_label": "{} bidez hasi saioa",
+                "register_web_label": "Erregistratu"
+            }
+        }
+    },
+    "write": {
+        "answer": "Erantzun",
+        "roomheader": "Gela: {}",
+        "filemessage": {
+            "upload_files": "Gehitu fitxategi berriak igotzeko",
+            "title_header": "Izenburua:",
+            "upload_start": "Igoera hasten...",
+            "upload_file_process": "{} fitxategia igotzen",
+            "upload_error": "{} igotzeak huts egin du. Igoera errepikatu?",
+            "upload_file_complete": "{} igotzea osatu da!",
+            "upload_complete": "Fitxategi guztiak igo dira!",
+            "buttons": {
+                "upload_stop": "Utzi",
+                "upload_retry": "Saiatu berriro"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Aukeratu argitaratu nahi duzun mezu mota",
+            "room_prompt": "Aukeratu argitaratu nahi duzun gela:",
+            "error_no_rooms": "Ez zara gela batean ere sartu edo ez daukazu argitaratzeko eskubiderik."
+        },
+        "textmessage": {
+            "answer_promt": "Sartu zure testua:",
+            "input_placeholder": "Sartu zure testua hemen...",
+            "send_start": "Mezua bidaltzen hasi da...",
+            "send_failed": "Mezua bidaltzeak huts egin du. Mezua berriro bidali nahi duzu?",
+            "send_complete": "Mezua ondo bidali da!",
+            "buttons": {
+                "send_stop": "Ez saiatu berriro",
+                "resend": "Saiatu berriro"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mezua",
+        "block_title": "Blokeatu erabiltzailea",
+        "block_desc": "{} blokeatu? Jada ez duzu bere edukirik ikusiko.",
+        "block_confirm": "Blokeatu",
+        "block_success": "Erabiltzailea blokeatu da.",
+        "block_error": "Ezin izan da erabiltzailea blokeatu: {}",
+        "report_title": "Salatu erabiltzailea",
+        "report_desc": "Mesedez, azaldu erabiltzaile hau salatzearen arrazoia.",
+        "report_reason": "Arrazoia",
+        "report_reason_hint": "Erabiltzaile hau...",
+        "report_submit": "Bidali",
+        "report_success": "Salaketa bidalita. Eskerrik asko.",
+        "feeds_section": "JARIOAK",
+        "no_feeds": "Jario publikorik ez",
+        "error_start_chat": "Ezin izan da txata hasi: {}"
+    },
+    "chat": {
+        "title": "Mezuak",
+        "input_placeholder": "Idatzi mezu bat...",
+        "no_messages": "Oraindik mezurik ez. Esan kaixo!",
+        "no_conversations": "Oraindik elkarrizketarik ez",
+        "no_conversations_hint": "Bisitatu erabiltzaile baten profila eta sakatu 'Mezua' txat bat hasteko.",
+        "media_message": "Multimedia",
+        "conversation_started": "Elkarrizketa hasi da",
+        "error_loading": "Ezin izan da elkarrizketa hau kargatu.",
+        "error_sending": "Mezua bidaltzeak huts egin du.",
+        "view_profile": "Ikusi profila"
+    }
+}

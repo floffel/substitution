@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "שגיאה",
+    "loading": "טוען...",
+    "error": "שגיאה: {}",
+    "approve": "אישור",
+    "error_no_image": "אין תמונה",
+    "error_page_not_found": "הדף לא נמצא.",
+    "age_gate": {
+        "title": "לפני שתמשיך",
+        "description": "Substitution הוא לקוח רשת חברתית לפרוטוקול Matrix. בהמשך, אתה מאשר את הדברים הבאים:",
+        "point_client": "Substitution הוא אפליקציית לקוח בלבד. הנתונים שלך מאוחסנים בשרת הבית של Matrix שאתה בוחר, ולא בשרתים המופעלים על ידי Substitution.",
+        "point_servers": "Substitution אינו שולט במדיניות התוכן של שרתי בית חיצוניים שאתה מתחבר אליהם. האחריות לבחירת שרת אמין מוטלת עליך.",
+        "point_age": "אתה בן 16 ומעלה (או הגיל המינימלי הנדרש במדינתך). Substitution אינו מיועד לקטינים.",
+        "point_content": "ל-Substitution סובלנות אפסית כלפי תוכן בלתי חוקי או פוגעני. השתמש בכלי הדיווח באפליקציה לסימון הפרות.",
+        "confirm": "אני מאשר — אני בן 16 ומעלה",
+        "privacy_link": "קרא את מדיניות הפרטיות שלנו"
+    },
+    "cancel": "ביטול",
+    "feed": {
+        "nav": {
+            "home": "דף הבית",
+            "discover": "גלה",
+            "messages": "הודעות",
+            "settings": "הגדרות"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "חדר: {}",
+                "empty": "הפיד שלך ריק. עקוב אחרי חדרים כדי לראות פוסטים!",
+                "empty_button": "מצא חדרים חדשים"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "הפוסט לא נמצא או אינו זמין."
+        },
+        "menu": {
+            "report_block": "דיווח / חסימה"
+        },
+        "e2e": {
+            "encrypted": "מוצפן מקצה לקצה",
+            "unencrypted": "לא מוצפן",
+            "failed": "הפענוח נכשל"
+        },
+        "dialog": {
+            "report_block_title": "דווח על תוכן או חסום משתמש",
+            "report_desc": "אנא תאר מדוע אתה מדווח על תוכן זה (אופציונלי).",
+            "report_reason": "סיבת הדיווח",
+            "report_reason_hint": "תוכן זה פוגעני כי...",
+            "block_user_checkbox": "חסום גם את המשתמש הזה",
+            "block_user_desc": "לא תראה יותר תוכן מ-{}",
+            "submit": "שלח",
+            "cancel": "ביטול",
+            "report_block_success": "הדיווח נשלח. תודה.",
+            "report_block_error": "אירעה שגיאה: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "עדיין אין תגובות."
+            }
+        },
+        "continue_thread": "המשך שרשור זה...",
+        "replying_to": "מגיב ל-{}",
+        "reply_placeholder": "כתוב תגובה...",
+        "mixins": {
+            "iconpicker": {
+                "title": "בחר סמל"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "סגור"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "הקובץ מפוענח...",
+                "video_desktop_error": "לא ניתן להציג סרטונים ב-Linux, Windows או MacOS. שקול לתרום ב-Github אם ברצונך לראות תכונה זו!",
+                "audio_desktop_error": "לא ניתן להשמיע אודיו ב-Linux, Windows או MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "לא ידוע",
+                "sent_by": "נשלח על ידי {}"
+            },
+            "videoplayercontrol": {
+                "play": "הפעל",
+                "caption_offset": "היסט כתוביות",
+                "playback_speed": "מהירות השמעה"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "משפטי",
+            "tos": "תנאי שימוש",
+            "privacy": "מדיניות פרטיות",
+            "imprint": "אודות האתר",
+            "licenses": "רישיונות קוד פתוח"
+        },
+        "followfeeds": {
+            "filter_server_header": "בחר שרת מהרשימה או הוסף חדש:",
+            "filter_rooms_header": "חפש חדר לעקוב או להפסיק לעקוב:",
+            "roomname_placeholder": "הזן שם חדר",
+            "buttons": {
+                "add_server": "הוסף שרת",
+                "retry": "נסה שוב"
+            },
+            "no_rooms_found": "לא נמצאו חדרים עבור קריטריוני החיפוש שהוזנו.",
+            "error_loading_rooms": "שגיאה: טעינת החדרים נכשלה"
+        },
+        "ownfeeds": {
+            "header": "נהל את החדרים שלך",
+            "buttons": {
+                "create_room": "צור חדר חדש"
+            }
+        },
+        "menu": {
+            "logged_in_as": "מחובר בתור {}",
+            "logout": "התנתק",
+            "logout_confirm": "האם אתה בטוח שברצונך להתנתק?",
+            "login": "התחבר",
+            "not_logged_in": "התחבר כדי לגשת לכל התכונות",
+            "home_site_label": "דף הבית",
+            "feeds_site_label": "פידים",
+            "navigation_label": "ניווט",
+            "account_label": "חשבון",
+            "preferences_label": "העדפות",
+            "about_label": "אודות"
+        },
+        "room": {
+            "desc": "שם החדר: {}",
+            "leave": "עזוב חדר",
+            "join": "היכנס לחדר והוסף אותו ל-substitution",
+            "join_short": "הצטרף",
+            "permissions": "הרשאות"
+        },
+        "dialog": {
+            "delete": {
+                "title": "עזוב את חדר {}",
+                "desc": "האם אתה בטוח שברצונך לעזוב את חדר {}?",
+                "button": {
+                    "submit": "כן, עזוב",
+                    "cancel": "לא, בטל"
+                }
+            },
+            "add": {
+                "title": "הוסף שרת חדש",
+                "input_placeholder": "הזן כתובת שרת",
+                "button": {
+                    "submit": "הוסף"
+                },
+                "snackbar": {
+                    "success": "השרת נוסף",
+                    "error_homeserver": "שרת הבית שהוזן אינו תקין"
+                }
+            },
+            "create": {
+                "title": "צור חדר חדש",
+                "placeholder_name": "שם החדר",
+                "placeholder_alias": "כינוי החדר (כתובת חדר ציבורית)",
+                "placeholder_topic": "נושא החדר",
+                "submit": "צור"
+            }
+        },
+        "room_preview": {
+            "members": "{} חברים",
+            "latest_posts": "פוסטים אחרונים",
+            "no_posts": "עדיין אין פוסטים בחדר זה.",
+            "no_peek": "ההיסטוריה של חדר זה פרטית. הצטרף לחדר כדי לראות את הפוסטים.",
+            "join_to_see": "הצטרף כדי לראות פוסטים"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "מעולה, אתה כבר מחובר. \nאתה יכול להמשיך לשלבים הבאים",
+        "isNotLoggedIn": "אנא התחבר תחילה",
+        "buttons": {
+            "next": "הבא",
+            "back": "חזרה"
+        },
+        "welcome": {
+            "title": "ברוך הבא ל-substitution",
+            "desc": "... הרשת החברתית החדשה על גבי פרוטוקול matrix"
+        },
+        "account": {
+            "title": "חשבונות Matrix",
+            "desc": "עליך להיות מחובר לחשבון matrix בשרת כלשהו כדי להשתמש באפליקציה זו. אם אינך יודע כיצד להשיג חשבון, בקר באתר: https://matrix.org/"
+        },
+        "host": {
+            "title": "בחר שרת"
+        },
+        "login": {
+            "title": "התחברות"
+        },
+        "finished": {
+            "title": "בוא נתחיל",
+            "desc": "מעולה, אתה מחובר. אנחנו מוכנים. כעת תוכל לבחור אם להצטרף לחדר הקבלה של substitution. קדימה, ותהנה!",
+            "buttons": {
+                "add_to_room_and_go": "הצטרף לחדר Substitution וצא לדרך!",
+                "go": "פשוט צא לדרך!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "התחבר לשרת הבית שלך",
+            "body": "אנא בחר שרת בית Matrix. לאחר מכן תוכל לבחור להתחבר או לעיין בחדרים ציבוריים.",
+            "inputs": {
+                "homeserver_label": "כתובת שרת הבית שלך"
+            },
+            "buttons": {
+                "login_label": "התחבר"
+            }
+        },
+        "login": {
+            "loading": "מחבר אותך...",
+            "header": "התחברות",
+            "body": "אנא התחבר עם פרטי ההתחברות שלך.",
+            "inputs": {
+                "username_label": "שם משתמש",
+                "password_label": "סיסמה"
+            },
+            "buttons": {
+                "login_label": "התחבר",
+                "sso_label": "התחבר עם {}",
+                "register_web_label": "הרשמה"
+            }
+        }
+    },
+    "write": {
+        "answer": "תשובה",
+        "roomheader": "חדר: {}",
+        "filemessage": {
+            "upload_files": "הוסף קבצים חדשים להעלאה",
+            "title_header": "כותרת:",
+            "upload_start": "מתחיל העלאה...",
+            "upload_file_process": "מעלה קובץ {}",
+            "upload_error": "העלאת {} נכשלה. לנסות שוב?",
+            "upload_file_complete": "העלאת {} הושלמה!",
+            "upload_complete": "כל הקבצים הועלו!",
+            "buttons": {
+                "upload_stop": "ביטול",
+                "upload_retry": "נסה שוב"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "בחר את סוג ההודעה שברצונך לפרסם",
+            "room_prompt": "בחר את החדר שבו ברצונך לפרסם:",
+            "error_no_rooms": "לא הצטרפת לאף חדר או שאין לך הרשאות לפרסם."
+        },
+        "textmessage": {
+            "answer_promt": "הזן את הטקסט שלך:",
+            "input_placeholder": "הזן את הטקסט שלך כאן...",
+            "send_start": "שליחת ההודעה החלה...",
+            "send_failed": "שליחת ההודעה נכשלה. לשלוח שוב?",
+            "send_complete": "ההודעה נשלחה בהצלחה!",
+            "buttons": {
+                "send_stop": "אל תנסה שוב",
+                "resend": "נסה שוב"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "הודעה",
+        "block_title": "חסום משתמש",
+        "block_desc": "לחסום את {}? לא תראה יותר את התוכן שלהם.",
+        "block_confirm": "חסום",
+        "block_success": "המשתמש נחסם.",
+        "block_error": "לא ניתן לחסום משתמש: {}",
+        "report_title": "דווח על משתמש",
+        "report_desc": "אנא תאר את הסיבה לדיווח על משתמש זה.",
+        "report_reason": "סיבה",
+        "report_reason_hint": "משתמש זה...",
+        "report_submit": "שלח",
+        "report_success": "הדיווח נשלח. תודה.",
+        "feeds_section": "פידים",
+        "no_feeds": "אין פידים ציבוריים",
+        "error_start_chat": "לא ניתן להתחיל צ'אט: {}"
+    },
+    "chat": {
+        "title": "הודעות",
+        "input_placeholder": "הקלד הודעה...",
+        "no_messages": "עדיין אין הודעות. תגיד שלום!",
+        "no_conversations": "עדיין אין שיחות",
+        "no_conversations_hint": "בקר בפרופיל של משתמש ולחץ על 'הודעה' כדי להתחיל צ'אט.",
+        "media_message": "מדיה",
+        "conversation_started": "השיחה החלה",
+        "error_loading": "לא ניתן לטעון שיחה זו.",
+        "error_sending": "שליחת ההודעה נכשלה.",
+        "view_profile": "צפה בפרופיל"
+    }
+}

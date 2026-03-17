@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "错误",
+    "loading": "加载中...",
+    "error": "错误：{}",
+    "approve": "确定",
+    "error_no_image": "无图片",
+    "error_page_not_found": "找不到此页面。",
+    "age_gate": {
+        "title": "继续之前",
+        "description": "Substitution 是 Matrix 协议的社交网络客户端。继续即表示您确认以下事项：",
+        "point_client": "Substitution 仅为客户端应用。您的数据存储在您所选择的 Matrix 服务器上，而非 Substitution 运营的服务器上。",
+        "point_servers": "Substitution 不控制您所连接的外部服务器的内容策略。您有责任选择值得信赖的服务器。",
+        "point_age": "您已年满 16 周岁（或您所在国家/地区所要求的最低年龄）。Substitution 并非面向未成年人。",
+        "point_content": "Substitution 对非法或不当内容零容忍。请使用应用内的举报工具标记违规行为。",
+        "confirm": "我确认——我已年满 16 周岁",
+        "privacy_link": "阅读我们的隐私政策"
+    },
+    "cancel": "取消",
+    "feed": {
+        "nav": {
+            "home": "首页",
+            "discover": "发现",
+            "messages": "消息",
+            "settings": "设置"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "房间：{}",
+                "empty": "您的动态为空。关注一些房间以查看帖子吧！",
+                "empty_button": "寻找新房间"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "帖子未找到或不可用。"
+        },
+        "menu": {
+            "report_block": "举报 / 拉黑"
+        },
+        "e2e": {
+            "encrypted": "端到端加密",
+            "unencrypted": "未加密",
+            "failed": "解密失败"
+        },
+        "dialog": {
+            "report_block_title": "举报内容或拉黑用户",
+            "report_desc": "请描述您举报此内容的原因（选填）。",
+            "report_reason": "举报原因",
+            "report_reason_hint": "此内容令人不适，因为...",
+            "block_user_checkbox": "同时拉黑此用户",
+            "block_user_desc": "您将不再看到 {} 的内容",
+            "submit": "提交",
+            "cancel": "取消",
+            "report_block_success": "举报已提交。谢谢。",
+            "report_block_error": "发生错误：{}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "暂无评论。"
+            }
+        },
+        "continue_thread": "继续此话题...",
+        "replying_to": "回复 {}",
+        "reply_placeholder": "写一条回复...",
+        "mixins": {
+            "iconpicker": {
+                "title": "选择图标"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "关闭"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "文件正在解密...",
+                "video_desktop_error": "视频无法在 Linux、Windows 或 MacOS 上显示。如果您希望看到此功能，欢迎在 Github 上贡献代码！",
+                "audio_desktop_error": "音频无法在 Linux、Windows 或 MacOS 上播放。"
+            },
+            "reaction": {
+                "unknown_sender": "未知",
+                "sent_by": "由 {} 发送"
+            },
+            "videoplayercontrol": {
+                "play": "播放",
+                "caption_offset": "字幕偏移",
+                "playback_speed": "播放速度"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "法律信息",
+            "tos": "服务条款",
+            "privacy": "隐私政策",
+            "imprint": "出版信息",
+            "licenses": "开源许可"
+        },
+        "followfeeds": {
+            "filter_server_header": "从列表中选择服务器或添加新服务器：",
+            "filter_rooms_header": "搜索房间以关注或取消关注：",
+            "roomname_placeholder": "输入房间名称",
+            "buttons": {
+                "add_server": "添加服务器",
+                "retry": "重试"
+            },
+            "no_rooms_found": "未找到符合搜索条件的房间。",
+            "error_loading_rooms": "错误：无法加载房间"
+        },
+        "ownfeeds": {
+            "header": "管理您的房间",
+            "buttons": {
+                "create_room": "创建新房间"
+            }
+        },
+        "menu": {
+            "logged_in_as": "已以 {} 身份登录",
+            "logout": "退出登录",
+            "logout_confirm": "您确定要退出登录吗？",
+            "login": "登录",
+            "not_logged_in": "登录以使用所有功能",
+            "home_site_label": "首页",
+            "feeds_site_label": "动态",
+            "navigation_label": "导航",
+            "account_label": "账户",
+            "preferences_label": "偏好设置",
+            "about_label": "关于"
+        },
+        "room": {
+            "desc": "房间名称：{}",
+            "leave": "离开房间",
+            "join": "进入房间并添加至 Substitution",
+            "join_short": "加入",
+            "permissions": "权限"
+        },
+        "dialog": {
+            "delete": {
+                "title": "离开房间 {}",
+                "desc": "您确定要离开房间 {} 吗？",
+                "button": {
+                    "submit": "是的，离开",
+                    "cancel": "不，取消"
+                }
+            },
+            "add": {
+                "title": "添加新服务器",
+                "input_placeholder": "输入服务器地址",
+                "button": {
+                    "submit": "添加"
+                },
+                "snackbar": {
+                    "success": "服务器已添加",
+                    "error_homeserver": "输入的服务器无效"
+                }
+            },
+            "create": {
+                "title": "创建新房间",
+                "placeholder_name": "房间名称",
+                "placeholder_alias": "房间别名（公开地址）",
+                "placeholder_topic": "房间主题",
+                "submit": "创建"
+            }
+        },
+        "room_preview": {
+            "members": "{} 位成员",
+            "latest_posts": "最新帖子",
+            "no_posts": "此房间暂无帖子。",
+            "no_peek": "此房间的历史记录为私密。加入房间以查看帖子。",
+            "join_to_see": "加入以查看帖子"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "太好了，您已经登录。\n您可以继续下一步",
+        "isNotLoggedIn": "请先登录",
+        "buttons": {
+            "next": "下一步",
+            "back": "返回"
+        },
+        "welcome": {
+            "title": "欢迎来到 Substitution",
+            "desc": "... 基于 Matrix 协议的全新社交网络"
+        },
+        "account": {
+            "title": "Matrix 账户",
+            "desc": "您需要在任意服务器上登录 Matrix 账户才能使用此应用。如果您不知道如何获取账户，请访问此网站：https://matrix.org/"
+        },
+        "host": {
+            "title": "选择服务器"
+        },
+        "login": {
+            "title": "登录"
+        },
+        "finished": {
+            "title": "开始吧",
+            "desc": "太好了，您已成功登录。一切准备就绪。您现在可以选择是否加入 Substitution 欢迎房间。开始探索，祝您使用愉快！",
+            "buttons": {
+                "add_to_room_and_go": "加入 Substitution 房间并开始！",
+                "go": "直接开始！"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "连接到您的服务器",
+            "body": "请选择一个 Matrix 服务器。之后您可以登录或浏览公开的房间。",
+            "inputs": {
+                "homeserver_label": "您的服务器地址"
+            },
+            "buttons": {
+                "login_label": "登录"
+            }
+        },
+        "login": {
+            "loading": "正在登录...",
+            "header": "登录",
+            "body": "请使用您的凭据登录。",
+            "inputs": {
+                "username_label": "用户名",
+                "password_label": "密码"
+            },
+            "buttons": {
+                "login_label": "登录",
+                "sso_label": "使用 {} 登录",
+                "register_web_label": "注册"
+            }
+        }
+    },
+    "write": {
+        "answer": "回复",
+        "roomheader": "房间：{}",
+        "filemessage": {
+            "upload_files": "添加新文件以上传",
+            "title_header": "标题：",
+            "upload_start": "开始上传...",
+            "upload_file_process": "正在上传文件 {}",
+            "upload_error": "上传 {} 失败。是否重试？",
+            "upload_file_complete": "上传 {} 完成！",
+            "upload_complete": "所有文件已上传！",
+            "buttons": {
+                "upload_stop": "取消",
+                "upload_retry": "重试"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "选择您要发布的消息类型",
+            "room_prompt": "选择您要发布的房间：",
+            "error_no_rooms": "您尚未加入任何房间，或您没有发布的权限。"
+        },
+        "textmessage": {
+            "answer_promt": "输入您的文字：",
+            "input_placeholder": "在此输入您的文字...",
+            "send_start": "已开始发送消息...",
+            "send_failed": "消息发送失败。是否重新发送？",
+            "send_complete": "消息发送成功！",
+            "buttons": {
+                "send_stop": "不重试",
+                "resend": "重试"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "消息",
+        "block_title": "拉黑用户",
+        "block_desc": "拉黑 {}？您将不再看到他们的内容。",
+        "block_confirm": "拉黑",
+        "block_success": "用户已被拉黑。",
+        "block_error": "无法拉黑用户：{}",
+        "report_title": "举报用户",
+        "report_desc": "请描述举报此用户的原因。",
+        "report_reason": "原因",
+        "report_reason_hint": "此用户...",
+        "report_submit": "提交",
+        "report_success": "举报已提交。谢谢。",
+        "feeds_section": "动态",
+        "no_feeds": "无公开动态",
+        "error_start_chat": "无法开始聊天：{}"
+    },
+    "chat": {
+        "title": "消息",
+        "input_placeholder": "输入消息...",
+        "no_messages": "暂无消息。打个招呼吧！",
+        "no_conversations": "暂无会话",
+        "no_conversations_hint": "前往用户的个人资料并点击「消息」以开始聊天。",
+        "media_message": "媒体",
+        "conversation_started": "会话已开始",
+        "error_loading": "无法加载此会话。",
+        "error_sending": "消息发送失败。",
+        "view_profile": "查看个人资料"
+    }
+}

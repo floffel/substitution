@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Սխdelays",
+    "loading": "Բեռdelays...",
+    "error": "Սխdelays: {}",
+    "approve": "Լdelays",
+    "error_no_image": "Պdelays չկdelays",
+    "error_page_not_found": "Այdelays delays չdelays:",
+    "age_gate": {
+        "title": "Նdelays delays",
+        "description": "Substitution-delays delays delays delays delays Matrix delays delays delays delays delays delays delays delays:",
+        "point_client": "Substitution-delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+        "point_servers": "Substitution-delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+        "point_age": "Delays delays 16 delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+        "point_content": "Substitution-delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+        "confirm": "Delays delays — delays 16 delays delays delays",
+        "privacy_link": "Delays delays delays delays delays delays"
+    },
+    "cancel": "Չdelays",
+    "feed": {
+        "nav": {
+            "home": "Գdelays",
+            "discover": "Հdelays",
+            "messages": "Հdelays",
+            "settings": "Կdelays"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Սdelays: {}",
+                "empty": "Ձdelays delays delays delays delays delays delays delays delays delays:",
+                "empty_button": "Գdelays delays delays"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Գdelays delays delays delays delays delays:"
+        },
+        "menu": {
+            "report_block": "Զdelays / Аdelays"
+        },
+        "e2e": {
+            "encrypted": "Ðdelays delays delays",
+            "unencrypted": "Чdelays delays",
+            "failed": "Ðdelays delays delays"
+        },
+        "dialog": {
+            "report_block_title": "Зdelays delays delays delays delays",
+            "report_desc": "Нdelays delays delays delays delays delays delays delays delays:",
+            "report_reason": "Зdelays delays delays",
+            "report_reason_hint": "Àdelays delays delays delays delays...",
+            "block_user_checkbox": "Нdelays delays delays delays",
+            "block_user_desc": "Àdelays delays delays delays {} delays delays",
+            "submit": "Ódelays",
+            "cancel": "Чdelays",
+            "report_block_success": "Зdelays delays delays delays delays:",
+            "report_block_error": "Сdelays delays delays: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Мdelays delays delays delays delays:"
+            }
+        },
+        "continue_thread": "Шdelays delays delays delays...",
+        "replying_to": "Пdelays delays {} delays",
+        "reply_placeholder": "Гdelays delays delays...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Нdelays delays delays"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "фdelays"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Фdelays delays delays delays...",
+                "video_desktop_error": "Тdelays delays delays Linux, Windows delays MacOS delays delays delays delays delays delays Github delays delays delays delays delays delays delays:",
+                "audio_desktop_error": "Ðdelays delays delays Linux, Windows delays MacOS delays delays delays:"
+            },
+            "reaction": {
+                "unknown_sender": "аdelays",
+                "sent_by": "Ódelays {} delays"
+            },
+            "videoplayercontrol": {
+                "play": "нdelays",
+                "caption_offset": "еdelays delays delays",
+                "playback_speed": "нdelays delays delays"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Нdelays",
+            "tos": "Оdelays delays delays",
+            "privacy": "Гdelays delays delays",
+            "imprint": "Мdelays delays",
+            "licenses": "Бdelays delays delays"
+        },
+        "followfeeds": {
+            "filter_server_header": "Нdelays delays delays delays delays delays delays delays:",
+            "filter_rooms_header": "Гdelays delays delays delays delays delays delays delays:",
+            "roomname_placeholder": "Мdelays delays delays delays",
+            "buttons": {
+                "add_server": "Аdelays delays delays",
+                "retry": "Кdelays delays"
+            },
+            "no_rooms_found": "Гdelays delays delays delays delays delays delays:",
+            "error_loading_rooms": "Сdelays: Кdelays delays delays delays"
+        },
+        "ownfeeds": {
+            "header": "Кdelays delays delays delays delays",
+            "buttons": {
+                "create_room": "Сdelays delays delays delays"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Мdelays delays {} delays",
+            "logout": "Дdelays",
+            "logout_confirm": "Вdelays delays delays delays delays delays delays?",
+            "login": "Мdelays",
+            "not_logged_in": "Мdelays delays delays delays delays delays delays",
+            "home_site_label": "Гdelays",
+            "feeds_site_label": "Аdelays",
+            "navigation_label": "Нdelays",
+            "account_label": "Хdelays",
+            "preferences_label": "Нdelays",
+            "about_label": "Мdelays"
+        },
+        "room": {
+            "desc": "Сdelays delays delays: {}",
+            "leave": "Лdelays delays delays",
+            "join": "Мdelays delays delays delays Substitution delays delays",
+            "join_short": "Мdelays",
+            "permissions": "Тdelays"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Лdelays delays {} delays",
+                "desc": "Вdelays delays delays delays {} delays delays?",
+                "button": {
+                    "submit": "Аdelays, лdelays delays",
+                    "cancel": "Чdelays, чdelays"
+                }
+            },
+            "add": {
+                "title": "Аdelays delays delays delays",
+                "input_placeholder": "Мdelays delays delays delays",
+                "button": {
+                    "submit": "Аdelays"
+                },
+                "snackbar": {
+                    "success": "Сdelays delays delays delays",
+                    "error_homeserver": "Мdelays delays delays delays delays delays"
+                }
+            },
+            "create": {
+                "title": "Сdelays delays delays delays",
+                "placeholder_name": "сdelays delays delays",
+                "placeholder_alias": "сdelays delays delays delays delays",
+                "placeholder_topic": "сdelays delays delays",
+                "submit": "Сdelays"
+            }
+        },
+        "room_preview": {
+            "members": "{} аdelays",
+            "latest_posts": "Вdelays delays delays delays",
+            "no_posts": "Àdelays delays delays delays delays delays delays:",
+            "no_peek": "Àdelays delays delays delays delays delays delays delays delays delays delays delays:",
+            "join_to_see": "Мdelays delays delays delays delays"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Àdelays, delays delays delays delays delays: \nDelays delays delays delays delays delays delays",
+        "isNotLoggedIn": "Нdelays delays delays delays delays",
+        "buttons": {
+            "next": "Àdelays",
+            "back": "Тdelays"
+        },
+        "welcome": {
+            "title": "Бdelays delays Substitution",
+            "desc": "... delays delays delays delays delays Matrix delays delays delays"
+        },
+        "account": {
+            "title": "Matrix delays delays",
+            "desc": "Àdelays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays: https://matrix.org/"
+        },
+        "host": {
+            "title": "Нdelays delays delays"
+        },
+        "login": {
+            "title": "Мdelays"
+        },
+        "finished": {
+            "title": "Гdelays delays",
+            "desc": "Àdelays, delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+            "buttons": {
+                "add_to_room_and_go": "Мdelays Substitution delays delays delays delays!",
+                "go": "Пdelays delays!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Кdelays delays delays delays delays",
+            "body": "Нdelays delays Matrix delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+            "inputs": {
+                "homeserver_label": "Нdelays delays delays delays"
+            },
+            "buttons": {
+                "login_label": "Мdelays"
+            }
+        },
+        "login": {
+            "loading": "Мdelays delays delays delays...",
+            "header": "Мdelays",
+            "body": "Нdelays delays delays delays delays delays delays delays:",
+            "inputs": {
+                "username_label": "Оdelays delays",
+                "password_label": "Гdelays delays"
+            },
+            "buttons": {
+                "login_label": "Мdelays",
+                "sso_label": "Мdelays {} delays delays",
+                "register_web_label": "Гdelays delays"
+            }
+        }
+    },
+    "write": {
+        "answer": "Пdelays",
+        "roomheader": "Сdelays: {}",
+        "filemessage": {
+            "upload_files": "Аdelays delays delays delays delays delays",
+            "title_header": "Вdelays:",
+            "upload_start": "Бdelays delays delays delays...",
+            "upload_file_process": "Бdelays delays {} delays delays",
+            "upload_error": "{} delays delays delays delays delays delays delays delays?",
+            "upload_file_complete": "{} delays delays delays delays delays!",
+            "upload_complete": "Бdelays delays delays delays delays delays delays!",
+            "buttons": {
+                "upload_stop": "Чdelays",
+                "upload_retry": "Кdelays delays"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Нdelays delays delays delays delays delays delays delays",
+            "room_prompt": "Нdelays delays delays delays delays delays delays:",
+            "error_no_rooms": "Àdelays delays delays delays delays delays delays delays delays delays delays delays:"
+        },
+        "textmessage": {
+            "answer_promt": "Мdelays delays delays delays:",
+            "input_placeholder": "Мdelays delays delays delays delays...",
+            "send_start": "Сdelays delays delays delays delays...",
+            "send_failed": "Сdelays delays delays delays delays delays delays delays delays delays?",
+            "send_complete": "Сdelays delays delays delays delays delays delays!",
+            "buttons": {
+                "send_stop": "Чdelays delays delays",
+                "resend": "Кdelays delays"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Нdelays",
+        "block_title": "Аdelays delays delays",
+        "block_desc": "Аdelays {} delays? Àdelays delays delays delays delays delays delays:",
+        "block_confirm": "Аdelays",
+        "block_success": "Оdelays delays delays delays:",
+        "block_error": "Чdelays delays delays delays delays: {}",
+        "report_title": "Зdelays delays delays delays",
+        "report_desc": "Нdelays delays delays delays delays delays delays delays delays delays delays:",
+        "report_reason": "Пdelays",
+        "report_reason_hint": "Àdelays delays delays delays...",
+        "report_submit": "Ódelays",
+        "report_success": "Зdelays delays delays delays delays:",
+        "feeds_section": "ÀDELAYS",
+        "no_feeds": "Чdelays delays delays delays delays",
+        "error_start_chat": "Чdelays delays delays delays delays delays: {}"
+    },
+    "chat": {
+        "title": "Нdelays",
+        "input_placeholder": "Гdelays delays delays...",
+        "no_messages": "Мdelays delays delays delays delays delays delays:",
+        "no_conversations": "Мdelays delays delays delays delays",
+        "no_conversations_hint": "Àdelays delays delays delays delays delays delays 'Нdelays' delays delays delays delays delays delays delays:",
+        "media_message": "Мdelays",
+        "conversation_started": "Зdelays delays delays delays",
+        "error_loading": "Чdelays delays delays delays delays delays delays:",
+        "error_sending": "Сdelays delays delays delays delays delays:",
+        "view_profile": "Дdelays delays delays"
+    }
+}

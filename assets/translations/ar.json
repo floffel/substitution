@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "خطأ",
+    "loading": "جارٍ التحميل...",
+    "error": "خطأ: {}",
+    "approve": "حسناً",
+    "error_no_image": "لا توجد صورة",
+    "error_page_not_found": "تعذّر العثور على هذه الصفحة.",
+    "age_gate": {
+        "title": "قبل المتابعة",
+        "description": "Substitution هو تطبيق شبكة اجتماعية لبروتوكول Matrix. بالمتابعة، فإنك تؤكد ما يلي:",
+        "point_client": "Substitution هو تطبيق عميل فقط. يتم تخزين بياناتك على خادم Matrix المنزلي الذي تختاره، وليس على خوادم يديرها Substitution.",
+        "point_servers": "لا يتحكم Substitution في سياسات المحتوى للخوادم المنزلية الخارجية التي تتصل بها. أنت مسؤول عن اختيار خادم موثوق.",
+        "point_age": "عمرك 16 عاماً أو أكثر (أو الحد الأدنى للعمر المطلوب في بلدك). Substitution غير مخصص للقاصرين.",
+        "point_content": "لدى Substitution سياسة عدم تسامح مطلق مع المحتوى غير القانوني أو المرفوض. استخدم أدوات الإبلاغ داخل التطبيق للإبلاغ عن المخالفات.",
+        "confirm": "أؤكد — عمري 16 عاماً أو أكثر",
+        "privacy_link": "اقرأ سياسة الخصوصية الخاصة بنا"
+    },
+    "cancel": "إلغاء",
+    "feed": {
+        "nav": {
+            "home": "الرئيسية",
+            "discover": "اكتشف",
+            "messages": "الرسائل",
+            "settings": "الإعدادات"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "الغرفة: {}",
+                "empty": "خلاصتك فارغة. تابع بعض الغرف لرؤية المنشورات!",
+                "empty_button": "ابحث عن غرف جديدة"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "المنشور غير موجود أو غير متاح."
+        },
+        "menu": {
+            "report_block": "إبلاغ / حظر"
+        },
+        "e2e": {
+            "encrypted": "مشفّر من طرف إلى طرف",
+            "unencrypted": "غير مشفّر",
+            "failed": "فشل فك التشفير"
+        },
+        "dialog": {
+            "report_block_title": "الإبلاغ عن محتوى أو حظر مستخدم",
+            "report_desc": "يرجى وصف سبب إبلاغك عن هذا المحتوى (اختياري).",
+            "report_reason": "سبب الإبلاغ",
+            "report_reason_hint": "هذا المحتوى مسيء لأن...",
+            "block_user_checkbox": "حظر هذا المستخدم أيضاً",
+            "block_user_desc": "لن ترى محتوى من {} بعد الآن",
+            "submit": "إرسال",
+            "cancel": "إلغاء",
+            "report_block_success": "تم إرسال البلاغ. شكراً لك.",
+            "report_block_error": "حدث خطأ: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "لا توجد تعليقات بعد."
+            }
+        },
+        "continue_thread": "متابعة هذا الموضوع...",
+        "replying_to": "رد على {}",
+        "reply_placeholder": "اكتب رداً...",
+        "mixins": {
+            "iconpicker": {
+                "title": "اختر رمزاً"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "إغلاق"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "جارٍ فك تشفير الملف...",
+                "video_desktop_error": "لا يمكن عرض مقاطع الفيديو على Linux أو Windows أو MacOS. فكّر في المساهمة على Github إذا كنت ترغب في رؤية هذه الميزة!",
+                "audio_desktop_error": "لا يمكن تشغيل الصوت على Linux أو Windows أو MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "مجهول",
+                "sent_by": "أرسله {}"
+            },
+            "videoplayercontrol": {
+                "play": "تشغيل",
+                "caption_offset": "إزاحة الترجمة",
+                "playback_speed": "سرعة التشغيل"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "قانوني",
+            "tos": "شروط الخدمة",
+            "privacy": "سياسة الخصوصية",
+            "imprint": "بيانات النشر",
+            "licenses": "تراخيص المصادر المفتوحة"
+        },
+        "followfeeds": {
+            "filter_server_header": "اختر خادماً من القائمة أو أضف خادماً جديداً:",
+            "filter_rooms_header": "ابحث عن غرفة لمتابعتها أو إلغاء متابعتها:",
+            "roomname_placeholder": "أدخل اسم الغرفة",
+            "buttons": {
+                "add_server": "إضافة خادم",
+                "retry": "إعادة المحاولة"
+            },
+            "no_rooms_found": "لم يتم العثور على غرف لمعايير البحث المحددة.",
+            "error_loading_rooms": "خطأ: فشل تحميل الغرف"
+        },
+        "ownfeeds": {
+            "header": "إدارة غرفك الخاصة",
+            "buttons": {
+                "create_room": "إنشاء غرفة جديدة"
+            }
+        },
+        "menu": {
+            "logged_in_as": "مسجّل الدخول باسم {}",
+            "logout": "تسجيل الخروج",
+            "logout_confirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+            "login": "تسجيل الدخول",
+            "not_logged_in": "سجّل الدخول للوصول إلى جميع الميزات",
+            "home_site_label": "الرئيسية",
+            "feeds_site_label": "الخلاصات",
+            "navigation_label": "التنقل",
+            "account_label": "الحساب",
+            "preferences_label": "التفضيلات",
+            "about_label": "حول"
+        },
+        "room": {
+            "desc": "اسم الغرفة: {}",
+            "leave": "مغادرة الغرفة",
+            "join": "ادخل الغرفة وأضفها إلى Substitution",
+            "join_short": "انضمام",
+            "permissions": "الصلاحيات"
+        },
+        "dialog": {
+            "delete": {
+                "title": "مغادرة الغرفة {}",
+                "desc": "هل أنت متأكد أنك تريد مغادرة الغرفة {}؟",
+                "button": {
+                    "submit": "نعم، غادر",
+                    "cancel": "لا، إلغاء"
+                }
+            },
+            "add": {
+                "title": "إضافة خادم جديد",
+                "input_placeholder": "أدخل عنوان الخادم",
+                "button": {
+                    "submit": "إضافة"
+                },
+                "snackbar": {
+                    "success": "تمت إضافة الخادم",
+                    "error_homeserver": "الخادم المنزلي المدخل غير صالح"
+                }
+            },
+            "create": {
+                "title": "إنشاء غرفة جديدة",
+                "placeholder_name": "اسم الغرفة",
+                "placeholder_alias": "اسم مستعار للغرفة (عنوان الغرفة العامة)",
+                "placeholder_topic": "موضوع الغرفة",
+                "submit": "إنشاء"
+            }
+        },
+        "room_preview": {
+            "members": "{} عضو",
+            "latest_posts": "أحدث المنشورات",
+            "no_posts": "لا توجد منشورات بعد في هذه الغرفة.",
+            "no_peek": "سجل هذه الغرفة خاص. انضم إلى الغرفة لرؤية منشوراتها.",
+            "join_to_see": "انضم لرؤية المنشورات"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "رائع، لقد سجلت الدخول بالفعل. \nيمكنك المتابعة مع الخطوات التالية",
+        "isNotLoggedIn": "يرجى تسجيل الدخول أولاً",
+        "buttons": {
+            "next": "التالي",
+            "back": "رجوع"
+        },
+        "welcome": {
+            "title": "مرحباً بك في Substitution",
+            "desc": "... الشبكة الاجتماعية الجديدة المبنية على بروتوكول Matrix"
+        },
+        "account": {
+            "title": "حسابات Matrix",
+            "desc": "يجب أن تكون مسجلاً الدخول في حساب Matrix على أي خادم لتتمكن من استخدام هذا التطبيق. إذا كنت لا تعرف كيفية الحصول على حساب، قم بزيارة هذا الموقع: https://matrix.org/"
+        },
+        "host": {
+            "title": "اختر مضيفاً"
+        },
+        "login": {
+            "title": "تسجيل الدخول"
+        },
+        "finished": {
+            "title": "هيا بنا",
+            "desc": "رائع، لقد تم تسجيل دخولك. نحن جاهزون للانطلاق. يمكنك الآن اختيار الانضمام إلى غرفة الترحيب الخاصة بـ Substitution أم لا. هيا بنا واستمتع!",
+            "buttons": {
+                "add_to_room_and_go": "انضم إلى غرفة Substitution وانطلق!",
+                "go": "انطلق فقط!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "الاتصال بخادمك المنزلي",
+            "body": "يرجى اختيار خادم Matrix منزلي. يمكنك بعد ذلك اختيار تسجيل الدخول أو تصفح الغرف المتاحة للعامة.",
+            "inputs": {
+                "homeserver_label": "عنوان خادمك المنزلي"
+            },
+            "buttons": {
+                "login_label": "تسجيل الدخول"
+            }
+        },
+        "login": {
+            "loading": "جارٍ تسجيل دخولك...",
+            "header": "تسجيل الدخول",
+            "body": "يرجى تسجيل الدخول باستخدام بيانات الاعتماد الخاصة بك.",
+            "inputs": {
+                "username_label": "اسم المستخدم",
+                "password_label": "كلمة المرور"
+            },
+            "buttons": {
+                "login_label": "تسجيل الدخول",
+                "sso_label": "تسجيل الدخول باستخدام {}",
+                "register_web_label": "تسجيل حساب جديد"
+            }
+        }
+    },
+    "write": {
+        "answer": "رد",
+        "roomheader": "الغرفة: {}",
+        "filemessage": {
+            "upload_files": "إضافة ملفات جديدة للرفع",
+            "title_header": "العنوان:",
+            "upload_start": "بدء الرفع...",
+            "upload_file_process": "جارٍ رفع الملف {}",
+            "upload_error": "فشل رفع {}. إعادة المحاولة؟",
+            "upload_file_complete": "اكتمل رفع {}!",
+            "upload_complete": "تم رفع جميع الملفات!",
+            "buttons": {
+                "upload_stop": "إلغاء",
+                "upload_retry": "إعادة المحاولة"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "اختر نوع الرسالة التي تريد نشرها",
+            "room_prompt": "اختر الغرفة التي تريد النشر فيها:",
+            "error_no_rooms": "لم تنضم إلى أي غرف أو ليس لديك صلاحية النشر."
+        },
+        "textmessage": {
+            "answer_promt": "أدخل نصك:",
+            "input_placeholder": "أدخل نصك هنا...",
+            "send_start": "بدأ إرسال الرسالة...",
+            "send_failed": "فشل إرسال الرسالة. هل تريد إعادة إرسالها؟",
+            "send_complete": "تم إرسال الرسالة بنجاح!",
+            "buttons": {
+                "send_stop": "عدم إعادة المحاولة",
+                "resend": "إعادة المحاولة"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "رسالة",
+        "block_title": "حظر المستخدم",
+        "block_desc": "حظر {}؟ لن ترى محتواه بعد الآن.",
+        "block_confirm": "حظر",
+        "block_success": "تم حظر المستخدم.",
+        "block_error": "تعذّر حظر المستخدم: {}",
+        "report_title": "الإبلاغ عن مستخدم",
+        "report_desc": "يرجى وصف سبب إبلاغك عن هذا المستخدم.",
+        "report_reason": "السبب",
+        "report_reason_hint": "هذا المستخدم...",
+        "report_submit": "إرسال",
+        "report_success": "تم إرسال البلاغ. شكراً لك.",
+        "feeds_section": "الخلاصات",
+        "no_feeds": "لا توجد خلاصات عامة",
+        "error_start_chat": "تعذّر بدء المحادثة: {}"
+    },
+    "chat": {
+        "title": "الرسائل",
+        "input_placeholder": "اكتب رسالة...",
+        "no_messages": "لا توجد رسائل بعد. قل مرحباً!",
+        "no_conversations": "لا توجد محادثات بعد",
+        "no_conversations_hint": "قم بزيارة ملف مستخدم واضغط على 'رسالة' لبدء محادثة.",
+        "media_message": "وسائط",
+        "conversation_started": "بدأت المحادثة",
+        "error_loading": "تعذّر تحميل هذه المحادثة.",
+        "error_sending": "فشل إرسال الرسالة.",
+        "view_profile": "عرض الملف الشخصي"
+    }
+}

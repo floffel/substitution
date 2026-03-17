@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Viga",
+    "loading": "Laadimine...",
+    "error": "Viga: {}",
+    "approve": "Ok",
+    "error_no_image": "Pilt puudub",
+    "error_page_not_found": "Seda lehte ei leitud.",
+    "age_gate": {
+        "title": "Enne jätkamist",
+        "description": "Substitution on sotsiaalvõrgustiku klient Matrix protokolli jaoks. Jätkates kinnitate järgmist:",
+        "point_client": "Substitution on ainult klientrakendus. Teie andmeid hoitakse teie valitud Matrix koduserveris, mitte Substitutioni hallatavas serveris.",
+        "point_servers": "Substitution ei kontrolli väliste koduserverite sisupoliitikat, millega ühendate. Teie vastutate usaldusväärse serveri valimise eest.",
+        "point_age": "Olete vähemalt 16-aastane (või teie riigis nõutava vanusega). Substitution ei ole mõeldud alaealistele.",
+        "point_content": "Substitutionil on nulltolerants ebaseadusliku või solvava sisu suhtes. Kasutage rakendusesiseseid teavitusvahendeid rikkumistest teatamiseks.",
+        "confirm": "Kinnitan — olen 16-aastane või vanem",
+        "privacy_link": "Loe meie privaatsuspoliitikat"
+    },
+    "cancel": "Tühista",
+    "feed": {
+        "nav": {
+            "home": "Avaleht",
+            "discover": "Avasta",
+            "messages": "Sõnumid",
+            "settings": "Seaded"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Ruum: {}",
+                "empty": "Teie voog on tühi. Jälgige mõnda ruumi, et näha postitusi!",
+                "empty_button": "Leia uusi ruume"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Postitust ei leitud või pole saadaval."
+        },
+        "menu": {
+            "report_block": "Teata / Blokeeri"
+        },
+        "e2e": {
+            "encrypted": "Otsast otsani krüpteeritud",
+            "unencrypted": "Pole krüpteeritud",
+            "failed": "Dekrüpteerimine ebaõnnestus"
+        },
+        "dialog": {
+            "report_block_title": "Teata sisust või blokeeri kasutaja",
+            "report_desc": "Palun kirjeldage, miks te sellest sisust teada annate (valikuline).",
+            "report_reason": "Teatamise põhjus",
+            "report_reason_hint": "See sisu on solvav, sest...",
+            "block_user_checkbox": "Blokeeri ka see kasutaja",
+            "block_user_desc": "Te ei näe enam kasutaja {} sisu",
+            "submit": "Esita",
+            "cancel": "Tühista",
+            "report_block_success": "Teade esitatud. Täname.",
+            "report_block_error": "Tekkis viga: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Kommentaare pole veel."
+            }
+        },
+        "continue_thread": "Jätka seda lõime...",
+        "replying_to": "Vastus kasutajale {}",
+        "reply_placeholder": "Kirjuta vastus...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Vali ikoon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "sulge"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Faili dekrüpteeritakse...",
+                "video_desktop_error": "Videoid ei saa kuvada Linux, Windows ega MacOS platvormil. Panustage Github'is, kui soovite seda funktsiooni näha!",
+                "audio_desktop_error": "Heli ei saa esitada Linux, Windows ega MacOS platvormil."
+            },
+            "reaction": {
+                "unknown_sender": "tundmatu",
+                "sent_by": "Saatis {}"
+            },
+            "videoplayercontrol": {
+                "play": "esita",
+                "caption_offset": "subtiitrite nihe",
+                "playback_speed": "taasesituse kiirus"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Õiguslik teave",
+            "tos": "Kasutustingimused",
+            "privacy": "Privaatsuspoliitika",
+            "imprint": "Impressum",
+            "licenses": "Avatud lähtekoodiga litsentsid"
+        },
+        "followfeeds": {
+            "filter_server_header": "Valige loendist server või lisage uus:",
+            "filter_rooms_header": "Otsige ruumi, mida jälgida või jälgimist lõpetada:",
+            "roomname_placeholder": "Sisestage ruumi nimi",
+            "buttons": {
+                "add_server": "Lisa server",
+                "retry": "Proovi uuesti"
+            },
+            "no_rooms_found": "Antud otsingukriteeriumitele vastavaid ruume ei leitud.",
+            "error_loading_rooms": "Viga: Ruumide laadimine ebaõnnestus"
+        },
+        "ownfeeds": {
+            "header": "Halda oma ruume",
+            "buttons": {
+                "create_room": "Loo uus ruum"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Sisse logitud kui {}",
+            "logout": "Logi välja",
+            "logout_confirm": "Kas olete kindel, et soovite välja logida?",
+            "login": "Logi sisse",
+            "not_logged_in": "Logige sisse, et pääseda ligi kõigile funktsioonidele",
+            "home_site_label": "Avaleht",
+            "feeds_site_label": "Vood",
+            "navigation_label": "Navigeerimine",
+            "account_label": "Konto",
+            "preferences_label": "Eelistused",
+            "about_label": "Teave"
+        },
+        "room": {
+            "desc": "Ruumi nimi: {}",
+            "leave": "Lahku ruumist",
+            "join": "Sisene ruumi ja lisa see Substitutioni",
+            "join_short": "Liitu",
+            "permissions": "Õigused"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Lahku ruumist {}",
+                "desc": "Kas olete kindel, et soovite ruumist {} lahkuda?",
+                "button": {
+                    "submit": "Jah, lahkun",
+                    "cancel": "Ei, tühista"
+                }
+            },
+            "add": {
+                "title": "Lisa uus server",
+                "input_placeholder": "Sisestage serveri aadress",
+                "button": {
+                    "submit": "Lisa"
+                },
+                "snackbar": {
+                    "success": "Server on lisatud",
+                    "error_homeserver": "Sisestatud koduserver ei ole kehtiv"
+                }
+            },
+            "create": {
+                "title": "Loo uus ruum",
+                "placeholder_name": "ruumi nimi",
+                "placeholder_alias": "ruumi alias (avalik ruumi aadress)",
+                "placeholder_topic": "ruumi teema",
+                "submit": "Loo"
+            }
+        },
+        "room_preview": {
+            "members": "{} liiget",
+            "latest_posts": "Viimased postitused",
+            "no_posts": "Selles ruumis pole veel postitusi.",
+            "no_peek": "Selle ruumi ajalugu on privaatne. Liituge ruumiga, et näha postitusi.",
+            "join_to_see": "Liitu, et näha postitusi"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Suurepärane, olete juba sisse logitud. \nVõite jätkata järgmiste sammudega",
+        "isNotLoggedIn": "Palun logige esmalt sisse",
+        "buttons": {
+            "next": "Edasi",
+            "back": "Tagasi"
+        },
+        "welcome": {
+            "title": "Tere tulemast Substitutioni",
+            "desc": "... uus sotsiaalvõrgustik Matrix protokolli peal"
+        },
+        "account": {
+            "title": "Matrix kontod",
+            "desc": "Selle rakenduse kasutamiseks peate olema sisse logitud Matrix kontoga suvalises serveris. Kui te ei tea, kuidas seda saada, külastage seda lehte: https://matrix.org/"
+        },
+        "host": {
+            "title": "Valige host"
+        },
+        "login": {
+            "title": "Sisselogimine"
+        },
+        "finished": {
+            "title": "Lähme!",
+            "desc": "Suurepärane, olete sisse logitud. Oleme valmis alustama. Nüüd saate valida, kas liituda Substitutioni tervitusruumiga. Lähme ja lõbutseme!",
+            "buttons": {
+                "add_to_room_and_go": "Liitu Substitution-ruumiga ja mine!",
+                "go": "Lihtsalt mine!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Ühenduge oma koduserveriga",
+            "body": "Palun valige Matrix koduserver. Seejärel saate valida sisselogimise või avalikult saadaolevate ruumide sirvimise.",
+            "inputs": {
+                "homeserver_label": "Teie koduserveri aadress"
+            },
+            "buttons": {
+                "login_label": "Logi sisse"
+            }
+        },
+        "login": {
+            "loading": "Teid logitakse sisse...",
+            "header": "Sisselogimine",
+            "body": "Palun logige sisse oma kasutajatunnustega.",
+            "inputs": {
+                "username_label": "Kasutajanimi",
+                "password_label": "Parool"
+            },
+            "buttons": {
+                "login_label": "Logi sisse",
+                "sso_label": "Logi sisse teenusega {}",
+                "register_web_label": "Registreeru"
+            }
+        }
+    },
+    "write": {
+        "answer": "Vasta",
+        "roomheader": "Ruum: {}",
+        "filemessage": {
+            "upload_files": "Lisa uued failid üleslaadimiseks",
+            "title_header": "Pealkiri:",
+            "upload_start": "Üleslaadimine algab...",
+            "upload_file_process": "Faili {} üleslaadimine",
+            "upload_error": "Faili {} üleslaadimine ebaõnnestus. Proovida uuesti?",
+            "upload_file_complete": "Faili {} üleslaadimine on lõpetatud!",
+            "upload_complete": "Kõik failid on üles laaditud!",
+            "buttons": {
+                "upload_stop": "Tühista",
+                "upload_retry": "Proovi uuesti"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Valige sõnumi tüüp, mida soovite postitada",
+            "room_prompt": "Valige ruum, kuhu soovite postitada:",
+            "error_no_rooms": "Te pole ühtegi ruumiga liitunud või teil pole postitamisõigusi."
+        },
+        "textmessage": {
+            "answer_promt": "Sisestage oma tekst:",
+            "input_placeholder": "Sisestage oma tekst siia...",
+            "send_start": "Sõnumi saatmine algas...",
+            "send_failed": "Sõnumi saatmine ebaõnnestus. Kas soovite sõnumi uuesti saata?",
+            "send_complete": "Sõnum on edukalt saadetud!",
+            "buttons": {
+                "send_stop": "Ära proovi uuesti",
+                "resend": "Proovi uuesti"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Sõnum",
+        "block_title": "Blokeeri kasutaja",
+        "block_desc": "Blokeerida {}? Te ei näe enam nende sisu.",
+        "block_confirm": "Blokeeri",
+        "block_success": "Kasutaja blokeeritud.",
+        "block_error": "Kasutajat ei saanud blokeerida: {}",
+        "report_title": "Teata kasutajast",
+        "report_desc": "Palun kirjeldage selle kasutaja kohta teatamise põhjust.",
+        "report_reason": "Põhjus",
+        "report_reason_hint": "See kasutaja on...",
+        "report_submit": "Esita",
+        "report_success": "Teade esitatud. Täname.",
+        "feeds_section": "VOOD",
+        "no_feeds": "Avalikke vooge pole",
+        "error_start_chat": "Vestlust ei saanud alustada: {}"
+    },
+    "chat": {
+        "title": "Sõnumid",
+        "input_placeholder": "Kirjutage sõnum...",
+        "no_messages": "Sõnumeid pole veel. Ütle tere!",
+        "no_conversations": "Vestlusi pole veel",
+        "no_conversations_hint": "Külastage kasutaja profiili ja puudutage 'Sõnum', et alustada vestlust.",
+        "media_message": "Meedia",
+        "conversation_started": "Vestlus alustatud",
+        "error_loading": "Seda vestlust ei saanud laadida.",
+        "error_sending": "Sõnumi saatmine ebaõnnestus.",
+        "view_profile": "Vaata profiili"
+    }
+}

@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Virhe",
+    "loading": "Ladataan...",
+    "error": "Virhe: {}",
+    "approve": "Ok",
+    "error_no_image": "Ei kuvaa",
+    "error_page_not_found": "Tätä sivua ei löytynyt.",
+    "age_gate": {
+        "title": "Ennen kuin jatkat",
+        "description": "Substitution on sosiaalisen verkostoitumisen asiakasohjelma Matrix-protokollalle. Jatkamalla vahvistat seuraavat:",
+        "point_client": "Substitution on vain asiakassovellus. Tietosi tallennetaan valitsemallesi Matrix-kotipalvelimelle, ei Substitutionin ylläpitämille palvelimille.",
+        "point_servers": "Substitution ei hallinnoi ulkoisten kotipalvelimien sisältökäytäntöjä, joihin yhdistät. Olet vastuussa luotettavan palvelimen valinnasta.",
+        "point_age": "Olet vähintään 16-vuotias (tai maasi vähimmäisikävaatimuksen mukainen). Substitution ei ole tarkoitettu alaikäisille.",
+        "point_content": "Substitutionilla on nollatoleranssi laittomalle tai sopimattomalle sisällölle. Käytä sovelluksen sisäisiä ilmiantotyökaluja rikkomusten raportointiin.",
+        "confirm": "Vahvistan — olen 16-vuotias tai vanhempi",
+        "privacy_link": "Lue tietosuojakäytäntömme"
+    },
+    "cancel": "Peruuta",
+    "feed": {
+        "nav": {
+            "home": "Koti",
+            "discover": "Tutustu",
+            "messages": "Viestit",
+            "settings": "Asetukset"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Huone: {}",
+                "empty": "Syötteesi on tyhjä. Seuraa huoneita nähdäksesi julkaisuja!",
+                "empty_button": "Etsi uusia huoneita"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Julkaisua ei löytynyt tai se ei ole saatavilla."
+        },
+        "menu": {
+            "report_block": "Ilmianna / Estä"
+        },
+        "e2e": {
+            "encrypted": "Päästä päähän salattu",
+            "unencrypted": "Ei salattu",
+            "failed": "Salauksen purku epäonnistui"
+        },
+        "dialog": {
+            "report_block_title": "Ilmianna sisältö tai estä käyttäjä",
+            "report_desc": "Kuvaile miksi ilmiannat tämän sisällön (valinnainen).",
+            "report_reason": "Ilmiannon syy",
+            "report_reason_hint": "Tämä sisältö on loukkaavaa, koska...",
+            "block_user_checkbox": "Estä myös tämä käyttäjä",
+            "block_user_desc": "Et näe enää käyttäjän {} sisältöä",
+            "submit": "Lähetä",
+            "cancel": "Peruuta",
+            "report_block_success": "Ilmianto lähetetty. Kiitos.",
+            "report_block_error": "Tapahtui virhe: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Ei vielä kommentteja."
+            }
+        },
+        "continue_thread": "Jatka tätä ketjua...",
+        "replying_to": "Vastataan käyttäjälle {}",
+        "reply_placeholder": "Kirjoita vastaus...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Valitse kuvake"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "sulje"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Tiedostoa puretaan...",
+                "video_desktop_error": "Videoita ei voi näyttää Linux-, Windows- eikä MacOS-käyttöjärjestelmissä. Osallistu Github-projektiin, jos haluat nähdä tämän ominaisuuden!",
+                "audio_desktop_error": "Ääntä ei voi toistaa Linux-, Windows- eikä MacOS-käyttöjärjestelmissä."
+            },
+            "reaction": {
+                "unknown_sender": "tuntematon",
+                "sent_by": "Lähettäjä: {}"
+            },
+            "videoplayercontrol": {
+                "play": "toista",
+                "caption_offset": "tekstityksen viive",
+                "playback_speed": "toistonopeus"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Oikeudelliset tiedot",
+            "tos": "Käyttöehdot",
+            "privacy": "Tietosuojakäytäntö",
+            "imprint": "Sivuston tiedot",
+            "licenses": "Avoimen lähdekoodin lisenssit"
+        },
+        "followfeeds": {
+            "filter_server_header": "Valitse palvelin listalta tai lisää uusi:",
+            "filter_rooms_header": "Etsi huone seurattavaksi tai seuraamisen lopettamiseksi:",
+            "roomname_placeholder": "Syötä huoneen nimi",
+            "buttons": {
+                "add_server": "Lisää palvelin",
+                "retry": "Yritä uudelleen"
+            },
+            "no_rooms_found": "Hakuehdoilla ei löytynyt huoneita.",
+            "error_loading_rooms": "Virhe: Huoneiden lataus epäonnistui"
+        },
+        "ownfeeds": {
+            "header": "Hallinnoi omia huoneitasi",
+            "buttons": {
+                "create_room": "Luo uusi huone"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Kirjautuneena: {}",
+            "logout": "Kirjaudu ulos",
+            "logout_confirm": "Haluatko varmasti kirjautua ulos?",
+            "login": "Kirjaudu sisään",
+            "not_logged_in": "Kirjaudu sisään käyttääksesi kaikkia ominaisuuksia",
+            "home_site_label": "Koti",
+            "feeds_site_label": "Syötteet",
+            "navigation_label": "Navigointi",
+            "account_label": "Tili",
+            "preferences_label": "Asetukset",
+            "about_label": "Tietoja"
+        },
+        "room": {
+            "desc": "Huoneen nimi: {}",
+            "leave": "Poistu huoneesta",
+            "join": "Liity huoneeseen ja lisää se Substitutioniin",
+            "join_short": "Liity",
+            "permissions": "Oikeudet"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Poistu huoneesta {}",
+                "desc": "Haluatko varmasti poistua huoneesta {}?",
+                "button": {
+                    "submit": "Kyllä, poistu",
+                    "cancel": "Ei, peruuta"
+                }
+            },
+            "add": {
+                "title": "Lisää uusi palvelin",
+                "input_placeholder": "Syötä palvelimen osoite",
+                "button": {
+                    "submit": "Lisää"
+                },
+                "snackbar": {
+                    "success": "Palvelin on lisätty",
+                    "error_homeserver": "Syötetty kotipalvelin ei ole kelvollinen"
+                }
+            },
+            "create": {
+                "title": "Luo uusi huone",
+                "placeholder_name": "huoneen nimi",
+                "placeholder_alias": "huoneen alias (julkinen huoneen osoite)",
+                "placeholder_topic": "huoneen aihe",
+                "submit": "Luo"
+            }
+        },
+        "room_preview": {
+            "members": "{} jäsentä",
+            "latest_posts": "Viimeisimmät julkaisut",
+            "no_posts": "Tässä huoneessa ei ole vielä julkaisuja.",
+            "no_peek": "Tämän huoneen historia on yksityinen. Liity huoneeseen nähdäksesi julkaisut.",
+            "join_to_see": "Liity nähdäksesi julkaisut"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Hienoa, olet jo kirjautuneena. \nVoit jatkaa seuraaviin vaiheisiin",
+        "isNotLoggedIn": "Kirjaudu ensin sisään",
+        "buttons": {
+            "next": "Seuraava",
+            "back": "Takaisin"
+        },
+        "welcome": {
+            "title": "Tervetuloa Substitutioniin",
+            "desc": "... uusi sosiaalinen verkosto Matrix-protokollan päällä"
+        },
+        "account": {
+            "title": "Matrix-tilit",
+            "desc": "Sinun täytyy olla kirjautuneena Matrix-tilille jollakin palvelimella voidaksesi käyttää tätä sovellusta. Jos et tiedä miten sellaisen saa, käy tällä sivustolla: https://matrix.org/"
+        },
+        "host": {
+            "title": "Valitse palvelin"
+        },
+        "login": {
+            "title": "Kirjautuminen"
+        },
+        "finished": {
+            "title": "Mennään!",
+            "desc": "Hienoa, olet kirjautunut sisään. Olemme valmiita aloittamaan. Voit nyt valita, haluatko liittyä Substitutionin tervetulohuoneeseen. Mennään ja pidetään hauskaa!",
+            "buttons": {
+                "add_to_room_and_go": "Liity Substitution-huoneeseen ja aloita!",
+                "go": "Aloita suoraan!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Yhdistä kotipalvelimeesi",
+            "body": "Valitse Matrix-kotipalvelin. Voit sitten kirjautua sisään tai selata julkisesti saatavilla olevia huoneita.",
+            "inputs": {
+                "homeserver_label": "Kotipalvelimesi osoite"
+            },
+            "buttons": {
+                "login_label": "Kirjaudu sisään"
+            }
+        },
+        "login": {
+            "loading": "Kirjaudutaan sisään...",
+            "header": "Kirjautuminen",
+            "body": "Kirjaudu sisään tunnuksillasi.",
+            "inputs": {
+                "username_label": "Käyttäjänimi",
+                "password_label": "Salasana"
+            },
+            "buttons": {
+                "login_label": "Kirjaudu sisään",
+                "sso_label": "Kirjaudu palvelulla {}",
+                "register_web_label": "Rekisteröidy"
+            }
+        }
+    },
+    "write": {
+        "answer": "Vastaa",
+        "roomheader": "Huone: {}",
+        "filemessage": {
+            "upload_files": "Lisää uusia tiedostoja ladattavaksi",
+            "title_header": "Otsikko:",
+            "upload_start": "Lataus alkaa...",
+            "upload_file_process": "Ladataan tiedostoa {}",
+            "upload_error": "Tiedoston {} lataus epäonnistui. Yritä uudelleen?",
+            "upload_file_complete": "Tiedoston {} lataus valmis!",
+            "upload_complete": "Kaikki tiedostot on ladattu!",
+            "buttons": {
+                "upload_stop": "Peruuta",
+                "upload_retry": "Yritä uudelleen"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Valitse viestin tyyppi, jonka haluat julkaista",
+            "room_prompt": "Valitse huone, johon haluat julkaista:",
+            "error_no_rooms": "Et ole liittynyt yhteenkään huoneeseen tai sinulla ei ole julkaisuoikeuksia."
+        },
+        "textmessage": {
+            "answer_promt": "Kirjoita tekstisi:",
+            "input_placeholder": "Kirjoita tekstisi tähän...",
+            "send_start": "Viestiä lähetetään...",
+            "send_failed": "Viestin lähetys epäonnistui. Haluatko lähettää viestin uudelleen?",
+            "send_complete": "Viesti on lähetetty onnistuneesti!",
+            "buttons": {
+                "send_stop": "Älä yritä uudelleen",
+                "resend": "Yritä uudelleen"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Viesti",
+        "block_title": "Estä käyttäjä",
+        "block_desc": "Estä {}? Et näe enää heidän sisältöään.",
+        "block_confirm": "Estä",
+        "block_success": "Käyttäjä estetty.",
+        "block_error": "Käyttäjää ei voitu estää: {}",
+        "report_title": "Ilmianna käyttäjä",
+        "report_desc": "Kuvaile syy tämän käyttäjän ilmiantamiselle.",
+        "report_reason": "Syy",
+        "report_reason_hint": "Tämä käyttäjä on...",
+        "report_submit": "Lähetä",
+        "report_success": "Ilmianto lähetetty. Kiitos.",
+        "feeds_section": "SYÖTTEET",
+        "no_feeds": "Ei julkisia syötteitä",
+        "error_start_chat": "Keskustelua ei voitu aloittaa: {}"
+    },
+    "chat": {
+        "title": "Viestit",
+        "input_placeholder": "Kirjoita viesti...",
+        "no_messages": "Ei vielä viestejä. Sano hei!",
+        "no_conversations": "Ei vielä keskusteluja",
+        "no_conversations_hint": "Käy käyttäjän profiilissa ja napauta 'Viesti' aloittaaksesi keskustelun.",
+        "media_message": "Media",
+        "conversation_started": "Keskustelu aloitettu",
+        "error_loading": "Tätä keskustelua ei voitu ladata.",
+        "error_sending": "Viestin lähetys epäonnistui.",
+        "view_profile": "Näytä profiili"
+    }
+}

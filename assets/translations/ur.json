@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "خرابی",
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "خرابی: {}",
+    "approve": "ٹھیک ہے",
+    "error_no_image": "کوئی تصویر نہیں",
+    "error_page_not_found": "یہ صفحہ نہیں مل سکا۔",
+    "age_gate": {
+        "title": "آگے بڑھنے سے پہلے",
+        "description": "Substitution ایک سوشل نیٹ ورکنگ کلائنٹ ہے جو Matrix پروٹوکول کے لیے بنایا گیا ہے۔ آگے بڑھ کر، آپ درج ذیل باتوں کی تصدیق کرتے ہیں:",
+        "point_client": "Substitution صرف ایک کلائنٹ ایپ ہے۔ آپ کا ڈیٹا آپ کے منتخب کردہ Matrix ہوم سرور پر محفوظ ہوتا ہے، نہ کہ Substitution کے زیر انتظام سرورز پر۔",
+        "point_servers": "Substitution ان بیرونی ہوم سرورز کی مواد کی پالیسیوں کو کنٹرول نہیں کرتا جن سے آپ جڑتے ہیں۔ قابل اعتماد سرور کا انتخاب آپ کی ذمہ داری ہے۔",
+        "point_age": "آپ کی عمر 16 سال یا اس سے زیادہ ہے (یا آپ کے ملک میں مطلوبہ کم از کم عمر)۔ Substitution نابالغوں کے لیے نہیں ہے۔",
+        "point_content": "Substitution غیر قانونی یا قابل اعتراض مواد کے لیے صفر برداشت رکھتا ہے۔ خلاف ورزیوں کی اطلاع دینے کے لیے ایپ میں موجود رپورٹنگ ٹولز استعمال کریں۔",
+        "confirm": "میں تصدیق کرتا/کرتی ہوں — میری عمر 16 سال یا اس سے زیادہ ہے",
+        "privacy_link": "ہماری رازداری کی پالیسی پڑھیں"
+    },
+    "cancel": "منسوخ",
+    "feed": {
+        "nav": { "home": "ہوم", "discover": "دریافت کریں", "messages": "پیغامات", "settings": "ترتیبات" },
+        "pages": { "home": { "roomlabel": "کمرہ: {}", "empty": "آپ کی فیڈ خالی ہے۔ پوسٹس دیکھنے کے لیے کمروں کو فالو کریں!", "empty_button": "نئے کمرے تلاش کریں" } }
+    },
+    "post": {
+        "error": { "not_found": "پوسٹ نہیں ملی یا دستیاب نہیں ہے۔" },
+        "menu": { "report_block": "رپورٹ / بلاک" },
+        "e2e": { "encrypted": "اینڈ ٹو اینڈ انکرپٹڈ", "unencrypted": "انکرپٹ نہیں ہے", "failed": "ڈیکرپشن ناکام" },
+        "dialog": {
+            "report_block_title": "مواد کی رپورٹ کریں یا صارف کو بلاک کریں",
+            "report_desc": "براہ کرم بیان کریں کہ آپ اس مواد کی رپورٹ کیوں کر رہے ہیں (اختیاری)۔",
+            "report_reason": "رپورٹ کی وجہ",
+            "report_reason_hint": "یہ مواد ناگوار ہے کیونکہ...",
+            "block_user_checkbox": "اس صارف کو بھی بلاک کریں",
+            "block_user_desc": "آپ کو {} کا مواد مزید نظر نہیں آئے گا",
+            "submit": "جمع کرائیں", "cancel": "منسوخ",
+            "report_block_success": "رپورٹ جمع کر دی گئی۔ شکریہ۔",
+            "report_block_error": "ایک خرابی پیش آئی: {}"
+        },
+        "pages": { "post": { "no_comments": "ابھی تک کوئی تبصرے نہیں۔" } },
+        "continue_thread": "یہ تھریڈ جاری رکھیں...",
+        "replying_to": "{} کو جواب دے رہے ہیں",
+        "reply_placeholder": "جواب لکھیں...",
+        "mixins": { "iconpicker": { "title": "آئیکن منتخب کریں" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "بند کریں" } },
+            "filedisplay": { "decrypting": "فائل ڈیکرپٹ ہو رہی ہے...", "video_desktop_error": "Linux، Windows اور MacOS پر ویڈیوز نہیں دکھائی جا سکتیں۔ اگر آپ یہ فیچر دیکھنا چاہتے ہیں تو Github پر تعاون کریں!", "audio_desktop_error": "Linux، Windows اور MacOS پر آڈیو نہیں چلایا جا سکتا۔" },
+            "reaction": { "unknown_sender": "نامعلوم", "sent_by": "{} کی طرف سے بھیجا گیا" },
+            "videoplayercontrol": { "play": "چلائیں", "caption_offset": "کیپشن آفسیٹ", "playback_speed": "پلے بیک کی رفتار" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "قانونی", "tos": "سروس کی شرائط", "privacy": "رازداری کی پالیسی", "imprint": "امپرنٹ", "licenses": "اوپن سورس لائسنسز" },
+        "followfeeds": {
+            "filter_server_header": "فہرست سے سرور منتخب کریں یا نیا شامل کریں:",
+            "filter_rooms_header": "فالو یا ان فالو کرنے کے لیے کمرہ تلاش کریں:",
+            "roomname_placeholder": "کمرے کا نام درج کریں",
+            "buttons": { "add_server": "سرور شامل کریں", "retry": "دوبارہ کوشش" },
+            "no_rooms_found": "دیے گئے تلاش کے معیار کے لیے کوئی کمرے نہیں ملے۔",
+            "error_loading_rooms": "خرابی: کمرے لوڈ کرنے میں ناکامی"
+        },
+        "ownfeeds": { "header": "اپنے کمروں کا انتظام کریں", "buttons": { "create_room": "نیا کمرہ بنائیں" } },
+        "menu": {
+            "logged_in_as": "{} کے طور پر لاگ ان ہیں", "logout": "لاگ آؤٹ", "logout_confirm": "کیا آپ واقعی لاگ آؤٹ کرنا چاہتے ہیں؟",
+            "login": "لاگ ان", "not_logged_in": "تمام خصوصیات تک رسائی کے لیے لاگ ان کریں",
+            "home_site_label": "ہوم", "feeds_site_label": "فیڈز", "navigation_label": "نیویگیشن",
+            "account_label": "اکاؤنٹ", "preferences_label": "ترجیحات", "about_label": "تعارف"
+        },
+        "room": { "desc": "کمرے کا نام: {}", "leave": "کمرہ چھوڑیں", "join": "کمرے میں داخل ہوں اور Substitution میں شامل کریں", "join_short": "شامل ہوں", "permissions": "اجازتیں" },
+        "dialog": {
+            "delete": { "title": "کمرہ {} چھوڑیں", "desc": "کیا آپ واقعی کمرہ {} چھوڑنا چاہتے ہیں؟", "button": { "submit": "ہاں، چھوڑ دیں", "cancel": "نہیں، منسوخ کریں" } },
+            "add": { "title": "نیا سرور شامل کریں", "input_placeholder": "سرور کا پتہ درج کریں", "button": { "submit": "شامل کریں" }, "snackbar": { "success": "سرور شامل کر دیا گیا", "error_homeserver": "درج کردہ ہوم سرور درست نہیں ہے" } },
+            "create": { "title": "نیا کمرہ بنائیں", "placeholder_name": "کمرے کا نام", "placeholder_alias": "کمرے کا عرف (عوامی کمرے کا پتہ)", "placeholder_topic": "کمرے کا موضوع", "submit": "بنائیں" }
+        },
+        "room_preview": { "members": "{} اراکین", "latest_posts": "تازہ ترین پوسٹس", "no_posts": "اس کمرے میں ابھی تک کوئی پوسٹ نہیں۔", "no_peek": "اس کمرے کی تاریخ نجی ہے۔ پوسٹس دیکھنے کے لیے کمرے میں شامل ہوں۔", "join_to_see": "پوسٹس دیکھنے کے لیے شامل ہوں" }
+    },
+    "intro": {
+        "isLoggedIn": "بہترین، آپ پہلے سے لاگ ان ہیں۔ \nآپ اگلے مراحل کے ساتھ جاری رکھ سکتے ہیں",
+        "isNotLoggedIn": "براہ کرم پہلے لاگ ان کریں",
+        "buttons": { "next": "اگلا", "back": "واپس" },
+        "welcome": { "title": "Substitution میں خوش آمدید", "desc": "... Matrix پروٹوکول پر مبنی نیا سوشل نیٹ ورک" },
+        "account": { "title": "Matrix اکاؤنٹس", "desc": "اس ایپ کو استعمال کرنے کے لیے آپ کو کسی بھی سرور پر Matrix اکاؤنٹ میں لاگ ان ہونا ضروری ہے۔ اگر آپ نہیں جانتے کہ اکاؤنٹ کیسے حاصل کریں تو یہ سائٹ دیکھیں: https://matrix.org/" },
+        "host": { "title": "ہوسٹ منتخب کریں" },
+        "login": { "title": "لاگ ان" },
+        "finished": { "title": "چلیں شروع کریں", "desc": "بہترین، آپ لاگ ان ہو گئے ہیں۔ ہم شروع کرنے کے لیے تیار ہیں۔ اب آپ انتخاب کر سکتے ہیں کہ آیا آپ Substitution ویلکم روم میں شامل ہونا چاہتے ہیں۔ چلیں، اور مزے کریں!", "buttons": { "add_to_room_and_go": "Substitution روم میں شامل ہوں اور چلیں!", "go": "بس چلیں!" } }
+    },
+    "auth": {
+        "host": { "header": "اپنے ہوم سرور سے جڑیں", "body": "براہ کرم ایک Matrix ہوم سرور منتخب کریں۔ پھر آپ لاگ ان کر سکتے ہیں یا عوامی دستیاب کمرے دیکھ سکتے ہیں۔", "inputs": { "homeserver_label": "آپ کے ہوم سرور کا پتہ" }, "buttons": { "login_label": "لاگ ان" } },
+        "login": { "loading": "آپ کو لاگ ان کیا جا رہا ہے...", "header": "لاگ ان", "body": "براہ کرم اپنی اسناد کے ساتھ لاگ ان کریں۔", "inputs": { "username_label": "صارف نام", "password_label": "پاس ورڈ" }, "buttons": { "login_label": "لاگ ان", "sso_label": "{} سے سائن ان کریں", "register_web_label": "رجسٹر کریں" } }
+    },
+    "write": {
+        "answer": "جواب", "roomheader": "کمرہ: {}",
+        "filemessage": { "upload_files": "اپ لوڈ کے لیے نئی فائلیں شامل کریں", "title_header": "عنوان:", "upload_start": "اپ لوڈ شروع ہو رہا ہے...", "upload_file_process": "فائل {} اپ لوڈ ہو رہی ہے", "upload_error": "{} اپ لوڈ ناکام ہو گیا۔ دوبارہ اپ لوڈ کریں؟", "upload_file_complete": "{} اپ لوڈ مکمل!", "upload_complete": "تمام فائلیں اپ لوڈ ہو گئیں!", "buttons": { "upload_stop": "منسوخ", "upload_retry": "دوبارہ کوشش" } },
+        "roomselect": { "type_prompt": "پوسٹ کرنے کے لیے پیغام کی قسم منتخب کریں", "room_prompt": "وہ کمرہ منتخب کریں جس میں آپ پوسٹ کرنا چاہتے ہیں:", "error_no_rooms": "آپ کسی کمرے میں شامل نہیں ہیں یا آپ کو پوسٹ کرنے کا حق نہیں ہے۔" },
+        "textmessage": { "answer_promt": "اپنا متن درج کریں:", "input_placeholder": "اپنا متن یہاں درج کریں...", "send_start": "پیغام بھیجنا شروع ہو گیا...", "send_failed": "پیغام بھیجنا ناکام ہو گیا۔ کیا آپ دوبارہ بھیجنا چاہتے ہیں؟", "send_complete": "پیغام کامیابی سے بھیج دیا گیا!", "buttons": { "send_stop": "دوبارہ کوشش نہ کریں", "resend": "دوبارہ کوشش" } }
+    },
+    "profile": {
+        "send_message": "پیغام", "block_title": "صارف کو بلاک کریں", "block_desc": "{} کو بلاک کریں؟ آپ کو ان کا مواد مزید نظر نہیں آئے گا۔",
+        "block_confirm": "بلاک", "block_success": "صارف بلاک ہو گیا۔", "block_error": "صارف کو بلاک نہیں کیا جا سکا: {}",
+        "report_title": "صارف کی رپورٹ کریں", "report_desc": "براہ کرم اس صارف کی رپورٹ کی وجہ بیان کریں۔",
+        "report_reason": "وجہ", "report_reason_hint": "یہ صارف...", "report_submit": "جمع کرائیں",
+        "report_success": "رپورٹ جمع کر دی گئی۔ شکریہ۔", "feeds_section": "فیڈز", "no_feeds": "کوئی عوامی فیڈز نہیں",
+        "error_start_chat": "چیٹ شروع نہیں ہو سکی: {}"
+    },
+    "chat": {
+        "title": "پیغامات", "input_placeholder": "پیغام لکھیں...", "no_messages": "ابھی تک کوئی پیغام نہیں۔ ہیلو کہیں!",
+        "no_conversations": "ابھی تک کوئی بات چیت نہیں", "no_conversations_hint": "کسی صارف کی پروفائل پر جائیں اور چیٹ شروع کرنے کے لیے 'پیغام' پر ٹیپ کریں۔",
+        "media_message": "میڈیا", "conversation_started": "بات چیت شروع ہو گئی",
+        "error_loading": "یہ بات چیت لوڈ نہیں ہو سکی۔", "error_sending": "پیغام بھیجنے میں ناکامی۔", "view_profile": "پروفائل دیکھیں"
+    }
+}

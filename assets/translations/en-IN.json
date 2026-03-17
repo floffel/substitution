@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Error",
+    "loading": "Loading...",
+    "error": "Error: {}",
+    "approve": "Ok",
+    "error_no_image": "No Image",
+    "error_page_not_found": "This page could not be found.",
+    "age_gate": {
+        "title": "Before you continue",
+        "description": "Substitution is a social networking client for the Matrix protocol. By continuing, you confirm the following:",
+        "point_client": "Substitution is a client app only. Your data is stored on the Matrix homeserver you choose, not on servers operated by Substitution.",
+        "point_servers": "Substitution does not control the content policies of external homeservers you connect to. You are responsible for choosing a trustworthy server.",
+        "point_age": "You are 16 years of age or older (or the minimum age required in your country). Substitution is not intended for minors.",
+        "point_content": "Substitution has zero tolerance for illegal or objectionable content. Use the in-app reporting tools to flag violations.",
+        "confirm": "I confirm — I am 16 or older",
+        "privacy_link": "Read our Privacy Policy"
+    },
+    "cancel": "Cancel",
+    "feed": {
+        "nav": {
+            "home": "Home",
+            "discover": "Discover",
+            "messages": "Messages",
+            "settings": "Settings"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Room: {}",
+                "empty": "Your feed is empty. Follow some rooms to see posts!",
+                "empty_button": "Find new rooms"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Post not found or unavailable."
+        },
+        "menu": {
+            "report_block": "Report / Block"
+        },
+        "e2e": {
+            "encrypted": "End-to-end encrypted",
+            "unencrypted": "Not encrypted",
+            "failed": "Decryption failed"
+        },
+        "dialog": {
+            "report_block_title": "Report Content or Block User",
+            "report_desc": "Please describe why you are reporting this content (optional).",
+            "report_reason": "Reason for report",
+            "report_reason_hint": "This content is offensive because...",
+            "block_user_checkbox": "Also block this user",
+            "block_user_desc": "You will no longer see content from {}",
+            "submit": "Submit",
+            "cancel": "Cancel",
+            "report_block_success": "Report submitted. Thank you.",
+            "report_block_error": "An error occurred: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "No comments yet."
+            }
+        },
+        "continue_thread": "Continue this thread...",
+        "replying_to": "Replying to {}",
+        "reply_placeholder": "Write a reply...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Choose icon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "close"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "File is being decrypted...",
+                "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!",
+                "audio_desktop_error": "Audio can't be played on Linux, Windows nor MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "unknown",
+                "sent_by": "Sent by {}"
+            },
+            "videoplayercontrol": {
+                "play": "play",
+                "caption_offset": "caption offset",
+                "playback_speed": "playback speed"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "imprint": "Imprint",
+            "licenses": "Open Source Licences"
+        },
+        "followfeeds": {
+            "filter_server_header": "Choose a server from the list or add a new one:",
+            "filter_rooms_header": "Search a room to follow or unfollow:",
+            "roomname_placeholder": "Enter a roomname",
+            "buttons": {
+                "add_server": "Add Server",
+                "retry": "Retry"
+            },
+            "no_rooms_found": "No rooms found for the given search criteria.",
+            "error_loading_rooms": "Error: Failed to load rooms"
+        },
+        "ownfeeds": {
+            "header": "Manage your own rooms",
+            "buttons": {
+                "create_room": "Create a new Room"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Logged in as {}",
+            "logout": "Logout",
+            "logout_confirm": "Are you sure you want to log out?",
+            "login": "Login",
+            "not_logged_in": "Log in to access all features",
+            "home_site_label": "Home",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigation",
+            "account_label": "Account",
+            "preferences_label": "Preferences",
+            "about_label": "About"
+        },
+        "room": {
+            "desc": "Roomname: {}",
+            "leave": "Leave room",
+            "join": "Enter room and add it to substitution",
+            "join_short": "Join",
+            "permissions": "Permissions"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Leave room {}",
+                "desc": "Are you sure, you want to leave room {}?",
+                "button": {
+                    "submit": "Yes, leave it",
+                    "cancel": "No, cancel"
+                }
+            },
+            "add": {
+                "title": "Add a new Server",
+                "input_placeholder": "Enter server address",
+                "button": {
+                    "submit": "Add"
+                },
+                "snackbar": {
+                    "success": "Server has been added",
+                    "error_homeserver": "Entered homeserver is not valid"
+                }
+            },
+            "create": {
+                "title": "Create a new room",
+                "placeholder_name": "room name",
+                "placeholder_alias": "room alias (public room address)",
+                "placeholder_topic": "room topic",
+                "submit": "Create"
+            }
+        },
+        "room_preview": {
+            "members": "{} members",
+            "latest_posts": "Latest posts",
+            "no_posts": "No posts yet in this room.",
+            "no_peek": "This room's history is private. Join the room to see its posts.",
+            "join_to_see": "Join to see posts"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Great, you are already logged in. \nYou can continue with the next Steps",
+        "isNotLoggedIn": "Please login first",
+        "buttons": {
+            "next": "Next",
+            "back": "Back"
+        },
+        "welcome": {
+            "title": "Welcome to substitution",
+            "desc": "... the new social network on top of the matrix protocol"
+        },
+        "account": {
+            "title": "Matrix Accounts",
+            "desc": "You have to be logged in into a matrix account on an arbitrary server to be able to use this app. If you don't know how to get one, go and visit this site: https://matrix.org/"
+        },
+        "host": {
+            "title": "Choose a host"
+        },
+        "login": {
+            "title": "Login"
+        },
+        "finished": {
+            "title": "Let's go",
+            "desc": "Great, you have been logged in. We are ready to substitute. You can now choose whether or not you want to joining the substitution welcome room. Let's go, and have fun!",
+            "buttons": {
+                "add_to_room_and_go": "Join Substitution-Room & go!",
+                "go": "Just go!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Connect to your Homeserver",
+            "body": "Please pick a Matrix Homeserver. You can then choose to login or to browse publicly available rooms.",
+            "inputs": {
+                "homeserver_label": "Address of your Homeserver"
+            },
+            "buttons": {
+                "login_label": "Login"
+            }
+        },
+        "login": {
+            "loading": "Logging you in...",
+            "header": "Login",
+            "body": "Please login with your credentials.",
+            "inputs": {
+                "username_label": "Username",
+                "password_label": "Password"
+            },
+            "buttons": {
+                "login_label": "Login",
+                "sso_label": "Sign in with {}",
+                "register_web_label": "Register"
+            }
+        }
+    },
+    "write": {
+        "answer": "Answer",
+        "roomheader": "Room: {}",
+        "filemessage": {
+            "upload_files": "Add new files for upload",
+            "title_header": "Title:",
+            "upload_start": "Starting upload...",
+            "upload_file_process": "Uploading file {}",
+            "upload_error": "Uploading {} failed. Retry Upload?",
+            "upload_file_complete": "Uploading {} is complete!",
+            "upload_complete": "All files have been uploaded!",
+            "buttons": {
+                "upload_stop": "Cancel",
+                "upload_retry": "Retry"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Choose the type of message that you like to post",
+            "room_prompt": "Choose the room in which you like to post:",
+            "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
+        },
+        "textmessage": {
+            "answer_promt": "Enter your Text:",
+            "input_placeholder": "Enter your text here...",
+            "send_start": "Started sending the message...",
+            "send_failed": "Message sending failed. Do you like to resend the message?",
+            "send_complete": "Message has been sent successfully!",
+            "buttons": {
+                "send_stop": "Don't retry",
+                "resend": "Retry"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Message",
+        "block_title": "Block User",
+        "block_desc": "Block {}? You will no longer see their content.",
+        "block_confirm": "Block",
+        "block_success": "User blocked.",
+        "block_error": "Could not block user: {}",
+        "report_title": "Report User",
+        "report_desc": "Please describe the reason for reporting this user.",
+        "report_reason": "Reason",
+        "report_reason_hint": "This user is...",
+        "report_submit": "Submit",
+        "report_success": "Report submitted. Thank you.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "No public feeds",
+        "error_start_chat": "Could not start chat: {}"
+    },
+    "chat": {
+        "title": "Messages",
+        "input_placeholder": "Type a message...",
+        "no_messages": "No messages yet. Say hello!",
+        "no_conversations": "No conversations yet",
+        "no_conversations_hint": "Visit a user's profile and tap 'Message' to start a chat.",
+        "media_message": "Media",
+        "conversation_started": "Conversation started",
+        "error_loading": "Could not load this conversation.",
+        "error_sending": "Failed to send message.",
+        "view_profile": "View profile"
+    }
+}

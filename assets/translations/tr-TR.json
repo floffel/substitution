@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Hata",
+    "loading": "Yükleniyor...",
+    "error": "Hata: {}",
+    "approve": "Tamam",
+    "error_no_image": "Resim Yok",
+    "error_page_not_found": "Bu sayfa bulunamadı.",
+    "age_gate": {
+        "title": "Devam etmeden önce",
+        "description": "Substitution, Matrix protokolü için bir sosyal ağ istemcisidir. Devam ederek aşağıdakileri onaylıyorsunuz:",
+        "point_client": "Substitution yalnızca bir istemci uygulamasıdır. Verileriniz seçtiğiniz Matrix ana sunucusunda depolanır, Substitution tarafından işletilen sunucularda değil.",
+        "point_servers": "Substitution, bağlandığınız harici ana sunucuların içerik politikalarını kontrol etmez. Güvenilir bir sunucu seçmek sizin sorumluluğunuzdadır.",
+        "point_age": "16 yaşında veya daha büyüksünüz (veya ülkenizde gereken asgari yaş). Substitution reşit olmayanlar için tasarlanmamıştır.",
+        "point_content": "Substitution, yasadışı veya sakıncalı içeriğe sıfır tolerans gösterir. İhlalleri bildirmek için uygulama içi raporlama araçlarını kullanın.",
+        "confirm": "Onaylıyorum — 16 yaşında veya daha büyüğüm",
+        "privacy_link": "Gizlilik Politikamızı okuyun"
+    },
+    "cancel": "İptal",
+    "feed": {
+        "nav": { "home": "Ana Sayfa", "discover": "Keşfet", "messages": "Mesajlar", "settings": "Ayarlar" },
+        "pages": { "home": { "roomlabel": "Oda: {}", "empty": "Akışınız boş. Gönderileri görmek için bazı odaları takip edin!", "empty_button": "Yeni odalar bul" } }
+    },
+    "post": {
+        "error": { "not_found": "Gönderi bulunamadı veya kullanılamıyor." },
+        "menu": { "report_block": "Bildir / Engelle" },
+        "e2e": { "encrypted": "Uçtan uca şifreli", "unencrypted": "Şifrelenmemiş", "failed": "Şifre çözme başarısız oldu" },
+        "dialog": {
+            "report_block_title": "İçeriği Bildir veya Kullanıcıyı Engelle",
+            "report_desc": "Bu içeriği neden bildirdiğinizi açıklayın (isteğe bağlı).",
+            "report_reason": "Bildirme nedeni",
+            "report_reason_hint": "Bu içerik sakıncalı çünkü...",
+            "block_user_checkbox": "Bu kullanıcıyı da engelle",
+            "block_user_desc": "Artık {} kullanıcısının içeriklerini görmeyeceksiniz",
+            "submit": "Gönder", "cancel": "İptal",
+            "report_block_success": "Bildirim gönderildi. Teşekkürler.",
+            "report_block_error": "Bir hata oluştu: {}"
+        },
+        "pages": { "post": { "no_comments": "Henüz yorum yok." } },
+        "continue_thread": "Bu konuya devam et...",
+        "replying_to": "{} kullanıcısına yanıt veriliyor",
+        "reply_placeholder": "Bir yanıt yazın...",
+        "mixins": { "iconpicker": { "title": "Simge seçin" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "kapat" } },
+            "filedisplay": { "decrypting": "Dosya şifresi çözülüyor...", "video_desktop_error": "Videolar Linux, Windows veya MacOS üzerinde görüntülenemez. Bu özelliği görmek isterseniz Github üzerinden katkıda bulunmayı düşünün!", "audio_desktop_error": "Ses Linux, Windows veya MacOS üzerinde oynatılamaz." },
+            "reaction": { "unknown_sender": "bilinmiyor", "sent_by": "{} tarafından gönderildi" },
+            "videoplayercontrol": { "play": "oynat", "caption_offset": "altyazı ofseti", "playback_speed": "oynatma hızı" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Yasal", "tos": "Hizmet Şartları", "privacy": "Gizlilik Politikası", "imprint": "Künye", "licenses": "Açık Kaynak Lisansları" },
+        "followfeeds": {
+            "filter_server_header": "Listeden bir sunucu seçin veya yeni bir tane ekleyin:",
+            "filter_rooms_header": "Takip etmek veya takipten çıkmak için bir oda arayın:",
+            "roomname_placeholder": "Oda adı girin",
+            "buttons": { "add_server": "Sunucu Ekle", "retry": "Tekrar Dene" },
+            "no_rooms_found": "Verilen arama kriterlerine uygun oda bulunamadı.",
+            "error_loading_rooms": "Hata: Odalar yüklenemedi"
+        },
+        "ownfeeds": { "header": "Kendi odalarınızı yönetin", "buttons": { "create_room": "Yeni Oda Oluştur" } },
+        "menu": {
+            "logged_in_as": "{} olarak giriş yapıldı", "logout": "Çıkış Yap", "logout_confirm": "Çıkış yapmak istediğinizden emin misiniz?",
+            "login": "Giriş Yap", "not_logged_in": "Tüm özelliklere erişmek için giriş yapın",
+            "home_site_label": "Ana Sayfa", "feeds_site_label": "Akışlar", "navigation_label": "Gezinme",
+            "account_label": "Hesap", "preferences_label": "Tercihler", "about_label": "Hakkında"
+        },
+        "room": { "desc": "Oda adı: {}", "leave": "Odadan ayrıl", "join": "Odaya gir ve substitution'a ekle", "join_short": "Katıl", "permissions": "İzinler" },
+        "dialog": {
+            "delete": { "title": "Odadan ayrıl {}", "desc": "{} odasından ayrılmak istediğinizden emin misiniz?", "button": { "submit": "Evet, ayrıl", "cancel": "Hayır, iptal et" } },
+            "add": { "title": "Yeni Sunucu Ekle", "input_placeholder": "Sunucu adresini girin", "button": { "submit": "Ekle" }, "snackbar": { "success": "Sunucu eklendi", "error_homeserver": "Girilen ana sunucu geçerli değil" } },
+            "create": { "title": "Yeni oda oluştur", "placeholder_name": "oda adı", "placeholder_alias": "oda takma adı (genel oda adresi)", "placeholder_topic": "oda konusu", "submit": "Oluştur" }
+        },
+        "room_preview": { "members": "{} üye", "latest_posts": "Son gönderiler", "no_posts": "Bu odada henüz gönderi yok.", "no_peek": "Bu odanın geçmişi özeldir. Gönderileri görmek için odaya katılın.", "join_to_see": "Gönderileri görmek için katılın" }
+    },
+    "intro": {
+        "isLoggedIn": "Harika, zaten giriş yapmışsınız. \nSonraki adımlarla devam edebilirsiniz",
+        "isNotLoggedIn": "Lütfen önce giriş yapın",
+        "buttons": { "next": "İleri", "back": "Geri" },
+        "welcome": { "title": "substitution'a hoş geldiniz", "desc": "... matrix protokolü üzerindeki yeni sosyal ağ" },
+        "account": { "title": "Matrix Hesapları", "desc": "Bu uygulamayı kullanabilmek için herhangi bir sunucudaki Matrix hesabınızla giriş yapmış olmanız gerekmektedir. Nasıl hesap alacağınızı bilmiyorsanız, bu siteyi ziyaret edin: https://matrix.org/" },
+        "host": { "title": "Bir ana bilgisayar seçin" },
+        "login": { "title": "Giriş Yap" },
+        "finished": { "title": "Haydi başlayalım", "desc": "Harika, giriş yaptınız. Hazırız. Artık substitution karşılama odasına katılıp katılmamayı seçebilirsiniz. Haydi başlayalım, iyi eğlenceler!", "buttons": { "add_to_room_and_go": "Substitution Odasına Katıl ve Başla!", "go": "Sadece başla!" } }
+    },
+    "auth": {
+        "host": { "header": "Ana Sunucunuza Bağlanın", "body": "Lütfen bir Matrix Ana Sunucusu seçin. Ardından giriş yapmayı veya halka açık odaları göz atmayı seçebilirsiniz.", "inputs": { "homeserver_label": "Ana Sunucu Adresiniz" }, "buttons": { "login_label": "Giriş Yap" } },
+        "login": { "loading": "Giriş yapılıyor...", "header": "Giriş Yap", "body": "Lütfen kimlik bilgilerinizle giriş yapın.", "inputs": { "username_label": "Kullanıcı Adı", "password_label": "Şifre" }, "buttons": { "login_label": "Giriş Yap", "sso_label": "{} ile giriş yap", "register_web_label": "Kayıt Ol" } }
+    },
+    "write": {
+        "answer": "Yanıtla", "roomheader": "Oda: {}",
+        "filemessage": { "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
+        "roomselect": { "type_prompt": "Göndermek istediğiniz mesaj türünü seçin", "room_prompt": "Gönderi yapmak istediğiniz odayı seçin:", "error_no_rooms": "Herhangi bir odaya katılmadınız veya gönderi yapma yetkiniz yok." },
+        "textmessage": { "answer_promt": "Metninizi girin:", "input_placeholder": "Metninizi buraya girin...", "send_start": "Mesaj gönderiliyor...", "send_failed": "Mesaj gönderilemedi. Tekrar göndermek ister misiniz?", "send_complete": "Mesaj başarıyla gönderildi!", "buttons": { "send_stop": "Tekrar deneme", "resend": "Tekrar Dene" } }
+    },
+    "profile": {
+        "send_message": "Mesaj", "block_title": "Kullanıcıyı Engelle", "block_desc": "{} engellensin mi? Artık içeriklerini görmeyeceksiniz.",
+        "block_confirm": "Engelle", "block_success": "Kullanıcı engellendi.", "block_error": "Kullanıcı engellenemedi: {}",
+        "report_title": "Kullanıcıyı Bildir", "report_desc": "Bu kullanıcıyı bildirme nedeninizi açıklayın.",
+        "report_reason": "Neden", "report_reason_hint": "Bu kullanıcı...", "report_submit": "Gönder",
+        "report_success": "Bildirim gönderildi. Teşekkürler.", "feeds_section": "AKIŞLAR", "no_feeds": "Herkese açık akış yok",
+        "error_start_chat": "Sohbet başlatılamadı: {}"
+    },
+    "chat": {
+        "title": "Mesajlar", "input_placeholder": "Bir mesaj yazın...", "no_messages": "Henüz mesaj yok. Merhaba deyin!",
+        "no_conversations": "Henüz konuşma yok", "no_conversations_hint": "Bir kullanıcının profilini ziyaret edin ve sohbet başlatmak için 'Mesaj' düğmesine dokunun.",
+        "media_message": "Medya", "conversation_started": "Konuşma başlatıldı",
+        "error_loading": "Bu konuşma yüklenemedi.", "error_sending": "Mesaj gönderilemedi.", "view_profile": "Profili görüntüle"
+    }
+}

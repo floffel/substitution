@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Lỗi",
+    "loading": "Đang tải...",
+    "error": "Lỗi: {}",
+    "approve": "Đồng ý",
+    "error_no_image": "Không có hình ảnh",
+    "error_page_not_found": "Không tìm thấy trang này.",
+    "age_gate": {
+        "title": "Trước khi bạn tiếp tục",
+        "description": "Substitution là một ứng dụng mạng xã hội dành cho giao thức Matrix. Bằng việc tiếp tục, bạn xác nhận những điều sau:",
+        "point_client": "Substitution chỉ là một ứng dụng khách. Dữ liệu của bạn được lưu trữ trên máy chủ Matrix mà bạn chọn, không phải trên các máy chủ do Substitution vận hành.",
+        "point_servers": "Substitution không kiểm soát chính sách nội dung của các máy chủ bên ngoài mà bạn kết nối. Bạn có trách nhiệm chọn máy chủ đáng tin cậy.",
+        "point_age": "Bạn đã đủ 16 tuổi trở lên (hoặc đủ độ tuổi tối thiểu theo quy định tại quốc gia của bạn). Substitution không dành cho trẻ vị thành niên.",
+        "point_content": "Substitution không chấp nhận bất kỳ nội dung bất hợp pháp hoặc phản cảm nào. Hãy sử dụng các công cụ báo cáo trong ứng dụng để gắn cờ vi phạm.",
+        "confirm": "Tôi xác nhận — Tôi đã 16 tuổi trở lên",
+        "privacy_link": "Đọc Chính sách Bảo mật của chúng tôi"
+    },
+    "cancel": "Hủy",
+    "feed": {
+        "nav": { "home": "Trang chủ", "discover": "Khám phá", "messages": "Tin nhắn", "settings": "Cài đặt" },
+        "pages": { "home": { "roomlabel": "Phòng: {}", "empty": "Bảng tin của bạn đang trống. Hãy theo dõi một số phòng để xem bài đăng!", "empty_button": "Tìm phòng mới" } }
+    },
+    "post": {
+        "error": { "not_found": "Không tìm thấy bài đăng hoặc bài đăng không khả dụng." },
+        "menu": { "report_block": "Báo cáo / Chặn" },
+        "e2e": { "encrypted": "Mã hóa đầu cuối", "unencrypted": "Không được mã hóa", "failed": "Giải mã thất bại" },
+        "dialog": {
+            "report_block_title": "Báo cáo nội dung hoặc chặn người dùng",
+            "report_desc": "Vui lòng mô tả lý do bạn báo cáo nội dung này (không bắt buộc).",
+            "report_reason": "Lý do báo cáo",
+            "report_reason_hint": "Nội dung này mang tính xúc phạm vì...",
+            "block_user_checkbox": "Đồng thời chặn người dùng này",
+            "block_user_desc": "Bạn sẽ không còn thấy nội dung từ {}",
+            "submit": "Gửi", "cancel": "Hủy",
+            "report_block_success": "Báo cáo đã được gửi. Cảm ơn bạn.",
+            "report_block_error": "Đã xảy ra lỗi: {}"
+        },
+        "pages": { "post": { "no_comments": "Chưa có bình luận nào." } },
+        "continue_thread": "Tiếp tục cuộc thảo luận...",
+        "replying_to": "Đang trả lời {}",
+        "reply_placeholder": "Viết phản hồi...",
+        "mixins": { "iconpicker": { "title": "Chọn biểu tượng" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "đóng" } },
+            "filedisplay": { "decrypting": "Tệp đang được giải mã...", "video_desktop_error": "Không thể hiển thị video trên Linux, Windows và MacOS. Hãy đóng góp trên Github nếu bạn muốn thấy tính năng này!", "audio_desktop_error": "Không thể phát âm thanh trên Linux, Windows và MacOS." },
+            "reaction": { "unknown_sender": "không rõ", "sent_by": "Được gửi bởi {}" },
+            "videoplayercontrol": { "play": "phát", "caption_offset": "độ lệch phụ đề", "playback_speed": "tốc độ phát" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Pháp lý", "tos": "Điều khoản Dịch vụ", "privacy": "Chính sách Bảo mật", "imprint": "Thông tin pháp lý", "licenses": "Giấy phép Mã nguồn mở" },
+        "followfeeds": {
+            "filter_server_header": "Chọn máy chủ từ danh sách hoặc thêm máy chủ mới:",
+            "filter_rooms_header": "Tìm phòng để theo dõi hoặc bỏ theo dõi:",
+            "roomname_placeholder": "Nhập tên phòng",
+            "buttons": { "add_server": "Thêm máy chủ", "retry": "Thử lại" },
+            "no_rooms_found": "Không tìm thấy phòng nào phù hợp với tiêu chí tìm kiếm.",
+            "error_loading_rooms": "Lỗi: Không thể tải danh sách phòng"
+        },
+        "ownfeeds": { "header": "Quản lý phòng của bạn", "buttons": { "create_room": "Tạo phòng mới" } },
+        "menu": {
+            "logged_in_as": "Đã đăng nhập với tên {}", "logout": "Đăng xuất", "logout_confirm": "Bạn có chắc chắn muốn đăng xuất không?",
+            "login": "Đăng nhập", "not_logged_in": "Đăng nhập để truy cập tất cả tính năng",
+            "home_site_label": "Trang chủ", "feeds_site_label": "Bảng tin", "navigation_label": "Điều hướng",
+            "account_label": "Tài khoản", "preferences_label": "Tùy chọn", "about_label": "Giới thiệu"
+        },
+        "room": { "desc": "Tên phòng: {}", "leave": "Rời phòng", "join": "Vào phòng và thêm vào Substitution", "join_short": "Tham gia", "permissions": "Quyền hạn" },
+        "dialog": {
+            "delete": { "title": "Rời phòng {}", "desc": "Bạn có chắc chắn muốn rời phòng {} không?", "button": { "submit": "Có, rời đi", "cancel": "Không, hủy bỏ" } },
+            "add": { "title": "Thêm máy chủ mới", "input_placeholder": "Nhập địa chỉ máy chủ", "button": { "submit": "Thêm" }, "snackbar": { "success": "Đã thêm máy chủ", "error_homeserver": "Máy chủ đã nhập không hợp lệ" } },
+            "create": { "title": "Tạo phòng mới", "placeholder_name": "tên phòng", "placeholder_alias": "bí danh phòng (địa chỉ phòng công khai)", "placeholder_topic": "chủ đề phòng", "submit": "Tạo" }
+        },
+        "room_preview": { "members": "{} thành viên", "latest_posts": "Bài đăng mới nhất", "no_posts": "Chưa có bài đăng nào trong phòng này.", "no_peek": "Lịch sử phòng này là riêng tư. Hãy tham gia phòng để xem bài đăng.", "join_to_see": "Tham gia để xem bài đăng" }
+    },
+    "intro": {
+        "isLoggedIn": "Tuyệt vời, bạn đã đăng nhập rồi. \nBạn có thể tiếp tục với các bước tiếp theo",
+        "isNotLoggedIn": "Vui lòng đăng nhập trước",
+        "buttons": { "next": "Tiếp", "back": "Quay lại" },
+        "welcome": { "title": "Chào mừng đến với Substitution", "desc": "... mạng xã hội mới trên nền tảng giao thức Matrix" },
+        "account": { "title": "Tài khoản Matrix", "desc": "Bạn cần đăng nhập vào tài khoản Matrix trên một máy chủ bất kỳ để sử dụng ứng dụng này. Nếu bạn chưa biết cách tạo tài khoản, hãy truy cập trang web: https://matrix.org/" },
+        "host": { "title": "Chọn máy chủ" },
+        "login": { "title": "Đăng nhập" },
+        "finished": { "title": "Bắt đầu thôi", "desc": "Tuyệt vời, bạn đã đăng nhập thành công. Chúng ta đã sẵn sàng. Bây giờ bạn có thể chọn tham gia phòng chào mừng của Substitution. Bắt đầu thôi, chúc vui vẻ!", "buttons": { "add_to_room_and_go": "Tham gia phòng Substitution và bắt đầu!", "go": "Bắt đầu ngay!" } }
+    },
+    "auth": {
+        "host": { "header": "Kết nối đến Máy chủ của bạn", "body": "Vui lòng chọn một Máy chủ Matrix. Sau đó bạn có thể đăng nhập hoặc duyệt các phòng công khai.", "inputs": { "homeserver_label": "Địa chỉ Máy chủ của bạn" }, "buttons": { "login_label": "Đăng nhập" } },
+        "login": { "loading": "Đang đăng nhập...", "header": "Đăng nhập", "body": "Vui lòng đăng nhập bằng thông tin tài khoản của bạn.", "inputs": { "username_label": "Tên người dùng", "password_label": "Mật khẩu" }, "buttons": { "login_label": "Đăng nhập", "sso_label": "Đăng nhập với {}", "register_web_label": "Đăng ký" } }
+    },
+    "write": {
+        "answer": "Trả lời", "roomheader": "Phòng: {}",
+        "filemessage": { "upload_files": "Thêm tệp mới để tải lên", "title_header": "Tiêu đề:", "upload_start": "Bắt đầu tải lên...", "upload_file_process": "Đang tải lên tệp {}", "upload_error": "Tải lên {} thất bại. Thử lại?", "upload_file_complete": "Tải lên {} hoàn tất!", "upload_complete": "Tất cả tệp đã được tải lên!", "buttons": { "upload_stop": "Hủy", "upload_retry": "Thử lại" } },
+        "roomselect": { "type_prompt": "Chọn loại tin nhắn bạn muốn đăng", "room_prompt": "Chọn phòng bạn muốn đăng:", "error_no_rooms": "Bạn chưa tham gia phòng nào hoặc bạn không có quyền đăng bài." },
+        "textmessage": { "answer_promt": "Nhập nội dung:", "input_placeholder": "Nhập nội dung tại đây...", "send_start": "Đang gửi tin nhắn...", "send_failed": "Gửi tin nhắn thất bại. Bạn có muốn gửi lại không?", "send_complete": "Tin nhắn đã được gửi thành công!", "buttons": { "send_stop": "Không thử lại", "resend": "Thử lại" } }
+    },
+    "profile": {
+        "send_message": "Nhắn tin", "block_title": "Chặn người dùng", "block_desc": "Chặn {}? Bạn sẽ không còn thấy nội dung của họ.",
+        "block_confirm": "Chặn", "block_success": "Đã chặn người dùng.", "block_error": "Không thể chặn người dùng: {}",
+        "report_title": "Báo cáo người dùng", "report_desc": "Vui lòng mô tả lý do bạn báo cáo người dùng này.",
+        "report_reason": "Lý do", "report_reason_hint": "Người dùng này...", "report_submit": "Gửi",
+        "report_success": "Báo cáo đã được gửi. Cảm ơn bạn.", "feeds_section": "BẢNG TIN", "no_feeds": "Không có bảng tin công khai",
+        "error_start_chat": "Không thể bắt đầu cuộc trò chuyện: {}"
+    },
+    "chat": {
+        "title": "Tin nhắn", "input_placeholder": "Nhập tin nhắn...", "no_messages": "Chưa có tin nhắn nào. Hãy chào nhau!",
+        "no_conversations": "Chưa có cuộc trò chuyện nào", "no_conversations_hint": "Truy cập trang cá nhân của người dùng và nhấn 'Nhắn tin' để bắt đầu cuộc trò chuyện.",
+        "media_message": "Phương tiện", "conversation_started": "Cuộc trò chuyện đã bắt đầu",
+        "error_loading": "Không thể tải cuộc trò chuyện này.", "error_sending": "Gửi tin nhắn thất bại.", "view_profile": "Xem trang cá nhân"
+    }
+}

@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "錯誤",
+    "loading": "載入中...",
+    "error": "錯誤：{}",
+    "approve": "確定",
+    "error_no_image": "無圖片",
+    "error_page_not_found": "找不到此頁面。",
+    "age_gate": {
+        "title": "繼續之前",
+        "description": "Substitution 是 Matrix 協議的社交網絡客戶端。繼續即表示你確認以下事項：",
+        "point_client": "Substitution 僅為客戶端應用程式。你的資料儲存在你所選擇的 Matrix 伺服器上，而非 Substitution 營運的伺服器上。",
+        "point_servers": "Substitution 不控制你所連接的外部伺服器的內容政策。你有責任選擇值得信賴的伺服器。",
+        "point_age": "你已年滿 16 歲（或你所在國家/地區所要求的最低年齡）。Substitution 並非為未成年人而設。",
+        "point_content": "Substitution 對非法或不當內容零容忍。請使用應用程式內的舉報工具標記違規行為。",
+        "confirm": "我確認——我已年滿 16 歲",
+        "privacy_link": "閱讀我們的私隱政策"
+    },
+    "cancel": "取消",
+    "feed": {
+        "nav": {
+            "home": "主頁",
+            "discover": "探索",
+            "messages": "訊息",
+            "settings": "設定"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "房間：{}",
+                "empty": "你的動態消息為空。關注一些房間以查看帖子！",
+                "empty_button": "尋找新房間"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "帖子未找到或無法使用。"
+        },
+        "menu": {
+            "report_block": "舉報 / 封鎖"
+        },
+        "e2e": {
+            "encrypted": "端對端加密",
+            "unencrypted": "未加密",
+            "failed": "解密失敗"
+        },
+        "dialog": {
+            "report_block_title": "舉報內容或封鎖用戶",
+            "report_desc": "請描述你舉報此內容的原因（選填）。",
+            "report_reason": "舉報原因",
+            "report_reason_hint": "此內容令人不快，因為...",
+            "block_user_checkbox": "同時封鎖此用戶",
+            "block_user_desc": "你將不再看到 {} 的內容",
+            "submit": "提交",
+            "cancel": "取消",
+            "report_block_success": "舉報已提交。多謝。",
+            "report_block_error": "發生錯誤：{}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "暫無留言。"
+            }
+        },
+        "continue_thread": "繼續此討論串...",
+        "replying_to": "回覆 {}",
+        "reply_placeholder": "撰寫回覆...",
+        "mixins": {
+            "iconpicker": {
+                "title": "選擇圖示"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "關閉"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "檔案正在解密...",
+                "video_desktop_error": "影片無法在 Linux、Windows 或 MacOS 上顯示。如果你希望看到此功能，歡迎在 Github 上貢獻！",
+                "audio_desktop_error": "音訊無法在 Linux、Windows 或 MacOS 上播放。"
+            },
+            "reaction": {
+                "unknown_sender": "未知",
+                "sent_by": "由 {} 發送"
+            },
+            "videoplayercontrol": {
+                "play": "播放",
+                "caption_offset": "字幕偏移",
+                "playback_speed": "播放速度"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "法律資訊",
+            "tos": "服務條款",
+            "privacy": "私隱政策",
+            "imprint": "出版資訊",
+            "licenses": "開源授權"
+        },
+        "followfeeds": {
+            "filter_server_header": "從列表中選擇伺服器或添加新伺服器：",
+            "filter_rooms_header": "搜尋房間以關注或取消關注：",
+            "roomname_placeholder": "輸入房間名稱",
+            "buttons": {
+                "add_server": "添加伺服器",
+                "retry": "重試"
+            },
+            "no_rooms_found": "未找到符合搜尋條件的房間。",
+            "error_loading_rooms": "錯誤：無法載入房間"
+        },
+        "ownfeeds": {
+            "header": "管理你的房間",
+            "buttons": {
+                "create_room": "建立新房間"
+            }
+        },
+        "menu": {
+            "logged_in_as": "已以 {} 身份登入",
+            "logout": "登出",
+            "logout_confirm": "你確定要登出嗎？",
+            "login": "登入",
+            "not_logged_in": "登入以使用所有功能",
+            "home_site_label": "主頁",
+            "feeds_site_label": "動態",
+            "navigation_label": "導覽",
+            "account_label": "帳戶",
+            "preferences_label": "偏好設定",
+            "about_label": "關於"
+        },
+        "room": {
+            "desc": "房間名稱：{}",
+            "leave": "離開房間",
+            "join": "進入房間並添加至 Substitution",
+            "join_short": "加入",
+            "permissions": "權限"
+        },
+        "dialog": {
+            "delete": {
+                "title": "離開房間 {}",
+                "desc": "你確定要離開房間 {} 嗎？",
+                "button": {
+                    "submit": "是的，離開",
+                    "cancel": "不，取消"
+                }
+            },
+            "add": {
+                "title": "添加新伺服器",
+                "input_placeholder": "輸入伺服器地址",
+                "button": {
+                    "submit": "添加"
+                },
+                "snackbar": {
+                    "success": "伺服器已添加",
+                    "error_homeserver": "輸入的伺服器無效"
+                }
+            },
+            "create": {
+                "title": "建立新房間",
+                "placeholder_name": "房間名稱",
+                "placeholder_alias": "房間別名（公開地址）",
+                "placeholder_topic": "房間主題",
+                "submit": "建立"
+            }
+        },
+        "room_preview": {
+            "members": "{} 位成員",
+            "latest_posts": "最新帖子",
+            "no_posts": "此房間暫無帖子。",
+            "no_peek": "此房間的歷史記錄為私密。加入房間以查看帖子。",
+            "join_to_see": "加入以查看帖子"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "太好了，你已經登入。\n你可以繼續下一步",
+        "isNotLoggedIn": "請先登入",
+        "buttons": {
+            "next": "下一步",
+            "back": "返回"
+        },
+        "welcome": {
+            "title": "歡迎來到 Substitution",
+            "desc": "... 建基於 Matrix 協議的全新社交網絡"
+        },
+        "account": {
+            "title": "Matrix 帳戶",
+            "desc": "你需要在任意伺服器上登入 Matrix 帳戶才能使用此應用程式。如果你不知道如何取得帳戶，請瀏覽此網站：https://matrix.org/"
+        },
+        "host": {
+            "title": "選擇伺服器"
+        },
+        "login": {
+            "title": "登入"
+        },
+        "finished": {
+            "title": "開始吧",
+            "desc": "太好了，你已成功登入。一切準備就緒。你現在可以選擇是否加入 Substitution 歡迎房間。開始探索，祝你玩得開心！",
+            "buttons": {
+                "add_to_room_and_go": "加入 Substitution 房間並開始！",
+                "go": "直接開始！"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "連接到你的伺服器",
+            "body": "請選擇一個 Matrix 伺服器。之後你可以登入或瀏覽公開的房間。",
+            "inputs": {
+                "homeserver_label": "你的伺服器地址"
+            },
+            "buttons": {
+                "login_label": "登入"
+            }
+        },
+        "login": {
+            "loading": "正在登入...",
+            "header": "登入",
+            "body": "請使用你的憑證登入。",
+            "inputs": {
+                "username_label": "用戶名稱",
+                "password_label": "密碼"
+            },
+            "buttons": {
+                "login_label": "登入",
+                "sso_label": "使用 {} 登入",
+                "register_web_label": "註冊"
+            }
+        }
+    },
+    "write": {
+        "answer": "回覆",
+        "roomheader": "房間：{}",
+        "filemessage": {
+            "upload_files": "添加新檔案以上傳",
+            "title_header": "標題：",
+            "upload_start": "開始上傳...",
+            "upload_file_process": "正在上傳檔案 {}",
+            "upload_error": "上傳 {} 失敗。是否重試？",
+            "upload_file_complete": "上傳 {} 完成！",
+            "upload_complete": "所有檔案已上傳！",
+            "buttons": {
+                "upload_stop": "取消",
+                "upload_retry": "重試"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "選擇你要發佈的訊息類型",
+            "room_prompt": "選擇你要發佈的房間：",
+            "error_no_rooms": "你尚未加入任何房間，或你沒有發佈的權限。"
+        },
+        "textmessage": {
+            "answer_promt": "輸入你的文字：",
+            "input_placeholder": "在此輸入你的文字...",
+            "send_start": "已開始發送訊息...",
+            "send_failed": "訊息發送失敗。是否重新發送？",
+            "send_complete": "訊息發送成功！",
+            "buttons": {
+                "send_stop": "不重試",
+                "resend": "重試"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "訊息",
+        "block_title": "封鎖用戶",
+        "block_desc": "封鎖 {}？你將不再看到他們的內容。",
+        "block_confirm": "封鎖",
+        "block_success": "用戶已被封鎖。",
+        "block_error": "無法封鎖用戶：{}",
+        "report_title": "舉報用戶",
+        "report_desc": "請描述舉報此用戶的原因。",
+        "report_reason": "原因",
+        "report_reason_hint": "此用戶...",
+        "report_submit": "提交",
+        "report_success": "舉報已提交。多謝。",
+        "feeds_section": "動態",
+        "no_feeds": "無公開動態",
+        "error_start_chat": "無法開始對話：{}"
+    },
+    "chat": {
+        "title": "訊息",
+        "input_placeholder": "輸入訊息...",
+        "no_messages": "暫無訊息。打個招呼吧！",
+        "no_conversations": "暫無對話",
+        "no_conversations_hint": "前往用戶的個人檔案並點擊「訊息」以開始對話。",
+        "media_message": "媒體",
+        "conversation_started": "對話已開始",
+        "error_loading": "無法載入此對話。",
+        "error_sending": "訊息發送失敗。",
+        "view_profile": "查看個人檔案"
+    }
+}

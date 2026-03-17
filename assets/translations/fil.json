@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Error",
+    "loading": "Naglo-load...",
+    "error": "Error: {}",
+    "approve": "Ok",
+    "error_no_image": "Walang Larawan",
+    "error_page_not_found": "Hindi mahanap ang pahinang ito.",
+    "age_gate": {
+        "title": "Bago ka magpatuloy",
+        "description": "Ang Substitution ay isang social networking client para sa Matrix protocol. Sa pagpapatuloy, kinukumpirma mo ang mga sumusunod:",
+        "point_client": "Ang Substitution ay isang client app lamang. Ang iyong data ay naka-store sa Matrix homeserver na iyong pinili, hindi sa mga server na pinapatakbo ng Substitution.",
+        "point_servers": "Hindi kinokontrol ng Substitution ang mga content policy ng mga external homeserver na kinokonekta mo. Ikaw ang may responsibilidad sa pagpili ng mapagkakatiwalaang server.",
+        "point_age": "Ikaw ay 16 na taong gulang o mas matanda (o ang minimum na edad na kinakailangan sa iyong bansa). Ang Substitution ay hindi para sa mga menor de edad.",
+        "point_content": "Ang Substitution ay may zero tolerance sa ilegal o hindi kanais-nais na content. Gamitin ang mga in-app reporting tool para i-report ang mga paglabag.",
+        "confirm": "Kinukumpirma ko — 16 o mas matanda na ako",
+        "privacy_link": "Basahin ang aming Privacy Policy"
+    },
+    "cancel": "Kanselahin",
+    "feed": {
+        "nav": {
+            "home": "Home",
+            "discover": "Tuklasin",
+            "messages": "Mga Mensahe",
+            "settings": "Mga Setting"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Room: {}",
+                "empty": "Walang laman ang iyong feed. Mag-follow ng mga room para makakita ng mga post!",
+                "empty_button": "Maghanap ng mga bagong room"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Hindi nahanap o hindi available ang post."
+        },
+        "menu": {
+            "report_block": "I-report / I-block"
+        },
+        "e2e": {
+            "encrypted": "End-to-end encrypted",
+            "unencrypted": "Hindi encrypted",
+            "failed": "Nabigo ang decryption"
+        },
+        "dialog": {
+            "report_block_title": "I-report ang Content o I-block ang User",
+            "report_desc": "Pakipaliwanag kung bakit mo ini-report ang content na ito (opsyonal).",
+            "report_reason": "Dahilan ng pag-report",
+            "report_reason_hint": "Ang content na ito ay nakakasakit dahil...",
+            "block_user_checkbox": "I-block din ang user na ito",
+            "block_user_desc": "Hindi mo na makikita ang content mula kay {}",
+            "submit": "Isumite",
+            "cancel": "Kanselahin",
+            "report_block_success": "Naisumite na ang report. Salamat.",
+            "report_block_error": "May naganap na error: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Wala pang mga komento."
+            }
+        },
+        "continue_thread": "Ipagpatuloy ang thread na ito...",
+        "replying_to": "Tumutugon kay {}",
+        "reply_placeholder": "Sumulat ng tugon...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Pumili ng icon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "isara"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Dine-decrypt ang file...",
+                "video_desktop_error": "Hindi maipakita ang mga video sa Linux, Windows o MacOS. Mag-contribute sa Github kung gusto mong makita ang feature na ito!",
+                "audio_desktop_error": "Hindi mapatugtog ang audio sa Linux, Windows o MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "hindi kilala",
+                "sent_by": "Ipinadala ni {}"
+            },
+            "videoplayercontrol": {
+                "play": "i-play",
+                "caption_offset": "caption offset",
+                "playback_speed": "bilis ng playback"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Mga Tuntunin ng Serbisyo",
+            "privacy": "Patakaran sa Privacy",
+            "imprint": "Imprint",
+            "licenses": "Mga Open Source License"
+        },
+        "followfeeds": {
+            "filter_server_header": "Pumili ng server mula sa listahan o magdagdag ng bago:",
+            "filter_rooms_header": "Maghanap ng room na i-follow o i-unfollow:",
+            "roomname_placeholder": "Ilagay ang pangalan ng room",
+            "buttons": {
+                "add_server": "Magdagdag ng Server",
+                "retry": "Subukan Muli"
+            },
+            "no_rooms_found": "Walang nahanap na room para sa ibinigay na paghahanap.",
+            "error_loading_rooms": "Error: Nabigong i-load ang mga room"
+        },
+        "ownfeeds": {
+            "header": "Pamahalaan ang iyong mga room",
+            "buttons": {
+                "create_room": "Gumawa ng bagong Room"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Naka-log in bilang {}",
+            "logout": "Mag-log out",
+            "logout_confirm": "Sigurado ka bang gusto mong mag-log out?",
+            "login": "Mag-log in",
+            "not_logged_in": "Mag-log in para ma-access ang lahat ng feature",
+            "home_site_label": "Home",
+            "feeds_site_label": "Mga Feed",
+            "navigation_label": "Nabigasyon",
+            "account_label": "Account",
+            "preferences_label": "Mga Kagustuhan",
+            "about_label": "Tungkol Sa"
+        },
+        "room": {
+            "desc": "Pangalan ng room: {}",
+            "leave": "Umalis sa room",
+            "join": "Pumasok sa room at idagdag ito sa Substitution",
+            "join_short": "Sumali",
+            "permissions": "Mga Pahintulot"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Umalis sa room {}",
+                "desc": "Sigurado ka bang gusto mong umalis sa room {}?",
+                "button": {
+                    "submit": "Oo, umalis",
+                    "cancel": "Hindi, kanselahin"
+                }
+            },
+            "add": {
+                "title": "Magdagdag ng bagong Server",
+                "input_placeholder": "Ilagay ang address ng server",
+                "button": {
+                    "submit": "Idagdag"
+                },
+                "snackbar": {
+                    "success": "Naidagdag na ang server",
+                    "error_homeserver": "Hindi valid ang inilagay na homeserver"
+                }
+            },
+            "create": {
+                "title": "Gumawa ng bagong room",
+                "placeholder_name": "pangalan ng room",
+                "placeholder_alias": "room alias (pampublikong address ng room)",
+                "placeholder_topic": "paksa ng room",
+                "submit": "Gumawa"
+            }
+        },
+        "room_preview": {
+            "members": "{} miyembro",
+            "latest_posts": "Pinakabagong mga post",
+            "no_posts": "Wala pang mga post sa room na ito.",
+            "no_peek": "Ang kasaysayan ng room na ito ay pribado. Sumali sa room para makita ang mga post.",
+            "join_to_see": "Sumali para makita ang mga post"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Magaling, naka-log in ka na. \nMaaari kang magpatuloy sa mga susunod na hakbang",
+        "isNotLoggedIn": "Mangyaring mag-log in muna",
+        "buttons": {
+            "next": "Susunod",
+            "back": "Bumalik"
+        },
+        "welcome": {
+            "title": "Maligayang pagdating sa Substitution",
+            "desc": "... ang bagong social network sa ibabaw ng Matrix protocol"
+        },
+        "account": {
+            "title": "Mga Matrix Account",
+            "desc": "Kailangan mong naka-log in sa isang Matrix account sa kahit anong server para magamit ang app na ito. Kung hindi mo alam kung paano kumuha ng isa, bisitahin ang site na ito: https://matrix.org/"
+        },
+        "host": {
+            "title": "Pumili ng host"
+        },
+        "login": {
+            "title": "Mag-log in"
+        },
+        "finished": {
+            "title": "Tara na",
+            "desc": "Magaling, naka-log in ka na. Handa na tayong magsimula. Maaari mo na ngayong piliin kung gusto mong sumali sa Substitution welcome room. Tara na, at mag-enjoy!",
+            "buttons": {
+                "add_to_room_and_go": "Sumali sa Substitution-Room at tara na!",
+                "go": "Diretso na!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Kumonekta sa iyong Homeserver",
+            "body": "Mangyaring pumili ng Matrix Homeserver. Maaari kang mag-log in o mag-browse ng mga pampublikong room.",
+            "inputs": {
+                "homeserver_label": "Address ng iyong Homeserver"
+            },
+            "buttons": {
+                "login_label": "Mag-log in"
+            }
+        },
+        "login": {
+            "loading": "Ini-log in ka...",
+            "header": "Mag-log in",
+            "body": "Mangyaring mag-log in gamit ang iyong mga kredensyal.",
+            "inputs": {
+                "username_label": "Username",
+                "password_label": "Password"
+            },
+            "buttons": {
+                "login_label": "Mag-log in",
+                "sso_label": "Mag-sign in gamit ang {}",
+                "register_web_label": "Mag-register"
+            }
+        }
+    },
+    "write": {
+        "answer": "Sagutin",
+        "roomheader": "Room: {}",
+        "filemessage": {
+            "upload_files": "Magdagdag ng mga bagong file para i-upload",
+            "title_header": "Pamagat:",
+            "upload_start": "Sinisimulan ang pag-upload...",
+            "upload_file_process": "Ina-upload ang file {}",
+            "upload_error": "Nabigo ang pag-upload ng {}. Subukan muli?",
+            "upload_file_complete": "Kumpleto na ang pag-upload ng {}!",
+            "upload_complete": "Lahat ng file ay na-upload na!",
+            "buttons": {
+                "upload_stop": "Kanselahin",
+                "upload_retry": "Subukan Muli"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Piliin ang uri ng mensaheng gusto mong i-post",
+            "room_prompt": "Piliin ang room kung saan mo gustong mag-post:",
+            "error_no_rooms": "Wala kang na-join na room o wala kang karapatang mag-post."
+        },
+        "textmessage": {
+            "answer_promt": "Ilagay ang iyong Teksto:",
+            "input_placeholder": "Ilagay ang iyong teksto dito...",
+            "send_start": "Sinisimulan ang pagpapadala ng mensahe...",
+            "send_failed": "Nabigo ang pagpapadala ng mensahe. Gusto mo bang ipadala muli?",
+            "send_complete": "Matagumpay na naipadala ang mensahe!",
+            "buttons": {
+                "send_stop": "Huwag subukan muli",
+                "resend": "Subukan Muli"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mensahe",
+        "block_title": "I-block ang User",
+        "block_desc": "I-block si {}? Hindi mo na makikita ang kanilang content.",
+        "block_confirm": "I-block",
+        "block_success": "Na-block na ang user.",
+        "block_error": "Hindi ma-block ang user: {}",
+        "report_title": "I-report ang User",
+        "report_desc": "Mangyaring ipaliwanag ang dahilan ng pag-report sa user na ito.",
+        "report_reason": "Dahilan",
+        "report_reason_hint": "Ang user na ito ay...",
+        "report_submit": "Isumite",
+        "report_success": "Naisumite na ang report. Salamat.",
+        "feeds_section": "MGA FEED",
+        "no_feeds": "Walang pampublikong feed",
+        "error_start_chat": "Hindi masimulan ang chat: {}"
+    },
+    "chat": {
+        "title": "Mga Mensahe",
+        "input_placeholder": "Mag-type ng mensahe...",
+        "no_messages": "Wala pang mga mensahe. Kumusta!",
+        "no_conversations": "Wala pang mga usapan",
+        "no_conversations_hint": "Bisitahin ang profile ng isang user at i-tap ang 'Mensahe' para magsimula ng chat.",
+        "media_message": "Media",
+        "conversation_started": "Nagsimula ang usapan",
+        "error_loading": "Hindi ma-load ang usapang ito.",
+        "error_sending": "Nabigong ipadala ang mensahe.",
+        "view_profile": "Tingnan ang profile"
+    }
+}

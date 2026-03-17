@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "خطا",
+    "loading": "در حال بارگذاری...",
+    "error": "خطا: {}",
+    "approve": "تأیید",
+    "error_no_image": "بدون تصویر",
+    "error_page_not_found": "این صفحه یافت نشد.",
+    "age_gate": {
+        "title": "قبل از ادامه",
+        "description": "Substitution یک کلاینت شبکه اجتماعی برای پروتکل Matrix است. با ادامه دادن، موارد زیر را تأیید می‌کنید:",
+        "point_client": "Substitution فقط یک اپلیکیشن کلاینت است. داده‌های شما در سرور خانگی Matrix که انتخاب می‌کنید ذخیره می‌شود، نه در سرورهای Substitution.",
+        "point_servers": "Substitution سیاست‌های محتوای سرورهای خانگی خارجی که به آن‌ها متصل می‌شوید را کنترل نمی‌کند. شما مسئول انتخاب یک سرور قابل اعتماد هستید.",
+        "point_age": "شما ۱۶ سال یا بالاتر هستید (یا حداقل سن مورد نیاز در کشور شما). Substitution برای افراد زیر سن قانونی مناسب نیست.",
+        "point_content": "Substitution هیچ‌گونه تحملی نسبت به محتوای غیرقانونی یا نامناسب ندارد. از ابزارهای گزارش‌دهی درون‌برنامه‌ای برای گزارش تخلفات استفاده کنید.",
+        "confirm": "تأیید می‌کنم — من ۱۶ سال یا بالاتر هستم",
+        "privacy_link": "سیاست حفظ حریم خصوصی ما را بخوانید"
+    },
+    "cancel": "لغو",
+    "feed": {
+        "nav": {
+            "home": "خانه",
+            "discover": "کاوش",
+            "messages": "پیام‌ها",
+            "settings": "تنظیمات"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "اتاق: {}",
+                "empty": "فید شما خالی است. برای دیدن پست‌ها، اتاق‌هایی را دنبال کنید!",
+                "empty_button": "یافتن اتاق‌های جدید"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "پست یافت نشد یا در دسترس نیست."
+        },
+        "menu": {
+            "report_block": "گزارش / مسدود کردن"
+        },
+        "e2e": {
+            "encrypted": "رمزنگاری سرتاسری",
+            "unencrypted": "رمزنگاری نشده",
+            "failed": "رمزگشایی ناموفق بود"
+        },
+        "dialog": {
+            "report_block_title": "گزارش محتوا یا مسدود کردن کاربر",
+            "report_desc": "لطفاً دلیل گزارش این محتوا را توضیح دهید (اختیاری).",
+            "report_reason": "دلیل گزارش",
+            "report_reason_hint": "این محتوا نامناسب است زیرا...",
+            "block_user_checkbox": "همچنین این کاربر را مسدود کن",
+            "block_user_desc": "شما دیگر محتوای {} را نخواهید دید",
+            "submit": "ارسال",
+            "cancel": "لغو",
+            "report_block_success": "گزارش ارسال شد. با تشکر.",
+            "report_block_error": "خطایی رخ داد: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "هنوز نظری وجود ندارد."
+            }
+        },
+        "continue_thread": "ادامه این رشته...",
+        "replying_to": "در پاسخ به {}",
+        "reply_placeholder": "پاسخی بنویسید...",
+        "mixins": {
+            "iconpicker": {
+                "title": "انتخاب آیکون"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "بستن"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "فایل در حال رمزگشایی است...",
+                "video_desktop_error": "ویدئوها در Linux، Windows و MacOS قابل نمایش نیستند. اگر مایل هستید این قابلیت را ببینید، در Github مشارکت کنید!",
+                "audio_desktop_error": "صدا در Linux، Windows و MacOS قابل پخش نیست."
+            },
+            "reaction": {
+                "unknown_sender": "ناشناس",
+                "sent_by": "ارسال شده توسط {}"
+            },
+            "videoplayercontrol": {
+                "play": "پخش",
+                "caption_offset": "جابجایی زیرنویس",
+                "playback_speed": "سرعت پخش"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "حقوقی",
+            "tos": "شرایط خدمات",
+            "privacy": "سیاست حفظ حریم خصوصی",
+            "imprint": "اطلاعات ناشر",
+            "licenses": "مجوزهای متن‌باز"
+        },
+        "followfeeds": {
+            "filter_server_header": "یک سرور از لیست انتخاب کنید یا یکی جدید اضافه کنید:",
+            "filter_rooms_header": "اتاقی را برای دنبال کردن یا لغو دنبال کردن جستجو کنید:",
+            "roomname_placeholder": "نام اتاق را وارد کنید",
+            "buttons": {
+                "add_server": "افزودن سرور",
+                "retry": "تلاش مجدد"
+            },
+            "no_rooms_found": "اتاقی با معیارهای جستجوی داده شده یافت نشد.",
+            "error_loading_rooms": "خطا: بارگذاری اتاق‌ها ناموفق بود"
+        },
+        "ownfeeds": {
+            "header": "مدیریت اتاق‌های خود",
+            "buttons": {
+                "create_room": "ایجاد اتاق جدید"
+            }
+        },
+        "menu": {
+            "logged_in_as": "وارد شده به عنوان {}",
+            "logout": "خروج",
+            "logout_confirm": "آیا مطمئن هستید که می‌خواهید خارج شوید؟",
+            "login": "ورود",
+            "not_logged_in": "برای دسترسی به تمام امکانات وارد شوید",
+            "home_site_label": "خانه",
+            "feeds_site_label": "فیدها",
+            "navigation_label": "ناوبری",
+            "account_label": "حساب کاربری",
+            "preferences_label": "ترجیحات",
+            "about_label": "درباره"
+        },
+        "room": {
+            "desc": "نام اتاق: {}",
+            "leave": "ترک اتاق",
+            "join": "وارد اتاق شوید و آن را به substitution اضافه کنید",
+            "join_short": "پیوستن",
+            "permissions": "مجوزها"
+        },
+        "dialog": {
+            "delete": {
+                "title": "ترک اتاق {}",
+                "desc": "آیا مطمئن هستید که می‌خواهید اتاق {} را ترک کنید؟",
+                "button": {
+                    "submit": "بله، ترک کن",
+                    "cancel": "نه، لغو کن"
+                }
+            },
+            "add": {
+                "title": "افزودن سرور جدید",
+                "input_placeholder": "آدرس سرور را وارد کنید",
+                "button": {
+                    "submit": "افزودن"
+                },
+                "snackbar": {
+                    "success": "سرور اضافه شد",
+                    "error_homeserver": "سرور خانگی وارد شده معتبر نیست"
+                }
+            },
+            "create": {
+                "title": "ایجاد اتاق جدید",
+                "placeholder_name": "نام اتاق",
+                "placeholder_alias": "نام مستعار اتاق (آدرس عمومی اتاق)",
+                "placeholder_topic": "موضوع اتاق",
+                "submit": "ایجاد"
+            }
+        },
+        "room_preview": {
+            "members": "{} عضو",
+            "latest_posts": "آخرین پست‌ها",
+            "no_posts": "هنوز پستی در این اتاق وجود ندارد.",
+            "no_peek": "تاریخچه این اتاق خصوصی است. برای دیدن پست‌ها به اتاق بپیوندید.",
+            "join_to_see": "برای دیدن پست‌ها بپیوندید"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "عالی، شما از قبل وارد شده‌اید. \nمی‌توانید با مراحل بعدی ادامه دهید",
+        "isNotLoggedIn": "لطفاً ابتدا وارد شوید",
+        "buttons": {
+            "next": "بعدی",
+            "back": "قبلی"
+        },
+        "welcome": {
+            "title": "به substitution خوش آمدید",
+            "desc": "... شبکه اجتماعی جدید بر پایه پروتکل matrix"
+        },
+        "account": {
+            "title": "حساب‌های Matrix",
+            "desc": "برای استفاده از این اپلیکیشن باید با یک حساب matrix در یک سرور دلخواه وارد شوید. اگر نمی‌دانید چگونه یکی بگیرید، به این سایت مراجعه کنید: https://matrix.org/"
+        },
+        "host": {
+            "title": "انتخاب میزبان"
+        },
+        "login": {
+            "title": "ورود"
+        },
+        "finished": {
+            "title": "بزن بریم",
+            "desc": "عالی، شما وارد شده‌اید. ما آماده شروع هستیم. اکنون می‌توانید انتخاب کنید که آیا می‌خواهید به اتاق خوش‌آمدگویی substitution بپیوندید یا خیر. بزن بریم و لذت ببرید!",
+            "buttons": {
+                "add_to_room_and_go": "پیوستن به اتاق Substitution و شروع!",
+                "go": "فقط شروع کن!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "اتصال به سرور خانگی",
+            "body": "لطفاً یک سرور خانگی Matrix انتخاب کنید. سپس می‌توانید وارد شوید یا اتاق‌های عمومی را مرور کنید.",
+            "inputs": {
+                "homeserver_label": "آدرس سرور خانگی شما"
+            },
+            "buttons": {
+                "login_label": "ورود"
+            }
+        },
+        "login": {
+            "loading": "در حال ورود...",
+            "header": "ورود",
+            "body": "لطفاً با اطلاعات کاربری خود وارد شوید.",
+            "inputs": {
+                "username_label": "نام کاربری",
+                "password_label": "رمز عبور"
+            },
+            "buttons": {
+                "login_label": "ورود",
+                "sso_label": "ورود با {}",
+                "register_web_label": "ثبت‌نام"
+            }
+        }
+    },
+    "write": {
+        "answer": "پاسخ",
+        "roomheader": "اتاق: {}",
+        "filemessage": {
+            "upload_files": "افزودن فایل‌های جدید برای بارگذاری",
+            "title_header": "عنوان:",
+            "upload_start": "شروع بارگذاری...",
+            "upload_file_process": "در حال بارگذاری فایل {}",
+            "upload_error": "بارگذاری {} ناموفق بود. تلاش مجدد؟",
+            "upload_file_complete": "بارگذاری {} کامل شد!",
+            "upload_complete": "تمام فایل‌ها بارگذاری شدند!",
+            "buttons": {
+                "upload_stop": "لغو",
+                "upload_retry": "تلاش مجدد"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "نوع پیامی که می‌خواهید ارسال کنید را انتخاب کنید",
+            "room_prompt": "اتاقی که می‌خواهید در آن پست بگذارید را انتخاب کنید:",
+            "error_no_rooms": "شما به هیچ اتاقی نپیوسته‌اید یا مجوز ارسال پست ندارید."
+        },
+        "textmessage": {
+            "answer_promt": "متن خود را وارد کنید:",
+            "input_placeholder": "متن خود را اینجا وارد کنید...",
+            "send_start": "شروع ارسال پیام...",
+            "send_failed": "ارسال پیام ناموفق بود. آیا می‌خواهید دوباره ارسال کنید؟",
+            "send_complete": "پیام با موفقیت ارسال شد!",
+            "buttons": {
+                "send_stop": "تلاش مجدد نکن",
+                "resend": "تلاش مجدد"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "پیام",
+        "block_title": "مسدود کردن کاربر",
+        "block_desc": "{} مسدود شود؟ شما دیگر محتوای آن‌ها را نخواهید دید.",
+        "block_confirm": "مسدود کردن",
+        "block_success": "کاربر مسدود شد.",
+        "block_error": "مسدود کردن کاربر ممکن نشد: {}",
+        "report_title": "گزارش کاربر",
+        "report_desc": "لطفاً دلیل گزارش این کاربر را شرح دهید.",
+        "report_reason": "دلیل",
+        "report_reason_hint": "این کاربر...",
+        "report_submit": "ارسال",
+        "report_success": "گزارش ارسال شد. با تشکر.",
+        "feeds_section": "فیدها",
+        "no_feeds": "فید عمومی وجود ندارد",
+        "error_start_chat": "شروع گفتگو ممکن نشد: {}"
+    },
+    "chat": {
+        "title": "پیام‌ها",
+        "input_placeholder": "پیامی بنویسید...",
+        "no_messages": "هنوز پیامی وجود ندارد. سلام کنید!",
+        "no_conversations": "هنوز گفتگویی وجود ندارد",
+        "no_conversations_hint": "به پروفایل یک کاربر بروید و روی «پیام» ضربه بزنید تا گفتگو شروع شود.",
+        "media_message": "رسانه",
+        "conversation_started": "گفتگو آغاز شد",
+        "error_loading": "بارگذاری این گفتگو ممکن نشد.",
+        "error_sending": "ارسال پیام ناموفق بود.",
+        "view_profile": "مشاهده پروفایل"
+    }
+}

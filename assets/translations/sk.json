@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Chyba",
+    "loading": "Načítavanie...",
+    "error": "Chyba: {}",
+    "approve": "Ok",
+    "error_no_image": "Žiadny obrázok",
+    "error_page_not_found": "Táto stránka nebola nájdená.",
+    "age_gate": {
+        "title": "Pred pokračovaním",
+        "description": "Substitution je klient sociálnej siete pre protokol Matrix. Pokračovaním potvrdzujete nasledovné:",
+        "point_client": "Substitution je len klientská aplikácia. Vaše údaje sú uložené na domovskom serveri Matrix, ktorý si vyberiete, nie na serveroch prevádzkovaných Substitution.",
+        "point_servers": "Substitution nekontroluje zásady obsahu externých domovských serverov, ku ktorým sa pripájate. Za výber dôveryhodného servera nesiete zodpovednosť vy.",
+        "point_age": "Máte 16 rokov alebo viac (alebo minimálny vek požadovaný vo vašej krajine). Substitution nie je určená pre maloletých.",
+        "point_content": "Substitution má nulovú toleranciu voči nelegálnemu alebo nevhodnému obsahu. Na nahlásenie porušení použite nástroje na hlásenie v aplikácii.",
+        "confirm": "Potvrdzujem — mám 16 rokov alebo viac",
+        "privacy_link": "Prečítajte si naše zásady ochrany osobných údajov"
+    },
+    "cancel": "Zrušiť",
+    "feed": {
+        "nav": { "home": "Domov", "discover": "Objavovať", "messages": "Správy", "settings": "Nastavenia" },
+        "pages": { "home": { "roomlabel": "Miestnosť: {}", "empty": "Váš kanál je prázdny. Sledujte miestnosti, aby ste videli príspevky!", "empty_button": "Nájsť nové miestnosti" } }
+    },
+    "post": {
+        "error": { "not_found": "Príspevok nebol nájdený alebo nie je dostupný." },
+        "menu": { "report_block": "Nahlásiť / Zablokovať" },
+        "e2e": { "encrypted": "End-to-end šifrované", "unencrypted": "Nešifrované", "failed": "Dešifrovanie zlyhalo" },
+        "dialog": {
+            "report_block_title": "Nahlásiť obsah alebo zablokovať používateľa",
+            "report_desc": "Popíšte, prečo nahlasujete tento obsah (voliteľné).",
+            "report_reason": "Dôvod nahlásenia",
+            "report_reason_hint": "Tento obsah je urážlivý, pretože...",
+            "block_user_checkbox": "Tiež zablokovať tohto používateľa",
+            "block_user_desc": "Už neuvidíte obsah od {}",
+            "submit": "Odoslať", "cancel": "Zrušiť",
+            "report_block_success": "Nahlásenie bolo odoslané. Ďakujeme.",
+            "report_block_error": "Vyskytla sa chyba: {}"
+        },
+        "pages": { "post": { "no_comments": "Zatiaľ žiadne komentáre." } },
+        "continue_thread": "Pokračovať v diskusii...",
+        "replying_to": "Odpoveď pre {}",
+        "reply_placeholder": "Napíšte odpoveď...",
+        "mixins": { "iconpicker": { "title": "Vybrať ikonu" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "zavrieť" } },
+            "filedisplay": { "decrypting": "Súbor sa dešifruje...", "video_desktop_error": "Videá nie je možné prehrávať na Linux, Windows ani MacOS. Prispejte na Github, ak chcete vidieť túto funkciu!", "audio_desktop_error": "Zvuk nie je možné prehrávať na Linux, Windows ani MacOS." },
+            "reaction": { "unknown_sender": "neznámy", "sent_by": "Odoslal/a {}" },
+            "videoplayercontrol": { "play": "prehrať", "caption_offset": "posun titulkov", "playback_speed": "rýchlosť prehrávania" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Právne informácie", "tos": "Podmienky služby", "privacy": "Zásady ochrany osobných údajov", "imprint": "Impressum", "licenses": "Licencie open source" },
+        "followfeeds": {
+            "filter_server_header": "Vyberte server zo zoznamu alebo pridajte nový:",
+            "filter_rooms_header": "Vyhľadajte miestnosť na sledovanie alebo zrušenie sledovania:",
+            "roomname_placeholder": "Zadajte názov miestnosti",
+            "buttons": { "add_server": "Pridať server", "retry": "Skúsiť znova" },
+            "no_rooms_found": "Pre zadané kritériá vyhľadávania neboli nájdené žiadne miestnosti.",
+            "error_loading_rooms": "Chyba: Nepodarilo sa načítať miestnosti"
+        },
+        "ownfeeds": { "header": "Spravujte svoje miestnosti", "buttons": { "create_room": "Vytvoriť novú miestnosť" } },
+        "menu": {
+            "logged_in_as": "Prihlásený ako {}", "logout": "Odhlásiť sa", "logout_confirm": "Ste si istý, že sa chcete odhlásiť?",
+            "login": "Prihlásiť sa", "not_logged_in": "Prihláste sa pre prístup ku všetkým funkciám",
+            "home_site_label": "Domov", "feeds_site_label": "Kanály", "navigation_label": "Navigácia",
+            "account_label": "Účet", "preferences_label": "Predvoľby", "about_label": "O aplikácii"
+        },
+        "room": { "desc": "Názov miestnosti: {}", "leave": "Opustiť miestnosť", "join": "Vstúpiť do miestnosti a pridať ju do substitution", "join_short": "Vstúpiť", "permissions": "Oprávnenia" },
+        "dialog": {
+            "delete": { "title": "Opustiť miestnosť {}", "desc": "Ste si istý, že chcete opustiť miestnosť {}?", "button": { "submit": "Áno, opustiť", "cancel": "Nie, zrušiť" } },
+            "add": { "title": "Pridať nový server", "input_placeholder": "Zadajte adresu servera", "button": { "submit": "Pridať" }, "snackbar": { "success": "Server bol pridaný", "error_homeserver": "Zadaný domovský server nie je platný" } },
+            "create": { "title": "Vytvoriť novú miestnosť", "placeholder_name": "názov miestnosti", "placeholder_alias": "alias miestnosti (verejná adresa)", "placeholder_topic": "téma miestnosti", "submit": "Vytvoriť" }
+        },
+        "room_preview": { "members": "{} členov", "latest_posts": "Najnovšie príspevky", "no_posts": "V tejto miestnosti zatiaľ nie sú žiadne príspevky.", "no_peek": "História tejto miestnosti je súkromná. Vstúpte do miestnosti, aby ste videli príspevky.", "join_to_see": "Vstúpte pre zobrazenie príspevkov" }
+    },
+    "intro": {
+        "isLoggedIn": "Skvelé, už ste prihlásený. \nMôžete pokračovať ďalšími krokmi",
+        "isNotLoggedIn": "Najskôr sa prihláste",
+        "buttons": { "next": "Ďalej", "back": "Späť" },
+        "welcome": { "title": "Vitajte v substitution", "desc": "... nová sociálna sieť na základe protokolu Matrix" },
+        "account": { "title": "Účty Matrix", "desc": "Na používanie tejto aplikácie musíte byť prihlásený do účtu Matrix na ľubovoľnom serveri. Ak neviete, ako ho získať, navštívte túto stránku: https://matrix.org/" },
+        "host": { "title": "Vyberte server" },
+        "login": { "title": "Prihlásenie" },
+        "finished": { "title": "Poďme na to", "desc": "Skvelé, ste prihlásený. Sme pripravení na substitution. Teraz si môžete vybrať, či sa chcete pripojiť k uvítacej miestnosti substitution. Poďme na to a bavte sa!", "buttons": { "add_to_room_and_go": "Pripojiť sa k miestnosti Substitution a ísť!", "go": "Jednoducho ísť!" } }
+    },
+    "auth": {
+        "host": { "header": "Pripojte sa k domovskému serveru", "body": "Vyberte si domovský server Matrix. Potom sa môžete prihlásiť alebo prehliadať verejne dostupné miestnosti.", "inputs": { "homeserver_label": "Adresa vášho domovského servera" }, "buttons": { "login_label": "Prihlásiť sa" } },
+        "login": { "loading": "Prihlasovanie...", "header": "Prihlásenie", "body": "Prihláste sa pomocou svojich prihlasovacích údajov.", "inputs": { "username_label": "Používateľské meno", "password_label": "Heslo" }, "buttons": { "login_label": "Prihlásiť sa", "sso_label": "Prihlásiť sa cez {}", "register_web_label": "Registrovať sa" } }
+    },
+    "write": {
+        "answer": "Odpovedať", "roomheader": "Miestnosť: {}",
+        "filemessage": { "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
+        "roomselect": { "type_prompt": "Vyberte typ správy, ktorú chcete zverejniť", "room_prompt": "Vyberte miestnosť, v ktorej chcete zverejniť:", "error_no_rooms": "Nepripojili ste sa k žiadnym miestnostiam alebo nemáte oprávnenie na zverejňovanie." },
+        "textmessage": { "answer_promt": "Zadajte text:", "input_placeholder": "Zadajte text sem...", "send_start": "Správa sa odosiela...", "send_failed": "Odoslanie správy zlyhalo. Chcete správu odoslať znova?", "send_complete": "Správa bola úspešne odoslaná!", "buttons": { "send_stop": "Neopakovať", "resend": "Skúsiť znova" } }
+    },
+    "profile": {
+        "send_message": "Správa", "block_title": "Zablokovať používateľa", "block_desc": "Zablokovať {}? Už neuvidíte ich obsah.",
+        "block_confirm": "Zablokovať", "block_success": "Používateľ zablokovaný.", "block_error": "Nepodarilo sa zablokovať používateľa: {}",
+        "report_title": "Nahlásiť používateľa", "report_desc": "Popíšte dôvod nahlásenia tohto používateľa.",
+        "report_reason": "Dôvod", "report_reason_hint": "Tento používateľ...", "report_submit": "Odoslať",
+        "report_success": "Nahlásenie bolo odoslané. Ďakujeme.", "feeds_section": "KANÁLY", "no_feeds": "Žiadne verejné kanály",
+        "error_start_chat": "Nepodarilo sa začať konverzáciu: {}"
+    },
+    "chat": {
+        "title": "Správy", "input_placeholder": "Napíšte správu...", "no_messages": "Zatiaľ žiadne správy. Pozdravte sa!",
+        "no_conversations": "Zatiaľ žiadne konverzácie", "no_conversations_hint": "Navštívte profil používateľa a klepnite na 'Správa' pre začatie konverzácie.",
+        "media_message": "Médiá", "conversation_started": "Konverzácia začala",
+        "error_loading": "Nepodarilo sa načítať túto konverzáciu.", "error_sending": "Odoslanie správy zlyhalo.", "view_profile": "Zobraziť profil"
+    }
+}

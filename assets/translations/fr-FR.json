@@ -33,6 +33,9 @@
         }
     },
     "post": {
+        "error": {
+            "not_found": "Publication introuvable ou indisponible."
+        },
         "menu": {
             "report_block": "Signaler / Bloquer"
         },
@@ -74,7 +77,8 @@
             },
             "filedisplay": {
                 "decrypting": "Le fichier est en cours de décryptage...",
-                "video_desktop_error": "Les vidéos ne peuvent pas être affichées sous Linux, Windows ni MacOS. Pensez à contribuer sur Github, si vous aimez voir cette fonctionnalité!"
+                "video_desktop_error": "Les vidéos ne peuvent pas être affichées sous Linux, Windows ni MacOS. Pensez à contribuer sur Github, si vous aimez voir cette fonctionnalité!",
+                "audio_desktop_error": "L'audio ne peut pas être lu sous Linux, Windows ni MacOS."
             },
             "reaction": {
                 "unknown_sender": "inconnu",

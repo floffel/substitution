@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Klaida",
+    "loading": "Kraunama...",
+    "error": "Klaida: {}",
+    "approve": "Gerai",
+    "error_no_image": "Nėra vaizdo",
+    "error_page_not_found": "Šis puslapis nerastas.",
+    "age_gate": {
+        "title": "Prieš tęsiant",
+        "description": "Substitution yra socialinio tinklo klientas Matrix protokolui. Tęsdami patvirtinate šiuos dalykus:",
+        "point_client": "Substitution yra tik kliento programa. Jūsų duomenys saugomi jūsų pasirinktame Matrix namų serveryje, o ne Substitution valdomiuose serveriuose.",
+        "point_servers": "Substitution nekontroliuoja išorinių namų serverių, prie kurių jungiatės, turinio politikos. Jūs esate atsakingi už patikimo serverio pasirinkimą.",
+        "point_age": "Jums yra 16 metų arba daugiau (arba jūsų šalyje nustatytas minimalus amžius). Substitution nėra skirta nepilnamečiams.",
+        "point_content": "Substitution visiškai netoleruoja neteisėto ar nepriimtino turinio. Naudokite programėlėje esančius pranešimų įrankius pažeidimams pranešti.",
+        "confirm": "Patvirtinu — man yra 16 arba daugiau metų",
+        "privacy_link": "Skaityti mūsų Privatumo politiką"
+    },
+    "cancel": "Atšaukti",
+    "feed": {
+        "nav": {
+            "home": "Pradžia",
+            "discover": "Atrasti",
+            "messages": "Žinutės",
+            "settings": "Nustatymai"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Kambarys: {}",
+                "empty": "Jūsų srautas tuščias. Sekite kambarius, kad matytumėte įrašus!",
+                "empty_button": "Rasti naujų kambarių"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Įrašas nerastas arba nepasiekiamas."
+        },
+        "menu": {
+            "report_block": "Pranešti / Blokuoti"
+        },
+        "e2e": {
+            "encrypted": "Visapusis šifravimas",
+            "unencrypted": "Nešifruota",
+            "failed": "Iššifravimas nepavyko"
+        },
+        "dialog": {
+            "report_block_title": "Pranešti apie turinį arba blokuoti naudotoją",
+            "report_desc": "Prašome aprašyti, kodėl pranešate apie šį turinį (neprivaloma).",
+            "report_reason": "Pranešimo priežastis",
+            "report_reason_hint": "Šis turinys yra įžeidžiantis, nes...",
+            "block_user_checkbox": "Taip pat blokuoti šį naudotoją",
+            "block_user_desc": "Nebematysite turinio iš {}",
+            "submit": "Pateikti",
+            "cancel": "Atšaukti",
+            "report_block_success": "Pranešimas pateiktas. Ačiū.",
+            "report_block_error": "Įvyko klaida: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Komentarų kol kas nėra."
+            }
+        },
+        "continue_thread": "Tęsti šią giją...",
+        "replying_to": "Atsakoma {}",
+        "reply_placeholder": "Rašyti atsakymą...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Pasirinkite piktogramą"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "uždaryti"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Failas iššifruojamas...",
+                "video_desktop_error": "Vaizdo įrašai negali būti rodomi Linux, Windows nei MacOS sistemose. Prisidėkite Github, jei norite matyti šią funkciją!",
+                "audio_desktop_error": "Garso įrašai negali būti grojami Linux, Windows nei MacOS sistemose."
+            },
+            "reaction": {
+                "unknown_sender": "nežinomas",
+                "sent_by": "Siuntė {}"
+            },
+            "videoplayercontrol": {
+                "play": "leisti",
+                "caption_offset": "subtitrų poslinkis",
+                "playback_speed": "atkūrimo greitis"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Teisinė informacija",
+            "tos": "Paslaugų teikimo sąlygos",
+            "privacy": "Privatumo politika",
+            "imprint": "Leidėjo informacija",
+            "licenses": "Atvirojo kodo licencijos"
+        },
+        "followfeeds": {
+            "filter_server_header": "Pasirinkite serverį iš sąrašo arba pridėkite naują:",
+            "filter_rooms_header": "Ieškokite kambario, kurį sekti arba nebsekti:",
+            "roomname_placeholder": "Įveskite kambario pavadinimą",
+            "buttons": {
+                "add_server": "Pridėti serverį",
+                "retry": "Bandyti dar kartą"
+            },
+            "no_rooms_found": "Pagal nurodytus paieškos kriterijus kambarių nerasta.",
+            "error_loading_rooms": "Klaida: nepavyko įkelti kambarių"
+        },
+        "ownfeeds": {
+            "header": "Tvarkykite savo kambarius",
+            "buttons": {
+                "create_room": "Sukurti naują kambarį"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Prisijungta kaip {}",
+            "logout": "Atsijungti",
+            "logout_confirm": "Ar tikrai norite atsijungti?",
+            "login": "Prisijungti",
+            "not_logged_in": "Prisijunkite, kad pasiektumėte visas funkcijas",
+            "home_site_label": "Pradžia",
+            "feeds_site_label": "Srautai",
+            "navigation_label": "Navigacija",
+            "account_label": "Paskyra",
+            "preferences_label": "Nuostatos",
+            "about_label": "Apie"
+        },
+        "room": {
+            "desc": "Kambario pavadinimas: {}",
+            "leave": "Išeiti iš kambario",
+            "join": "Įeiti į kambarį ir pridėti jį prie Substitution",
+            "join_short": "Prisijungti",
+            "permissions": "Leidimai"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Išeiti iš kambario {}",
+                "desc": "Ar tikrai norite išeiti iš kambario {}?",
+                "button": {
+                    "submit": "Taip, išeiti",
+                    "cancel": "Ne, atšaukti"
+                }
+            },
+            "add": {
+                "title": "Pridėti naują serverį",
+                "input_placeholder": "Įveskite serverio adresą",
+                "button": {
+                    "submit": "Pridėti"
+                },
+                "snackbar": {
+                    "success": "Serveris buvo pridėtas",
+                    "error_homeserver": "Įvestas namų serveris yra neteisingas"
+                }
+            },
+            "create": {
+                "title": "Sukurti naują kambarį",
+                "placeholder_name": "kambario pavadinimas",
+                "placeholder_alias": "kambario slapyvardis (viešas kambario adresas)",
+                "placeholder_topic": "kambario tema",
+                "submit": "Sukurti"
+            }
+        },
+        "room_preview": {
+            "members": "{} nariai",
+            "latest_posts": "Naujausi įrašai",
+            "no_posts": "Šiame kambaryje dar nėra įrašų.",
+            "no_peek": "Šio kambario istorija yra privati. Prisijunkite prie kambario, kad matytumėte įrašus.",
+            "join_to_see": "Prisijunkite, kad matytumėte įrašus"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Puiku, jūs jau esate prisijungę. \nGalite tęsti su kitais žingsniais",
+        "isNotLoggedIn": "Pirmiausia prisijunkite",
+        "buttons": {
+            "next": "Toliau",
+            "back": "Atgal"
+        },
+        "welcome": {
+            "title": "Sveiki atvykę į Substitution",
+            "desc": "... naujas socialinis tinklas ant Matrix protokolo"
+        },
+        "account": {
+            "title": "Matrix paskyros",
+            "desc": "Norėdami naudoti šią programėlę, turite būti prisijungę prie Matrix paskyros bet kuriame serveryje. Jei nežinote, kaip ją gauti, apsilankykite šioje svetainėje: https://matrix.org/"
+        },
+        "host": {
+            "title": "Pasirinkite serverį"
+        },
+        "login": {
+            "title": "Prisijungimas"
+        },
+        "finished": {
+            "title": "Pradėkime!",
+            "desc": "Puiku, jūs prisijungėte. Esame pasiruošę. Dabar galite pasirinkti, ar norite prisijungti prie Substitution sveikinimo kambario. Pirmyn ir smagiai!",
+            "buttons": {
+                "add_to_room_and_go": "Prisijungti prie Substitution kambario ir pradėti!",
+                "go": "Tiesiog pradėti!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Prisijunkite prie savo namų serverio",
+            "body": "Prašome pasirinkti Matrix namų serverį. Tada galėsite prisijungti arba naršyti viešai prieinamus kambarius.",
+            "inputs": {
+                "homeserver_label": "Jūsų namų serverio adresas"
+            },
+            "buttons": {
+                "login_label": "Prisijungti"
+            }
+        },
+        "login": {
+            "loading": "Jungiamės...",
+            "header": "Prisijungimas",
+            "body": "Prašome prisijungti su savo prisijungimo duomenimis.",
+            "inputs": {
+                "username_label": "Naudotojo vardas",
+                "password_label": "Slaptažodis"
+            },
+            "buttons": {
+                "login_label": "Prisijungti",
+                "sso_label": "Prisijungti su {}",
+                "register_web_label": "Registruotis"
+            }
+        }
+    },
+    "write": {
+        "answer": "Atsakyti",
+        "roomheader": "Kambarys: {}",
+        "filemessage": {
+            "upload_files": "Pridėti naujus failus įkėlimui",
+            "title_header": "Pavadinimas:",
+            "upload_start": "Pradedamas įkėlimas...",
+            "upload_file_process": "Įkeliamas failas {}",
+            "upload_error": "Failo {} įkėlimas nepavyko. Bandyti dar kartą?",
+            "upload_file_complete": "Failas {} sėkmingai įkeltas!",
+            "upload_complete": "Visi failai buvo įkelti!",
+            "buttons": {
+                "upload_stop": "Atšaukti",
+                "upload_retry": "Bandyti dar kartą"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Pasirinkite žinutės tipą, kurį norite paskelbti",
+            "room_prompt": "Pasirinkite kambarį, kuriame norite paskelbti:",
+            "error_no_rooms": "Nesate prisijungę prie jokių kambarių arba neturite teisių skelbti."
+        },
+        "textmessage": {
+            "answer_promt": "Įveskite savo tekstą:",
+            "input_placeholder": "Įveskite tekstą čia...",
+            "send_start": "Žinutė siunčiama...",
+            "send_failed": "Žinutės siuntimas nepavyko. Ar norite siųsti dar kartą?",
+            "send_complete": "Žinutė sėkmingai išsiųsta!",
+            "buttons": {
+                "send_stop": "Nebandyti dar kartą",
+                "resend": "Bandyti dar kartą"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Žinutė",
+        "block_title": "Blokuoti naudotoją",
+        "block_desc": "Blokuoti {}? Nebematysite jų turinio.",
+        "block_confirm": "Blokuoti",
+        "block_success": "Naudotojas užblokuotas.",
+        "block_error": "Nepavyko užblokuoti naudotojo: {}",
+        "report_title": "Pranešti apie naudotoją",
+        "report_desc": "Prašome aprašyti priežastį, kodėl pranešate apie šį naudotoją.",
+        "report_reason": "Priežastis",
+        "report_reason_hint": "Šis naudotojas yra...",
+        "report_submit": "Pateikti",
+        "report_success": "Pranešimas pateiktas. Ačiū.",
+        "feeds_section": "SRAUTAI",
+        "no_feeds": "Nėra viešų srautų",
+        "error_start_chat": "Nepavyko pradėti pokalbio: {}"
+    },
+    "chat": {
+        "title": "Žinutės",
+        "input_placeholder": "Rašykite žinutę...",
+        "no_messages": "Žinučių kol kas nėra. Pasisveikinkite!",
+        "no_conversations": "Pokalbių kol kas nėra",
+        "no_conversations_hint": "Aplankykite naudotojo profilį ir paspauskite 'Žinutė', kad pradėtumėte pokalbį.",
+        "media_message": "Medija",
+        "conversation_started": "Pokalbis pradėtas",
+        "error_loading": "Nepavyko įkelti šio pokalbio.",
+        "error_sending": "Nepavyko išsiųsti žinutės.",
+        "view_profile": "Peržiūrėti profilį"
+    }
+}

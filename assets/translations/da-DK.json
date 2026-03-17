@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Fejl",
+    "loading": "Indlæser...",
+    "error": "Fejl: {}",
+    "approve": "Ok",
+    "error_no_image": "Intet billede",
+    "error_page_not_found": "Denne side blev ikke fundet.",
+    "age_gate": {
+        "title": "Før du fortsætter",
+        "description": "Substitution er en social netværksklient til Matrix-protokollen. Ved at fortsætte bekræfter du følgende:",
+        "point_client": "Substitution er kun en klientapp. Dine data gemmes på den Matrix-hjemmeserver, du vælger, ikke på servere drevet af Substitution.",
+        "point_servers": "Substitution kontrollerer ikke indholdspolitikkerne for eksterne hjemmeservere, du opretter forbindelse til. Du er ansvarlig for at vælge en troværdig server.",
+        "point_age": "Du er 16 år eller ældre (eller minimumsalderen i dit land). Substitution er ikke beregnet til mindreårige.",
+        "point_content": "Substitution har nultolerance over for ulovligt eller stødende indhold. Brug rapporteringsværktøjerne i appen til at markere overtrædelser.",
+        "confirm": "Jeg bekræfter — jeg er 16 eller ældre",
+        "privacy_link": "Læs vores privatlivspolitik"
+    },
+    "cancel": "Annuller",
+    "feed": {
+        "nav": {
+            "home": "Hjem",
+            "discover": "Udforsk",
+            "messages": "Beskeder",
+            "settings": "Indstillinger"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Rum: {}",
+                "empty": "Dit feed er tomt. Følg nogle rum for at se opslag!",
+                "empty_button": "Find nye rum"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Opslag ikke fundet eller utilgængeligt."
+        },
+        "menu": {
+            "report_block": "Rapportér / Bloker"
+        },
+        "e2e": {
+            "encrypted": "Ende-til-ende-krypteret",
+            "unencrypted": "Ikke krypteret",
+            "failed": "Dekryptering mislykkedes"
+        },
+        "dialog": {
+            "report_block_title": "Rapportér indhold eller bloker bruger",
+            "report_desc": "Beskriv venligst, hvorfor du rapporterer dette indhold (valgfrit).",
+            "report_reason": "Årsag til rapportering",
+            "report_reason_hint": "Dette indhold er stødende, fordi...",
+            "block_user_checkbox": "Bloker også denne bruger",
+            "block_user_desc": "Du vil ikke længere se indhold fra {}",
+            "submit": "Indsend",
+            "cancel": "Annuller",
+            "report_block_success": "Rapportering indsendt. Tak.",
+            "report_block_error": "Der opstod en fejl: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Ingen kommentarer endnu."
+            }
+        },
+        "continue_thread": "Fortsæt denne tråd...",
+        "replying_to": "Svar til {}",
+        "reply_placeholder": "Skriv et svar...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Vælg ikon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "luk"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Filen dekrypteres...",
+                "video_desktop_error": "Videoer kan ikke vises på Linux, Windows eller MacOS. Overvej at bidrage på Github, hvis du gerne vil se denne funktion!",
+                "audio_desktop_error": "Lyd kan ikke afspilles på Linux, Windows eller MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "ukendt",
+                "sent_by": "Sendt af {}"
+            },
+            "videoplayercontrol": {
+                "play": "afspil",
+                "caption_offset": "undertekstforskydning",
+                "playback_speed": "afspilningshastighed"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Juridisk",
+            "tos": "Servicevilkår",
+            "privacy": "Privatlivspolitik",
+            "imprint": "Kolofon",
+            "licenses": "Open source-licenser"
+        },
+        "followfeeds": {
+            "filter_server_header": "Vælg en server fra listen, eller tilføj en ny:",
+            "filter_rooms_header": "Søg efter et rum at følge eller stoppe med at følge:",
+            "roomname_placeholder": "Indtast et rumnavn",
+            "buttons": {
+                "add_server": "Tilføj server",
+                "retry": "Prøv igen"
+            },
+            "no_rooms_found": "Ingen rum fundet for de angivne søgekriterier.",
+            "error_loading_rooms": "Fejl: Kunne ikke indlæse rum"
+        },
+        "ownfeeds": {
+            "header": "Administrer dine egne rum",
+            "buttons": {
+                "create_room": "Opret et nyt rum"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Logget ind som {}",
+            "logout": "Log ud",
+            "logout_confirm": "Er du sikker på, at du vil logge ud?",
+            "login": "Log ind",
+            "not_logged_in": "Log ind for at få adgang til alle funktioner",
+            "home_site_label": "Hjem",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigation",
+            "account_label": "Konto",
+            "preferences_label": "Præferencer",
+            "about_label": "Om"
+        },
+        "room": {
+            "desc": "Rumnavn: {}",
+            "leave": "Forlad rum",
+            "join": "Gå ind i rummet og tilføj det til substitution",
+            "join_short": "Deltag",
+            "permissions": "Tilladelser"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Forlad rum {}",
+                "desc": "Er du sikker på, at du vil forlade rum {}?",
+                "button": {
+                    "submit": "Ja, forlad det",
+                    "cancel": "Nej, annuller"
+                }
+            },
+            "add": {
+                "title": "Tilføj en ny server",
+                "input_placeholder": "Indtast serveradresse",
+                "button": {
+                    "submit": "Tilføj"
+                },
+                "snackbar": {
+                    "success": "Server er blevet tilføjet",
+                    "error_homeserver": "Den indtastede hjemmeserver er ikke gyldig"
+                }
+            },
+            "create": {
+                "title": "Opret et nyt rum",
+                "placeholder_name": "rumnavn",
+                "placeholder_alias": "rumalias (offentlig rumadresse)",
+                "placeholder_topic": "rumemne",
+                "submit": "Opret"
+            }
+        },
+        "room_preview": {
+            "members": "{} medlemmer",
+            "latest_posts": "Seneste opslag",
+            "no_posts": "Ingen opslag endnu i dette rum.",
+            "no_peek": "Dette rums historik er privat. Deltag i rummet for at se dets opslag.",
+            "join_to_see": "Deltag for at se opslag"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Fantastisk, du er allerede logget ind. \nDu kan fortsætte med de næste trin",
+        "isNotLoggedIn": "Log venligst ind først",
+        "buttons": {
+            "next": "Næste",
+            "back": "Tilbage"
+        },
+        "welcome": {
+            "title": "Velkommen til substitution",
+            "desc": "... det nye sociale netværk oven på matrix-protokollen"
+        },
+        "account": {
+            "title": "Matrix-konti",
+            "desc": "Du skal være logget ind på en matrix-konto på en vilkårlig server for at kunne bruge denne app. Hvis du ikke ved, hvordan du får en, besøg denne side: https://matrix.org/"
+        },
+        "host": {
+            "title": "Vælg en vært"
+        },
+        "login": {
+            "title": "Log ind"
+        },
+        "finished": {
+            "title": "Lad os komme i gang",
+            "desc": "Fantastisk, du er blevet logget ind. Vi er klar til at substituere. Du kan nu vælge, om du vil deltage i substitution-velkomstrummet. Lad os komme i gang og hav det sjovt!",
+            "buttons": {
+                "add_to_room_and_go": "Deltag i Substitution-rum og gå!",
+                "go": "Bare gå!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Opret forbindelse til din hjemmeserver",
+            "body": "Vælg venligst en Matrix-hjemmeserver. Du kan derefter vælge at logge ind eller gennemse offentligt tilgængelige rum.",
+            "inputs": {
+                "homeserver_label": "Adresse på din hjemmeserver"
+            },
+            "buttons": {
+                "login_label": "Log ind"
+            }
+        },
+        "login": {
+            "loading": "Logger dig ind...",
+            "header": "Log ind",
+            "body": "Log venligst ind med dine legitimationsoplysninger.",
+            "inputs": {
+                "username_label": "Brugernavn",
+                "password_label": "Adgangskode"
+            },
+            "buttons": {
+                "login_label": "Log ind",
+                "sso_label": "Log ind med {}",
+                "register_web_label": "Registrer"
+            }
+        }
+    },
+    "write": {
+        "answer": "Svar",
+        "roomheader": "Rum: {}",
+        "filemessage": {
+            "upload_files": "Tilføj nye filer til upload",
+            "title_header": "Titel:",
+            "upload_start": "Starter upload...",
+            "upload_file_process": "Uploader fil {}",
+            "upload_error": "Upload af {} mislykkedes. Prøv igen?",
+            "upload_file_complete": "Upload af {} er fuldført!",
+            "upload_complete": "Alle filer er blevet uploadet!",
+            "buttons": {
+                "upload_stop": "Annuller",
+                "upload_retry": "Prøv igen"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Vælg den type besked, du vil slå op",
+            "room_prompt": "Vælg det rum, du vil slå op i:",
+            "error_no_rooms": "Du har ikke deltaget i nogen rum, eller du har ikke rettigheder til at slå op."
+        },
+        "textmessage": {
+            "answer_promt": "Indtast din tekst:",
+            "input_placeholder": "Indtast din tekst her...",
+            "send_start": "Afsendelse af beskeden er startet...",
+            "send_failed": "Afsendelse af beskeden mislykkedes. Vil du sende beskeden igen?",
+            "send_complete": "Beskeden er sendt!",
+            "buttons": {
+                "send_stop": "Prøv ikke igen",
+                "resend": "Prøv igen"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Besked",
+        "block_title": "Bloker bruger",
+        "block_desc": "Bloker {}? Du vil ikke længere se deres indhold.",
+        "block_confirm": "Bloker",
+        "block_success": "Bruger blokeret.",
+        "block_error": "Kunne ikke blokere bruger: {}",
+        "report_title": "Rapportér bruger",
+        "report_desc": "Beskriv venligst årsagen til rapportering af denne bruger.",
+        "report_reason": "Årsag",
+        "report_reason_hint": "Denne bruger er...",
+        "report_submit": "Indsend",
+        "report_success": "Rapportering indsendt. Tak.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Ingen offentlige feeds",
+        "error_start_chat": "Kunne ikke starte chat: {}"
+    },
+    "chat": {
+        "title": "Beskeder",
+        "input_placeholder": "Skriv en besked...",
+        "no_messages": "Ingen beskeder endnu. Sig hej!",
+        "no_conversations": "Ingen samtaler endnu",
+        "no_conversations_hint": "Besøg en brugers profil, og tryk på 'Besked' for at starte en chat.",
+        "media_message": "Medie",
+        "conversation_started": "Samtale startet",
+        "error_loading": "Kunne ikke indlæse denne samtale.",
+        "error_sending": "Kunne ikke sende besked.",
+        "view_profile": "Se profil"
+    }
+}

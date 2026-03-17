@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Villa",
+    "loading": "Hleður...",
+    "error": "Villa: {}",
+    "approve": "Í lagi",
+    "error_no_image": "Engin mynd",
+    "error_page_not_found": "Þessi síða fannst ekki.",
+    "age_gate": {
+        "title": "Áður en þú heldur áfram",
+        "description": "Substitution er samfélagsmiðlaforrit fyrir Matrix samskiptareglur. Með því að halda áfram staðfestir þú eftirfarandi:",
+        "point_client": "Substitution er eingöngu biðlaraforrit. Gögnin þín eru geymd á Matrix heimaþjóninum sem þú velur, ekki á þjónum sem Substitution rekur.",
+        "point_servers": "Substitution stjórnar ekki efnisstefnu ytri heimaþjóna sem þú tengist. Þú berð ábyrgð á því að velja traustan þjón.",
+        "point_age": "Þú ert 16 ára eða eldri (eða uppfyllir lágmarksaldur í þínu landi). Substitution er ekki ætlað ólögráða einstaklingum.",
+        "point_content": "Substitution hefur enga umburðarlyndi gagnvart ólöglegu eða óviðeigandi efni. Notaðu tilkynningarverkfærin í forritinu til að merkja brot.",
+        "confirm": "Ég staðfesti — ég er 16 ára eða eldri",
+        "privacy_link": "Lestu persónuverndarstefnu okkar"
+    },
+    "cancel": "Hætta við",
+    "feed": {
+        "nav": {
+            "home": "Heim",
+            "discover": "Uppgötva",
+            "messages": "Skilaboð",
+            "settings": "Stillingar"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Herbergi: {}",
+                "empty": "Straumurinn þinn er tómur. Fylgdu herbergjum til að sjá færslur!",
+                "empty_button": "Finna ný herbergi"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Færsla fannst ekki eða er ekki tiltæk."
+        },
+        "menu": {
+            "report_block": "Tilkynna / Loka á"
+        },
+        "e2e": {
+            "encrypted": "Enda-í-enda dulkóðað",
+            "unencrypted": "Ekki dulkóðað",
+            "failed": "Afkóðun mistókst"
+        },
+        "dialog": {
+            "report_block_title": "Tilkynna efni eða loka á notanda",
+            "report_desc": "Vinsamlegast lýstu hvers vegna þú tilkynnir þetta efni (valfrjálst).",
+            "report_reason": "Ástæða tilkynningar",
+            "report_reason_hint": "Þetta efni er móðgandi vegna þess...",
+            "block_user_checkbox": "Loka líka á þennan notanda",
+            "block_user_desc": "Þú munt ekki lengur sjá efni frá {}",
+            "submit": "Senda",
+            "cancel": "Hætta við",
+            "report_block_success": "Tilkynning send. Takk fyrir.",
+            "report_block_error": "Villa kom upp: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Engar athugasemdir ennþá."
+            }
+        },
+        "continue_thread": "Halda áfram í þessum þræði...",
+        "replying_to": "Svarar {}",
+        "reply_placeholder": "Skrifa svar...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Veldu tákn"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "loka"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Skrá er verið að afkóða...",
+                "video_desktop_error": "Ekki er hægt að birta myndbönd á Linux, Windows né MacOS. Íhugaðu að leggja til á Github ef þú vilt sjá þennan eiginleika!",
+                "audio_desktop_error": "Ekki er hægt að spila hljóð á Linux, Windows né MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "óþekktur",
+                "sent_by": "Sent af {}"
+            },
+            "videoplayercontrol": {
+                "play": "spila",
+                "caption_offset": "skjátextahliðrun",
+                "playback_speed": "spilunarhraði"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Lögfræðilegt",
+            "tos": "Þjónustuskilmálar",
+            "privacy": "Persónuverndarstefna",
+            "imprint": "Útgáfuupplýsingar",
+            "licenses": "Opinn hugbúnaðarleyfi"
+        },
+        "followfeeds": {
+            "filter_server_header": "Veldu þjón af listanum eða bættu nýjum við:",
+            "filter_rooms_header": "Leitaðu að herbergi til að fylgja eða hætta að fylgja:",
+            "roomname_placeholder": "Sláðu inn nafn herbergis",
+            "buttons": {
+                "add_server": "Bæta við þjóni",
+                "retry": "Reyna aftur"
+            },
+            "no_rooms_found": "Engin herbergi fundust fyrir gefnar leitarskilyrði.",
+            "error_loading_rooms": "Villa: Mistókst að hlaða herbergjum"
+        },
+        "ownfeeds": {
+            "header": "Stjórna eigin herbergjum",
+            "buttons": {
+                "create_room": "Búa til nýtt herbergi"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Skráð/ur inn sem {}",
+            "logout": "Skrá út",
+            "logout_confirm": "Ertu viss um að þú viljir skrá þig út?",
+            "login": "Skrá inn",
+            "not_logged_in": "Skráðu þig inn til að fá aðgang að öllum eiginleikum",
+            "home_site_label": "Heim",
+            "feeds_site_label": "Straumar",
+            "navigation_label": "Leiðsögn",
+            "account_label": "Reikningur",
+            "preferences_label": "Kjörstillingar",
+            "about_label": "Um"
+        },
+        "room": {
+            "desc": "Heiti herbergis: {}",
+            "leave": "Yfirgefa herbergi",
+            "join": "Ganga inn í herbergi og bæta því við substitution",
+            "join_short": "Ganga inn",
+            "permissions": "Heimildir"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Yfirgefa herbergi {}",
+                "desc": "Ertu viss um að þú viljir yfirgefa herbergi {}?",
+                "button": {
+                    "submit": "Já, yfirgefa",
+                    "cancel": "Nei, hætta við"
+                }
+            },
+            "add": {
+                "title": "Bæta við nýjum þjóni",
+                "input_placeholder": "Sláðu inn vistfang þjóns",
+                "button": {
+                    "submit": "Bæta við"
+                },
+                "snackbar": {
+                    "success": "Þjóni hefur verið bætt við",
+                    "error_homeserver": "Sleginn inn heimaþjónn er ekki gildur"
+                }
+            },
+            "create": {
+                "title": "Búa til nýtt herbergi",
+                "placeholder_name": "nafn herbergis",
+                "placeholder_alias": "samnefni herbergis (opinbert vistfang)",
+                "placeholder_topic": "umfjöllunarefni herbergis",
+                "submit": "Búa til"
+            }
+        },
+        "room_preview": {
+            "members": "{} meðlimir",
+            "latest_posts": "Nýjustu færslur",
+            "no_posts": "Engar færslur ennþá í þessu herbergi.",
+            "no_peek": "Saga þessa herbergis er einkamál. Gakktu inn í herbergið til að sjá færslur.",
+            "join_to_see": "Gakktu inn til að sjá færslur"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Frábært, þú ert þegar skráð/ur inn. \nÞú getur haldið áfram með næstu skref",
+        "isNotLoggedIn": "Vinsamlegast skráðu þig inn fyrst",
+        "buttons": {
+            "next": "Áfram",
+            "back": "Til baka"
+        },
+        "welcome": {
+            "title": "Velkomin í substitution",
+            "desc": "... nýja samfélagsnetið ofan á matrix samskiptareglunum"
+        },
+        "account": {
+            "title": "Matrix reikningar",
+            "desc": "Þú þarft að vera skráð/ur inn á matrix reikning á einhverjum þjóni til að geta notað þetta forrit. Ef þú veist ekki hvernig á að fá reikning, farðu á þessa síðu: https://matrix.org/"
+        },
+        "host": {
+            "title": "Veldu þjón"
+        },
+        "login": {
+            "title": "Innskráning"
+        },
+        "finished": {
+            "title": "Áfram",
+            "desc": "Frábært, þú hefur verið skráð/ur inn. Við erum tilbúin. Þú getur nú valið hvort þú viljir ganga inn í substitution velkomuherbergið. Áfram, og hafðu gaman!",
+            "buttons": {
+                "add_to_room_and_go": "Ganga inn í Substitution-herbergið og fara!",
+                "go": "Bara fara!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Tengjast heimaþjóninum þínum",
+            "body": "Vinsamlegast veldu Matrix heimaþjón. Þú getur síðan valið að skrá þig inn eða skoða opinber herbergi.",
+            "inputs": {
+                "homeserver_label": "Vistfang heimaþjónsins þíns"
+            },
+            "buttons": {
+                "login_label": "Skrá inn"
+            }
+        },
+        "login": {
+            "loading": "Skrái þig inn...",
+            "header": "Innskráning",
+            "body": "Vinsamlegast skráðu þig inn með auðkennum þínum.",
+            "inputs": {
+                "username_label": "Notandanafn",
+                "password_label": "Lykilorð"
+            },
+            "buttons": {
+                "login_label": "Skrá inn",
+                "sso_label": "Skrá inn með {}",
+                "register_web_label": "Nýskrá"
+            }
+        }
+    },
+    "write": {
+        "answer": "Svar",
+        "roomheader": "Herbergi: {}",
+        "filemessage": {
+            "upload_files": "Bæta við nýjum skrám til upphleðslu",
+            "title_header": "Titill:",
+            "upload_start": "Upphleðsla hefst...",
+            "upload_file_process": "Hleð upp skrá {}",
+            "upload_error": "Upphleðsla á {} mistókst. Reyna aftur?",
+            "upload_file_complete": "Upphleðsla á {} er lokið!",
+            "upload_complete": "Öllum skrám hefur verið hlaðið upp!",
+            "buttons": {
+                "upload_stop": "Hætta við",
+                "upload_retry": "Reyna aftur"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Veldu tegund skilaboða sem þú vilt birta",
+            "room_prompt": "Veldu herbergið sem þú vilt birta í:",
+            "error_no_rooms": "Þú hefur ekki gengið inn í nein herbergi eða hefur ekki réttindi til að birta."
+        },
+        "textmessage": {
+            "answer_promt": "Sláðu inn textann þinn:",
+            "input_placeholder": "Sláðu inn textann þinn hér...",
+            "send_start": "Sending skilaboða hafin...",
+            "send_failed": "Sending skilaboða mistókst. Viltu senda aftur?",
+            "send_complete": "Skilaboð hafa verið send!",
+            "buttons": {
+                "send_stop": "Ekki reyna aftur",
+                "resend": "Reyna aftur"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Skilaboð",
+        "block_title": "Loka á notanda",
+        "block_desc": "Loka á {}? Þú munt ekki lengur sjá efni frá þeim.",
+        "block_confirm": "Loka á",
+        "block_success": "Notandi lokaður.",
+        "block_error": "Gat ekki lokað á notanda: {}",
+        "report_title": "Tilkynna notanda",
+        "report_desc": "Vinsamlegast lýstu ástæðunni fyrir tilkynningu á þessum notanda.",
+        "report_reason": "Ástæða",
+        "report_reason_hint": "Þessi notandi er...",
+        "report_submit": "Senda",
+        "report_success": "Tilkynning send. Takk fyrir.",
+        "feeds_section": "STRAUMAR",
+        "no_feeds": "Engir opinberir straumar",
+        "error_start_chat": "Gat ekki hafið spjall: {}"
+    },
+    "chat": {
+        "title": "Skilaboð",
+        "input_placeholder": "Skrifa skilaboð...",
+        "no_messages": "Engin skilaboð ennþá. Segðu hæ!",
+        "no_conversations": "Engin samtöl ennþá",
+        "no_conversations_hint": "Farðu á prófíl notanda og ýttu á 'Skilaboð' til að hefja spjall.",
+        "media_message": "Miðill",
+        "conversation_started": "Samtal hafið",
+        "error_loading": "Gat ekki hlaðið þessu samtali.",
+        "error_sending": "Sending skilaboða mistókst.",
+        "view_profile": "Skoða prófíl"
+    }
+}

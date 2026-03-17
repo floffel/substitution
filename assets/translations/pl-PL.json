@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Błąd",
+    "loading": "Ładowanie...",
+    "error": "Błąd: {}",
+    "approve": "Ok",
+    "error_no_image": "Brak obrazu",
+    "error_page_not_found": "Nie znaleziono tej strony.",
+    "age_gate": {
+        "title": "Zanim przejdziesz dalej",
+        "description": "Substitution to klient sieci społecznościowej oparty na protokole Matrix. Kontynuując, potwierdzasz następujące informacje:",
+        "point_client": "Substitution jest wyłącznie aplikacją kliencką. Twoje dane są przechowywane na wybranym przez Ciebie serwerze domowym Matrix, a nie na serwerach obsługiwanych przez Substitution.",
+        "point_servers": "Substitution nie kontroluje polityk treści zewnętrznych serwerów domowych, z którymi się łączysz. Odpowiadasz za wybór godnego zaufania serwera.",
+        "point_age": "Masz co najmniej 16 lat (lub minimalny wiek wymagany w Twoim kraju). Substitution nie jest przeznaczony dla osób niepełnoletnich.",
+        "point_content": "Substitution stosuje zerową tolerancję wobec nielegalnych lub niewłaściwych treści. Korzystaj z narzędzi do zgłaszania w aplikacji, aby sygnalizować naruszenia.",
+        "confirm": "Potwierdzam — mam 16 lat lub więcej",
+        "privacy_link": "Przeczytaj naszą Politykę Prywatności"
+    },
+    "cancel": "Anuluj",
+    "feed": {
+        "nav": {
+            "home": "Strona główna",
+            "discover": "Odkrywaj",
+            "messages": "Wiadomości",
+            "settings": "Ustawienia"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Pokój: {}",
+                "empty": "Twój kanał jest pusty. Obserwuj pokoje, aby zobaczyć posty!",
+                "empty_button": "Znajdź nowe pokoje"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Post nie został znaleziony lub jest niedostępny."
+        },
+        "menu": {
+            "report_block": "Zgłoś / Zablokuj"
+        },
+        "e2e": {
+            "encrypted": "Szyfrowanie end-to-end",
+            "unencrypted": "Nieszyfrowane",
+            "failed": "Deszyfrowanie nie powiodło się"
+        },
+        "dialog": {
+            "report_block_title": "Zgłoś treść lub zablokuj użytkownika",
+            "report_desc": "Opisz, dlaczego zgłaszasz tę treść (opcjonalnie).",
+            "report_reason": "Powód zgłoszenia",
+            "report_reason_hint": "Ta treść jest obraźliwa, ponieważ...",
+            "block_user_checkbox": "Zablokuj również tego użytkownika",
+            "block_user_desc": "Nie będziesz już widzieć treści od {}",
+            "submit": "Wyślij",
+            "cancel": "Anuluj",
+            "report_block_success": "Zgłoszenie wysłane. Dziękujemy.",
+            "report_block_error": "Wystąpił błąd: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Brak komentarzy."
+            }
+        },
+        "continue_thread": "Kontynuuj ten wątek...",
+        "replying_to": "Odpowiedź do {}",
+        "reply_placeholder": "Napisz odpowiedź...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Wybierz ikonę"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "zamknij"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Plik jest deszyfrowany...",
+                "video_desktop_error": "Filmy nie mogą być wyświetlane na Linux, Windows ani MacOS. Rozważ współtworzenie na Github, jeśli chcesz zobaczyć tę funkcję!",
+                "audio_desktop_error": "Dźwięk nie może być odtwarzany na Linux, Windows ani MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "nieznany",
+                "sent_by": "Wysłano przez {}"
+            },
+            "videoplayercontrol": {
+                "play": "odtwórz",
+                "caption_offset": "przesunięcie napisów",
+                "playback_speed": "prędkość odtwarzania"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Informacje prawne",
+            "tos": "Regulamin",
+            "privacy": "Polityka Prywatności",
+            "imprint": "Impressum",
+            "licenses": "Licencje open source"
+        },
+        "followfeeds": {
+            "filter_server_header": "Wybierz serwer z listy lub dodaj nowy:",
+            "filter_rooms_header": "Wyszukaj pokój do obserwowania lub cofnięcia obserwacji:",
+            "roomname_placeholder": "Wpisz nazwę pokoju",
+            "buttons": {
+                "add_server": "Dodaj serwer",
+                "retry": "Ponów"
+            },
+            "no_rooms_found": "Nie znaleziono pokojów spełniających podane kryteria wyszukiwania.",
+            "error_loading_rooms": "Błąd: Nie udało się załadować pokojów"
+        },
+        "ownfeeds": {
+            "header": "Zarządzaj swoimi pokojami",
+            "buttons": {
+                "create_room": "Utwórz nowy pokój"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Zalogowano jako {}",
+            "logout": "Wyloguj",
+            "logout_confirm": "Czy na pewno chcesz się wylogować?",
+            "login": "Zaloguj",
+            "not_logged_in": "Zaloguj się, aby uzyskać dostęp do wszystkich funkcji",
+            "home_site_label": "Strona główna",
+            "feeds_site_label": "Kanały",
+            "navigation_label": "Nawigacja",
+            "account_label": "Konto",
+            "preferences_label": "Preferencje",
+            "about_label": "O aplikacji"
+        },
+        "room": {
+            "desc": "Nazwa pokoju: {}",
+            "leave": "Opuść pokój",
+            "join": "Wejdź do pokoju i dodaj go do substitution",
+            "join_short": "Dołącz",
+            "permissions": "Uprawnienia"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Opuść pokój {}",
+                "desc": "Czy na pewno chcesz opuścić pokój {}?",
+                "button": {
+                    "submit": "Tak, opuść",
+                    "cancel": "Nie, anuluj"
+                }
+            },
+            "add": {
+                "title": "Dodaj nowy serwer",
+                "input_placeholder": "Wpisz adres serwera",
+                "button": {
+                    "submit": "Dodaj"
+                },
+                "snackbar": {
+                    "success": "Serwer został dodany",
+                    "error_homeserver": "Podany serwer domowy jest nieprawidłowy"
+                }
+            },
+            "create": {
+                "title": "Utwórz nowy pokój",
+                "placeholder_name": "nazwa pokoju",
+                "placeholder_alias": "alias pokoju (publiczny adres pokoju)",
+                "placeholder_topic": "temat pokoju",
+                "submit": "Utwórz"
+            }
+        },
+        "room_preview": {
+            "members": "{} członków",
+            "latest_posts": "Najnowsze posty",
+            "no_posts": "Brak postów w tym pokoju.",
+            "no_peek": "Historia tego pokoju jest prywatna. Dołącz do pokoju, aby zobaczyć posty.",
+            "join_to_see": "Dołącz, aby zobaczyć posty"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Świetnie, jesteś już zalogowany. \nMożesz kontynuować kolejne kroki",
+        "isNotLoggedIn": "Najpierw się zaloguj",
+        "buttons": {
+            "next": "Dalej",
+            "back": "Wstecz"
+        },
+        "welcome": {
+            "title": "Witaj w substitution",
+            "desc": "... nowa sieć społecznościowa oparta na protokole matrix"
+        },
+        "account": {
+            "title": "Konta Matrix",
+            "desc": "Aby korzystać z tej aplikacji, musisz być zalogowany na konto matrix na dowolnym serwerze. Jeśli nie wiesz, jak je założyć, odwiedź tę stronę: https://matrix.org/"
+        },
+        "host": {
+            "title": "Wybierz host"
+        },
+        "login": {
+            "title": "Logowanie"
+        },
+        "finished": {
+            "title": "Zaczynamy",
+            "desc": "Świetnie, zostałeś zalogowany. Jesteśmy gotowi do działania. Możesz teraz zdecydować, czy chcesz dołączyć do pokoju powitalnego substitution. Zaczynamy i baw się dobrze!",
+            "buttons": {
+                "add_to_room_and_go": "Dołącz do pokoju Substitution i ruszaj!",
+                "go": "Po prostu ruszaj!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Połącz z serwerem domowym",
+            "body": "Wybierz serwer domowy Matrix. Następnie możesz się zalogować lub przeglądać publicznie dostępne pokoje.",
+            "inputs": {
+                "homeserver_label": "Adres Twojego serwera domowego"
+            },
+            "buttons": {
+                "login_label": "Zaloguj"
+            }
+        },
+        "login": {
+            "loading": "Logowanie...",
+            "header": "Logowanie",
+            "body": "Zaloguj się przy użyciu swoich danych uwierzytelniających.",
+            "inputs": {
+                "username_label": "Nazwa użytkownika",
+                "password_label": "Hasło"
+            },
+            "buttons": {
+                "login_label": "Zaloguj",
+                "sso_label": "Zaloguj przez {}",
+                "register_web_label": "Zarejestruj się"
+            }
+        }
+    },
+    "write": {
+        "answer": "Odpowiedz",
+        "roomheader": "Pokój: {}",
+        "filemessage": {
+            "upload_files": "Dodaj nowe pliki do przesłania",
+            "title_header": "Tytuł:",
+            "upload_start": "Rozpoczynanie przesyłania...",
+            "upload_file_process": "Przesyłanie pliku {}",
+            "upload_error": "Przesyłanie {} nie powiodło się. Ponowić próbę?",
+            "upload_file_complete": "Przesyłanie {} zakończone!",
+            "upload_complete": "Wszystkie pliki zostały przesłane!",
+            "buttons": {
+                "upload_stop": "Anuluj",
+                "upload_retry": "Ponów"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Wybierz typ wiadomości, którą chcesz opublikować",
+            "room_prompt": "Wybierz pokój, w którym chcesz opublikować:",
+            "error_no_rooms": "Nie dołączyłeś do żadnych pokojów lub nie masz uprawnień do publikowania."
+        },
+        "textmessage": {
+            "answer_promt": "Wpisz swój tekst:",
+            "input_placeholder": "Wpisz tekst tutaj...",
+            "send_start": "Rozpoczęto wysyłanie wiadomości...",
+            "send_failed": "Wysyłanie wiadomości nie powiodło się. Czy chcesz ponowić wysyłanie?",
+            "send_complete": "Wiadomość została wysłana pomyślnie!",
+            "buttons": {
+                "send_stop": "Nie ponawiaj",
+                "resend": "Ponów"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Wiadomość",
+        "block_title": "Zablokuj użytkownika",
+        "block_desc": "Zablokować {}? Nie będziesz już widzieć ich treści.",
+        "block_confirm": "Zablokuj",
+        "block_success": "Użytkownik zablokowany.",
+        "block_error": "Nie udało się zablokować użytkownika: {}",
+        "report_title": "Zgłoś użytkownika",
+        "report_desc": "Opisz powód zgłoszenia tego użytkownika.",
+        "report_reason": "Powód",
+        "report_reason_hint": "Ten użytkownik...",
+        "report_submit": "Wyślij",
+        "report_success": "Zgłoszenie wysłane. Dziękujemy.",
+        "feeds_section": "KANAŁY",
+        "no_feeds": "Brak publicznych kanałów",
+        "error_start_chat": "Nie udało się rozpocząć czatu: {}"
+    },
+    "chat": {
+        "title": "Wiadomości",
+        "input_placeholder": "Napisz wiadomość...",
+        "no_messages": "Brak wiadomości. Przywitaj się!",
+        "no_conversations": "Brak rozmów",
+        "no_conversations_hint": "Odwiedź profil użytkownika i kliknij «Wiadomość», aby rozpocząć czat.",
+        "media_message": "Multimedia",
+        "conversation_started": "Rozmowa rozpoczęta",
+        "error_loading": "Nie udało się załadować tej rozmowy.",
+        "error_sending": "Nie udało się wysłać wiadomości.",
+        "view_profile": "Zobacz profil"
+    }
+}

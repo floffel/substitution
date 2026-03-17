@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "ભૂલ",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "error": "ભૂલ: {}",
+    "approve": "ઠીક છે",
+    "error_no_image": "કોઈ છબી નથી",
+    "error_page_not_found": "આ પૃષ્ઠ મળી શક્યું નથી.",
+    "age_gate": {
+        "title": "ચાલુ રાખતા પહેલાં",
+        "description": "Substitution એ Matrix પ્રોટોકોલ માટેનું સોશિયલ નેટવર્કિંગ ક્લાયન્ટ છે. ચાલુ રાખીને, તમે નીચેનાની પુષ્ટિ કરો છો:",
+        "point_client": "Substitution ફક્ત એક ક્લાયન્ટ એપ છે. તમારો ડેટા તમે પસંદ કરેલા Matrix હોમસર્વર પર સંગ્રહિત થાય છે, Substitution દ્વારા સંચાલિત સર્વર્સ પર નહીં.",
+        "point_servers": "Substitution તમે જે બાહ્ય હોમસર્વર્સ સાથે જોડાઓ છો તેની સામગ્રી નીતિઓ નિયંત્રિત કરતું નથી. વિશ્વસનીય સર્વર પસંદ કરવાની જવાબદારી તમારી છે.",
+        "point_age": "તમે 16 વર્ષ કે તેથી વધુ ઉંમરના છો (અથવા તમારા દેશમાં જરૂરી ન્યૂનતમ ઉંમર). Substitution સગીરો માટે નથી.",
+        "point_content": "Substitution ગેરકાયદેસર અથવા વાંધાજનક સામગ્રી માટે શૂન્ય સહનશીલતા ધરાવે છે. ઉલ્લંઘન ચિહ્નિત કરવા માટે એપ-માંના રિપોર્ટિંગ ટૂલ્સનો ઉપયોગ કરો.",
+        "confirm": "હું પુષ્ટિ કરું છું — હું 16 કે તેથી વધુ ઉંમરનો છું",
+        "privacy_link": "અમારી ગોપનીયતા નીતિ વાંચો"
+    },
+    "cancel": "રદ કરો",
+    "feed": {
+        "nav": {
+            "home": "હોમ",
+            "discover": "શોધખોળ",
+            "messages": "સંદેશાઓ",
+            "settings": "સેટિંગ્સ"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "રૂમ: {}",
+                "empty": "તમારી ફીડ ખાલી છે. પોસ્ટ્સ જોવા માટે કેટલાક રૂમ્સ ફોલો કરો!",
+                "empty_button": "નવા રૂમ્સ શોધો"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "પોસ્ટ મળી નથી અથવા ઉપલબ્ધ નથી."
+        },
+        "menu": {
+            "report_block": "રિપોર્ટ / બ્લોક"
+        },
+        "e2e": {
+            "encrypted": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ",
+            "unencrypted": "એન્ક્રિપ્ટેડ નથી",
+            "failed": "ડિક્રિપ્શન નિષ્ફળ"
+        },
+        "dialog": {
+            "report_block_title": "સામગ્રી રિપોર્ટ કરો અથવા વપરાશકર્તાને બ્લોક કરો",
+            "report_desc": "કૃપા કરીને જણાવો કે તમે આ સામગ્રી શા માટે રિપોર્ટ કરી રહ્યા છો (વૈકલ્પિક).",
+            "report_reason": "રિપોર્ટનું કારણ",
+            "report_reason_hint": "આ સામગ્રી અપમાનજનક છે કારણ કે...",
+            "block_user_checkbox": "આ વપરાશકર્તાને પણ બ્લોક કરો",
+            "block_user_desc": "તમે હવે {} ની સામગ્રી જોશો નહીં",
+            "submit": "સબમિટ કરો",
+            "cancel": "રદ કરો",
+            "report_block_success": "રિપોર્ટ સબમિટ થયો. આભાર.",
+            "report_block_error": "એક ભૂલ આવી: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "હજુ સુધી કોઈ ટિપ્પણીઓ નથી."
+            }
+        },
+        "continue_thread": "આ થ્રેડ ચાલુ રાખો...",
+        "replying_to": "{} ને જવાબ આપી રહ્યા છો",
+        "reply_placeholder": "જવાબ લખો...",
+        "mixins": {
+            "iconpicker": {
+                "title": "આઇકોન પસંદ કરો"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "બંધ કરો"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "ફાઇલ ડિક્રિપ્ટ થઈ રહી છે...",
+                "video_desktop_error": "Linux, Windows કે MacOS પર વીડિયો પ્રદર્શિત કરી શકાતા નથી. જો તમે આ સુવિધા જોવા માંગતા હો, તો Github પર યોગદાન આપવાનું વિચારો!",
+                "audio_desktop_error": "Linux, Windows કે MacOS પર ઑડિયો ચલાવી શકાતું નથી."
+            },
+            "reaction": {
+                "unknown_sender": "અજ્ઞાત",
+                "sent_by": "{} દ્વારા મોકલેલું"
+            },
+            "videoplayercontrol": {
+                "play": "ચલાવો",
+                "caption_offset": "સબટાઇટલ ઓફસેટ",
+                "playback_speed": "પ્લેબેક ગતિ"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "કાનૂની",
+            "tos": "સેવાની શરતો",
+            "privacy": "ગોપનીયતા નીતિ",
+            "imprint": "ઇમ્પ્રિન્ટ",
+            "licenses": "ઓપન સોર્સ લાઇસન્સ"
+        },
+        "followfeeds": {
+            "filter_server_header": "સૂચિમાંથી સર્વર પસંદ કરો અથવા નવું ઉમેરો:",
+            "filter_rooms_header": "ફોલો કે અનફોલો કરવા માટે રૂમ શોધો:",
+            "roomname_placeholder": "રૂમનું નામ દાખલ કરો",
+            "buttons": {
+                "add_server": "સર્વર ઉમેરો",
+                "retry": "ફરી પ્રયાસ કરો"
+            },
+            "no_rooms_found": "આપેલા શોધ માપદંડ માટે કોઈ રૂમ મળ્યા નથી.",
+            "error_loading_rooms": "ભૂલ: રૂમ્સ લોડ કરવામાં નિષ્ફળ"
+        },
+        "ownfeeds": {
+            "header": "તમારા પોતાના રૂમ્સનું સંચાલન કરો",
+            "buttons": {
+                "create_room": "નવો રૂમ બનાવો"
+            }
+        },
+        "menu": {
+            "logged_in_as": "{} તરીકે લૉગ ઇન છો",
+            "logout": "લૉગ આઉટ",
+            "logout_confirm": "શું તમે ખરેખર લૉગ આઉટ કરવા માંગો છો?",
+            "login": "લૉગ ઇન",
+            "not_logged_in": "બધી સુવિધાઓ ઍક્સેસ કરવા માટે લૉગ ઇન કરો",
+            "home_site_label": "હોમ",
+            "feeds_site_label": "ફીડ્સ",
+            "navigation_label": "નેવિગેશન",
+            "account_label": "એકાઉન્ટ",
+            "preferences_label": "પસંદગીઓ",
+            "about_label": "વિશે"
+        },
+        "room": {
+            "desc": "રૂમનું નામ: {}",
+            "leave": "રૂમ છોડો",
+            "join": "રૂમમાં પ્રવેશ કરો અને તેને substitution માં ઉમેરો",
+            "join_short": "જોડાઓ",
+            "permissions": "પરવાનગીઓ"
+        },
+        "dialog": {
+            "delete": {
+                "title": "રૂમ {} છોડો",
+                "desc": "શું તમે ખરેખર રૂમ {} છોડવા માંગો છો?",
+                "button": {
+                    "submit": "હા, છોડો",
+                    "cancel": "ના, રદ કરો"
+                }
+            },
+            "add": {
+                "title": "નવું સર્વર ઉમેરો",
+                "input_placeholder": "સર્વર સરનામું દાખલ કરો",
+                "button": {
+                    "submit": "ઉમેરો"
+                },
+                "snackbar": {
+                    "success": "સર્વર ઉમેરવામાં આવ્યું છે",
+                    "error_homeserver": "દાખલ કરેલું હોમસર્વર માન્ય નથી"
+                }
+            },
+            "create": {
+                "title": "નવો રૂમ બનાવો",
+                "placeholder_name": "રૂમનું નામ",
+                "placeholder_alias": "રૂમ ઉપનામ (સાર્વજનિક રૂમ સરનામું)",
+                "placeholder_topic": "રૂમનો વિષય",
+                "submit": "બનાવો"
+            }
+        },
+        "room_preview": {
+            "members": "{} સભ્યો",
+            "latest_posts": "તાજેતરની પોસ્ટ્સ",
+            "no_posts": "આ રૂમમાં હજુ સુધી કોઈ પોસ્ટ નથી.",
+            "no_peek": "આ રૂમનો ઇતિહાસ ખાનગી છે. તેની પોસ્ટ્સ જોવા માટે રૂમમાં જોડાઓ.",
+            "join_to_see": "પોસ્ટ્સ જોવા માટે જોડાઓ"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "અદ્ભુત, તમે પહેલેથી જ લૉગ ઇન છો. \nતમે આગળના પગલાંઓ સાથે ચાલુ રાખી શકો છો",
+        "isNotLoggedIn": "કૃપા કરીને પહેલાં લૉગ ઇન કરો",
+        "buttons": {
+            "next": "આગળ",
+            "back": "પાછળ"
+        },
+        "welcome": {
+            "title": "substitution માં આપનું સ્વાગત છે",
+            "desc": "... matrix પ્રોટોકોલ પર બનેલું નવું સોશિયલ નેટવર્ક"
+        },
+        "account": {
+            "title": "Matrix એકાઉન્ટ્સ",
+            "desc": "આ એપનો ઉપયોગ કરવા માટે તમારે કોઈપણ સર્વર પર matrix એકાઉન્ટમાં લૉગ ઇન હોવું જરૂરી છે. જો તમને ખબર નથી કે કેવી રીતે મેળવવું, તો આ સાઇટ પર જાઓ: https://matrix.org/"
+        },
+        "host": {
+            "title": "હોસ્ટ પસંદ કરો"
+        },
+        "login": {
+            "title": "લૉગ ઇન"
+        },
+        "finished": {
+            "title": "ચાલો શરૂ કરીએ",
+            "desc": "અદ્ભુત, તમે લૉગ ઇન થઈ ગયા છો. અમે substitute કરવા તૈયાર છીએ. તમે હવે substitution સ્વાગત રૂમમાં જોડાવું કે નહીં તે પસંદ કરી શકો છો. ચાલો, અને મજા કરો!",
+            "buttons": {
+                "add_to_room_and_go": "Substitution-Room માં જોડાઓ અને આગળ વધો!",
+                "go": "ફક્ત આગળ વધો!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "તમારા હોમસર્વર સાથે જોડાઓ",
+            "body": "કૃપા કરીને Matrix હોમસર્વર પસંદ કરો. પછી તમે લૉગ ઇન કરવાનું અથવા સાર્વજનિક રૂમ્સ બ્રાઉઝ કરવાનું પસંદ કરી શકો છો.",
+            "inputs": {
+                "homeserver_label": "તમારા હોમસર્વરનું સરનામું"
+            },
+            "buttons": {
+                "login_label": "લૉગ ઇન"
+            }
+        },
+        "login": {
+            "loading": "તમને લૉગ ઇન કરી રહ્યા છીએ...",
+            "header": "લૉગ ઇન",
+            "body": "કૃપા કરીને તમારા ઓળખપત્રો સાથે લૉગ ઇન કરો.",
+            "inputs": {
+                "username_label": "વપરાશકર્તા નામ",
+                "password_label": "પાસવર્ડ"
+            },
+            "buttons": {
+                "login_label": "લૉગ ઇન",
+                "sso_label": "{} વડે સાઇન ઇન કરો",
+                "register_web_label": "નોંધણી કરો"
+            }
+        }
+    },
+    "write": {
+        "answer": "જવાબ",
+        "roomheader": "રૂમ: {}",
+        "filemessage": {
+            "upload_files": "અપલોડ માટે નવી ફાઇલો ઉમેરો",
+            "title_header": "શીર્ષક:",
+            "upload_start": "અપલોડ શરૂ થઈ રહ્યું છે...",
+            "upload_file_process": "ફાઇલ {} અપલોડ થઈ રહી છે",
+            "upload_error": "{} અપલોડ નિષ્ફળ. ફરી અપલોડ કરશો?",
+            "upload_file_complete": "{} નું અપલોડ પૂર્ણ!",
+            "upload_complete": "બધી ફાઇલો અપલોડ થઈ ગઈ છે!",
+            "buttons": {
+                "upload_stop": "રદ કરો",
+                "upload_retry": "ફરી પ્રયાસ કરો"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "તમે જે પ્રકારનો સંદેશ પોસ્ટ કરવા માંગો છો તે પસંદ કરો",
+            "room_prompt": "જે રૂમમાં પોસ્ટ કરવા માંગો છો તે પસંદ કરો:",
+            "error_no_rooms": "તમે કોઈ રૂમમાં જોડાયા નથી અથવા તમારી પાસે પોસ્ટ કરવાના અધિકાર નથી."
+        },
+        "textmessage": {
+            "answer_promt": "તમારો ટેક્સ્ટ દાખલ કરો:",
+            "input_placeholder": "તમારો ટેક્સ્ટ અહીં દાખલ કરો...",
+            "send_start": "સંદેશ મોકલવાનું શરૂ થયું...",
+            "send_failed": "સંદેશ મોકલવામાં નિષ્ફળ. ફરીથી મોકલશો?",
+            "send_complete": "સંદેશ સફળતાપૂર્વક મોકલાયો!",
+            "buttons": {
+                "send_stop": "ફરી પ્રયાસ ન કરો",
+                "resend": "ફરી પ્રયાસ કરો"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "સંદેશ",
+        "block_title": "વપરાશકર્તાને બ્લોક કરો",
+        "block_desc": "{} ને બ્લોક કરશો? તમે હવે તેમની સામગ્રી જોશો નહીં.",
+        "block_confirm": "બ્લોક કરો",
+        "block_success": "વપરાશકર્તા બ્લોક થયો.",
+        "block_error": "વપરાશકર્તાને બ્લોક કરી શકાયો નહીં: {}",
+        "report_title": "વપરાશકર્તાની જાણ કરો",
+        "report_desc": "કૃપા કરીને આ વપરાશકર્તાની જાણ કરવાનું કારણ જણાવો.",
+        "report_reason": "કારણ",
+        "report_reason_hint": "આ વપરાશકર્તા...",
+        "report_submit": "સબમિટ કરો",
+        "report_success": "રિપોર્ટ સબમિટ થયો. આભાર.",
+        "feeds_section": "ફીડ્સ",
+        "no_feeds": "કોઈ સાર્વજનિક ફીડ્સ નથી",
+        "error_start_chat": "ચેટ શરૂ કરી શકાઈ નહીં: {}"
+    },
+    "chat": {
+        "title": "સંદેશાઓ",
+        "input_placeholder": "સંદેશ લખો...",
+        "no_messages": "હજુ સુધી કોઈ સંદેશા નથી. હાય કહો!",
+        "no_conversations": "હજુ સુધી કોઈ વાતચીત નથી",
+        "no_conversations_hint": "ચેટ શરૂ કરવા માટે વપરાશકર્તાની પ્રોફાઇલ પર જાઓ અને 'સંદેશ' પર ટેપ કરો.",
+        "media_message": "મીડિયા",
+        "conversation_started": "વાતચીત શરૂ થઈ",
+        "error_loading": "આ વાતચીત લોડ કરી શકાઈ નહીં.",
+        "error_sending": "સંદેશ મોકલવામાં નિષ્ફળ.",
+        "view_profile": "પ્રોફાઇલ જુઓ"
+    }
+}

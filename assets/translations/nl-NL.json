@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Fout",
+    "loading": "Laden...",
+    "error": "Fout: {}",
+    "approve": "Ok",
+    "error_no_image": "Geen afbeelding",
+    "error_page_not_found": "Deze pagina kon niet worden gevonden.",
+    "age_gate": {
+        "title": "Voordat u verdergaat",
+        "description": "Substitution is een sociaal netwerk-client voor het Matrix-protocol. Door verder te gaan, bevestigt u het volgende:",
+        "point_client": "Substitution is uitsluitend een client-app. Uw gegevens worden opgeslagen op de Matrix-homeserver die u kiest, niet op servers die door Substitution worden beheerd.",
+        "point_servers": "Substitution heeft geen controle over het inhoudsbeleid van externe homeservers waarmee u verbinding maakt. U bent verantwoordelijk voor het kiezen van een betrouwbare server.",
+        "point_age": "U bent 16 jaar of ouder (of de minimumleeftijd die in uw land vereist is). Substitution is niet bedoeld voor minderjarigen.",
+        "point_content": "Substitution heeft een nultolerantie voor illegale of aanstootgevende inhoud. Gebruik de rapportagetools in de app om overtredingen te melden.",
+        "confirm": "Ik bevestig — ik ben 16 of ouder",
+        "privacy_link": "Lees ons privacybeleid"
+    },
+    "cancel": "Annuleren",
+    "feed": {
+        "nav": {
+            "home": "Home",
+            "discover": "Ontdekken",
+            "messages": "Berichten",
+            "settings": "Instellingen"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Kamer: {}",
+                "empty": "Je feed is leeg. Volg enkele kamers om berichten te zien!",
+                "empty_button": "Nieuwe kamers zoeken"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Bericht niet gevonden of niet beschikbaar."
+        },
+        "menu": {
+            "report_block": "Rapporteren / Blokkeren"
+        },
+        "e2e": {
+            "encrypted": "End-to-end versleuteld",
+            "unencrypted": "Niet versleuteld",
+            "failed": "Ontsleuteling mislukt"
+        },
+        "dialog": {
+            "report_block_title": "Inhoud rapporteren of gebruiker blokkeren",
+            "report_desc": "Beschrijf alstublieft waarom u deze inhoud rapporteert (optioneel).",
+            "report_reason": "Reden voor rapportage",
+            "report_reason_hint": "Deze inhoud is aanstootgevend omdat...",
+            "block_user_checkbox": "Blokkeer ook deze gebruiker",
+            "block_user_desc": "U zult geen inhoud meer zien van {}",
+            "submit": "Verzenden",
+            "cancel": "Annuleren",
+            "report_block_success": "Rapportage verzonden. Dank u.",
+            "report_block_error": "Er is een fout opgetreden: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Nog geen reacties."
+            }
+        },
+        "continue_thread": "Ga verder met deze discussie...",
+        "replying_to": "Antwoord aan {}",
+        "reply_placeholder": "Schrijf een reactie...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Kies een pictogram"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "sluiten"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Bestand wordt ontsleuteld...",
+                "video_desktop_error": "Video's kunnen niet worden weergegeven op Linux, Windows of MacOS. Overweeg bij te dragen op Github als u deze functie graag wilt zien!",
+                "audio_desktop_error": "Audio kan niet worden afgespeeld op Linux, Windows of MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "onbekend",
+                "sent_by": "Verzonden door {}"
+            },
+            "videoplayercontrol": {
+                "play": "afspelen",
+                "caption_offset": "ondertitelvertraging",
+                "playback_speed": "afspeelsnelheid"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Juridisch",
+            "tos": "Servicevoorwaarden",
+            "privacy": "Privacybeleid",
+            "imprint": "Colofon",
+            "licenses": "Open source-licenties"
+        },
+        "followfeeds": {
+            "filter_server_header": "Kies een server uit de lijst of voeg een nieuwe toe:",
+            "filter_rooms_header": "Zoek een kamer om te volgen of te ontvolgen:",
+            "roomname_placeholder": "Voer een kamernaam in",
+            "buttons": {
+                "add_server": "Server toevoegen",
+                "retry": "Opnieuw proberen"
+            },
+            "no_rooms_found": "Geen kamers gevonden voor de opgegeven zoekcriteria.",
+            "error_loading_rooms": "Fout: Kon kamers niet laden"
+        },
+        "ownfeeds": {
+            "header": "Beheer uw eigen kamers",
+            "buttons": {
+                "create_room": "Een nieuwe kamer aanmaken"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Ingelogd als {}",
+            "logout": "Uitloggen",
+            "logout_confirm": "Weet u zeker dat u wilt uitloggen?",
+            "login": "Inloggen",
+            "not_logged_in": "Log in om toegang te krijgen tot alle functies",
+            "home_site_label": "Home",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigatie",
+            "account_label": "Account",
+            "preferences_label": "Voorkeuren",
+            "about_label": "Over"
+        },
+        "room": {
+            "desc": "Kamernaam: {}",
+            "leave": "Kamer verlaten",
+            "join": "Kamer betreden en toevoegen aan substitution",
+            "join_short": "Deelnemen",
+            "permissions": "Machtigingen"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Kamer {} verlaten",
+                "desc": "Weet u zeker dat u kamer {} wilt verlaten?",
+                "button": {
+                    "submit": "Ja, verlaten",
+                    "cancel": "Nee, annuleren"
+                }
+            },
+            "add": {
+                "title": "Een nieuwe server toevoegen",
+                "input_placeholder": "Voer het serveradres in",
+                "button": {
+                    "submit": "Toevoegen"
+                },
+                "snackbar": {
+                    "success": "Server is toegevoegd",
+                    "error_homeserver": "De ingevoerde homeserver is niet geldig"
+                }
+            },
+            "create": {
+                "title": "Een nieuwe kamer aanmaken",
+                "placeholder_name": "kamernaam",
+                "placeholder_alias": "kameralias (openbaar kameradres)",
+                "placeholder_topic": "kameronderwerp",
+                "submit": "Aanmaken"
+            }
+        },
+        "room_preview": {
+            "members": "{} leden",
+            "latest_posts": "Laatste berichten",
+            "no_posts": "Nog geen berichten in deze kamer.",
+            "no_peek": "De geschiedenis van deze kamer is privé. Neem deel aan de kamer om de berichten te zien.",
+            "join_to_see": "Neem deel om berichten te zien"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Geweldig, u bent al ingelogd. \nU kunt doorgaan met de volgende stappen",
+        "isNotLoggedIn": "Log eerst in",
+        "buttons": {
+            "next": "Volgende",
+            "back": "Terug"
+        },
+        "welcome": {
+            "title": "Welkom bij substitution",
+            "desc": "... het nieuwe sociale netwerk bovenop het matrix-protocol"
+        },
+        "account": {
+            "title": "Matrix-accounts",
+            "desc": "U moet ingelogd zijn op een matrix-account op een willekeurige server om deze app te kunnen gebruiken. Als u niet weet hoe u er een kunt krijgen, bezoek dan deze site: https://matrix.org/"
+        },
+        "host": {
+            "title": "Kies een host"
+        },
+        "login": {
+            "title": "Inloggen"
+        },
+        "finished": {
+            "title": "Laten we beginnen",
+            "desc": "Geweldig, u bent ingelogd. We zijn klaar om te substitueren. U kunt nu kiezen of u wilt deelnemen aan de substitution-welkomstkamer. Laten we beginnen en veel plezier!",
+            "buttons": {
+                "add_to_room_and_go": "Neem deel aan Substitution-kamer en ga!",
+                "go": "Gewoon gaan!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Verbinden met uw homeserver",
+            "body": "Kies een Matrix-homeserver. U kunt vervolgens inloggen of openbaar beschikbare kamers bekijken.",
+            "inputs": {
+                "homeserver_label": "Adres van uw homeserver"
+            },
+            "buttons": {
+                "login_label": "Inloggen"
+            }
+        },
+        "login": {
+            "loading": "U wordt ingelogd...",
+            "header": "Inloggen",
+            "body": "Log in met uw inloggegevens.",
+            "inputs": {
+                "username_label": "Gebruikersnaam",
+                "password_label": "Wachtwoord"
+            },
+            "buttons": {
+                "login_label": "Inloggen",
+                "sso_label": "Inloggen met {}",
+                "register_web_label": "Registreren"
+            }
+        }
+    },
+    "write": {
+        "answer": "Antwoord",
+        "roomheader": "Kamer: {}",
+        "filemessage": {
+            "upload_files": "Nieuwe bestanden toevoegen voor upload",
+            "title_header": "Titel:",
+            "upload_start": "Upload wordt gestart...",
+            "upload_file_process": "Bestand {} wordt geüpload",
+            "upload_error": "Uploaden van {} is mislukt. Opnieuw proberen?",
+            "upload_file_complete": "Uploaden van {} is voltooid!",
+            "upload_complete": "Alle bestanden zijn geüpload!",
+            "buttons": {
+                "upload_stop": "Annuleren",
+                "upload_retry": "Opnieuw proberen"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Kies het type bericht dat u wilt plaatsen",
+            "room_prompt": "Kies de kamer waarin u wilt plaatsen:",
+            "error_no_rooms": "U bent niet lid van kamers of u hebt geen rechten om te plaatsen."
+        },
+        "textmessage": {
+            "answer_promt": "Voer uw tekst in:",
+            "input_placeholder": "Voer hier uw tekst in...",
+            "send_start": "Bericht wordt verzonden...",
+            "send_failed": "Verzenden van bericht is mislukt. Wilt u het bericht opnieuw verzenden?",
+            "send_complete": "Bericht is succesvol verzonden!",
+            "buttons": {
+                "send_stop": "Niet opnieuw proberen",
+                "resend": "Opnieuw proberen"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Bericht",
+        "block_title": "Gebruiker blokkeren",
+        "block_desc": "{} blokkeren? U zult hun inhoud niet meer zien.",
+        "block_confirm": "Blokkeren",
+        "block_success": "Gebruiker geblokkeerd.",
+        "block_error": "Kon gebruiker niet blokkeren: {}",
+        "report_title": "Gebruiker rapporteren",
+        "report_desc": "Beschrijf alstublieft de reden voor het rapporteren van deze gebruiker.",
+        "report_reason": "Reden",
+        "report_reason_hint": "Deze gebruiker is...",
+        "report_submit": "Verzenden",
+        "report_success": "Rapportage verzonden. Dank u.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Geen openbare feeds",
+        "error_start_chat": "Kon chat niet starten: {}"
+    },
+    "chat": {
+        "title": "Berichten",
+        "input_placeholder": "Typ een bericht...",
+        "no_messages": "Nog geen berichten. Zeg hallo!",
+        "no_conversations": "Nog geen gesprekken",
+        "no_conversations_hint": "Bezoek het profiel van een gebruiker en tik op 'Bericht' om een chat te starten.",
+        "media_message": "Media",
+        "conversation_started": "Gesprek gestart",
+        "error_loading": "Kon dit gesprek niet laden.",
+        "error_sending": "Kon bericht niet verzenden.",
+        "view_profile": "Profiel bekijken"
+    }
+}

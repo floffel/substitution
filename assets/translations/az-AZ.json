@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Xəta",
+    "loading": "Yüklənir...",
+    "error": "Xəta: {}",
+    "approve": "Oldu",
+    "error_no_image": "Şəkil yoxdur",
+    "error_page_not_found": "Bu səhifə tapılmadı.",
+    "age_gate": {
+        "title": "Davam etməzdən əvvəl",
+        "description": "Substitution Matrix protokolu üçün sosial şəbəkə müştərisidir. Davam etməklə aşağıdakıları təsdiqləyirsiniz:",
+        "point_client": "Substitution yalnız müştəri tətbiqidir. Məlumatlarınız seçdiyiniz Matrix ev serverində saxlanılır, Substitution tərəfindən idarə olunan serverlərdə deyil.",
+        "point_servers": "Substitution qoşulduğunuz xarici ev serverlərinin məzmun siyasətlərini idarə etmir. Etibarlı server seçmək sizin məsuliyyətinizdir.",
+        "point_age": "Siz 16 yaşında və ya daha böyüksünüz (və ya ölkənizdə tələb olunan minimum yaş). Substitution yetkinlik yaşına çatmayanlar üçün nəzərdə tutulmayıb.",
+        "point_content": "Substitution qanunsuz və ya qəbuledilməz məzmuna qarşı sıfır tolerantlıq siyasəti tətbiq edir. Pozuntuları bildirmək üçün tətbiqdaxili hesabat vasitələrindən istifadə edin.",
+        "confirm": "Təsdiqləyirəm — 16 yaşında və ya daha böyüyəm",
+        "privacy_link": "Məxfilik Siyasətimizi oxuyun"
+    },
+    "cancel": "Ləğv et",
+    "feed": {
+        "nav": {
+            "home": "Ana səhifə",
+            "discover": "Kəşf et",
+            "messages": "Mesajlar",
+            "settings": "Parametrlər"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Otaq: {}",
+                "empty": "Lentiniz boşdur. Paylaşımları görmək üçün bəzi otaqları izləyin!",
+                "empty_button": "Yeni otaqlar tapın"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Paylaşım tapılmadı və ya əlçatan deyil."
+        },
+        "menu": {
+            "report_block": "Şikayət / Blokla"
+        },
+        "e2e": {
+            "encrypted": "Uçdan-uca şifrələnmiş",
+            "unencrypted": "Şifrələnməyib",
+            "failed": "Şifrə açma uğursuz oldu"
+        },
+        "dialog": {
+            "report_block_title": "Məzmun haqqında şikayət edin və ya istifadəçini bloklayın",
+            "report_desc": "Zəhmət olmasa, bu məzmun haqqında niyə şikayət etdiyinizi təsvir edin (isteğe bağlı).",
+            "report_reason": "Şikayət səbəbi",
+            "report_reason_hint": "Bu məzmun qəbuledilməzdir, çünki...",
+            "block_user_checkbox": "Bu istifadəçini də blokla",
+            "block_user_desc": "Artıq {} tərəfindən paylaşılan məzmunu görməyəcəksiniz",
+            "submit": "Göndər",
+            "cancel": "Ləğv et",
+            "report_block_success": "Şikayət göndərildi. Təşəkkür edirik.",
+            "report_block_error": "Xəta baş verdi: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Hələ şərh yoxdur."
+            }
+        },
+        "continue_thread": "Bu mövzunu davam etdirin...",
+        "replying_to": "{} cavab verilir",
+        "reply_placeholder": "Cavab yazın...",
+        "mixins": {
+            "iconpicker": {
+                "title": "İkon seçin"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "bağla"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Faylın şifrəsi açılır...",
+                "video_desktop_error": "Videolar Linux, Windows və ya MacOS-da göstərilə bilmir. Bu funksiyanı görmək istəyirsinizsə, Github-da töhfə verməyi düşünün!",
+                "audio_desktop_error": "Audio Linux, Windows və ya MacOS-da oxudula bilmir."
+            },
+            "reaction": {
+                "unknown_sender": "naməlum",
+                "sent_by": "{} tərəfindən göndərildi"
+            },
+            "videoplayercontrol": {
+                "play": "oxut",
+                "caption_offset": "altyazı ofseti",
+                "playback_speed": "oxutma sürəti"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Hüquqi",
+            "tos": "Xidmət Şərtləri",
+            "privacy": "Məxfilik Siyasəti",
+            "imprint": "İmpressum",
+            "licenses": "Açıq Mənbə Lisenziyaları"
+        },
+        "followfeeds": {
+            "filter_server_header": "Siyahıdan server seçin və ya yenisini əlavə edin:",
+            "filter_rooms_header": "İzləmək və ya izləməmək üçün otaq axtarın:",
+            "roomname_placeholder": "Otaq adı daxil edin",
+            "buttons": {
+                "add_server": "Server əlavə et",
+                "retry": "Yenidən cəhd et"
+            },
+            "no_rooms_found": "Verilmiş axtarış meyarlarına uyğun otaq tapılmadı.",
+            "error_loading_rooms": "Xəta: Otaqlar yüklənmədi"
+        },
+        "ownfeeds": {
+            "header": "Öz otaqlarınızı idarə edin",
+            "buttons": {
+                "create_room": "Yeni otaq yaradın"
+            }
+        },
+        "menu": {
+            "logged_in_as": "{} olaraq daxil olmusunuz",
+            "logout": "Çıxış",
+            "logout_confirm": "Çıxış etmək istədiyinizə əminsiniz?",
+            "login": "Daxil ol",
+            "not_logged_in": "Bütün funksiyalara daxil olmaq üçün giriş edin",
+            "home_site_label": "Ana səhifə",
+            "feeds_site_label": "Lentlər",
+            "navigation_label": "Naviqasiya",
+            "account_label": "Hesab",
+            "preferences_label": "Tərcihlər",
+            "about_label": "Haqqında"
+        },
+        "room": {
+            "desc": "Otaq adı: {}",
+            "leave": "Otaqdan çıx",
+            "join": "Otağa daxil ol və Substitution-a əlavə et",
+            "join_short": "Qoşul",
+            "permissions": "İcazələr"
+        },
+        "dialog": {
+            "delete": {
+                "title": "{} otağından çıx",
+                "desc": "{} otağından çıxmaq istədiyinizə əminsiniz?",
+                "button": {
+                    "submit": "Bəli, çıx",
+                    "cancel": "Xeyr, ləğv et"
+                }
+            },
+            "add": {
+                "title": "Yeni server əlavə et",
+                "input_placeholder": "Server ünvanı daxil edin",
+                "button": {
+                    "submit": "Əlavə et"
+                },
+                "snackbar": {
+                    "success": "Server əlavə edildi",
+                    "error_homeserver": "Daxil edilmiş ev serveri etibarlı deyil"
+                }
+            },
+            "create": {
+                "title": "Yeni otaq yaradın",
+                "placeholder_name": "otaq adı",
+                "placeholder_alias": "otaq ləqəbi (açıq otaq ünvanı)",
+                "placeholder_topic": "otaq mövzusu",
+                "submit": "Yarat"
+            }
+        },
+        "room_preview": {
+            "members": "{} üzv",
+            "latest_posts": "Son paylaşımlar",
+            "no_posts": "Bu otaqda hələ paylaşım yoxdur.",
+            "no_peek": "Bu otağın tarixçəsi gizlidir. Paylaşımları görmək üçün otağa qoşulun.",
+            "join_to_see": "Paylaşımları görmək üçün qoşulun"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Əla, artıq daxil olmusunuz. \nNövbəti addımlarla davam edə bilərsiniz",
+        "isNotLoggedIn": "Zəhmət olmasa əvvəlcə daxil olun",
+        "buttons": {
+            "next": "Növbəti",
+            "back": "Geri"
+        },
+        "welcome": {
+            "title": "Substitution-a xoş gəlmisiniz",
+            "desc": "... Matrix protokolunun üzərində yeni sosial şəbəkə"
+        },
+        "account": {
+            "title": "Matrix Hesabları",
+            "desc": "Bu tətbiqi istifadə edə bilmək üçün istənilən serverdə Matrix hesabına daxil olmalısınız. Necə əldə edəcəyinizi bilmirsinizsə, bu saytı ziyarət edin: https://matrix.org/"
+        },
+        "host": {
+            "title": "Host seçin"
+        },
+        "login": {
+            "title": "Daxil ol"
+        },
+        "finished": {
+            "title": "Başlayaq",
+            "desc": "Əla, daxil oldunuz. Başlamağa hazırıq. İndi Substitution qarşılama otağına qoşulmaq istəyib-istəmədiyinizi seçə bilərsiniz. Başlayaq və əylənək!",
+            "buttons": {
+                "add_to_room_and_go": "Substitution otağına qoşul və başla!",
+                "go": "Sadəcə başla!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Ev serverinizə qoşulun",
+            "body": "Zəhmət olmasa Matrix ev serveri seçin. Sonra daxil olmaq və ya açıq otaqları gözdən keçirmək seçə bilərsiniz.",
+            "inputs": {
+                "homeserver_label": "Ev serverinizin ünvanı"
+            },
+            "buttons": {
+                "login_label": "Daxil ol"
+            }
+        },
+        "login": {
+            "loading": "Daxil olursunuz...",
+            "header": "Daxil ol",
+            "body": "Zəhmət olmasa etimadnamənizlə daxil olun.",
+            "inputs": {
+                "username_label": "İstifadəçi adı",
+                "password_label": "Parol"
+            },
+            "buttons": {
+                "login_label": "Daxil ol",
+                "sso_label": "{} ilə daxil ol",
+                "register_web_label": "Qeydiyyat"
+            }
+        }
+    },
+    "write": {
+        "answer": "Cavab",
+        "roomheader": "Otaq: {}",
+        "filemessage": {
+            "upload_files": "Yükləmə üçün yeni fayllar əlavə edin",
+            "title_header": "Başlıq:",
+            "upload_start": "Yükləmə başlayır...",
+            "upload_file_process": "{} faylı yüklənir",
+            "upload_error": "{} yükləmə uğursuz oldu. Yenidən yükləmək istəyirsiniz?",
+            "upload_file_complete": "{} yükləməsi tamamlandı!",
+            "upload_complete": "Bütün fayllar yükləndi!",
+            "buttons": {
+                "upload_stop": "Ləğv et",
+                "upload_retry": "Yenidən cəhd et"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Paylaşmaq istədiyiniz mesaj növünü seçin",
+            "room_prompt": "Paylaşmaq istədiyiniz otağı seçin:",
+            "error_no_rooms": "Heç bir otağa qoşulmamısınız və ya paylaşım hüququnuz yoxdur."
+        },
+        "textmessage": {
+            "answer_promt": "Mətninizi daxil edin:",
+            "input_placeholder": "Mətninizi buraya daxil edin...",
+            "send_start": "Mesaj göndərilməyə başladı...",
+            "send_failed": "Mesaj göndərilmədi. Mesajı yenidən göndərmək istəyirsiniz?",
+            "send_complete": "Mesaj uğurla göndərildi!",
+            "buttons": {
+                "send_stop": "Yenidən cəhd etmə",
+                "resend": "Yenidən cəhd et"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mesaj",
+        "block_title": "İstifadəçini blokla",
+        "block_desc": "{} bloklansın? Artıq onların məzmununu görməyəcəksiniz.",
+        "block_confirm": "Blokla",
+        "block_success": "İstifadəçi bloklandı.",
+        "block_error": "İstifadəçi bloklana bilmədi: {}",
+        "report_title": "İstifadəçi haqqında şikayət et",
+        "report_desc": "Zəhmət olmasa bu istifadəçi haqqında şikayət səbəbinizi təsvir edin.",
+        "report_reason": "Səbəb",
+        "report_reason_hint": "Bu istifadəçi...",
+        "report_submit": "Göndər",
+        "report_success": "Şikayət göndərildi. Təşəkkür edirik.",
+        "feeds_section": "LENTLƏR",
+        "no_feeds": "Açıq lent yoxdur",
+        "error_start_chat": "Söhbət başladıla bilmədi: {}"
+    },
+    "chat": {
+        "title": "Mesajlar",
+        "input_placeholder": "Mesaj yazın...",
+        "no_messages": "Hələ mesaj yoxdur. Salam deyin!",
+        "no_conversations": "Hələ söhbət yoxdur",
+        "no_conversations_hint": "İstifadəçinin profilinə daxil olun və söhbət başlatmaq üçün 'Mesaj' düyməsinə toxunun.",
+        "media_message": "Media",
+        "conversation_started": "Söhbət başladı",
+        "error_loading": "Bu söhbət yüklənə bilmədi.",
+        "error_sending": "Mesaj göndərilmədi.",
+        "view_profile": "Profili gör"
+    }
+}

@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Eroare",
+    "loading": "Se încarcă...",
+    "error": "Eroare: {}",
+    "approve": "Ok",
+    "error_no_image": "Nicio imagine",
+    "error_page_not_found": "Această pagină nu a putut fi găsită.",
+    "age_gate": {
+        "title": "Înainte de a continua",
+        "description": "Substitution este un client de rețea socială pentru protocolul Matrix. Continuând, confirmi următoarele:",
+        "point_client": "Substitution este doar o aplicație client. Datele tale sunt stocate pe serverul Matrix pe care îl alegi, nu pe servere operate de Substitution.",
+        "point_servers": "Substitution nu controlează politicile de conținut ale serverelor externe la care te conectezi. Ești responsabil pentru alegerea unui server de încredere.",
+        "point_age": "Ai cel puțin 16 ani (sau vârsta minimă cerută în țara ta). Substitution nu este destinat minorilor.",
+        "point_content": "Substitution are toleranță zero pentru conținut ilegal sau inadecvat. Folosește instrumentele de raportare din aplicație pentru a semnala încălcările.",
+        "confirm": "Confirm — Am 16 ani sau mai mult",
+        "privacy_link": "Citește Politica noastră de Confidențialitate"
+    },
+    "cancel": "Anulare",
+    "feed": {
+        "nav": {
+            "home": "Acasă",
+            "discover": "Descoperă",
+            "messages": "Mesaje",
+            "settings": "Setări"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Cameră: {}",
+                "empty": "Fluxul tău este gol. Urmărește câteva camere pentru a vedea postări!",
+                "empty_button": "Găsește camere noi"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Postarea nu a fost găsită sau nu este disponibilă."
+        },
+        "menu": {
+            "report_block": "Raportare / Blocare"
+        },
+        "e2e": {
+            "encrypted": "Criptat end-to-end",
+            "unencrypted": "Necriptat",
+            "failed": "Decriptarea a eșuat"
+        },
+        "dialog": {
+            "report_block_title": "Raportează conținutul sau blochează utilizatorul",
+            "report_desc": "Te rugăm să descrii de ce raportezi acest conținut (opțional).",
+            "report_reason": "Motivul raportării",
+            "report_reason_hint": "Acest conținut este ofensator deoarece...",
+            "block_user_checkbox": "Blochează și acest utilizator",
+            "block_user_desc": "Nu vei mai vedea conținut de la {}",
+            "submit": "Trimite",
+            "cancel": "Anulare",
+            "report_block_success": "Raportare trimisă. Mulțumim.",
+            "report_block_error": "A apărut o eroare: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Niciun comentariu încă."
+            }
+        },
+        "continue_thread": "Continuă acest fir de discuție...",
+        "replying_to": "Răspuns la {}",
+        "reply_placeholder": "Scrie un răspuns...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Alege o pictogramă"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "închide"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Fișierul este în curs de decriptare...",
+                "video_desktop_error": "Videoclipurile nu pot fi redate pe Linux, Windows sau MacOS. Ia în considerare să contribui pe Github dacă dorești să vezi această funcționalitate!",
+                "audio_desktop_error": "Audio nu poate fi redat pe Linux, Windows sau MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "necunoscut",
+                "sent_by": "Trimis de {}"
+            },
+            "videoplayercontrol": {
+                "play": "redare",
+                "caption_offset": "decalaj subtitrare",
+                "playback_speed": "viteză de redare"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Termeni și Condiții",
+            "privacy": "Politica de Confidențialitate",
+            "imprint": "Mențiuni legale",
+            "licenses": "Licențe Open Source"
+        },
+        "followfeeds": {
+            "filter_server_header": "Alege un server din listă sau adaugă unul nou:",
+            "filter_rooms_header": "Caută o cameră pentru a o urmări sau a renunța la urmărire:",
+            "roomname_placeholder": "Introdu un nume de cameră",
+            "buttons": {
+                "add_server": "Adaugă server",
+                "retry": "Reîncearcă"
+            },
+            "no_rooms_found": "Nu s-au găsit camere pentru criteriile de căutare specificate.",
+            "error_loading_rooms": "Eroare: Încărcarea camerelor a eșuat"
+        },
+        "ownfeeds": {
+            "header": "Gestionează-ți camerele proprii",
+            "buttons": {
+                "create_room": "Creează o cameră nouă"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Conectat ca {}",
+            "logout": "Deconectare",
+            "logout_confirm": "Ești sigur că vrei să te deconectezi?",
+            "login": "Conectare",
+            "not_logged_in": "Conectează-te pentru a accesa toate funcționalitățile",
+            "home_site_label": "Acasă",
+            "feeds_site_label": "Fluxuri",
+            "navigation_label": "Navigare",
+            "account_label": "Cont",
+            "preferences_label": "Preferințe",
+            "about_label": "Despre"
+        },
+        "room": {
+            "desc": "Nume cameră: {}",
+            "leave": "Părăsește camera",
+            "join": "Intră în cameră și adaug-o la substitution",
+            "join_short": "Intră",
+            "permissions": "Permisiuni"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Părăsește camera {}",
+                "desc": "Ești sigur că vrei să părăsești camera {}?",
+                "button": {
+                    "submit": "Da, părăsește",
+                    "cancel": "Nu, anulează"
+                }
+            },
+            "add": {
+                "title": "Adaugă un server nou",
+                "input_placeholder": "Introdu adresa serverului",
+                "button": {
+                    "submit": "Adaugă"
+                },
+                "snackbar": {
+                    "success": "Serverul a fost adăugat",
+                    "error_homeserver": "Serverul introdus nu este valid"
+                }
+            },
+            "create": {
+                "title": "Creează o cameră nouă",
+                "placeholder_name": "numele camerei",
+                "placeholder_alias": "alias cameră (adresa publică a camerei)",
+                "placeholder_topic": "subiectul camerei",
+                "submit": "Creează"
+            }
+        },
+        "room_preview": {
+            "members": "{} membri",
+            "latest_posts": "Cele mai recente postări",
+            "no_posts": "Nicio postare încă în această cameră.",
+            "no_peek": "Istoricul acestei camere este privat. Intră în cameră pentru a vedea postările.",
+            "join_to_see": "Intră pentru a vedea postările"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Super, ești deja conectat. \nPoți continua cu pașii următori",
+        "isNotLoggedIn": "Te rugăm să te conectezi mai întâi",
+        "buttons": {
+            "next": "Înainte",
+            "back": "Înapoi"
+        },
+        "welcome": {
+            "title": "Bine ai venit pe substitution",
+            "desc": "... noua rețea socială bazată pe protocolul Matrix"
+        },
+        "account": {
+            "title": "Conturi Matrix",
+            "desc": "Trebuie să fii conectat la un cont Matrix pe un server oarecare pentru a putea folosi această aplicație. Dacă nu știi cum să obții unul, vizitează acest site: https://matrix.org/"
+        },
+        "host": {
+            "title": "Alege o gazdă"
+        },
+        "login": {
+            "title": "Conectare"
+        },
+        "finished": {
+            "title": "Hai să începem",
+            "desc": "Super, te-ai conectat. Suntem gata. Acum poți alege dacă dorești sau nu să te alături camerei de bun venit substitution. Hai să începem și distracție plăcută!",
+            "buttons": {
+                "add_to_room_and_go": "Intră în camera Substitution și începe!",
+                "go": "Doar începe!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Conectează-te la Homeserverul tău",
+            "body": "Te rugăm să alegi un Homeserver Matrix. Apoi poți alege să te conectezi sau să navighezi camerele publice disponibile.",
+            "inputs": {
+                "homeserver_label": "Adresa Homeserverului tău"
+            },
+            "buttons": {
+                "login_label": "Conectare"
+            }
+        },
+        "login": {
+            "loading": "Te conectăm...",
+            "header": "Conectare",
+            "body": "Te rugăm să te conectezi cu datele tale de autentificare.",
+            "inputs": {
+                "username_label": "Nume de utilizator",
+                "password_label": "Parolă"
+            },
+            "buttons": {
+                "login_label": "Conectare",
+                "sso_label": "Conectare cu {}",
+                "register_web_label": "Înregistrare"
+            }
+        }
+    },
+    "write": {
+        "answer": "Răspuns",
+        "roomheader": "Cameră: {}",
+        "filemessage": {
+            "upload_files": "Adaugă fișiere noi pentru încărcare",
+            "title_header": "Titlu:",
+            "upload_start": "Se începe încărcarea...",
+            "upload_file_process": "Se încarcă fișierul {}",
+            "upload_error": "Încărcarea {} a eșuat. Reîncerci încărcarea?",
+            "upload_file_complete": "Încărcarea {} este completă!",
+            "upload_complete": "Toate fișierele au fost încărcate!",
+            "buttons": {
+                "upload_stop": "Anulare",
+                "upload_retry": "Reîncearcă"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Alege tipul de mesaj pe care dorești să-l postezi",
+            "room_prompt": "Alege camera în care dorești să postezi:",
+            "error_no_rooms": "Nu te-ai alăturat niciunei camere sau nu ai drepturile necesare pentru a posta."
+        },
+        "textmessage": {
+            "answer_promt": "Introdu textul tău:",
+            "input_placeholder": "Introdu textul tău aici...",
+            "send_start": "Se trimite mesajul...",
+            "send_failed": "Trimiterea mesajului a eșuat. Dorești să retrimiți mesajul?",
+            "send_complete": "Mesajul a fost trimis cu succes!",
+            "buttons": {
+                "send_stop": "Nu reîncerca",
+                "resend": "Reîncearcă"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mesaj",
+        "block_title": "Blochează utilizatorul",
+        "block_desc": "Blochezi {}? Nu vei mai vedea conținutul acestuia.",
+        "block_confirm": "Blochează",
+        "block_success": "Utilizator blocat.",
+        "block_error": "Nu s-a putut bloca utilizatorul: {}",
+        "report_title": "Raportează utilizatorul",
+        "report_desc": "Te rugăm să descrii motivul raportării acestui utilizator.",
+        "report_reason": "Motiv",
+        "report_reason_hint": "Acest utilizator...",
+        "report_submit": "Trimite",
+        "report_success": "Raportare trimisă. Mulțumim.",
+        "feeds_section": "FLUXURI",
+        "no_feeds": "Niciun flux public",
+        "error_start_chat": "Nu s-a putut porni conversația: {}"
+    },
+    "chat": {
+        "title": "Mesaje",
+        "input_placeholder": "Scrie un mesaj...",
+        "no_messages": "Niciun mesaj încă. Spune salut!",
+        "no_conversations": "Nicio conversație încă",
+        "no_conversations_hint": "Vizitează profilul unui utilizator și apasă pe 'Mesaj' pentru a începe o conversație.",
+        "media_message": "Media",
+        "conversation_started": "Conversație începută",
+        "error_loading": "Nu s-a putut încărca această conversație.",
+        "error_sending": "Trimiterea mesajului a eșuat.",
+        "view_profile": "Vezi profilul"
+    }
+}

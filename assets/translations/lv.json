@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Kļūda",
+    "loading": "Ielādē...",
+    "error": "Kļūda: {}",
+    "approve": "Labi",
+    "error_no_image": "Nav attēla",
+    "error_page_not_found": "Šo lapu nevarēja atrast.",
+    "age_gate": {
+        "title": "Pirms turpināt",
+        "description": "Substitution ir sociālā tīkla klients Matrix protokolam. Turpinot, jūs apstiprināt sekojošo:",
+        "point_client": "Substitution ir tikai klienta lietotne. Jūsu dati tiek glabāti jūsu izvēlētajā Matrix mājas serverī, nevis Substitution pārvaldītajos serveros.",
+        "point_servers": "Substitution nekontrolē ārējo mājas serveru satura politiku, kuriem jūs pievienojaties. Jūs esat atbildīgs par uzticama servera izvēli.",
+        "point_age": "Jums ir vismaz 16 gadu (vai jūsu valstī noteiktais minimālais vecums). Substitution nav paredzēts nepilngadīgajiem.",
+        "point_content": "Substitution nepieļauj nekādu nelikumīgu vai aizskarošu saturu. Izmantojiet lietotnē iebūvētos ziņošanas rīkus, lai ziņotu par pārkāpumiem.",
+        "confirm": "Es apstiprinu — man ir 16 vai vairāk gadu",
+        "privacy_link": "Lasīt mūsu Privātuma politiku"
+    },
+    "cancel": "Atcelt",
+    "feed": {
+        "nav": {
+            "home": "Sākums",
+            "discover": "Atklāt",
+            "messages": "Ziņojumi",
+            "settings": "Iestatījumi"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Istaba: {}",
+                "empty": "Jūsu plūsma ir tukša. Sekojiet istabām, lai redzētu ierakstus!",
+                "empty_button": "Atrast jaunas istabas"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Ieraksts nav atrasts vai nav pieejams."
+        },
+        "menu": {
+            "report_block": "Ziņot / Bloķēt"
+        },
+        "e2e": {
+            "encrypted": "Pilnīga šifrēšana",
+            "unencrypted": "Nav šifrēts",
+            "failed": "Atšifrēšana neizdevās"
+        },
+        "dialog": {
+            "report_block_title": "Ziņot par saturu vai bloķēt lietotāju",
+            "report_desc": "Lūdzu, aprakstiet, kāpēc ziņojat par šo saturu (neobligāti).",
+            "report_reason": "Ziņojuma iemesls",
+            "report_reason_hint": "Šis saturs ir aizskarošs, jo...",
+            "block_user_checkbox": "Arī bloķēt šo lietotāju",
+            "block_user_desc": "Jūs vairs neredzēsiet saturu no {}",
+            "submit": "Iesniegt",
+            "cancel": "Atcelt",
+            "report_block_success": "Ziņojums iesniegts. Paldies.",
+            "report_block_error": "Radās kļūda: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Pagaidām nav komentāru."
+            }
+        },
+        "continue_thread": "Turpināt šo pavedienu...",
+        "replying_to": "Atbildot {}",
+        "reply_placeholder": "Rakstīt atbildi...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Izvēlēties ikonu"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "aizvērt"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Fails tiek atšifrēts...",
+                "video_desktop_error": "Video nevar attēlot Linux, Windows vai MacOS sistēmās. Apsveriet iespēju piedalīties izstrādē Github, ja vēlaties redzēt šo funkciju!",
+                "audio_desktop_error": "Audio nevar atskaņot Linux, Windows vai MacOS sistēmās."
+            },
+            "reaction": {
+                "unknown_sender": "nezināms",
+                "sent_by": "Nosūtīja {}"
+            },
+            "videoplayercontrol": {
+                "play": "atskaņot",
+                "caption_offset": "subtitru nobīde",
+                "playback_speed": "atskaņošanas ātrums"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Juridiskā informācija",
+            "tos": "Lietošanas noteikumi",
+            "privacy": "Privātuma politika",
+            "imprint": "Izdevēja informācija",
+            "licenses": "Atvērtā koda licences"
+        },
+        "followfeeds": {
+            "filter_server_header": "Izvēlieties serveri no saraksta vai pievienojiet jaunu:",
+            "filter_rooms_header": "Meklējiet istabu, kurai sekot vai pārtraukt sekot:",
+            "roomname_placeholder": "Ievadiet istabas nosaukumu",
+            "buttons": {
+                "add_server": "Pievienot serveri",
+                "retry": "Mēģināt vēlreiz"
+            },
+            "no_rooms_found": "Norādītajiem meklēšanas kritērijiem nav atrasta neviena istaba.",
+            "error_loading_rooms": "Kļūda: neizdevās ielādēt istabas"
+        },
+        "ownfeeds": {
+            "header": "Pārvaldīt savas istabas",
+            "buttons": {
+                "create_room": "Izveidot jaunu istabu"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Pieteicies kā {}",
+            "logout": "Iziet",
+            "logout_confirm": "Vai tiešām vēlaties iziet?",
+            "login": "Pieteikties",
+            "not_logged_in": "Piesakieties, lai piekļūtu visām funkcijām",
+            "home_site_label": "Sākums",
+            "feeds_site_label": "Plūsmas",
+            "navigation_label": "Navigācija",
+            "account_label": "Konts",
+            "preferences_label": "Iestatījumi",
+            "about_label": "Par lietotni"
+        },
+        "room": {
+            "desc": "Istabas nosaukums: {}",
+            "leave": "Pamest istabu",
+            "join": "Ieiet istabā un pievienot to Substitution",
+            "join_short": "Pievienoties",
+            "permissions": "Atļaujas"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Pamest istabu {}",
+                "desc": "Vai tiešām vēlaties pamest istabu {}?",
+                "button": {
+                    "submit": "Jā, pamest",
+                    "cancel": "Nē, atcelt"
+                }
+            },
+            "add": {
+                "title": "Pievienot jaunu serveri",
+                "input_placeholder": "Ievadiet servera adresi",
+                "button": {
+                    "submit": "Pievienot"
+                },
+                "snackbar": {
+                    "success": "Serveris ir pievienots",
+                    "error_homeserver": "Ievadītais mājas serveris nav derīgs"
+                }
+            },
+            "create": {
+                "title": "Izveidot jaunu istabu",
+                "placeholder_name": "istabas nosaukums",
+                "placeholder_alias": "istabas aizstājvārds (publiskā istabas adrese)",
+                "placeholder_topic": "istabas tēma",
+                "submit": "Izveidot"
+            }
+        },
+        "room_preview": {
+            "members": "{} dalībnieki",
+            "latest_posts": "Jaunākie ieraksti",
+            "no_posts": "Šajā istabā vēl nav ierakstu.",
+            "no_peek": "Šīs istabas vēsture ir privāta. Pievienojieties istabai, lai redzētu ierakstus.",
+            "join_to_see": "Pievienoties, lai redzētu ierakstus"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Lieliski, jūs jau esat pieteicies. \nVarat turpināt ar nākamajiem soļiem",
+        "isNotLoggedIn": "Lūdzu, vispirms piesakieties",
+        "buttons": {
+            "next": "Tālāk",
+            "back": "Atpakaļ"
+        },
+        "welcome": {
+            "title": "Laipni lūdzam Substitution",
+            "desc": "... jaunais sociālais tīkls uz Matrix protokola bāzes"
+        },
+        "account": {
+            "title": "Matrix konti",
+            "desc": "Lai izmantotu šo lietotni, jums jābūt pieteiktam Matrix kontā jebkurā serverī. Ja nezināt, kā tādu iegūt, apmeklējiet šo vietni: https://matrix.org/"
+        },
+        "host": {
+            "title": "Izvēlieties serveri"
+        },
+        "login": {
+            "title": "Pieteikšanās"
+        },
+        "finished": {
+            "title": "Sākam!",
+            "desc": "Lieliski, jūs esat pieteicies. Esam gatavi sākt. Tagad varat izvēlēties, vai vēlaties pievienoties Substitution sveiciena istabai. Uz priekšu un jautri!",
+            "buttons": {
+                "add_to_room_and_go": "Pievienoties Substitution istabai un sākt!",
+                "go": "Vienkārši sākt!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Savienojieties ar savu mājas serveri",
+            "body": "Lūdzu, izvēlieties Matrix mājas serveri. Pēc tam varat pieteikties vai pārlūkot publiski pieejamās istabas.",
+            "inputs": {
+                "homeserver_label": "Jūsu mājas servera adrese"
+            },
+            "buttons": {
+                "login_label": "Pieteikties"
+            }
+        },
+        "login": {
+            "loading": "Notiek pieteikšanās...",
+            "header": "Pieteikšanās",
+            "body": "Lūdzu, piesakieties ar saviem akreditācijas datiem.",
+            "inputs": {
+                "username_label": "Lietotājvārds",
+                "password_label": "Parole"
+            },
+            "buttons": {
+                "login_label": "Pieteikties",
+                "sso_label": "Pierakstīties ar {}",
+                "register_web_label": "Reģistrēties"
+            }
+        }
+    },
+    "write": {
+        "answer": "Atbildēt",
+        "roomheader": "Istaba: {}",
+        "filemessage": {
+            "upload_files": "Pievienot jaunus failus augšupielādei",
+            "title_header": "Virsraksts:",
+            "upload_start": "Sāk augšupielādi...",
+            "upload_file_process": "Augšupielādē failu {}",
+            "upload_error": "Faila {} augšupielāde neizdevās. Mēģināt vēlreiz?",
+            "upload_file_complete": "Faila {} augšupielāde pabeigta!",
+            "upload_complete": "Visi faili ir augšupielādēti!",
+            "buttons": {
+                "upload_stop": "Atcelt",
+                "upload_retry": "Mēģināt vēlreiz"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Izvēlieties ziņojuma veidu, kuru vēlaties publicēt",
+            "room_prompt": "Izvēlieties istabu, kurā vēlaties publicēt:",
+            "error_no_rooms": "Jūs neesat pievienojies nevienai istabai vai jums nav tiesību publicēt."
+        },
+        "textmessage": {
+            "answer_promt": "Ievadiet savu tekstu:",
+            "input_placeholder": "Ievadiet tekstu šeit...",
+            "send_start": "Ziņojums tiek sūtīts...",
+            "send_failed": "Ziņojuma sūtīšana neizdevās. Vai vēlaties nosūtīt atkārtoti?",
+            "send_complete": "Ziņojums ir veiksmīgi nosūtīts!",
+            "buttons": {
+                "send_stop": "Nemēģināt vēlreiz",
+                "resend": "Mēģināt vēlreiz"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Ziņojums",
+        "block_title": "Bloķēt lietotāju",
+        "block_desc": "Bloķēt {}? Jūs vairs neredzēsiet viņu saturu.",
+        "block_confirm": "Bloķēt",
+        "block_success": "Lietotājs bloķēts.",
+        "block_error": "Nevarēja bloķēt lietotāju: {}",
+        "report_title": "Ziņot par lietotāju",
+        "report_desc": "Lūdzu, aprakstiet iemeslu, kāpēc ziņojat par šo lietotāju.",
+        "report_reason": "Iemesls",
+        "report_reason_hint": "Šis lietotājs ir...",
+        "report_submit": "Iesniegt",
+        "report_success": "Ziņojums iesniegts. Paldies.",
+        "feeds_section": "PLŪSMAS",
+        "no_feeds": "Nav publisku plūsmu",
+        "error_start_chat": "Nevarēja sākt sarunu: {}"
+    },
+    "chat": {
+        "title": "Ziņojumi",
+        "input_placeholder": "Rakstiet ziņojumu...",
+        "no_messages": "Pagaidām nav ziņojumu. Sakiet sveiki!",
+        "no_conversations": "Pagaidām nav sarunu",
+        "no_conversations_hint": "Apmeklējiet lietotāja profilu un nospiediet 'Ziņojums', lai sāktu sarunu.",
+        "media_message": "Medijs",
+        "conversation_started": "Saruna sākta",
+        "error_loading": "Nevarēja ielādēt šo sarunu.",
+        "error_sending": "Neizdevās nosūtīt ziņojumu.",
+        "view_profile": "Skatīt profilu"
+    }
+}

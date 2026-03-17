@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Greška",
+    "loading": "Učitavanje...",
+    "error": "Greška: {}",
+    "approve": "U redu",
+    "error_no_image": "Nema slike",
+    "error_page_not_found": "Ova stranica nije pronađena.",
+    "age_gate": {
+        "title": "Prije nego nastavite",
+        "description": "Substitution je klijent za društveno umrežavanje za Matrix protokol. Nastavljanjem potvrđujete sljedeće:",
+        "point_client": "Substitution je samo klijentska aplikacija. Vaši podaci pohranjeni su na Matrix poslužitelju koji odaberete, a ne na poslužiteljima kojima upravlja Substitution.",
+        "point_servers": "Substitution ne kontrolira pravila sadržaja vanjskih poslužitelja na koje se povezujete. Vi ste odgovorni za odabir pouzdanog poslužitelja.",
+        "point_age": "Imate 16 ili više godina (ili minimalni broj godina potreban u vašoj zemlji). Substitution nije namijenjen maloljetnicima.",
+        "point_content": "Substitution ima nultu toleranciju za nezakonit ili neprihvatljiv sadržaj. Koristite alate za prijavu unutar aplikacije kako biste prijavili kršenja.",
+        "confirm": "Potvrđujem — imam 16 ili više godina",
+        "privacy_link": "Pročitajte našu Politiku privatnosti"
+    },
+    "cancel": "Odustani",
+    "feed": {
+        "nav": {
+            "home": "Početna",
+            "discover": "Otkrij",
+            "messages": "Poruke",
+            "settings": "Postavke"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Soba: {}",
+                "empty": "Vaš feed je prazan. Pratite neke sobe da biste vidjeli objave!",
+                "empty_button": "Pronađi nove sobe"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Objava nije pronađena ili nije dostupna."
+        },
+        "menu": {
+            "report_block": "Prijavi / Blokiraj"
+        },
+        "e2e": {
+            "encrypted": "Enkripcija s kraja na kraj",
+            "unencrypted": "Nije enkriptirano",
+            "failed": "Dešifriranje nije uspjelo"
+        },
+        "dialog": {
+            "report_block_title": "Prijavi sadržaj ili blokiraj korisnika",
+            "report_desc": "Molimo opišite zašto prijavljujete ovaj sadržaj (neobavezno).",
+            "report_reason": "Razlog prijave",
+            "report_reason_hint": "Ovaj sadržaj je uvredljiv jer...",
+            "block_user_checkbox": "Također blokiraj ovog korisnika",
+            "block_user_desc": "Više nećete vidjeti sadržaj od {}",
+            "submit": "Pošalji",
+            "cancel": "Odustani",
+            "report_block_success": "Prijava je poslana. Hvala vam.",
+            "report_block_error": "Došlo je do greške: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Još nema komentara."
+            }
+        },
+        "continue_thread": "Nastavi ovu nit...",
+        "replying_to": "Odgovor korisniku {}",
+        "reply_placeholder": "Napišite odgovor...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Odaberite ikonu"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "zatvori"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Datoteka se dešifrira...",
+                "video_desktop_error": "Videozapisi se ne mogu prikazati na Linux, Windows ni MacOS. Razmislite o doprinosu na Github ako želite vidjeti ovu značajku!",
+                "audio_desktop_error": "Zvuk se ne može reproducirati na Linux, Windows ni MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "nepoznato",
+                "sent_by": "Poslao/la {}"
+            },
+            "videoplayercontrol": {
+                "play": "reproduciraj",
+                "caption_offset": "pomak titlova",
+                "playback_speed": "brzina reprodukcije"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Pravne informacije",
+            "tos": "Uvjeti korištenja",
+            "privacy": "Politika privatnosti",
+            "imprint": "Impressum",
+            "licenses": "Licence otvorenog koda"
+        },
+        "followfeeds": {
+            "filter_server_header": "Odaberite poslužitelj s popisa ili dodajte novi:",
+            "filter_rooms_header": "Pretražite sobu za praćenje ili prestanak praćenja:",
+            "roomname_placeholder": "Unesite naziv sobe",
+            "buttons": {
+                "add_server": "Dodaj poslužitelj",
+                "retry": "Pokušaj ponovo"
+            },
+            "no_rooms_found": "Nisu pronađene sobe za zadane kriterije pretrage.",
+            "error_loading_rooms": "Greška: Nije uspjelo učitavanje soba"
+        },
+        "ownfeeds": {
+            "header": "Upravljajte vlastitim sobama",
+            "buttons": {
+                "create_room": "Stvori novu sobu"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Prijavljeni ste kao {}",
+            "logout": "Odjava",
+            "logout_confirm": "Jeste li sigurni da se želite odjaviti?",
+            "login": "Prijava",
+            "not_logged_in": "Prijavite se za pristup svim značajkama",
+            "home_site_label": "Početna",
+            "feeds_site_label": "Feedovi",
+            "navigation_label": "Navigacija",
+            "account_label": "Račun",
+            "preferences_label": "Postavke",
+            "about_label": "O aplikaciji"
+        },
+        "room": {
+            "desc": "Naziv sobe: {}",
+            "leave": "Napusti sobu",
+            "join": "Uđi u sobu i dodaj je u substitution",
+            "join_short": "Pridruži se",
+            "permissions": "Dozvole"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Napusti sobu {}",
+                "desc": "Jeste li sigurni da želite napustiti sobu {}?",
+                "button": {
+                    "submit": "Da, napusti",
+                    "cancel": "Ne, odustani"
+                }
+            },
+            "add": {
+                "title": "Dodaj novi poslužitelj",
+                "input_placeholder": "Unesite adresu poslužitelja",
+                "button": {
+                    "submit": "Dodaj"
+                },
+                "snackbar": {
+                    "success": "Poslužitelj je dodan",
+                    "error_homeserver": "Uneseni poslužitelj nije valjan"
+                }
+            },
+            "create": {
+                "title": "Stvori novu sobu",
+                "placeholder_name": "naziv sobe",
+                "placeholder_alias": "alias sobe (javna adresa sobe)",
+                "placeholder_topic": "tema sobe",
+                "submit": "Stvori"
+            }
+        },
+        "room_preview": {
+            "members": "{} članova",
+            "latest_posts": "Najnovije objave",
+            "no_posts": "Još nema objava u ovoj sobi.",
+            "no_peek": "Povijest ove sobe je privatna. Pridružite se sobi da biste vidjeli objave.",
+            "join_to_see": "Pridružite se da biste vidjeli objave"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Sjajno, već ste prijavljeni. \nMožete nastaviti sa sljedećim koracima",
+        "isNotLoggedIn": "Molimo prvo se prijavite",
+        "buttons": {
+            "next": "Dalje",
+            "back": "Natrag"
+        },
+        "welcome": {
+            "title": "Dobrodošli u substitution",
+            "desc": "... nova društvena mreža na vrhu matrix protokola"
+        },
+        "account": {
+            "title": "Matrix računi",
+            "desc": "Morate biti prijavljeni u matrix račun na proizvoljnom poslužitelju da biste mogli koristiti ovu aplikaciju. Ako ne znate kako do jednog, posjetite ovu stranicu: https://matrix.org/"
+        },
+        "host": {
+            "title": "Odaberite poslužitelj"
+        },
+        "login": {
+            "title": "Prijava"
+        },
+        "finished": {
+            "title": "Krenimo",
+            "desc": "Sjajno, uspješno ste se prijavili. Spremni smo za substitution. Sada možete odabrati želite li se pridružiti substitution sobi dobrodošlice. Krenimo i zabavite se!",
+            "buttons": {
+                "add_to_room_and_go": "Pridruži se Substitution-sobi i kreni!",
+                "go": "Samo kreni!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Povežite se na svoj poslužitelj",
+            "body": "Molimo odaberite Matrix poslužitelj. Zatim se možete prijaviti ili pregledavati javno dostupne sobe.",
+            "inputs": {
+                "homeserver_label": "Adresa vašeg poslužitelja"
+            },
+            "buttons": {
+                "login_label": "Prijava"
+            }
+        },
+        "login": {
+            "loading": "Prijavljujemo vas...",
+            "header": "Prijava",
+            "body": "Molimo prijavite se svojim podacima.",
+            "inputs": {
+                "username_label": "Korisničko ime",
+                "password_label": "Lozinka"
+            },
+            "buttons": {
+                "login_label": "Prijava",
+                "sso_label": "Prijavite se putem {}",
+                "register_web_label": "Registracija"
+            }
+        }
+    },
+    "write": {
+        "answer": "Odgovor",
+        "roomheader": "Soba: {}",
+        "filemessage": {
+            "upload_files": "Dodajte nove datoteke za prijenos",
+            "title_header": "Naslov:",
+            "upload_start": "Pokretanje prijenosa...",
+            "upload_file_process": "Prijenos datoteke {}",
+            "upload_error": "Prijenos {} nije uspio. Pokušati ponovo?",
+            "upload_file_complete": "Prijenos {} je završen!",
+            "upload_complete": "Sve datoteke su prenesene!",
+            "buttons": {
+                "upload_stop": "Odustani",
+                "upload_retry": "Pokušaj ponovo"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Odaberite vrstu poruke koju želite objaviti",
+            "room_prompt": "Odaberite sobu u koju želite objaviti:",
+            "error_no_rooms": "Niste se pridružili nijednoj sobi ili nemate prava za objavljivanje."
+        },
+        "textmessage": {
+            "answer_promt": "Unesite svoj tekst:",
+            "input_placeholder": "Unesite svoj tekst ovdje...",
+            "send_start": "Započeto slanje poruke...",
+            "send_failed": "Slanje poruke nije uspjelo. Želite li ponovo poslati poruku?",
+            "send_complete": "Poruka je uspješno poslana!",
+            "buttons": {
+                "send_stop": "Ne pokušavaj ponovo",
+                "resend": "Pokušaj ponovo"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Poruka",
+        "block_title": "Blokiraj korisnika",
+        "block_desc": "Blokiraj {}? Više nećete vidjeti njihov sadržaj.",
+        "block_confirm": "Blokiraj",
+        "block_success": "Korisnik je blokiran.",
+        "block_error": "Nije moguće blokirati korisnika: {}",
+        "report_title": "Prijavi korisnika",
+        "report_desc": "Molimo opišite razlog prijave ovog korisnika.",
+        "report_reason": "Razlog",
+        "report_reason_hint": "Ovaj korisnik je...",
+        "report_submit": "Pošalji",
+        "report_success": "Prijava je poslana. Hvala vam.",
+        "feeds_section": "FEEDOVI",
+        "no_feeds": "Nema javnih feedova",
+        "error_start_chat": "Nije moguće pokrenuti razgovor: {}"
+    },
+    "chat": {
+        "title": "Poruke",
+        "input_placeholder": "Napišite poruku...",
+        "no_messages": "Još nema poruka. Pozdravite se!",
+        "no_conversations": "Još nema razgovora",
+        "no_conversations_hint": "Posjetite profil korisnika i dodirnite 'Poruka' za početak razgovora.",
+        "media_message": "Medij",
+        "conversation_started": "Razgovor je započet",
+        "error_loading": "Nije moguće učitati ovaj razgovor.",
+        "error_sending": "Slanje poruke nije uspjelo.",
+        "view_profile": "Pogledaj profil"
+    }
+}

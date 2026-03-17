@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Erro",
+    "loading": "Cargando...",
+    "error": "Erro: {}",
+    "approve": "Ok",
+    "error_no_image": "Sen imaxe",
+    "error_page_not_found": "Non se puido atopar esta páxina.",
+    "age_gate": {
+        "title": "Antes de continuar",
+        "description": "Substitution é un cliente de rede social para o protocolo Matrix. Ao continuar, confirmas o seguinte:",
+        "point_client": "Substitution é só unha aplicación cliente. Os teus datos gárdanse no servidor Matrix que elixes, non en servidores operados por Substitution.",
+        "point_servers": "Substitution non controla as políticas de contido dos servidores externos aos que te conectas. Ti es responsable de escoller un servidor de confianza.",
+        "point_age": "Tes 16 anos ou máis (ou a idade mínima requirida no teu país). Substitution non está destinado a menores de idade.",
+        "point_content": "Substitution ten tolerancia cero con contido ilegal ou obxectable. Usa as ferramentas de denuncia da aplicación para informar de violacións.",
+        "confirm": "Confirmo — teño 16 anos ou máis",
+        "privacy_link": "Ler a nosa Política de Privacidade"
+    },
+    "cancel": "Cancelar",
+    "feed": {
+        "nav": {
+            "home": "Inicio",
+            "discover": "Descubrir",
+            "messages": "Mensaxes",
+            "settings": "Axustes"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Sala: {}",
+                "empty": "O teu feed está baleiro. Segue algunhas salas para ver publicacións!",
+                "empty_button": "Atopar novas salas"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Publicación non atopada ou non dispoñible."
+        },
+        "menu": {
+            "report_block": "Denunciar / Bloquear"
+        },
+        "e2e": {
+            "encrypted": "Cifrado de extremo a extremo",
+            "unencrypted": "Non cifrado",
+            "failed": "Fallou o descifrado"
+        },
+        "dialog": {
+            "report_block_title": "Denunciar contido ou bloquear usuario",
+            "report_desc": "Por favor, describe por que denuncias este contido (opcional).",
+            "report_reason": "Motivo da denuncia",
+            "report_reason_hint": "Este contido é ofensivo porque...",
+            "block_user_checkbox": "Tamén bloquear este usuario",
+            "block_user_desc": "Xa non verás contido de {}",
+            "submit": "Enviar",
+            "cancel": "Cancelar",
+            "report_block_success": "Denuncia enviada. Grazas.",
+            "report_block_error": "Produciuse un erro: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Aínda non hai comentarios."
+            }
+        },
+        "continue_thread": "Continuar este fío...",
+        "replying_to": "Respondendo a {}",
+        "reply_placeholder": "Escribe unha resposta...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Escoller icona"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "pechar"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "O ficheiro estase descifrando...",
+                "video_desktop_error": "Os vídeos non se poden reproducir en Linux, Windows nin MacOS. Considera contribuír en Github se queres ver esta función!",
+                "audio_desktop_error": "O audio non se pode reproducir en Linux, Windows nin MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "descoñecido",
+                "sent_by": "Enviado por {}"
+            },
+            "videoplayercontrol": {
+                "play": "reproducir",
+                "caption_offset": "desfase de subtítulos",
+                "playback_speed": "velocidade de reprodución"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Legal",
+            "tos": "Termos de Servizo",
+            "privacy": "Política de Privacidade",
+            "imprint": "Aviso legal",
+            "licenses": "Licenzas de código aberto"
+        },
+        "followfeeds": {
+            "filter_server_header": "Escolle un servidor da lista ou engade un novo:",
+            "filter_rooms_header": "Busca unha sala para seguir ou deixar de seguir:",
+            "roomname_placeholder": "Introduce un nome de sala",
+            "buttons": {
+                "add_server": "Engadir servidor",
+                "retry": "Reintentar"
+            },
+            "no_rooms_found": "Non se atoparon salas cos criterios de busca indicados.",
+            "error_loading_rooms": "Erro: Non se puideron cargar as salas"
+        },
+        "ownfeeds": {
+            "header": "Xestiona as túas propias salas",
+            "buttons": {
+                "create_room": "Crear unha nova sala"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Sesión iniciada como {}",
+            "logout": "Pechar sesión",
+            "logout_confirm": "Estás seguro de que queres pechar sesión?",
+            "login": "Iniciar sesión",
+            "not_logged_in": "Inicia sesión para acceder a todas as funcionalidades",
+            "home_site_label": "Inicio",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navegación",
+            "account_label": "Conta",
+            "preferences_label": "Preferencias",
+            "about_label": "Acerca de"
+        },
+        "room": {
+            "desc": "Nome da sala: {}",
+            "leave": "Saír da sala",
+            "join": "Entrar na sala e engadila a Substitution",
+            "join_short": "Unirse",
+            "permissions": "Permisos"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Saír da sala {}",
+                "desc": "Estás seguro de que queres saír da sala {}?",
+                "button": {
+                    "submit": "Si, saír",
+                    "cancel": "Non, cancelar"
+                }
+            },
+            "add": {
+                "title": "Engadir un novo servidor",
+                "input_placeholder": "Introduce o enderezo do servidor",
+                "button": {
+                    "submit": "Engadir"
+                },
+                "snackbar": {
+                    "success": "O servidor foi engadido",
+                    "error_homeserver": "O servidor introducido non é válido"
+                }
+            },
+            "create": {
+                "title": "Crear unha nova sala",
+                "placeholder_name": "nome da sala",
+                "placeholder_alias": "alias da sala (enderezo público da sala)",
+                "placeholder_topic": "tema da sala",
+                "submit": "Crear"
+            }
+        },
+        "room_preview": {
+            "members": "{} membros",
+            "latest_posts": "Últimas publicacións",
+            "no_posts": "Aínda non hai publicacións nesta sala.",
+            "no_peek": "O historial desta sala é privado. Únete á sala para ver as súas publicacións.",
+            "join_to_see": "Únete para ver as publicacións"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Xenial, xa tes a sesión iniciada. \nPodes continuar cos seguintes pasos",
+        "isNotLoggedIn": "Por favor, inicia sesión primeiro",
+        "buttons": {
+            "next": "Seguinte",
+            "back": "Atrás"
+        },
+        "welcome": {
+            "title": "Benvido a Substitution",
+            "desc": "... a nova rede social sobre o protocolo Matrix"
+        },
+        "account": {
+            "title": "Contas Matrix",
+            "desc": "Debes ter a sesión iniciada nunha conta Matrix en calquera servidor para poder usar esta aplicación. Se non sabes como conseguir unha, visita este sitio: https://matrix.org/"
+        },
+        "host": {
+            "title": "Escoller un servidor"
+        },
+        "login": {
+            "title": "Iniciar sesión"
+        },
+        "finished": {
+            "title": "Imos alá!",
+            "desc": "Xenial, iniciaches sesión. Estamos listos para comezar. Agora podes escoller se queres unirte á sala de benvida de Substitution. Imos alá e pásao ben!",
+            "buttons": {
+                "add_to_room_and_go": "Unirse á sala Substitution e ir!",
+                "go": "Simplemente ir!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Conéctate ao teu servidor",
+            "body": "Por favor, escolle un servidor Matrix. Despois poderás iniciar sesión ou explorar as salas públicas dispoñibles.",
+            "inputs": {
+                "homeserver_label": "Enderezo do teu servidor"
+            },
+            "buttons": {
+                "login_label": "Iniciar sesión"
+            }
+        },
+        "login": {
+            "loading": "Iniciando sesión...",
+            "header": "Iniciar sesión",
+            "body": "Por favor, inicia sesión coas túas credenciais.",
+            "inputs": {
+                "username_label": "Nome de usuario",
+                "password_label": "Contrasinal"
+            },
+            "buttons": {
+                "login_label": "Iniciar sesión",
+                "sso_label": "Iniciar sesión con {}",
+                "register_web_label": "Rexistrarse"
+            }
+        }
+    },
+    "write": {
+        "answer": "Responder",
+        "roomheader": "Sala: {}",
+        "filemessage": {
+            "upload_files": "Engadir novos ficheiros para subir",
+            "title_header": "Título:",
+            "upload_start": "Comezando a subida...",
+            "upload_file_process": "Subindo o ficheiro {}",
+            "upload_error": "A subida de {} fallou. Reintentar?",
+            "upload_file_complete": "A subida de {} completouse!",
+            "upload_complete": "Todos os ficheiros foron subidos!",
+            "buttons": {
+                "upload_stop": "Cancelar",
+                "upload_retry": "Reintentar"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Escolle o tipo de mensaxe que queres publicar",
+            "room_prompt": "Escolle a sala na que queres publicar:",
+            "error_no_rooms": "Non te uniches a ningunha sala ou non tes permisos para publicar."
+        },
+        "textmessage": {
+            "answer_promt": "Introduce o teu texto:",
+            "input_placeholder": "Introduce o teu texto aquí...",
+            "send_start": "Comezando o envío da mensaxe...",
+            "send_failed": "O envío da mensaxe fallou. Queres reenviar a mensaxe?",
+            "send_complete": "A mensaxe foi enviada con éxito!",
+            "buttons": {
+                "send_stop": "Non reintentar",
+                "resend": "Reintentar"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mensaxe",
+        "block_title": "Bloquear usuario",
+        "block_desc": "Bloquear a {}? Xa non verás o seu contido.",
+        "block_confirm": "Bloquear",
+        "block_success": "Usuario bloqueado.",
+        "block_error": "Non se puido bloquear ao usuario: {}",
+        "report_title": "Denunciar usuario",
+        "report_desc": "Por favor, describe o motivo da denuncia deste usuario.",
+        "report_reason": "Motivo",
+        "report_reason_hint": "Este usuario é...",
+        "report_submit": "Enviar",
+        "report_success": "Denuncia enviada. Grazas.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Sen feeds públicos",
+        "error_start_chat": "Non se puido iniciar a conversa: {}"
+    },
+    "chat": {
+        "title": "Mensaxes",
+        "input_placeholder": "Escribe unha mensaxe...",
+        "no_messages": "Aínda non hai mensaxes. Di ola!",
+        "no_conversations": "Aínda non hai conversas",
+        "no_conversations_hint": "Visita o perfil dun usuario e toca 'Mensaxe' para comezar unha conversa.",
+        "media_message": "Multimedia",
+        "conversation_started": "Conversa iniciada",
+        "error_loading": "Non se puido cargar esta conversa.",
+        "error_sending": "Non se puido enviar a mensaxe.",
+        "view_profile": "Ver perfil"
+    }
+}

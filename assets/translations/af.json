@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Fout",
+    "loading": "Laai tans...",
+    "error": "Fout: {}",
+    "approve": "Goed",
+    "error_no_image": "Geen prent nie",
+    "error_page_not_found": "Hierdie bladsy kon nie gevind word nie.",
+    "age_gate": {
+        "title": "Voordat jy voortgaan",
+        "description": "Substitution is 'n sosiale netwerk-kliënt vir die Matrix-protokol. Deur voort te gaan, bevestig jy die volgende:",
+        "point_client": "Substitution is slegs 'n kliënt-toepassing. Jou data word gestoor op die Matrix-tuisbediener wat jy kies, nie op bedieners wat deur Substitution bedryf word nie.",
+        "point_servers": "Substitution beheer nie die inhoudbeleide van eksterne tuisbedieners waarmee jy verbind nie. Jy is verantwoordelik om 'n betroubare bediener te kies.",
+        "point_age": "Jy is 16 jaar of ouer (of die minimum ouderdom wat in jou land vereis word). Substitution is nie bedoel vir minderjariges nie.",
+        "point_content": "Substitution het zero toleransie vir onwettige of aanstootlike inhoud. Gebruik die in-app-rapporteringsgereedskap om oortredings te meld.",
+        "confirm": "Ek bevestig — ek is 16 of ouer",
+        "privacy_link": "Lees ons Privaatheidsbeleid"
+    },
+    "cancel": "Kanselleer",
+    "feed": {
+        "nav": {
+            "home": "Tuis",
+            "discover": "Ontdek",
+            "messages": "Boodskappe",
+            "settings": "Instellings"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Kamer: {}",
+                "empty": "Jou voer is leeg. Volg 'n paar kamers om plasings te sien!",
+                "empty_button": "Vind nuwe kamers"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Plasing nie gevind of onbeskikbaar nie."
+        },
+        "menu": {
+            "report_block": "Rapporteer / Blokkeer"
+        },
+        "e2e": {
+            "encrypted": "End-tot-end geënkripteer",
+            "unencrypted": "Nie geënkripteer nie",
+            "failed": "Dekripsie het misluk"
+        },
+        "dialog": {
+            "report_block_title": "Rapporteer inhoud of blokkeer gebruiker",
+            "report_desc": "Beskryf asseblief waarom jy hierdie inhoud rapporteer (opsioneel).",
+            "report_reason": "Rede vir rapportering",
+            "report_reason_hint": "Hierdie inhoud is aanstootlik omdat...",
+            "block_user_checkbox": "Blokkeer ook hierdie gebruiker",
+            "block_user_desc": "Jy sal nie meer inhoud van {} sien nie",
+            "submit": "Dien in",
+            "cancel": "Kanselleer",
+            "report_block_success": "Rapport ingedien. Dankie.",
+            "report_block_error": "ʼn Fout het voorgekom: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Nog geen kommentaar nie."
+            }
+        },
+        "continue_thread": "Gaan voort met hierdie draad...",
+        "replying_to": "Antwoord op {}",
+        "reply_placeholder": "Skryf 'n antwoord...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Kies ikoon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "sluit"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Lêer word tans gedekripteer...",
+                "video_desktop_error": "Video's kan nie op Linux, Windows of MacOS vertoon word nie. Oorweeg dit om op Github by te dra as jy hierdie funksie wil sien!",
+                "audio_desktop_error": "Oudio kan nie op Linux, Windows of MacOS gespeel word nie."
+            },
+            "reaction": {
+                "unknown_sender": "onbekend",
+                "sent_by": "Gestuur deur {}"
+            },
+            "videoplayercontrol": {
+                "play": "speel",
+                "caption_offset": "onderskrifverskuiwing",
+                "playback_speed": "afspeelspoed"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Regsgeldig",
+            "tos": "Diensvoorwaardes",
+            "privacy": "Privaatheidsbeleid",
+            "imprint": "Kolofon",
+            "licenses": "Oopbronlisensies"
+        },
+        "followfeeds": {
+            "filter_server_header": "Kies 'n bediener uit die lys of voeg 'n nuwe een by:",
+            "filter_rooms_header": "Soek 'n kamer om te volg of te ontvolg:",
+            "roomname_placeholder": "Voer 'n kamernaam in",
+            "buttons": {
+                "add_server": "Voeg bediener by",
+                "retry": "Probeer weer"
+            },
+            "no_rooms_found": "Geen kamers gevind vir die gegewe soekkriteria nie.",
+            "error_loading_rooms": "Fout: Kon nie kamers laai nie"
+        },
+        "ownfeeds": {
+            "header": "Bestuur jou eie kamers",
+            "buttons": {
+                "create_room": "Skep 'n nuwe kamer"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Aangemeld as {}",
+            "logout": "Meld af",
+            "logout_confirm": "Is jy seker jy wil afmeld?",
+            "login": "Meld aan",
+            "not_logged_in": "Meld aan om toegang tot alle funksies te kry",
+            "home_site_label": "Tuis",
+            "feeds_site_label": "Voere",
+            "navigation_label": "Navigasie",
+            "account_label": "Rekening",
+            "preferences_label": "Voorkeure",
+            "about_label": "Oor"
+        },
+        "room": {
+            "desc": "Kamernaam: {}",
+            "leave": "Verlaat kamer",
+            "join": "Gaan kamer binne en voeg dit by Substitution",
+            "join_short": "Sluit aan",
+            "permissions": "Toestemmings"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Verlaat kamer {}",
+                "desc": "Is jy seker jy wil kamer {} verlaat?",
+                "button": {
+                    "submit": "Ja, verlaat dit",
+                    "cancel": "Nee, kanselleer"
+                }
+            },
+            "add": {
+                "title": "Voeg 'n nuwe bediener by",
+                "input_placeholder": "Voer bedieneradres in",
+                "button": {
+                    "submit": "Voeg by"
+                },
+                "snackbar": {
+                    "success": "Bediener is bygevoeg",
+                    "error_homeserver": "Ingevoerde tuisbediener is nie geldig nie"
+                }
+            },
+            "create": {
+                "title": "Skep 'n nuwe kamer",
+                "placeholder_name": "kamernaam",
+                "placeholder_alias": "kameralias (openbare kameradres)",
+                "placeholder_topic": "kameronderwerp",
+                "submit": "Skep"
+            }
+        },
+        "room_preview": {
+            "members": "{} lede",
+            "latest_posts": "Nuutste plasings",
+            "no_posts": "Nog geen plasings in hierdie kamer nie.",
+            "no_peek": "Hierdie kamer se geskiedenis is privaat. Sluit aan by die kamer om sy plasings te sien.",
+            "join_to_see": "Sluit aan om plasings te sien"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Fantasties, jy is reeds aangemeld. \nJy kan voortgaan met die volgende stappe",
+        "isNotLoggedIn": "Meld asseblief eers aan",
+        "buttons": {
+            "next": "Volgende",
+            "back": "Terug"
+        },
+        "welcome": {
+            "title": "Welkom by Substitution",
+            "desc": "... die nuwe sosiale netwerk bo-op die Matrix-protokol"
+        },
+        "account": {
+            "title": "Matrix-rekeninge",
+            "desc": "Jy moet by 'n Matrix-rekening op 'n willekeurige bediener aangemeld wees om hierdie toepassing te kan gebruik. As jy nie weet hoe om een te kry nie, besoek hierdie webwerf: https://matrix.org/"
+        },
+        "host": {
+            "title": "Kies 'n gasheer"
+        },
+        "login": {
+            "title": "Aanmelding"
+        },
+        "finished": {
+            "title": "Kom ons gaan",
+            "desc": "Fantasties, jy is aangemeld. Ons is gereed om te begin. Jy kan nou kies of jy by die Substitution-verwelkomingskamer wil aansluit. Kom ons gaan en geniet dit!",
+            "buttons": {
+                "add_to_room_and_go": "Sluit aan by Substitution-kamer en gaan!",
+                "go": "Gaan net!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Verbind met jou tuisbediener",
+            "body": "Kies asseblief 'n Matrix-tuisbediener. Jy kan dan kies om aan te meld of om openbaar beskikbare kamers te blaai.",
+            "inputs": {
+                "homeserver_label": "Adres van jou tuisbediener"
+            },
+            "buttons": {
+                "login_label": "Meld aan"
+            }
+        },
+        "login": {
+            "loading": "Besig om jou aan te meld...",
+            "header": "Aanmelding",
+            "body": "Meld asseblief aan met jou geloofsbriewe.",
+            "inputs": {
+                "username_label": "Gebruikersnaam",
+                "password_label": "Wagwoord"
+            },
+            "buttons": {
+                "login_label": "Meld aan",
+                "sso_label": "Meld aan met {}",
+                "register_web_label": "Registreer"
+            }
+        }
+    },
+    "write": {
+        "answer": "Antwoord",
+        "roomheader": "Kamer: {}",
+        "filemessage": {
+            "upload_files": "Voeg nuwe lêers by vir oplaai",
+            "title_header": "Titel:",
+            "upload_start": "Begin oplaai...",
+            "upload_file_process": "Laai lêer {} op",
+            "upload_error": "Oplaai van {} het misluk. Probeer weer oplaai?",
+            "upload_file_complete": "Oplaai van {} is voltooi!",
+            "upload_complete": "Alle lêers is opgelaai!",
+            "buttons": {
+                "upload_stop": "Kanselleer",
+                "upload_retry": "Probeer weer"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Kies die tipe boodskap wat jy wil plaas",
+            "room_prompt": "Kies die kamer waarin jy wil plaas:",
+            "error_no_rooms": "Jy het by geen kamers aangesluit nie of jy het nie die regte om te plaas nie."
+        },
+        "textmessage": {
+            "answer_promt": "Voer jou teks in:",
+            "input_placeholder": "Voer jou teks hier in...",
+            "send_start": "Begin om die boodskap te stuur...",
+            "send_failed": "Boodskap stuur het misluk. Wil jy die boodskap weer stuur?",
+            "send_complete": "Boodskap is suksesvol gestuur!",
+            "buttons": {
+                "send_stop": "Moenie weer probeer nie",
+                "resend": "Probeer weer"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Boodskap",
+        "block_title": "Blokkeer gebruiker",
+        "block_desc": "Blokkeer {}? Jy sal nie meer hul inhoud sien nie.",
+        "block_confirm": "Blokkeer",
+        "block_success": "Gebruiker geblokkeer.",
+        "block_error": "Kon nie gebruiker blokkeer nie: {}",
+        "report_title": "Rapporteer gebruiker",
+        "report_desc": "Beskryf asseblief die rede waarom jy hierdie gebruiker rapporteer.",
+        "report_reason": "Rede",
+        "report_reason_hint": "Hierdie gebruiker is...",
+        "report_submit": "Dien in",
+        "report_success": "Rapport ingedien. Dankie.",
+        "feeds_section": "VOERE",
+        "no_feeds": "Geen openbare voere nie",
+        "error_start_chat": "Kon nie klets begin nie: {}"
+    },
+    "chat": {
+        "title": "Boodskappe",
+        "input_placeholder": "Tik 'n boodskap...",
+        "no_messages": "Nog geen boodskappe nie. Sê hallo!",
+        "no_conversations": "Nog geen gesprekke nie",
+        "no_conversations_hint": "Besoek 'n gebruiker se profiel en tik op 'Boodskap' om 'n klets te begin.",
+        "media_message": "Media",
+        "conversation_started": "Gesprek begin",
+        "error_loading": "Kon nie hierdie gesprek laai nie.",
+        "error_sending": "Kon nie boodskap stuur nie.",
+        "view_profile": "Bekyk profiel"
+    }
+}

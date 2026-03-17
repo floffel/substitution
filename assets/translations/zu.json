@@ -1,0 +1,110 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Iphutha",
+    "loading": "Iyalayisha...",
+    "error": "Iphutha: {}",
+    "approve": "Kulungile",
+    "error_no_image": "Asikho Isithombe",
+    "error_page_not_found": "Leli khasi alitholakalanga.",
+    "age_gate": {
+        "title": "Ngaphambi kokuba uqhubeke",
+        "description": "Substitution ingumthengi wenethiwekhi yezenhlalakahle yephrothokholi ye-Matrix. Ngokuqhubeka, uqinisekisa okulandelayo:",
+        "point_client": "Substitution iwuhlelo lokusebenza lomthengi kuphela. Idatha yakho igcinwa kuseva ye-Matrix oyikhethayo, hhayi kumaseva aphethwe yi-Substitution.",
+        "point_servers": "Substitution ayilawuli izinqubomgomo zokuqukethwe zamaseva angaphandle oxhumeka kuwo. Unomthwalo wokukhetha iseva ethembekile.",
+        "point_age": "Uneminyaka engu-16 noma ngaphezulu (noma iminyaka yobudala obuncane edingekayo ezweni lakho). Substitution ayenzelwe izingane.",
+        "point_content": "Substitution ayibekezeleli nhlobo okuqukethwe okungekho emthethweni noma okubi. Sebenzisa amathuluzi okubika aku-app ukuze ubike izephulomthetho.",
+        "confirm": "Ngiyaqinisekisa — Ngineminyaka engu-16 noma ngaphezulu",
+        "privacy_link": "Funda iNqubomgomo Yethu Yobumfihlo"
+    },
+    "cancel": "Khansela",
+    "feed": {
+        "nav": { "home": "Ikhaya", "discover": "Thola", "messages": "Imilayezo", "settings": "Izilungiselelo" },
+        "pages": { "home": { "roomlabel": "Igumbi: {}", "empty": "Ifidi yakho ayinalutho. Landela amagumbi athile ukuze ubone okuthunyelwe!", "empty_button": "Thola amagumbi amasha" } }
+    },
+    "post": {
+        "error": { "not_found": "Okuthunyelwe akutholakali noma akutholakali." },
+        "menu": { "report_block": "Bika / Vimbela" },
+        "e2e": { "encrypted": "Kubethelwe ngokuphelele", "unencrypted": "Akubethelwanga", "failed": "Ukuvula kwehlulekile" },
+        "dialog": {
+            "report_block_title": "Bika Okuqukethwe noma Vimbela Umsebenzisi",
+            "report_desc": "Sicela uchaze ukuthi kungani ubika lokhu okuqukethwe (ukukhetha).",
+            "report_reason": "Isizathu sokubika",
+            "report_reason_hint": "Lokhu okuqukethwe kuyacasula ngoba...",
+            "block_user_checkbox": "Futhi vimbela lo msebenzisi",
+            "block_user_desc": "Ngeke usabona okuqukethwe okuvela ku-{}",
+            "submit": "Thumela", "cancel": "Khansela",
+            "report_block_success": "Umbiko uthunyelwe. Siyabonga.",
+            "report_block_error": "Kuvele iphutha: {}"
+        },
+        "pages": { "post": { "no_comments": "Asikho isahlulelo okwamanje." } },
+        "continue_thread": "Qhubeka nalolu chungechunge...",
+        "replying_to": "Uphendula u-{}",
+        "reply_placeholder": "Bhala impendulo...",
+        "mixins": { "iconpicker": { "title": "Khetha isithonjana" } },
+        "widgets": {
+            "filecomponent": { "button": { "close": "vala" } },
+            "filedisplay": { "decrypting": "Ifayela liyavulwa...", "video_desktop_error": "Amavidiyo awakwazi ukuboniswa ku-Linux, Windows noma MacOS. Cabanga ukufaka isandla ku-Github, uma uthanda ukubona lesi sici!", "audio_desktop_error": "Umsindo awukwazi ukudlalwa ku-Linux, Windows noma MacOS." },
+            "reaction": { "unknown_sender": "akaziwa", "sent_by": "Kuthunyelwe ngu-{}" },
+            "videoplayercontrol": { "play": "dlala", "caption_offset": "ukuhlehliswa kwamazwibela", "playback_speed": "isivinini sokudlala" }
+        }
+    },
+    "settings": {
+        "legal": { "title": "Okusemthethweni", "tos": "Imigomo Yesevisi", "privacy": "Inqubomgomo Yobumfihlo", "imprint": "Okucindezelwe", "licenses": "Amalayisense e-Open Source" },
+        "followfeeds": {
+            "filter_server_header": "Khetha iseva ohlwini noma engeza entsha:",
+            "filter_rooms_header": "Sesha igumbi ozolilandela noma uyeke ukulilandela:",
+            "roomname_placeholder": "Faka igama legumbi",
+            "buttons": { "add_server": "Engeza Iseva", "retry": "Zama Futhi" },
+            "no_rooms_found": "Awekho amagumbi atholakele ngalezi zindlela zokusesha.",
+            "error_loading_rooms": "Iphutha: Yehlulekile ukulayisha amagumbi"
+        },
+        "ownfeeds": { "header": "Phatha amagumbi akho", "buttons": { "create_room": "Dala igumbi elisha" } },
+        "menu": {
+            "logged_in_as": "Ungeniswe njenge-{}", "logout": "Phuma", "logout_confirm": "Uqinisekile ukuthi ufuna ukuphuma?",
+            "login": "Ngena", "not_logged_in": "Ngena ukuze uthole zonke izici",
+            "home_site_label": "Ikhaya", "feeds_site_label": "Amafidi", "navigation_label": "Ukuzulazula",
+            "account_label": "I-Akhawunti", "preferences_label": "Okuthandwayo", "about_label": "Mayelana"
+        },
+        "room": { "desc": "Igama legumbi: {}", "leave": "Shiya igumbi", "join": "Ngena egumbini ulengeze ku-Substitution", "join_short": "Joyina", "permissions": "Izimvume" },
+        "dialog": {
+            "delete": { "title": "Shiya igumbi {}", "desc": "Uqinisekile ukuthi ufuna ukushiya igumbi {}?", "button": { "submit": "Yebo, lishiye", "cancel": "Cha, khansela" } },
+            "add": { "title": "Engeza iseva entsha", "input_placeholder": "Faka ikheli leseva", "button": { "submit": "Engeza" }, "snackbar": { "success": "Iseva yengezwe", "error_homeserver": "Iseva yekhaya efakiwe ayivumelekile" } },
+            "create": { "title": "Dala igumbi elisha", "placeholder_name": "igama legumbi", "placeholder_alias": "inkomba yegumbi (ikheli legumbi lomphakathi)", "placeholder_topic": "isihloko segumbi", "submit": "Dala" }
+        },
+        "room_preview": { "members": "{} amalungu", "latest_posts": "Okuthunyelwe kwakamuva", "no_posts": "Asikho okuthunyelwe kuleli gumbi okwamanje.", "no_peek": "Umlando waleli gumbi uyimfihlo. Joyina igumbi ukuze ubone okuthunyelwe.", "join_to_see": "Joyina ukuze ubone okuthunyelwe" }
+    },
+    "intro": {
+        "isLoggedIn": "Kuhle, usungeniswe kakade. \nUngaqhubeka nezinyathelo ezilandelayo",
+        "isNotLoggedIn": "Sicela ungene kuqala",
+        "buttons": { "next": "Okulandelayo", "back": "Emuva" },
+        "welcome": { "title": "Siyakwamukela ku-Substitution", "desc": "... inethiwekhi entsha yezenhlalakahle phezu kwephrothokholi ye-Matrix" },
+        "account": { "title": "Ama-akhawunti e-Matrix", "desc": "Kufanele ungene ku-akhawunti ye-Matrix kuseva enoma iyiphi ukuze ukwazi ukusebenzisa lolu hlelo lokusebenza. Uma ungazi ukuthi ungayithola kanjani, hamba uvakashele lesi zaziswana: https://matrix.org/" },
+        "host": { "title": "Khetha iseva" },
+        "login": { "title": "Ngena" },
+        "finished": { "title": "Masiqale", "desc": "Kuhle, usungeniswe. Sesizimisele ukuqala. Manje ungakhetha ukuthi ufuna ukujoyina igumbi lokwamukela le-Substitution noma cha. Masiqale, sijabule!", "buttons": { "add_to_room_and_go": "Joyina igumbi le-Substitution uphinde uqale!", "go": "Qala nje!" } }
+    },
+    "auth": {
+        "host": { "header": "Xhumeka kuseva yakho yekhaya", "body": "Sicela ukhethe iseva ye-Matrix yekhaya. Bese ukhetha ukungena noma ukubhrawuza amagumbi atholakalayo.", "inputs": { "homeserver_label": "Ikheli leseva yakho yekhaya" }, "buttons": { "login_label": "Ngena" } },
+        "login": { "loading": "Siyangenisa...", "header": "Ngena", "body": "Sicela ungene ngemininingwane yakho.", "inputs": { "username_label": "Igama lomsebenzisi", "password_label": "Iphasiwedi" }, "buttons": { "login_label": "Ngena", "sso_label": "Ngena nge-{}", "register_web_label": "Bhalisa" } }
+    },
+    "write": {
+        "answer": "Phendula", "roomheader": "Igumbi: {}",
+        "filemessage": { "upload_files": "Engeza amafayela amasha okulayisha", "title_header": "Isihloko:", "upload_start": "Ukulayisha kuyaqala...", "upload_file_process": "Ilayisha ifayela {}", "upload_error": "Ukulayisha {} kuhlulekile. Zama futhi ukulayisha?", "upload_file_complete": "Ukulayisha {} kuphelile!", "upload_complete": "Onke amafayela alayishiwe!", "buttons": { "upload_stop": "Khansela", "upload_retry": "Zama Futhi" } },
+        "roomselect": { "type_prompt": "Khetha uhlobo lomlayezo ofuna ukuwuthumela", "room_prompt": "Khetha igumbi ofuna ukuthumela kulo:", "error_no_rooms": "Awujoyinanga magumbi noma awunazo izimvume zokuthumela." },
+        "textmessage": { "answer_promt": "Faka umbhalo wakho:", "input_placeholder": "Faka umbhalo wakho lapha...", "send_start": "Ukuthumela umlayezo kuqalile...", "send_failed": "Ukuthumela umlayezo kuhlulekile. Ufuna ukuwuthumela futhi?", "send_complete": "Umlayezo uthunyelwe ngempumelelo!", "buttons": { "send_stop": "Ungazami futhi", "resend": "Zama Futhi" } }
+    },
+    "profile": {
+        "send_message": "Umlayezo", "block_title": "Vimbela Umsebenzisi", "block_desc": "Vimbela u-{}? Ngeke usabona okuqukethwe kwabo.",
+        "block_confirm": "Vimbela", "block_success": "Umsebenzisi uvinjelwe.", "block_error": "Ayikwazanga ukuvimbela umsebenzisi: {}",
+        "report_title": "Bika Umsebenzisi", "report_desc": "Sicela uchaze isizathu sokubika lo msebenzisi.",
+        "report_reason": "Isizathu", "report_reason_hint": "Lo msebenzisi...", "report_submit": "Thumela",
+        "report_success": "Umbiko uthunyelwe. Siyabonga.", "feeds_section": "AMAFIDI", "no_feeds": "Awekho amafidi omphakathi",
+        "error_start_chat": "Ayikwazanga ukuqala ingxoxo: {}"
+    },
+    "chat": {
+        "title": "Imilayezo", "input_placeholder": "Bhala umlayezo...", "no_messages": "Asikho isalayezo okwamanje. Yithi sawubona!",
+        "no_conversations": "Azikho izingxoxo okwamanje", "no_conversations_hint": "Vakashela iphrofayili yomsebenzisi bese ucindezela 'Umlayezo' ukuze uqale ingxoxo.",
+        "media_message": "Imidiya", "conversation_started": "Ingxoxo iqalile",
+        "error_loading": "Ayikwazanga ukulayisha le ngxoxo.", "error_sending": "Yehlulekile ukuthumela umlayezo.", "view_profile": "Buka iphrofayili"
+    }
+}

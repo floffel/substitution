@@ -1,0 +1,293 @@
+{
+    "app_name": "Substitution",
+    "error_title": "Ralat",
+    "loading": "Memuatkan...",
+    "error": "Ralat: {}",
+    "approve": "Ok",
+    "error_no_image": "Tiada Imej",
+    "error_page_not_found": "Halaman ini tidak dapat ditemui.",
+    "age_gate": {
+        "title": "Sebelum anda meneruskan",
+        "description": "Substitution ialah klien rangkaian sosial untuk protokol Matrix. Dengan meneruskan, anda mengesahkan perkara berikut:",
+        "point_client": "Substitution hanyalah aplikasi klien. Data anda disimpan di pelayan utama Matrix pilihan anda, bukan di pelayan yang dikendalikan oleh Substitution.",
+        "point_servers": "Substitution tidak mengawal dasar kandungan pelayan utama luaran yang anda sambungkan. Anda bertanggungjawab untuk memilih pelayan yang dipercayai.",
+        "point_age": "Anda berumur 16 tahun atau lebih (atau umur minimum yang diperlukan di negara anda). Substitution tidak ditujukan untuk kanak-kanak.",
+        "point_content": "Substitution mempunyai toleransi sifar terhadap kandungan haram atau tidak senonoh. Gunakan alat pelaporan dalam aplikasi untuk melaporkan pelanggaran.",
+        "confirm": "Saya mengesahkan — Saya berumur 16 tahun atau lebih",
+        "privacy_link": "Baca Dasar Privasi kami"
+    },
+    "cancel": "Batal",
+    "feed": {
+        "nav": {
+            "home": "Utama",
+            "discover": "Teroka",
+            "messages": "Mesej",
+            "settings": "Tetapan"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Bilik: {}",
+                "empty": "Suapan anda kosong. Ikuti beberapa bilik untuk melihat siaran!",
+                "empty_button": "Cari bilik baharu"
+            }
+        }
+    },
+    "post": {
+        "error": {
+            "not_found": "Siaran tidak ditemui atau tidak tersedia."
+        },
+        "menu": {
+            "report_block": "Lapor / Sekat"
+        },
+        "e2e": {
+            "encrypted": "Disulitkan hujung ke hujung",
+            "unencrypted": "Tidak disulitkan",
+            "failed": "Penyahsulitan gagal"
+        },
+        "dialog": {
+            "report_block_title": "Laporkan Kandungan atau Sekat Pengguna",
+            "report_desc": "Sila terangkan mengapa anda melaporkan kandungan ini (pilihan).",
+            "report_reason": "Sebab laporan",
+            "report_reason_hint": "Kandungan ini menyinggung kerana...",
+            "block_user_checkbox": "Juga sekat pengguna ini",
+            "block_user_desc": "Anda tidak akan lagi melihat kandungan daripada {}",
+            "submit": "Hantar",
+            "cancel": "Batal",
+            "report_block_success": "Laporan dihantar. Terima kasih.",
+            "report_block_error": "Ralat berlaku: {}"
+        },
+        "pages": {
+            "post": {
+                "no_comments": "Belum ada komen."
+            }
+        },
+        "continue_thread": "Teruskan utas ini...",
+        "replying_to": "Membalas {}",
+        "reply_placeholder": "Tulis balasan...",
+        "mixins": {
+            "iconpicker": {
+                "title": "Pilih ikon"
+            }
+        },
+        "widgets": {
+            "filecomponent": {
+                "button": {
+                    "close": "tutup"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Fail sedang dinyahsulit...",
+                "video_desktop_error": "Video tidak dapat dipaparkan di Linux, Windows mahupun MacOS. Sumbang di Github jika anda ingin melihat ciri ini!",
+                "audio_desktop_error": "Audio tidak dapat dimainkan di Linux, Windows mahupun MacOS."
+            },
+            "reaction": {
+                "unknown_sender": "tidak diketahui",
+                "sent_by": "Dihantar oleh {}"
+            },
+            "videoplayercontrol": {
+                "play": "main",
+                "caption_offset": "ofset sari kata",
+                "playback_speed": "kelajuan main balik"
+            }
+        }
+    },
+    "settings": {
+        "legal": {
+            "title": "Undang-undang",
+            "tos": "Terma Perkhidmatan",
+            "privacy": "Dasar Privasi",
+            "imprint": "Imprint",
+            "licenses": "Lesen Sumber Terbuka"
+        },
+        "followfeeds": {
+            "filter_server_header": "Pilih pelayan dari senarai atau tambah yang baharu:",
+            "filter_rooms_header": "Cari bilik untuk diikuti atau dinyahikuti:",
+            "roomname_placeholder": "Masukkan nama bilik",
+            "buttons": {
+                "add_server": "Tambah Pelayan",
+                "retry": "Cuba Semula"
+            },
+            "no_rooms_found": "Tiada bilik ditemui untuk kriteria carian yang diberikan.",
+            "error_loading_rooms": "Ralat: Gagal memuatkan bilik"
+        },
+        "ownfeeds": {
+            "header": "Urus bilik anda sendiri",
+            "buttons": {
+                "create_room": "Cipta Bilik Baharu"
+            }
+        },
+        "menu": {
+            "logged_in_as": "Log masuk sebagai {}",
+            "logout": "Log Keluar",
+            "logout_confirm": "Adakah anda pasti mahu log keluar?",
+            "login": "Log Masuk",
+            "not_logged_in": "Log masuk untuk mengakses semua ciri",
+            "home_site_label": "Utama",
+            "feeds_site_label": "Suapan",
+            "navigation_label": "Navigasi",
+            "account_label": "Akaun",
+            "preferences_label": "Keutamaan",
+            "about_label": "Perihal"
+        },
+        "room": {
+            "desc": "Nama bilik: {}",
+            "leave": "Keluar bilik",
+            "join": "Masuk bilik dan tambah ke Substitution",
+            "join_short": "Sertai",
+            "permissions": "Kebenaran"
+        },
+        "dialog": {
+            "delete": {
+                "title": "Keluar bilik {}",
+                "desc": "Adakah anda pasti mahu keluar dari bilik {}?",
+                "button": {
+                    "submit": "Ya, keluar",
+                    "cancel": "Tidak, batal"
+                }
+            },
+            "add": {
+                "title": "Tambah Pelayan Baharu",
+                "input_placeholder": "Masukkan alamat pelayan",
+                "button": {
+                    "submit": "Tambah"
+                },
+                "snackbar": {
+                    "success": "Pelayan telah ditambah",
+                    "error_homeserver": "Pelayan utama yang dimasukkan tidak sah"
+                }
+            },
+            "create": {
+                "title": "Cipta bilik baharu",
+                "placeholder_name": "nama bilik",
+                "placeholder_alias": "alias bilik (alamat bilik awam)",
+                "placeholder_topic": "topik bilik",
+                "submit": "Cipta"
+            }
+        },
+        "room_preview": {
+            "members": "{} ahli",
+            "latest_posts": "Siaran terkini",
+            "no_posts": "Belum ada siaran dalam bilik ini.",
+            "no_peek": "Sejarah bilik ini adalah peribadi. Sertai bilik untuk melihat siarannya.",
+            "join_to_see": "Sertai untuk melihat siaran"
+        }
+    },
+    "intro": {
+        "isLoggedIn": "Hebat, anda sudah log masuk. \nAnda boleh meneruskan dengan langkah seterusnya",
+        "isNotLoggedIn": "Sila log masuk terlebih dahulu",
+        "buttons": {
+            "next": "Seterusnya",
+            "back": "Kembali"
+        },
+        "welcome": {
+            "title": "Selamat datang ke Substitution",
+            "desc": "... rangkaian sosial baharu di atas protokol Matrix"
+        },
+        "account": {
+            "title": "Akaun Matrix",
+            "desc": "Anda perlu log masuk ke akaun Matrix di mana-mana pelayan untuk menggunakan aplikasi ini. Jika anda tidak tahu cara mendapatkannya, layari laman ini: https://matrix.org/"
+        },
+        "host": {
+            "title": "Pilih pelayan"
+        },
+        "login": {
+            "title": "Log Masuk"
+        },
+        "finished": {
+            "title": "Jom mulakan!",
+            "desc": "Hebat, anda telah log masuk. Kami bersedia untuk bermula. Anda kini boleh memilih sama ada mahu menyertai bilik selamat datang Substitution. Jom, dan selamat bersosial!",
+            "buttons": {
+                "add_to_room_and_go": "Sertai Bilik Substitution & mula!",
+                "go": "Terus sahaja!"
+            }
+        }
+    },
+    "auth": {
+        "host": {
+            "header": "Sambung ke Pelayan Utama anda",
+            "body": "Sila pilih Pelayan Utama Matrix. Kemudian anda boleh memilih untuk log masuk atau melayari bilik awam yang tersedia.",
+            "inputs": {
+                "homeserver_label": "Alamat Pelayan Utama anda"
+            },
+            "buttons": {
+                "login_label": "Log Masuk"
+            }
+        },
+        "login": {
+            "loading": "Sedang log masuk...",
+            "header": "Log Masuk",
+            "body": "Sila log masuk dengan kelayakan anda.",
+            "inputs": {
+                "username_label": "Nama pengguna",
+                "password_label": "Kata laluan"
+            },
+            "buttons": {
+                "login_label": "Log Masuk",
+                "sso_label": "Log masuk dengan {}",
+                "register_web_label": "Daftar"
+            }
+        }
+    },
+    "write": {
+        "answer": "Jawab",
+        "roomheader": "Bilik: {}",
+        "filemessage": {
+            "upload_files": "Tambah fail baharu untuk dimuat naik",
+            "title_header": "Tajuk:",
+            "upload_start": "Memulakan muat naik...",
+            "upload_file_process": "Memuat naik fail {}",
+            "upload_error": "Muat naik {} gagal. Cuba semula?",
+            "upload_file_complete": "Muat naik {} selesai!",
+            "upload_complete": "Semua fail telah dimuat naik!",
+            "buttons": {
+                "upload_stop": "Batal",
+                "upload_retry": "Cuba Semula"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Pilih jenis mesej yang ingin anda siarkan",
+            "room_prompt": "Pilih bilik untuk menyiarkan:",
+            "error_no_rooms": "Anda belum menyertai mana-mana bilik atau anda tidak mempunyai hak untuk menyiarkan."
+        },
+        "textmessage": {
+            "answer_promt": "Masukkan Teks Anda:",
+            "input_placeholder": "Masukkan teks anda di sini...",
+            "send_start": "Mesej sedang dihantar...",
+            "send_failed": "Penghantaran mesej gagal. Mahu menghantar semula?",
+            "send_complete": "Mesej berjaya dihantar!",
+            "buttons": {
+                "send_stop": "Jangan cuba semula",
+                "resend": "Cuba Semula"
+            }
+        }
+    },
+    "profile": {
+        "send_message": "Mesej",
+        "block_title": "Sekat Pengguna",
+        "block_desc": "Sekat {}? Anda tidak akan melihat kandungan mereka lagi.",
+        "block_confirm": "Sekat",
+        "block_success": "Pengguna disekat.",
+        "block_error": "Tidak dapat menyekat pengguna: {}",
+        "report_title": "Laporkan Pengguna",
+        "report_desc": "Sila terangkan sebab anda melaporkan pengguna ini.",
+        "report_reason": "Sebab",
+        "report_reason_hint": "Pengguna ini...",
+        "report_submit": "Hantar",
+        "report_success": "Laporan dihantar. Terima kasih.",
+        "feeds_section": "SUAPAN",
+        "no_feeds": "Tiada suapan awam",
+        "error_start_chat": "Tidak dapat memulakan perbualan: {}"
+    },
+    "chat": {
+        "title": "Mesej",
+        "input_placeholder": "Taip mesej...",
+        "no_messages": "Belum ada mesej. Ucapkan salam!",
+        "no_conversations": "Belum ada perbualan",
+        "no_conversations_hint": "Lawati profil pengguna dan ketik 'Mesej' untuk memulakan perbualan.",
+        "media_message": "Media",
+        "conversation_started": "Perbualan dimulakan",
+        "error_loading": "Tidak dapat memuatkan perbualan ini.",
+        "error_sending": "Gagal menghantar mesej.",
+        "view_profile": "Lihat profil"
+    }
+}
