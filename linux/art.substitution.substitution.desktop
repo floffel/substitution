@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Substitution
+Comment=The new art social media app
+Exec=substitution
+Icon=art.substitution.substitution
+Categories=Network;Chat;InstantMessaging;
+Keywords=social;matrix;art;chat;
+StartupWMClass=substitution

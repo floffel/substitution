@@ -837,3 +837,205 @@ jobs:
           if __name__ == '__main__':
               publish()
           EOF
+
+  # ============================================================================
+  # LINUX RELEASE BUILD - Build AppImage for GitHub Release (only on v* tags)
+  # ============================================================================
+  build-linux-release:
+    name: 'Build Linux Release (AppImage)'
+    needs: all-tests-passed
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Install Linux desktop dependencies'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libstdc++-12-dev \
+            libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+            libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libblkid-dev libdbus-1-dev libatk1.0-dev \
+            libfuse2
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --linux
+          flutter pub get
+
+      - name: 'Enable Linux desktop'
+        run: flutter config --enable-linux-desktop
+
+      - name: 'Build Linux release'
+        run: flutter build linux --release --no-pub
+
+      - name: 'Create AppImage'
+        run: |
+          # Download linuxdeploy and GTK plugin
+          wget -q https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+
+          # Prepare AppDir structure
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/lib
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+          mkdir -p AppDir/usr/share/applications
+
+          # Copy the Flutter bundle contents
+          cp -r build/linux/x64/release/bundle/* AppDir/usr/bin/
+
+          # Move libraries to the lib directory
+          if [ -d "AppDir/usr/bin/lib" ]; then
+            mv AppDir/usr/bin/lib/* AppDir/usr/lib/
+            rmdir AppDir/usr/bin/lib
+          fi
+
+          # Copy the desktop file and icon
+          cp linux/art.substitution.substitution.desktop AppDir/usr/share/applications/
+          cp macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png AppDir/usr/share/icons/hicolor/256x256/apps/art.substitution.substitution.png
+
+          # Also place them at AppDir root (required by linuxdeploy)
+          cp linux/art.substitution.substitution.desktop AppDir/
+          cp macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png AppDir/art.substitution.substitution.png
+
+          # Extract version from tag
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG_NAME#v}"
+          export VERSION
+
+          # Build the AppImage
+          ./linuxdeploy-x86_64.AppImage \
+            --appdir=AppDir \
+            --desktop-file=AppDir/art.substitution.substitution.desktop \
+            --icon-file=AppDir/art.substitution.substitution.png \
+            --output=appimage
+
+          # Rename to a consistent filename
+          mv Substitution-*.AppImage substitution-linux-x86_64.AppImage
+
+      - name: 'Upload Linux release artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-release-appimage
+          path: substitution-linux-x86_64.AppImage
+          retention-days: 5
+
+  # ============================================================================
+  # WINDOWS RELEASE BUILD - Build zip for GitHub Release (only on v* tags)
+  # ============================================================================
+  build-windows-release:
+    name: 'Build Windows Release (zip)'
+    needs: all-tests-passed
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup Flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 'Setup Rust toolchain'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 'Install dependencies'
+        run: |
+          flutter precache --windows
+          flutter pub get
+
+      - name: 'Enable Windows desktop'
+        run: flutter config --enable-windows-desktop
+
+      - name: 'Build Windows release'
+        run: flutter build windows --release --no-pub
+
+      - name: 'Create zip archive'
+        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath substitution-windows-x64.zip
+        shell: pwsh
+
+      - name: 'Upload Windows release artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-zip
+          path: substitution-windows-x64.zip
+          retention-days: 5
+
+  # ============================================================================
+  # CREATE GITHUB RELEASE - Publish release with Linux & Windows artifacts
+  # ============================================================================
+  create-github-release:
+    name: 'Create GitHub Release'
+    needs: [build-linux-release, build-windows-release]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 'Download Linux artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-release-appimage
+          path: release-assets/
+
+      - name: 'Download Windows artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-release-zip
+          path: release-assets/
+
+      - name: 'Create GitHub Release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG_NAME#v}"
+
+          # Generate release notes from commits since previous tag
+          PREV_TAG=$(git tag --sort=-creatordate | grep '^v' | sed -n '2p')
+          if [ -n "$PREV_TAG" ]; then
+            NOTES=$(git log --oneline "$PREV_TAG"..HEAD --no-merges --format="- %s" | head -30)
+          else
+            NOTES=$(git log --oneline -15 --no-merges --format="- %s")
+          fi
+          if [ -z "$NOTES" ]; then
+            NOTES="Bug fixes and improvements"
+          fi
+
+          # Create the release with assets
+          gh release create "$TAG_NAME" \
+            --title "Substitution $VERSION" \
+            --notes "## What's Changed
+
+          $NOTES
+
+          ## Downloads
+
+          | Platform | File |
+          |----------|------|
+          | Linux (x86_64) | \`substitution-linux-x86_64.AppImage\` |
+          | Windows (x64) | \`substitution-windows-x64.zip\` |
+          " \
+            release-assets/substitution-linux-x86_64.AppImage \
+            release-assets/substitution-windows-x64.zip
