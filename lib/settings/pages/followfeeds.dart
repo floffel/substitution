@@ -3,6 +3,7 @@ import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
 import '/settings/widgets/dialogcreateroom.dart';
 import '/settings/widgets/roomwidget.dart';
+import '/settings/widgets/sheet_room_preview.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/models/substitution_room.dart';
 import '/shared/services/substitution_service.dart';
@@ -134,6 +135,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             avatarUrl: chunk.avatarUrl?.toString(),
             isInsideSubstitution: isInSubstitution,
             joined: isJoined,
+            topic: chunk.topic,
+            numJoinedMembers: chunk.numJoinedMembers,
+            worldReadable: chunk.worldReadable,
           ),
         );
       }
@@ -415,6 +419,13 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                     room: item,
                     leaveRoom: _leaveRoom,
                     joinRoom: _joinRoom,
+                    onTap:
+                        () => showRoomPreview(
+                          context: context,
+                          room: item,
+                          onJoin: _joinRoom,
+                          onLeave: _leaveRoom,
+                        ),
                   ),
             ),
           ),

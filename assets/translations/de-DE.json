@@ -132,6 +132,7 @@
             "desc": "Raumname: {}",
             "leave": "Raum verlassen",
             "join": "Raum betreten und zu substitution hinzufügen",
+            "join_short": "Beitreten",
             "permissions": "Berechtigungen"
         },
         "dialog": {
@@ -161,6 +162,13 @@
                 "placeholder_topic": "Raumthema",
                 "submit": "Erstellen"
             }
+        },
+        "room_preview": {
+            "members": "{} Mitglieder",
+            "latest_posts": "Neueste Beiträge",
+            "no_posts": "Noch keine Beiträge in diesem Raum.",
+            "no_peek": "Der Raumverlauf ist privat. Tritt dem Raum bei, um Beiträge zu sehen.",
+            "join_to_see": "Beitreten, um Beiträge zu sehen"
         }
     },
     "intro": {

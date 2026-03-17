@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/followfeeds.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
+import 'package:substitution/settings/widgets/sheet_room_preview.dart';
 import 'package:matrix/matrix.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
 import 'helpers/patrol_helper.dart' as patrol_helper;
@@ -208,6 +209,60 @@ void main() {
         );
         expect($(Icons.person_add_rounded).exists, true);
         debugPrint('✓ DISCOVERY: Room left successfully');
+      },
+      timeout: const Timeout(Duration(minutes: 15)),
+    );
+
+    testWidgets(
+      'Tapping a room tile opens the room preview bottom sheet',
+      (tester) async {
+        if (!await skipIfNoMatrix(matrixServer: testMatrixServer)) return;
+
+        final $ = wrapTester(tester);
+        app.main();
+
+        if (!await patrol_helper.loginUser(
+          $,
+          matrixServer: testMatrixServer,
+          username: testUser,
+          password: testPassword,
+        )) {
+          return;
+        }
+
+        // Navigate to Discover tab
+        debugPrint('DISCOVERY PREVIEW: Tapping Discover tab...');
+        await $.tester.tap(find.byIcon(Icons.explore_outlined));
+        await $.tester.pumpAndSettle();
+
+        expect($(FollowFeedSettings).exists, true);
+
+        // Search for test_art to ensure a room appears
+        debugPrint('DISCOVERY PREVIEW: Searching for test_art...');
+        await $(TextField).first.enterText('test_art');
+        await $.tester.pumpAndSettle();
+
+        // Wait for RoomWidget to appear
+        await fastWait(
+          $.tester,
+          () => $(RoomWidget).exists,
+          timeout: const Duration(seconds: 60),
+        );
+
+        // Tap the room tile body (not the trailing icon buttons)
+        // The ListTile body is the RoomWidget itself, so tap the title text area
+        debugPrint('DISCOVERY PREVIEW: Tapping room tile to open preview...');
+        final roomTile = $(RoomWidget).first;
+        await roomTile.tap();
+        await $.tester.pumpAndSettle();
+
+        // Verify the RoomPreviewSheet is now visible
+        expect($(RoomPreviewSheet).exists, true);
+        debugPrint('✓ DISCOVERY PREVIEW: Room preview sheet opened');
+
+        // Dismiss the bottom sheet by tapping outside
+        await $.tester.tapAt(const Offset(200, 10));
+        await $.tester.pumpAndSettle();
       },
       timeout: const Timeout(Duration(minutes: 15)),
     );

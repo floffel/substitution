@@ -132,6 +132,7 @@
             "desc": "Roomname: {}",
             "leave": "Leave room",
             "join": "Enter room and add it to substitution",
+            "join_short": "Join",
             "permissions": "Permissions"
         },
         "dialog": {
@@ -161,6 +162,13 @@
                 "placeholder_topic": "room topic",
                 "submit": "Create"
             }
+        },
+        "room_preview": {
+            "members": "{} members",
+            "latest_posts": "Latest posts",
+            "no_posts": "No posts yet in this room.",
+            "no_peek": "This room's history is private. Join the room to see its posts.",
+            "join_to_see": "Join to see posts"
         }
     },
     "intro": {

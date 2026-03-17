@@ -128,6 +128,7 @@
             "desc": "Nom de la salle: {}",
             "leave": "Quitter la pièce",
             "join": "Entrez dans la pièce et ajoutez-la à la substitution",
+            "join_short": "Rejoindre",
             "permissions": "Permissions"
         },
         "dialog": {
@@ -157,6 +158,13 @@
                 "placeholder_topic": "Thème de l'espace",
                 "submit": "Créer"
             }
+        },
+        "room_preview": {
+            "members": "{} membres",
+            "latest_posts": "Dernières publications",
+            "no_posts": "Aucune publication dans cette salle pour l'instant.",
+            "no_peek": "L'historique de cette salle est privé. Rejoignez la salle pour voir ses publications.",
+            "join_to_see": "Rejoindre pour voir les publications"
         }
     },
     "intro": {

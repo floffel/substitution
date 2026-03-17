@@ -13,6 +13,7 @@ class RoomWidget extends StatefulWidget {
     this.leaveRoom,
     this.joinRoom,
     this.deleteRoom,
+    this.onTap,
   });
 
   // room elements
@@ -21,6 +22,9 @@ class RoomWidget extends StatefulWidget {
   final Future<void> Function(String roomId)? leaveRoom;
   final Future<void> Function(String roomId)? joinRoom;
   final Future<void> Function(String roomId)? deleteRoom;
+
+  /// Called when the user taps on the room tile body (not the action buttons).
+  final VoidCallback? onTap;
 
   @override
   RoomWidgetState createState() => RoomWidgetState();
@@ -47,6 +51,7 @@ class RoomWidgetState extends State<RoomWidget> {
     final colorScheme = theme.colorScheme;
 
     return ListTile(
+      onTap: widget.onTap,
       title: Text(
         'settings.room.desc'.tr(args: [widget.room.name]),
         style: theme.textTheme.titleSmall,

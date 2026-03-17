@@ -4,6 +4,9 @@ class SubstitutionRoom {
   final String? avatarUrl;
   final bool isInsideSubstitution;
   final bool joined;
+  final String? topic;
+  final int? numJoinedMembers;
+  final bool worldReadable;
 
   const SubstitutionRoom({
     required this.id,
@@ -11,5 +14,8 @@ class SubstitutionRoom {
     this.avatarUrl,
     required this.isInsideSubstitution,
     required this.joined,
+    this.topic,
+    this.numJoinedMembers,
+    this.worldReadable = false,
   });
 }
