@@ -35,6 +35,10 @@ class PostPageState extends State<PostPage> {
   /// Cached comments future — wraps [widget.comments] with LoadingService signals.
   late Future<List<({Event origEvent, Event displayEvent})>> _commentsFuture;
 
+  // Cache the LoadingService reference so it can be used safely in dispose()
+  // without looking up a deactivated widget's ancestor via Provider.of(context).
+  late final LoadingService _loadingService;
+
   Client get client => Provider.of<Client>(context, listen: false);
   Room? get room =>
       widget.event.roomId != null
@@ -42,27 +46,24 @@ class PostPageState extends State<PostPage> {
           : null;
 
   Future<List<({Event origEvent, Event displayEvent})>> _loadComments() async {
-    final loadingService = Provider.of<LoadingService>(context, listen: false);
-    loadingService.setLoading('post_comments');
+    _loadingService.setLoading('post_comments');
     try {
       return await widget.comments;
     } finally {
-      loadingService.setDone('post_comments');
+      _loadingService.setDone('post_comments');
     }
   }
 
   @override
   void initState() {
     super.initState();
+    _loadingService = Provider.of<LoadingService>(context, listen: false);
     _commentsFuture = _loadComments();
   }
 
   @override
   void dispose() {
-    Provider.of<LoadingService>(
-      context,
-      listen: false,
-    ).setDone('post_comments');
+    _loadingService.setDone('post_comments');
     _replyController.dispose();
     _replyFocusNode.dispose();
     super.dispose();
