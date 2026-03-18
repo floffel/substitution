@@ -576,7 +576,12 @@ jobs:
         # or the Dart VM Service timing out after install — both are transient
         # emulator reliability issues rather than test failures.  A fresh
         # emulator session on the same runner typically succeeds.
+        # continue-on-error: true because the android-emulator-runner action
+        # can exit with code 1 due to ADB startup issues even when tests pass.
+        # A subsequent "Check final Android test result" step verifies outcomes.
+        id: android-tests-retry
         if: steps.android-tests-run.outcome == 'failure'
+        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         env:
           MATRIX_SERVER: http://localhost:8008
@@ -595,6 +600,28 @@ jobs:
           script: |
             echo "First attempt failed — retrying Android integration tests..."
             ./scripts/test.sh android --no-docker --shard ${{ matrix.shard }} --total-shards ${{ needs.plan-tests.outputs.shard_count }}
+
+      - name: 'Check final Android test result'
+        # When both attempts have continue-on-error, we need to explicitly fail
+        # the job if tests actually failed. We check the test results log which
+        # records "RESULT: PASSED" or "RESULT: FAILED" from the test runner.
+        if: always() && (steps.android-tests-run.outcome == 'failure' || steps.android-tests-retry.outcome == 'failure')
+        run: |
+          # Check if there is a test results log indicating all tests passed
+          RESULT_LOG="test-results/android-tests.log"
+          if [ -f "$RESULT_LOG" ] && grep -q "RESULT: PASSED" "$RESULT_LOG"; then
+            echo "Android tests PASSED (emulator-runner reported exit code 1 due to ADB flakiness, but tests themselves succeeded)"
+            exit 0
+          elif [ -f "$RESULT_LOG" ] && grep -q "RESULT: FAILED" "$RESULT_LOG"; then
+            echo "Android tests FAILED — see test logs above"
+            exit 1
+          else
+            # No log found or ambiguous — treat as failure if both steps failed
+            if [ "${{ steps.android-tests-run.outcome }}" = "failure" ] && [ "${{ steps.android-tests-retry.outcome }}" = "failure" ]; then
+              echo "Both Android test attempts failed and no passing result log found"
+              exit 1
+            fi
+          fi
 
       - name: 'Show test logs on failure'
         if: failure()
