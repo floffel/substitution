@@ -429,9 +429,12 @@ class HomePageState extends State<HomePage> {
           _loadingService.setDone('feed');
         }
       },
-    )..addListener(() {
-      if (mounted) setState(() {});
-    });
+    );
+    // Note: do NOT addListener(setState) here — it causes the entire HomePage
+    // (including nested paging fetches) to rebuild on every PagingController
+    // state change, creating an infinite rebuild loop under pumpAndSettle.
+    // The PagedListView reads _pagingController.value directly and is wrapped
+    // in a ListenableBuilder so only the list subtree rebuilds.
 
     // Pre-populate the PagingController with cached items so the list renders
     // immediately without showing a loading spinner.
@@ -588,86 +591,100 @@ class HomePageState extends State<HomePage> {
                   ),
                 ],
                 Expanded(
-                  child: PagedListView<
-                    Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
-                    ({Event origEvent, Event displayEvent})
-                  >.separated(
-                    key: const ValueKey('feedListView'),
-                    scrollController: _scrollController,
-                    state: _pagingController.value,
-                    fetchNextPage: _pagingController.fetchNextPage,
-                    // Use spacing instead of dividers for modern look
-                    separatorBuilder:
-                        (context, index) => const SizedBox(height: 2),
-                    builderDelegate: PagedChildBuilderDelegate<
-                      ({Event origEvent, Event displayEvent})
-                    >(
-                      // Loading is indicated by the TopLoadingBar — no
-                      // in-list spinners or skeletons that would cause layout
-                      // shifts when real content arrives.
-                      firstPageProgressIndicatorBuilder:
-                          (context) => const SizedBox.shrink(),
-                      newPageProgressIndicatorBuilder:
-                          (context) => const SizedBox.shrink(),
-                      noItemsFoundIndicatorBuilder:
-                          (context) => Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.art_track_outlined,
-                                    size: 72,
-                                    color: colorScheme.onSurfaceVariant
-                                        .withValues(alpha: 0.3),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Text(
-                                    "feed.pages.home.empty",
-                                    style: theme.textTheme.titleMedium
-                                        ?.copyWith(
-                                          color: colorScheme.onSurfaceVariant,
+                  // ListenableBuilder ensures only the list subtree rebuilds
+                  // when the paging state changes, avoiding the full-widget
+                  // rebuild loop that blocks pumpAndSettle in integration tests.
+                  child: ListenableBuilder(
+                    listenable: _pagingController,
+                    builder:
+                        (context, _) => PagedListView<
+                          Map<
+                            Timeline,
+                            ({String? lastEventId, bool wasExhausted})
+                          >?,
+                          ({Event origEvent, Event displayEvent})
+                        >.separated(
+                          key: const ValueKey('feedListView'),
+                          scrollController: _scrollController,
+                          state: _pagingController.value,
+                          fetchNextPage: _pagingController.fetchNextPage,
+                          // Use spacing instead of dividers for modern look
+                          separatorBuilder:
+                              (context, index) => const SizedBox(height: 2),
+                          builderDelegate: PagedChildBuilderDelegate<
+                            ({Event origEvent, Event displayEvent})
+                          >(
+                            // Loading is indicated by the TopLoadingBar — no
+                            // in-list spinners or skeletons that would cause layout
+                            // shifts when real content arrives.
+                            firstPageProgressIndicatorBuilder:
+                                (context) => const SizedBox.shrink(),
+                            newPageProgressIndicatorBuilder:
+                                (context) => const SizedBox.shrink(),
+                            noItemsFoundIndicatorBuilder:
+                                (context) => Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.art_track_outlined,
+                                          size: 72,
+                                          color: colorScheme.onSurfaceVariant
+                                              .withValues(alpha: 0.3),
                                         ),
-                                    textAlign: TextAlign.center,
-                                  ).tr(),
-                                  const SizedBox(height: 16),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      if (widget.onDiscoverTap != null) {
-                                        widget.onDiscoverTap!();
-                                      } else {
-                                        context.push('/settings/feed');
-                                      }
-                                    },
-                                    child:
+                                        const SizedBox(height: 20),
                                         Text(
-                                          "feed.pages.home.empty_button",
+                                          "feed.pages.home.empty",
+                                          style: theme.textTheme.titleMedium
+                                              ?.copyWith(
+                                                color:
+                                                    colorScheme
+                                                        .onSurfaceVariant,
+                                              ),
+                                          textAlign: TextAlign.center,
                                         ).tr(),
+                                        const SizedBox(height: 16),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            if (widget.onDiscoverTap != null) {
+                                              widget.onDiscoverTap!();
+                                            } else {
+                                              context.push('/settings/feed');
+                                            }
+                                          },
+                                          child:
+                                              Text(
+                                                "feed.pages.home.empty_button",
+                                              ).tr(),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                      itemBuilder:
-                          (context, item, index) => GestureDetector(
-                            onTap:
-                                () => context.pushIfNew(
-                                  Uri(
-                                    path: "/post/${item.origEvent.eventId}",
-                                    queryParameters: {
-                                      'room': item.origEvent.roomId,
-                                    },
-                                  ).toString(),
                                 ),
-                            child: PostWidget(
-                              event: item.origEvent,
-                              displayEvent: item.displayEvent,
-                            ),
+                            itemBuilder:
+                                (context, item, index) => GestureDetector(
+                                  onTap:
+                                      () => context.pushIfNew(
+                                        Uri(
+                                          path:
+                                              "/post/${item.origEvent.eventId}",
+                                          queryParameters: {
+                                            'room': item.origEvent.roomId,
+                                          },
+                                        ).toString(),
+                                      ),
+                                  child: PostWidget(
+                                    event: item.origEvent,
+                                    displayEvent: item.displayEvent,
+                                  ),
+                                ),
                           ),
-                    ),
+                        ),
                   ),
                 ),
               ],
