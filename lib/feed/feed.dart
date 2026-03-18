@@ -26,8 +26,16 @@ class Feed extends StatefulWidget {
 class FeedState extends State<Feed> {
   int _currentIndex = 0;
 
+  /// True once the user has navigated to the Discover tab (index 1).
+  /// Used to lazily build FollowFeedSettings so it doesn't start background
+  /// network fetches while the user is on a different tab.
+  bool _hasVisitedDiscover = false;
+
   void switchToDiscover() {
-    setState(() => _currentIndex = 1);
+    setState(() {
+      _currentIndex = 1;
+      _hasVisitedDiscover = true;
+    });
   }
 
   @override
@@ -110,8 +118,16 @@ class FeedState extends State<Feed> {
         children: [
           // Tab 0: Feed
           HomePage(onDiscoverTap: switchToDiscover),
-          // Tab 1: Discover (feeds browser)
-          const FollowFeedSettings(),
+          // Tab 1: Discover (feeds browser).
+          // Only build FollowFeedSettings once the user first navigates here.
+          // This prevents the paging fetch loop from running in the background
+          // while the user is on other tabs (IndexedStack keeps all children
+          // mounted, so without this guard it starts fetching immediately on
+          // app launch and loops during integration-test pumpAndSettle calls).
+          if (_hasVisitedDiscover)
+            const FollowFeedSettings()
+          else
+            const SizedBox.shrink(),
           // Tab 2: Messages (DMs)
           const ChatListPage(),
           // Tab 3: Settings
@@ -123,7 +139,10 @@ class FeedState extends State<Feed> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          setState(() => _currentIndex = index);
+          setState(() {
+            _currentIndex = index;
+            if (index == 1) _hasVisitedDiscover = true;
+          });
         },
         destinations: [
           NavigationDestination(
