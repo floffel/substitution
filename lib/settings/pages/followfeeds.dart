@@ -42,6 +42,11 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   _pagingController;
   int _searchGeneration = 0;
 
+  /// Cached account-data future (including the .then/.catchError transform) so
+  /// FutureBuilder always receives the same Future object and never resets to
+  /// ConnectionState.waiting on rebuild — which would cause an infinite loop.
+  Future<Map<String, Object?>>? _accountDataFuture;
+
   Client get client => Provider.of<Client>(context, listen: false);
 
   void _resetList() {
@@ -158,7 +163,10 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     }
   }
 
-  Future<Map<String, Object?>> get accountData async =>
+  Future<Map<String, Object?>> get accountData =>
+      _accountDataFuture ??= _loadAccountData();
+
+  Future<Map<String, Object?>> _loadAccountData() async =>
       await client.getAccountData(client.userID!, "substitution.servers");
 
   Future<void> showDeleteDialog(String server) async {
@@ -170,7 +178,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       },
     );
 
-    setState(() {});
+    setState(() {
+      _accountDataFuture = null; // invalidate so chips reload
+    });
   }
 
   Future<void> showAddDialog() async {
@@ -182,7 +192,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       },
     );
 
-    setState(() {});
+    setState(() {
+      _accountDataFuture = null; // invalidate so chips reload
+    });
   }
 
   @override
@@ -209,9 +221,13 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
       fetchPage: (pageKey) async {
         return await _fetchRooms(pageKey);
       },
-    )..addListener(() {
-      if (mounted) setState(() {});
-    });
+    );
+    // Note: do NOT addListener(setState) here. Doing so causes the entire
+    // FollowFeedSettings subtree (including FutureBuilder(accountData)) to
+    // rebuild on every PagingController state change, which in turn schedules
+    // more post-frame callbacks → infinite rebuild loop under pumpAndSettle.
+    // Instead, only the PagedListView is wrapped in a ListenableBuilder so
+    // only the list portion rebuilds when the paging state changes.
   }
 
   @override
@@ -355,79 +371,89 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
           ),
         ),
 
-        // Room list
+        // Room list — wrapped in ListenableBuilder so only this subtree
+        // rebuilds when the paging state changes (avoids full-widget rebuild
+        // that would re-create FutureBuilder's future and cause an
+        // infinite rebuild loop under pumpAndSettle).
         Expanded(
-          child: PagedListView<FollowFeedPageKey?, SubstitutionRoom>.separated(
-            state: _pagingController.value,
-            fetchNextPage: _pagingController.fetchNextPage,
-            separatorBuilder: (context, index) => const SizedBox(height: 2),
-            builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
-              noItemsFoundIndicatorBuilder:
-                  (context) => Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.search_off_rounded,
-                            size: 48,
-                            color: colorScheme.onSurfaceVariant.withValues(
-                              alpha: 0.4,
+          child: ListenableBuilder(
+            listenable: _pagingController,
+            builder:
+                (context, _) => PagedListView<
+                  FollowFeedPageKey?,
+                  SubstitutionRoom
+                >.separated(
+                  state: _pagingController.value,
+                  fetchNextPage: _pagingController.fetchNextPage,
+                  separatorBuilder:
+                      (context, index) => const SizedBox(height: 2),
+                  builderDelegate: PagedChildBuilderDelegate<SubstitutionRoom>(
+                    noItemsFoundIndicatorBuilder:
+                        (context) => Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.search_off_rounded,
+                                  size: 48,
+                                  color: colorScheme.onSurfaceVariant
+                                      .withValues(alpha: 0.4),
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  "settings.followfeeds.no_rooms_found",
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                                ).tr(),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          Text(
-                            "settings.followfeeds.no_rooms_found",
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                          ).tr(),
-                        ],
-                      ),
-                    ),
-                  ),
-              firstPageErrorIndicatorBuilder:
-                  (context) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline_rounded,
-                          color: colorScheme.error,
-                          size: 48,
                         ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          "settings.followfeeds.error_loading_rooms",
-                        ).tr(),
-                        const SizedBox(height: 12),
-                        FilledButton.tonalIcon(
-                          onPressed: () => _pagingController.refresh(),
-                          icon: const Icon(Icons.refresh_rounded),
-                          label:
+                    firstPageErrorIndicatorBuilder:
+                        (context) => Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline_rounded,
+                                color: colorScheme.error,
+                                size: 48,
+                              ),
+                              const SizedBox(height: 16),
                               const Text(
-                                "settings.followfeeds.buttons.retry",
+                                "settings.followfeeds.error_loading_rooms",
                               ).tr(),
+                              const SizedBox(height: 12),
+                              FilledButton.tonalIcon(
+                                onPressed: () => _pagingController.refresh(),
+                                icon: const Icon(Icons.refresh_rounded),
+                                label:
+                                    const Text(
+                                      "settings.followfeeds.buttons.retry",
+                                    ).tr(),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-              itemBuilder:
-                  (context, item, index) => RoomWidget(
-                    room: item,
-                    leaveRoom: _leaveRoom,
-                    joinRoom: _joinRoom,
-                    onTap:
-                        () => showRoomPreview(
-                          context: context,
+                    itemBuilder:
+                        (context, item, index) => RoomWidget(
                           room: item,
-                          onJoin: _joinRoom,
-                          onLeave: _leaveRoom,
+                          leaveRoom: _leaveRoom,
+                          joinRoom: _joinRoom,
+                          onTap:
+                              () => showRoomPreview(
+                                context: context,
+                                room: item,
+                                onJoin: _joinRoom,
+                                onLeave: _leaveRoom,
+                              ),
                         ),
                   ),
-            ),
+                ),
           ),
         ),
       ],
