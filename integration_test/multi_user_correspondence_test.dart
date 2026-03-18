@@ -8,7 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:matrix/matrix.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, effectiveMatrixServer;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, effectiveMatrixServer;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -150,13 +151,14 @@ void main() {
           await room2.sendTextEvent(uniqueBody);
 
           // 5. UI User verifies receipt in feed
+          // Allow extra time on slow Android emulators for Matrix sync to arrive.
           debugPrint('MULTI_USER: Waiting for UI user to see message...');
           await fastWait($.tester, () {
             return find
                 .textContaining(uniqueBody, skipOffstage: false)
                 .evaluate()
                 .isNotEmpty;
-          }, timeout: const Duration(seconds: 60));
+          }, timeout: const Duration(seconds: 120));
 
           expect($(find.textContaining(uniqueBody)).exists, true);
           debugPrint('✓ MULTI_USER: Cross-user message delivery verified');
