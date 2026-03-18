@@ -163,11 +163,34 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
     }
   }
 
+  /// Returns the cached, fully-transformed account-data future.
+  /// The .then/.catchError transform is included in the cache so that
+  /// FutureBuilder never sees a new Future object on rebuild.
   Future<Map<String, Object?>> get accountData =>
-      _accountDataFuture ??= _loadAccountData();
+      _accountDataFuture ??= _buildAccountDataFuture();
 
-  Future<Map<String, Object?>> _loadAccountData() async =>
-      await client.getAccountData(client.userID!, "substitution.servers");
+  Future<Map<String, Object?>> _buildAccountDataFuture() {
+    final defaultServer =
+        client.userID?.split(':').last ?? client.homeserver?.host;
+    return client
+        .getAccountData(client.userID!, "substitution.servers")
+        .then((data) {
+          if (defaultServer != null && !data.containsKey(defaultServer)) {
+            final newData = Map<String, Object?>.from(data);
+            newData[defaultServer] = {"added_automatically": true};
+            return newData;
+          }
+          return data;
+        })
+        .catchError((e) {
+          if (defaultServer != null) {
+            return <String, Object?>{
+              defaultServer: {"added_automatically": true},
+            };
+          }
+          return <String, Object?>{};
+        });
+  }
 
   Future<void> showDeleteDialog(String server) async {
     await showDialog<void>(
@@ -263,28 +286,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FutureBuilder(
-            future: accountData
-                .then((data) {
-                  final defaultServer =
-                      client.userID?.split(':').last ?? client.homeserver?.host;
-                  if (defaultServer != null &&
-                      !data.containsKey(defaultServer)) {
-                    final newData = Map<String, Object?>.from(data);
-                    newData[defaultServer] = {"added_automatically": true};
-                    return newData;
-                  }
-                  return data;
-                })
-                .catchError((e) {
-                  final defaultServer =
-                      client.userID?.split(':').last ?? client.homeserver?.host;
-                  if (defaultServer != null) {
-                    return {
-                      defaultServer: {"added_automatically": true},
-                    };
-                  }
-                  return <String, Object?>{};
-                }),
+            // accountData is fully cached (including .then/.catchError) so
+            // FutureBuilder always receives the same Future object each build.
+            future: accountData,
             builder: (ctx, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
