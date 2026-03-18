@@ -88,6 +88,22 @@ void main() {
       final $ = wrapTester(tester);
       AgeGatePage.confirmed = true;
 
+      // Suppress image resource errors (e.g. cached fake MXC URLs from
+      // previous tests that are still visible in public rooms on the
+      // shared test Matrix server). These are irrelevant to feed display.
+      final originalOnError = FlutterError.onError;
+      FlutterError.onError = (FlutterErrorDetails details) {
+        final message = details.exception.toString();
+        if (message.contains('Invalid image data') ||
+            message.contains('Failed to load image') ||
+            details.library == 'image resource service') {
+          // Ignore image loading errors — not the focus of this test
+          debugPrint('UNIFIED_FEED: Suppressing image error: $message');
+          return;
+        }
+        originalOnError?.call(details);
+      };
+
       // Start the app, then wait for it to initialize
       app.main();
       await TestSynchronizer.synchronizedWaitForMatrixClient($.tester);
@@ -109,6 +125,9 @@ void main() {
       expect($(Scrollable).exists, true);
 
       debugPrint('✓ UNIFIED_FEED: Unified feed displayed with messages');
+
+      // Restore original error handler
+      FlutterError.onError = originalOnError;
     });
   });
 }
