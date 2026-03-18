@@ -187,6 +187,15 @@ class HomePageState extends State<HomePage> {
       final currentKeys = _pagingController.value.keys ?? [];
 
       if (currentPages.isNotEmpty && currentKeys.isNotEmpty) {
+        // Don't update the controller while a page fetch is already in progress.
+        // Doing so resets _hasRequestedNextPage in PagedLayoutBuilder.didUpdateWidget,
+        // which re-triggers fetchNextPage as soon as the in-flight fetch completes,
+        // creating an infinite cycle that prevents pumpAndSettle from settling in
+        // integration tests.
+        if (_pagingController.value.isLoading) {
+          debugPrint("HomePage: Skipping prepend — page fetch in progress");
+          return;
+        }
         final List<List<({Event origEvent, Event displayEvent})>> updatedPages =
             [
               [...ret, ...currentPages.first],
