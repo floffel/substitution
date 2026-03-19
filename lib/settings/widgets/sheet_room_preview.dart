@@ -221,7 +221,7 @@ class _RoomPreviewSheetState extends State<RoomPreviewSheet> {
             fit: BoxFit.cover,
             isThumbnail: true,
             placeholder: (_) => fallback,
-            errorBuilder: (_, __) => fallback,
+            errorBuilder: (_, _) => fallback,
           ),
         ),
       );

@@ -170,12 +170,4 @@ class _MxcImageState extends State<MxcImage> {
     // Loading state
     return widget.placeholder?.call(context) ?? const SizedBox.shrink();
   }
-
-  /// Evict a specific URI from the memory cache.
-  static void evictUri(Uri uri) {
-    _cache.removeWhere((key, _) => key.startsWith('$uri|'));
-  }
-
-  /// Clear the entire in-memory image cache.
-  static void clearImageCache() => _cache.clear();
 }

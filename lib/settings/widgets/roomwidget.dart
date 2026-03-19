@@ -73,7 +73,7 @@ class RoomWidgetState extends State<RoomWidget> {
             fit: BoxFit.cover,
             isThumbnail: true,
             placeholder: (_) => fallback,
-            errorBuilder: (_, __) => fallback,
+            errorBuilder: (_, _) => fallback,
           ),
         ),
       );
