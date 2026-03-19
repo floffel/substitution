@@ -10,7 +10,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/post/widgets/post.dart';
 import 'package:substitution/profile/pages/user_profile.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -92,7 +92,7 @@ void main() {
         debugPrint('PROFILE_VIEW: Tapping avatar...');
         final avatar = $(CircleAvatar).first;
         await avatar.tap();
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 3. Verify UserProfilePage
         debugPrint('PROFILE_VIEW: Verifying UserProfilePage...');
@@ -113,7 +113,7 @@ void main() {
         if (roomTile.exists) {
           debugPrint('PROFILE_VIEW: Tapping room in profile...');
           await roomTile.first.tap();
-          await $.tester.pumpAndSettle();
+          await settle($.tester);
 
           // 5. Verify navigation back to a feed (HomePage but with roomId)
           debugPrint('PROFILE_VIEW: Verifying navigation to room feed...');

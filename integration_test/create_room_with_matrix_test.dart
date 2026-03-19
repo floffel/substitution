@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -130,7 +130,7 @@ void main() {
 
         try {
           await $.tester.tap(find.byIcon(Icons.explore_outlined));
-          await $.tester.pumpAndSettle();
+          await settle($.tester);
         } catch (e) {
           debugPrint('CREATE_ROOM: Navigation failed, but continuing test');
         }

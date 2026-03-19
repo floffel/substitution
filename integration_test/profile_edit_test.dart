@@ -10,7 +10,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/profile.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -84,7 +84,7 @@ void main() {
         debugPrint('PROFILE_EDIT: Navigating to ProfilePage...');
         final navContext = $.tester.element(find.byType(HomePage));
         navContext.push('/settings/profile');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 2. Verify ProfilePage
         expect($(ProfilePage).exists, true);
@@ -93,7 +93,7 @@ void main() {
         final newName = 'Edited Name ${DateTime.now().millisecondsSinceEpoch}';
         debugPrint('PROFILE_EDIT: Entering new name: $newName');
         await $(TextFormField).enterText(newName);
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 4. Tap Save Profile
         debugPrint('PROFILE_EDIT: Tapping Save...');

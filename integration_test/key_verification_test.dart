@@ -10,7 +10,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/key_verification.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -84,13 +84,13 @@ void main() {
         debugPrint('SECURITY: Navigating to KeyVerificationPage...');
         final navContext = $.tester.element(find.byType(HomePage));
         navContext.push('/settings/security');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 2. Verify KeyVerificationPage
         expect($(KeyVerificationPage).exists, true);
 
         // 3. Wait for UI to settle
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 4. Verify 'Refresh' functionality via Pull-to-Refresh
         // Even if no devices are found, we want to make sure the UI is interactive
@@ -98,7 +98,7 @@ void main() {
         final listFinder = find.byType(ListView);
         if (listFinder.evaluate().isNotEmpty) {
           await $.tester.drag(listFinder.first, const Offset(0, 500));
-          await $.tester.pumpAndSettle();
+          await settle($.tester);
         }
 
         debugPrint('✓ SECURITY: Security page verified');

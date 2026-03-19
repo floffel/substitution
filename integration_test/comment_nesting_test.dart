@@ -11,7 +11,7 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -146,7 +146,7 @@ void main() {
         debugPrint('NESTING: Navigating to post view...');
         final navContext = $.tester.element(find.byType(HomePage));
         navContext.go('/post/$rootId?room=${room.id}');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 4. Wait for comments to load in UI
         debugPrint('NESTING: Waiting for comments in UI...');
@@ -177,7 +177,7 @@ void main() {
         if (continueButton.exists) {
           debugPrint('NESTING: Tapping continuation button...');
           await continueButton.first.tap();
-          await $.tester.pumpAndSettle();
+          await settle($.tester);
 
           // Verify we can go back
           final postNavContext = $.tester.element(find.byType(Scaffold).first);

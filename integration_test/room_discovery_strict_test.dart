@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/followfeeds.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -82,7 +82,7 @@ void main() {
         // 1. Navigate to Discover tab via bottom navigation
         debugPrint('DISCOVERY_STRICT: Tapping Discover tab...');
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 2. Verify page content
         expect($(FollowFeedSettings).exists, true);
@@ -125,7 +125,7 @@ void main() {
 
         // 1. Navigate to Discover tab via bottom navigation
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 2. Wait for initial list
         await fastWait($.tester, () => $(RoomWidget).exists);
@@ -134,7 +134,7 @@ void main() {
         // 3. Enter unique search term
         debugPrint('DISCOVERY_STRICT: Searching for test_art...');
         await $(TextField).first.enterText('test_art');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 4. Wait for filtered results
         await fastWait($.tester, () {

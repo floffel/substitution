@@ -11,7 +11,7 @@ import 'package:substitution/settings/pages/followfeeds.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
 import 'package:substitution/settings/widgets/sheet_room_preview.dart';
 import 'package:matrix/matrix.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -98,7 +98,7 @@ void main() {
         // Navigate to Discover tab via bottom navigation
         debugPrint('DISCOVERY: Tapping Discover tab...');
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 3. Verify FollowFeedSettings is visible in the Discover tab
         expect($(FollowFeedSettings).exists, true);
@@ -107,7 +107,7 @@ void main() {
         debugPrint('DISCOVERY: Searching for test_art...');
         final searchInput = $(TextField).first;
         await searchInput.enterText('test_art');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 5. Wait for results (network call to queryPublicRooms)
         debugPrint('DISCOVERY: Waiting for search results...');
@@ -165,12 +165,12 @@ void main() {
         // Navigate to Discover tab via bottom navigation
         debugPrint('DISCOVERY: Tapping Discover tab...');
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // Search for test_photos
         debugPrint('DISCOVERY: Searching for test_photos...');
         await $(TextField).first.enterText('test_photos');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // Wait for RoomWidget to appear
         await fastWait(
@@ -233,14 +233,14 @@ void main() {
         // Navigate to Discover tab
         debugPrint('DISCOVERY PREVIEW: Tapping Discover tab...');
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         expect($(FollowFeedSettings).exists, true);
 
         // Search for test_art to ensure a room appears
         debugPrint('DISCOVERY PREVIEW: Searching for test_art...');
         await $(TextField).first.enterText('test_art');
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // Wait for RoomWidget to appear
         await fastWait(
@@ -254,7 +254,7 @@ void main() {
         debugPrint('DISCOVERY PREVIEW: Tapping room tile to open preview...');
         final roomTile = $(RoomWidget).first;
         await roomTile.tap();
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // Verify the RoomPreviewSheet is now visible
         expect($(RoomPreviewSheet).exists, true);
@@ -262,7 +262,7 @@ void main() {
 
         // Dismiss the bottom sheet by tapping outside
         await $.tester.tapAt(const Offset(200, 10));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
       },
       timeout: const Timeout(Duration(minutes: 15)),
     );

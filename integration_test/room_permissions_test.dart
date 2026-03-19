@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
 import 'package:substitution/settings/pages/room_permissions.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait;
+import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -82,7 +82,7 @@ void main() {
         // 1. Navigate to Discover tab via bottom navigation
         debugPrint('PERMISSIONS: Tapping Discover tab...');
         await $.tester.tap(find.byIcon(Icons.explore_outlined));
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 2. Find a room where I am admin (test_general)
         debugPrint('PERMISSIONS: Looking for test_general...');
@@ -104,7 +104,7 @@ void main() {
         );
 
         await $(settingsButton).tap();
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 4. Verify RoomPermissionsPage
         debugPrint('PERMISSIONS: Verifying RoomPermissionsPage...');
@@ -121,7 +121,7 @@ void main() {
         final bool initialState = $.tester.widget<Switch>(blogSwitch).value;
 
         await blogSwitch.tap();
-        await $.tester.pumpAndSettle();
+        await settle($.tester);
 
         // 6. Verify state update or snackbar
         await fastWait($.tester, () {

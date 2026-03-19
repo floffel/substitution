@@ -15,35 +15,13 @@ class TestSynchronizer {
     await tester.pump();
     await Future.delayed(_defaultSettleDelay);
 
-    int attempts = 0;
-    bool success = false;
-
-    while (attempts < maxPumpAttempts && !success) {
-      try {
-        // Attempt pump and settle with shorter intervals
-        await tester.pumpAndSettle(const Duration(milliseconds: 100));
-
-        // If we reach here without exceptions, we're good
-        success = true;
-      } catch (e) {
-        attempts++;
-
-        if (attempts >= maxPumpAttempts) {
-          debugPrint(
-            'Synchronized pump failed after $maxPumpAttempts attempts: $e',
-          );
-
-          // Final attempt with just basic pump
-          try {
-            await tester.pump();
-          } catch (finalPumpError) {
-            debugPrint('Final pump also failed: $finalPumpError');
-          }
-        } else {
-          // Wait longer between attempts
-          await Future.delayed(Duration(milliseconds: 300 * attempts));
-        }
-      }
+    // Use bounded pumps instead of pumpAndSettle, which can hang indefinitely
+    // when background activity (Matrix sync, paging fetches) keeps the
+    // Flutter scheduler busy. Pump for settleTimeout duration total,
+    // checking after each 100ms interval.
+    final deadline = DateTime.now().add(settleTimeout);
+    while (DateTime.now().isBefore(deadline)) {
+      await tester.pump(const Duration(milliseconds: 100));
     }
 
     // Final small delay to ensure everything is stable
