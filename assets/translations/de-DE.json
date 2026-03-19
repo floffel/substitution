@@ -278,6 +278,12 @@
         "no_feeds": "Keine öffentlichen Feeds",
         "error_start_chat": "Chat konnte nicht gestartet werden: {}"
     },
+    "startroom_dialog": {
+        "title": "Willkommensraum beitreten?",
+        "desc": "Möchtest du dem Substitution-Willkommensraum beitreten? Dort kannst du die Community kennenlernen und loslegen.",
+        "join": "Beitreten & weiter",
+        "skip": "Überspringen"
+    },
     "chat": {
         "title": "Nachrichten",
         "input_placeholder": "Nachricht schreiben...",

@@ -1,8 +1,11 @@
 import '/auth/pages/login.dart';
 import '/auth/pages/host_page.dart';
+import '/shared/widgets/startroom_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:matrix/matrix.dart';
+import 'package:provider/provider.dart';
 
 @immutable
 class AuthFlow extends StatefulWidget {
@@ -28,6 +31,16 @@ class AuthFlowState extends State<AuthFlow> {
   Widget build(BuildContext context) {
     return widget.authPageRoute == 'host'
         ? HostPage(onComplete: () => {context.push("/auth/login")})
-        : LoginPage(onComplete: () => {context.push("/")});
+        : LoginPage(
+          onComplete: () async {
+            final client = Provider.of<Client>(context, listen: false);
+            if (context.mounted) {
+              await showStartroomDialog(context, client);
+            }
+            if (context.mounted) {
+              context.push("/");
+            }
+          },
+        );
   }
 }

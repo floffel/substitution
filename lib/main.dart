@@ -25,6 +25,7 @@ import '/shared/services/substitution_service.dart';
 import '/shared/theme/app_theme.dart';
 
 import '/shared/constants.dart';
+import '/shared/widgets/startroom_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -451,11 +452,18 @@ void main() async {
                           ),
                           const SizedBox(height: 32),
                           FilledButton.icon(
-                            onPressed: () {
-                              debugPrint(
-                                "User clicked Continue button. Navigating to /",
+                            onPressed: () async {
+                              debugPrint("User clicked Continue button.");
+                              final client = Provider.of<Client>(
+                                context,
+                                listen: false,
                               );
-                              context.go('/');
+                              if (context.mounted) {
+                                await showStartroomDialog(context, client);
+                              }
+                              if (context.mounted) {
+                                context.go('/');
+                              }
                             },
                             icon: const Icon(Icons.arrow_forward_rounded),
                             label: const Text("Continue to App"),
@@ -577,7 +585,11 @@ void main() async {
           }
           debugPrint("[SSO] Attempting token login...");
           await client.login(LoginType.mLoginToken, token: token);
-          debugPrint("[SSO] Login successful — navigating to /");
+          debugPrint("[SSO] Login successful");
+          final navContext = rootNavigatorKey.currentContext;
+          if (navContext != null && navContext.mounted) {
+            await showStartroomDialog(navContext, client);
+          }
           router.go('/');
         } catch (e, stack) {
           debugPrint("[SSO] Login ERROR: $e\n$stack");
@@ -856,39 +868,12 @@ class _IntroductionState extends State<IntroductionPage> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
-                    onPressed: () async {
-                      String id = AppConstants.substitutionRoomAlias;
-
-                      final goRouter = GoRouter.of(context);
-                      try {
-                        await client.joinRoom(id, serverName: ["matrix.org"]);
-                        await client.setAccountDataPerRoom(
-                          client.userID!,
-                          id,
-                          "substitution",
-                          {"joined": true},
-                        );
-                      } catch (e) {
-                        debugPrint("Error joining default room: $e");
-                      }
-
-                      goRouter.go("/");
-                    },
-                    icon: const Icon(Icons.group_add_rounded),
-                    label:
-                        const Text(
-                          "intro.finished.buttons.add_to_room_and_go",
-                        ).tr(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
                     key: const Key('introGoButton'),
                     onPressed: () async {
+                      final goRouter = GoRouter.of(context);
+                      await showStartroomDialog(context, client);
                       if (mounted) {
-                        context.go("/");
+                        goRouter.go("/");
                       }
                     },
                     icon: const Icon(Icons.arrow_forward_rounded),

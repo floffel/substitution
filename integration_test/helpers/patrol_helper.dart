@@ -56,8 +56,11 @@ Future<void> navigateThroughOnboarding(PatrolIntegrationTester $) async {
         }
       }
       await $.tester.pump();
-      await fastWait($.tester, () => true,
-          timeout: const Duration(milliseconds: 500));
+      await fastWait(
+        $.tester,
+        () => true,
+        timeout: const Duration(milliseconds: 500),
+      );
     }
   }
 }
@@ -158,8 +161,28 @@ Future<bool> loginUser(
     await Future.delayed(const Duration(seconds: 1));
   }
 
+  // Handle the startroom dialog that appears after login
+  await _dismissStartroomDialog($);
+
   // Final rendering check - as fast as possible
   await fastWait($.tester, () => $(Scrollable).exists);
   debugPrint('Patrol: Login process complete.');
   return true;
+}
+
+/// Dismisses the startroom dialog by tapping the "Skip" button, if present.
+Future<void> _dismissStartroomDialog(PatrolIntegrationTester $) async {
+  debugPrint('Patrol: Checking for startroom dialog...');
+  try {
+    final skipButton = $(Key('startroomSkipButton'));
+    await skipButton.waitUntilVisible(timeout: const Duration(seconds: 10));
+    debugPrint('Patrol: Startroom dialog found. Tapping Skip...');
+    await skipButton.tap();
+    await Future.delayed(const Duration(seconds: 1));
+    debugPrint('Patrol: Startroom dialog dismissed.');
+  } catch (_) {
+    debugPrint(
+      'Patrol: Startroom dialog not shown (user may already be a member).',
+    );
+  }
 }

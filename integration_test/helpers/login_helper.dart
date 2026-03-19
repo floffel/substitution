@@ -238,6 +238,10 @@ Future<void> loginUser(
   if (goButton.evaluate().isNotEmpty) {
     debugPrint('Finished page reached. Tapping Go button...');
     await tester.tap(goButton, warnIfMissed: false);
+
+    // Handle the startroom dialog that appears after login
+    await _dismissStartroomDialog(tester);
+
     // Final wait for feed
     try {
       await waitUntilVisible(
@@ -256,4 +260,31 @@ Future<void> loginUser(
   // Final Wait for Matrix Sync to fully settle the state
   await waitForSync(tester);
   debugPrint('Login process complete.');
+}
+
+/// Dismisses the startroom dialog by tapping the "Skip" button, if present.
+///
+/// The dialog is shown after every login to ask if the user wants to join the
+/// Substitution welcome room. In tests, we skip it to proceed to the feed.
+Future<void> _dismissStartroomDialog(WidgetTester tester) async {
+  debugPrint('Checking for startroom dialog...');
+  for (int i = 0; i < 20; i++) {
+    await tester.pump(const Duration(milliseconds: 500));
+    final skipButton = find.byKey(const Key('startroomSkipButton'));
+    if (skipButton.evaluate().isNotEmpty) {
+      debugPrint('Startroom dialog found. Tapping Skip...');
+      await tester.tap(skipButton, warnIfMissed: false);
+      await settle(tester, count: 3);
+      debugPrint('Startroom dialog dismissed.');
+      return;
+    }
+    // Also check if we somehow already reached the feed
+    if (find.byType(Scrollable).evaluate().isNotEmpty) {
+      debugPrint(
+        'Feed reached — startroom dialog was skipped (already joined).',
+      );
+      return;
+    }
+  }
+  debugPrint('Warning: Startroom dialog not found within 10s');
 }

@@ -278,6 +278,12 @@
         "no_feeds": "No public feeds",
         "error_start_chat": "Could not start chat: {}"
     },
+    "startroom_dialog": {
+        "title": "Join Welcome Room?",
+        "desc": "Would you like to join the Substitution welcome room? It's a great place to get started and connect with the community.",
+        "join": "Join & Continue",
+        "skip": "Skip"
+    },
     "chat": {
         "title": "Messages",
         "input_placeholder": "Type a message...",
