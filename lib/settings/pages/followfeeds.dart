@@ -68,10 +68,11 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   }
 
   Future<void> _setServerAddr(String serverAddr) async {
+    _searchGeneration++;
     setState(() {
       selectedServer = serverAddr;
-      _resetList();
     });
+    _pagingController.refresh();
   }
 
   Future<List<SubstitutionRoom>> _fetchRooms(FollowFeedPageKey? pageKey) async {
@@ -106,10 +107,13 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
             since: key.nextBatch,
           )
           .timeout(
-            const Duration(seconds: 15),
+            // 8 seconds — short enough that the timer fires reliably even on
+            // slow Android emulators in CI, while still giving real servers
+            // enough time to respond.
+            const Duration(seconds: 8),
             onTimeout: () {
               throw TimeoutException(
-                "Matrix queryPublicRooms timed out after 15 seconds",
+                "Matrix queryPublicRooms timed out after 8 seconds",
               );
             },
           );
@@ -333,9 +337,9 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                           return const DialogCreateRoom();
                         },
                       );
-                      setState(() {
-                        _resetList();
-                      });
+                      _searchGeneration++;
+                      setState(() {});
+                      _pagingController.refresh();
                     },
                   ),
                 ],
@@ -363,13 +367,17 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                   prefixIcon: const Icon(Icons.search_rounded),
                   labelText: "settings.followfeeds.roomname_placeholder".tr(),
                 ),
-                onChanged:
-                    (String text) => {
-                      setState(() {
-                        searchText = text.isEmpty ? null : text;
-                        _resetList();
-                      }),
-                    },
+                onChanged: (String text) {
+                  _searchGeneration++;
+                  setState(() {
+                    searchText = text.isEmpty ? null : text;
+                  });
+                  // Refresh the paging controller outside of setState so
+                  // its notifyListeners() call doesn't race with the build
+                  // cycle. The ListenableBuilder will pick up the new state
+                  // on the very next frame.
+                  _pagingController.refresh();
+                },
               ),
             ],
           ),
