@@ -5,7 +5,6 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-// TODO rename to ReactionsDisplay or smthg.
 class ReactionsDisplay extends StatefulWidget {
   const ReactionsDisplay({super.key, required this.event});
 
@@ -18,20 +17,30 @@ class ReactionsDisplay extends StatefulWidget {
 class ReactionsDisplayState extends State<ReactionsDisplay> {
   Client get client => Provider.of<Client>(context, listen: false);
 
-  //int numReactions = 0;
+  late Future<
+    Map<
+      String,
+      ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
+    >
+  >
+  _reactionsFuture;
 
-  // Map: (String smileyString, meta)
+  @override
+  void initState() {
+    super.initState();
+    _reactionsFuture = _loadReactions();
+  }
+
   Future<
     Map<
       String,
       ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})
     >
   >
-  get reactions async {
+  _loadReactions() async {
     if (AppConstants.isIntegrationTest) {
       return {};
     }
-    debugPrint("start getting reactions");
 
     Map<
       String,
@@ -42,32 +51,13 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     Timeline timeline = await widget.event.room.getTimeline(
       eventContextId: widget.event.eventId,
     );
-    // TODO: we need to transfere the timeline from the previous
-    //  component
-
-    debugPrint("got timeline for event id");
-    debugPrint(widget.event.eventId);
-    debugPrint("has aggregated events?");
-    debugPrint(
-      widget.event
-          .hasAggregatedEvents(timeline, RelationshipTypes.reaction)
-          .toString(),
-    );
 
     Set<Event> events = widget.event.aggregatedEvents(
       timeline,
       RelationshipTypes.reaction,
     );
 
-    debugPrint("got events");
-    debugPrint(events.toString());
-
     for (Event e in events) {
-      // it's only a comment to this comment if it contains the event id of this comments event id
-
-      debugPrint("checking event e:");
-      debugPrint(e.toString());
-
       if (e.content
               .tryGetMap<String, Object?>('m.relates_to')
               ?.tryGet<String>('event_id') ==
@@ -81,8 +71,6 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
         if (client.userID == sender.id) {
           isOwnSmiley = true;
         }
-
-        debugPrint("fetched smiley!");
 
         ret[smiley] = (
           userNames: [
@@ -98,20 +86,20 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     return ret;
   }
 
+  void refresh() {
+    setState(() {
+      _reactionsFuture = _loadReactions();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: reactions,
+      future: _reactionsFuture,
       builder: (ctx, snapshot) {
         if (!snapshot.hasData) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const SizedBox.shrink();
         }
-        // todo: show loading animation!
         return Wrap(
           spacing: 1.0,
           runSpacing: 4.0,
@@ -125,7 +113,7 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
                       onLongPress: () {
                         if (e.value.displayEvent != null) {
                           e.value.displayEvent!.redactEvent();
-                          setState(() {});
+                          refresh();
                         }
                       },
                       child: Container(
@@ -137,7 +125,6 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
                                   shape: BoxShape.circle,
                                 )
                                 : null,
-                        // TODO: extra farbe geben wenn e.value ist der eingeloggte benutzer
                         child: Text(
                           e.key,
                           style: const TextStyle(
