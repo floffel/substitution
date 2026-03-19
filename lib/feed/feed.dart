@@ -146,21 +146,25 @@ class FeedState extends State<Feed> {
         },
         destinations: [
           NavigationDestination(
+            key: const Key('navHome'),
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home_rounded),
             label: 'feed.nav.home'.tr(),
           ),
           NavigationDestination(
+            key: const Key('navDiscover'),
             icon: const Icon(Icons.explore_outlined),
             selectedIcon: const Icon(Icons.explore),
             label: 'feed.nav.discover'.tr(),
           ),
           NavigationDestination(
+            key: const Key('navMessages'),
             icon: const Icon(Icons.message_outlined),
             selectedIcon: const Icon(Icons.message_rounded),
             label: 'feed.nav.messages'.tr(),
           ),
           NavigationDestination(
+            key: const Key('navSettings'),
             icon: const Icon(Icons.settings_outlined),
             selectedIcon: const Icon(Icons.settings),
             label: 'feed.nav.settings'.tr(),
@@ -170,6 +174,7 @@ class FeedState extends State<Feed> {
       floatingActionButton:
           _currentIndex == 0
               ? FloatingActionButton(
+                key: const Key('fabNewPost'),
                 onPressed: () => context.push('/write/select/room'),
                 elevation: 2,
                 shape: RoundedRectangleBorder(

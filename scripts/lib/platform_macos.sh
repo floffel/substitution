@@ -42,7 +42,7 @@ run_macos_tests() {
     local test_files=()
     while IFS= read -r -d '' f; do
         test_files+=("$f")
-    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
+    done < <(find integration_test -maxdepth 1 -name '*_test.dart' ! -name 'screenshot_test.dart' -print0 | sort -z)
 
     if [[ ${#test_files[@]} -eq 0 ]]; then
         log_warn "No integration test files found."

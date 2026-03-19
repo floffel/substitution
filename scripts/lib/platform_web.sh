@@ -207,7 +207,7 @@ _run_web_integration_tests() {
     local all_test_files=()
     while IFS= read -r -d '' f; do
         all_test_files+=("$f")
-    done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 2>/dev/null | sort -z)
+    done < <(find integration_test -maxdepth 1 -name '*_test.dart' ! -name 'screenshot_test.dart' -print0 2>/dev/null | sort -z)
 
     local total_files=${#all_test_files[@]}
     if [[ $total_files -eq 0 ]]; then

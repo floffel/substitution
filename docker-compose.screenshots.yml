@@ -1,0 +1,14 @@
+# Docker Compose override for screenshot generation.
+#
+# Uses init_screenshot_data.py instead of init_test_data.py to populate
+# the Matrix server with visually rich, realistic data suitable for
+# Play Store / App Store screenshots.
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.screenshots.yml up -d postgres matrix-synapse redis
+#   docker compose -f docker-compose.yml -f docker-compose.screenshots.yml run --rm matrix-init
+
+services:
+  matrix-init:
+    volumes:
+      - ./config/synapse/init_screenshot_data.py:/init_test_data.py:ro

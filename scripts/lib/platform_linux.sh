@@ -124,7 +124,7 @@ run_linux_tests() {
         local all_files=()
         while IFS= read -r -d '' f; do
             all_files+=("$f")
-        done < <(find integration_test -maxdepth 1 -name '*_test.dart' -print0 | sort -z)
+        done < <(find integration_test -maxdepth 1 -name '*_test.dart' ! -name 'screenshot_test.dart' -print0 | sort -z)
 
         local test_files=()
         if [[ -n "${TEST_FILTER:-}" ]]; then
