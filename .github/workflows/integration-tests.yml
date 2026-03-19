@@ -944,6 +944,10 @@ jobs:
           export VERSION
 
           # Build the AppImage
+          # LD_LIBRARY_PATH includes AppDir/usr/lib so linuxdeploy can find
+          # Flutter plugin .so files (e.g. libemoji_picker_flutter_plugin.so)
+          # that were moved there from the build bundle's lib/ directory.
+          LD_LIBRARY_PATH="AppDir/usr/lib:$LD_LIBRARY_PATH" \
           ./linuxdeploy-x86_64.AppImage \
             --appdir=AppDir \
             --desktop-file=AppDir/art.substitution.substitution.desktop \
