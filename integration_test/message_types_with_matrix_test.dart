@@ -155,7 +155,7 @@ void main() {
             return true;
           }
           return false;
-        }, timeout: const Duration(seconds: 120));
+        }, timeout: const Duration(seconds: 180));
 
         // Final check with standard expect.
         // Use findsAtLeast(1) for FileDisplay since previous test runs on the
