@@ -4,6 +4,7 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:substitution/settings/widgets/dialog_delete_account.dart';
+import '/shared/widgets/avatar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -174,13 +175,11 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       );
     } else if (_currentProfile?.avatarUrl != null) {
-      avatarContent = CircleAvatar(
-        radius: 56,
-        backgroundImage: NetworkImage(
-          _currentProfile!.avatarUrl!
-              .getDownloadUri(Provider.of<Client>(context, listen: false))
-              .toString(),
-        ),
+      avatarContent = Avatar(
+        mxContent: _currentProfile!.avatarUrl,
+        name: _currentProfile?.displayName,
+        client: Provider.of<Client>(context, listen: false),
+        size: 112,
       );
     } else {
       avatarContent = CircleAvatar(

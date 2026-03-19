@@ -11,6 +11,7 @@ import '/post/widgets/post.dart';
 import '/shared/models/substitution_room.dart';
 import '/shared/services/substitution_service.dart';
 import '/shared/widgets/post_skeleton.dart';
+import '/shared/widgets/mxc_image.dart';
 
 /// A bottom-sheet that shows a preview of the latest posts in a room.
 /// It can peek into rooms with `world_readable` history without joining.
@@ -193,29 +194,7 @@ class _RoomPreviewSheetState extends State<RoomPreviewSheet> {
   }
 
   Widget _buildAvatar(ColorScheme colorScheme) {
-    if (widget.room.avatarUrl != null) {
-      final url =
-          widget.room.avatarUrl!.startsWith('mxc://')
-              ? Uri.parse(
-                widget.room.avatarUrl!,
-              ).getDownloadUri(client).toString()
-              : widget.room.avatarUrl!;
-      return CircleAvatar(
-        radius: 28,
-        backgroundColor: colorScheme.primaryContainer,
-        foregroundImage: NetworkImage(url),
-        onForegroundImageError: (e, s) {},
-        child: Text(
-          widget.room.name.isNotEmpty ? widget.room.name[0].toUpperCase() : '?',
-          style: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
-        ),
-      );
-    }
-    return CircleAvatar(
+    final fallback = CircleAvatar(
       radius: 28,
       backgroundColor: colorScheme.primaryContainer,
       child: Text(
@@ -227,6 +206,27 @@ class _RoomPreviewSheetState extends State<RoomPreviewSheet> {
         ),
       ),
     );
+
+    if (widget.room.avatarUrl != null &&
+        widget.room.avatarUrl!.startsWith('mxc://')) {
+      return SizedBox(
+        width: 56,
+        height: 56,
+        child: ClipOval(
+          child: MxcImage(
+            uri: Uri.parse(widget.room.avatarUrl!),
+            client: client,
+            width: 56,
+            height: 56,
+            fit: BoxFit.cover,
+            isThumbnail: true,
+            placeholder: (_) => fallback,
+            errorBuilder: (_, __) => fallback,
+          ),
+        ),
+      );
+    }
+    return fallback;
   }
 
   Widget _buildHeader(ThemeData theme, ColorScheme colorScheme) {

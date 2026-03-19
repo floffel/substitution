@@ -1,4 +1,5 @@
 import '/post/widgets/post.dart';
+import '/shared/widgets/mxc_image.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -122,8 +123,19 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                       subtitle: Text(room!.id),
                       leading:
                           room!.avatar != null
-                              ? Image.network(
-                                room!.avatar!.getDownloadUri(client).toString(),
+                              ? SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: ClipOval(
+                                  child: MxcImage(
+                                    uri: room!.avatar!,
+                                    client: client,
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                    isThumbnail: true,
+                                  ),
+                                ),
                               )
                               : const Text("error_no_image").tr(),
                     ),

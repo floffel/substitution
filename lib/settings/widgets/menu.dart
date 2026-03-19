@@ -4,9 +4,9 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:substitution/shared/services/theme_service.dart';
 import '/feed/feed.dart';
+import '/shared/widgets/avatar.dart';
 
 // Define a custom Form widget.
 class Menu extends StatefulWidget {
@@ -98,39 +98,25 @@ class _MenuState extends State<Menu> {
         const SizedBox(height: 22),
         if (client.isLogged()) ...[
           NavigationDrawerDestination(
-            icon: CircleAvatar(
-              child: FutureBuilder(
-                future: profile,
-                builder: (ctx, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const SizedBox(
+            icon: FutureBuilder<Profile>(
+              future: profile,
+              builder: (ctx, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircleAvatar(
+                    child: SizedBox(
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
-                    );
-                  }
-                  // TODO: check if image is svg
-                  return snapshot.data?.avatarUrl == null
-                      ? Text(snapshot.data!.displayName![0])
-                      : Image.network(
-                        snapshot.data!.avatarUrl!
-                            .getDownloadUri(client)
-                            .toString(),
-                        width: 40,
-                        height: 40,
-                        errorBuilder: (ctx, obj, stack) {
-                          // todo: find a way to check if we have a svg beforehand!
-                          return SvgPicture.network(
-                            snapshot.data!.avatarUrl!
-                                .getDownloadUri(client)
-                                .toString(),
-                            width: 40,
-                            height: 40,
-                          );
-                        },
-                      );
-                },
-              ),
+                    ),
+                  );
+                }
+                return Avatar(
+                  mxContent: snapshot.data?.avatarUrl,
+                  name: snapshot.data?.displayName,
+                  client: client,
+                  size: 40,
+                );
+              },
             ),
             label: FutureBuilder(
               future: profile,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import '/shared/models/substitution_room.dart';
+import '/shared/widgets/mxc_image.dart';
 
 // like post but smaller
 class RoomWidget extends StatefulWidget {
@@ -45,6 +46,41 @@ class RoomWidgetState extends State<RoomWidget> {
     return room != null && room.ownPowerLevel >= 100;
   }
 
+  Widget _buildLeadingAvatar(ColorScheme colorScheme) {
+    final fallback = CircleAvatar(
+      radius: 22,
+      backgroundColor: colorScheme.primaryContainer,
+      child: Text(
+        widget.room.name.isNotEmpty ? widget.room.name[0].toUpperCase() : '?',
+        style: TextStyle(
+          color: colorScheme.onPrimaryContainer,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+
+    if (widget.room.avatarUrl != null &&
+        widget.room.avatarUrl!.startsWith('mxc://')) {
+      return SizedBox(
+        width: 44,
+        height: 44,
+        child: ClipOval(
+          child: MxcImage(
+            uri: Uri.parse(widget.room.avatarUrl!),
+            client: client,
+            width: 44,
+            height: 44,
+            fit: BoxFit.cover,
+            isThumbnail: true,
+            placeholder: (_) => fallback,
+            errorBuilder: (_, __) => fallback,
+          ),
+        ),
+      );
+    }
+    return fallback;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -64,44 +100,7 @@ class RoomWidgetState extends State<RoomWidget> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading:
-          widget.room.avatarUrl != null
-              ? CircleAvatar(
-                radius: 22,
-                backgroundColor: colorScheme.primaryContainer,
-                foregroundImage: NetworkImage(
-                  widget.room.avatarUrl!.startsWith('mxc://')
-                      ? Uri.parse(
-                        widget.room.avatarUrl!,
-                      ).getDownloadUri(client).toString()
-                      : widget.room.avatarUrl!,
-                ),
-                onForegroundImageError: (ctx, obj) {
-                  debugPrint("Failed to load avatar: ${widget.room.avatarUrl}");
-                },
-                child: Text(
-                  widget.room.name.isNotEmpty
-                      ? widget.room.name[0].toUpperCase()
-                      : '?',
-                  style: TextStyle(
-                    color: colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              )
-              : CircleAvatar(
-                radius: 22,
-                backgroundColor: colorScheme.primaryContainer,
-                child: Text(
-                  widget.room.name.isNotEmpty
-                      ? widget.room.name[0].toUpperCase()
-                      : '?',
-                  style: TextStyle(
-                    color: colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+      leading: _buildLeadingAvatar(colorScheme),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

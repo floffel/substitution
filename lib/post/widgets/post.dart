@@ -5,13 +5,13 @@ import '/post/mixins/iconpicker.dart';
 import '/post/widgets/dialog_report_block.dart';
 import '/shared/utils/relative_time.dart';
 import '/shared/extensions/go_router_extensions.dart';
+import '/shared/widgets/avatar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PostWidget extends IEventWidget {
@@ -39,36 +39,11 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
 
   Widget _buildAvatar() {
     final displayEvent = widget.displayEvent;
-    final colorScheme = Theme.of(context).colorScheme;
-
-    if (widget.hasAvatarURL(displayEvent)) {
-      final uri =
-          widget.avatarURL(displayEvent)!.getDownloadUri(client).toString();
-      return ClipOval(
-        child: Image.network(
-          uri,
-          width: 44,
-          height: 44,
-          fit: BoxFit.cover,
-          errorBuilder: (ctx, obj, stack) {
-            return ClipOval(
-              child: SvgPicture.network(uri, width: 44, height: 44),
-            );
-          },
-        ),
-      );
-    }
-    return CircleAvatar(
-      radius: 22,
-      backgroundColor: colorScheme.primaryContainer,
-      child: Text(
-        widget.username(displayEvent)[0].toUpperCase(),
-        style: TextStyle(
-          color: colorScheme.onPrimaryContainer,
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
-        ),
-      ),
+    return Avatar(
+      mxContent: widget.avatarURL(displayEvent),
+      name: widget.username(displayEvent),
+      client: client,
+      size: 44,
     );
   }
 

@@ -3,9 +3,9 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:substitution/shared/services/theme_service.dart';
 import '/feed/feed.dart';
+import '/shared/widgets/avatar.dart';
 
 /// A full-screen settings / profile tab that replaces the old navigation drawer.
 class SettingsTab extends StatefulWidget {
@@ -197,39 +197,22 @@ class _SettingsTabState extends State<SettingsTab> {
           child: Row(
             children: [
               // Avatar
-              CircleAvatar(
-                radius: 32,
-                backgroundColor: colorScheme.primaryContainer,
-                child:
-                    isLoading
-                        ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                        : avatarUrl != null
-                        ? ClipOval(
-                          child: Image.network(
-                            avatarUrl.getDownloadUri(client).toString(),
-                            width: 64,
-                            height: 64,
-                            fit: BoxFit.cover,
-                            errorBuilder: (ctx, obj, stack) {
-                              return SvgPicture.network(
-                                avatarUrl.getDownloadUri(client).toString(),
-                                width: 64,
-                                height: 64,
-                              );
-                            },
-                          ),
-                        )
-                        : Text(
-                          displayName[0].toUpperCase(),
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            color: colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-              ),
+              isLoading
+                  ? CircleAvatar(
+                    radius: 32,
+                    backgroundColor: colorScheme.primaryContainer,
+                    child: const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                  : Avatar(
+                    mxContent: avatarUrl,
+                    name: displayName,
+                    client: client,
+                    size: 64,
+                  ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(

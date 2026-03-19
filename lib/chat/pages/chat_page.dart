@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '/shared/utils/relative_time.dart';
+import '/shared/widgets/avatar.dart';
 
 class ChatPage extends StatefulWidget {
   final String roomId;
@@ -133,31 +134,13 @@ class _ChatPageState extends State<ChatPage> {
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
-  Widget _buildAvatarWidget(
-    String? avatarUrl,
-    String displayName,
-    double radius,
-  ) {
-    final colorScheme = Theme.of(context).colorScheme;
-    if (avatarUrl != null && avatarUrl.isNotEmpty) {
-      return CircleAvatar(
-        radius: radius,
-        backgroundImage: NetworkImage(avatarUrl),
-        backgroundColor: colorScheme.primaryContainer,
-        onBackgroundImageError: (_, _) {},
-      );
-    }
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: colorScheme.primaryContainer,
-      child: Text(
-        displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
-        style: TextStyle(
-          fontSize: radius * 0.8,
-          color: colorScheme.onPrimaryContainer,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+  Widget _buildAvatarWidget(Uri? avatarUri, String displayName, double radius) {
+    return Avatar(
+      mxContent: avatarUri,
+      name: displayName,
+      client: client,
+      size: radius * 2,
+      fontSize: radius * 0.8,
     );
   }
 
@@ -261,7 +244,6 @@ class _ChatPageState extends State<ChatPage> {
 
     // Other user: show avatar on the left
     final avatarUri = sender.avatarUrl;
-    final avatarUrl = avatarUri?.getDownloadUri(client).toString();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -274,7 +256,7 @@ class _ChatPageState extends State<ChatPage> {
                 () => context.push(
                   '/profile/${Uri.encodeComponent(event.senderId)}',
                 ),
-            child: _buildAvatarWidget(avatarUrl, sender.displayName ?? '?', 16),
+            child: _buildAvatarWidget(avatarUri, sender.displayName ?? '?', 16),
           ),
           const SizedBox(width: 8),
           bubble,
@@ -294,17 +276,14 @@ class _ChatPageState extends State<ChatPage> {
 
     // Resolve the other user's display info for the app bar
     String appBarTitle = 'chat.title'.tr();
-    String? appBarAvatarUrl;
+    Uri? appBarAvatarUri;
 
     if (room != null) {
       final otherUserId = room.directChatMatrixID;
       if (otherUserId != null) {
         final otherUser = room.unsafeGetUserFromMemoryOrFallback(otherUserId);
         appBarTitle = otherUser.displayName ?? otherUserId;
-        if (otherUser.avatarUrl != null) {
-          appBarAvatarUrl =
-              otherUser.avatarUrl!.getDownloadUri(client).toString();
-        }
+        appBarAvatarUri = otherUser.avatarUrl;
       } else {
         appBarTitle = room.name.isNotEmpty ? room.name : 'chat.title'.tr();
       }
@@ -319,7 +298,7 @@ class _ChatPageState extends State<ChatPage> {
         titleSpacing: 0,
         title: Row(
           children: [
-            _buildAvatarWidget(appBarAvatarUrl, appBarTitle, 18),
+            _buildAvatarWidget(appBarAvatarUri, appBarTitle, 18),
             const SizedBox(width: 10),
             Expanded(
               child: Text(

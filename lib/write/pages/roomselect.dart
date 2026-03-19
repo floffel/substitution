@@ -48,7 +48,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
         SubstitutionRoom(
           name: r.name,
           id: r.id,
-          avatarUrl: r.avatar?.getDownloadUri(client).toString(),
+          avatarUrl: r.avatar?.toString(),
           isInsideSubstitution: isInSubstitution,
           joined: true,
         ),

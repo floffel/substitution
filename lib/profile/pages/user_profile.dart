@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/extensions/go_router_extensions.dart';
+import '/shared/widgets/avatar.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String userId;
@@ -232,27 +233,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                         ],
                       ),
-                      child: CircleAvatar(
-                        radius: 52,
-                        backgroundColor: colorScheme.primaryContainer,
-                        backgroundImage:
-                            profile.avatarUrl != null
-                                ? NetworkImage(
-                                  profile.avatarUrl!
-                                      .getDownloadUri(client)
-                                      .toString(),
-                                )
-                                : null,
-                        child:
-                            profile.avatarUrl == null
-                                ? Text(
-                                  (profile.displayName ?? 'User')[0],
-                                  style: theme.textTheme.headlineLarge
-                                      ?.copyWith(
-                                        color: colorScheme.onPrimaryContainer,
-                                      ),
-                                )
-                                : null,
+                      child: Avatar(
+                        mxContent: profile.avatarUrl,
+                        name: profile.displayName ?? 'User',
+                        client: client,
+                        size: 104,
                       ),
                     ),
                     const SizedBox(height: 16),

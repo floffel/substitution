@@ -4,13 +4,13 @@ import '/post/mixins/iconpicker.dart';
 import '/post/interfaces/i_event.dart';
 import '/shared/utils/relative_time.dart';
 import '/shared/extensions/go_router_extensions.dart';
+import '/shared/widgets/avatar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 /// Callback signature for when a user taps reply on a comment.
@@ -51,34 +51,12 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
 
   Widget _buildAvatar() {
     final displayEvent = widget.displayEvent;
-    if (widget.hasAvatarURL(displayEvent)) {
-      final uri =
-          widget.avatarURL(displayEvent)!.getDownloadUri(client).toString();
-      return ClipOval(
-        child: Image.network(
-          uri,
-          width: 32,
-          height: 32,
-          fit: BoxFit.cover,
-          errorBuilder: (ctx, obj, stack) {
-            return ClipOval(
-              child: SvgPicture.network(uri, width: 32, height: 32),
-            );
-          },
-        ),
-      );
-    }
-    return CircleAvatar(
-      radius: 16,
-      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-      child: Text(
-        widget.username(widget.displayEvent)[0].toUpperCase(),
-        style: TextStyle(
-          fontSize: 12,
-          color: Theme.of(context).colorScheme.onSecondaryContainer,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+    return Avatar(
+      mxContent: widget.avatarURL(displayEvent),
+      name: widget.username(displayEvent),
+      client: client,
+      size: 32,
+      fontSize: 12,
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '/shared/utils/relative_time.dart';
+import '/shared/widgets/avatar.dart';
 
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
@@ -60,7 +61,6 @@ class _ChatListPageState extends State<ChatListPage> {
     final otherUser = room.unsafeGetUserFromMemoryOrFallback(otherUserId);
     final displayName = otherUser.displayName ?? otherUserId;
     final avatarUri = otherUser.avatarUrl;
-    final avatarUrl = avatarUri?.getDownloadUri(client).toString();
 
     final lastEvent = room.lastEvent;
     String lastMessageText = '';
@@ -86,25 +86,13 @@ class _ChatListPageState extends State<ChatListPage> {
       leading: Stack(
         children: [
           // Avatar
-          avatarUrl != null
-              ? CircleAvatar(
-                radius: 26,
-                backgroundImage: NetworkImage(avatarUrl),
-                backgroundColor: colorScheme.primaryContainer,
-                onBackgroundImageError: (_, _) {},
-              )
-              : CircleAvatar(
-                radius: 26,
-                backgroundColor: colorScheme.primaryContainer,
-                child: Text(
-                  displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
-                  style: TextStyle(
-                    color: colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+          Avatar(
+            mxContent: avatarUri,
+            name: displayName,
+            client: client,
+            size: 52,
+            fontSize: 18,
+          ),
           // Unread badge
           if (unreadCount > 0)
             Positioned(
