@@ -72,14 +72,14 @@ abstract class IEventWidget extends StatefulWidget {
       }
     }
 
-    // remove duplicates (wich might be there b.c. of getDisplayEvent(...), f.e. when multiple edits happend)
-    ret = [
-      ...{...ret},
-    ];
-    // sort from new to old
+    // remove duplicates by event ID (Set spread doesn't work reliably when
+    // getDisplayEvent returns different object instances for the same event)
+    final seen = <String>{};
+    ret.retainWhere((e) => seen.add(e.origEvent.eventId));
+    // sort from new to old by original timestamp so edits don't change position
     ret.sort(
-      (a, b) => b.displayEvent.originServerTs.compareTo(
-        a.displayEvent.originServerTs,
+      (a, b) => b.origEvent.originServerTs.compareTo(
+        a.origEvent.originServerTs,
       ),
     );
 
