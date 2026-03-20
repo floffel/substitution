@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:web/web.dart' as web;
 import 'package:easy_localization/easy_localization.dart';
+import '/shared/platform/web_helpers.dart';
 
 import '/auth/auth_state.dart';
 
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
     String redirectUrl;
     if (kIsWeb) {
-      redirectUrl = '${web.window.location.origin}/login-callback';
+      redirectUrl = '${getWindowLocationOrigin()}/login-callback';
     } else {
       redirectUrl = 'substitution://login-callback';
     }
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
       final ssoUrl = _buildSsoUrl(provider);
 
       if (kIsWeb) {
-        web.window.location.assign(ssoUrl.toString());
+        windowLocationAssign(ssoUrl.toString());
       } else {
         await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
       }
@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                 )) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Could not launch \$url')),
+                    SnackBar(content: Text('Could not launch $url')),
                   );
                 }
               },

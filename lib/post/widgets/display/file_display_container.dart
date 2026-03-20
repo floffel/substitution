@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:web/web.dart' as web;
-import 'dart:js_interop';
 import 'package:carousel_slider/carousel_slider.dart';
+import '/shared/platform/web_helpers.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 import '/shared/platform/video_helper.dart' show videoControllerFromFile;
@@ -30,6 +29,7 @@ class FileDisplayContainer extends StatefulWidget {
 class FileDisplayContainerState extends State<FileDisplayContainer> {
   // CarouselController carouselController = CarouselController();
   CarouselSliderController carouselController = CarouselSliderController();
+  final List<String> _blobUrls = [];
 
   // TODO: downloadAndDecryptAttachment for encrypted files
 
@@ -180,9 +180,10 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
   }
 
   Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {
-    final file = await widget.event.downloadAndDecryptAttachment();
-    final blob = web.Blob([file.bytes.toJS].toJS);
-    return web.URL.createObjectURL(blob);
+    final file = await e.downloadAndDecryptAttachment();
+    final url = createBlobUrl(file.bytes);
+    _blobUrls.add(url);
+    return url;
   }
 
   Future<File> getDecryptedFileForEvent(Event e) async {
@@ -200,6 +201,19 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
       await file.writeAsBytes(f.bytes);
     }
     return file;
+  }
+
+  @override
+  void dispose() {
+    for (final file in files) {
+      file.videoController?.dispose();
+    }
+    if (kIsWeb) {
+      for (final url in _blobUrls) {
+        revokeBlobUrl(url);
+      }
+    }
+    super.dispose();
   }
 
   @override

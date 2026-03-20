@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:web/web.dart' as web;
-import 'dart:js_interop';
 import 'package:path_provider/path_provider.dart';
+import '/shared/platform/web_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 // TODO this one shows one file and is used in filecomponent.
@@ -30,6 +29,7 @@ class FileDisplay extends StatefulWidget {
 class FileDisplayState extends State<FileDisplay> {
   VideoPlayerController? _controller;
   CarouselController carouselController = CarouselController();
+  final List<String> _blobUrls = [];
 
   @override
   void initState() {
@@ -64,8 +64,19 @@ class FileDisplayState extends State<FileDisplay> {
 
   Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {
     final file = await e.downloadAndDecryptAttachment();
-    final blob = web.Blob([file.bytes.toJS].toJS);
-    return web.URL.createObjectURL(blob);
+    final url = createBlobUrl(file.bytes);
+    _blobUrls.add(url);
+    return url;
+  }
+
+  @override
+  void dispose() {
+    if (kIsWeb) {
+      for (final url in _blobUrls) {
+        revokeBlobUrl(url);
+      }
+    }
+    super.dispose();
   }
 
   @override

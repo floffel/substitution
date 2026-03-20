@@ -4,6 +4,7 @@ import '/shared/services/loading_service.dart';
 
 import '/shared/services/connectivity_service.dart';
 
+import 'dart:async';
 import 'dart:convert'; // for json
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -50,6 +51,7 @@ class HomePageState extends State<HomePage> {
   bool _isOnline = true;
   bool _showOfflineBanner = false;
   late Stream<bool> _connectivityStream;
+  StreamSubscription<bool>? _connectivitySubscription;
 
   late final Client _client;
   late final ConnectivityService _connectivityService;
@@ -469,7 +471,7 @@ class HomePageState extends State<HomePage> {
 
     // Initialize connectivity tracking
     _connectivityStream = _connectivityService.onConnectivityChanged;
-    _connectivityStream.listen(
+    _connectivitySubscription = _connectivityStream.listen(
       (isOnline) {
         if (mounted) {
           setState(() {
@@ -561,6 +563,7 @@ class HomePageState extends State<HomePage> {
       _feedStateCache.wasPageKeyInitialized = pageKeyInitialized;
     }
 
+    _connectivitySubscription?.cancel();
     _loadingService.setDone('feed');
     _substitutionService.removeListener(_handleRoomChanges);
     _scrollController.dispose();

@@ -26,10 +26,18 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
   String selectedServer = "";
 
   List<SubstitutionRoom> data = [];
+  late Future<List<SubstitutionRoom>> _joinedRoomsFuture;
 
   @override
   void initState() {
     super.initState();
+    _joinedRoomsFuture = _getJoinedRooms();
+  }
+
+  void refreshRooms() {
+    setState(() {
+      _joinedRoomsFuture = _getJoinedRooms();
+    });
   }
 
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
@@ -114,7 +122,7 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
                     return const DialogCreateRoom();
                   },
                 );
-                setState(() {});
+                refreshRooms();
               },
             ),
           ),
@@ -125,7 +133,7 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
         // Room list
         Expanded(
           child: FutureBuilder(
-            future: _getJoinedRooms(),
+            future: _joinedRoomsFuture,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
