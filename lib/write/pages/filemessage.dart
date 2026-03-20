@@ -37,17 +37,11 @@ class FileMessageWriteState extends State<FileMessageWrite> {
     extensions: videoExtensions,
   );
 
-  /*final adressContrainer = TextEditingController(
-    text: 'matrix.org',
-  );*/
-
   List<({XFile file, TextEditingController textEditController})> files = [];
 
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
   Room? get room => client.getRoomById(widget.roomId);
-  //Future<Timeline?> get timeline async => await room?.getTimeline(eventContextId: widget.eventId);
-  //Future<Event?> get event async => widget.eventId == null ? null : (await timeline)?.getEventById(widget.eventId!);
   Future<Event?> get event async =>
       widget.eventId == null || room == null
           ? null
@@ -71,8 +65,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
         if (widget.eventId != null) ...[
           const Text("write.answer").tr(),
 
-          //eventTuple
-          FutureBuilder(
+          FutureBuilder<({Event event, Event displayEvent})?>(
             future: eventData,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -168,7 +161,6 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   ),
                 ),
 
-                //Text("Name: ${f.name}, ${f.file.mimeType}"),
                 if (imageExtensions.contains(f.file.name.split('.').last)) ...[
                   imageFromPath(f.file.path),
                 ] else ...[
@@ -188,9 +180,6 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                 final navigator = Navigator.of(context);
                 final goRouter = GoRouter.of(context);
 
-                // many of this is equivalent to the textmessage widget, so we should make it a mixin
-                // send text
-                //Room r = (await room)!;
                 debugPrint("started sending message...");
 
                 // TODO: this could be a seperated widget to give updates to the user via setState rather than
@@ -330,21 +319,8 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                     }
                   }
 
-                  //answerEvent = Event.fromMatrixEvent(
-                  //    await client.getOneRoomEvent(widget.roomId, (ret!)),
-                  //    room!);
                 }
 
-                //ret = await room!.sendFileEvent(); // TODO: HIER WEITER
-
-                /*ret = await room!.sendEvent({
-                  "body": _controller.document.toPlainText(),
-                  'format': 'org.matrix.custom.html',
-                  'formatted_body': _html,
-                  'msgtype': MessageTypes.Text
-                }, threadRootEventId: eventThreadId, inReplyTo: await event);*/
-                /*
-                debugPrint("send message complete with ret ${ret}...");*/
                 // todo: show complete action and route to home or so
                 if (mounted) {
                   scavMsg.showSnackBar(
