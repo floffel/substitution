@@ -28,8 +28,6 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
   Room? get room => client.getRoomById(widget.roomId);
-  //Future<Timeline?> get timeline async => await room?.getTimeline(eventContextId: widget.eventId);
-  //Future<Event?> get event async => widget.eventId == null ? null : (await timeline)?.getEventById(widget.eventId!);
   Future<Event?> get event async =>
       widget.eventId == null || room == null
           ? null
@@ -45,18 +43,6 @@ class TextMessageWriteState extends State<TextMessageWrite> {
     final timeline = await e.room.getTimeline(eventContextId: e.eventId);
     return (event: e, displayEvent: e.getDisplayEvent(timeline));
   }
-
-  /*
-    Future<Timeline> getTimeline(
-      {void Function(int index)? onChange,
-      void Function(int index)? onRemove,
-      void Function(int insertID)? onInsert,
-      void Function()? onNewEvent,
-      void Function()? onUpdate,
-      String? eventContextId}) async {
-
-
-  */
 
   final quill.QuillController _controller = quill.QuillController.basic();
   quill.QuillController get controller => _controller;
@@ -92,7 +78,7 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 children: [
                   if (widget.eventId != null) ...[
                     const Text("write.answer").tr(),
-                    FutureBuilder(
+                    FutureBuilder<({Event event, Event displayEvent})?>(
                       future: eventData,
                       builder: (ctx, snapshot) {
                         if (snapshot.connectionState ==
@@ -206,8 +192,6 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                 final scavMsg = ScaffoldMessenger.of(context);
                 final navigator = Navigator.of(context);
                 final goRouter = GoRouter.of(context);
-                // send text
-                //Room r = (await room)!;
                 debugPrint("started sending message...");
 
                 final deltaJson = _controller.document.toDelta().toJson();

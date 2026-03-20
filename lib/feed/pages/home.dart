@@ -29,18 +29,21 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  /// Number of events to fetch per page when paginating through timelines.
   static const int _pageSize = 100;
-  final adressContrainer = TextEditingController();
 
   late final PagingController<
     Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
     ({Event origEvent, Event displayEvent})
   >
   _pagingController;
-  bool pageKeyInitialized =
-      false; // tracks if the pageKey needs initializing, workarround b.c. we can't initilize it as a future, so we initialize it at the first call (yes, poor performance for all runs after, TODO)
-  Map<String, String> firstEventIds =
-      {}; // Map<room.id, event.eventId> saves the eventIds of the events at the top (start) of the page, so we can track wich events where already added
+  /// Whether the page key has been initialized from timelines. Set to true on
+  /// the first [_fetchEvents] call because the key depends on an async
+  /// timeline fetch that cannot run during controller construction.
+  bool pageKeyInitialized = false;
+  /// Maps room ID to the newest event ID already displayed, used to detect
+  /// which events are new when pulling to refresh.
+  Map<String, String> firstEventIds = {};
 
   // Cache the timelines future to avoid re-fetching on every access
   late Future<List<Timeline>> _timelinesFuture;
@@ -215,12 +218,14 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  // beim update werden einfach "neue" events an timeline.events angehangen
-  // Idea: Only post as much events from the timeline until exactly one has no more events to be posted, and hold back elements from other timelines that would be posted there after
-  // Map value:
-  //  lastEventId: last event id that was added to the list
-  //  since: das ding was man mitgibt um zu sagen an welcher stelle man war.. todo auf englisch dokumentierne
-  //  wasExhausted: we do not have any events that where not posted on the timeline
+  /// Fetches the next page of events across all followed timelines.
+  ///
+  /// [pageKey] maps each timeline to its pagination state:
+  ///   - `lastEventId`: the last event ID that was added to the list
+  ///   - `wasExhausted`: whether the timeline has no more history to fetch
+  ///
+  /// Returns the merged, chronologically sorted events and an updated key for
+  /// the next page (or `null` when all timelines are exhausted).
   Future<
     ({
       List<({Event origEvent, Event displayEvent})> events,
@@ -568,7 +573,6 @@ class HomePageState extends State<HomePage> {
     _substitutionService.removeListener(_handleRoomChanges);
     _scrollController.dispose();
     _pagingController.dispose();
-    adressContrainer.dispose();
     super.dispose();
   }
 

@@ -13,18 +13,18 @@ import '/auth/auth_state.dart';
 class HostPage extends StatefulWidget {
   const HostPage({super.key, required this.onComplete});
 
-  final Function onComplete;
+  final VoidCallback onComplete;
 
   @override
   State<HostPage> createState() => _HostPageState();
 }
 
 class _HostPageState extends State<HostPage> {
-  final adressContrainer = TextEditingController(text: 'matrix.org');
+  final addressController = TextEditingController(text: 'matrix.org');
 
   @override
   void dispose() {
-    adressContrainer.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -58,7 +58,7 @@ class _HostPageState extends State<HostPage> {
         },
       );
 
-      final input = adressContrainer.text.trim();
+      final input = addressController.text.trim();
       final uri =
           input.startsWith('http://') || input.startsWith('https://')
               ? Uri.parse(input)
@@ -118,7 +118,7 @@ class _HostPageState extends State<HostPage> {
         const SizedBox(height: 16),
         TextFormField(
           key: const Key('hostServerInput'),
-          controller: adressContrainer,
+          controller: addressController,
           decoration: InputDecoration(
             prefixText: 'https://',
             prefixIcon: const Icon(Icons.language_rounded),

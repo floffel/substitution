@@ -230,7 +230,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                     ),
                   ),
                 ),
-                child: FutureBuilder(
+                child: FutureBuilder<List<({Event origEvent, Event displayEvent})>>(
                   future: widget.comments,
                   builder: (ctx, snapshot) {
                     if (snapshot.hasError) {

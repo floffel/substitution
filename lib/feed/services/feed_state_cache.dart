@@ -25,7 +25,7 @@ class FeedStateCache {
   bool wasPageKeyInitialized = false;
 
   /// Whether there is cached data worth restoring.
-  bool get hasCache => cachedItems != null && cachedItems!.isNotEmpty;
+  bool get hasCache => cachedItems?.isNotEmpty ?? false;
 
   /// Wipe all cached state (e.g. when the room set changes and a full
   /// reload is required).

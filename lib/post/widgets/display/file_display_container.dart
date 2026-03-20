@@ -1,13 +1,13 @@
 import 'file_display.dart';
 
 import '/shared/platform/platform.dart';
+import '/shared/utils/file_decryption_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:carousel_slider/carousel_slider.dart';
 import '/shared/platform/web_helpers.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 import '/shared/platform/video_helper.dart' show videoControllerFromFile;
 
@@ -133,7 +133,7 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
     if (e.room.encrypted) {
       if (kIsWeb) {
         final controller = VideoPlayerController.networkUrl(
-          Uri.parse(await getDecryptedFileObjectUrlForEvent(e)),
+          Uri.parse(await _getDecryptedBlobUrlAndTrack(e)),
         );
         controller.initialize().catchError((_) {
           /* ignore media format errors */
@@ -179,28 +179,10 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
         });
   }
 
-  Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {
-    final file = await e.downloadAndDecryptAttachment();
-    final url = createBlobUrl(file.bytes);
+  Future<String> _getDecryptedBlobUrlAndTrack(Event e) async {
+    final url = await getDecryptedFileObjectUrlForEvent(e);
     _blobUrls.add(url);
     return url;
-  }
-
-  Future<File> getDecryptedFileForEvent(Event e) async {
-    MatrixFile f = await e.downloadAndDecryptAttachment();
-
-    final dir = await getTemporaryDirectory();
-    final fileName = Uri.encodeComponent(
-      e
-          .attachmentOrThumbnailMxcUrl()!
-          .pathSegments
-          .last, // or event.content.tryGet<String>('filename') ?? 'somefile..';
-    );
-    final file = File('${dir.path}/${fileName}_${f.name}');
-    if (await file.exists() == false) {
-      await file.writeAsBytes(f.bytes);
-    }
-    return file;
   }
 
   @override

@@ -16,20 +16,25 @@ import '/auth/auth_state.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.onComplete});
 
-  final Function onComplete;
+  final VoidCallback onComplete;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final usernameContrainer = TextEditingController();
-  final passwordContrainer = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  late final Client _client;
   bool _obscurePassword = true;
 
-  Future<bool> login() async {
-    final client = Provider.of<Client>(context, listen: false);
+  @override
+  void initState() {
+    super.initState();
+    _client = Provider.of<Client>(context, listen: false);
+  }
 
+  Future<bool> login() async {
     try {
       showDialog<void>(
         context: context,
@@ -57,10 +62,10 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
 
-      await client.login(
+      await _client.login(
         LoginType.mLoginPassword,
-        identifier: AuthenticationUserIdentifier(user: usernameContrainer.text),
-        password: passwordContrainer.text,
+        identifier: AuthenticationUserIdentifier(user: usernameController.text),
+        password: passwordController.text,
       );
 
       if (!mounted) return false;
@@ -104,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
   /// Builds the SSO redirect URL for the given [provider].
   Uri _buildSsoUrl(SsoProvider provider) {
-    final client = Provider.of<Client>(context, listen: false);
-    final homeserver = client.homeserver ?? Uri.parse('https://matrix.org');
+    final homeserver = _client.homeserver ?? Uri.parse('https://matrix.org');
 
     String redirectUrl;
     if (kIsWeb) {
@@ -144,8 +148,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    usernameContrainer.dispose();
-    passwordContrainer.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -167,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
           if (hasPassword) ...[
             TextFormField(
               key: const Key('loginUsernameInput'),
-              controller: usernameContrainer,
+              controller: usernameController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person_outline_rounded),
                 labelText: "auth.login.inputs.username_label".tr(),
@@ -178,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               key: const Key('loginPasswordInput'),
               obscureText: _obscurePassword,
-              controller: passwordContrainer,
+              controller: passwordController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.lock_outline_rounded),
                 labelText: "auth.login.inputs.password_label".tr(),
@@ -223,9 +227,8 @@ class _LoginPageState extends State<LoginPage> {
             TextButton(
               key: const Key('registerWebButton'),
               onPressed: () async {
-                final client = Provider.of<Client>(context, listen: false);
                 final url =
-                    client.homeserver ?? Uri.parse('https://matrix.org');
+                    _client.homeserver ?? Uri.parse('https://matrix.org');
                 if (!await launchUrl(
                   url,
                   mode: LaunchMode.externalApplication,

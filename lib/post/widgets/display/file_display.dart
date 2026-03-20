@@ -1,11 +1,11 @@
 import 'video_player_controls_overlay.dart';
 
 import '/shared/platform/platform.dart';
+import '/shared/utils/file_decryption_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:path_provider/path_provider.dart';
 import '/shared/platform/web_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -45,26 +45,8 @@ class FileDisplayState extends State<FileDisplay> {
     }
   }
 
-  Future<File> getDecryptedFileForEvent(Event e) async {
-    MatrixFile f = await e.downloadAndDecryptAttachment();
-
-    final dir = await getTemporaryDirectory();
-    final fileName = Uri.encodeComponent(
-      e
-          .attachmentOrThumbnailMxcUrl()!
-          .pathSegments
-          .last, // or event.content.tryGet<String>('filename') ?? 'somefile..';
-    );
-    final file = File('${dir.path}/${fileName}_${f.name}');
-    if (await file.exists() == false) {
-      await file.writeAsBytes(f.bytes);
-    }
-    return file;
-  }
-
-  Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {
-    final file = await e.downloadAndDecryptAttachment();
-    final url = createBlobUrl(file.bytes);
+  Future<String> _getDecryptedBlobUrlAndTrack(Event e) async {
+    final url = await getDecryptedFileObjectUrlForEvent(e);
     _blobUrls.add(url);
     return url;
   }
@@ -89,7 +71,7 @@ class FileDisplayState extends State<FileDisplay> {
         kIsWeb
             ? FutureBuilder(
               // download decrypted file and make it an url
-              future: getDecryptedFileObjectUrlForEvent(
+              future: _getDecryptedBlobUrlAndTrack(
                 widget.file.displayEvent,
               ),
               builder: (ctx, snapshot) {
