@@ -152,7 +152,7 @@ class PostPageState extends State<PostPage> {
               });
               return Future<void>.delayed(const Duration(seconds: 1));
             },
-            child: FutureBuilder(
+            child: FutureBuilder<List<({Event origEvent, Event displayEvent})>>(
               future: _commentsFuture,
               builder: (ctx, snapshot) {
                 if (!snapshot.hasData) {

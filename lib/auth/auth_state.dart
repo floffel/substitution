@@ -76,8 +76,11 @@ class AuthState extends ChangeNotifier {
     }
 
     try {
-      return (rawProviders as List)
-          .cast<Map<String, Object?>>()
+      if (rawProviders is! List) {
+        return const [SsoProvider(id: '', name: 'SSO')];
+      }
+      return rawProviders
+          .whereType<Map<String, Object?>>()
           .map(SsoProvider.fromMap)
           .toList();
     } catch (_) {

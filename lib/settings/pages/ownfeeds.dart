@@ -132,7 +132,7 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
 
         // Room list
         Expanded(
-          child: FutureBuilder(
+          child: FutureBuilder<List<SubstitutionRoom>>(
             future: _joinedRoomsFuture,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
