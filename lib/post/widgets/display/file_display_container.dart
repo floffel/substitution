@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:universal_html/html.dart' as html;
+import 'package:web/web.dart' as web;
+import 'dart:js_interop';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dismissible_page/dismissible_page.dart';
@@ -180,8 +181,8 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
 
   Future<String> getDecryptedFileObjectUrlForEvent(Event e) async {
     final file = await widget.event.downloadAndDecryptAttachment();
-    final blob = html.Blob([file.bytes]);
-    return html.Url.createObjectUrlFromBlob(blob);
+    final blob = web.Blob([file.bytes.toJS].toJS);
+    return web.URL.createObjectURL(blob);
   }
 
   Future<File> getDecryptedFileForEvent(Event e) async {

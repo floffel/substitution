@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:web/web.dart' as web;
 import 'package:easy_localization/easy_localization.dart';
 
 import '/auth/auth_state.dart';
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
     String redirectUrl;
     if (kIsWeb) {
-      redirectUrl = '${html.window.location.origin}/login-callback';
+      redirectUrl = '${web.window.location.origin}/login-callback';
     } else {
       redirectUrl = 'substitution://login-callback';
     }
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
       final ssoUrl = _buildSsoUrl(provider);
 
       if (kIsWeb) {
-        html.window.location.assign(ssoUrl.toString());
+        web.window.location.assign(ssoUrl.toString());
       } else {
         await launchUrl(ssoUrl, mode: LaunchMode.externalApplication);
       }
