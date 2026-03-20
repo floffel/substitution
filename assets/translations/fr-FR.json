@@ -241,6 +241,7 @@
         "roomheader": "Chambre: {}",
         "filemessage": {
             "video_preview": "Vidéo",
+            "caption_header": "Légende (facultatif) :",
             "upload_files": "Ajouter de nouveaux fichiers à télécharger",
             "title_header": "Titre:",
             "upload_start": "Le téléchargement va commencer...",

@@ -241,6 +241,7 @@
         "roomheader": "房間：{}",
         "filemessage": {
             "video_preview": "影片",
+            "caption_header": "說明（選填）：",
             "upload_files": "添加新檔案以上傳",
             "title_header": "標題：",
             "upload_start": "開始上傳...",

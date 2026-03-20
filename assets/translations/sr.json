@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Одговори", "roomheader": "Соба: {}",
-        "filemessage": { "video_preview": "Видео", "upload_files": "Додајте нове датотеке за отпремање", "title_header": "Наслов:", "upload_start": "Почиње отпремање...", "upload_file_process": "Отпремање датотеке {}", "upload_error": "Отпремање {} није успело. Покушати поново?", "upload_file_complete": "Отпремање {} је завршено!", "upload_complete": "Све датотеке су отпремљене!", "buttons": { "upload_stop": "Откажи", "upload_retry": "Покушај поново" } },
+        "filemessage": { "video_preview": "Видео", "caption_header": "Опис (необавезно):", "upload_files": "Додајте нове датотеке за отпремање", "title_header": "Наслов:", "upload_start": "Почиње отпремање...", "upload_file_process": "Отпремање датотеке {}", "upload_error": "Отпремање {} није успело. Покушати поново?", "upload_file_complete": "Отпремање {} је завршено!", "upload_complete": "Све датотеке су отпремљене!", "buttons": { "upload_stop": "Откажи", "upload_retry": "Покушај поново" } },
         "roomselect": { "type_prompt": "Изаберите врсту поруке коју желите да објавите", "room_prompt": "Изаберите собу у којој желите да објавите:", "error_no_rooms": "Нисте се придружили ниједној соби или немате права за објављивање." },
         "textmessage": { "answer_promt": "Унесите текст:", "input_placeholder": "Унесите текст овде...", "send_start": "Слање поруке је почело...", "send_failed": "Слање поруке није успело. Желите ли да поново пошаљете поруку?", "send_complete": "Порука је успешно послата!", "buttons": { "send_stop": "Не покушавај поново", "resend": "Покушај поново" } }
     },

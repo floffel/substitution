@@ -241,6 +241,7 @@
         "roomheader": "Otaq: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Başlıq (istəyə bağlı):",
             "upload_files": "Yükləmə üçün yeni fayllar əlavə edin",
             "title_header": "Başlıq:",
             "upload_start": "Yükləmə başlayır...",

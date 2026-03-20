@@ -241,6 +241,7 @@
         "roomheader": "Istaba: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Paraksts (neobligāti):",
             "upload_files": "Pievienot jaunus failus augšupielādei",
             "title_header": "Virsraksts:",
             "upload_start": "Sāk augšupielādi...",

@@ -241,6 +241,7 @@
         "roomheader": "Místnost: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Popisek (volitelné):",
             "upload_files": "Přidat nové soubory k nahrání",
             "title_header": "Název:",
             "upload_start": "Zahajování nahrávání...",

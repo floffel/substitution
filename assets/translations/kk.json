@@ -241,6 +241,7 @@
         "roomheader": "Бөлме: {}",
         "filemessage": {
             "video_preview": "Бейне",
+            "caption_header": "Жазба (міндетті емес):",
             "upload_files": "Жүктеу үшін жаңа файлдар қосыңыз",
             "title_header": "Тақырып:",
             "upload_start": "Жүктеу басталуда...",

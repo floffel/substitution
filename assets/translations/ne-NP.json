@@ -241,6 +241,7 @@
         "roomheader": "कोठा: {}",
         "filemessage": {
             "video_preview": "भिडियो",
+            "caption_header": "क्याप्शन (ऐच्छिक):",
             "upload_files": "अपलोडको लागि नयाँ फाइलहरू थप्नुहोस्",
             "title_header": "शीर्षक:",
             "upload_start": "अपलोड सुरु हुँदैछ...",

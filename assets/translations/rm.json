@@ -241,6 +241,7 @@
         "roomheader": "Stanza: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Suttascripziun (opziunal):",
             "upload_files": "Agiuntar novas datotecas per transferir",
             "title_header": "Titel:",
             "upload_start": "Cumenzar il transferiment...",

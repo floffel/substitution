@@ -241,6 +241,7 @@
         "roomheader": "Szoba: {}",
         "filemessage": {
             "video_preview": "Videó",
+            "caption_header": "Felirat (opcionális):",
             "upload_files": "Új fájlok hozzáadása feltöltéshez",
             "title_header": "Cím:",
             "upload_start": "Feltöltés indítása...",

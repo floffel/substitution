@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "ตอบ", "roomheader": "ห้อง: {}",
-        "filemessage": { "video_preview": "วิดีโอ", "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด", "title_header": "ชื่อเรื่อง:", "upload_start": "เริ่มอัปโหลด...", "upload_file_process": "กำลังอัปโหลดไฟล์ {}", "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?", "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!", "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!", "buttons": { "upload_stop": "ยกเลิก", "upload_retry": "ลองใหม่" } },
+        "filemessage": { "video_preview": "วิดีโอ", "caption_header": "คำบรรยาย (ไม่บังคับ):", "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด", "title_header": "ชื่อเรื่อง:", "upload_start": "เริ่มอัปโหลด...", "upload_file_process": "กำลังอัปโหลดไฟล์ {}", "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?", "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!", "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!", "buttons": { "upload_stop": "ยกเลิก", "upload_retry": "ลองใหม่" } },
         "roomselect": { "type_prompt": "เลือกประเภทข้อความที่คุณต้องการโพสต์", "room_prompt": "เลือกห้องที่คุณต้องการโพสต์:", "error_no_rooms": "คุณยังไม่ได้เข้าร่วมห้องใด ๆ หรือคุณไม่มีสิทธิ์ในการโพสต์" },
         "textmessage": { "answer_promt": "ป้อนข้อความของคุณ:", "input_placeholder": "ป้อนข้อความของคุณที่นี่...", "send_start": "เริ่มส่งข้อความ...", "send_failed": "การส่งข้อความล้มเหลว คุณต้องการส่งใหม่หรือไม่?", "send_complete": "ส่งข้อความสำเร็จแล้ว!", "buttons": { "send_stop": "ไม่ต้องลองใหม่", "resend": "ลองใหม่" } }
     },

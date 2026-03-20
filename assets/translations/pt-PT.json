@@ -241,6 +241,7 @@
         "roomheader": "Sala: {}",
         "filemessage": {
             "video_preview": "Vídeo",
+            "caption_header": "Legenda (opcional):",
             "upload_files": "Adicionar novos ficheiros para carregar",
             "title_header": "Título:",
             "upload_start": "A iniciar carregamento...",

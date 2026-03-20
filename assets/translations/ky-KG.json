@@ -241,6 +241,7 @@
         "roomheader": "Бөлмө: {}",
         "filemessage": {
             "video_preview": "Видео",
+            "caption_header": "Жазуу (милдеттүү эмес):",
             "upload_files": "Жүктөө үчүн жаңы файлдарды кошуу",
             "title_header": "Аталышы:",
             "upload_start": "Жүктөө башталууда...",

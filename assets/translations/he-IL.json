@@ -241,6 +241,7 @@
         "roomheader": "חדר: {}",
         "filemessage": {
             "video_preview": "וידאו",
+            "caption_header": "כיתוב (אופציונלי):",
             "upload_files": "הוסף קבצים חדשים להעלאה",
             "title_header": "כותרת:",
             "upload_start": "מתחיל העלאה...",

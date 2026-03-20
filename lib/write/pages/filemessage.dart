@@ -37,7 +37,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
     extensions: videoExtensions,
   );
 
-  List<({XFile file, TextEditingController textEditController})> files = [];
+  List<({XFile file, TextEditingController textEditController, TextEditingController captionController})> files = [];
 
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
@@ -111,6 +111,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
           onPressed: () async {
             for (var f in files) {
               f.textEditController.dispose();
+              f.captionController.dispose();
             }
 
             // TODO: change for ios, file types are unsupported
@@ -133,6 +134,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                                   .reversed
                                   .join(),
                         ),
+                        captionController: TextEditingController(),
                       ),
                     )
                     .toList();
@@ -159,6 +161,14 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                   decoration: InputDecoration(
                     labelText: "write.filemessage.title_header".tr(),
                   ),
+                ),
+                TextFormField(
+                  controller: f.captionController,
+                  decoration: InputDecoration(
+                    labelText: "write.filemessage.caption_header".tr(),
+                  ),
+                  maxLines: 3,
+                  minLines: 1,
                 ),
 
                 if (imageExtensions.contains(f.file.name.split('.').last)) ...[
@@ -264,10 +274,14 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                       bytes: await f.file.readAsBytes(),
                       name: uploadFileName,
                     );
+                    final caption = f.captionController.text.trim();
                     ret = await room!.sendFileEvent(
                       uploadFile,
                       threadRootEventId: eventThreadId,
                       inReplyTo: answerEvent,
+                      extraContent: caption.isNotEmpty
+                          ? {'body': caption, 'filename': uploadFileName}
+                          : null,
                     );
 
                     navigator.pop(); // pop the Uploading file ... dialog

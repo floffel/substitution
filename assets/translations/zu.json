@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Phendula", "roomheader": "Igumbi: {}",
-        "filemessage": { "video_preview": "Ividiyo", "upload_files": "Engeza amafayela amasha okulayisha", "title_header": "Isihloko:", "upload_start": "Ukulayisha kuyaqala...", "upload_file_process": "Ilayisha ifayela {}", "upload_error": "Ukulayisha {} kuhlulekile. Zama futhi ukulayisha?", "upload_file_complete": "Ukulayisha {} kuphelile!", "upload_complete": "Onke amafayela alayishiwe!", "buttons": { "upload_stop": "Khansela", "upload_retry": "Zama Futhi" } },
+        "filemessage": { "video_preview": "Ividiyo", "caption_header": "Umbhalo (uyikhethelo):", "upload_files": "Engeza amafayela amasha okulayisha", "title_header": "Isihloko:", "upload_start": "Ukulayisha kuyaqala...", "upload_file_process": "Ilayisha ifayela {}", "upload_error": "Ukulayisha {} kuhlulekile. Zama futhi ukulayisha?", "upload_file_complete": "Ukulayisha {} kuphelile!", "upload_complete": "Onke amafayela alayishiwe!", "buttons": { "upload_stop": "Khansela", "upload_retry": "Zama Futhi" } },
         "roomselect": { "type_prompt": "Khetha uhlobo lomlayezo ofuna ukuwuthumela", "room_prompt": "Khetha igumbi ofuna ukuthumela kulo:", "error_no_rooms": "Awujoyinanga magumbi noma awunazo izimvume zokuthumela." },
         "textmessage": { "answer_promt": "Faka umbhalo wakho:", "input_placeholder": "Faka umbhalo wakho lapha...", "send_start": "Ukuthumela umlayezo kuqalile...", "send_failed": "Ukuthumela umlayezo kuhlulekile. Ufuna ukuwuthumela futhi?", "send_complete": "Umlayezo uthunyelwe ngempumelelo!", "buttons": { "send_stop": "Ungazami futhi", "resend": "Zama Futhi" } }
     },

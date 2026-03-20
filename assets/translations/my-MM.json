@@ -241,6 +241,7 @@
         "roomheader": "အခန်း: {}",
         "filemessage": {
             "video_preview": "ဗီဒီယို",
+            "caption_header": "ခေါင်းစီး (ရွေးချယ်နိုင်):",
             "upload_files": "တင်ရန် ဖိုင်အသစ်များ ထည့်ပါ",
             "title_header": "ခေါင်းစဉ်:",
             "upload_start": "တင်ခြင်း စတင်နေသည်...",

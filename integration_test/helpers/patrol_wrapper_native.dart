@@ -24,31 +24,27 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
     return PatrolIntegrationTester(
       tester: tester,
       config: config,
-      nativeAutomator: _MockNativeAutomator(),
-      nativeAutomator2: _MockNativeAutomator2(),
+      platformAutomator: _MockPlatformAutomator(),
     );
   }
 
-  // Increase NativeAutomatorConfig.findTimeout from the default 10s to 3
-  // minutes.  This is the gRPC heartbeat timeout between the Dart test runner
-  // and the Patrol native server on the device.  Without this, the native
-  // automator declares the test dead after 10s whenever waitForMatrixClient
-  // (which pumps for up to 90s) is in progress.
+  // Increase timeouts from the default 10s to 3 minutes. This is the gRPC
+  // heartbeat timeout between the Dart test runner and the Patrol native
+  // server on the device. Without this, the native automator declares the
+  // test dead after 10s whenever waitForMatrixClient (which pumps for up to
+  // 90s) is in progress.
   // connectionTimeout must be strictly greater than findTimeout (asserted by
   // the Patrol constructor), so raise it to 5 minutes.
-  const nativeConfig = NativeAutomatorConfig(
-    connectionTimeout: Duration(minutes: 5),
-    findTimeout: Duration(minutes: 3),
+  final platformConfig = PlatformAutomatorConfig.fromOptions(
+    connectionTimeout: const Duration(minutes: 5),
+    findTimeout: const Duration(minutes: 3),
   );
 
   return PatrolIntegrationTester(
     tester: tester,
     config: config,
-    nativeAutomator: NativeAutomator(config: nativeConfig),
-    nativeAutomator2: NativeAutomator2(config: nativeConfig),
+    platformAutomator: PlatformAutomator(config: platformConfig),
   );
 }
 
-class _MockNativeAutomator extends Mock implements NativeAutomator {}
-
-class _MockNativeAutomator2 extends Mock implements NativeAutomator2 {}
+class _MockPlatformAutomator extends Mock implements PlatformAutomator {}

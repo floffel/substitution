@@ -241,6 +241,7 @@
         "roomheader": "Gela: {}",
         "filemessage": {
             "video_preview": "Bideoa",
+            "caption_header": "Azpititulua (aukerakoa):",
             "upload_files": "Gehitu fitxategi berriak igotzeko",
             "title_header": "Izenburua:",
             "upload_start": "Igoera hasten...",

@@ -241,6 +241,7 @@
         "roomheader": "Өрөө: {}",
         "filemessage": {
             "video_preview": "Видео",
+            "caption_header": "Тайлбар (заавал биш):",
             "upload_files": "Байршуулах шинэ файлууд нэмэх",
             "title_header": "Гарчиг:",
             "upload_start": "Байршуулалт эхэлж байна...",

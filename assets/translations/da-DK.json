@@ -241,6 +241,7 @@
         "roomheader": "Rum: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Billedtekst (valgfrit):",
             "upload_files": "Tilføj nye filer til upload",
             "title_header": "Titel:",
             "upload_start": "Starter upload...",

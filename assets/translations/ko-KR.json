@@ -241,6 +241,7 @@
         "roomheader": "방: {}",
         "filemessage": {
             "video_preview": "동영상",
+            "caption_header": "캡션 (선택 사항):",
             "upload_files": "업로드할 새 파일 추가",
             "title_header": "제목:",
             "upload_start": "업로드를 시작합니다...",

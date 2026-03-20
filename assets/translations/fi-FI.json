@@ -241,6 +241,7 @@
         "roomheader": "Huone: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Kuvateksti (valinnainen):",
             "upload_files": "Lisää uusia tiedostoja ladattavaksi",
             "title_header": "Otsikko:",
             "upload_start": "Lataus alkaa...",

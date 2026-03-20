@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "جواب", "roomheader": "کمرہ: {}",
-        "filemessage": { "video_preview": "ویڈیو", "upload_files": "اپ لوڈ کے لیے نئی فائلیں شامل کریں", "title_header": "عنوان:", "upload_start": "اپ لوڈ شروع ہو رہا ہے...", "upload_file_process": "فائل {} اپ لوڈ ہو رہی ہے", "upload_error": "{} اپ لوڈ ناکام ہو گیا۔ دوبارہ اپ لوڈ کریں؟", "upload_file_complete": "{} اپ لوڈ مکمل!", "upload_complete": "تمام فائلیں اپ لوڈ ہو گئیں!", "buttons": { "upload_stop": "منسوخ", "upload_retry": "دوبارہ کوشش" } },
+        "filemessage": { "video_preview": "ویڈیو", "caption_header": "کیپشن (اختیاری):", "upload_files": "اپ لوڈ کے لیے نئی فائلیں شامل کریں", "title_header": "عنوان:", "upload_start": "اپ لوڈ شروع ہو رہا ہے...", "upload_file_process": "فائل {} اپ لوڈ ہو رہی ہے", "upload_error": "{} اپ لوڈ ناکام ہو گیا۔ دوبارہ اپ لوڈ کریں؟", "upload_file_complete": "{} اپ لوڈ مکمل!", "upload_complete": "تمام فائلیں اپ لوڈ ہو گئیں!", "buttons": { "upload_stop": "منسوخ", "upload_retry": "دوبارہ کوشش" } },
         "roomselect": { "type_prompt": "پوسٹ کرنے کے لیے پیغام کی قسم منتخب کریں", "room_prompt": "وہ کمرہ منتخب کریں جس میں آپ پوسٹ کرنا چاہتے ہیں:", "error_no_rooms": "آپ کسی کمرے میں شامل نہیں ہیں یا آپ کو پوسٹ کرنے کا حق نہیں ہے۔" },
         "textmessage": { "answer_promt": "اپنا متن درج کریں:", "input_placeholder": "اپنا متن یہاں درج کریں...", "send_start": "پیغام بھیجنا شروع ہو گیا...", "send_failed": "پیغام بھیجنا ناکام ہو گیا۔ کیا آپ دوبارہ بھیجنا چاہتے ہیں؟", "send_complete": "پیغام کامیابی سے بھیج دیا گیا!", "buttons": { "send_stop": "دوبارہ کوشش نہ کریں", "resend": "دوبارہ کوشش" } }
     },

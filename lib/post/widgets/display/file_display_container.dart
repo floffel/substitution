@@ -224,13 +224,17 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
             ) {
               return Column(
                 children: [
-                  Text(
-                    files[itemIndex].displayEvent.calcUnlocalizedBody(
-                      hideReply: true,
-                      hideEdit: true,
-                      plaintextBody: true,
-                    ),
-                  ),
+                  Builder(builder: (context) {
+                    final event = files[itemIndex].displayEvent;
+                    final body = event.body;
+                    final filename = event.content.tryGet<String>('filename');
+                    final hasCaption = filename != null && body != filename;
+                    if (!hasCaption) return const SizedBox.shrink();
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                      child: Text(body),
+                    );
+                  }),
                   Expanded(
                     child: GestureDetector(
                       child: FileDisplay(file: files[itemIndex]),

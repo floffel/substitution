@@ -241,6 +241,7 @@
         "roomheader": "റൂം: {}",
         "filemessage": {
             "video_preview": "വീഡിയോ",
+            "caption_header": "അടിക്കുറിപ്പ് (ഐച്ഛികം):",
             "upload_files": "അപ്‌ലോഡിനായി പുതിയ ഫയലുകൾ ചേർക്കുക",
             "title_header": "ശീർഷകം:",
             "upload_start": "അപ്‌ലോഡ് ആരംഭിക്കുന്നു...",

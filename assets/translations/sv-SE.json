@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "Svara", "roomheader": "Rum: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Bildtext (valfritt):", "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
         "roomselect": { "type_prompt": "Välj vilken typ av meddelande du vill publicera", "room_prompt": "Välj rummet du vill publicera i:", "error_no_rooms": "Du har inte gått med i några rum eller saknar rättigheter att publicera." },
         "textmessage": { "answer_promt": "Ange din text:", "input_placeholder": "Skriv din text här...", "send_start": "Börjar skicka meddelandet...", "send_failed": "Sändningen misslyckades. Vill du skicka meddelandet igen?", "send_complete": "Meddelandet har skickats!", "buttons": { "send_stop": "Försök inte igen", "resend": "Försök igen" } }
     },

@@ -241,6 +241,7 @@
         "roomheader": "Ruangan: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Keterangan (opsional):",
             "upload_files": "Tambahkan file baru untuk diunggah",
             "title_header": "Judul:",
             "upload_start": "Memulai unggahan...",

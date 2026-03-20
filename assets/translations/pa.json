@@ -241,6 +241,7 @@
         "roomheader": "ਕਮਰਾ: {}",
         "filemessage": {
             "video_preview": "ਵੀਡੀਓ",
+            "caption_header": "ਕੈਪਸ਼ਨ (ਵਿਕਲਪਿਕ):",
             "upload_files": "ਅੱਪਲੋਡ ਲਈ ਨਵੀਆਂ ਫ਼ਾਈਲਾਂ ਸ਼ਾਮਲ ਕਰੋ",
             "title_header": "ਸਿਰਲੇਖ:",
             "upload_start": "ਅੱਪਲੋਡ ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ...",

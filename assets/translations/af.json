@@ -241,6 +241,7 @@
         "roomheader": "Kamer: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Onderskrif (opsioneel):",
             "upload_files": "Voeg nuwe lêers by vir oplaai",
             "title_header": "Titel:",
             "upload_start": "Begin oplaai...",

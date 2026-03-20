@@ -241,6 +241,7 @@
         "roomheader": "Bilik: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Kapsyen (pilihan):",
             "upload_files": "Tambah fail baharu untuk dimuat naik",
             "title_header": "Tajuk:",
             "upload_start": "Memulakan muat naik...",

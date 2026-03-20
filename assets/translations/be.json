@@ -241,6 +241,7 @@
         "roomheader": "Пакой: {}",
         "filemessage": {
             "video_preview": "Відэа",
+            "caption_header": "Подпіс (неабавязкова):",
             "upload_files": "Дадаць новыя файлы для загрузкі",
             "title_header": "Назва:",
             "upload_start": "Пачатак загрузкі...",

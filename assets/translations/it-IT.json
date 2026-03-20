@@ -241,6 +241,7 @@
         "roomheader": "Stanza: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Didascalia (facoltativo):",
             "upload_files": "Aggiungi nuovi file da caricare",
             "title_header": "Titolo:",
             "upload_start": "Avvio del caricamento...",

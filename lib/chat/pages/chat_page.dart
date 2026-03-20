@@ -172,29 +172,48 @@ class _ChatPageState extends State<ChatPage> {
         MessageTypes.Audio => Icons.audiotrack_rounded,
         _ => Icons.attach_file_rounded,
       };
-      content = Row(
+      final filename = event.content.tryGet<String>('filename');
+      final hasCaption = filename != null && event.body != filename;
+      content = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            mediaIcon,
-            size: 18,
-            color:
-                isMe
-                    ? colorScheme.onPrimary.withValues(alpha: 0.8)
-                    : colorScheme.onSurfaceVariant,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                mediaIcon,
+                size: 18,
+                color:
+                    isMe
+                        ? colorScheme.onPrimary.withValues(alpha: 0.8)
+                        : colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  hasCaption ? filename : (event.body.isNotEmpty ? event.body : 'chat.media_message'.tr()),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: isMe ? colorScheme.onPrimary : colorScheme.onSurface,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 6),
-          Flexible(
-            child: Text(
-              event.body.isNotEmpty ? event.body : 'chat.media_message'.tr(),
+          if (hasCaption) ...[
+            const SizedBox(height: 4),
+            Text(
+              event.body,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: isMe ? colorScheme.onPrimary : colorScheme.onSurface,
-                fontStyle: FontStyle.italic,
               ),
-              maxLines: 1,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
+          ],
         ],
       );
     }

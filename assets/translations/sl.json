@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Odgovori", "roomheader": "Soba: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Dodajte nove datoteke za nalaganje", "title_header": "Naslov:", "upload_start": "Začetek nalaganja...", "upload_file_process": "Nalaganje datoteke {}", "upload_error": "Nalaganje {} ni uspelo. Poskusiti znova?", "upload_file_complete": "Nalaganje {} je končano!", "upload_complete": "Vse datoteke so bile naložene!", "buttons": { "upload_stop": "Prekliči", "upload_retry": "Poskusi znova" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Opis (neobvezno):", "upload_files": "Dodajte nove datoteke za nalaganje", "title_header": "Naslov:", "upload_start": "Začetek nalaganja...", "upload_file_process": "Nalaganje datoteke {}", "upload_error": "Nalaganje {} ni uspelo. Poskusiti znova?", "upload_file_complete": "Nalaganje {} je končano!", "upload_complete": "Vse datoteke so bile naložene!", "buttons": { "upload_stop": "Prekliči", "upload_retry": "Poskusi znova" } },
         "roomselect": { "type_prompt": "Izberite vrsto sporočila, ki ga želite objaviti", "room_prompt": "Izberite sobo, v kateri želite objaviti:", "error_no_rooms": "Niste se pridružili nobeni sobi ali nimate pravic za objavljanje." },
         "textmessage": { "answer_promt": "Vnesite besedilo:", "input_placeholder": "Vnesite besedilo tukaj...", "send_start": "Pošiljanje sporočila se je začelo...", "send_failed": "Pošiljanje sporočila ni uspelo. Želite znova poslati sporočilo?", "send_complete": "Sporočilo je bilo uspešno poslano!", "buttons": { "send_stop": "Ne poskušaj znova", "resend": "Poskusi znova" } }
     },

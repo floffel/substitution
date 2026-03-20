@@ -241,6 +241,7 @@
         "roomheader": "Δωμάτιο: {}",
         "filemessage": {
             "video_preview": "Βίντεο",
+            "caption_header": "Λεζάντα (προαιρετικό):",
             "upload_files": "Προσθήκη νέων αρχείων για μεταφόρτωση",
             "title_header": "Τίτλος:",
             "upload_start": "Έναρξη μεταφόρτωσης...",

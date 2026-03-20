@@ -241,6 +241,7 @@
         "roomheader": "Cameră: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Descriere (opțional):",
             "upload_files": "Adaugă fișiere noi pentru încărcare",
             "title_header": "Titlu:",
             "upload_start": "Se începe încărcarea...",

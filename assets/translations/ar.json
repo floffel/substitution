@@ -241,6 +241,7 @@
         "roomheader": "الغرفة: {}",
         "filemessage": {
             "video_preview": "فيديو",
+            "caption_header": "تعليق (اختياري):",
             "upload_files": "إضافة ملفات جديدة للرفع",
             "title_header": "العنوان:",
             "upload_start": "بدء الرفع...",

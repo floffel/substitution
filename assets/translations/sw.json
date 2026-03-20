@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Jibu", "roomheader": "Chumba: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Ongeza faili mpya za kupakia", "title_header": "Kichwa:", "upload_start": "Inaanza kupakia...", "upload_file_process": "Inapakia faili {}", "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?", "upload_file_complete": "Kupakia {} kumekamilika!", "upload_complete": "Faili zote zimepakiwa!", "buttons": { "upload_stop": "Ghairi", "upload_retry": "Jaribu Tena" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Maelezo (hiari):", "upload_files": "Ongeza faili mpya za kupakia", "title_header": "Kichwa:", "upload_start": "Inaanza kupakia...", "upload_file_process": "Inapakia faili {}", "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?", "upload_file_complete": "Kupakia {} kumekamilika!", "upload_complete": "Faili zote zimepakiwa!", "buttons": { "upload_stop": "Ghairi", "upload_retry": "Jaribu Tena" } },
         "roomselect": { "type_prompt": "Chagua aina ya ujumbe unayotaka kuchapisha", "room_prompt": "Chagua chumba ambacho ungependa kuchapisha:", "error_no_rooms": "Hujajiunga na vyumba vyovyote au huna haki za kuchapisha." },
         "textmessage": { "answer_promt": "Ingiza Maandishi yako:", "input_placeholder": "Ingiza maandishi yako hapa...", "send_start": "Imeanza kutuma ujumbe...", "send_failed": "Kutuma ujumbe kumeshindwa. Ungependa kutuma tena?", "send_complete": "Ujumbe umetumwa kwa mafanikio!", "buttons": { "send_stop": "Usijaribu tena", "resend": "Jaribu Tena" } }
     },

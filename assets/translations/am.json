@@ -241,6 +241,7 @@
         "roomheader": "ክፍል: {}",
         "filemessage": {
             "video_preview": "ቪዲዮ",
+            "caption_header": "መግለጫ (አማራጭ):",
             "upload_files": "ለመስቀል አዲስ ፋይሎችን ጨምር",
             "title_header": "ርዕስ:",
             "upload_start": "መስቀል እየጀመረ ነው...",

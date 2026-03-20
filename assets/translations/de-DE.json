@@ -241,6 +241,7 @@
         "roomheader": "Raum: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Beschriftung (optional):",
             "upload_files": "Neue Dateien zum upload hinzufügen",
             "title_header": "Titel:",
             "upload_start": "Upload wird gestartet...",

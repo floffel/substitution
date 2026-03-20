@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "පිළිතුර", "roomheader": "කාමරය: {}",
-        "filemessage": { "video_preview": "වීඩියෝ", "upload_files": "උඩුගත කිරීමට නව ගොනු එක් කරන්න", "title_header": "මාතෘකාව:", "upload_start": "උඩුගත කිරීම ආරම්භ කරමින්...", "upload_file_process": "ගොනුව {} උඩුගත කරමින්", "upload_error": "{} උඩුගත කිරීම අසාර්ථක විය. නැවත උඩුගත කරන්නද?", "upload_file_complete": "{} උඩුගත කිරීම සම්පූර්ණයි!", "upload_complete": "සියලු ගොනු උඩුගත කර ඇත!", "buttons": { "upload_stop": "අවලංගු කරන්න", "upload_retry": "නැවත උත්සාහ කරන්න" } },
+        "filemessage": { "video_preview": "වීඩියෝ", "caption_header": "සිරැසිය (විකල්ප):", "upload_files": "උඩුගත කිරීමට නව ගොනු එක් කරන්න", "title_header": "මාතෘකාව:", "upload_start": "උඩුගත කිරීම ආරම්භ කරමින්...", "upload_file_process": "ගොනුව {} උඩුගත කරමින්", "upload_error": "{} උඩුගත කිරීම අසාර්ථක විය. නැවත උඩුගත කරන්නද?", "upload_file_complete": "{} උඩුගත කිරීම සම්පූර්ණයි!", "upload_complete": "සියලු ගොනු උඩුගත කර ඇත!", "buttons": { "upload_stop": "අවලංගු කරන්න", "upload_retry": "නැවත උත්සාහ කරන්න" } },
         "roomselect": { "type_prompt": "ඔබට පළ කිරීමට අවශ්‍ය පණිවිඩ වර්ගය තෝරන්න", "room_prompt": "ඔබට පළ කිරීමට අවශ්‍ය කාමරය තෝරන්න:", "error_no_rooms": "ඔබ කිසිදු කාමරයකට සම්බන්ධ වී නැත හෝ පළ කිරීමට අයිතිවාසිකම් නැත." },
         "textmessage": { "answer_promt": "ඔබේ පෙළ ඇතුළත් කරන්න:", "input_placeholder": "ඔබේ පෙළ මෙහි ඇතුළත් කරන්න...", "send_start": "පණිවිඩය යැවීම ආරම්භ විය...", "send_failed": "පණිවිඩය යැවීම අසාර්ථක විය. පණිවිඩය නැවත යවන්නද?", "send_complete": "පණිවිඩය සාර්ථකව යවන ලදී!", "buttons": { "send_stop": "නැවත උත්සාහ නොකරන්න", "resend": "නැවත උත්සාහ කරන්න" } }
     },

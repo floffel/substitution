@@ -241,6 +241,7 @@
         "roomheader": "ಕೊಠಡಿ: {}",
         "filemessage": {
             "video_preview": "ವೀಡಿಯೊ",
+            "caption_header": "ಶೀರ್ಷಿಕೆ (ಐಚ್ಛಿಕ):",
             "upload_files": "ಅಪ್‌ಲೋಡ್‌ಗಾಗಿ ಹೊಸ ಫೈಲ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
             "title_header": "ಶೀರ್ಷಿಕೆ:",
             "upload_start": "ಅಪ್‌ಲೋಡ್ ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ...",

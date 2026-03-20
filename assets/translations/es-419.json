@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "Responder", "roomheader": "Sala: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Agregar nuevos archivos para subir", "title_header": "Título:", "upload_start": "Iniciando la subida...", "upload_file_process": "Subiendo archivo {}", "upload_error": "La subida de {} falló. ¿Reintentar?", "upload_file_complete": "¡La subida de {} se completó!", "upload_complete": "¡Todos los archivos han sido subidos!", "buttons": { "upload_stop": "Cancelar", "upload_retry": "Reintentar" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Leyenda (opcional):", "upload_files": "Agregar nuevos archivos para subir", "title_header": "Título:", "upload_start": "Iniciando la subida...", "upload_file_process": "Subiendo archivo {}", "upload_error": "La subida de {} falló. ¿Reintentar?", "upload_file_complete": "¡La subida de {} se completó!", "upload_complete": "¡Todos los archivos han sido subidos!", "buttons": { "upload_stop": "Cancelar", "upload_retry": "Reintentar" } },
         "roomselect": { "type_prompt": "Elige el tipo de mensaje que quieres publicar", "room_prompt": "Elige la sala en la que quieres publicar:", "error_no_rooms": "No te has unido a ninguna sala o no tienes permisos para publicar." },
         "textmessage": { "answer_promt": "Ingresa tu texto:", "input_placeholder": "Escribe tu texto aquí...", "send_start": "Enviando el mensaje...", "send_failed": "El envío del mensaje falló. ¿Quieres reenviar el mensaje?", "send_complete": "¡El mensaje se envió correctamente!", "buttons": { "send_stop": "No reintentar", "resend": "Reintentar" } }
     },

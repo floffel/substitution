@@ -241,6 +241,7 @@
         "roomheader": "Room: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Caption (opsyonal):",
             "upload_files": "Magdagdag ng mga bagong file para i-upload",
             "title_header": "Pamagat:",
             "upload_start": "Sinisimulan ang pag-upload...",

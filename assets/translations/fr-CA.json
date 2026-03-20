@@ -241,6 +241,7 @@
         "roomheader": "Salle : {}",
         "filemessage": {
             "video_preview": "Vidéo",
+            "caption_header": "Légende (facultatif) :",
             "upload_files": "Ajouter de nouveaux fichiers à téléverser",
             "title_header": "Titre :",
             "upload_start": "Début du téléversement...",

@@ -241,6 +241,7 @@
         "roomheader": "ოთახი: {}",
         "filemessage": {
             "video_preview": "ვიდეო",
+            "caption_header": "წარწერა (არასავალდებულო):",
             "upload_files": "ახალი ფაილების დამატება ასატვირთად",
             "title_header": "სათაური:",
             "upload_start": "ატვირთვა იწყება...",

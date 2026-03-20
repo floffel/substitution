@@ -241,6 +241,7 @@
         "roomheader": "Sala: {}",
         "filemessage": {
             "video_preview": "Vídeo",
+            "caption_header": "Llegenda (opcional):",
             "upload_files": "Afegeix nous fitxers per pujar",
             "title_header": "Títol:",
             "upload_start": "Iniciant la pujada...",

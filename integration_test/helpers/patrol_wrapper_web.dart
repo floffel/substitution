@@ -4,8 +4,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'integration_test_helper.dart' show disableAnimations;
 
-// On Web, NativeAutomator cannot be instantiated (it uses dart:io internally),
-// so we use mocks that satisfy the type system without calling any native code.
+// On Web, PlatformAutomator cannot be instantiated (it uses dart:io internally),
+// so we use a mock that satisfies the type system without calling any native code.
 
 /// Web implementation of wrapTester
 PatrolIntegrationTester wrapTester(WidgetTester tester) {
@@ -15,11 +15,8 @@ PatrolIntegrationTester wrapTester(WidgetTester tester) {
   return PatrolIntegrationTester(
     tester: tester,
     config: const PatrolTesterConfig(),
-    nativeAutomator: _MockNativeAutomator(),
-    nativeAutomator2: _MockNativeAutomator2(),
+    platformAutomator: _MockPlatformAutomator(),
   );
 }
 
-class _MockNativeAutomator extends Mock implements NativeAutomator {}
-
-class _MockNativeAutomator2 extends Mock implements NativeAutomator2 {}
+class _MockPlatformAutomator extends Mock implements PlatformAutomator {}

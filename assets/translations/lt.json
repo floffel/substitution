@@ -241,6 +241,7 @@
         "roomheader": "Kambarys: {}",
         "filemessage": {
             "video_preview": "Vaizdo įrašas",
+            "caption_header": "Antraštė (neprivaloma):",
             "upload_files": "Pridėti naujus failus įkėlimui",
             "title_header": "Pavadinimas:",
             "upload_start": "Pradedamas įkėlimas...",

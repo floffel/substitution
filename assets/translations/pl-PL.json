@@ -241,6 +241,7 @@
         "roomheader": "Pokój: {}",
         "filemessage": {
             "video_preview": "Wideo",
+            "caption_header": "Podpis (opcjonalnie):",
             "upload_files": "Dodaj nowe pliki do przesłania",
             "title_header": "Tytuł:",
             "upload_start": "Rozpoczynanie przesyłania...",

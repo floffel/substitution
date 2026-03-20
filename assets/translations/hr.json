@@ -241,6 +241,7 @@
         "roomheader": "Soba: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Opis (neobavezno):",
             "upload_files": "Dodajte nove datoteke za prijenos",
             "title_header": "Naslov:",
             "upload_start": "Pokretanje prijenosa...",

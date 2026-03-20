@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "Ответить", "roomheader": "Комната: {}",
-        "filemessage": { "video_preview": "Видео", "upload_files": "Добавить файлы для загрузки", "title_header": "Заголовок:", "upload_start": "Начинается загрузка...", "upload_file_process": "Загрузка файла {}", "upload_error": "Загрузка {} не удалась. Повторить?", "upload_file_complete": "Загрузка {} завершена!", "upload_complete": "Все файлы загружены!", "buttons": { "upload_stop": "Отмена", "upload_retry": "Повторить" } },
+        "filemessage": { "video_preview": "Видео", "caption_header": "Подпись (необязательно):", "upload_files": "Добавить файлы для загрузки", "title_header": "Заголовок:", "upload_start": "Начинается загрузка...", "upload_file_process": "Загрузка файла {}", "upload_error": "Загрузка {} не удалась. Повторить?", "upload_file_complete": "Загрузка {} завершена!", "upload_complete": "Все файлы загружены!", "buttons": { "upload_stop": "Отмена", "upload_retry": "Повторить" } },
         "roomselect": { "type_prompt": "Выберите тип сообщения для публикации", "room_prompt": "Выберите комнату для публикации:", "error_no_rooms": "Вы не присоединились ни к одной комнате или у вас нет прав на публикацию." },
         "textmessage": { "answer_promt": "Введите текст:", "input_placeholder": "Введите текст здесь...", "send_start": "Отправка сообщения...", "send_failed": "Отправка сообщения не удалась. Повторить отправку?", "send_complete": "Сообщение успешно отправлено!", "buttons": { "send_stop": "Не повторять", "resend": "Повторить" } }
     },

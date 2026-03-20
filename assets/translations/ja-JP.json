@@ -241,6 +241,7 @@
         "roomheader": "ルーム: {}",
         "filemessage": {
             "video_preview": "動画",
+            "caption_header": "キャプション（任意）：",
             "upload_files": "アップロードする新しいファイルを追加",
             "title_header": "タイトル:",
             "upload_start": "アップロードを開始しています...",

@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Trả lời", "roomheader": "Phòng: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Thêm tệp mới để tải lên", "title_header": "Tiêu đề:", "upload_start": "Bắt đầu tải lên...", "upload_file_process": "Đang tải lên tệp {}", "upload_error": "Tải lên {} thất bại. Thử lại?", "upload_file_complete": "Tải lên {} hoàn tất!", "upload_complete": "Tất cả tệp đã được tải lên!", "buttons": { "upload_stop": "Hủy", "upload_retry": "Thử lại" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Chú thích (tùy chọn):", "upload_files": "Thêm tệp mới để tải lên", "title_header": "Tiêu đề:", "upload_start": "Bắt đầu tải lên...", "upload_file_process": "Đang tải lên tệp {}", "upload_error": "Tải lên {} thất bại. Thử lại?", "upload_file_complete": "Tải lên {} hoàn tất!", "upload_complete": "Tất cả tệp đã được tải lên!", "buttons": { "upload_stop": "Hủy", "upload_retry": "Thử lại" } },
         "roomselect": { "type_prompt": "Chọn loại tin nhắn bạn muốn đăng", "room_prompt": "Chọn phòng bạn muốn đăng:", "error_no_rooms": "Bạn chưa tham gia phòng nào hoặc bạn không có quyền đăng bài." },
         "textmessage": { "answer_promt": "Nhập nội dung:", "input_placeholder": "Nhập nội dung tại đây...", "send_start": "Đang gửi tin nhắn...", "send_failed": "Gửi tin nhắn thất bại. Bạn có muốn gửi lại không?", "send_complete": "Tin nhắn đã được gửi thành công!", "buttons": { "send_stop": "Không thử lại", "resend": "Thử lại" } }
     },

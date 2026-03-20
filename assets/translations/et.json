@@ -241,6 +241,7 @@
         "roomheader": "Ruum: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Pealdis (valikuline):",
             "upload_files": "Lisa uued failid üleslaadimiseks",
             "title_header": "Pealkiri:",
             "upload_start": "Üleslaadimine algab...",

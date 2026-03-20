@@ -241,6 +241,7 @@
         "roomheader": "Стая: {}",
         "filemessage": {
             "video_preview": "Видео",
+            "caption_header": "Надпис (по избор):",
             "upload_files": "Добавяне на нови файлове за качване",
             "title_header": "Заглавие:",
             "upload_start": "Започва качване...",

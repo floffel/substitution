@@ -241,6 +241,7 @@
         "roomheader": "បន្ទប់: {}",
         "filemessage": {
             "video_preview": "វីដេអូ",
+            "caption_header": "ចំណារពន្យល់ (ជាជម្រើស):",
             "upload_files": "បន្ថែមឯកសារថ្មីសម្រាប់ផ្ទុកឡើង",
             "title_header": "ចំណងជើង:",
             "upload_start": "កំពុងចាប់ផ្ដើមផ្ទុកឡើង...",

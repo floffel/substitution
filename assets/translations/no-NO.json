@@ -241,6 +241,7 @@
         "roomheader": "Rom: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Bildetekst (valgfritt):",
             "upload_files": "Legg til nye filer for opplasting",
             "title_header": "Tittel:",
             "upload_start": "Starter opplasting...",

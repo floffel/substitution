@@ -93,7 +93,7 @@
     },
     "write": {
         "answer": "Yanıtla", "roomheader": "Oda: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Açıklama (isteğe bağlı):", "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
         "roomselect": { "type_prompt": "Göndermek istediğiniz mesaj türünü seçin", "room_prompt": "Gönderi yapmak istediğiniz odayı seçin:", "error_no_rooms": "Herhangi bir odaya katılmadınız veya gönderi yapma yetkiniz yok." },
         "textmessage": { "answer_promt": "Metninizi girin:", "input_placeholder": "Metninizi buraya girin...", "send_start": "Mesaj gönderiliyor...", "send_failed": "Mesaj gönderilemedi. Tekrar göndermek ister misiniz?", "send_complete": "Mesaj başarıyla gönderildi!", "buttons": { "send_stop": "Tekrar deneme", "resend": "Tekrar Dene" } }
     },

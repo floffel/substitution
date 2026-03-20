@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Відповісти", "roomheader": "Кімната: {}",
-        "filemessage": { "video_preview": "Відео", "upload_files": "Додати нові файли для завантаження", "title_header": "Заголовок:", "upload_start": "Починається завантаження...", "upload_file_process": "Завантаження файлу {}", "upload_error": "Завантаження {} не вдалося. Повторити завантаження?", "upload_file_complete": "Завантаження {} завершено!", "upload_complete": "Усі файли завантажено!", "buttons": { "upload_stop": "Скасувати", "upload_retry": "Повторити" } },
+        "filemessage": { "video_preview": "Відео", "caption_header": "Підпис (необов'язково):", "upload_files": "Додати нові файли для завантаження", "title_header": "Заголовок:", "upload_start": "Починається завантаження...", "upload_file_process": "Завантаження файлу {}", "upload_error": "Завантаження {} не вдалося. Повторити завантаження?", "upload_file_complete": "Завантаження {} завершено!", "upload_complete": "Усі файли завантажено!", "buttons": { "upload_stop": "Скасувати", "upload_retry": "Повторити" } },
         "roomselect": { "type_prompt": "Оберіть тип повідомлення, яке хочете опублікувати", "room_prompt": "Оберіть кімнату, в якій хочете опублікувати:", "error_no_rooms": "Ви не приєдналися до жодної кімнати або у вас немає прав для публікації." },
         "textmessage": { "answer_promt": "Введіть ваш текст:", "input_placeholder": "Введіть текст тут...", "send_start": "Надсилання повідомлення розпочато...", "send_failed": "Не вдалося надіслати повідомлення. Бажаєте повторити?", "send_complete": "Повідомлення успішно надіслано!", "buttons": { "send_stop": "Не повторювати", "resend": "Повторити" } }
     },

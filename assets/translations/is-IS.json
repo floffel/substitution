@@ -241,6 +241,7 @@
         "roomheader": "Herbergi: {}",
         "filemessage": {
             "video_preview": "Myndband",
+            "caption_header": "Myndatexti (valfrjálst):",
             "upload_files": "Bæta við nýjum skrám til upphleðslu",
             "title_header": "Titill:",
             "upload_start": "Upphleðsla hefst...",

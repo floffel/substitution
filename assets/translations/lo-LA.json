@@ -241,6 +241,7 @@
         "roomheader": "ຫ້ອງ: {}",
         "filemessage": {
             "video_preview": "ວິດີໂອ",
+            "caption_header": "ຄຳບັນຍາຍ (ບໍ່ບັງຄັບ):",
             "upload_files": "ເພີ່ມໄຟລ໌ໃໝ່ສຳລັບອັບໂຫລດ",
             "title_header": "ຫົວຂໍ້:",
             "upload_start": "ກຳລັງເລີ່ມອັບໂຫລດ...",

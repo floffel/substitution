@@ -241,6 +241,7 @@
         "roomheader": "Kamer: {}",
         "filemessage": {
             "video_preview": "Video",
+            "caption_header": "Bijschrift (optioneel):",
             "upload_files": "Nieuwe bestanden toevoegen voor upload",
             "title_header": "Titel:",
             "upload_start": "Upload wordt gestart...",

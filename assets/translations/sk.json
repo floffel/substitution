@@ -91,7 +91,7 @@
     },
     "write": {
         "answer": "Odpovedať", "roomheader": "Miestnosť: {}",
-        "filemessage": { "video_preview": "Video", "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
+        "filemessage": { "video_preview": "Video", "caption_header": "Popis (voliteľné):", "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
         "roomselect": { "type_prompt": "Vyberte typ správy, ktorú chcete zverejniť", "room_prompt": "Vyberte miestnosť, v ktorej chcete zverejniť:", "error_no_rooms": "Nepripojili ste sa k žiadnym miestnostiam alebo nemáte oprávnenie na zverejňovanie." },
         "textmessage": { "answer_promt": "Zadajte text:", "input_placeholder": "Zadajte text sem...", "send_start": "Správa sa odosiela...", "send_failed": "Odoslanie správy zlyhalo. Chcete správu odoslať znova?", "send_complete": "Správa bola úspešne odoslaná!", "buttons": { "send_stop": "Neopakovať", "resend": "Skúsiť znova" } }
     },

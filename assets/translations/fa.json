@@ -241,6 +241,7 @@
         "roomheader": "اتاق: {}",
         "filemessage": {
             "video_preview": "ویدیو",
+            "caption_header": "توضیح (اختیاری):",
             "upload_files": "افزودن فایل‌های جدید برای بارگذاری",
             "title_header": "عنوان:",
             "upload_start": "شروع بارگذاری...",
