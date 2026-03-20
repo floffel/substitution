@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Файл дэшыфруецца...",
+                "decrypt_error": "Не ўдалося загрузіць файл.",
                 "video_desktop_error": "Відэа нельга прайграць на Linux, Windows ці MacOS. Дапамажыце праекту на Github, калі хочаце бачыць гэту функцыю!",
                 "audio_desktop_error": "Аўдыя нельга прайграць на Linux, Windows ці MacOS."
+            },
+            "comment": {
+                "load_error": "Не ўдалося загрузіць адказы."
             },
             "reaction": {
                 "unknown_sender": "невядомы",
@@ -127,7 +131,10 @@
             "navigation_label": "Навігацыя",
             "account_label": "Акаўнт",
             "preferences_label": "Пераваг",
-            "about_label": "Пра нас"
+            "about_label": "Пра нас",
+            "ownfeeds_label": "Уласныя стужкі",
+            "profile_label": "Рэдагаваць профіль",
+            "security_label": "Бяспека"
         },
         "room": {
             "desc": "Назва пакоя: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "назва пакоя",
                 "placeholder_alias": "псеўданім пакоя (публічны адрас)",
                 "placeholder_topic": "тэма пакоя",
-                "submit": "Стварыць"
+                "submit": "Стварыць",
+                "error": "Не ўдалося стварыць пакой. Паспрабуйце яшчэ раз."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Адказаць",
         "roomheader": "Пакой: {}",
         "filemessage": {
+            "video_preview": "Відэа",
             "upload_files": "Дадаць новыя файлы для загрузкі",
             "title_header": "Назва:",
             "upload_start": "Пачатак загрузкі...",
@@ -277,6 +286,12 @@
         "feeds_section": "СТУЖКІ",
         "no_feeds": "Няма публічных стужак",
         "error_start_chat": "Не ўдалося пачаць чат: {}"
+    },
+    "startroom_dialog": {
+        "title": "Далучыцца да пакоя вітання?",
+        "desc": "Хочаце далучыцца да пакоя вітання Substitution? Гэта выдатнае месца, каб пачаць і звязацца з суполкай.",
+        "join": "Далучыцца і працягнуць",
+        "skip": "Прапусціць"
     },
     "chat": {
         "title": "Паведамленні",

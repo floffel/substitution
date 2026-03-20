@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "फाइल डिक्रिप्ट हुँदैछ...",
+                "decrypt_error": "फाइल लोड गर्न सकिएन।",
                 "video_desktop_error": "भिडियोहरू Linux, Windows र MacOS मा प्रदर्शन गर्न सकिँदैन। यो सुविधा हेर्न चाहनुहुन्छ भने Github मा योगदान गर्ने विचार गर्नुहोस्!",
                 "audio_desktop_error": "अडियो Linux, Windows र MacOS मा बजाउन सकिँदैन।"
+            },
+            "comment": {
+                "load_error": "जवाफहरू लोड गर्न सकिएन।"
             },
             "reaction": {
                 "unknown_sender": "अज्ञात",
@@ -127,7 +131,10 @@
             "navigation_label": "नेभिगेसन",
             "account_label": "खाता",
             "preferences_label": "प्राथमिकताहरू",
-            "about_label": "बारेमा"
+            "about_label": "बारेमा",
+            "ownfeeds_label": "आफ्ना फिडहरू",
+            "profile_label": "प्रोफाइल सम्पादन गर्नुहोस्",
+            "security_label": "सुरक्षा"
         },
         "room": {
             "desc": "कोठाको नाम: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "कोठाको नाम",
                 "placeholder_alias": "कोठाको उपनाम (सार्वजनिक कोठा ठेगाना)",
                 "placeholder_topic": "कोठाको विषय",
-                "submit": "बनाउनुहोस्"
+                "submit": "बनाउनुहोस्",
+                "error": "कोठा बनाउन सकिएन। कृपया पुनः प्रयास गर्नुहोस्।"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "जवाफ",
         "roomheader": "कोठा: {}",
         "filemessage": {
+            "video_preview": "भिडियो",
             "upload_files": "अपलोडको लागि नयाँ फाइलहरू थप्नुहोस्",
             "title_header": "शीर्षक:",
             "upload_start": "अपलोड सुरु हुँदैछ...",
@@ -277,6 +286,12 @@
         "feeds_section": "फिडहरू",
         "no_feeds": "कुनै सार्वजनिक फिड छैन",
         "error_start_chat": "च्याट सुरु गर्न सकिएन: {}"
+    },
+    "startroom_dialog": {
+        "title": "स्वागत कोठामा सामेल हुने?",
+        "desc": "के तपाईं Substitution स्वागत कोठामा सामेल हुन चाहनुहुन्छ? सुरु गर्न र समुदायसँग जोडिन यो एक उत्कृष्ट ठाउँ हो।",
+        "join": "सामेल हुनुहोस् र जारी राख्नुहोस्",
+        "skip": "छोड्नुहोस्"
     },
     "chat": {
         "title": "सन्देशहरू",

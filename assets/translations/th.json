@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "เลือกไอคอน" } },
         "widgets": {
             "filecomponent": { "button": { "close": "ปิด" } },
-            "filedisplay": { "decrypting": "กำลังถอดรหัสไฟล์...", "video_desktop_error": "ไม่สามารถแสดงวิดีโอบน Linux, Windows หรือ MacOS ได้ หากคุณต้องการเห็นฟีเจอร์นี้ ลองพิจารณาร่วมพัฒนาบน Github!", "audio_desktop_error": "ไม่สามารถเล่นเสียงบน Linux, Windows หรือ MacOS ได้" },
+            "filedisplay": { "decrypting": "กำลังถอดรหัสไฟล์...", "decrypt_error": "ไม่สามารถโหลดไฟล์ได้", "video_desktop_error": "ไม่สามารถแสดงวิดีโอบน Linux, Windows หรือ MacOS ได้ หากคุณต้องการเห็นฟีเจอร์นี้ ลองพิจารณาร่วมพัฒนาบน Github!", "audio_desktop_error": "ไม่สามารถเล่นเสียงบน Linux, Windows หรือ MacOS ได้" },
+            "comment": { "load_error": "ไม่สามารถโหลดการตอบกลับได้" },
             "reaction": { "unknown_sender": "ไม่ทราบ", "sent_by": "ส่งโดย {}" },
             "videoplayercontrol": { "play": "เล่น", "caption_offset": "ออฟเซ็ตคำบรรยาย", "playback_speed": "ความเร็วในการเล่น" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "เข้าสู่ระบบเป็น {}", "logout": "ออกจากระบบ", "logout_confirm": "คุณแน่ใจหรือว่าต้องการออกจากระบบ?",
             "login": "เข้าสู่ระบบ", "not_logged_in": "เข้าสู่ระบบเพื่อเข้าถึงฟีเจอร์ทั้งหมด",
             "home_site_label": "หน้าหลัก", "feeds_site_label": "ฟีด", "navigation_label": "การนำทาง",
-            "account_label": "บัญชี", "preferences_label": "การตั้งค่า", "about_label": "เกี่ยวกับ"
+            "account_label": "บัญชี", "preferences_label": "การตั้งค่า", "about_label": "เกี่ยวกับ",
+            "ownfeeds_label": "ฟีดของฉัน", "profile_label": "แก้ไขโปรไฟล์", "security_label": "ความปลอดภัย"
         },
         "room": { "desc": "ชื่อห้อง: {}", "leave": "ออกจากห้อง", "join": "เข้าห้องและเพิ่มไปยัง substitution", "join_short": "เข้าร่วม", "permissions": "สิทธิ์" },
         "dialog": {
             "delete": { "title": "ออกจากห้อง {}", "desc": "คุณแน่ใจหรือว่าต้องการออกจากห้อง {}?", "button": { "submit": "ใช่ ออกจากห้อง", "cancel": "ไม่ ยกเลิก" } },
             "add": { "title": "เพิ่มเซิร์ฟเวอร์ใหม่", "input_placeholder": "ป้อนที่อยู่เซิร์ฟเวอร์", "button": { "submit": "เพิ่ม" }, "snackbar": { "success": "เพิ่มเซิร์ฟเวอร์แล้ว", "error_homeserver": "โฮมเซิร์ฟเวอร์ที่ป้อนไม่ถูกต้อง" } },
-            "create": { "title": "สร้างห้องใหม่", "placeholder_name": "ชื่อห้อง", "placeholder_alias": "นามแฝงของห้อง (ที่อยู่ห้องสาธารณะ)", "placeholder_topic": "หัวข้อห้อง", "submit": "สร้าง" }
+            "create": { "title": "สร้างห้องใหม่", "placeholder_name": "ชื่อห้อง", "placeholder_alias": "นามแฝงของห้อง (ที่อยู่ห้องสาธารณะ)", "placeholder_topic": "หัวข้อห้อง", "submit": "สร้าง", "error": "ไม่สามารถสร้างห้องได้ กรุณาลองใหม่อีกครั้ง" }
         },
         "room_preview": { "members": "{} สมาชิก", "latest_posts": "โพสต์ล่าสุด", "no_posts": "ยังไม่มีโพสต์ในห้องนี้", "no_peek": "ประวัติของห้องนี้เป็นส่วนตัว เข้าร่วมห้องเพื่อดูโพสต์", "join_to_see": "เข้าร่วมเพื่อดูโพสต์" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "ตอบ", "roomheader": "ห้อง: {}",
-        "filemessage": { "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด", "title_header": "ชื่อเรื่อง:", "upload_start": "เริ่มอัปโหลด...", "upload_file_process": "กำลังอัปโหลดไฟล์ {}", "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?", "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!", "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!", "buttons": { "upload_stop": "ยกเลิก", "upload_retry": "ลองใหม่" } },
+        "filemessage": { "video_preview": "วิดีโอ", "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด", "title_header": "ชื่อเรื่อง:", "upload_start": "เริ่มอัปโหลด...", "upload_file_process": "กำลังอัปโหลดไฟล์ {}", "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?", "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!", "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!", "buttons": { "upload_stop": "ยกเลิก", "upload_retry": "ลองใหม่" } },
         "roomselect": { "type_prompt": "เลือกประเภทข้อความที่คุณต้องการโพสต์", "room_prompt": "เลือกห้องที่คุณต้องการโพสต์:", "error_no_rooms": "คุณยังไม่ได้เข้าร่วมห้องใด ๆ หรือคุณไม่มีสิทธิ์ในการโพสต์" },
         "textmessage": { "answer_promt": "ป้อนข้อความของคุณ:", "input_placeholder": "ป้อนข้อความของคุณที่นี่...", "send_start": "เริ่มส่งข้อความ...", "send_failed": "การส่งข้อความล้มเหลว คุณต้องการส่งใหม่หรือไม่?", "send_complete": "ส่งข้อความสำเร็จแล้ว!", "buttons": { "send_stop": "ไม่ต้องลองใหม่", "resend": "ลองใหม่" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "เหตุผล", "report_reason_hint": "ผู้ใช้นี้...", "report_submit": "ส่ง",
         "report_success": "ส่งรายงานแล้ว ขอบคุณ", "feeds_section": "ฟีด", "no_feeds": "ไม่มีฟีดสาธารณะ",
         "error_start_chat": "ไม่สามารถเริ่มแชทได้: {}"
+    },
+    "startroom_dialog": {
+        "title": "เข้าร่วมห้องต้อนรับ?",
+        "desc": "คุณต้องการเข้าร่วมห้องต้อนรับ Substitution หรือไม่? เป็นสถานที่ที่ดีในการเริ่มต้นและเชื่อมต่อกับชุมชน",
+        "join": "เข้าร่วมและดำเนินการต่อ",
+        "skip": "ข้าม"
     },
     "chat": {
         "title": "ข้อความ", "input_placeholder": "พิมพ์ข้อความ...", "no_messages": "ยังไม่มีข้อความ ทักทายสิ!",

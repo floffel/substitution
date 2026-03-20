@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ফাইল ডিক্রিপ্ট করা হচ্ছে...",
+                "decrypt_error": "ফাইল লোড করা যায়নি।",
                 "video_desktop_error": "Linux, Windows বা MacOS-এ ভিডিও প্রদর্শন করা যায় না। এই ফিচারটি দেখতে চাইলে Github-এ অবদান রাখার কথা ভাবুন!",
                 "audio_desktop_error": "Linux, Windows বা MacOS-এ অডিও চালানো যায় না।"
+            },
+            "comment": {
+                "load_error": "উত্তরগুলি লোড করা যায়নি।"
             },
             "reaction": {
                 "unknown_sender": "অজানা",
@@ -127,7 +131,10 @@
             "navigation_label": "নেভিগেশন",
             "account_label": "অ্যাকাউন্ট",
             "preferences_label": "পছন্দসমূহ",
-            "about_label": "সম্পর্কে"
+            "about_label": "সম্পর্কে",
+            "ownfeeds_label": "নিজস্ব ফিড",
+            "profile_label": "প্রোফাইল সম্পাদনা",
+            "security_label": "নিরাপত্তা"
         },
         "room": {
             "desc": "রুমের নাম: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "রুমের নাম",
                 "placeholder_alias": "রুমের উপনাম (পাবলিক রুম ঠিকানা)",
                 "placeholder_topic": "রুমের বিষয়",
-                "submit": "তৈরি করুন"
+                "submit": "তৈরি করুন",
+                "error": "রুম তৈরি করা যায়নি। অনুগ্রহ করে পুনরায় চেষ্টা করুন।"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "উত্তর",
         "roomheader": "রুম: {}",
         "filemessage": {
+            "video_preview": "ভিডিও",
             "upload_files": "আপলোডের জন্য নতুন ফাইল যোগ করুন",
             "title_header": "শিরোনাম:",
             "upload_start": "আপলোড শুরু হচ্ছে...",
@@ -277,6 +286,12 @@
         "feeds_section": "ফিড",
         "no_feeds": "কোনো পাবলিক ফিড নেই",
         "error_start_chat": "চ্যাট শুরু করা যায়নি: {}"
+    },
+    "startroom_dialog": {
+        "title": "স্বাগতম রুমে যোগ দেবেন?",
+        "desc": "আপনি কি Substitution স্বাগতম রুমে যোগ দিতে চান? এটি শুরু করার এবং সম্প্রদায়ের সাথে সংযুক্ত হওয়ার একটি দুর্দান্ত জায়গা।",
+        "join": "যোগ দিন এবং চালিয়ে যান",
+        "skip": "এড়িয়ে যান"
     },
     "chat": {
         "title": "বার্তা",

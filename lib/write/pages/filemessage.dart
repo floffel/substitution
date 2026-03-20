@@ -164,7 +164,13 @@ class FileMessageWriteState extends State<FileMessageWrite> {
                 if (imageExtensions.contains(f.file.name.split('.').last)) ...[
                   imageFromPath(f.file.path),
                 ] else ...[
-                  Text("movie"), // todo implement this...
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.videocam, size: 48),
+                      const Text('write.filemessage.video_preview').tr(),
+                    ],
+                  ),
                 ],
               ],
             ),

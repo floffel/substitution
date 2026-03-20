@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "הקובץ מפוענח...",
+                "decrypt_error": "לא ניתן לטעון את הקובץ.",
                 "video_desktop_error": "לא ניתן להציג סרטונים ב-Linux, Windows או MacOS. שקול לתרום ב-Github אם ברצונך לראות תכונה זו!",
                 "audio_desktop_error": "לא ניתן להשמיע אודיו ב-Linux, Windows או MacOS."
+            },
+            "comment": {
+                "load_error": "לא ניתן לטעון תגובות."
             },
             "reaction": {
                 "unknown_sender": "לא ידוע",
@@ -127,7 +131,10 @@
             "navigation_label": "ניווט",
             "account_label": "חשבון",
             "preferences_label": "העדפות",
-            "about_label": "אודות"
+            "about_label": "אודות",
+            "ownfeeds_label": "הפידים שלי",
+            "profile_label": "עריכת פרופיל",
+            "security_label": "אבטחה"
         },
         "room": {
             "desc": "שם החדר: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "שם החדר",
                 "placeholder_alias": "כינוי החדר (כתובת חדר ציבורית)",
                 "placeholder_topic": "נושא החדר",
-                "submit": "צור"
+                "submit": "צור",
+                "error": "לא ניתן ליצור חדר. אנא נסה שוב."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "תשובה",
         "roomheader": "חדר: {}",
         "filemessage": {
+            "video_preview": "וידאו",
             "upload_files": "הוסף קבצים חדשים להעלאה",
             "title_header": "כותרת:",
             "upload_start": "מתחיל העלאה...",
@@ -277,6 +286,12 @@
         "feeds_section": "פידים",
         "no_feeds": "אין פידים ציבוריים",
         "error_start_chat": "לא ניתן להתחיל צ'אט: {}"
+    },
+    "startroom_dialog": {
+        "title": "להצטרף לחדר הקבלה?",
+        "desc": "האם תרצה להצטרף לחדר הקבלה של Substitution? זהו מקום מצוין להתחיל ולהתחבר עם הקהילה.",
+        "join": "הצטרף והמשך",
+        "skip": "דלג"
     },
     "chat": {
         "title": "הודעות",

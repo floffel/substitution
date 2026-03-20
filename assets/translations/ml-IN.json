@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ഫയൽ ഡിക്രിപ്റ്റ് ചെയ്യുന്നു...",
+                "decrypt_error": "ഫയൽ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
                 "video_desktop_error": "Linux, Windows അല്ലെങ്കിൽ MacOS-ൽ വീഡിയോകൾ പ്രദർശിപ്പിക്കാൻ കഴിയില്ല. ഈ ഫീച്ചർ കാണാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ Github-ൽ സംഭാവന ചെയ്യുക!",
                 "audio_desktop_error": "Linux, Windows അല്ലെങ്കിൽ MacOS-ൽ ഓഡിയോ പ്ലേ ചെയ്യാൻ കഴിയില്ല."
+            },
+            "comment": {
+                "load_error": "മറുപടികൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല."
             },
             "reaction": {
                 "unknown_sender": "അജ്ഞാതം",
@@ -127,7 +131,10 @@
             "navigation_label": "നാവിഗേഷൻ",
             "account_label": "അക്കൗണ്ട്",
             "preferences_label": "മുൻഗണനകൾ",
-            "about_label": "കുറിച്ച്"
+            "about_label": "കുറിച്ച്",
+            "ownfeeds_label": "സ്വന്തം ഫീഡുകൾ",
+            "profile_label": "പ്രൊഫൈൽ എഡിറ്റ് ചെയ്യുക",
+            "security_label": "സുരക്ഷ"
         },
         "room": {
             "desc": "റൂമിന്റെ പേര്: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "റൂമിന്റെ പേര്",
                 "placeholder_alias": "റൂം അലിയാസ് (പൊതു റൂം വിലാസം)",
                 "placeholder_topic": "റൂം വിഷയം",
-                "submit": "സൃഷ്ടിക്കുക"
+                "submit": "സൃഷ്ടിക്കുക",
+                "error": "റൂം സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "മറുപടി",
         "roomheader": "റൂം: {}",
         "filemessage": {
+            "video_preview": "വീഡിയോ",
             "upload_files": "അപ്‌ലോഡിനായി പുതിയ ഫയലുകൾ ചേർക്കുക",
             "title_header": "ശീർഷകം:",
             "upload_start": "അപ്‌ലോഡ് ആരംഭിക്കുന്നു...",
@@ -277,6 +286,12 @@
         "feeds_section": "ഫീഡുകൾ",
         "no_feeds": "പൊതു ഫീഡുകളില്ല",
         "error_start_chat": "ചാറ്റ് ആരംഭിക്കാൻ കഴിഞ്ഞില്ല: {}"
+    },
+    "startroom_dialog": {
+        "title": "സ്വാഗത റൂമിൽ ചേരണോ?",
+        "desc": "Substitution സ്വാഗത റൂമിൽ ചേരാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ? ആരംഭിക്കാനും സമൂഹവുമായി ബന്ധപ്പെടാനും ഇത് ഒരു മികച്ച സ്ഥലമാണ്.",
+        "join": "ചേർന്ന് തുടരുക",
+        "skip": "ഒഴിവാക്കുക"
     },
     "chat": {
         "title": "സന്ദേശങ്ങൾ",

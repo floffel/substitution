@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Elige un ícono" } },
         "widgets": {
             "filecomponent": { "button": { "close": "cerrar" } },
-            "filedisplay": { "decrypting": "El archivo se está descifrando...", "video_desktop_error": "Los videos no se pueden reproducir en Linux, Windows ni MacOS. ¡Contribuye en Github si te gustaría ver esta función!", "audio_desktop_error": "El audio no se puede reproducir en Linux, Windows ni MacOS." },
+            "filedisplay": { "decrypting": "El archivo se está descifrando...", "decrypt_error": "No se pudo cargar el archivo.", "video_desktop_error": "Los videos no se pueden reproducir en Linux, Windows ni MacOS. ¡Contribuye en Github si te gustaría ver esta función!", "audio_desktop_error": "El audio no se puede reproducir en Linux, Windows ni MacOS." },
+            "comment": { "load_error": "No se pudieron cargar las respuestas." },
             "reaction": { "unknown_sender": "desconocido", "sent_by": "Enviado por {}" },
             "videoplayercontrol": { "play": "reproducir", "caption_offset": "desfase de subtítulos", "playback_speed": "velocidad de reproducción" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "Conectado como {}", "logout": "Cerrar sesión", "logout_confirm": "¿Estás seguro de que quieres cerrar sesión?",
             "login": "Iniciar sesión", "not_logged_in": "Inicia sesión para acceder a todas las funciones",
             "home_site_label": "Inicio", "feeds_site_label": "Feeds", "navigation_label": "Navegación",
-            "account_label": "Cuenta", "preferences_label": "Preferencias", "about_label": "Acerca de"
+            "account_label": "Cuenta", "preferences_label": "Preferencias", "about_label": "Acerca de",
+            "ownfeeds_label": "Mis feeds",
+            "profile_label": "Editar perfil",
+            "security_label": "Seguridad"
         },
         "room": { "desc": "Nombre de sala: {}", "leave": "Salir de la sala", "join": "Entrar a la sala y agregarla a substitution", "join_short": "Unirse", "permissions": "Permisos" },
         "dialog": {
             "delete": { "title": "Salir de la sala {}", "desc": "¿Estás seguro de que quieres salir de la sala {}?", "button": { "submit": "Sí, salir", "cancel": "No, cancelar" } },
             "add": { "title": "Agregar un nuevo servidor", "input_placeholder": "Ingresa la dirección del servidor", "button": { "submit": "Agregar" }, "snackbar": { "success": "El servidor ha sido agregado", "error_homeserver": "El servidor ingresado no es válido" } },
-            "create": { "title": "Crear una nueva sala", "placeholder_name": "nombre de la sala", "placeholder_alias": "alias de la sala (dirección pública)", "placeholder_topic": "tema de la sala", "submit": "Crear" }
+            "create": { "title": "Crear una nueva sala", "placeholder_name": "nombre de la sala", "placeholder_alias": "alias de la sala (dirección pública)", "placeholder_topic": "tema de la sala", "submit": "Crear", "error": "No se pudo crear la sala. Por favor, inténtalo de nuevo." }
         },
         "room_preview": { "members": "{} miembros", "latest_posts": "Últimas publicaciones", "no_posts": "Aún no hay publicaciones en esta sala.", "no_peek": "El historial de esta sala es privado. Únete a la sala para ver sus publicaciones.", "join_to_see": "Únete para ver publicaciones" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "Responder", "roomheader": "Sala: {}",
-        "filemessage": { "upload_files": "Agregar nuevos archivos para subir", "title_header": "Título:", "upload_start": "Iniciando la subida...", "upload_file_process": "Subiendo archivo {}", "upload_error": "La subida de {} falló. ¿Reintentar?", "upload_file_complete": "¡La subida de {} se completó!", "upload_complete": "¡Todos los archivos han sido subidos!", "buttons": { "upload_stop": "Cancelar", "upload_retry": "Reintentar" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Agregar nuevos archivos para subir", "title_header": "Título:", "upload_start": "Iniciando la subida...", "upload_file_process": "Subiendo archivo {}", "upload_error": "La subida de {} falló. ¿Reintentar?", "upload_file_complete": "¡La subida de {} se completó!", "upload_complete": "¡Todos los archivos han sido subidos!", "buttons": { "upload_stop": "Cancelar", "upload_retry": "Reintentar" } },
         "roomselect": { "type_prompt": "Elige el tipo de mensaje que quieres publicar", "room_prompt": "Elige la sala en la que quieres publicar:", "error_no_rooms": "No te has unido a ninguna sala o no tienes permisos para publicar." },
         "textmessage": { "answer_promt": "Ingresa tu texto:", "input_placeholder": "Escribe tu texto aquí...", "send_start": "Enviando el mensaje...", "send_failed": "El envío del mensaje falló. ¿Quieres reenviar el mensaje?", "send_complete": "¡El mensaje se envió correctamente!", "buttons": { "send_stop": "No reintentar", "resend": "Reintentar" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "Motivo", "report_reason_hint": "Este usuario...", "report_submit": "Enviar",
         "report_success": "Reporte enviado. Gracias.", "feeds_section": "FEEDS", "no_feeds": "No hay feeds públicos",
         "error_start_chat": "No se pudo iniciar el chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "¿Unirse a la sala de bienvenida?",
+        "desc": "¿Te gustaría unirte a la sala de bienvenida de Substitution? Es un gran lugar para comenzar y conectar con la comunidad.",
+        "join": "Unirse y continuar",
+        "skip": "Omitir"
     },
     "chat": {
         "title": "Mensajes", "input_placeholder": "Escribe un mensaje...", "no_messages": "Aún no hay mensajes. ¡Di hola!",

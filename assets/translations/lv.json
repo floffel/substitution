@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Fails tiek atšifrēts...",
+                "decrypt_error": "Nevarēja ielādēt failu.",
                 "video_desktop_error": "Video nevar attēlot Linux, Windows vai MacOS sistēmās. Apsveriet iespēju piedalīties izstrādē Github, ja vēlaties redzēt šo funkciju!",
                 "audio_desktop_error": "Audio nevar atskaņot Linux, Windows vai MacOS sistēmās."
+            },
+            "comment": {
+                "load_error": "Nevarēja ielādēt atbildes."
             },
             "reaction": {
                 "unknown_sender": "nezināms",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigācija",
             "account_label": "Konts",
             "preferences_label": "Iestatījumi",
-            "about_label": "Par lietotni"
+            "about_label": "Par lietotni",
+            "ownfeeds_label": "Manas plūsmas",
+            "profile_label": "Rediģēt profilu",
+            "security_label": "Drošība"
         },
         "room": {
             "desc": "Istabas nosaukums: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "istabas nosaukums",
                 "placeholder_alias": "istabas aizstājvārds (publiskā istabas adrese)",
                 "placeholder_topic": "istabas tēma",
-                "submit": "Izveidot"
+                "submit": "Izveidot",
+                "error": "Nevarēja izveidot istabu. Lūdzu, mēģiniet vēlreiz."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Atbildēt",
         "roomheader": "Istaba: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Pievienot jaunus failus augšupielādei",
             "title_header": "Virsraksts:",
             "upload_start": "Sāk augšupielādi...",
@@ -277,6 +286,12 @@
         "feeds_section": "PLŪSMAS",
         "no_feeds": "Nav publisku plūsmu",
         "error_start_chat": "Nevarēja sākt sarunu: {}"
+    },
+    "startroom_dialog": {
+        "title": "Pievienoties sveiciena istabai?",
+        "desc": "Vai vēlaties pievienoties Substitution sveiciena istabai? Tā ir lieliska vieta, lai sāktu un sazinātos ar kopienu.",
+        "join": "Pievienoties un turpināt",
+        "skip": "Izlaist"
     },
     "chat": {
         "title": "Ziņojumi",

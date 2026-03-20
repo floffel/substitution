@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ဖိုင်ကို ကုဒ်ဖြေနေသည်...",
+                "decrypt_error": "ဖိုင်ကို ဖွင့်၍မရပါ။",
                 "video_desktop_error": "ဗီဒီယိုများကို Linux၊ Windows နှင့် MacOS တွင် ပြသ၍မရပါ။ ဤအင်္ဂါရပ်ကို မြင်လိုပါက Github တွင် ပါဝင်ကူညီပါ!",
                 "audio_desktop_error": "အသံကို Linux၊ Windows နှင့် MacOS တွင် ဖွင့်၍မရပါ။"
+            },
+            "comment": {
+                "load_error": "ပြန်ဖြေချက်များကို ဖွင့်၍မရပါ။"
             },
             "reaction": {
                 "unknown_sender": "မသိ",
@@ -127,7 +131,10 @@
             "navigation_label": "လမ်းညွှန်",
             "account_label": "အကောင့်",
             "preferences_label": "နှစ်သက်ရာများ",
-            "about_label": "အကြောင်း"
+            "about_label": "အကြောင်း",
+            "ownfeeds_label": "ကိုယ်ပိုင်ဖိဒ်များ",
+            "profile_label": "ပရိုဖိုင် တည်းဖြတ်",
+            "security_label": "လုံခြုံရေး"
         },
         "room": {
             "desc": "အခန်းအမည်: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "အခန်းအမည်",
                 "placeholder_alias": "အခန်းအမည်ပွား (အများသုံးလိပ်စာ)",
                 "placeholder_topic": "အခန်းအကြောင်းအရာ",
-                "submit": "ဖန်တီး"
+                "submit": "ဖန်တီး",
+                "error": "အခန်းကို ဖန်တီး၍မရပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "ဖြေကြား",
         "roomheader": "အခန်း: {}",
         "filemessage": {
+            "video_preview": "ဗီဒီယို",
             "upload_files": "တင်ရန် ဖိုင်အသစ်များ ထည့်ပါ",
             "title_header": "ခေါင်းစဉ်:",
             "upload_start": "တင်ခြင်း စတင်နေသည်...",
@@ -277,6 +286,12 @@
         "feeds_section": "ဖိဒ်များ",
         "no_feeds": "အများသုံးဖိဒ်များ မရှိပါ",
         "error_start_chat": "ချတ် စတင်၍မရပါ: {}"
+    },
+    "startroom_dialog": {
+        "title": "ကြိုဆိုရေးအခန်းသို့ ဝင်ရောက်မည်လား?",
+        "desc": "Substitution ကြိုဆိုရေးအခန်းသို့ ဝင်ရောက်လိုပါသလား? စတင်ရန်နှင့် အသိုင်းအဝိုင်းနှင့် ချိတ်ဆက်ရန် ကောင်းမွန်သော နေရာဖြစ်ပါသည်။",
+        "join": "ဝင်ရောက်ပြီး ဆက်လက်လုပ်ဆောင်",
+        "skip": "ကျော်"
     },
     "chat": {
         "title": "မက်ဆေ့ချ်များ",

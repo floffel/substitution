@@ -170,19 +170,19 @@ class _MenuState extends State<Menu> {
         NavigationDrawerDestination(
           icon: const Icon(Icons.settings_outlined),
           selectedIcon: const Icon(Icons.settings),
-          label: const Text('Eigene Feeds'), // todo: intl
+          label: const Text('settings.menu.ownfeeds_label').tr(),
         ),
         if (client.isLogged()) ...[
           const SizedBox(height: 8),
           NavigationDrawerDestination(
             icon: const Icon(Icons.person_outlined),
             selectedIcon: const Icon(Icons.person),
-            label: const Text('Edit Profile'),
+            label: const Text('settings.menu.profile_label').tr(),
           ),
           NavigationDrawerDestination(
             icon: const Icon(Icons.security_outlined),
             selectedIcon: const Icon(Icons.security),
-            label: const Text('Security'), // todo: intl
+            label: const Text('settings.menu.security_label').tr(),
           ),
         ],
         const SizedBox(height: 22),

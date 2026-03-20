@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Lêer word tans gedekripteer...",
+                "decrypt_error": "Kon nie lêer laai nie.",
                 "video_desktop_error": "Video's kan nie op Linux, Windows of MacOS vertoon word nie. Oorweeg dit om op Github by te dra as jy hierdie funksie wil sien!",
                 "audio_desktop_error": "Oudio kan nie op Linux, Windows of MacOS gespeel word nie."
+            },
+            "comment": {
+                "load_error": "Kon nie antwoorde laai nie."
             },
             "reaction": {
                 "unknown_sender": "onbekend",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigasie",
             "account_label": "Rekening",
             "preferences_label": "Voorkeure",
-            "about_label": "Oor"
+            "about_label": "Oor",
+            "ownfeeds_label": "Eie Voere",
+            "profile_label": "Wysig Profiel",
+            "security_label": "Sekuriteit"
         },
         "room": {
             "desc": "Kamernaam: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "kamernaam",
                 "placeholder_alias": "kameralias (openbare kameradres)",
                 "placeholder_topic": "kameronderwerp",
-                "submit": "Skep"
+                "submit": "Skep",
+                "error": "Kon nie kamer skep nie. Probeer asseblief weer."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Antwoord",
         "roomheader": "Kamer: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Voeg nuwe lêers by vir oplaai",
             "title_header": "Titel:",
             "upload_start": "Begin oplaai...",
@@ -277,6 +286,12 @@
         "feeds_section": "VOERE",
         "no_feeds": "Geen openbare voere nie",
         "error_start_chat": "Kon nie klets begin nie: {}"
+    },
+    "startroom_dialog": {
+        "title": "Sluit aan by verwelkomingskamer?",
+        "desc": "Wil jy by die Substitution-verwelkomingskamer aansluit? Dit is 'n uitstekende plek om te begin en met die gemeenskap te skakel.",
+        "join": "Sluit aan en gaan voort",
+        "skip": "Slaan oor"
     },
     "chat": {
         "title": "Boodskappe",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "O ficheiro está a ser desencriptado...",
+                "decrypt_error": "Não foi possível carregar o ficheiro.",
                 "video_desktop_error": "Os vídeos não podem ser apresentados em Linux, Windows nem MacOS. Considere contribuir no Github, se quiser ver esta funcionalidade!",
                 "audio_desktop_error": "O áudio não pode ser reproduzido em Linux, Windows nem MacOS."
+            },
+            "comment": {
+                "load_error": "Não foi possível carregar as respostas."
             },
             "reaction": {
                 "unknown_sender": "desconhecido",
@@ -127,7 +131,10 @@
             "navigation_label": "Navegação",
             "account_label": "Conta",
             "preferences_label": "Preferências",
-            "about_label": "Sobre"
+            "about_label": "Sobre",
+            "ownfeeds_label": "Os meus feeds",
+            "profile_label": "Editar perfil",
+            "security_label": "Segurança"
         },
         "room": {
             "desc": "Nome da sala: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nome da sala",
                 "placeholder_alias": "alias da sala (endereço público da sala)",
                 "placeholder_topic": "tópico da sala",
-                "submit": "Criar"
+                "submit": "Criar",
+                "error": "Não foi possível criar a sala. Por favor, tente novamente."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Responder",
         "roomheader": "Sala: {}",
         "filemessage": {
+            "video_preview": "Vídeo",
             "upload_files": "Adicionar novos ficheiros para carregar",
             "title_header": "Título:",
             "upload_start": "A iniciar carregamento...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "Sem feeds públicos",
         "error_start_chat": "Não foi possível iniciar a conversa: {}"
+    },
+    "startroom_dialog": {
+        "title": "Entrar na sala de boas-vindas?",
+        "desc": "Gostaria de entrar na sala de boas-vindas do Substitution? É um excelente lugar para começar e conhecer a comunidade.",
+        "join": "Entrar e continuar",
+        "skip": "Saltar"
     },
     "chat": {
         "title": "Mensagens",

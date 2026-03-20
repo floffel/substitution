@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Chọn biểu tượng" } },
         "widgets": {
             "filecomponent": { "button": { "close": "đóng" } },
-            "filedisplay": { "decrypting": "Tệp đang được giải mã...", "video_desktop_error": "Không thể hiển thị video trên Linux, Windows và MacOS. Hãy đóng góp trên Github nếu bạn muốn thấy tính năng này!", "audio_desktop_error": "Không thể phát âm thanh trên Linux, Windows và MacOS." },
+            "filedisplay": { "decrypting": "Tệp đang được giải mã...", "decrypt_error": "Không thể tải tệp.", "video_desktop_error": "Không thể hiển thị video trên Linux, Windows và MacOS. Hãy đóng góp trên Github nếu bạn muốn thấy tính năng này!", "audio_desktop_error": "Không thể phát âm thanh trên Linux, Windows và MacOS." },
+            "comment": { "load_error": "Không thể tải phản hồi." },
             "reaction": { "unknown_sender": "không rõ", "sent_by": "Được gửi bởi {}" },
             "videoplayercontrol": { "play": "phát", "caption_offset": "độ lệch phụ đề", "playback_speed": "tốc độ phát" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Đã đăng nhập với tên {}", "logout": "Đăng xuất", "logout_confirm": "Bạn có chắc chắn muốn đăng xuất không?",
             "login": "Đăng nhập", "not_logged_in": "Đăng nhập để truy cập tất cả tính năng",
             "home_site_label": "Trang chủ", "feeds_site_label": "Bảng tin", "navigation_label": "Điều hướng",
-            "account_label": "Tài khoản", "preferences_label": "Tùy chọn", "about_label": "Giới thiệu"
+            "account_label": "Tài khoản", "preferences_label": "Tùy chọn", "about_label": "Giới thiệu",
+            "ownfeeds_label": "Bảng tin của tôi", "profile_label": "Chỉnh sửa hồ sơ", "security_label": "Bảo mật"
         },
         "room": { "desc": "Tên phòng: {}", "leave": "Rời phòng", "join": "Vào phòng và thêm vào Substitution", "join_short": "Tham gia", "permissions": "Quyền hạn" },
         "dialog": {
             "delete": { "title": "Rời phòng {}", "desc": "Bạn có chắc chắn muốn rời phòng {} không?", "button": { "submit": "Có, rời đi", "cancel": "Không, hủy bỏ" } },
             "add": { "title": "Thêm máy chủ mới", "input_placeholder": "Nhập địa chỉ máy chủ", "button": { "submit": "Thêm" }, "snackbar": { "success": "Đã thêm máy chủ", "error_homeserver": "Máy chủ đã nhập không hợp lệ" } },
-            "create": { "title": "Tạo phòng mới", "placeholder_name": "tên phòng", "placeholder_alias": "bí danh phòng (địa chỉ phòng công khai)", "placeholder_topic": "chủ đề phòng", "submit": "Tạo" }
+            "create": { "title": "Tạo phòng mới", "placeholder_name": "tên phòng", "placeholder_alias": "bí danh phòng (địa chỉ phòng công khai)", "placeholder_topic": "chủ đề phòng", "submit": "Tạo", "error": "Không thể tạo phòng. Vui lòng thử lại." }
         },
         "room_preview": { "members": "{} thành viên", "latest_posts": "Bài đăng mới nhất", "no_posts": "Chưa có bài đăng nào trong phòng này.", "no_peek": "Lịch sử phòng này là riêng tư. Hãy tham gia phòng để xem bài đăng.", "join_to_see": "Tham gia để xem bài đăng" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Trả lời", "roomheader": "Phòng: {}",
-        "filemessage": { "upload_files": "Thêm tệp mới để tải lên", "title_header": "Tiêu đề:", "upload_start": "Bắt đầu tải lên...", "upload_file_process": "Đang tải lên tệp {}", "upload_error": "Tải lên {} thất bại. Thử lại?", "upload_file_complete": "Tải lên {} hoàn tất!", "upload_complete": "Tất cả tệp đã được tải lên!", "buttons": { "upload_stop": "Hủy", "upload_retry": "Thử lại" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Thêm tệp mới để tải lên", "title_header": "Tiêu đề:", "upload_start": "Bắt đầu tải lên...", "upload_file_process": "Đang tải lên tệp {}", "upload_error": "Tải lên {} thất bại. Thử lại?", "upload_file_complete": "Tải lên {} hoàn tất!", "upload_complete": "Tất cả tệp đã được tải lên!", "buttons": { "upload_stop": "Hủy", "upload_retry": "Thử lại" } },
         "roomselect": { "type_prompt": "Chọn loại tin nhắn bạn muốn đăng", "room_prompt": "Chọn phòng bạn muốn đăng:", "error_no_rooms": "Bạn chưa tham gia phòng nào hoặc bạn không có quyền đăng bài." },
         "textmessage": { "answer_promt": "Nhập nội dung:", "input_placeholder": "Nhập nội dung tại đây...", "send_start": "Đang gửi tin nhắn...", "send_failed": "Gửi tin nhắn thất bại. Bạn có muốn gửi lại không?", "send_complete": "Tin nhắn đã được gửi thành công!", "buttons": { "send_stop": "Không thử lại", "resend": "Thử lại" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Lý do", "report_reason_hint": "Người dùng này...", "report_submit": "Gửi",
         "report_success": "Báo cáo đã được gửi. Cảm ơn bạn.", "feeds_section": "BẢNG TIN", "no_feeds": "Không có bảng tin công khai",
         "error_start_chat": "Không thể bắt đầu cuộc trò chuyện: {}"
+    },
+    "startroom_dialog": {
+        "title": "Tham gia Phòng Chào mừng?",
+        "desc": "Bạn có muốn tham gia phòng chào mừng Substitution không? Đây là nơi tuyệt vời để bắt đầu và kết nối với cộng đồng.",
+        "join": "Tham gia & Tiếp tục",
+        "skip": "Bỏ qua"
     },
     "chat": {
         "title": "Tin nhắn", "input_placeholder": "Nhập tin nhắn...", "no_messages": "Chưa có tin nhắn nào. Hãy chào nhau!",

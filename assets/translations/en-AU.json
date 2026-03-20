@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "File is being decrypted...",
+                "decrypt_error": "Could not load file.",
                 "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!",
                 "audio_desktop_error": "Audio can't be played on Linux, Windows nor MacOS."
+            },
+            "comment": {
+                "load_error": "Could not load replies."
             },
             "reaction": {
                 "unknown_sender": "unknown",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigation",
             "account_label": "Account",
             "preferences_label": "Preferences",
-            "about_label": "About"
+            "about_label": "About",
+            "ownfeeds_label": "Own Feeds",
+            "profile_label": "Edit Profile",
+            "security_label": "Security"
         },
         "room": {
             "desc": "Roomname: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "room name",
                 "placeholder_alias": "room alias (public room address)",
                 "placeholder_topic": "room topic",
-                "submit": "Create"
+                "submit": "Create",
+                "error": "Could not create room. Please try again."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Answer",
         "roomheader": "Room: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Add new files for upload",
             "title_header": "Title:",
             "upload_start": "Starting upload...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "No public feeds",
         "error_start_chat": "Could not start chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Join Welcome Room?",
+        "desc": "Would you like to join the Substitution welcome room? It's a great place to get started and connect with the community.",
+        "join": "Join & Continue",
+        "skip": "Skip"
     },
     "chat": {
         "title": "Messages",

@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "చిహ్నాన్ని ఎంచుకోండి" } },
         "widgets": {
             "filecomponent": { "button": { "close": "మూసివేయి" } },
-            "filedisplay": { "decrypting": "ఫైల్ డీక్రిప్ట్ చేయబడుతోంది...", "video_desktop_error": "Linux, Windows లేదా MacOS లో వీడియోలు ప్రదర్శించబడవు. ఈ ఫీచర్‌ను చూడాలనుకుంటే Github లో సహకరించడం పరిగణించండి!", "audio_desktop_error": "Linux, Windows లేదా MacOS లో ఆడియో ప్లే చేయబడదు." },
+            "filedisplay": { "decrypting": "ఫైల్ డీక్రిప్ట్ చేయబడుతోంది...", "decrypt_error": "ఫైల్ లోడ్ చేయడం సాధ్యం కాలేదు.", "video_desktop_error": "Linux, Windows లేదా MacOS లో వీడియోలు ప్రదర్శించబడవు. ఈ ఫీచర్‌ను చూడాలనుకుంటే Github లో సహకరించడం పరిగణించండి!", "audio_desktop_error": "Linux, Windows లేదా MacOS లో ఆడియో ప్లే చేయబడదు." },
+            "comment": { "load_error": "ప్రత్యుత్తరాలు లోడ్ చేయడం సాధ్యం కాలేదు." },
             "reaction": { "unknown_sender": "తెలియనిది", "sent_by": "{} పంపింది" },
             "videoplayercontrol": { "play": "ప్లే", "caption_offset": "క్యాప్షన్ ఆఫ్‌సెట్", "playback_speed": "ప్లేబ్యాక్ వేగం" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "{} గా లాగిన్ అయ్యారు", "logout": "లాగ్‌అవుట్", "logout_confirm": "మీరు ఖచ్చితంగా లాగ్ అవుట్ కావాలనుకుంటున్నారా?",
             "login": "లాగిన్", "not_logged_in": "అన్ని ఫీచర్‌లను యాక్సెస్ చేయడానికి లాగిన్ అవ్వండి",
             "home_site_label": "హోమ్", "feeds_site_label": "ఫీడ్‌లు", "navigation_label": "నావిగేషన్",
-            "account_label": "ఖాతా", "preferences_label": "ప్రాధాన్యతలు", "about_label": "గురించి"
+            "account_label": "ఖాతా", "preferences_label": "ప్రాధాన్యతలు", "about_label": "గురించి",
+            "ownfeeds_label": "సొంత ఫీడ్‌లు",
+            "profile_label": "ప్రొఫైల్ సవరించు",
+            "security_label": "భద్రత"
         },
         "room": { "desc": "గది పేరు: {}", "leave": "గది విడిచిపెట్టు", "join": "గదిలో ప్రవేశించి substitution కు జోడించండి", "join_short": "చేరు", "permissions": "అనుమతులు" },
         "dialog": {
             "delete": { "title": "గది విడిచిపెట్టు {}", "desc": "మీరు ఖచ్చితంగా {} గదిని విడిచిపెట్టాలనుకుంటున్నారా?", "button": { "submit": "అవును, విడిచిపెట్టు", "cancel": "వద్దు, రద్దు చేయి" } },
             "add": { "title": "కొత్త సర్వర్ జోడించు", "input_placeholder": "సర్వర్ చిరునామా నమోదు చేయండి", "button": { "submit": "జోడించు" }, "snackbar": { "success": "సర్వర్ జోడించబడింది", "error_homeserver": "నమోదు చేసిన హోమ్‌సర్వర్ చెల్లుబాటు కాదు" } },
-            "create": { "title": "కొత్త గదిని సృష్టించు", "placeholder_name": "గది పేరు", "placeholder_alias": "గది మారుపేరు (పబ్లిక్ గది చిరునామా)", "placeholder_topic": "గది అంశం", "submit": "సృష్టించు" }
+            "create": { "title": "కొత్త గదిని సృష్టించు", "placeholder_name": "గది పేరు", "placeholder_alias": "గది మారుపేరు (పబ్లిక్ గది చిరునామా)", "placeholder_topic": "గది అంశం", "submit": "సృష్టించు", "error": "గదిని సృష్టించడం సాధ్యం కాలేదు. దయచేసి మళ్ళీ ప్రయత్నించండి." }
         },
         "room_preview": { "members": "{} సభ్యులు", "latest_posts": "తాజా పోస్ట్‌లు", "no_posts": "ఈ గదిలో ఇంకా పోస్ట్‌లు లేవు.", "no_peek": "ఈ గది చరిత్ర ప్రైవేట్. పోస్ట్‌లు చూడటానికి గదిలో చేరండి.", "join_to_see": "పోస్ట్‌లు చూడటానికి చేరండి" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "సమాధానం", "roomheader": "గది: {}",
-        "filemessage": { "upload_files": "అప్‌లోడ్ కోసం కొత్త ఫైల్‌లను జోడించండి", "title_header": "శీర్షిక:", "upload_start": "అప్‌లోడ్ ప్రారంభమవుతోంది...", "upload_file_process": "{} ఫైల్ అప్‌లోడ్ అవుతోంది", "upload_error": "{} అప్‌లోడ్ విఫలమైంది. మళ్ళీ ప్రయత్నించాలా?", "upload_file_complete": "{} అప్‌లోడ్ పూర్తయింది!", "upload_complete": "అన్ని ఫైల్‌లు అప్‌లోడ్ చేయబడ్డాయి!", "buttons": { "upload_stop": "రద్దు చేయి", "upload_retry": "మళ్ళీ ప్రయత్నించు" } },
+        "filemessage": { "video_preview": "వీడియో", "upload_files": "అప్‌లోడ్ కోసం కొత్త ఫైల్‌లను జోడించండి", "title_header": "శీర్షిక:", "upload_start": "అప్‌లోడ్ ప్రారంభమవుతోంది...", "upload_file_process": "{} ఫైల్ అప్‌లోడ్ అవుతోంది", "upload_error": "{} అప్‌లోడ్ విఫలమైంది. మళ్ళీ ప్రయత్నించాలా?", "upload_file_complete": "{} అప్‌లోడ్ పూర్తయింది!", "upload_complete": "అన్ని ఫైల్‌లు అప్‌లోడ్ చేయబడ్డాయి!", "buttons": { "upload_stop": "రద్దు చేయి", "upload_retry": "మళ్ళీ ప్రయత్నించు" } },
         "roomselect": { "type_prompt": "మీరు పోస్ట్ చేయాలనుకునే సందేశ రకాన్ని ఎంచుకోండి", "room_prompt": "మీరు పోస్ట్ చేయాలనుకునే గదిని ఎంచుకోండి:", "error_no_rooms": "మీరు ఏ గదిలోనూ చేరలేదు లేదా పోస్ట్ చేయడానికి మీకు అధికారాలు లేవు." },
         "textmessage": { "answer_promt": "మీ టెక్స్ట్ నమోదు చేయండి:", "input_placeholder": "మీ టెక్స్ట్ ఇక్కడ నమోదు చేయండి...", "send_start": "సందేశం పంపడం ప్రారంభమైంది...", "send_failed": "సందేశం పంపడం విఫలమైంది. మళ్ళీ పంపాలనుకుంటున్నారా?", "send_complete": "సందేశం విజయవంతంగా పంపబడింది!", "buttons": { "send_stop": "మళ్ళీ ప్రయత్నించవద్దు", "resend": "మళ్ళీ ప్రయత్నించు" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "కారణం", "report_reason_hint": "ఈ వినియోగదారు...", "report_submit": "సమర్పించు",
         "report_success": "రిపోర్ట్ సమర్పించబడింది. ధన్యవాదాలు.", "feeds_section": "ఫీడ్‌లు", "no_feeds": "పబ్లిక్ ఫీడ్‌లు లేవు",
         "error_start_chat": "చాట్ ప్రారంభించడం సాధ్యం కాలేదు: {}"
+    },
+    "startroom_dialog": {
+        "title": "స్వాగత గదిలో చేరాలా?",
+        "desc": "మీరు Substitution స్వాగత గదిలో చేరాలనుకుంటున్నారా? ప్రారంభించడానికి మరియు సమాజంతో అనుసంధానం కావడానికి ఇది ఒక గొప్ప ప్రదేశం.",
+        "join": "చేరి కొనసాగించండి",
+        "skip": "దాటవేయండి"
     },
     "chat": {
         "title": "సందేశాలు", "input_placeholder": "సందేశం టైప్ చేయండి...", "no_messages": "ఇంకా సందేశాలు లేవు. హాయ్ చెప్పండి!",

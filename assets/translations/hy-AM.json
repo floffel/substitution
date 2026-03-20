@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Фdelays delays delays delays...",
+                "decrypt_error": "Չհաջողվեց բեռնել ֆայլը։",
                 "video_desktop_error": "Тdelays delays delays Linux, Windows delays MacOS delays delays delays delays delays delays Github delays delays delays delays delays delays delays:",
                 "audio_desktop_error": "Ðdelays delays delays Linux, Windows delays MacOS delays delays delays:"
+            },
+            "comment": {
+                "load_error": "Չdelays delays delays delays delays:"
             },
             "reaction": {
                 "unknown_sender": "аdelays",
@@ -127,7 +131,10 @@
             "navigation_label": "Нdelays",
             "account_label": "Хdelays",
             "preferences_label": "Нdelays",
-            "about_label": "Мdelays"
+            "about_label": "Мdelays",
+            "ownfeeds_label": "Սեփական հոսքեր",
+            "profile_label": "Խմբագրել պրոֆիլը",
+            "security_label": "Անվտանգություն"
         },
         "room": {
             "desc": "Сdelays delays delays: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "сdelays delays delays",
                 "placeholder_alias": "сdelays delays delays delays delays",
                 "placeholder_topic": "сdelays delays delays",
-                "submit": "Сdelays"
+                "submit": "Сdelays",
+                "error": "Հնարավոր չէ եղավ սենյակ ստեղծել։ Խնդրում ենք կրկին փորձեք։"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Пdelays",
         "roomheader": "Сdelays: {}",
         "filemessage": {
+            "video_preview": "Տեսանյութ",
             "upload_files": "Аdelays delays delays delays delays delays",
             "title_header": "Вdelays:",
             "upload_start": "Бdelays delays delays delays...",
@@ -277,6 +286,12 @@
         "feeds_section": "ÀDELAYS",
         "no_feeds": "Чdelays delays delays delays delays",
         "error_start_chat": "Чdelays delays delays delays delays delays: {}"
+    },
+    "startroom_dialog": {
+        "title": "Միdelays delays delays delays?",
+        "desc": "Кdelays delays delays delays Substitution delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays:",
+        "join": "Мdelays delays delays delays",
+        "skip": "Бdelays delays"
     },
     "chat": {
         "title": "Нdelays",

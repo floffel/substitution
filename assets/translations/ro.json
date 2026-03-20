@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Fișierul este în curs de decriptare...",
+                "decrypt_error": "Fișierul nu a putut fi încărcat.",
                 "video_desktop_error": "Videoclipurile nu pot fi redate pe Linux, Windows sau MacOS. Ia în considerare să contribui pe Github dacă dorești să vezi această funcționalitate!",
                 "audio_desktop_error": "Audio nu poate fi redat pe Linux, Windows sau MacOS."
+            },
+            "comment": {
+                "load_error": "Răspunsurile nu au putut fi încărcate."
             },
             "reaction": {
                 "unknown_sender": "necunoscut",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigare",
             "account_label": "Cont",
             "preferences_label": "Preferințe",
-            "about_label": "Despre"
+            "about_label": "Despre",
+            "ownfeeds_label": "Fluxuri proprii",
+            "profile_label": "Editează profilul",
+            "security_label": "Securitate"
         },
         "room": {
             "desc": "Nume cameră: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "numele camerei",
                 "placeholder_alias": "alias cameră (adresa publică a camerei)",
                 "placeholder_topic": "subiectul camerei",
-                "submit": "Creează"
+                "submit": "Creează",
+                "error": "Camera nu a putut fi creată. Te rugăm să încerci din nou."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Răspuns",
         "roomheader": "Cameră: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Adaugă fișiere noi pentru încărcare",
             "title_header": "Titlu:",
             "upload_start": "Se începe încărcarea...",
@@ -277,6 +286,12 @@
         "feeds_section": "FLUXURI",
         "no_feeds": "Niciun flux public",
         "error_start_chat": "Nu s-a putut porni conversația: {}"
+    },
+    "startroom_dialog": {
+        "title": "Te alături camerei de bun venit?",
+        "desc": "Dorești să te alături camerei de bun venit Substitution? Este un loc excelent pentru a începe și a te conecta cu comunitatea.",
+        "join": "Intră și continuă",
+        "skip": "Omite"
     },
     "chat": {
         "title": "Mesaje",

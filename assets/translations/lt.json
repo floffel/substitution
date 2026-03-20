@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Failas iššifruojamas...",
+                "decrypt_error": "Nepavyko įkelti failo.",
                 "video_desktop_error": "Vaizdo įrašai negali būti rodomi Linux, Windows nei MacOS sistemose. Prisidėkite Github, jei norite matyti šią funkciją!",
                 "audio_desktop_error": "Garso įrašai negali būti grojami Linux, Windows nei MacOS sistemose."
+            },
+            "comment": {
+                "load_error": "Nepavyko įkelti atsakymų."
             },
             "reaction": {
                 "unknown_sender": "nežinomas",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigacija",
             "account_label": "Paskyra",
             "preferences_label": "Nuostatos",
-            "about_label": "Apie"
+            "about_label": "Apie",
+            "ownfeeds_label": "Savi srautai",
+            "profile_label": "Redaguoti profilį",
+            "security_label": "Saugumas"
         },
         "room": {
             "desc": "Kambario pavadinimas: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "kambario pavadinimas",
                 "placeholder_alias": "kambario slapyvardis (viešas kambario adresas)",
                 "placeholder_topic": "kambario tema",
-                "submit": "Sukurti"
+                "submit": "Sukurti",
+                "error": "Nepavyko sukurti kambario. Bandykite dar kartą."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Atsakyti",
         "roomheader": "Kambarys: {}",
         "filemessage": {
+            "video_preview": "Vaizdo įrašas",
             "upload_files": "Pridėti naujus failus įkėlimui",
             "title_header": "Pavadinimas:",
             "upload_start": "Pradedamas įkėlimas...",
@@ -277,6 +286,12 @@
         "feeds_section": "SRAUTAI",
         "no_feeds": "Nėra viešų srautų",
         "error_start_chat": "Nepavyko pradėti pokalbio: {}"
+    },
+    "startroom_dialog": {
+        "title": "Prisijungti prie sveikinimo kambario?",
+        "desc": "Ar norėtumėte prisijungti prie Substitution sveikinimo kambario? Tai puiki vieta pradėti ir susipažinti su bendruomene.",
+        "join": "Prisijungti ir tęsti",
+        "skip": "Praleisti"
     },
     "chat": {
         "title": "Žinutės",

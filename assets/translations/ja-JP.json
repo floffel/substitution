@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ファイルを復号中...",
+                "decrypt_error": "ファイルを読み込めませんでした。",
                 "video_desktop_error": "Linux、Windows、MacOSでは動画を表示できません。この機能の実装にご興味がある方は、Githubでの貢献をご検討ください！",
                 "audio_desktop_error": "Linux、Windows、MacOSでは音声を再生できません。"
+            },
+            "comment": {
+                "load_error": "返信を読み込めませんでした。"
             },
             "reaction": {
                 "unknown_sender": "不明",
@@ -127,7 +131,10 @@
             "navigation_label": "ナビゲーション",
             "account_label": "アカウント",
             "preferences_label": "設定",
-            "about_label": "このアプリについて"
+            "about_label": "このアプリについて",
+            "ownfeeds_label": "自分のフィード",
+            "profile_label": "プロフィールを編集",
+            "security_label": "セキュリティ"
         },
         "room": {
             "desc": "ルーム名: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ルーム名",
                 "placeholder_alias": "ルームエイリアス（公開ルームアドレス）",
                 "placeholder_topic": "ルームトピック",
-                "submit": "作成"
+                "submit": "作成",
+                "error": "ルームを作成できませんでした。もう一度お試しください。"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "回答",
         "roomheader": "ルーム: {}",
         "filemessage": {
+            "video_preview": "動画",
             "upload_files": "アップロードする新しいファイルを追加",
             "title_header": "タイトル:",
             "upload_start": "アップロードを開始しています...",
@@ -277,6 +286,12 @@
         "feeds_section": "フィード",
         "no_feeds": "公開フィードなし",
         "error_start_chat": "チャットを開始できませんでした: {}"
+    },
+    "startroom_dialog": {
+        "title": "ウェルカムルームに参加しますか？",
+        "desc": "Substitutionウェルカムルームに参加しませんか？始めるのに最適な場所で、コミュニティとつながることができます。",
+        "join": "参加して続ける",
+        "skip": "スキップ"
     },
     "chat": {
         "title": "メッセージ",

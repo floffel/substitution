@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Fitxategia deszifratzen ari da...",
+                "decrypt_error": "Ezin izan da fitxategia kargatu.",
                 "video_desktop_error": "Bideoak ezin dira bistaratu Linux, Windows ez eta MacOS sistemetan. Kontribuzio bat egin Github bidez, eginbide hau ikusi nahi baduzu!",
                 "audio_desktop_error": "Audioa ezin da erreproduzitu Linux, Windows ez eta MacOS sistemetan."
+            },
+            "comment": {
+                "load_error": "Ezin izan dira erantzunak kargatu."
             },
             "reaction": {
                 "unknown_sender": "ezezaguna",
@@ -127,7 +131,10 @@
             "navigation_label": "Nabigazioa",
             "account_label": "Kontua",
             "preferences_label": "Hobespenak",
-            "about_label": "Honi buruz"
+            "about_label": "Honi buruz",
+            "ownfeeds_label": "Nire jarioak",
+            "profile_label": "Editatu profila",
+            "security_label": "Segurtasuna"
         },
         "room": {
             "desc": "Gela-izena: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "gela-izena",
                 "placeholder_alias": "gela-ezizena (gela publikoaren helbidea)",
                 "placeholder_topic": "gelaren gaia",
-                "submit": "Sortu"
+                "submit": "Sortu",
+                "error": "Ezin izan da gela sortu. Mesedez, saiatu berriro."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Erantzun",
         "roomheader": "Gela: {}",
         "filemessage": {
+            "video_preview": "Bideoa",
             "upload_files": "Gehitu fitxategi berriak igotzeko",
             "title_header": "Izenburua:",
             "upload_start": "Igoera hasten...",
@@ -277,6 +286,12 @@
         "feeds_section": "JARIOAK",
         "no_feeds": "Jario publikorik ez",
         "error_start_chat": "Ezin izan da txata hasi: {}"
+    },
+    "startroom_dialog": {
+        "title": "Ongietorri-gelara sartu?",
+        "desc": "Substitution ongietorri-gelara sartu nahi duzu? Hasteko eta komunitatearekin konektatzeko leku bikaina da.",
+        "join": "Sartu eta jarraitu",
+        "skip": "Saltatu"
     },
     "chat": {
         "title": "Mezuak",

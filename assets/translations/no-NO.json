@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Filen dekrypteres...",
+                "decrypt_error": "Kunne ikke laste filen.",
                 "video_desktop_error": "Videoer kan ikke vises på Linux, Windows eller MacOS. Vurder å bidra på Github hvis du ønsker å se denne funksjonen!",
                 "audio_desktop_error": "Lyd kan ikke spilles av på Linux, Windows eller MacOS."
+            },
+            "comment": {
+                "load_error": "Kunne ikke laste svar."
             },
             "reaction": {
                 "unknown_sender": "ukjent",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigasjon",
             "account_label": "Konto",
             "preferences_label": "Innstillinger",
-            "about_label": "Om"
+            "about_label": "Om",
+            "ownfeeds_label": "Egne feeder",
+            "profile_label": "Rediger profil",
+            "security_label": "Sikkerhet"
         },
         "room": {
             "desc": "Romnavn: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "romnavn",
                 "placeholder_alias": "romalias (offentlig romadresse)",
                 "placeholder_topic": "romemne",
-                "submit": "Opprett"
+                "submit": "Opprett",
+                "error": "Kunne ikke opprette rom. Vennligst prøv igjen."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Svar",
         "roomheader": "Rom: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Legg til nye filer for opplasting",
             "title_header": "Tittel:",
             "upload_start": "Starter opplasting...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDER",
         "no_feeds": "Ingen offentlige feeder",
         "error_start_chat": "Kunne ikke starte samtale: {}"
+    },
+    "startroom_dialog": {
+        "title": "Bli med i velkomstrommet?",
+        "desc": "Vil du bli med i Substitution-velkomstrommet? Det er et flott sted å komme i gang og knytte kontakter med fellesskapet.",
+        "join": "Bli med og fortsett",
+        "skip": "Hopp over"
     },
     "chat": {
         "title": "Meldinger",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ឯកសារកំពុងត្រូវបានឌីគ្រីប...",
+                "decrypt_error": "មិនអាចផ្ទុកឯកសារបានទេ។",
                 "video_desktop_error": "មិនអាចបង្ហាញវីដេអូនៅលើ Linux, Windows ឬ MacOS បានទេ។ សូមពិចារណាចូលរួមចំណែកនៅលើ Github ប្រសិនបើអ្នកចង់ឃើញមុខងារនេះ!",
                 "audio_desktop_error": "មិនអាចចាក់សំឡេងនៅលើ Linux, Windows ឬ MacOS បានទេ។"
+            },
+            "comment": {
+                "load_error": "មិនអាចផ្ទុកការឆ្លើយតបបានទេ។"
             },
             "reaction": {
                 "unknown_sender": "មិនស្គាល់",
@@ -127,7 +131,10 @@
             "navigation_label": "ការរុករក",
             "account_label": "គណនី",
             "preferences_label": "ចំណូលចិត្ត",
-            "about_label": "អំពី"
+            "about_label": "អំពី",
+            "ownfeeds_label": "មតិព័ត៌មានផ្ទាល់ខ្លួន",
+            "profile_label": "កែសម្រួលប្រវត្តិរូប",
+            "security_label": "សុវត្ថិភាព"
         },
         "room": {
             "desc": "ឈ្មោះបន្ទប់: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ឈ្មោះបន្ទប់",
                 "placeholder_alias": "ឈ្មោះក្លែងក្លាយបន្ទប់ (អាសយដ្ឋានបន្ទប់សាធារណៈ)",
                 "placeholder_topic": "ប្រធានបទបន្ទប់",
-                "submit": "បង្កើត"
+                "submit": "បង្កើត",
+                "error": "មិនអាចបង្កើតបន្ទប់បានទេ។ សូមព្យាយាមម្ដងទៀត។"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "ឆ្លើយ",
         "roomheader": "បន្ទប់: {}",
         "filemessage": {
+            "video_preview": "វីដេអូ",
             "upload_files": "បន្ថែមឯកសារថ្មីសម្រាប់ផ្ទុកឡើង",
             "title_header": "ចំណងជើង:",
             "upload_start": "កំពុងចាប់ផ្ដើមផ្ទុកឡើង...",
@@ -277,6 +286,12 @@
         "feeds_section": "មតិព័ត៌មាន",
         "no_feeds": "គ្មានមតិព័ត៌មានសាធារណៈ",
         "error_start_chat": "មិនអាចចាប់ផ្ដើមការសន្ទនា: {}"
+    },
+    "startroom_dialog": {
+        "title": "ចូលរួមបន្ទប់ស្វាគមន៍?",
+        "desc": "តើអ្នកចង់ចូលរួមបន្ទប់ស្វាគមន៍ Substitution ទេ? វាជាកន្លែងដ៏ល្អសម្រាប់ចាប់ផ្ដើម និងភ្ជាប់ទំនាក់ទំនងជាមួយសហគមន៍។",
+        "join": "ចូលរួម និងបន្ត",
+        "skip": "រំលង"
     },
     "chat": {
         "title": "សារ",

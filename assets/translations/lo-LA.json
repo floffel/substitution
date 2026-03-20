@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ກຳລັງຖອດລະຫັດໄຟລ໌...",
+                "decrypt_error": "ບໍ່ສາມາດໂຫລດໄຟລ໌ໄດ້.",
                 "video_desktop_error": "ວິດີໂອບໍ່ສາມາດສະແດງຜົນໄດ້ເທິງ Linux, Windows ຫຼື MacOS. ພິຈາລະນາປະກອບສ່ວນໃນ Github ຖ້າທ່ານຢາກເຫັນຄຸນສົມບັດນີ້!",
                 "audio_desktop_error": "ສຽງບໍ່ສາມາດຫຼິ້ນໄດ້ເທິງ Linux, Windows ຫຼື MacOS."
+            },
+            "comment": {
+                "load_error": "ບໍ່ສາມາດໂຫລດຄຳຕອບໄດ້."
             },
             "reaction": {
                 "unknown_sender": "ບໍ່ຮູ້ຈັກ",
@@ -127,7 +131,10 @@
             "navigation_label": "ການນຳທາງ",
             "account_label": "ບັນຊີ",
             "preferences_label": "ຄ່າທີ່ຕ້ອງການ",
-            "about_label": "ກ່ຽວກັບ"
+            "about_label": "ກ່ຽວກັບ",
+            "ownfeeds_label": "ຟີດຂອງຂ້ອຍ",
+            "profile_label": "ແກ້ໄຂໂປຣໄຟລ໌",
+            "security_label": "ຄວາມປອດໄພ"
         },
         "room": {
             "desc": "ຊື່ຫ້ອງ: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ຊື່ຫ້ອງ",
                 "placeholder_alias": "ຊື່ຫຼິ້ນຂອງຫ້ອງ (ທີ່ຢູ່ຫ້ອງສາທາລະນະ)",
                 "placeholder_topic": "ຫົວຂໍ້ຫ້ອງ",
-                "submit": "ສ້າງ"
+                "submit": "ສ້າງ",
+                "error": "ບໍ່ສາມາດສ້າງຫ້ອງໄດ້. ກະລຸນາລອງໃໝ່."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "ຕອບ",
         "roomheader": "ຫ້ອງ: {}",
         "filemessage": {
+            "video_preview": "ວິດີໂອ",
             "upload_files": "ເພີ່ມໄຟລ໌ໃໝ່ສຳລັບອັບໂຫລດ",
             "title_header": "ຫົວຂໍ້:",
             "upload_start": "ກຳລັງເລີ່ມອັບໂຫລດ...",
@@ -277,6 +286,12 @@
         "feeds_section": "ຟີດ",
         "no_feeds": "ບໍ່ມີຟີດສາທາລະນະ",
         "error_start_chat": "ບໍ່ສາມາດເລີ່ມການສົນທະນາໄດ້: {}"
+    },
+    "startroom_dialog": {
+        "title": "ເຂົ້າຮ່ວມຫ້ອງຕ້ອນຮັບ?",
+        "desc": "ທ່ານຕ້ອງການເຂົ້າຮ່ວມຫ້ອງຕ້ອນຮັບ Substitution ບໍ? ເປັນບ່ອນທີ່ດີສຳລັບການເລີ່ມຕົ້ນ ແລະ ເຊື່ອມຕໍ່ກັບຊຸມຊົນ.",
+        "join": "ເຂົ້າຮ່ວມ ແລະ ສືບຕໍ່",
+        "skip": "ຂ້າມ"
     },
     "chat": {
         "title": "ຂໍ້ຄວາມ",

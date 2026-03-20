@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "නිරූපකයක් තෝරන්න" } },
         "widgets": {
             "filecomponent": { "button": { "close": "වසන්න" } },
-            "filedisplay": { "decrypting": "ගොනුව විකේතනය වෙමින් පවතී...", "video_desktop_error": "Linux, Windows හෝ MacOS මත වීඩියෝ ප්‍රදර්ශනය කළ නොහැක. මෙම විශේෂාංගය බැලීමට කැමති නම් Github හි දායක වන්න!", "audio_desktop_error": "Linux, Windows හෝ MacOS මත ශ්‍රව්‍ය ධාවනය කළ නොහැක." },
+            "filedisplay": { "decrypting": "ගොනුව විකේතනය වෙමින් පවතී...", "decrypt_error": "ගොනුව පූරණය කළ නොහැකි විය.", "video_desktop_error": "Linux, Windows හෝ MacOS මත වීඩියෝ ප්‍රදර්ශනය කළ නොහැක. මෙම විශේෂාංගය බැලීමට කැමති නම් Github හි දායක වන්න!", "audio_desktop_error": "Linux, Windows හෝ MacOS මත ශ්‍රව්‍ය ධාවනය කළ නොහැක." },
+            "comment": { "load_error": "පිළිතුරු පූරණය කළ නොහැකි විය." },
             "reaction": { "unknown_sender": "නොදනී", "sent_by": "{} විසින් යවන ලදී" },
             "videoplayercontrol": { "play": "ධාවනය", "caption_offset": "සිරස්තල ඕෆ්සෙට්", "playback_speed": "ධාවන වේගය" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "{} ලෙස පුරනය වී ඇත", "logout": "පිටවීම", "logout_confirm": "ඔබට පිටවීමට අවශ්‍ය බව විශ්වාසද?",
             "login": "පුරනය", "not_logged_in": "සියලු විශේෂාංග වෙත ප්‍රවේශ වීමට පුරනය වන්න",
             "home_site_label": "මුල් පිටුව", "feeds_site_label": "සංග්‍රහ", "navigation_label": "සංචාලනය",
-            "account_label": "ගිණුම", "preferences_label": "මනාපයන්", "about_label": "පිළිබඳව"
+            "account_label": "ගිණුම", "preferences_label": "මනාපයන්", "about_label": "පිළිබඳව",
+            "ownfeeds_label": "තමන්ගේ සංග්‍රහ",
+            "profile_label": "පැතිකඩ සංස්කරණය",
+            "security_label": "ආරක්ෂාව"
         },
         "room": { "desc": "කාමර නාමය: {}", "leave": "කාමරය හැර යන්න", "join": "කාමරයට ඇතුළු වී substitution හි එක් කරන්න", "join_short": "සම්බන්ධ වන්න", "permissions": "අවසරයන්" },
         "dialog": {
             "delete": { "title": "කාමරය {} හැර යන්න", "desc": "ඔබට කාමරය {} හැර යාමට අවශ්‍ය බව විශ්වාසද?", "button": { "submit": "ඔව්, හැර යන්න", "cancel": "නැහැ, අවලංගු කරන්න" } },
             "add": { "title": "නව සේවාදායකයක් එක් කරන්න", "input_placeholder": "සේවාදායක ලිපිනය ඇතුළත් කරන්න", "button": { "submit": "එක් කරන්න" }, "snackbar": { "success": "සේවාදායකය එක් කරන ලදී", "error_homeserver": "ඇතුළත් කළ මුල් සේවාදායකය වලංගු නැත" } },
-            "create": { "title": "නව කාමරයක් සාදන්න", "placeholder_name": "කාමර නාමය", "placeholder_alias": "කාමර අන්වර්ථ නාමය (පොදු කාමර ලිපිනය)", "placeholder_topic": "කාමර මාතෘකාව", "submit": "සාදන්න" }
+            "create": { "title": "නව කාමරයක් සාදන්න", "placeholder_name": "කාමර නාමය", "placeholder_alias": "කාමර අන්වර්ථ නාමය (පොදු කාමර ලිපිනය)", "placeholder_topic": "කාමර මාතෘකාව", "submit": "සාදන්න", "error": "කාමරය සෑදිය නොහැකි විය. කරුණාකර නැවත උත්සාහ කරන්න." }
         },
         "room_preview": { "members": "සාමාජිකයින් {}", "latest_posts": "නවතම පළ කිරීම්", "no_posts": "මෙම කාමරයේ තවම පළ කිරීම් නැත.", "no_peek": "මෙම කාමරයේ ඉතිහාසය පෞද්ගලිකය. පළ කිරීම් බැලීමට කාමරයට සම්බන්ධ වන්න.", "join_to_see": "පළ කිරීම් බැලීමට සම්බන්ධ වන්න" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "පිළිතුර", "roomheader": "කාමරය: {}",
-        "filemessage": { "upload_files": "උඩුගත කිරීමට නව ගොනු එක් කරන්න", "title_header": "මාතෘකාව:", "upload_start": "උඩුගත කිරීම ආරම්භ කරමින්...", "upload_file_process": "ගොනුව {} උඩුගත කරමින්", "upload_error": "{} උඩුගත කිරීම අසාර්ථක විය. නැවත උඩුගත කරන්නද?", "upload_file_complete": "{} උඩුගත කිරීම සම්පූර්ණයි!", "upload_complete": "සියලු ගොනු උඩුගත කර ඇත!", "buttons": { "upload_stop": "අවලංගු කරන්න", "upload_retry": "නැවත උත්සාහ කරන්න" } },
+        "filemessage": { "video_preview": "වීඩියෝ", "upload_files": "උඩුගත කිරීමට නව ගොනු එක් කරන්න", "title_header": "මාතෘකාව:", "upload_start": "උඩුගත කිරීම ආරම්භ කරමින්...", "upload_file_process": "ගොනුව {} උඩුගත කරමින්", "upload_error": "{} උඩුගත කිරීම අසාර්ථක විය. නැවත උඩුගත කරන්නද?", "upload_file_complete": "{} උඩුගත කිරීම සම්පූර්ණයි!", "upload_complete": "සියලු ගොනු උඩුගත කර ඇත!", "buttons": { "upload_stop": "අවලංගු කරන්න", "upload_retry": "නැවත උත්සාහ කරන්න" } },
         "roomselect": { "type_prompt": "ඔබට පළ කිරීමට අවශ්‍ය පණිවිඩ වර්ගය තෝරන්න", "room_prompt": "ඔබට පළ කිරීමට අවශ්‍ය කාමරය තෝරන්න:", "error_no_rooms": "ඔබ කිසිදු කාමරයකට සම්බන්ධ වී නැත හෝ පළ කිරීමට අයිතිවාසිකම් නැත." },
         "textmessage": { "answer_promt": "ඔබේ පෙළ ඇතුළත් කරන්න:", "input_placeholder": "ඔබේ පෙළ මෙහි ඇතුළත් කරන්න...", "send_start": "පණිවිඩය යැවීම ආරම්භ විය...", "send_failed": "පණිවිඩය යැවීම අසාර්ථක විය. පණිවිඩය නැවත යවන්නද?", "send_complete": "පණිවිඩය සාර්ථකව යවන ලදී!", "buttons": { "send_stop": "නැවත උත්සාහ නොකරන්න", "resend": "නැවත උත්සාහ කරන්න" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "හේතුව", "report_reason_hint": "මෙම පරිශීලකයා...", "report_submit": "ඉදිරිපත් කරන්න",
         "report_success": "වාර්තාව ඉදිරිපත් කරන ලදී. ස්තූතියි.", "feeds_section": "සංග්‍රහ", "no_feeds": "පොදු සංග්‍රහ නැත",
         "error_start_chat": "කතාබස ආරම්භ කිරීමට නොහැකි විය: {}"
+    },
+    "startroom_dialog": {
+        "title": "පිළිගැනීමේ කාමරයට සම්බන්ධ වන්නද?",
+        "desc": "ඔබට Substitution පිළිගැනීමේ කාමරයට සම්බන්ධ වීමට අවශ්‍යද? ආරම්භ කිරීමට සහ ප්‍රජාව සමඟ සම්බන්ධ වීමට එය විශිෂ්ට ස්ථානයකි.",
+        "join": "සම්බන්ධ වී ඉදිරියට යන්න",
+        "skip": "මඟ හරින්න"
     },
     "chat": {
         "title": "පණිවිඩ", "input_placeholder": "පණිවිඩයක් ටයිප් කරන්න...", "no_messages": "තවම පණිවිඩ නැත. ආයුබෝවන් කියන්න!",

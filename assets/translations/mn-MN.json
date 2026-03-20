@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Файлын шифрийг тайлж байна...",
+                "decrypt_error": "Файлыг ачаалж чадсангүй.",
                 "video_desktop_error": "Linux, Windows эсвэл MacOS дээр видео тоглуулах боломжгүй. Энэ боломжийг харахыг хүсвэл Github дээр хувь нэмрээ оруулаарай!",
                 "audio_desktop_error": "Linux, Windows эсвэл MacOS дээр аудио тоглуулах боломжгүй."
+            },
+            "comment": {
+                "load_error": "Хариултуудыг ачаалж чадсангүй."
             },
             "reaction": {
                 "unknown_sender": "тодорхойгүй",
@@ -127,7 +131,10 @@
             "navigation_label": "Навигаци",
             "account_label": "Бүртгэл",
             "preferences_label": "Тохиргоо",
-            "about_label": "Тухай"
+            "about_label": "Тухай",
+            "ownfeeds_label": "Миний фийдүүд",
+            "profile_label": "Профайл засах",
+            "security_label": "Аюулгүй байдал"
         },
         "room": {
             "desc": "Өрөөний нэр: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "өрөөний нэр",
                 "placeholder_alias": "өрөөний товчлол (нийтийн өрөөний хаяг)",
                 "placeholder_topic": "өрөөний сэдэв",
-                "submit": "Үүсгэх"
+                "submit": "Үүсгэх",
+                "error": "Өрөө үүсгэж чадсангүй. Дахин оролдоно уу."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Хариулах",
         "roomheader": "Өрөө: {}",
         "filemessage": {
+            "video_preview": "Видео",
             "upload_files": "Байршуулах шинэ файлууд нэмэх",
             "title_header": "Гарчиг:",
             "upload_start": "Байршуулалт эхэлж байна...",
@@ -277,6 +286,12 @@
         "feeds_section": "ФИЙДҮҮД",
         "no_feeds": "Нийтийн фийд алга",
         "error_start_chat": "Чат эхлүүлж чадсангүй: {}"
+    },
+    "startroom_dialog": {
+        "title": "Угтах өрөөнд нэгдэх үү?",
+        "desc": "Substitution угтах өрөөнд нэгдэхийг хүсч байна уу? Эхлүүлж, нийгэмлэгтэй холбогдоход тохиромжтой газар юм.",
+        "join": "Нэгдэж үргэлжлүүлэх",
+        "skip": "Алгасах"
     },
     "chat": {
         "title": "Мессежүүд",

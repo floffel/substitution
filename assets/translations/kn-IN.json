@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ಫೈಲ್ ಡೀಕ್ರಿಪ್ಟ್ ಆಗುತ್ತಿದೆ...",
+                "decrypt_error": "ಫೈಲ್ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
                 "video_desktop_error": "Linux, Windows ಅಥವಾ MacOS ನಲ್ಲಿ ವೀಡಿಯೊಗಳನ್ನು ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಈ ವೈಶಿಷ್ಟ್ಯವನ್ನು ನೋಡಲು ನೀವು ಬಯಸಿದರೆ, Github ನಲ್ಲಿ ಕೊಡುಗೆ ನೀಡಲು ಪರಿಗಣಿಸಿ!",
                 "audio_desktop_error": "Linux, Windows ಅಥವಾ MacOS ನಲ್ಲಿ ಆಡಿಯೊ ಪ್ಲೇ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
+            },
+            "comment": {
+                "load_error": "ಪ್ರತ್ಯುತ್ತರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
             },
             "reaction": {
                 "unknown_sender": "ಅಪರಿಚಿತ",
@@ -127,7 +131,10 @@
             "navigation_label": "ಸಂಚರಣೆ",
             "account_label": "ಖಾತೆ",
             "preferences_label": "ಆದ್ಯತೆಗಳು",
-            "about_label": "ಕುರಿತು"
+            "about_label": "ಕುರಿತು",
+            "ownfeeds_label": "ಸ್ವಂತ ಫೀಡ್‌ಗಳು",
+            "profile_label": "ಪ್ರೊಫೈಲ್ ಸಂಪಾದಿಸಿ",
+            "security_label": "ಭದ್ರತೆ"
         },
         "room": {
             "desc": "ಕೊಠಡಿ ಹೆಸರು: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ಕೊಠಡಿ ಹೆಸರು",
                 "placeholder_alias": "ಕೊಠಡಿ ಅಲಿಯಾಸ್ (ಸಾರ್ವಜನಿಕ ಕೊಠಡಿ ವಿಳಾಸ)",
                 "placeholder_topic": "ಕೊಠಡಿ ವಿಷಯ",
-                "submit": "ರಚಿಸಿ"
+                "submit": "ರಚಿಸಿ",
+                "error": "ಕೊಠಡಿಯನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "ಉತ್ತರ",
         "roomheader": "ಕೊಠಡಿ: {}",
         "filemessage": {
+            "video_preview": "ವೀಡಿಯೊ",
             "upload_files": "ಅಪ್‌ಲೋಡ್‌ಗಾಗಿ ಹೊಸ ಫೈಲ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
             "title_header": "ಶೀರ್ಷಿಕೆ:",
             "upload_start": "ಅಪ್‌ಲೋಡ್ ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ...",
@@ -277,6 +286,12 @@
         "feeds_section": "ಫೀಡ್‌ಗಳು",
         "no_feeds": "ಸಾರ್ವಜನಿಕ ಫೀಡ್‌ಗಳಿಲ್ಲ",
         "error_start_chat": "ಚಾಟ್ ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ: {}"
+    },
+    "startroom_dialog": {
+        "title": "ಸ್ವಾಗತ ಕೊಠಡಿಗೆ ಸೇರಬೇಕೇ?",
+        "desc": "ನೀವು Substitution ಸ್ವಾಗತ ಕೊಠಡಿಗೆ ಸೇರಲು ಬಯಸುವಿರಾ? ಪ್ರಾರಂಭಿಸಲು ಮತ್ತು ಸಮುದಾಯದೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಲು ಇದು ಅತ್ಯುತ್ತಮ ಸ್ಥಳವಾಗಿದೆ.",
+        "join": "ಸೇರಿ ಮುಂದುವರಿಸಿ",
+        "skip": "ಬಿಟ್ಟುಬಿಡಿ"
     },
     "chat": {
         "title": "ಸಂದೇಶಗಳು",

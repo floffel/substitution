@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "File sedang didekripsi...",
+                "decrypt_error": "Tidak dapat memuat file.",
                 "video_desktop_error": "Video tidak dapat ditampilkan di Linux, Windows maupun MacOS. Pertimbangkan untuk berkontribusi di Github jika Anda ingin melihat fitur ini!",
                 "audio_desktop_error": "Audio tidak dapat diputar di Linux, Windows maupun MacOS."
+            },
+            "comment": {
+                "load_error": "Tidak dapat memuat balasan."
             },
             "reaction": {
                 "unknown_sender": "tidak dikenal",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigasi",
             "account_label": "Akun",
             "preferences_label": "Preferensi",
-            "about_label": "Tentang"
+            "about_label": "Tentang",
+            "ownfeeds_label": "Feed Saya",
+            "profile_label": "Edit Profil",
+            "security_label": "Keamanan"
         },
         "room": {
             "desc": "Nama ruangan: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nama ruangan",
                 "placeholder_alias": "alias ruangan (alamat ruangan publik)",
                 "placeholder_topic": "topik ruangan",
-                "submit": "Buat"
+                "submit": "Buat",
+                "error": "Tidak dapat membuat ruangan. Silakan coba lagi."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Jawab",
         "roomheader": "Ruangan: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Tambahkan file baru untuk diunggah",
             "title_header": "Judul:",
             "upload_start": "Memulai unggahan...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEED",
         "no_feeds": "Tidak ada feed publik",
         "error_start_chat": "Tidak dapat memulai obrolan: {}"
+    },
+    "startroom_dialog": {
+        "title": "Bergabung dengan Ruangan Selamat Datang?",
+        "desc": "Apakah Anda ingin bergabung dengan ruangan selamat datang Substitution? Ini adalah tempat yang bagus untuk memulai dan terhubung dengan komunitas.",
+        "join": "Bergabung & Lanjutkan",
+        "skip": "Lewati"
     },
     "chat": {
         "title": "Pesan",

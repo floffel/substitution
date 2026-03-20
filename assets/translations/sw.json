@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Chagua ikoni" } },
         "widgets": {
             "filecomponent": { "button": { "close": "funga" } },
-            "filedisplay": { "decrypting": "Faili inasimbuliwa...", "video_desktop_error": "Video haziwezi kuonyeshwa kwenye Linux, Windows wala MacOS. Fikiria kuchangia kwenye Github, ikiwa ungependa kuona kipengele hiki!", "audio_desktop_error": "Sauti haiwezi kuchezwa kwenye Linux, Windows wala MacOS." },
+            "filedisplay": { "decrypting": "Faili inasimbuliwa...", "decrypt_error": "Imeshindwa kupakia faili.", "video_desktop_error": "Video haziwezi kuonyeshwa kwenye Linux, Windows wala MacOS. Fikiria kuchangia kwenye Github, ikiwa ungependa kuona kipengele hiki!", "audio_desktop_error": "Sauti haiwezi kuchezwa kwenye Linux, Windows wala MacOS." },
+            "comment": { "load_error": "Imeshindwa kupakia majibu." },
             "reaction": { "unknown_sender": "haijulikani", "sent_by": "Imetumwa na {}" },
             "videoplayercontrol": { "play": "cheza", "caption_offset": "urekebishaji wa manukuu", "playback_speed": "kasi ya kucheza" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Umeingia kama {}", "logout": "Toka", "logout_confirm": "Una uhakika unataka kutoka?",
             "login": "Ingia", "not_logged_in": "Ingia ili ufikie vipengele vyote",
             "home_site_label": "Nyumbani", "feeds_site_label": "Milisho", "navigation_label": "Urambazaji",
-            "account_label": "Akaunti", "preferences_label": "Mapendeleo", "about_label": "Kuhusu"
+            "account_label": "Akaunti", "preferences_label": "Mapendeleo", "about_label": "Kuhusu",
+            "ownfeeds_label": "Milisho Yangu", "profile_label": "Hariri Wasifu", "security_label": "Usalama"
         },
         "room": { "desc": "Jina la chumba: {}", "leave": "Ondoka kwenye chumba", "join": "Ingia kwenye chumba na kiongeze kwa substitution", "join_short": "Jiunge", "permissions": "Ruhusa" },
         "dialog": {
             "delete": { "title": "Ondoka kwenye chumba {}", "desc": "Una uhakika unataka kuondoka kwenye chumba {}?", "button": { "submit": "Ndiyo, ondoka", "cancel": "Hapana, ghairi" } },
             "add": { "title": "Ongeza Seva Mpya", "input_placeholder": "Ingiza anwani ya seva", "button": { "submit": "Ongeza" }, "snackbar": { "success": "Seva imeongezwa", "error_homeserver": "Seva iliyoingizwa si halali" } },
-            "create": { "title": "Unda chumba kipya", "placeholder_name": "jina la chumba", "placeholder_alias": "lakabu ya chumba (anwani ya umma)", "placeholder_topic": "mada ya chumba", "submit": "Unda" }
+            "create": { "title": "Unda chumba kipya", "placeholder_name": "jina la chumba", "placeholder_alias": "lakabu ya chumba (anwani ya umma)", "placeholder_topic": "mada ya chumba", "submit": "Unda", "error": "Imeshindwa kuunda chumba. Tafadhali jaribu tena." }
         },
         "room_preview": { "members": "Wanachama {}", "latest_posts": "Machapisho ya hivi karibuni", "no_posts": "Hakuna machapisho bado katika chumba hiki.", "no_peek": "Historia ya chumba hiki ni ya faragha. Jiunge na chumba ili kuona machapisho yake.", "join_to_see": "Jiunge ili kuona machapisho" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Jibu", "roomheader": "Chumba: {}",
-        "filemessage": { "upload_files": "Ongeza faili mpya za kupakia", "title_header": "Kichwa:", "upload_start": "Inaanza kupakia...", "upload_file_process": "Inapakia faili {}", "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?", "upload_file_complete": "Kupakia {} kumekamilika!", "upload_complete": "Faili zote zimepakiwa!", "buttons": { "upload_stop": "Ghairi", "upload_retry": "Jaribu Tena" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Ongeza faili mpya za kupakia", "title_header": "Kichwa:", "upload_start": "Inaanza kupakia...", "upload_file_process": "Inapakia faili {}", "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?", "upload_file_complete": "Kupakia {} kumekamilika!", "upload_complete": "Faili zote zimepakiwa!", "buttons": { "upload_stop": "Ghairi", "upload_retry": "Jaribu Tena" } },
         "roomselect": { "type_prompt": "Chagua aina ya ujumbe unayotaka kuchapisha", "room_prompt": "Chagua chumba ambacho ungependa kuchapisha:", "error_no_rooms": "Hujajiunga na vyumba vyovyote au huna haki za kuchapisha." },
         "textmessage": { "answer_promt": "Ingiza Maandishi yako:", "input_placeholder": "Ingiza maandishi yako hapa...", "send_start": "Imeanza kutuma ujumbe...", "send_failed": "Kutuma ujumbe kumeshindwa. Ungependa kutuma tena?", "send_complete": "Ujumbe umetumwa kwa mafanikio!", "buttons": { "send_stop": "Usijaribu tena", "resend": "Jaribu Tena" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Sababu", "report_reason_hint": "Mtumiaji huyu ni...", "report_submit": "Wasilisha",
         "report_success": "Ripoti imewasilishwa. Asante.", "feeds_section": "MILISHO", "no_feeds": "Hakuna milisho ya umma",
         "error_start_chat": "Imeshindwa kuanza mazungumzo: {}"
+    },
+    "startroom_dialog": {
+        "title": "Jiunge na Chumba cha Karibu?",
+        "desc": "Je, ungependa kujiunga na chumba cha karibu cha Substitution? Ni mahali pazuri pa kuanza na kuungana na jamii.",
+        "join": "Jiunge na Endelea",
+        "skip": "Ruka"
     },
     "chat": {
         "title": "Ujumbe", "input_placeholder": "Andika ujumbe...", "no_messages": "Hakuna ujumbe bado. Sema habari!",

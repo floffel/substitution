@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Bestand wordt ontsleuteld...",
+                "decrypt_error": "Kon het bestand niet laden.",
                 "video_desktop_error": "Video's kunnen niet worden weergegeven op Linux, Windows of MacOS. Overweeg bij te dragen op Github als u deze functie graag wilt zien!",
                 "audio_desktop_error": "Audio kan niet worden afgespeeld op Linux, Windows of MacOS."
+            },
+            "comment": {
+                "load_error": "Kon reacties niet laden."
             },
             "reaction": {
                 "unknown_sender": "onbekend",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigatie",
             "account_label": "Account",
             "preferences_label": "Voorkeuren",
-            "about_label": "Over"
+            "about_label": "Over",
+            "ownfeeds_label": "Eigen feeds",
+            "profile_label": "Profiel bewerken",
+            "security_label": "Beveiliging"
         },
         "room": {
             "desc": "Kamernaam: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "kamernaam",
                 "placeholder_alias": "kameralias (openbaar kameradres)",
                 "placeholder_topic": "kameronderwerp",
-                "submit": "Aanmaken"
+                "submit": "Aanmaken",
+                "error": "Kamer kon niet worden aangemaakt. Probeer het opnieuw."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Antwoord",
         "roomheader": "Kamer: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Nieuwe bestanden toevoegen voor upload",
             "title_header": "Titel:",
             "upload_start": "Upload wordt gestart...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "Geen openbare feeds",
         "error_start_chat": "Kon chat niet starten: {}"
+    },
+    "startroom_dialog": {
+        "title": "Welkomstkamer betreden?",
+        "desc": "Wilt u deelnemen aan de welkomstkamer van Substitution? Het is een geweldige plek om te beginnen en de community te leren kennen.",
+        "join": "Deelnemen en doorgaan",
+        "skip": "Overslaan"
     },
     "chat": {
         "title": "Berichten",

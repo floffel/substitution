@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "檔案正在解密...",
+                "decrypt_error": "無法載入檔案。",
                 "video_desktop_error": "影片無法在 Linux、Windows 或 MacOS 上顯示。如果您希望看到此功能，歡迎在 Github 上貢獻！",
                 "audio_desktop_error": "音訊無法在 Linux、Windows 或 MacOS 上播放。"
+            },
+            "comment": {
+                "load_error": "無法載入回覆。"
             },
             "reaction": {
                 "unknown_sender": "未知",
@@ -127,7 +131,10 @@
             "navigation_label": "導覽",
             "account_label": "帳戶",
             "preferences_label": "偏好設定",
-            "about_label": "關於"
+            "about_label": "關於",
+            "ownfeeds_label": "我的動態",
+            "profile_label": "編輯個人檔案",
+            "security_label": "安全性"
         },
         "room": {
             "desc": "房間名稱：{}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "房間名稱",
                 "placeholder_alias": "房間別名（公開位址）",
                 "placeholder_topic": "房間主題",
-                "submit": "建立"
+                "submit": "建立",
+                "error": "無法建立房間。請重試。"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "回覆",
         "roomheader": "房間：{}",
         "filemessage": {
+            "video_preview": "影片",
             "upload_files": "新增檔案以上傳",
             "title_header": "標題：",
             "upload_start": "開始上傳...",
@@ -277,6 +286,12 @@
         "feeds_section": "動態",
         "no_feeds": "無公開動態",
         "error_start_chat": "無法開始聊天：{}"
+    },
+    "startroom_dialog": {
+        "title": "加入歡迎房間？",
+        "desc": "您想加入 Substitution 歡迎房間嗎？這是一個開始探索並與社群建立聯繫的好地方。",
+        "join": "加入並繼續",
+        "skip": "跳過"
     },
     "chat": {
         "title": "訊息",

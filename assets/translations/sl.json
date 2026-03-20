@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Izberite ikono" } },
         "widgets": {
             "filecomponent": { "button": { "close": "zapri" } },
-            "filedisplay": { "decrypting": "Datoteka se dešifrira...", "video_desktop_error": "Videoposnetkov ni mogoče prikazati na Linux, Windows niti MacOS. Prispevajte na Github, če želite videti to funkcijo!", "audio_desktop_error": "Zvoka ni mogoče predvajati na Linux, Windows niti MacOS." },
+            "filedisplay": { "decrypting": "Datoteka se dešifrira...", "decrypt_error": "Datoteke ni bilo mogoče naložiti.", "video_desktop_error": "Videoposnetkov ni mogoče prikazati na Linux, Windows niti MacOS. Prispevajte na Github, če želite videti to funkcijo!", "audio_desktop_error": "Zvoka ni mogoče predvajati na Linux, Windows niti MacOS." },
+            "comment": { "load_error": "Odgovorov ni bilo mogoče naložiti." },
             "reaction": { "unknown_sender": "neznano", "sent_by": "Poslal/a {}" },
             "videoplayercontrol": { "play": "predvajaj", "caption_offset": "odmik podnapisov", "playback_speed": "hitrost predvajanja" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Prijavljeni kot {}", "logout": "Odjava", "logout_confirm": "Ali ste prepričani, da se želite odjaviti?",
             "login": "Prijava", "not_logged_in": "Prijavite se za dostop do vseh funkcij",
             "home_site_label": "Domov", "feeds_site_label": "Viri", "navigation_label": "Navigacija",
-            "account_label": "Račun", "preferences_label": "Nastavitve", "about_label": "O aplikaciji"
+            "account_label": "Račun", "preferences_label": "Nastavitve", "about_label": "O aplikaciji",
+            "ownfeeds_label": "Lastni viri", "profile_label": "Uredi profil", "security_label": "Varnost"
         },
         "room": { "desc": "Ime sobe: {}", "leave": "Zapusti sobo", "join": "Vstopi v sobo in jo dodaj v substitution", "join_short": "Vstopi", "permissions": "Dovoljenja" },
         "dialog": {
             "delete": { "title": "Zapusti sobo {}", "desc": "Ali ste prepričani, da želite zapustiti sobo {}?", "button": { "submit": "Da, zapusti", "cancel": "Ne, prekliči" } },
             "add": { "title": "Dodaj nov strežnik", "input_placeholder": "Vnesite naslov strežnika", "button": { "submit": "Dodaj" }, "snackbar": { "success": "Strežnik je bil dodan", "error_homeserver": "Vnesen domači strežnik ni veljaven" } },
-            "create": { "title": "Ustvari novo sobo", "placeholder_name": "ime sobe", "placeholder_alias": "vzdevek sobe (javni naslov)", "placeholder_topic": "tema sobe", "submit": "Ustvari" }
+            "create": { "title": "Ustvari novo sobo", "placeholder_name": "ime sobe", "placeholder_alias": "vzdevek sobe (javni naslov)", "placeholder_topic": "tema sobe", "submit": "Ustvari", "error": "Sobe ni bilo mogoče ustvariti. Poskusite znova." }
         },
         "room_preview": { "members": "{} članov", "latest_posts": "Najnovejše objave", "no_posts": "V tej sobi še ni objav.", "no_peek": "Zgodovina te sobe je zasebna. Pridružite se sobi, da vidite objave.", "join_to_see": "Pridružite se, da vidite objave" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Odgovori", "roomheader": "Soba: {}",
-        "filemessage": { "upload_files": "Dodajte nove datoteke za nalaganje", "title_header": "Naslov:", "upload_start": "Začetek nalaganja...", "upload_file_process": "Nalaganje datoteke {}", "upload_error": "Nalaganje {} ni uspelo. Poskusiti znova?", "upload_file_complete": "Nalaganje {} je končano!", "upload_complete": "Vse datoteke so bile naložene!", "buttons": { "upload_stop": "Prekliči", "upload_retry": "Poskusi znova" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Dodajte nove datoteke za nalaganje", "title_header": "Naslov:", "upload_start": "Začetek nalaganja...", "upload_file_process": "Nalaganje datoteke {}", "upload_error": "Nalaganje {} ni uspelo. Poskusiti znova?", "upload_file_complete": "Nalaganje {} je končano!", "upload_complete": "Vse datoteke so bile naložene!", "buttons": { "upload_stop": "Prekliči", "upload_retry": "Poskusi znova" } },
         "roomselect": { "type_prompt": "Izberite vrsto sporočila, ki ga želite objaviti", "room_prompt": "Izberite sobo, v kateri želite objaviti:", "error_no_rooms": "Niste se pridružili nobeni sobi ali nimate pravic za objavljanje." },
         "textmessage": { "answer_promt": "Vnesite besedilo:", "input_placeholder": "Vnesite besedilo tukaj...", "send_start": "Pošiljanje sporočila se je začelo...", "send_failed": "Pošiljanje sporočila ni uspelo. Želite znova poslati sporočilo?", "send_complete": "Sporočilo je bilo uspešno poslano!", "buttons": { "send_stop": "Ne poskušaj znova", "resend": "Poskusi znova" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Razlog", "report_reason_hint": "Ta uporabnik...", "report_submit": "Pošlji",
         "report_success": "Prijava je bila poslana. Hvala.", "feeds_section": "VIRI", "no_feeds": "Ni javnih virov",
         "error_start_chat": "Klepeta ni bilo mogoče začeti: {}"
+    },
+    "startroom_dialog": {
+        "title": "Pridružiti se pozdravni sobi?",
+        "desc": "Ali se želite pridružiti pozdravni sobi Substitution? To je odlično mesto za začetek in povezovanje s skupnostjo.",
+        "join": "Pridruži se in nadaljuj",
+        "skip": "Preskoči"
     },
     "chat": {
         "title": "Sporočila", "input_placeholder": "Napišite sporočilo...", "no_messages": "Še ni sporočil. Pozdravite se!",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ფაილი იშიფრება...",
+                "decrypt_error": "ფაილის ჩატვირთვა ვერ მოხერხდა.",
                 "video_desktop_error": "ვიდეოების ჩვენება შეუძლებელია Linux, Windows და MacOS სისტემებზე. შეუერთდით Github-ზე, თუ გსურთ ამ ფუნქციის დანახვა!",
                 "audio_desktop_error": "აუდიოს დაკვრა შეუძლებელია Linux, Windows და MacOS სისტემებზე."
+            },
+            "comment": {
+                "load_error": "პასუხების ჩატვირთვა ვერ მოხერხდა."
             },
             "reaction": {
                 "unknown_sender": "უცნობი",
@@ -127,7 +131,10 @@
             "navigation_label": "ნავიგაცია",
             "account_label": "ანგარიში",
             "preferences_label": "პარამეტრები",
-            "about_label": "შესახებ"
+            "about_label": "შესახებ",
+            "ownfeeds_label": "საკუთარი არხები",
+            "profile_label": "პროფილის რედაქტირება",
+            "security_label": "უსაფრთხოება"
         },
         "room": {
             "desc": "ოთახის სახელი: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ოთახის სახელი",
                 "placeholder_alias": "ოთახის მეტსახელი (საჯარო ოთახის მისამართი)",
                 "placeholder_topic": "ოთახის თემა",
-                "submit": "შექმნა"
+                "submit": "შექმნა",
+                "error": "ოთახის შექმნა ვერ მოხერხდა. გთხოვთ, სცადეთ ხელახლა."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "პასუხი",
         "roomheader": "ოთახი: {}",
         "filemessage": {
+            "video_preview": "ვიდეო",
             "upload_files": "ახალი ფაილების დამატება ასატვირთად",
             "title_header": "სათაური:",
             "upload_start": "ატვირთვა იწყება...",
@@ -277,6 +286,12 @@
         "feeds_section": "არხები",
         "no_feeds": "საჯარო არხები არ არის",
         "error_start_chat": "ჩატის დაწყება ვერ მოხერხდა: {}"
+    },
+    "startroom_dialog": {
+        "title": "შეუერთდეთ მისასალმებელ ოთახს?",
+        "desc": "გსურთ შეუერთდეთ Substitution-ის მისასალმებელ ოთახს? ეს შესანიშნავი ადგილია დასაწყებად და საზოგადოებასთან დასაკავშირებლად.",
+        "join": "შესვლა და გაგრძელება",
+        "skip": "გამოტოვება"
     },
     "chat": {
         "title": "შეტყობინებები",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Soubor se dešifruje...",
+                "decrypt_error": "Soubor se nepodařilo načíst.",
                 "video_desktop_error": "Videa nelze zobrazit na Linux, Windows ani MacOS. Zvažte přispění na Github, pokud chcete tuto funkci vidět!",
                 "audio_desktop_error": "Zvuk nelze přehrát na Linux, Windows ani MacOS."
+            },
+            "comment": {
+                "load_error": "Nepodařilo se načíst odpovědi."
             },
             "reaction": {
                 "unknown_sender": "neznámý",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigace",
             "account_label": "Účet",
             "preferences_label": "Předvolby",
-            "about_label": "O aplikaci"
+            "about_label": "O aplikaci",
+            "ownfeeds_label": "Vlastní kanály",
+            "profile_label": "Upravit profil",
+            "security_label": "Zabezpečení"
         },
         "room": {
             "desc": "Název místnosti: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "název místnosti",
                 "placeholder_alias": "alias místnosti (veřejná adresa místnosti)",
                 "placeholder_topic": "téma místnosti",
-                "submit": "Vytvořit"
+                "submit": "Vytvořit",
+                "error": "Místnost se nepodařilo vytvořit. Zkuste to prosím znovu."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Odpověď",
         "roomheader": "Místnost: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Přidat nové soubory k nahrání",
             "title_header": "Název:",
             "upload_start": "Zahajování nahrávání...",
@@ -277,6 +286,12 @@
         "feeds_section": "KANÁLY",
         "no_feeds": "Žádné veřejné kanály",
         "error_start_chat": "Nepodařilo se zahájit chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Vstoupit do uvítací místnosti?",
+        "desc": "Chcete se připojit k uvítací místnosti Substitution? Je to skvělé místo, kde můžete začít a spojit se s komunitou.",
+        "join": "Vstoupit a pokračovat",
+        "skip": "Přeskočit"
     },
     "chat": {
         "title": "Zprávy",

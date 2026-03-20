@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ፋይል እየተፈታ ነው...",
+                "decrypt_error": "ፋይሉን መጫን አልተቻለም።",
                 "video_desktop_error": "ቪዲዮዎች በ Linux፣ Windows ወይም MacOS ላይ ሊታዩ አይችሉም። ይህንን ባህሪ ማየት ከፈለጉ በ Github ላይ ያዋጡ!",
                 "audio_desktop_error": "ኦዲዮ በ Linux፣ Windows ወይም MacOS ላይ ሊጫወት አይችልም።"
+            },
+            "comment": {
+                "load_error": "መልሶችን መጫን አልተቻለም።"
             },
             "reaction": {
                 "unknown_sender": "ያልታወቀ",
@@ -127,7 +131,10 @@
             "navigation_label": "አሰሳ",
             "account_label": "መለያ",
             "preferences_label": "ምርጫዎች",
-            "about_label": "ስለ"
+            "about_label": "ስለ",
+            "ownfeeds_label": "የራሴ ፊዶች",
+            "profile_label": "ፕሮፋይል አርትዕ",
+            "security_label": "ደህንነት"
         },
         "room": {
             "desc": "የክፍል ስም: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "የክፍል ስም",
                 "placeholder_alias": "የክፍል ቅጽል (የሕዝብ ክፍል አድራሻ)",
                 "placeholder_topic": "የክፍል ርዕስ",
-                "submit": "ፍጠር"
+                "submit": "ፍጠር",
+                "error": "ክፍል መፍጠር አልተቻለም። እባክዎ ደግመው ይሞክሩ።"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "መልስ",
         "roomheader": "ክፍል: {}",
         "filemessage": {
+            "video_preview": "ቪዲዮ",
             "upload_files": "ለመስቀል አዲስ ፋይሎችን ጨምር",
             "title_header": "ርዕስ:",
             "upload_start": "መስቀል እየጀመረ ነው...",
@@ -277,6 +286,12 @@
         "feeds_section": "ፊዶች",
         "no_feeds": "ምንም የሕዝብ ፊዶች የሉም",
         "error_start_chat": "ውይይት መጀመር አልተቻለም: {}"
+    },
+    "startroom_dialog": {
+        "title": "የአቀባበል ክፍልን ይቀላቀሉ?",
+        "desc": "የ Substitution አቀባበል ክፍልን መቀላቀል ይፈልጋሉ? ለመጀመር እና ከማህበረሰቡ ጋር ለመገናኘት ምርጥ ቦታ ነው።",
+        "join": "ተቀላቀል እና ቀጥል",
+        "skip": "ዝለል"
     },
     "chat": {
         "title": "መልእክቶች",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "A fájl visszafejtése folyamatban...",
+                "decrypt_error": "A fájl nem tölthető be.",
                 "video_desktop_error": "A videók nem jeleníthetők meg Linux, Windows és MacOS rendszeren. Járuljon hozzá a Github-on, ha szeretné látni ezt a funkciót!",
                 "audio_desktop_error": "A hang nem játszható le Linux, Windows és MacOS rendszeren."
+            },
+            "comment": {
+                "load_error": "A válaszok betöltése sikertelen."
             },
             "reaction": {
                 "unknown_sender": "ismeretlen",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigáció",
             "account_label": "Fiók",
             "preferences_label": "Beállítások",
-            "about_label": "Névjegy"
+            "about_label": "Névjegy",
+            "ownfeeds_label": "Saját hírfolyamok",
+            "profile_label": "Profil szerkesztése",
+            "security_label": "Biztonság"
         },
         "room": {
             "desc": "Szoba neve: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "szoba neve",
                 "placeholder_alias": "szoba alias (nyilvános szobacím)",
                 "placeholder_topic": "szoba témája",
-                "submit": "Létrehozás"
+                "submit": "Létrehozás",
+                "error": "A szoba létrehozása sikertelen. Kérjük, próbálja újra."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Válasz",
         "roomheader": "Szoba: {}",
         "filemessage": {
+            "video_preview": "Videó",
             "upload_files": "Új fájlok hozzáadása feltöltéshez",
             "title_header": "Cím:",
             "upload_start": "Feltöltés indítása...",
@@ -277,6 +286,12 @@
         "feeds_section": "HÍRFOLYAMOK",
         "no_feeds": "Nincsenek nyilvános hírfolyamok",
         "error_start_chat": "Nem sikerült elindítani a csevegést: {}"
+    },
+    "startroom_dialog": {
+        "title": "Csatlakozás az üdvözlő szobához?",
+        "desc": "Szeretne csatlakozni a Substitution üdvözlő szobájához? Remek hely a kezdéshez és a közösséggel való kapcsolatfelvételhez.",
+        "join": "Csatlakozás és tovább",
+        "skip": "Kihagyás"
     },
     "chat": {
         "title": "Üzenetek",

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "El fitxer s'està desxifrant...",
+                "decrypt_error": "No s'ha pogut carregar el fitxer.",
                 "video_desktop_error": "Els vídeos no es poden mostrar a Linux, Windows ni MacOS. Considera contribuir a Github si vols veure aquesta funcionalitat!",
                 "audio_desktop_error": "L'àudio no es pot reproduir a Linux, Windows ni MacOS."
+            },
+            "comment": {
+                "load_error": "No s'han pogut carregar les respostes."
             },
             "reaction": {
                 "unknown_sender": "desconegut",
@@ -127,7 +131,10 @@
             "navigation_label": "Navegació",
             "account_label": "Compte",
             "preferences_label": "Preferències",
-            "about_label": "Quant a"
+            "about_label": "Quant a",
+            "ownfeeds_label": "Els meus feeds",
+            "profile_label": "Edita el perfil",
+            "security_label": "Seguretat"
         },
         "room": {
             "desc": "Nom de la sala: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nom de la sala",
                 "placeholder_alias": "àlies de la sala (adreça pública)",
                 "placeholder_topic": "tema de la sala",
-                "submit": "Crea"
+                "submit": "Crea",
+                "error": "No s'ha pogut crear la sala. Si us plau, torna-ho a provar."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Respon",
         "roomheader": "Sala: {}",
         "filemessage": {
+            "video_preview": "Vídeo",
             "upload_files": "Afegeix nous fitxers per pujar",
             "title_header": "Títol:",
             "upload_start": "Iniciant la pujada...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "Sense feeds públics",
         "error_start_chat": "No s'ha pogut iniciar el xat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Unir-se a la sala de benvinguda?",
+        "desc": "Vols unir-te a la sala de benvinguda de Substitution? És un lloc excel·lent per començar i conèixer la comunitat.",
+        "join": "Unir-s'hi i continuar",
+        "skip": "Omet"
     },
     "chat": {
         "title": "Missatges",

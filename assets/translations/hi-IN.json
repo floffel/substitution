@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "फ़ाइल डिक्रिप्ट हो रही है...",
+                "decrypt_error": "फ़ाइल लोड नहीं हो सकी।",
                 "video_desktop_error": "Linux, Windows या MacOS पर वीडियो प्रदर्शित नहीं किए जा सकते। यदि आप यह सुविधा देखना चाहते हैं, तो Github पर योगदान करने पर विचार करें!",
                 "audio_desktop_error": "Linux, Windows या MacOS पर ऑडियो नहीं चलाया जा सकता।"
+            },
+            "comment": {
+                "load_error": "उत्तर लोड नहीं हो सके।"
             },
             "reaction": {
                 "unknown_sender": "अज्ञात",
@@ -127,7 +131,10 @@
             "navigation_label": "नेविगेशन",
             "account_label": "खाता",
             "preferences_label": "प्राथमिकताएँ",
-            "about_label": "के बारे में"
+            "about_label": "के बारे में",
+            "ownfeeds_label": "अपनी फ़ीड्स",
+            "profile_label": "प्रोफ़ाइल संपादित करें",
+            "security_label": "सुरक्षा"
         },
         "room": {
             "desc": "रूम का नाम: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "रूम का नाम",
                 "placeholder_alias": "रूम उपनाम (सार्वजनिक रूम पता)",
                 "placeholder_topic": "रूम का विषय",
-                "submit": "बनाएं"
+                "submit": "बनाएं",
+                "error": "रूम बनाया नहीं जा सका। कृपया पुनः प्रयास करें।"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "जवाब",
         "roomheader": "रूम: {}",
         "filemessage": {
+            "video_preview": "वीडियो",
             "upload_files": "अपलोड के लिए नई फ़ाइलें जोड़ें",
             "title_header": "शीर्षक:",
             "upload_start": "अपलोड शुरू हो रहा है...",
@@ -277,6 +286,12 @@
         "feeds_section": "फ़ीड्स",
         "no_feeds": "कोई सार्वजनिक फ़ीड नहीं",
         "error_start_chat": "चैट शुरू नहीं हो सकी: {}"
+    },
+    "startroom_dialog": {
+        "title": "स्वागत रूम में शामिल हों?",
+        "desc": "क्या आप Substitution स्वागत रूम में शामिल होना चाहेंगे? यह शुरुआत करने और समुदाय से जुड़ने के लिए एक बेहतरीन जगह है।",
+        "join": "शामिल हों और जारी रखें",
+        "skip": "छोड़ें"
     },
     "chat": {
         "title": "संदेश",

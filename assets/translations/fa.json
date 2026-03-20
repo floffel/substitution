@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "فایل در حال رمزگشایی است...",
+                "decrypt_error": "بارگذاری فایل ممکن نشد.",
                 "video_desktop_error": "ویدئوها در Linux، Windows و MacOS قابل نمایش نیستند. اگر مایل هستید این قابلیت را ببینید، در Github مشارکت کنید!",
                 "audio_desktop_error": "صدا در Linux، Windows و MacOS قابل پخش نیست."
+            },
+            "comment": {
+                "load_error": "بارگذاری پاسخ‌ها ممکن نشد."
             },
             "reaction": {
                 "unknown_sender": "ناشناس",
@@ -127,7 +131,10 @@
             "navigation_label": "ناوبری",
             "account_label": "حساب کاربری",
             "preferences_label": "ترجیحات",
-            "about_label": "درباره"
+            "about_label": "درباره",
+            "ownfeeds_label": "فیدهای من",
+            "profile_label": "ویرایش پروفایل",
+            "security_label": "امنیت"
         },
         "room": {
             "desc": "نام اتاق: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "نام اتاق",
                 "placeholder_alias": "نام مستعار اتاق (آدرس عمومی اتاق)",
                 "placeholder_topic": "موضوع اتاق",
-                "submit": "ایجاد"
+                "submit": "ایجاد",
+                "error": "ایجاد اتاق ممکن نشد. لطفاً دوباره تلاش کنید."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "پاسخ",
         "roomheader": "اتاق: {}",
         "filemessage": {
+            "video_preview": "ویدیو",
             "upload_files": "افزودن فایل‌های جدید برای بارگذاری",
             "title_header": "عنوان:",
             "upload_start": "شروع بارگذاری...",
@@ -277,6 +286,12 @@
         "feeds_section": "فیدها",
         "no_feeds": "فید عمومی وجود ندارد",
         "error_start_chat": "شروع گفتگو ممکن نشد: {}"
+    },
+    "startroom_dialog": {
+        "title": "پیوستن به اتاق خوش‌آمدگویی؟",
+        "desc": "آیا می‌خواهید به اتاق خوش‌آمدگویی Substitution بپیوندید؟ مکانی عالی برای شروع و ارتباط با جامعه است.",
+        "join": "پیوستن و ادامه",
+        "skip": "رد شدن"
     },
     "chat": {
         "title": "پیام‌ها",

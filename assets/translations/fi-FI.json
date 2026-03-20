@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Tiedostoa puretaan...",
+                "decrypt_error": "Tiedostoa ei voitu ladata.",
                 "video_desktop_error": "Videoita ei voi näyttää Linux-, Windows- eikä MacOS-käyttöjärjestelmissä. Osallistu Github-projektiin, jos haluat nähdä tämän ominaisuuden!",
                 "audio_desktop_error": "Ääntä ei voi toistaa Linux-, Windows- eikä MacOS-käyttöjärjestelmissä."
+            },
+            "comment": {
+                "load_error": "Vastauksia ei voitu ladata."
             },
             "reaction": {
                 "unknown_sender": "tuntematon",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigointi",
             "account_label": "Tili",
             "preferences_label": "Asetukset",
-            "about_label": "Tietoja"
+            "about_label": "Tietoja",
+            "ownfeeds_label": "Omat syötteet",
+            "profile_label": "Muokkaa profiilia",
+            "security_label": "Turvallisuus"
         },
         "room": {
             "desc": "Huoneen nimi: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "huoneen nimi",
                 "placeholder_alias": "huoneen alias (julkinen huoneen osoite)",
                 "placeholder_topic": "huoneen aihe",
-                "submit": "Luo"
+                "submit": "Luo",
+                "error": "Huonetta ei voitu luoda. Yritä uudelleen."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Vastaa",
         "roomheader": "Huone: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Lisää uusia tiedostoja ladattavaksi",
             "title_header": "Otsikko:",
             "upload_start": "Lataus alkaa...",
@@ -277,6 +286,12 @@
         "feeds_section": "SYÖTTEET",
         "no_feeds": "Ei julkisia syötteitä",
         "error_start_chat": "Keskustelua ei voitu aloittaa: {}"
+    },
+    "startroom_dialog": {
+        "title": "Liity tervetulohuoneeseen?",
+        "desc": "Haluatko liittyä Substitutionin tervetulohuoneeseen? Se on loistava paikka aloittaa ja tutustua yhteisöön.",
+        "join": "Liity ja jatka",
+        "skip": "Ohita"
     },
     "chat": {
         "title": "Viestit",

@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Изаберите иконицу" } },
         "widgets": {
             "filecomponent": { "button": { "close": "затвори" } },
-            "filedisplay": { "decrypting": "Датотека се дешифрује...", "video_desktop_error": "Видео снимци не могу да се приказују на Linux, Windows ни MacOS. Допринесите на Github ако желите да видите ову функцију!", "audio_desktop_error": "Аудио не може да се репродукује на Linux, Windows ни MacOS." },
+            "filedisplay": { "decrypting": "Датотека се дешифрује...", "decrypt_error": "Датотека није могла бити учитана.", "video_desktop_error": "Видео снимци не могу да се приказују на Linux, Windows ни MacOS. Допринесите на Github ако желите да видите ову функцију!", "audio_desktop_error": "Аудио не може да се репродукује на Linux, Windows ни MacOS." },
+            "comment": { "load_error": "Одговори нису могли бити учитани." },
             "reaction": { "unknown_sender": "непознато", "sent_by": "Послао/ла {}" },
             "videoplayercontrol": { "play": "пусти", "caption_offset": "померај титлова", "playback_speed": "брзина репродукције" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Пријављени сте као {}", "logout": "Одјави се", "logout_confirm": "Да ли сте сигурни да желите да се одјавите?",
             "login": "Пријави се", "not_logged_in": "Пријавите се да бисте приступили свим функцијама",
             "home_site_label": "Почетна", "feeds_site_label": "Фидови", "navigation_label": "Навигација",
-            "account_label": "Налог", "preferences_label": "Подешавања", "about_label": "О апликацији"
+            "account_label": "Налог", "preferences_label": "Подешавања", "about_label": "О апликацији",
+            "ownfeeds_label": "Сопствени фидови", "profile_label": "Уреди профил", "security_label": "Безбедност"
         },
         "room": { "desc": "Назив собе: {}", "leave": "Напусти собу", "join": "Уђи у собу и додај је у substitution", "join_short": "Придружи се", "permissions": "Дозволе" },
         "dialog": {
             "delete": { "title": "Напусти собу {}", "desc": "Да ли сте сигурни да желите да напустите собу {}?", "button": { "submit": "Да, напусти", "cancel": "Не, откажи" } },
             "add": { "title": "Додај нови сервер", "input_placeholder": "Унесите адресу сервера", "button": { "submit": "Додај" }, "snackbar": { "success": "Сервер је додат", "error_homeserver": "Унети сервер није валидан" } },
-            "create": { "title": "Направи нову собу", "placeholder_name": "назив собе", "placeholder_alias": "алијас собе (јавна адреса)", "placeholder_topic": "тема собе", "submit": "Направи" }
+            "create": { "title": "Направи нову собу", "placeholder_name": "назив собе", "placeholder_alias": "алијас собе (јавна адреса)", "placeholder_topic": "тема собе", "submit": "Направи", "error": "Соба није могла бити направљена. Покушајте поново." }
         },
         "room_preview": { "members": "{} чланова", "latest_posts": "Најновије објаве", "no_posts": "Још нема објава у овој соби.", "no_peek": "Историја ове собе је приватна. Придружите се соби да бисте видели објаве.", "join_to_see": "Придружите се да бисте видели објаве" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Одговори", "roomheader": "Соба: {}",
-        "filemessage": { "upload_files": "Додајте нове датотеке за отпремање", "title_header": "Наслов:", "upload_start": "Почиње отпремање...", "upload_file_process": "Отпремање датотеке {}", "upload_error": "Отпремање {} није успело. Покушати поново?", "upload_file_complete": "Отпремање {} је завршено!", "upload_complete": "Све датотеке су отпремљене!", "buttons": { "upload_stop": "Откажи", "upload_retry": "Покушај поново" } },
+        "filemessage": { "video_preview": "Видео", "upload_files": "Додајте нове датотеке за отпремање", "title_header": "Наслов:", "upload_start": "Почиње отпремање...", "upload_file_process": "Отпремање датотеке {}", "upload_error": "Отпремање {} није успело. Покушати поново?", "upload_file_complete": "Отпремање {} је завршено!", "upload_complete": "Све датотеке су отпремљене!", "buttons": { "upload_stop": "Откажи", "upload_retry": "Покушај поново" } },
         "roomselect": { "type_prompt": "Изаберите врсту поруке коју желите да објавите", "room_prompt": "Изаберите собу у којој желите да објавите:", "error_no_rooms": "Нисте се придружили ниједној соби или немате права за објављивање." },
         "textmessage": { "answer_promt": "Унесите текст:", "input_placeholder": "Унесите текст овде...", "send_start": "Слање поруке је почело...", "send_failed": "Слање поруке није успело. Желите ли да поново пошаљете поруку?", "send_complete": "Порука је успешно послата!", "buttons": { "send_stop": "Не покушавај поново", "resend": "Покушај поново" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Разлог", "report_reason_hint": "Овај корисник...", "report_submit": "Пошаљи",
         "report_success": "Пријава је послата. Хвала.", "feeds_section": "ФИДОВИ", "no_feeds": "Нема јавних фидова",
         "error_start_chat": "Није могуће започети ћаскање: {}"
+    },
+    "startroom_dialog": {
+        "title": "Придружити се соби добродошлице?",
+        "desc": "Да ли желите да се придружите соби добродошлице Substitution? То је одлично место за почетак и повезивање са заједницом.",
+        "join": "Придружи се и настави",
+        "skip": "Прескочи"
     },
     "chat": {
         "title": "Поруке", "input_placeholder": "Напишите поруку...", "no_messages": "Још нема порука. Поздравите се!",

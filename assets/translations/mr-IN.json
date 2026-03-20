@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "फाइल डिक्रिप्ट होत आहे...",
+                "decrypt_error": "फाइल लोड करता आली नाही.",
                 "video_desktop_error": "Linux, Windows किंवा MacOS वर व्हिडिओ प्रदर्शित करता येत नाहीत. हे वैशिष्ट्य पाहायचे असल्यास Github वर योगदान द्या!",
                 "audio_desktop_error": "Linux, Windows किंवा MacOS वर ऑडिओ प्ले करता येत नाही."
+            },
+            "comment": {
+                "load_error": "उत्तरे लोड करता आली नाहीत."
             },
             "reaction": {
                 "unknown_sender": "अज्ञात",
@@ -127,7 +131,10 @@
             "navigation_label": "नेव्हिगेशन",
             "account_label": "खाते",
             "preferences_label": "प्राधान्ये",
-            "about_label": "बद्दल"
+            "about_label": "बद्दल",
+            "ownfeeds_label": "स्वतःचे फीड्स",
+            "profile_label": "प्रोफाइल संपादित करा",
+            "security_label": "सुरक्षा"
         },
         "room": {
             "desc": "रूमचे नाव: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "रूमचे नाव",
                 "placeholder_alias": "रूम उपनाव (सार्वजनिक रूम पत्ता)",
                 "placeholder_topic": "रूम विषय",
-                "submit": "तयार करा"
+                "submit": "तयार करा",
+                "error": "रूम तयार करता आला नाही. कृपया पुन्हा प्रयत्न करा."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "उत्तर",
         "roomheader": "रूम: {}",
         "filemessage": {
+            "video_preview": "व्हिडिओ",
             "upload_files": "अपलोडसाठी नवीन फाइल्स जोडा",
             "title_header": "शीर्षक:",
             "upload_start": "अपलोड सुरू होत आहे...",
@@ -277,6 +286,12 @@
         "feeds_section": "फीड्स",
         "no_feeds": "सार्वजनिक फीड नाहीत",
         "error_start_chat": "चॅट सुरू करता आला नाही: {}"
+    },
+    "startroom_dialog": {
+        "title": "स्वागत रूममध्ये सामील व्हायचे?",
+        "desc": "तुम्हाला Substitution स्वागत रूममध्ये सामील व्हायचे आहे का? सुरुवात करण्यासाठी आणि समुदायाशी जोडले जाण्यासाठी हे एक उत्तम ठिकाण आहे.",
+        "join": "सामील व्हा आणि पुढे जा",
+        "skip": "वगळा"
     },
     "chat": {
         "title": "संदेश",

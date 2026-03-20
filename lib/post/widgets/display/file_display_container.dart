@@ -151,9 +151,9 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
       return controller;
     }
 
-    final controller = VideoPlayerController.networkUrl(
-      (await e.getAttachmentUri())!,
-    ); // todo... null check
+    final uri = await e.getAttachmentUri();
+    if (uri == null) return null;
+    final controller = VideoPlayerController.networkUrl(uri);
     controller.initialize().catchError((_) {
       /* ignore media format errors */
     });

@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Faili dekrüpteeritakse...",
+                "decrypt_error": "Faili ei saanud laadida.",
                 "video_desktop_error": "Videoid ei saa kuvada Linux, Windows ega MacOS platvormil. Panustage Github'is, kui soovite seda funktsiooni näha!",
                 "audio_desktop_error": "Heli ei saa esitada Linux, Windows ega MacOS platvormil."
+            },
+            "comment": {
+                "load_error": "Vastuseid ei saanud laadida."
             },
             "reaction": {
                 "unknown_sender": "tundmatu",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigeerimine",
             "account_label": "Konto",
             "preferences_label": "Eelistused",
-            "about_label": "Teave"
+            "about_label": "Teave",
+            "ownfeeds_label": "Oma vood",
+            "profile_label": "Muuda profiili",
+            "security_label": "Turvalisus"
         },
         "room": {
             "desc": "Ruumi nimi: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ruumi nimi",
                 "placeholder_alias": "ruumi alias (avalik ruumi aadress)",
                 "placeholder_topic": "ruumi teema",
-                "submit": "Loo"
+                "submit": "Loo",
+                "error": "Ruumi ei saanud luua. Palun proovige uuesti."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Vasta",
         "roomheader": "Ruum: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Lisa uued failid üleslaadimiseks",
             "title_header": "Pealkiri:",
             "upload_start": "Üleslaadimine algab...",
@@ -277,6 +286,12 @@
         "feeds_section": "VOOD",
         "no_feeds": "Avalikke vooge pole",
         "error_start_chat": "Vestlust ei saanud alustada: {}"
+    },
+    "startroom_dialog": {
+        "title": "Liitu tervitusruumiga?",
+        "desc": "Kas soovite liituda Substitutioni tervitusruumiga? See on suurepärane koht alustamiseks ja kogukonnaga ühenduse loomiseks.",
+        "join": "Liitu ja jätka",
+        "skip": "Jäta vahele"
     },
     "chat": {
         "title": "Sõnumid",

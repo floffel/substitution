@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Le fichier est en cours de déchiffrement...",
+                "decrypt_error": "Impossible de charger le fichier.",
                 "video_desktop_error": "Les vidéos ne peuvent pas être affichées sur Linux, Windows ni MacOS. Contribuez sur Github si vous aimeriez voir cette fonctionnalité!",
                 "audio_desktop_error": "L'audio ne peut pas être lu sur Linux, Windows ni MacOS."
+            },
+            "comment": {
+                "load_error": "Impossible de charger les réponses."
             },
             "reaction": {
                 "unknown_sender": "inconnu",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigation",
             "account_label": "Compte",
             "preferences_label": "Préférences",
-            "about_label": "À propos"
+            "about_label": "À propos",
+            "ownfeeds_label": "Mes fils",
+            "profile_label": "Modifier le profil",
+            "security_label": "Sécurité"
         },
         "room": {
             "desc": "Nom de la salle : {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nom de la salle",
                 "placeholder_alias": "alias de la salle (adresse publique de la salle)",
                 "placeholder_topic": "sujet de la salle",
-                "submit": "Créer"
+                "submit": "Créer",
+                "error": "Impossible de créer la salle. Veuillez réessayer."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Répondre",
         "roomheader": "Salle : {}",
         "filemessage": {
+            "video_preview": "Vidéo",
             "upload_files": "Ajouter de nouveaux fichiers à téléverser",
             "title_header": "Titre :",
             "upload_start": "Début du téléversement...",
@@ -277,6 +286,12 @@
         "feeds_section": "FILS",
         "no_feeds": "Aucun fil public",
         "error_start_chat": "Impossible de démarrer la conversation : {}"
+    },
+    "startroom_dialog": {
+        "title": "Rejoindre la salle de bienvenue ?",
+        "desc": "Souhaitez-vous rejoindre la salle de bienvenue de Substitution ? C'est un excellent point de départ pour découvrir la communauté.",
+        "join": "Rejoindre et continuer",
+        "skip": "Passer"
     },
     "chat": {
         "title": "Messages",

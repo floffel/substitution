@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "جارٍ فك تشفير الملف...",
+                "decrypt_error": "تعذّر تحميل الملف.",
                 "video_desktop_error": "لا يمكن عرض مقاطع الفيديو على Linux أو Windows أو MacOS. فكّر في المساهمة على Github إذا كنت ترغب في رؤية هذه الميزة!",
                 "audio_desktop_error": "لا يمكن تشغيل الصوت على Linux أو Windows أو MacOS."
+            },
+            "comment": {
+                "load_error": "تعذّر تحميل الردود."
             },
             "reaction": {
                 "unknown_sender": "مجهول",
@@ -127,7 +131,10 @@
             "navigation_label": "التنقل",
             "account_label": "الحساب",
             "preferences_label": "التفضيلات",
-            "about_label": "حول"
+            "about_label": "حول",
+            "ownfeeds_label": "خلاصاتي",
+            "profile_label": "تعديل الملف الشخصي",
+            "security_label": "الأمان"
         },
         "room": {
             "desc": "اسم الغرفة: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "اسم الغرفة",
                 "placeholder_alias": "اسم مستعار للغرفة (عنوان الغرفة العامة)",
                 "placeholder_topic": "موضوع الغرفة",
-                "submit": "إنشاء"
+                "submit": "إنشاء",
+                "error": "تعذّر إنشاء الغرفة. يرجى المحاولة مرة أخرى."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "رد",
         "roomheader": "الغرفة: {}",
         "filemessage": {
+            "video_preview": "فيديو",
             "upload_files": "إضافة ملفات جديدة للرفع",
             "title_header": "العنوان:",
             "upload_start": "بدء الرفع...",
@@ -277,6 +286,12 @@
         "feeds_section": "الخلاصات",
         "no_feeds": "لا توجد خلاصات عامة",
         "error_start_chat": "تعذّر بدء المحادثة: {}"
+    },
+    "startroom_dialog": {
+        "title": "الانضمام إلى غرفة الترحيب؟",
+        "desc": "هل ترغب في الانضمام إلى غرفة الترحيب الخاصة بـ Substitution؟ إنها مكان رائع للبدء والتواصل مع المجتمع.",
+        "join": "انضم واستمر",
+        "skip": "تخطي"
     },
     "chat": {
         "title": "الرسائل",

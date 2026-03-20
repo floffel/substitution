@@ -119,14 +119,14 @@ class _DialogAddServerState extends State<DialogAddServer> {
             content:
                 const Text(
                   "settings.dialog.add.snackbar.error_homeserver",
-                ).tr(), // todo intl
+                ).tr(),
           ),
         );
         // Keep dialog open to allow retry
       }
     } catch (e) {
       if (!mounted) return;
-      scavMsg.showSnackBar(SnackBar(content: Text("Error: $e")));
+      scavMsg.showSnackBar(SnackBar(content: const Text("error").tr(args: ['$e'])));
     } finally {
       if (mounted) {
         setState(() {

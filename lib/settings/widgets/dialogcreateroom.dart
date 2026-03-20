@@ -62,7 +62,7 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        error = "$e"; // TODO: nicer error message...
+        error = 'settings.dialog.create.error'.tr();
         loading = false;
       });
       return;

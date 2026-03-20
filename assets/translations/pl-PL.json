@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Plik jest deszyfrowany...",
+                "decrypt_error": "Nie udało się załadować pliku.",
                 "video_desktop_error": "Filmy nie mogą być wyświetlane na Linux, Windows ani MacOS. Rozważ współtworzenie na Github, jeśli chcesz zobaczyć tę funkcję!",
                 "audio_desktop_error": "Dźwięk nie może być odtwarzany na Linux, Windows ani MacOS."
+            },
+            "comment": {
+                "load_error": "Nie udało się załadować odpowiedzi."
             },
             "reaction": {
                 "unknown_sender": "nieznany",
@@ -127,7 +131,10 @@
             "navigation_label": "Nawigacja",
             "account_label": "Konto",
             "preferences_label": "Preferencje",
-            "about_label": "O aplikacji"
+            "about_label": "O aplikacji",
+            "ownfeeds_label": "Własne kanały",
+            "profile_label": "Edytuj profil",
+            "security_label": "Bezpieczeństwo"
         },
         "room": {
             "desc": "Nazwa pokoju: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nazwa pokoju",
                 "placeholder_alias": "alias pokoju (publiczny adres pokoju)",
                 "placeholder_topic": "temat pokoju",
-                "submit": "Utwórz"
+                "submit": "Utwórz",
+                "error": "Nie udało się utworzyć pokoju. Spróbuj ponownie."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Odpowiedz",
         "roomheader": "Pokój: {}",
         "filemessage": {
+            "video_preview": "Wideo",
             "upload_files": "Dodaj nowe pliki do przesłania",
             "title_header": "Tytuł:",
             "upload_start": "Rozpoczynanie przesyłania...",
@@ -277,6 +286,12 @@
         "feeds_section": "KANAŁY",
         "no_feeds": "Brak publicznych kanałów",
         "error_start_chat": "Nie udało się rozpocząć czatu: {}"
+    },
+    "startroom_dialog": {
+        "title": "Dołączyć do pokoju powitalnego?",
+        "desc": "Czy chcesz dołączyć do pokoju powitalnego Substitution? To świetne miejsce, aby zacząć i nawiązać kontakt ze społecznością.",
+        "join": "Dołącz i kontynuuj",
+        "skip": "Pomiń"
     },
     "chat": {
         "title": "Wiadomości",

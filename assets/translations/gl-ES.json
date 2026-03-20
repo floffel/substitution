@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "O ficheiro estase descifrando...",
+                "decrypt_error": "Non se puido cargar o ficheiro.",
                 "video_desktop_error": "Os vídeos non se poden reproducir en Linux, Windows nin MacOS. Considera contribuír en Github se queres ver esta función!",
                 "audio_desktop_error": "O audio non se pode reproducir en Linux, Windows nin MacOS."
+            },
+            "comment": {
+                "load_error": "Non se puideron cargar as respostas."
             },
             "reaction": {
                 "unknown_sender": "descoñecido",
@@ -127,7 +131,10 @@
             "navigation_label": "Navegación",
             "account_label": "Conta",
             "preferences_label": "Preferencias",
-            "about_label": "Acerca de"
+            "about_label": "Acerca de",
+            "ownfeeds_label": "Os meus feeds",
+            "profile_label": "Editar perfil",
+            "security_label": "Seguridade"
         },
         "room": {
             "desc": "Nome da sala: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nome da sala",
                 "placeholder_alias": "alias da sala (enderezo público da sala)",
                 "placeholder_topic": "tema da sala",
-                "submit": "Crear"
+                "submit": "Crear",
+                "error": "Non se puido crear a sala. Por favor, inténtao de novo."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Responder",
         "roomheader": "Sala: {}",
         "filemessage": {
+            "video_preview": "Vídeo",
             "upload_files": "Engadir novos ficheiros para subir",
             "title_header": "Título:",
             "upload_start": "Comezando a subida...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "Sen feeds públicos",
         "error_start_chat": "Non se puido iniciar a conversa: {}"
+    },
+    "startroom_dialog": {
+        "title": "Unirse á sala de benvida?",
+        "desc": "Queres unirte á sala de benvida de Substitution? É un gran lugar para comezar e coñecer á comunidade.",
+        "join": "Unirse e continuar",
+        "skip": "Omitir"
     },
     "chat": {
         "title": "Mensaxes",

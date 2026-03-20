@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Выберите значок" } },
         "widgets": {
             "filecomponent": { "button": { "close": "закрыть" } },
-            "filedisplay": { "decrypting": "Файл расшифровывается...", "video_desktop_error": "Видео не может быть воспроизведено на Linux, Windows и MacOS. Внесите свой вклад на Github, если хотите увидеть эту функцию!", "audio_desktop_error": "Аудио не может быть воспроизведено на Linux, Windows и MacOS." },
+            "filedisplay": { "decrypting": "Файл расшифровывается...", "decrypt_error": "Не удалось загрузить файл.", "video_desktop_error": "Видео не может быть воспроизведено на Linux, Windows и MacOS. Внесите свой вклад на Github, если хотите увидеть эту функцию!", "audio_desktop_error": "Аудио не может быть воспроизведено на Linux, Windows и MacOS." },
+            "comment": { "load_error": "Не удалось загрузить ответы." },
             "reaction": { "unknown_sender": "неизвестно", "sent_by": "Отправлено {}" },
             "videoplayercontrol": { "play": "воспроизвести", "caption_offset": "смещение субтитров", "playback_speed": "скорость воспроизведения" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "Вы вошли как {}", "logout": "Выйти", "logout_confirm": "Вы уверены, что хотите выйти?",
             "login": "Войти", "not_logged_in": "Войдите, чтобы получить доступ ко всем функциям",
             "home_site_label": "Главная", "feeds_site_label": "Ленты", "navigation_label": "Навигация",
-            "account_label": "Аккаунт", "preferences_label": "Настройки", "about_label": "О приложении"
+            "account_label": "Аккаунт", "preferences_label": "Настройки", "about_label": "О приложении",
+            "ownfeeds_label": "Свои ленты",
+            "profile_label": "Редактировать профиль",
+            "security_label": "Безопасность"
         },
         "room": { "desc": "Название комнаты: {}", "leave": "Покинуть комнату", "join": "Войти в комнату и добавить её в substitution", "join_short": "Войти", "permissions": "Разрешения" },
         "dialog": {
             "delete": { "title": "Покинуть комнату {}", "desc": "Вы уверены, что хотите покинуть комнату {}?", "button": { "submit": "Да, покинуть", "cancel": "Нет, отмена" } },
             "add": { "title": "Добавить новый сервер", "input_placeholder": "Введите адрес сервера", "button": { "submit": "Добавить" }, "snackbar": { "success": "Сервер добавлен", "error_homeserver": "Введённый домашний сервер недействителен" } },
-            "create": { "title": "Создать новую комнату", "placeholder_name": "название комнаты", "placeholder_alias": "псевдоним комнаты (публичный адрес)", "placeholder_topic": "тема комнаты", "submit": "Создать" }
+            "create": { "title": "Создать новую комнату", "placeholder_name": "название комнаты", "placeholder_alias": "псевдоним комнаты (публичный адрес)", "placeholder_topic": "тема комнаты", "submit": "Создать", "error": "Не удалось создать комнату. Попробуйте ещё раз." }
         },
         "room_preview": { "members": "{} участников", "latest_posts": "Последние публикации", "no_posts": "В этой комнате пока нет публикаций.", "no_peek": "История этой комнаты закрыта. Войдите в комнату, чтобы увидеть публикации.", "join_to_see": "Войдите, чтобы увидеть публикации" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "Ответить", "roomheader": "Комната: {}",
-        "filemessage": { "upload_files": "Добавить файлы для загрузки", "title_header": "Заголовок:", "upload_start": "Начинается загрузка...", "upload_file_process": "Загрузка файла {}", "upload_error": "Загрузка {} не удалась. Повторить?", "upload_file_complete": "Загрузка {} завершена!", "upload_complete": "Все файлы загружены!", "buttons": { "upload_stop": "Отмена", "upload_retry": "Повторить" } },
+        "filemessage": { "video_preview": "Видео", "upload_files": "Добавить файлы для загрузки", "title_header": "Заголовок:", "upload_start": "Начинается загрузка...", "upload_file_process": "Загрузка файла {}", "upload_error": "Загрузка {} не удалась. Повторить?", "upload_file_complete": "Загрузка {} завершена!", "upload_complete": "Все файлы загружены!", "buttons": { "upload_stop": "Отмена", "upload_retry": "Повторить" } },
         "roomselect": { "type_prompt": "Выберите тип сообщения для публикации", "room_prompt": "Выберите комнату для публикации:", "error_no_rooms": "Вы не присоединились ни к одной комнате или у вас нет прав на публикацию." },
         "textmessage": { "answer_promt": "Введите текст:", "input_placeholder": "Введите текст здесь...", "send_start": "Отправка сообщения...", "send_failed": "Отправка сообщения не удалась. Повторить отправку?", "send_complete": "Сообщение успешно отправлено!", "buttons": { "send_stop": "Не повторять", "resend": "Повторить" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "Причина", "report_reason_hint": "Этот пользователь...", "report_submit": "Отправить",
         "report_success": "Жалоба отправлена. Спасибо.", "feeds_section": "ЛЕНТЫ", "no_feeds": "Нет публичных лент",
         "error_start_chat": "Не удалось начать чат: {}"
+    },
+    "startroom_dialog": {
+        "title": "Присоединиться к приветственной комнате?",
+        "desc": "Хотите присоединиться к приветственной комнате Substitution? Это отличное место для начала и общения с сообществом.",
+        "join": "Присоединиться и продолжить",
+        "skip": "Пропустить"
     },
     "chat": {
         "title": "Сообщения", "input_placeholder": "Введите сообщение...", "no_messages": "Сообщений пока нет. Поздоровайтесь!",

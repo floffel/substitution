@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Fail sedang dinyahsulit...",
+                "decrypt_error": "Tidak dapat memuatkan fail.",
                 "video_desktop_error": "Video tidak dapat dipaparkan di Linux, Windows mahupun MacOS. Sumbang di Github jika anda ingin melihat ciri ini!",
                 "audio_desktop_error": "Audio tidak dapat dimainkan di Linux, Windows mahupun MacOS."
+            },
+            "comment": {
+                "load_error": "Tidak dapat memuatkan balasan."
             },
             "reaction": {
                 "unknown_sender": "tidak diketahui",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigasi",
             "account_label": "Akaun",
             "preferences_label": "Keutamaan",
-            "about_label": "Perihal"
+            "about_label": "Perihal",
+            "ownfeeds_label": "Suapan Saya",
+            "profile_label": "Edit Profil",
+            "security_label": "Keselamatan"
         },
         "room": {
             "desc": "Nama bilik: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nama bilik",
                 "placeholder_alias": "alias bilik (alamat bilik awam)",
                 "placeholder_topic": "topik bilik",
-                "submit": "Cipta"
+                "submit": "Cipta",
+                "error": "Tidak dapat mencipta bilik. Sila cuba lagi."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Jawab",
         "roomheader": "Bilik: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Tambah fail baharu untuk dimuat naik",
             "title_header": "Tajuk:",
             "upload_start": "Memulakan muat naik...",
@@ -277,6 +286,12 @@
         "feeds_section": "SUAPAN",
         "no_feeds": "Tiada suapan awam",
         "error_start_chat": "Tidak dapat memulakan perbualan: {}"
+    },
+    "startroom_dialog": {
+        "title": "Sertai Bilik Selamat Datang?",
+        "desc": "Adakah anda ingin menyertai bilik selamat datang Substitution? Ia adalah tempat yang bagus untuk bermula dan berhubung dengan komuniti.",
+        "join": "Sertai & Teruskan",
+        "skip": "Langkau"
     },
     "chat": {
         "title": "Mesej",

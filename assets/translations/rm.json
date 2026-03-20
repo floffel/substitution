@@ -18,13 +18,32 @@
     },
     "cancel": "Interrumper",
     "feed": {
-        "nav": { "home": "Chasa", "discover": "Scuvrir", "messages": "Messadis", "settings": "Parameters" },
-        "pages": { "home": { "roomlabel": "Stanza: {}", "empty": "Voss feed è vid. Suandai stanzas per vesair contribuziuns!", "empty_button": "Chattar novas stanzas" } }
+        "nav": {
+            "home": "Chasa",
+            "discover": "Scuvrir",
+            "messages": "Messadis",
+            "settings": "Parameters"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Stanza: {}",
+                "empty": "Voss feed è vid. Suandai stanzas per vesair contribuziuns!",
+                "empty_button": "Chattar novas stanzas"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Contribuziun betg chattada u betg disponibla." },
-        "menu": { "report_block": "Rapportar / Bloccar" },
-        "e2e": { "encrypted": "Criptà da fin a fin", "unencrypted": "Betg criptà", "failed": "Decriptaziun fallida" },
+        "error": {
+            "not_found": "Contribuziun betg chattada u betg disponibla."
+        },
+        "menu": {
+            "report_block": "Rapportar / Bloccar"
+        },
+        "e2e": {
+            "encrypted": "Criptà da fin a fin",
+            "unencrypted": "Betg criptà",
+            "failed": "Decriptaziun fallida"
+        },
         "dialog": {
             "report_block_title": "Rapportar cuntegn u bloccar utilisader",
             "report_desc": "Descrivai per plaschair pertge che Vus rapportais quest cuntegn (opziunal).",
@@ -32,79 +51,258 @@
             "report_reason_hint": "Quest cuntegn è offensiv perquai che...",
             "block_user_checkbox": "Era bloccar quest utilisader",
             "block_user_desc": "Vus na vesais betg pli cuntegns da {}",
-            "submit": "Trametter", "cancel": "Interrumper",
+            "submit": "Trametter",
+            "cancel": "Interrumper",
             "report_block_success": "Rapport tramess. Grazia fitg.",
             "report_block_error": "Ina errur è succedida: {}"
         },
-        "pages": { "post": { "no_comments": "Anc nagins commentaris." } },
+        "pages": {
+            "post": {
+                "no_comments": "Anc nagins commentaris."
+            }
+        },
         "continue_thread": "Cuntinuar quest thread...",
         "replying_to": "Resposta a {}",
         "reply_placeholder": "Scriver ina resposta...",
-        "mixins": { "iconpicker": { "title": "Tscherner ina icona" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Tscherner ina icona"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "serrar" } },
-            "filedisplay": { "decrypting": "La datoteca vegn decriptada...", "video_desktop_error": "Videos na pon betg vegnir mussads sin Linux, Windows ni MacOS. Contribuì sin Github, sche Vus vulais vesair questa funcziun!", "audio_desktop_error": "Audio na po betg vegnir reproducì sin Linux, Windows ni MacOS." },
-            "reaction": { "unknown_sender": "nunenconuschent", "sent_by": "Tramess da {}" },
-            "videoplayercontrol": { "play": "reproducir", "caption_offset": "offset dals suttitels", "playback_speed": "spertadad da reproducziun" }
+            "filecomponent": {
+                "button": {
+                    "close": "serrar"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "La datoteca vegn decriptada...",
+                "decrypt_error": "Impussibel da chargiar la datoteca.",
+                "video_desktop_error": "Videos na pon betg vegnir mussads sin Linux, Windows ni MacOS. Contribuì sin Github, sche Vus vulais vesair questa funcziun!",
+                "audio_desktop_error": "Audio na po betg vegnir reproducì sin Linux, Windows ni MacOS."
+            },
+            "comment": {
+                "load_error": "Impussibel da chargiar las respostas."
+            },
+            "reaction": {
+                "unknown_sender": "nunenconuschent",
+                "sent_by": "Tramess da {}"
+            },
+            "videoplayercontrol": {
+                "play": "reproducir",
+                "caption_offset": "offset dals suttitels",
+                "playback_speed": "spertadad da reproducziun"
+            }
         }
     },
     "settings": {
-        "legal": { "title": "Legal", "tos": "Cundiziuns d'utilisaziun", "privacy": "Princips da protecziun da datas", "imprint": "Impressum", "licenses": "Licentschas Open Source" },
+        "legal": {
+            "title": "Legal",
+            "tos": "Cundiziuns d'utilisaziun",
+            "privacy": "Princips da protecziun da datas",
+            "imprint": "Impressum",
+            "licenses": "Licentschas Open Source"
+        },
         "followfeeds": {
             "filter_server_header": "Tschernai in server da la glista u agiuntai in nov:",
             "filter_rooms_header": "Tschertgai ina stanza per suandar u betg pli suandar:",
             "roomname_placeholder": "Endatai in num da stanza",
-            "buttons": { "add_server": "Agiuntar server", "retry": "Empruvar anc ina giada" },
+            "buttons": {
+                "add_server": "Agiuntar server",
+                "retry": "Empruvar anc ina giada"
+            },
             "no_rooms_found": "Naginas stanzas chattadas per ils criteris da tschertga inditgads.",
             "error_loading_rooms": "Errur: Impussibel da chargiar las stanzas"
         },
-        "ownfeeds": { "header": "Administrar Vossas atgnas stanzas", "buttons": { "create_room": "Crear ina nova stanza" } },
+        "ownfeeds": {
+            "header": "Administrar Vossas atgnas stanzas",
+            "buttons": {
+                "create_room": "Crear ina nova stanza"
+            }
+        },
         "menu": {
-            "logged_in_as": "Annunzià sco {}", "logout": "Sortir", "logout_confirm": "Essas Vus segirs che Vus vulais sortir?",
-            "login": "S'annunziar", "not_logged_in": "S'annunziai per avair access a tut las funcziuns",
-            "home_site_label": "Chasa", "feeds_site_label": "Feeds", "navigation_label": "Navigaziun",
-            "account_label": "Conto", "preferences_label": "Preferenzas", "about_label": "Davart"
+            "logged_in_as": "Annunzià sco {}",
+            "logout": "Sortir",
+            "logout_confirm": "Essas Vus segirs che Vus vulais sortir?",
+            "login": "S'annunziar",
+            "not_logged_in": "S'annunziai per avair access a tut las funcziuns",
+            "home_site_label": "Chasa",
+            "feeds_site_label": "Feeds",
+            "navigation_label": "Navigaziun",
+            "account_label": "Conto",
+            "preferences_label": "Preferenzas",
+            "about_label": "Davart",
+            "ownfeeds_label": "Atgnas feeds",
+            "profile_label": "Modifitgar il profil",
+            "security_label": "Segirezza"
         },
-        "room": { "desc": "Num da stanza: {}", "leave": "Bandunar la stanza", "join": "Entrar en la stanza e l'agiuntar a substitution", "join_short": "Entrar", "permissions": "Dretgs" },
+        "room": {
+            "desc": "Num da stanza: {}",
+            "leave": "Bandunar la stanza",
+            "join": "Entrar en la stanza e l'agiuntar a substitution",
+            "join_short": "Entrar",
+            "permissions": "Dretgs"
+        },
         "dialog": {
-            "delete": { "title": "Bandunar la stanza {}", "desc": "Essas Vus segirs che Vus vulais bandunar la stanza {}?", "button": { "submit": "Gea, bandunar", "cancel": "Na, interrumper" } },
-            "add": { "title": "Agiuntar in nov server", "input_placeholder": "Endatai l'adressa dal server", "button": { "submit": "Agiuntar" }, "snackbar": { "success": "Il server è vegnì agiuntà", "error_homeserver": "Il homeserver endatà n'è betg valid" } },
-            "create": { "title": "Crear ina nova stanza", "placeholder_name": "num da stanza", "placeholder_alias": "alias da stanza (adressa publica)", "placeholder_topic": "tema da stanza", "submit": "Crear" }
+            "delete": {
+                "title": "Bandunar la stanza {}",
+                "desc": "Essas Vus segirs che Vus vulais bandunar la stanza {}?",
+                "button": {
+                    "submit": "Gea, bandunar",
+                    "cancel": "Na, interrumper"
+                }
+            },
+            "add": {
+                "title": "Agiuntar in nov server",
+                "input_placeholder": "Endatai l'adressa dal server",
+                "button": {
+                    "submit": "Agiuntar"
+                },
+                "snackbar": {
+                    "success": "Il server è vegnì agiuntà",
+                    "error_homeserver": "Il homeserver endatà n'è betg valid"
+                }
+            },
+            "create": {
+                "title": "Crear ina nova stanza",
+                "placeholder_name": "num da stanza",
+                "placeholder_alias": "alias da stanza (adressa publica)",
+                "placeholder_topic": "tema da stanza",
+                "submit": "Crear",
+                "error": "Impussibel da crear la stanza. Empruvai per plaschair anc ina giada."
+            }
         },
-        "room_preview": { "members": "{} commembers", "latest_posts": "Ultimas contribuziuns", "no_posts": "Anc naginas contribuziuns en questa stanza.", "no_peek": "L'istorgia da questa stanza è privata. Entrai en la stanza per vesair las contribuziuns.", "join_to_see": "Entrai per vesair contribuziuns" }
+        "room_preview": {
+            "members": "{} commembers",
+            "latest_posts": "Ultimas contribuziuns",
+            "no_posts": "Anc naginas contribuziuns en questa stanza.",
+            "no_peek": "L'istorgia da questa stanza è privata. Entrai en la stanza per vesair las contribuziuns.",
+            "join_to_see": "Entrai per vesair contribuziuns"
+        }
     },
     "intro": {
         "isLoggedIn": "Super, Vus essas gia annunzià. \nVus pudais cuntinuar cun ils proxims pass",
         "isNotLoggedIn": "S'annunziai per plaschair emprim",
-        "buttons": { "next": "Enavant", "back": "Enavos" },
-        "welcome": { "title": "Bainvegni tar substitution", "desc": "... la nova rait sociala sin basa dal protocol Matrix" },
-        "account": { "title": "Contos Matrix", "desc": "Vus stuais esser annunzià en in conto Matrix sin in server arbitrar per pudair utilisar questa app. Sch'i na savais betg co obtegnair in, visitai questa pagina: https://matrix.org/" },
-        "host": { "title": "Tschernai in host" },
-        "login": { "title": "S'annunziar" },
-        "finished": { "title": "Lain", "desc": "Super, Vus essas annunzià. Nus essan pronts per substituir. Vus pudais ussa tscherner sch'i vulais entrar en la stanza da bainvegni da substituion. Lain, e buna fortuna!", "buttons": { "add_to_room_and_go": "Entrar en la stanza Substitution e partir!", "go": "Simplamain partir!" } }
+        "buttons": {
+            "next": "Enavant",
+            "back": "Enavos"
+        },
+        "welcome": {
+            "title": "Bainvegni tar substitution",
+            "desc": "... la nova rait sociala sin basa dal protocol Matrix"
+        },
+        "account": {
+            "title": "Contos Matrix",
+            "desc": "Vus stuais esser annunzià en in conto Matrix sin in server arbitrar per pudair utilisar questa app. Sch'i na savais betg co obtegnair in, visitai questa pagina: https://matrix.org/"
+        },
+        "host": {
+            "title": "Tschernai in host"
+        },
+        "login": {
+            "title": "S'annunziar"
+        },
+        "finished": {
+            "title": "Lain",
+            "desc": "Super, Vus essas annunzià. Nus essan pronts per substituir. Vus pudais ussa tscherner sch'i vulais entrar en la stanza da bainvegni da substituion. Lain, e buna fortuna!",
+            "buttons": {
+                "add_to_room_and_go": "Entrar en la stanza Substitution e partir!",
+                "go": "Simplamain partir!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Sa connectar cun Voss Homeserver", "body": "Tschernai per plaschair in Matrix Homeserver. Vus pudais lura s'annunziar u navigar en stanzas publicas.", "inputs": { "homeserver_label": "Adressa da Voss Homeserver" }, "buttons": { "login_label": "S'annunziar" } },
-        "login": { "loading": "S'annunziar...", "header": "S'annunziar", "body": "S'annunziai per plaschair cun Voss datas d'access.", "inputs": { "username_label": "Num d'utilisader", "password_label": "Pled-clav" }, "buttons": { "login_label": "S'annunziar", "sso_label": "S'annunziar cun {}", "register_web_label": "Sa registrar" } }
+        "host": {
+            "header": "Sa connectar cun Voss Homeserver",
+            "body": "Tschernai per plaschair in Matrix Homeserver. Vus pudais lura s'annunziar u navigar en stanzas publicas.",
+            "inputs": {
+                "homeserver_label": "Adressa da Voss Homeserver"
+            },
+            "buttons": {
+                "login_label": "S'annunziar"
+            }
+        },
+        "login": {
+            "loading": "S'annunziar...",
+            "header": "S'annunziar",
+            "body": "S'annunziai per plaschair cun Voss datas d'access.",
+            "inputs": {
+                "username_label": "Num d'utilisader",
+                "password_label": "Pled-clav"
+            },
+            "buttons": {
+                "login_label": "S'annunziar",
+                "sso_label": "S'annunziar cun {}",
+                "register_web_label": "Sa registrar"
+            }
+        }
     },
     "write": {
-        "answer": "Responder", "roomheader": "Stanza: {}",
-        "filemessage": { "upload_files": "Agiuntar novas datotecas per transferir", "title_header": "Titel:", "upload_start": "Cumenzar il transferiment...", "upload_file_process": "Transferir datoteca {}", "upload_error": "Il transferiment da {} è fallì. Empruvar anc ina giada?", "upload_file_complete": "Il transferiment da {} è cumplet!", "upload_complete": "Tut las datotecas èn vegnidas transferidas!", "buttons": { "upload_stop": "Interrumper", "upload_retry": "Empruvar anc ina giada" } },
-        "roomselect": { "type_prompt": "Tschernai la sort da messadi che Vus vulais publitgar", "room_prompt": "Tschernai la stanza en la quala Vus vulais publitgar:", "error_no_rooms": "Vus n'avais betg la permissiun da publitgar u n'essas anc betg entrà en ina stanza." },
-        "textmessage": { "answer_promt": "Endatai Voss text:", "input_placeholder": "Endatai Voss text qua...", "send_start": "Il messadi vegn tramess...", "send_failed": "Il trametter dal messadi è fallì. Vulais Vus retrametter il messadi?", "send_complete": "Il messadi è vegnì tramess cun success!", "buttons": { "send_stop": "Betg empruvar anc ina giada", "resend": "Empruvar anc ina giada" } }
+        "answer": "Responder",
+        "roomheader": "Stanza: {}",
+        "filemessage": {
+            "video_preview": "Video",
+            "upload_files": "Agiuntar novas datotecas per transferir",
+            "title_header": "Titel:",
+            "upload_start": "Cumenzar il transferiment...",
+            "upload_file_process": "Transferir datoteca {}",
+            "upload_error": "Il transferiment da {} è fallì. Empruvar anc ina giada?",
+            "upload_file_complete": "Il transferiment da {} è cumplet!",
+            "upload_complete": "Tut las datotecas èn vegnidas transferidas!",
+            "buttons": {
+                "upload_stop": "Interrumper",
+                "upload_retry": "Empruvar anc ina giada"
+            }
+        },
+        "roomselect": {
+            "type_prompt": "Tschernai la sort da messadi che Vus vulais publitgar",
+            "room_prompt": "Tschernai la stanza en la quala Vus vulais publitgar:",
+            "error_no_rooms": "Vus n'avais betg la permissiun da publitgar u n'essas anc betg entrà en ina stanza."
+        },
+        "textmessage": {
+            "answer_promt": "Endatai Voss text:",
+            "input_placeholder": "Endatai Voss text qua...",
+            "send_start": "Il messadi vegn tramess...",
+            "send_failed": "Il trametter dal messadi è fallì. Vulais Vus retrametter il messadi?",
+            "send_complete": "Il messadi è vegnì tramess cun success!",
+            "buttons": {
+                "send_stop": "Betg empruvar anc ina giada",
+                "resend": "Empruvar anc ina giada"
+            }
+        }
     },
     "profile": {
-        "send_message": "Messadi", "block_title": "Bloccar utilisader", "block_desc": "Bloccar {}? Vus na vesais betg pli ses cuntegns.",
-        "block_confirm": "Bloccar", "block_success": "Utilisader bloccà.", "block_error": "Impussibel da bloccar l'utilisader: {}",
-        "report_title": "Rapportar utilisader", "report_desc": "Descrivai per plaschair il motiv per rapportar quest utilisader.",
-        "report_reason": "Motiv", "report_reason_hint": "Quest utilisader è...", "report_submit": "Trametter",
-        "report_success": "Rapport tramess. Grazia fitg.", "feeds_section": "FEEDS", "no_feeds": "Nagins feeds publics",
+        "send_message": "Messadi",
+        "block_title": "Bloccar utilisader",
+        "block_desc": "Bloccar {}? Vus na vesais betg pli ses cuntegns.",
+        "block_confirm": "Bloccar",
+        "block_success": "Utilisader bloccà.",
+        "block_error": "Impussibel da bloccar l'utilisader: {}",
+        "report_title": "Rapportar utilisader",
+        "report_desc": "Descrivai per plaschair il motiv per rapportar quest utilisader.",
+        "report_reason": "Motiv",
+        "report_reason_hint": "Quest utilisader è...",
+        "report_submit": "Trametter",
+        "report_success": "Rapport tramess. Grazia fitg.",
+        "feeds_section": "FEEDS",
+        "no_feeds": "Nagins feeds publics",
         "error_start_chat": "Impussibel da cumenzar il chat: {}"
     },
+    "startroom_dialog": {
+        "title": "Entrar en la stanza da bainvegni?",
+        "desc": "Vulais Vus entrar en la stanza da bainvegni da Substitution? Quai è in lieu excellent per cumenzar e sa connectar cun la communitad.",
+        "join": "Entrar e cuntinuar",
+        "skip": "Sursiglir"
+    },
     "chat": {
-        "title": "Messadis", "input_placeholder": "Scriver in messadi...", "no_messages": "Anc nagins messadis. Ditga tschau!",
-        "no_conversations": "Anc naginas conversaziuns", "no_conversations_hint": "Visitai il profil dad in utilisader e tutgai 'Messadi' per cumenzar in chat.",
-        "media_message": "Media", "conversation_started": "Conversaziun cumenzada",
-        "error_loading": "Impussibel da chargiar questa conversaziun.", "error_sending": "Il trametter dal messadi è fallì.", "view_profile": "Mussar il profil"
+        "title": "Messadis",
+        "input_placeholder": "Scriver in messadi...",
+        "no_messages": "Anc nagins messadis. Ditga tschau!",
+        "no_conversations": "Anc naginas conversaziuns",
+        "no_conversations_hint": "Visitai il profil dad in utilisader e tutgai 'Messadi' per cumenzar in chat.",
+        "media_message": "Media",
+        "conversation_started": "Conversaziun cumenzada",
+        "error_loading": "Impussibel da chargiar questa conversaziun.",
+        "error_sending": "Il trametter dal messadi è fallì.",
+        "view_profile": "Mussar il profil"
     }
 }

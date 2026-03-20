@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Filen dekrypteres...",
+                "decrypt_error": "Kunne ikke indlæse filen.",
                 "video_desktop_error": "Videoer kan ikke vises på Linux, Windows eller MacOS. Overvej at bidrage på Github, hvis du gerne vil se denne funktion!",
                 "audio_desktop_error": "Lyd kan ikke afspilles på Linux, Windows eller MacOS."
+            },
+            "comment": {
+                "load_error": "Kunne ikke indlæse svar."
             },
             "reaction": {
                 "unknown_sender": "ukendt",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigation",
             "account_label": "Konto",
             "preferences_label": "Præferencer",
-            "about_label": "Om"
+            "about_label": "Om",
+            "ownfeeds_label": "Egne feeds",
+            "profile_label": "Rediger profil",
+            "security_label": "Sikkerhed"
         },
         "room": {
             "desc": "Rumnavn: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "rumnavn",
                 "placeholder_alias": "rumalias (offentlig rumadresse)",
                 "placeholder_topic": "rumemne",
-                "submit": "Opret"
+                "submit": "Opret",
+                "error": "Kunne ikke oprette rum. Prøv venligst igen."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Svar",
         "roomheader": "Rum: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Tilføj nye filer til upload",
             "title_header": "Titel:",
             "upload_start": "Starter upload...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDS",
         "no_feeds": "Ingen offentlige feeds",
         "error_start_chat": "Kunne ikke starte chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Deltag i velkomstrum?",
+        "desc": "Vil du deltage i Substitution-velkomstrummet? Det er et godt sted at komme i gang og forbinde med fællesskabet.",
+        "join": "Deltag & Fortsæt",
+        "skip": "Spring over"
     },
     "chat": {
         "title": "Beskeder",

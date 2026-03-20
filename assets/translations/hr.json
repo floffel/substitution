@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Datoteka se dešifrira...",
+                "decrypt_error": "Datoteku nije moguće učitati.",
                 "video_desktop_error": "Videozapisi se ne mogu prikazati na Linux, Windows ni MacOS. Razmislite o doprinosu na Github ako želite vidjeti ovu značajku!",
                 "audio_desktop_error": "Zvuk se ne može reproducirati na Linux, Windows ni MacOS."
+            },
+            "comment": {
+                "load_error": "Nije moguće učitati odgovore."
             },
             "reaction": {
                 "unknown_sender": "nepoznato",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigacija",
             "account_label": "Račun",
             "preferences_label": "Postavke",
-            "about_label": "O aplikaciji"
+            "about_label": "O aplikaciji",
+            "ownfeeds_label": "Vlastiti feedovi",
+            "profile_label": "Uredi profil",
+            "security_label": "Sigurnost"
         },
         "room": {
             "desc": "Naziv sobe: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "naziv sobe",
                 "placeholder_alias": "alias sobe (javna adresa sobe)",
                 "placeholder_topic": "tema sobe",
-                "submit": "Stvori"
+                "submit": "Stvori",
+                "error": "Nije moguće stvoriti sobu. Pokušajte ponovo."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Odgovor",
         "roomheader": "Soba: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Dodajte nove datoteke za prijenos",
             "title_header": "Naslov:",
             "upload_start": "Pokretanje prijenosa...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEEDOVI",
         "no_feeds": "Nema javnih feedova",
         "error_start_chat": "Nije moguće pokrenuti razgovor: {}"
+    },
+    "startroom_dialog": {
+        "title": "Pridružiti se sobi dobrodošlice?",
+        "desc": "Želite li se pridružiti sobi dobrodošlice Substitution? To je sjajno mjesto za početak i povezivanje sa zajednicom.",
+        "join": "Pridruži se i nastavi",
+        "skip": "Preskoči"
     },
     "chat": {
         "title": "Poruke",

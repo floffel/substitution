@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Файл дешифрленүүдө...",
+                "decrypt_error": "Файлды жүктöö мүмкүн болгон жок.",
                 "video_desktop_error": "Видеолорду Linux, Windows жана MacOS тутумдарында көрсөтүү мүмкүн эмес. Бул функцияны көргүңүз келсе, Github аркылуу салым кошуңуз!",
                 "audio_desktop_error": "Аудиону Linux, Windows жана MacOS тутумдарында ойнотуу мүмкүн эмес."
+            },
+            "comment": {
+                "load_error": "Жоопторду жүктöö мүмкүн болгон жок."
             },
             "reaction": {
                 "unknown_sender": "белгисиз",
@@ -127,7 +131,10 @@
             "navigation_label": "Навигация",
             "account_label": "Аккаунт",
             "preferences_label": "Тандоолор",
-            "about_label": "Жөнүндө"
+            "about_label": "Жөнүндө",
+            "ownfeeds_label": "Өз ленталар",
+            "profile_label": "Профилди өзгөртүү",
+            "security_label": "Коопсуздук"
         },
         "room": {
             "desc": "Бөлмө аты: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "бөлмө аты",
                 "placeholder_alias": "бөлмө лакап аты (ачык бөлмө дареги)",
                 "placeholder_topic": "бөлмө темасы",
-                "submit": "Түзүү"
+                "submit": "Түзүү",
+                "error": "Бөлмө түзүү мүмкүн болгон жок. Кайра аракет кылыңыз."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Жооп берүү",
         "roomheader": "Бөлмө: {}",
         "filemessage": {
+            "video_preview": "Видео",
             "upload_files": "Жүктөө үчүн жаңы файлдарды кошуу",
             "title_header": "Аталышы:",
             "upload_start": "Жүктөө башталууда...",
@@ -277,6 +286,12 @@
         "feeds_section": "ЛЕНТАЛАР",
         "no_feeds": "Ачык ленталар жок",
         "error_start_chat": "Чатты баштоо мүмкүн болгон жок: {}"
+    },
+    "startroom_dialog": {
+        "title": "Саламдашуу бөлмөсүнө кошулуу керекпи?",
+        "desc": "Substitution саламдашуу бөлмөсүнө кошулгуңуз келеби? Бул баштоо жана коомчулук менен байланышуу үчүн эң сонун жер.",
+        "join": "Кошулуу жана улантуу",
+        "skip": "Өткөрүп жиберүү"
     },
     "chat": {
         "title": "Билдирүүлөр",

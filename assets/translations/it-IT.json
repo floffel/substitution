@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Il file è in fase di decrittazione...",
+                "decrypt_error": "Impossibile caricare il file.",
                 "video_desktop_error": "I video non possono essere visualizzati su Linux, Windows né MacOS. Considera di contribuire su Github se desideri vedere questa funzionalità!",
                 "audio_desktop_error": "L'audio non può essere riprodotto su Linux, Windows né MacOS."
+            },
+            "comment": {
+                "load_error": "Impossibile caricare le risposte."
             },
             "reaction": {
                 "unknown_sender": "sconosciuto",
@@ -127,7 +131,10 @@
             "navigation_label": "Navigazione",
             "account_label": "Account",
             "preferences_label": "Preferenze",
-            "about_label": "Informazioni"
+            "about_label": "Informazioni",
+            "ownfeeds_label": "I miei feed",
+            "profile_label": "Modifica profilo",
+            "security_label": "Sicurezza"
         },
         "room": {
             "desc": "Nome stanza: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nome stanza",
                 "placeholder_alias": "alias stanza (indirizzo pubblico della stanza)",
                 "placeholder_topic": "argomento della stanza",
-                "submit": "Crea"
+                "submit": "Crea",
+                "error": "Impossibile creare la stanza. Riprova."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Rispondi",
         "roomheader": "Stanza: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Aggiungi nuovi file da caricare",
             "title_header": "Titolo:",
             "upload_start": "Avvio del caricamento...",
@@ -277,6 +286,12 @@
         "feeds_section": "FEED",
         "no_feeds": "Nessun feed pubblico",
         "error_start_chat": "Impossibile avviare la chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Entrare nella stanza di benvenuto?",
+        "desc": "Vuoi entrare nella stanza di benvenuto di Substitution? È un ottimo posto per iniziare e conoscere la community.",
+        "join": "Entra e continua",
+        "skip": "Salta"
     },
     "chat": {
         "title": "Messaggi",

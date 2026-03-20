@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Simge seçin" } },
         "widgets": {
             "filecomponent": { "button": { "close": "kapat" } },
-            "filedisplay": { "decrypting": "Dosya şifresi çözülüyor...", "video_desktop_error": "Videolar Linux, Windows veya MacOS üzerinde görüntülenemez. Bu özelliği görmek isterseniz Github üzerinden katkıda bulunmayı düşünün!", "audio_desktop_error": "Ses Linux, Windows veya MacOS üzerinde oynatılamaz." },
+            "filedisplay": { "decrypting": "Dosya şifresi çözülüyor...", "decrypt_error": "Dosya yüklenemedi.", "video_desktop_error": "Videolar Linux, Windows veya MacOS üzerinde görüntülenemez. Bu özelliği görmek isterseniz Github üzerinden katkıda bulunmayı düşünün!", "audio_desktop_error": "Ses Linux, Windows veya MacOS üzerinde oynatılamaz." },
+            "comment": { "load_error": "Yanıtlar yüklenemedi." },
             "reaction": { "unknown_sender": "bilinmiyor", "sent_by": "{} tarafından gönderildi" },
             "videoplayercontrol": { "play": "oynat", "caption_offset": "altyazı ofseti", "playback_speed": "oynatma hızı" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "{} olarak giriş yapıldı", "logout": "Çıkış Yap", "logout_confirm": "Çıkış yapmak istediğinizden emin misiniz?",
             "login": "Giriş Yap", "not_logged_in": "Tüm özelliklere erişmek için giriş yapın",
             "home_site_label": "Ana Sayfa", "feeds_site_label": "Akışlar", "navigation_label": "Gezinme",
-            "account_label": "Hesap", "preferences_label": "Tercihler", "about_label": "Hakkında"
+            "account_label": "Hesap", "preferences_label": "Tercihler", "about_label": "Hakkında",
+            "ownfeeds_label": "Kendi Akışlarım",
+            "profile_label": "Profili Düzenle",
+            "security_label": "Güvenlik"
         },
         "room": { "desc": "Oda adı: {}", "leave": "Odadan ayrıl", "join": "Odaya gir ve substitution'a ekle", "join_short": "Katıl", "permissions": "İzinler" },
         "dialog": {
             "delete": { "title": "Odadan ayrıl {}", "desc": "{} odasından ayrılmak istediğinizden emin misiniz?", "button": { "submit": "Evet, ayrıl", "cancel": "Hayır, iptal et" } },
             "add": { "title": "Yeni Sunucu Ekle", "input_placeholder": "Sunucu adresini girin", "button": { "submit": "Ekle" }, "snackbar": { "success": "Sunucu eklendi", "error_homeserver": "Girilen ana sunucu geçerli değil" } },
-            "create": { "title": "Yeni oda oluştur", "placeholder_name": "oda adı", "placeholder_alias": "oda takma adı (genel oda adresi)", "placeholder_topic": "oda konusu", "submit": "Oluştur" }
+            "create": { "title": "Yeni oda oluştur", "placeholder_name": "oda adı", "placeholder_alias": "oda takma adı (genel oda adresi)", "placeholder_topic": "oda konusu", "submit": "Oluştur", "error": "Oda oluşturulamadı. Lütfen tekrar deneyin." }
         },
         "room_preview": { "members": "{} üye", "latest_posts": "Son gönderiler", "no_posts": "Bu odada henüz gönderi yok.", "no_peek": "Bu odanın geçmişi özeldir. Gönderileri görmek için odaya katılın.", "join_to_see": "Gönderileri görmek için katılın" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "Yanıtla", "roomheader": "Oda: {}",
-        "filemessage": { "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
         "roomselect": { "type_prompt": "Göndermek istediğiniz mesaj türünü seçin", "room_prompt": "Gönderi yapmak istediğiniz odayı seçin:", "error_no_rooms": "Herhangi bir odaya katılmadınız veya gönderi yapma yetkiniz yok." },
         "textmessage": { "answer_promt": "Metninizi girin:", "input_placeholder": "Metninizi buraya girin...", "send_start": "Mesaj gönderiliyor...", "send_failed": "Mesaj gönderilemedi. Tekrar göndermek ister misiniz?", "send_complete": "Mesaj başarıyla gönderildi!", "buttons": { "send_stop": "Tekrar deneme", "resend": "Tekrar Dene" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "Neden", "report_reason_hint": "Bu kullanıcı...", "report_submit": "Gönder",
         "report_success": "Bildirim gönderildi. Teşekkürler.", "feeds_section": "AKIŞLAR", "no_feeds": "Herkese açık akış yok",
         "error_start_chat": "Sohbet başlatılamadı: {}"
+    },
+    "startroom_dialog": {
+        "title": "Karşılama Odasına Katıl?",
+        "desc": "Substitution karşılama odasına katılmak ister misiniz? Başlamak ve toplulukla bağlantı kurmak için harika bir yer.",
+        "join": "Katıl ve Devam Et",
+        "skip": "Atla"
     },
     "chat": {
         "title": "Mesajlar", "input_placeholder": "Bir mesaj yazın...", "no_messages": "Henüz mesaj yok. Merhaba deyin!",

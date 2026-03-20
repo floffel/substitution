@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Skrá er verið að afkóða...",
+                "decrypt_error": "Ekki tókst að hlaða skrá.",
                 "video_desktop_error": "Ekki er hægt að birta myndbönd á Linux, Windows né MacOS. Íhugaðu að leggja til á Github ef þú vilt sjá þennan eiginleika!",
                 "audio_desktop_error": "Ekki er hægt að spila hljóð á Linux, Windows né MacOS."
+            },
+            "comment": {
+                "load_error": "Ekki tókst að hlaða svörum."
             },
             "reaction": {
                 "unknown_sender": "óþekktur",
@@ -127,7 +131,10 @@
             "navigation_label": "Leiðsögn",
             "account_label": "Reikningur",
             "preferences_label": "Kjörstillingar",
-            "about_label": "Um"
+            "about_label": "Um",
+            "ownfeeds_label": "Eigin straumar",
+            "profile_label": "Breyta prófíl",
+            "security_label": "Öryggi"
         },
         "room": {
             "desc": "Heiti herbergis: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "nafn herbergis",
                 "placeholder_alias": "samnefni herbergis (opinbert vistfang)",
                 "placeholder_topic": "umfjöllunarefni herbergis",
-                "submit": "Búa til"
+                "submit": "Búa til",
+                "error": "Ekki tókst að búa til herbergi. Vinsamlegast reyndu aftur."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Svar",
         "roomheader": "Herbergi: {}",
         "filemessage": {
+            "video_preview": "Myndband",
             "upload_files": "Bæta við nýjum skrám til upphleðslu",
             "title_header": "Titill:",
             "upload_start": "Upphleðsla hefst...",
@@ -277,6 +286,12 @@
         "feeds_section": "STRAUMAR",
         "no_feeds": "Engir opinberir straumar",
         "error_start_chat": "Gat ekki hafið spjall: {}"
+    },
+    "startroom_dialog": {
+        "title": "Ganga í velkomuherbergi?",
+        "desc": "Viltu ganga inn í velkomuherbergi Substitution? Þetta er frábær staður til að byrja og tengjast samfélaginu.",
+        "join": "Ganga inn og halda áfram",
+        "skip": "Sleppa"
     },
     "chat": {
         "title": "Skilaboð",

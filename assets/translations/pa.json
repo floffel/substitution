@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ਫ਼ਾਈਲ ਡੀਕ੍ਰਿਪਟ ਹੋ ਰਹੀ ਹੈ...",
+                "decrypt_error": "ਫ਼ਾਈਲ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀ।",
                 "video_desktop_error": "ਵੀਡੀਓ Linux, Windows ਅਤੇ MacOS 'ਤੇ ਨਹੀਂ ਦਿਖਾਏ ਜਾ ਸਕਦੇ। ਜੇ ਤੁਸੀਂ ਇਹ ਫੀਚਰ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ Github 'ਤੇ ਯੋਗਦਾਨ ਪਾਉਣ ਬਾਰੇ ਸੋਚੋ!",
                 "audio_desktop_error": "ਆਡੀਓ Linux, Windows ਅਤੇ MacOS 'ਤੇ ਨਹੀਂ ਚਲਾਇਆ ਜਾ ਸਕਦਾ।"
+            },
+            "comment": {
+                "load_error": "ਜਵਾਬ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੇ।"
             },
             "reaction": {
                 "unknown_sender": "ਅਣਜਾਣ",
@@ -127,7 +131,10 @@
             "navigation_label": "ਨੈਵੀਗੇਸ਼ਨ",
             "account_label": "ਖਾਤਾ",
             "preferences_label": "ਤਰਜੀਹਾਂ",
-            "about_label": "ਬਾਰੇ"
+            "about_label": "ਬਾਰੇ",
+            "ownfeeds_label": "ਆਪਣੀਆਂ ਫੀਡਾਂ",
+            "profile_label": "ਪ੍ਰੋਫਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ",
+            "security_label": "ਸੁਰੱਖਿਆ"
         },
         "room": {
             "desc": "ਕਮਰੇ ਦਾ ਨਾਮ: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "ਕਮਰੇ ਦਾ ਨਾਮ",
                 "placeholder_alias": "ਕਮਰੇ ਦਾ ਉਪਨਾਮ (ਜਨਤਕ ਕਮਰੇ ਦਾ ਪਤਾ)",
                 "placeholder_topic": "ਕਮਰੇ ਦਾ ਵਿਸ਼ਾ",
-                "submit": "ਬਣਾਓ"
+                "submit": "ਬਣਾਓ",
+                "error": "ਕਮਰਾ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "ਜਵਾਬ",
         "roomheader": "ਕਮਰਾ: {}",
         "filemessage": {
+            "video_preview": "ਵੀਡੀਓ",
             "upload_files": "ਅੱਪਲੋਡ ਲਈ ਨਵੀਆਂ ਫ਼ਾਈਲਾਂ ਸ਼ਾਮਲ ਕਰੋ",
             "title_header": "ਸਿਰਲੇਖ:",
             "upload_start": "ਅੱਪਲੋਡ ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ...",
@@ -277,6 +286,12 @@
         "feeds_section": "ਫੀਡਾਂ",
         "no_feeds": "ਕੋਈ ਜਨਤਕ ਫੀਡ ਨਹੀਂ",
         "error_start_chat": "ਗੱਲਬਾਤ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋ ਸਕੀ: {}"
+    },
+    "startroom_dialog": {
+        "title": "ਸਵਾਗਤ ਰੂਮ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ?",
+        "desc": "ਕੀ ਤੁਸੀਂ Substitution ਸਵਾਗਤ ਰੂਮ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਚਾਹੋਗੇ? ਸ਼ੁਰੂਆਤ ਕਰਨ ਅਤੇ ਭਾਈਚਾਰੇ ਨਾਲ ਜੁੜਨ ਲਈ ਇਹ ਇੱਕ ਵਧੀਆ ਥਾਂ ਹੈ।",
+        "join": "ਸ਼ਾਮਲ ਹੋਵੋ ਅਤੇ ਜਾਰੀ ਰੱਖੋ",
+        "skip": "ਛੱਡੋ"
     },
     "chat": {
         "title": "ਸੁਨੇਹੇ",

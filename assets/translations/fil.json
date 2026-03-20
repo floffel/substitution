@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Dine-decrypt ang file...",
+                "decrypt_error": "Hindi ma-load ang file.",
                 "video_desktop_error": "Hindi maipakita ang mga video sa Linux, Windows o MacOS. Mag-contribute sa Github kung gusto mong makita ang feature na ito!",
                 "audio_desktop_error": "Hindi mapatugtog ang audio sa Linux, Windows o MacOS."
+            },
+            "comment": {
+                "load_error": "Hindi ma-load ang mga tugon."
             },
             "reaction": {
                 "unknown_sender": "hindi kilala",
@@ -127,7 +131,10 @@
             "navigation_label": "Nabigasyon",
             "account_label": "Account",
             "preferences_label": "Mga Kagustuhan",
-            "about_label": "Tungkol Sa"
+            "about_label": "Tungkol Sa",
+            "ownfeeds_label": "Aking mga Feed",
+            "profile_label": "I-edit ang Profile",
+            "security_label": "Seguridad"
         },
         "room": {
             "desc": "Pangalan ng room: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "pangalan ng room",
                 "placeholder_alias": "room alias (pampublikong address ng room)",
                 "placeholder_topic": "paksa ng room",
-                "submit": "Gumawa"
+                "submit": "Gumawa",
+                "error": "Hindi magawa ang room. Pakisubukan muli."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Sagutin",
         "roomheader": "Room: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Magdagdag ng mga bagong file para i-upload",
             "title_header": "Pamagat:",
             "upload_start": "Sinisimulan ang pag-upload...",
@@ -277,6 +286,12 @@
         "feeds_section": "MGA FEED",
         "no_feeds": "Walang pampublikong feed",
         "error_start_chat": "Hindi masimulan ang chat: {}"
+    },
+    "startroom_dialog": {
+        "title": "Sumali sa Welcome Room?",
+        "desc": "Gusto mo bang sumali sa Substitution welcome room? Magandang lugar ito para magsimula at makipag-ugnayan sa komunidad.",
+        "join": "Sumali at Magpatuloy",
+        "skip": "Laktawan"
     },
     "chat": {
         "title": "Mga Mensahe",

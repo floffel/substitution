@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Faylın şifrəsi açılır...",
+                "decrypt_error": "Fayl yüklənə bilmədi.",
                 "video_desktop_error": "Videolar Linux, Windows və ya MacOS-da göstərilə bilmir. Bu funksiyanı görmək istəyirsinizsə, Github-da töhfə verməyi düşünün!",
                 "audio_desktop_error": "Audio Linux, Windows və ya MacOS-da oxudula bilmir."
+            },
+            "comment": {
+                "load_error": "Cavablar yüklənə bilmədi."
             },
             "reaction": {
                 "unknown_sender": "naməlum",
@@ -127,7 +131,10 @@
             "navigation_label": "Naviqasiya",
             "account_label": "Hesab",
             "preferences_label": "Tərcihlər",
-            "about_label": "Haqqında"
+            "about_label": "Haqqında",
+            "ownfeeds_label": "Öz Lentlər",
+            "profile_label": "Profili redaktə et",
+            "security_label": "Təhlükəsizlik"
         },
         "room": {
             "desc": "Otaq adı: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "otaq adı",
                 "placeholder_alias": "otaq ləqəbi (açıq otaq ünvanı)",
                 "placeholder_topic": "otaq mövzusu",
-                "submit": "Yarat"
+                "submit": "Yarat",
+                "error": "Otaq yaradıla bilmədi. Zəhmət olmasa yenidən cəhd edin."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Cavab",
         "roomheader": "Otaq: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Yükləmə üçün yeni fayllar əlavə edin",
             "title_header": "Başlıq:",
             "upload_start": "Yükləmə başlayır...",
@@ -277,6 +286,12 @@
         "feeds_section": "LENTLƏR",
         "no_feeds": "Açıq lent yoxdur",
         "error_start_chat": "Söhbət başladıla bilmədi: {}"
+    },
+    "startroom_dialog": {
+        "title": "Qarşılama otağına qoşulmaq istəyirsiniz?",
+        "desc": "Substitution qarşılama otağına qoşulmaq istəyirsiniz? Bu, başlamaq və icma ilə əlaqə qurmaq üçün əla yerdir.",
+        "join": "Qoşul və davam et",
+        "skip": "Keç"
     },
     "chat": {
         "title": "Mesajlar",

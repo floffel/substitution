@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Vybrať ikonu" } },
         "widgets": {
             "filecomponent": { "button": { "close": "zavrieť" } },
-            "filedisplay": { "decrypting": "Súbor sa dešifruje...", "video_desktop_error": "Videá nie je možné prehrávať na Linux, Windows ani MacOS. Prispejte na Github, ak chcete vidieť túto funkciu!", "audio_desktop_error": "Zvuk nie je možné prehrávať na Linux, Windows ani MacOS." },
+            "filedisplay": { "decrypting": "Súbor sa dešifruje...", "decrypt_error": "Súbor sa nepodarilo načítať.", "video_desktop_error": "Videá nie je možné prehrávať na Linux, Windows ani MacOS. Prispejte na Github, ak chcete vidieť túto funkciu!", "audio_desktop_error": "Zvuk nie je možné prehrávať na Linux, Windows ani MacOS." },
+            "comment": { "load_error": "Nepodarilo sa načítať odpovede." },
             "reaction": { "unknown_sender": "neznámy", "sent_by": "Odoslal/a {}" },
             "videoplayercontrol": { "play": "prehrať", "caption_offset": "posun titulkov", "playback_speed": "rýchlosť prehrávania" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Prihlásený ako {}", "logout": "Odhlásiť sa", "logout_confirm": "Ste si istý, že sa chcete odhlásiť?",
             "login": "Prihlásiť sa", "not_logged_in": "Prihláste sa pre prístup ku všetkým funkciám",
             "home_site_label": "Domov", "feeds_site_label": "Kanály", "navigation_label": "Navigácia",
-            "account_label": "Účet", "preferences_label": "Predvoľby", "about_label": "O aplikácii"
+            "account_label": "Účet", "preferences_label": "Predvoľby", "about_label": "O aplikácii",
+            "ownfeeds_label": "Vlastné kanály", "profile_label": "Upraviť profil", "security_label": "Bezpečnosť"
         },
         "room": { "desc": "Názov miestnosti: {}", "leave": "Opustiť miestnosť", "join": "Vstúpiť do miestnosti a pridať ju do substitution", "join_short": "Vstúpiť", "permissions": "Oprávnenia" },
         "dialog": {
             "delete": { "title": "Opustiť miestnosť {}", "desc": "Ste si istý, že chcete opustiť miestnosť {}?", "button": { "submit": "Áno, opustiť", "cancel": "Nie, zrušiť" } },
             "add": { "title": "Pridať nový server", "input_placeholder": "Zadajte adresu servera", "button": { "submit": "Pridať" }, "snackbar": { "success": "Server bol pridaný", "error_homeserver": "Zadaný domovský server nie je platný" } },
-            "create": { "title": "Vytvoriť novú miestnosť", "placeholder_name": "názov miestnosti", "placeholder_alias": "alias miestnosti (verejná adresa)", "placeholder_topic": "téma miestnosti", "submit": "Vytvoriť" }
+            "create": { "title": "Vytvoriť novú miestnosť", "placeholder_name": "názov miestnosti", "placeholder_alias": "alias miestnosti (verejná adresa)", "placeholder_topic": "téma miestnosti", "submit": "Vytvoriť", "error": "Miestnosť sa nepodarilo vytvoriť. Skúste to prosím znova." }
         },
         "room_preview": { "members": "{} členov", "latest_posts": "Najnovšie príspevky", "no_posts": "V tejto miestnosti zatiaľ nie sú žiadne príspevky.", "no_peek": "História tejto miestnosti je súkromná. Vstúpte do miestnosti, aby ste videli príspevky.", "join_to_see": "Vstúpte pre zobrazenie príspevkov" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Odpovedať", "roomheader": "Miestnosť: {}",
-        "filemessage": { "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
         "roomselect": { "type_prompt": "Vyberte typ správy, ktorú chcete zverejniť", "room_prompt": "Vyberte miestnosť, v ktorej chcete zverejniť:", "error_no_rooms": "Nepripojili ste sa k žiadnym miestnostiam alebo nemáte oprávnenie na zverejňovanie." },
         "textmessage": { "answer_promt": "Zadajte text:", "input_placeholder": "Zadajte text sem...", "send_start": "Správa sa odosiela...", "send_failed": "Odoslanie správy zlyhalo. Chcete správu odoslať znova?", "send_complete": "Správa bola úspešne odoslaná!", "buttons": { "send_stop": "Neopakovať", "resend": "Skúsiť znova" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Dôvod", "report_reason_hint": "Tento používateľ...", "report_submit": "Odoslať",
         "report_success": "Nahlásenie bolo odoslané. Ďakujeme.", "feeds_section": "KANÁLY", "no_feeds": "Žiadne verejné kanály",
         "error_start_chat": "Nepodarilo sa začať konverzáciu: {}"
+    },
+    "startroom_dialog": {
+        "title": "Vstúpiť do uvítacej miestnosti?",
+        "desc": "Chcete sa pripojiť k uvítacej miestnosti Substitution? Je to skvelé miesto, kde môžete začať a spojiť sa s komunitou.",
+        "join": "Vstúpiť a pokračovať",
+        "skip": "Preskočiť"
     },
     "chat": {
         "title": "Správy", "input_placeholder": "Napíšte správu...", "no_messages": "Zatiaľ žiadne správy. Pozdravte sa!",

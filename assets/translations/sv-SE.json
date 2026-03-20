@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Välj ikon" } },
         "widgets": {
             "filecomponent": { "button": { "close": "stäng" } },
-            "filedisplay": { "decrypting": "Filen dekrypteras...", "video_desktop_error": "Videor kan inte visas på Linux, Windows eller MacOS. Överväg att bidra på Github om du vill se denna funktion!", "audio_desktop_error": "Ljud kan inte spelas upp på Linux, Windows eller MacOS." },
+            "filedisplay": { "decrypting": "Filen dekrypteras...", "decrypt_error": "Kunde inte ladda filen.", "video_desktop_error": "Videor kan inte visas på Linux, Windows eller MacOS. Överväg att bidra på Github om du vill se denna funktion!", "audio_desktop_error": "Ljud kan inte spelas upp på Linux, Windows eller MacOS." },
+            "comment": { "load_error": "Kunde inte ladda svar." },
             "reaction": { "unknown_sender": "okänd", "sent_by": "Skickad av {}" },
             "videoplayercontrol": { "play": "spela", "caption_offset": "undertextförskjutning", "playback_speed": "uppspelningshastighet" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "Inloggad som {}", "logout": "Logga ut", "logout_confirm": "Är du säker på att du vill logga ut?",
             "login": "Logga in", "not_logged_in": "Logga in för att få tillgång till alla funktioner",
             "home_site_label": "Hem", "feeds_site_label": "Flöden", "navigation_label": "Navigering",
-            "account_label": "Konto", "preferences_label": "Inställningar", "about_label": "Om"
+            "account_label": "Konto", "preferences_label": "Inställningar", "about_label": "Om",
+            "ownfeeds_label": "Egna flöden",
+            "profile_label": "Redigera profil",
+            "security_label": "Säkerhet"
         },
         "room": { "desc": "Rumsnamn: {}", "leave": "Lämna rum", "join": "Gå med i rummet och lägg till det i substitution", "join_short": "Gå med", "permissions": "Behörigheter" },
         "dialog": {
             "delete": { "title": "Lämna rum {}", "desc": "Är du säker på att du vill lämna rum {}?", "button": { "submit": "Ja, lämna det", "cancel": "Nej, avbryt" } },
             "add": { "title": "Lägg till en ny server", "input_placeholder": "Ange serveradress", "button": { "submit": "Lägg till" }, "snackbar": { "success": "Servern har lagts till", "error_homeserver": "Den angivna hemservern är inte giltig" } },
-            "create": { "title": "Skapa ett nytt rum", "placeholder_name": "rumsnamn", "placeholder_alias": "rumsalias (offentlig rumsadress)", "placeholder_topic": "rumsämne", "submit": "Skapa" }
+            "create": { "title": "Skapa ett nytt rum", "placeholder_name": "rumsnamn", "placeholder_alias": "rumsalias (offentlig rumsadress)", "placeholder_topic": "rumsämne", "submit": "Skapa", "error": "Kunde inte skapa rum. Försök igen." }
         },
         "room_preview": { "members": "{} medlemmar", "latest_posts": "Senaste inlägg", "no_posts": "Inga inlägg ännu i detta rum.", "no_peek": "Detta rums historik är privat. Gå med i rummet för att se dess inlägg.", "join_to_see": "Gå med för att se inlägg" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "Svara", "roomheader": "Rum: {}",
-        "filemessage": { "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
+        "filemessage": { "video_preview": "Video", "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
         "roomselect": { "type_prompt": "Välj vilken typ av meddelande du vill publicera", "room_prompt": "Välj rummet du vill publicera i:", "error_no_rooms": "Du har inte gått med i några rum eller saknar rättigheter att publicera." },
         "textmessage": { "answer_promt": "Ange din text:", "input_placeholder": "Skriv din text här...", "send_start": "Börjar skicka meddelandet...", "send_failed": "Sändningen misslyckades. Vill du skicka meddelandet igen?", "send_complete": "Meddelandet har skickats!", "buttons": { "send_stop": "Försök inte igen", "resend": "Försök igen" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "Anledning", "report_reason_hint": "Denna användare är...", "report_submit": "Skicka",
         "report_success": "Rapport skickad. Tack.", "feeds_section": "FLÖDEN", "no_feeds": "Inga offentliga flöden",
         "error_start_chat": "Kunde inte starta chatt: {}"
+    },
+    "startroom_dialog": {
+        "title": "Gå med i välkomstrummet?",
+        "desc": "Vill du gå med i Substitutions välkomstrum? Det är ett bra ställe att komma igång och ansluta till gemenskapen.",
+        "join": "Gå med & Fortsätt",
+        "skip": "Hoppa över"
     },
     "chat": {
         "title": "Meddelanden", "input_placeholder": "Skriv ett meddelande...", "no_messages": "Inga meddelanden ännu. Säg hej!",

@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "சின்னத்தைத் தேர்ந்தெடுக்கவும்" } },
         "widgets": {
             "filecomponent": { "button": { "close": "மூடு" } },
-            "filedisplay": { "decrypting": "கோப்பு மறைநீக்கம் செய்யப்படுகிறது...", "video_desktop_error": "Linux, Windows அல்லது MacOS இல் வீடியோக்களைக் காண இயலாது. இந்தச் செயல்பாட்டைக் காண விரும்பினால் Github இல் பங்களிக்கவும்!", "audio_desktop_error": "Linux, Windows அல்லது MacOS இல் ஆடியோவை இயக்க இயலாது." },
+            "filedisplay": { "decrypting": "கோப்பு மறைநீக்கம் செய்யப்படுகிறது...", "decrypt_error": "கோப்பை ஏற்ற இயலவில்லை.", "video_desktop_error": "Linux, Windows அல்லது MacOS இல் வீடியோக்களைக் காண இயலாது. இந்தச் செயல்பாட்டைக் காண விரும்பினால் Github இல் பங்களிக்கவும்!", "audio_desktop_error": "Linux, Windows அல்லது MacOS இல் ஆடியோவை இயக்க இயலாது." },
+            "comment": { "load_error": "பதில்களை ஏற்ற இயலவில்லை." },
             "reaction": { "unknown_sender": "தெரியாதது", "sent_by": "{} அனுப்பியது" },
             "videoplayercontrol": { "play": "இயக்கு", "caption_offset": "தலைப்பு ஆஃப்செட்", "playback_speed": "இயக்க வேகம்" }
         }
@@ -63,13 +64,16 @@
             "logged_in_as": "{} ஆக உள்நுழைந்துள்ளீர்கள்", "logout": "வெளியேறு", "logout_confirm": "நீங்கள் நிச்சயமாக வெளியேற விரும்புகிறீர்களா?",
             "login": "உள்நுழை", "not_logged_in": "அனைத்து அம்சங்களையும் அணுக உள்நுழையவும்",
             "home_site_label": "முகப்பு", "feeds_site_label": "ஊட்டங்கள்", "navigation_label": "வழிசெலுத்தல்",
-            "account_label": "கணக்கு", "preferences_label": "விருப்பத்தேர்வுகள்", "about_label": "பற்றி"
+            "account_label": "கணக்கு", "preferences_label": "விருப்பத்தேர்வுகள்", "about_label": "பற்றி",
+            "ownfeeds_label": "சொந்த ஊட்டங்கள்",
+            "profile_label": "சுயவிவரத்தைத் திருத்து",
+            "security_label": "பாதுகாப்பு"
         },
         "room": { "desc": "அறைப் பெயர்: {}", "leave": "அறையை விடு", "join": "அறையில் நுழைந்து substitution இல் சேர்க்கவும்", "join_short": "சேரவும்", "permissions": "அனுமதிகள்" },
         "dialog": {
             "delete": { "title": "அறையை விடு {}", "desc": "நீங்கள் நிச்சயமாக {} அறையை விட விரும்புகிறீர்களா?", "button": { "submit": "ஆம், விடுங்கள்", "cancel": "இல்லை, ரத்துசெய்" } },
             "add": { "title": "புதிய சர்வரைச் சேர்", "input_placeholder": "சர்வர் முகவரியை உள்ளிடவும்", "button": { "submit": "சேர்" }, "snackbar": { "success": "சர்வர் சேர்க்கப்பட்டது", "error_homeserver": "உள்ளிட்ட ஹோம்சர்வர் செல்லுபடியாகாது" } },
-            "create": { "title": "புதிய அறையை உருவாக்கு", "placeholder_name": "அறைப் பெயர்", "placeholder_alias": "அறை மாற்றுப் பெயர் (பொது அறை முகவரி)", "placeholder_topic": "அறை தலைப்பு", "submit": "உருவாக்கு" }
+            "create": { "title": "புதிய அறையை உருவாக்கு", "placeholder_name": "அறைப் பெயர்", "placeholder_alias": "அறை மாற்றுப் பெயர் (பொது அறை முகவரி)", "placeholder_topic": "அறை தலைப்பு", "submit": "உருவாக்கு", "error": "அறையை உருவாக்க இயலவில்லை. மீண்டும் முயற்சிக்கவும்." }
         },
         "room_preview": { "members": "{} உறுப்பினர்கள்", "latest_posts": "சமீபத்திய இடுகைகள்", "no_posts": "இந்த அறையில் இன்னும் இடுகைகள் இல்லை.", "no_peek": "இந்த அறையின் வரலாறு தனிப்பட்டது. இடுகைகளைக் காண அறையில் சேரவும்.", "join_to_see": "இடுகைகளைக் காண சேரவும்" }
     },
@@ -89,7 +93,7 @@
     },
     "write": {
         "answer": "பதில்", "roomheader": "அறை: {}",
-        "filemessage": { "upload_files": "பதிவேற்ற புதிய கோப்புகளைச் சேர்க்கவும்", "title_header": "தலைப்பு:", "upload_start": "பதிவேற்றம் தொடங்குகிறது...", "upload_file_process": "{} கோப்பைப் பதிவேற்றுகிறது", "upload_error": "{} பதிவேற்றம் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவா?", "upload_file_complete": "{} பதிவேற்றம் முடிந்தது!", "upload_complete": "அனைத்துக் கோப்புகளும் பதிவேற்றப்பட்டன!", "buttons": { "upload_stop": "ரத்துசெய்", "upload_retry": "மீண்டும் முயற்சி" } },
+        "filemessage": { "video_preview": "வீடியோ", "upload_files": "பதிவேற்ற புதிய கோப்புகளைச் சேர்க்கவும்", "title_header": "தலைப்பு:", "upload_start": "பதிவேற்றம் தொடங்குகிறது...", "upload_file_process": "{} கோப்பைப் பதிவேற்றுகிறது", "upload_error": "{} பதிவேற்றம் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவா?", "upload_file_complete": "{} பதிவேற்றம் முடிந்தது!", "upload_complete": "அனைத்துக் கோப்புகளும் பதிவேற்றப்பட்டன!", "buttons": { "upload_stop": "ரத்துசெய்", "upload_retry": "மீண்டும் முயற்சி" } },
         "roomselect": { "type_prompt": "நீங்கள் இடுகையிட விரும்பும் செய்தி வகையைத் தேர்ந்தெடுக்கவும்", "room_prompt": "நீங்கள் இடுகையிட விரும்பும் அறையைத் தேர்ந்தெடுக்கவும்:", "error_no_rooms": "நீங்கள் எந்த அறையிலும் சேரவில்லை அல்லது இடுகையிட உரிமை இல்லை." },
         "textmessage": { "answer_promt": "உங்கள் உரையை உள்ளிடவும்:", "input_placeholder": "உங்கள் உரையை இங்கே உள்ளிடவும்...", "send_start": "செய்தி அனுப்பத் தொடங்கியது...", "send_failed": "செய்தி அனுப்புதல் தோல்வியடைந்தது. மீண்டும் அனுப்ப விரும்புகிறீர்களா?", "send_complete": "செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!", "buttons": { "send_stop": "மீண்டும் முயற்சிக்க வேண்டாம்", "resend": "மீண்டும் முயற்சி" } }
     },
@@ -100,6 +104,12 @@
         "report_reason": "காரணம்", "report_reason_hint": "இந்தப் பயனர்...", "report_submit": "சமர்ப்பி",
         "report_success": "புகார் சமர்ப்பிக்கப்பட்டது. நன்றி.", "feeds_section": "ஊட்டங்கள்", "no_feeds": "பொது ஊட்டங்கள் இல்லை",
         "error_start_chat": "அரட்டையைத் தொடங்க இயலவில்லை: {}"
+    },
+    "startroom_dialog": {
+        "title": "வரவேற்பு அறையில் சேரவா?",
+        "desc": "Substitution வரவேற்பு அறையில் சேர விரும்புகிறீர்களா? தொடங்குவதற்கும் சமூகத்துடன் இணைவதற்கும் இது ஒரு சிறந்த இடம்.",
+        "join": "சேர்ந்து தொடரவும்",
+        "skip": "தவிர்"
     },
     "chat": {
         "title": "செய்திகள்", "input_placeholder": "ஒரு செய்தியை உள்ளிடவும்...", "no_messages": "இன்னும் செய்திகள் இல்லை. வணக்கம் சொல்லுங்கள்!",

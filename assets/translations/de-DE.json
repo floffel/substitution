@@ -131,7 +131,10 @@
             "navigation_label": "Navigation",
             "account_label": "Konto",
             "preferences_label": "Einstellungen",
-            "about_label": "Info"
+            "about_label": "Info",
+            "ownfeeds_label": "Eigene Feeds",
+            "profile_label": "Profil bearbeiten",
+            "security_label": "Sicherheit"
         },
         "room": {
             "desc": "Raumname: {}",
@@ -165,7 +168,8 @@
                 "placeholder_name": "Raumname",
                 "placeholder_alias": "Raumalias (öffentliche Raumadresse)",
                 "placeholder_topic": "Raumthema",
-                "submit": "Erstellen"
+                "submit": "Erstellen",
+                "error": "Raum konnte nicht erstellt werden. Bitte versuche es erneut."
             }
         },
         "room_preview": {
@@ -236,6 +240,7 @@
         "answer": "Antworte auf:",
         "roomheader": "Raum: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Neue Dateien zum upload hinzufügen",
             "title_header": "Titel:",
             "upload_start": "Upload wird gestartet...",

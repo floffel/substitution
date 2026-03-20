@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Файл шифрдан шығарылуда...",
+                "decrypt_error": "Файлды жүктеу мүмкін болмады.",
                 "video_desktop_error": "Бейнелерді Linux, Windows немесе MacOS жүйелерінде көрсету мүмкін емес. Бұл мүмкіндікті көргіңіз келсе, Github-та үлес қосуды қарастырыңыз!",
                 "audio_desktop_error": "Аудионы Linux, Windows немесе MacOS жүйелерінде ойнату мүмкін емес."
+            },
+            "comment": {
+                "load_error": "Жауаптарды жүктеу мүмкін болмады."
             },
             "reaction": {
                 "unknown_sender": "белгісіз",
@@ -127,7 +131,10 @@
             "navigation_label": "Навигация",
             "account_label": "Тіркелгі",
             "preferences_label": "Параметрлер",
-            "about_label": "Ақпарат"
+            "about_label": "Ақпарат",
+            "ownfeeds_label": "Жеке ленталар",
+            "profile_label": "Профильді өңдеу",
+            "security_label": "Қауіпсіздік"
         },
         "room": {
             "desc": "Бөлме атауы: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "бөлме атауы",
                 "placeholder_alias": "бөлме бүркеншік аты (ашық бөлме мекенжайы)",
                 "placeholder_topic": "бөлме тақырыбы",
-                "submit": "Жасау"
+                "submit": "Жасау",
+                "error": "Бөлме жасау мүмкін болмады. Қайталап көріңіз."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "Жауап",
         "roomheader": "Бөлме: {}",
         "filemessage": {
+            "video_preview": "Бейне",
             "upload_files": "Жүктеу үшін жаңа файлдар қосыңыз",
             "title_header": "Тақырып:",
             "upload_start": "Жүктеу басталуда...",
@@ -277,6 +286,12 @@
         "feeds_section": "ЛЕНТАЛАР",
         "no_feeds": "Ашық ленталар жоқ",
         "error_start_chat": "Чатты бастау мүмкін болмады: {}"
+    },
+    "startroom_dialog": {
+        "title": "Қарсы алу бөлмесіне қосылу керек пе?",
+        "desc": "Substitution қарсы алу бөлмесіне қосылғыңыз келе ме? Бұл бастау және қоғамдастықпен байланысу үшін тамаша орын.",
+        "join": "Қосылу және жалғастыру",
+        "skip": "Өткізіп жіберу"
     },
     "chat": {
         "title": "Хабарламалар",

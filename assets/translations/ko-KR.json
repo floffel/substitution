@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "파일을 복호화하는 중...",
+                "decrypt_error": "파일을 불러올 수 없습니다.",
                 "video_desktop_error": "Linux, Windows, MacOS에서는 동영상을 표시할 수 없습니다. 이 기능을 보고 싶으시다면 Github에서 기여를 고려해 주세요!",
                 "audio_desktop_error": "Linux, Windows, MacOS에서는 오디오를 재생할 수 없습니다."
+            },
+            "comment": {
+                "load_error": "답글을 불러올 수 없습니다."
             },
             "reaction": {
                 "unknown_sender": "알 수 없음",
@@ -127,7 +131,10 @@
             "navigation_label": "탐색",
             "account_label": "계정",
             "preferences_label": "환경설정",
-            "about_label": "정보"
+            "about_label": "정보",
+            "ownfeeds_label": "내 피드",
+            "profile_label": "프로필 편집",
+            "security_label": "보안"
         },
         "room": {
             "desc": "방 이름: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "방 이름",
                 "placeholder_alias": "방 별칭 (공개 방 주소)",
                 "placeholder_topic": "방 주제",
-                "submit": "만들기"
+                "submit": "만들기",
+                "error": "방을 만들 수 없습니다. 다시 시도해 주세요."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "답변",
         "roomheader": "방: {}",
         "filemessage": {
+            "video_preview": "동영상",
             "upload_files": "업로드할 새 파일 추가",
             "title_header": "제목:",
             "upload_start": "업로드를 시작합니다...",
@@ -277,6 +286,12 @@
         "feeds_section": "피드",
         "no_feeds": "공개 피드 없음",
         "error_start_chat": "채팅을 시작할 수 없습니다: {}"
+    },
+    "startroom_dialog": {
+        "title": "환영 방에 참여하시겠습니까?",
+        "desc": "Substitution 환영 방에 참여하시겠습니까? 시작하고 커뮤니티와 소통하기에 좋은 곳입니다.",
+        "join": "참여 후 계속",
+        "skip": "건너뛰기"
     },
     "chat": {
         "title": "메시지",

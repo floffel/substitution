@@ -131,7 +131,10 @@
             "navigation_label": "Navigation",
             "account_label": "Account",
             "preferences_label": "Preferences",
-            "about_label": "About"
+            "about_label": "About",
+            "ownfeeds_label": "Own Feeds",
+            "profile_label": "Edit Profile",
+            "security_label": "Security"
         },
         "room": {
             "desc": "Roomname: {}",
@@ -165,7 +168,8 @@
                 "placeholder_name": "room name",
                 "placeholder_alias": "room alias (public room adress)",
                 "placeholder_topic": "room topic",
-                "submit": "Create"
+                "submit": "Create",
+                "error": "Could not create room. Please try again."
             }
         },
         "room_preview": {
@@ -236,6 +240,7 @@
         "answer": "Answer",
         "roomheader": "Room: {}",
         "filemessage": {
+            "video_preview": "Video",
             "upload_files": "Add new files for upload",
             "title_header": "Titel:",
             "upload_start": "Starting upload...",

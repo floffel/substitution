@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "ફાઇલ ડિક્રિપ્ટ થઈ રહી છે...",
+                "decrypt_error": "ફાઇલ લોડ કરી શકાઈ નહીં.",
                 "video_desktop_error": "Linux, Windows કે MacOS પર વીડિયો પ્રદર્શિત કરી શકાતા નથી. જો તમે આ સુવિધા જોવા માંગતા હો, તો Github પર યોગદાન આપવાનું વિચારો!",
                 "audio_desktop_error": "Linux, Windows કે MacOS પર ઑડિયો ચલાવી શકાતું નથી."
+            },
+            "comment": {
+                "load_error": "જવાબો લોડ કરી શકાયા નહીં."
             },
             "reaction": {
                 "unknown_sender": "અજ્ઞાત",
@@ -127,7 +131,10 @@
             "navigation_label": "નેવિગેશન",
             "account_label": "એકાઉન્ટ",
             "preferences_label": "પસંદગીઓ",
-            "about_label": "વિશે"
+            "about_label": "વિશે",
+            "ownfeeds_label": "પોતાની ફીડ્સ",
+            "profile_label": "પ્રોફાઇલ સંપાદિત કરો",
+            "security_label": "સુરક્ષા"
         },
         "room": {
             "desc": "રૂમનું નામ: {}",
@@ -161,7 +168,8 @@
                 "placeholder_name": "રૂમનું નામ",
                 "placeholder_alias": "રૂમ ઉપનામ (સાર્વજનિક રૂમ સરનામું)",
                 "placeholder_topic": "રૂમનો વિષય",
-                "submit": "બનાવો"
+                "submit": "બનાવો",
+                "error": "રૂમ બનાવી શકાયો નહીં. કૃપા કરીને ફરી પ્રયાસ કરો."
             }
         },
         "room_preview": {
@@ -232,6 +240,7 @@
         "answer": "જવાબ",
         "roomheader": "રૂમ: {}",
         "filemessage": {
+            "video_preview": "વીડિયો",
             "upload_files": "અપલોડ માટે નવી ફાઇલો ઉમેરો",
             "title_header": "શીર્ષક:",
             "upload_start": "અપલોડ શરૂ થઈ રહ્યું છે...",
@@ -277,6 +286,12 @@
         "feeds_section": "ફીડ્સ",
         "no_feeds": "કોઈ સાર્વજનિક ફીડ્સ નથી",
         "error_start_chat": "ચેટ શરૂ કરી શકાઈ નહીં: {}"
+    },
+    "startroom_dialog": {
+        "title": "સ્વાગત રૂમમાં જોડાશો?",
+        "desc": "શું તમે Substitution સ્વાગત રૂમમાં જોડાવા માંગો છો? શરૂ કરવા અને સમુદાય સાથે જોડાવા માટે આ એક ઉત્તમ સ્થળ છે.",
+        "join": "જોડાઓ અને ચાલુ રાખો",
+        "skip": "છોડો"
     },
     "chat": {
         "title": "સંદેશાઓ",

@@ -43,7 +43,8 @@
         "mixins": { "iconpicker": { "title": "Khetha isithonjana" } },
         "widgets": {
             "filecomponent": { "button": { "close": "vala" } },
-            "filedisplay": { "decrypting": "Ifayela liyavulwa...", "video_desktop_error": "Amavidiyo awakwazi ukuboniswa ku-Linux, Windows noma MacOS. Cabanga ukufaka isandla ku-Github, uma uthanda ukubona lesi sici!", "audio_desktop_error": "Umsindo awukwazi ukudlalwa ku-Linux, Windows noma MacOS." },
+            "filedisplay": { "decrypting": "Ifayela liyavulwa...", "decrypt_error": "Ayikwazanga ukulayisha ifayela.", "video_desktop_error": "Amavidiyo awakwazi ukuboniswa ku-Linux, Windows noma MacOS. Cabanga ukufaka isandla ku-Github, uma uthanda ukubona lesi sici!", "audio_desktop_error": "Umsindo awukwazi ukudlalwa ku-Linux, Windows noma MacOS." },
+            "comment": { "load_error": "Ayikwazanga ukulayisha izimpendulo." },
             "reaction": { "unknown_sender": "akaziwa", "sent_by": "Kuthunyelwe ngu-{}" },
             "videoplayercontrol": { "play": "dlala", "caption_offset": "ukuhlehliswa kwamazwibela", "playback_speed": "isivinini sokudlala" }
         }
@@ -63,13 +64,14 @@
             "logged_in_as": "Ungeniswe njenge-{}", "logout": "Phuma", "logout_confirm": "Uqinisekile ukuthi ufuna ukuphuma?",
             "login": "Ngena", "not_logged_in": "Ngena ukuze uthole zonke izici",
             "home_site_label": "Ikhaya", "feeds_site_label": "Amafidi", "navigation_label": "Ukuzulazula",
-            "account_label": "I-Akhawunti", "preferences_label": "Okuthandwayo", "about_label": "Mayelana"
+            "account_label": "I-Akhawunti", "preferences_label": "Okuthandwayo", "about_label": "Mayelana",
+            "ownfeeds_label": "Amafidi Ami", "profile_label": "Hlela Iphrofayili", "security_label": "Ukuphepha"
         },
         "room": { "desc": "Igama legumbi: {}", "leave": "Shiya igumbi", "join": "Ngena egumbini ulengeze ku-Substitution", "join_short": "Joyina", "permissions": "Izimvume" },
         "dialog": {
             "delete": { "title": "Shiya igumbi {}", "desc": "Uqinisekile ukuthi ufuna ukushiya igumbi {}?", "button": { "submit": "Yebo, lishiye", "cancel": "Cha, khansela" } },
             "add": { "title": "Engeza iseva entsha", "input_placeholder": "Faka ikheli leseva", "button": { "submit": "Engeza" }, "snackbar": { "success": "Iseva yengezwe", "error_homeserver": "Iseva yekhaya efakiwe ayivumelekile" } },
-            "create": { "title": "Dala igumbi elisha", "placeholder_name": "igama legumbi", "placeholder_alias": "inkomba yegumbi (ikheli legumbi lomphakathi)", "placeholder_topic": "isihloko segumbi", "submit": "Dala" }
+            "create": { "title": "Dala igumbi elisha", "placeholder_name": "igama legumbi", "placeholder_alias": "inkomba yegumbi (ikheli legumbi lomphakathi)", "placeholder_topic": "isihloko segumbi", "submit": "Dala", "error": "Ayikwazanga ukudala igumbi. Sicela uzame futhi." }
         },
         "room_preview": { "members": "{} amalungu", "latest_posts": "Okuthunyelwe kwakamuva", "no_posts": "Asikho okuthunyelwe kuleli gumbi okwamanje.", "no_peek": "Umlando waleli gumbi uyimfihlo. Joyina igumbi ukuze ubone okuthunyelwe.", "join_to_see": "Joyina ukuze ubone okuthunyelwe" }
     },
@@ -89,7 +91,7 @@
     },
     "write": {
         "answer": "Phendula", "roomheader": "Igumbi: {}",
-        "filemessage": { "upload_files": "Engeza amafayela amasha okulayisha", "title_header": "Isihloko:", "upload_start": "Ukulayisha kuyaqala...", "upload_file_process": "Ilayisha ifayela {}", "upload_error": "Ukulayisha {} kuhlulekile. Zama futhi ukulayisha?", "upload_file_complete": "Ukulayisha {} kuphelile!", "upload_complete": "Onke amafayela alayishiwe!", "buttons": { "upload_stop": "Khansela", "upload_retry": "Zama Futhi" } },
+        "filemessage": { "video_preview": "Ividiyo", "upload_files": "Engeza amafayela amasha okulayisha", "title_header": "Isihloko:", "upload_start": "Ukulayisha kuyaqala...", "upload_file_process": "Ilayisha ifayela {}", "upload_error": "Ukulayisha {} kuhlulekile. Zama futhi ukulayisha?", "upload_file_complete": "Ukulayisha {} kuphelile!", "upload_complete": "Onke amafayela alayishiwe!", "buttons": { "upload_stop": "Khansela", "upload_retry": "Zama Futhi" } },
         "roomselect": { "type_prompt": "Khetha uhlobo lomlayezo ofuna ukuwuthumela", "room_prompt": "Khetha igumbi ofuna ukuthumela kulo:", "error_no_rooms": "Awujoyinanga magumbi noma awunazo izimvume zokuthumela." },
         "textmessage": { "answer_promt": "Faka umbhalo wakho:", "input_placeholder": "Faka umbhalo wakho lapha...", "send_start": "Ukuthumela umlayezo kuqalile...", "send_failed": "Ukuthumela umlayezo kuhlulekile. Ufuna ukuwuthumela futhi?", "send_complete": "Umlayezo uthunyelwe ngempumelelo!", "buttons": { "send_stop": "Ungazami futhi", "resend": "Zama Futhi" } }
     },
@@ -100,6 +102,12 @@
         "report_reason": "Isizathu", "report_reason_hint": "Lo msebenzisi...", "report_submit": "Thumela",
         "report_success": "Umbiko uthunyelwe. Siyabonga.", "feeds_section": "AMAFIDI", "no_feeds": "Awekho amafidi omphakathi",
         "error_start_chat": "Ayikwazanga ukuqala ingxoxo: {}"
+    },
+    "startroom_dialog": {
+        "title": "Joyina Igumbi Lokwamukela?",
+        "desc": "Ungathanda ukujoyina igumbi lokwamukela le-Substitution? Yindawo enhle yokuqala nokuhlangana nomphakathi.",
+        "join": "Joyina Uqhubeke",
+        "skip": "Yeqa"
     },
     "chat": {
         "title": "Imilayezo", "input_placeholder": "Bhala umlayezo...", "no_messages": "Asikho isalayezo okwamanje. Yithi sawubona!",
