@@ -29,7 +29,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         leading:
             widget.showNavigation
                 ? IconButton(
-                  onPressed: () => context.pop(true),
+                  onPressed: () => context.pop(),
                   icon: const Icon(Icons.arrow_back_rounded),
                 )
                 : null,

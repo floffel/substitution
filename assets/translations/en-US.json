@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "File is being decrypted...",
+                "decrypt_error": "Could not load file.",
                 "video_desktop_error": "Videos can't be displayed on Linux, Windows nor MacOS. Consider contributing on Github, if you like to see this feature!",
                 "audio_desktop_error": "Audio can't be played on Linux, Windows nor MacOS."
+            },
+            "comment": {
+                "load_error": "Could not load replies."
             },
             "reaction": {
                 "unknown_sender": "unknown",

@@ -97,7 +97,7 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     return FutureBuilder(
       future: _reactionsFuture,
       builder: (ctx, snapshot) {
-        if (!snapshot.hasData) {
+        if (snapshot.hasError || !snapshot.hasData) {
           return const SizedBox.shrink();
         }
         return Wrap(

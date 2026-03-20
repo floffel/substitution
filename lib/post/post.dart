@@ -4,6 +4,7 @@ import '/shared/services/loading_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
+import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 @immutable
@@ -84,7 +85,7 @@ class PostState extends State<Post> {
                 const Text("post.error.not_found").tr(),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => context.pop(),
                   child: const Text("Go Back"),
                 ),
               ],

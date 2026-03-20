@@ -96,7 +96,40 @@ class FileDisplayState extends State<FileDisplay> {
                 if (snapshot.hasData) {
                   return Image.network(snapshot.data!, fit: BoxFit.contain);
                 }
-                return const Text("post.widgets.filedisplay.decrypting").tr();
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.broken_image_outlined,
+                          size: 48,
+                          color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          "post.widgets.filedisplay.decrypt_error",
+                        ).tr(),
+                      ],
+                    ),
+                  );
+                }
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "post.widgets.filedisplay.decrypting",
+                      ).tr(),
+                    ],
+                  ),
+                );
               },
             )
             : FutureBuilder(
@@ -106,7 +139,40 @@ class FileDisplayState extends State<FileDisplay> {
                 if (snapshot.hasData) {
                   return imageFromFile(snapshot.data!, fit: BoxFit.contain);
                 }
-                return const Text("post.widgets.filedisplay.decrypting").tr();
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.broken_image_outlined,
+                          size: 48,
+                          color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          "post.widgets.filedisplay.decrypt_error",
+                        ).tr(),
+                      ],
+                    ),
+                  );
+                }
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "post.widgets.filedisplay.decrypting",
+                      ).tr(),
+                    ],
+                  ),
+                );
               },
             ),
       MessageTypes.Video => // Todo: Styling... mby use a card?
@@ -133,7 +199,9 @@ class FileDisplayState extends State<FileDisplay> {
                               ],
                             ),
                           )
-                          : Container(),
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            ),
                 ),
               ],
             ),

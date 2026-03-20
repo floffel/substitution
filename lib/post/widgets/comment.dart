@@ -152,7 +152,10 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                   size: 18,
                   color: colorScheme.onSurfaceVariant,
                 ),
-                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints(
+                  minWidth: 40,
+                  minHeight: 40,
+                ),
                 tooltip: 'Reply',
               ),
               IconButton(
@@ -167,7 +170,10 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                   size: 18,
                   color: colorScheme.onSurfaceVariant,
                 ),
-                visualDensity: VisualDensity.compact,
+                constraints: const BoxConstraints(
+                  minWidth: 40,
+                  minHeight: 40,
+                ),
                 tooltip: 'React',
               ),
             ],
@@ -227,6 +233,18 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                 child: FutureBuilder(
                   future: widget.comments,
                   builder: (ctx, snapshot) {
+                    if (snapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'post.widgets.comment.load_error'.tr(),
+
+                          style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(ctx).colorScheme.error,
+                          ),
+                        ),
+                      );
+                    }
                     return Column(
                       children:
                           ListTile.divideTiles(

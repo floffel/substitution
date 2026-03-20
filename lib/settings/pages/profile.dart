@@ -42,20 +42,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
     try {
       final profile = await client.getProfileFromUserId(client.userID!);
+      if (!mounted) return;
       setState(() {
         _currentProfile = profile;
         _displayNameController.text = profile.displayName ?? '';
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Failed to load profile: $e')));
-      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to load profile: $e')));
     }
   }
 

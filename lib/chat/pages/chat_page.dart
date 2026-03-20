@@ -91,7 +91,9 @@ class _ChatPageState extends State<ChatPage> {
     setState(() => _isLoadingHistory = true);
     try {
       await tl.requestHistory(historyCount: 50);
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('ChatPage: failed to load history: $e');
+    }
     if (mounted) setState(() => _isLoadingHistory = false);
   }
 

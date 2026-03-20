@@ -266,9 +266,33 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
                                   direction:
                                       DismissiblePageDismissDirection.multi,
                                   isFullScreen: true,
-                                  child: Hero(
-                                    tag: itemIndex,
-                                    child: FileDisplay(file: files[itemIndex]),
+                                  child: Stack(
+                                    children: [
+                                      Hero(
+                                        tag: itemIndex,
+                                        child: FileDisplay(
+                                          file: files[itemIndex],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 16,
+                                        right: 16,
+                                        child: SafeArea(
+                                          child: IconButton(
+                                            onPressed:
+                                                () =>
+                                                    Navigator.of(context).pop(),
+                                            style: IconButton.styleFrom(
+                                              backgroundColor: Colors.black54,
+                                              foregroundColor: Colors.white,
+                                            ),
+                                            icon: const Icon(
+                                              Icons.close_rounded,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

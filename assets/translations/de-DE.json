@@ -77,8 +77,12 @@
             },
             "filedisplay": {
                 "decrypting": "Datei wird gerade entschlüsselt",
+                "decrypt_error": "Datei konnte nicht geladen werden.",
                 "video_desktop_error": "Auf Linux, Windows und MacOS können (noch) keine Videos abgespielt werden. Contribute das Feature doch auf Github!",
                 "audio_desktop_error": "Audio kann auf Linux, Windows und MacOS noch nicht abgespielt werden."
+            },
+            "comment": {
+                "load_error": "Antworten konnten nicht geladen werden."
             },
             "reaction": {
                 "unknown_sender": "Unbekannt",

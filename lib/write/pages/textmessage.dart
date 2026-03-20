@@ -101,15 +101,21 @@ class TextMessageWriteState extends State<TextMessageWrite> {
                             child: CircularProgressIndicator(),
                           );
                         }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Icon(
+                              Icons.error_outline,
+                              color: Theme.of(ctx).colorScheme.error,
+                            ),
+                          );
+                        }
                         if (snapshot.data != null) {
                           return PostWidget(
                             event: (snapshot.data!.event),
                             displayEvent: (snapshot.data!.displayEvent),
                           );
                         } else {
-                          return const Text(
-                            "loading",
-                          ).tr(); // or some error/empty state
+                          return const SizedBox.shrink();
                         }
                       },
                     ),
