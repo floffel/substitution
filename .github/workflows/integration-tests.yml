@@ -1149,7 +1149,9 @@ jobs:
             NOTES="Bug fixes and improvements"
           fi
 
-          # Create the release with assets
+          # Delete existing release for this tag if it exists (e.g. from a
+          # force-updated tag), then create a fresh one with assets.
+          gh release delete "$TAG_NAME" --yes 2>/dev/null || true
           gh release create "$TAG_NAME" \
             --title "Substitution $VERSION" \
             --notes "## What's Changed
