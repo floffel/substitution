@@ -1,6 +1,6 @@
 import '/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
-import '/shared/extensions/client_extensions.dart';
 import '/shared/models/substitution_room.dart';
+import '/shared/services/substitution_service.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -34,13 +34,20 @@ class RoomSelectPageState extends State<RoomSelectPage> {
       });
 
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
+    final substitutionService = Provider.of<SubstitutionService>(
+      context,
+      listen: false,
+    );
+    await substitutionService.init();
+
     List<SubstitutionRoom> ret = [];
 
     for (String roomId in await client.getJoinedRooms()) {
-      Room r = client.getRoomById(roomId)!;
-      bool isInSubstitution = await client.isRoomInSubstitution(roomId);
+      Room? r = client.getRoomById(roomId);
+      if (r == null) continue;
 
-      if (!isInSubstitution || r.ownPowerLevel < 50) {
+      if (!substitutionService.isSubstitutionRoom(roomId) ||
+          r.ownPowerLevel < 50) {
         continue;
       }
 
@@ -49,7 +56,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
           name: r.name,
           id: r.id,
           avatarUrl: r.avatar?.toString(),
-          isInsideSubstitution: isInSubstitution,
+          isInsideSubstitution: true,
           joined: true,
         ),
       );
@@ -105,10 +112,12 @@ class RoomSelectPageState extends State<RoomSelectPage> {
                 color: colorScheme.onSurfaceVariant,
               ),
               const SizedBox(width: 8),
-              Text(
-                "write.roomselect.room_prompt".tr(),
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+              Expanded(
+                child: Text(
+                  "write.roomselect.room_prompt".tr(),
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ),
             ],
