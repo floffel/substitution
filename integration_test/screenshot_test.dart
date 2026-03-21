@@ -20,8 +20,11 @@
 library;
 
 import 'dart:io' as dart_io;
+import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -59,10 +62,11 @@ const _phoneHeight = 1920.0;
 
 /// Takes a named screenshot, handling platform differences.
 ///
-/// On non-web platforms that use a software surface (Linux desktop), the
-/// Flutter surface must first be converted to an image. The resulting PNG
-/// bytes are written to `android_playstore/Screenshots/englisch/<name>.png`
-/// when running on a platform with dart:io (i.e. not web).
+/// On desktop platforms (Linux/macOS/Windows) running via `flutter test`,
+/// the integration test binding's `takeScreenshot` platform channel is not
+/// available. In that case we capture the screenshot directly from the
+/// render tree. The resulting PNG bytes are written to
+/// `android_playstore/Screenshots/englisch/<name>.png`.
 Future<void> takeNamedScreenshot(
   IntegrationTestWidgetsFlutterBinding binding,
   WidgetTester tester,
@@ -72,19 +76,24 @@ Future<void> takeNamedScreenshot(
   await tester.pump(const Duration(milliseconds: 500));
   await tester.pump(const Duration(milliseconds: 500));
 
-  // On desktop (Linux/macOS/Windows) the Flutter surface must be converted
-  // to a raster image before takeScreenshot will produce usable bytes.
-  if (!kIsWeb) {
-    await binding.convertFlutterSurfaceToImage();
-    await tester.pump();
+  List<int> bytes;
+  try {
+    // On desktop the Flutter surface must be converted to a raster image
+    // before takeScreenshot will produce usable bytes.
+    if (!kIsWeb) {
+      await binding.convertFlutterSurfaceToImage();
+      await tester.pump();
+    }
+    bytes = await binding.takeScreenshot(name);
+  } on MissingPluginException {
+    // `flutter test -d linux` doesn't provide the captureScreenshot
+    // platform channel. Fall back to capturing from the render tree.
+    debugPrint('SCREENSHOT: takeScreenshot unavailable, using render tree capture');
+    bytes = await _captureFromRenderTree(tester);
   }
-
-  final bytes = await binding.takeScreenshot(name);
 
   // Write the PNG to disk (only works with dart:io).
   if (!kIsWeb) {
-    // Resolve project root relative to the test's working directory.
-    // In CI the CWD is the project root; locally it may vary.
     final outDir = dart_io.Directory('android_playstore/Screenshots/englisch');
     if (!await outDir.exists()) {
       await outDir.create(recursive: true);
@@ -93,6 +102,18 @@ Future<void> takeNamedScreenshot(
     await file.writeAsBytes(bytes);
     debugPrint('SCREENSHOT: Saved ${file.path} (${bytes.length} bytes)');
   }
+}
+
+/// Captures a PNG screenshot directly from the render tree.
+///
+/// This works on all platforms without requiring a platform channel.
+Future<List<int>> _captureFromRenderTree(WidgetTester tester) async {
+  final renderObject = tester.binding.renderViews.first;
+  final layer = renderObject.debugLayer! as OffsetLayer;
+  final image = await layer.toImage(renderObject.paintBounds);
+  final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  image.dispose();
+  return byteData!.buffer.asUint8List();
 }
 
 /// Standard setUp: clean Matrix state, delete old DB, pre-confirm age gate.
