@@ -67,7 +67,18 @@ class _MxcImageState extends State<MxcImage> {
   @override
   void initState() {
     super.initState();
-    _load();
+    // Check memory cache synchronously to avoid a blank frame.
+    final cached = _cache[_cacheKey];
+    if (cached != null) {
+      _imageData = cached;
+      return;
+    }
+    // Defer network loading to after initState so that MediaQuery.of(context)
+    // is available. Calling it synchronously from initState triggers
+    // "dependOnInheritedWidgetOfExactType was called before initState completed".
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _load();
+    });
   }
 
   @override
