@@ -37,10 +37,12 @@ class HomePageState extends State<HomePage> {
     ({Event origEvent, Event displayEvent})
   >
   _pagingController;
+
   /// Whether the page key has been initialized from timelines. Set to true on
   /// the first [_fetchEvents] call because the key depends on an async
   /// timeline fetch that cannot run during controller construction.
   bool pageKeyInitialized = false;
+
   /// Maps room ID to the newest event ID already displayed, used to detect
   /// which events are new when pulling to refresh.
   Map<String, String> firstEventIds = {};
@@ -61,14 +63,15 @@ class HomePageState extends State<HomePage> {
   late final SubstitutionService _substitutionService;
   late final FeedStateCache _feedStateCache;
   late final LoadingService _loadingService;
-  final ScrollController _scrollController = ScrollController();
+  late final ScrollController _scrollController;
   Set<String> _currentRoomIds = {};
   Set<String> get currentRoomIds => _currentRoomIds;
   bool _isFetchingFuture = false;
+
   /// Candidates fetched but not returned in the previous page, keyed by room ID.
   /// Carried forward to avoid re-fetching the same events on the next page.
   Map<String, List<({Event origEvent, Event displayEvent})>>
-      _carryForwardCandidates = {};
+  _carryForwardCandidates = {};
 
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
@@ -186,9 +189,8 @@ class HomePageState extends State<HomePage> {
 
       // sort by original event timestamp so edits don't change feed position
       ret.sort(
-        (a, b) => b.origEvent.originServerTs.compareTo(
-          a.origEvent.originServerTs,
-        ),
+        (a, b) =>
+            b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
       );
 
       // add ret to the top
@@ -334,9 +336,8 @@ class HomePageState extends State<HomePage> {
 
     // Sort all candidates newest first by original timestamp so edits don't change position
     allCandidates.sort(
-      (a, b) => b.origEvent.originServerTs.compareTo(
-        a.origEvent.originServerTs,
-      ),
+      (a, b) =>
+          b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
     );
 
     // Take top N posts for this page
@@ -367,9 +368,10 @@ class HomePageState extends State<HomePage> {
 
       // Carry forward candidates that were fetched but didn't make it into
       // this page (e.g. because another room had newer events).
-      final unused = timelineCandidates
-          .where((e) => !retEventIds.contains(e.origEvent.eventId))
-          .toList();
+      final unused =
+          timelineCandidates
+              .where((e) => !retEventIds.contains(e.origEvent.eventId))
+              .toList();
       if (unused.isNotEmpty) {
         _carryForwardCandidates[timeline.room.id] = unused;
       }
@@ -429,6 +431,14 @@ class HomePageState extends State<HomePage> {
       }
     }
 
+    // Initialize the scroll controller with the cached offset so the list
+    // starts at the correct position from the very first frame — no
+    // post-frame callback or maxScrollExtent race condition needed.
+    _scrollController = ScrollController(
+      initialScrollOffset:
+          restoreFromCache ? _feedStateCache.scrollOffset : 0.0,
+    );
+
     _pagingController = PagingController<
       Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
       ({Event origEvent, Event displayEvent})
@@ -470,18 +480,6 @@ class HomePageState extends State<HomePage> {
         pages: [cached],
         keys: [_feedStateCache.lastPageKey],
       );
-
-      // Restore the scroll offset after the list has been laid out.
-      final targetOffset = _feedStateCache.scrollOffset;
-      if (targetOffset > 0) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted &&
-              _scrollController.hasClients &&
-              _scrollController.position.maxScrollExtent >= targetOffset) {
-            _scrollController.jumpTo(targetOffset);
-          }
-        });
-      }
     }
 
     // Initialize connectivity tracking
