@@ -146,7 +146,7 @@ class VoiceMessageWriteState extends State<VoiceMessageWrite> {
     bool userCancel = false;
 
     while (ret == null && !userCancel) {
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       showSendLoadingDialog(
         context,
@@ -189,7 +189,7 @@ class VoiceMessageWriteState extends State<VoiceMessageWrite> {
       navigator.pop();
 
       if (ret == null) {
-        if (!context.mounted) break;
+        if (!mounted) break;
         userCancel = await showSendErrorDialog(
           context,
           errorMessageKey: 'write.voicemessage.send_failed',

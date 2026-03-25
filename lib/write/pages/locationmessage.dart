@@ -139,7 +139,7 @@ class LocationMessageWriteState extends State<LocationMessageWrite> {
     bool userCancel = false;
 
     while (ret == null && !userCancel) {
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       showSendLoadingDialog(
         context,
@@ -165,7 +165,7 @@ class LocationMessageWriteState extends State<LocationMessageWrite> {
       navigator.pop();
 
       if (ret == null) {
-        if (!context.mounted) break;
+        if (!mounted) break;
         userCancel = await showSendErrorDialog(
           context,
           errorMessageKey: 'write.locationmessage.send_failed',

@@ -72,7 +72,7 @@ class EmoteMessageWriteState extends State<EmoteMessageWrite> {
     bool userCancel = false;
 
     while (ret == null && !userCancel) {
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       showSendLoadingDialog(
         context,
@@ -93,7 +93,7 @@ class EmoteMessageWriteState extends State<EmoteMessageWrite> {
       navigator.pop();
 
       if (ret == null) {
-        if (!context.mounted) break;
+        if (!mounted) break;
         userCancel = await showSendErrorDialog(
           context,
           errorMessageKey: 'write.textmessage.send_failed',

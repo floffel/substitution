@@ -180,7 +180,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
           _extensionOf(f.file),
         ].join(".");
 
-        if (!context.mounted) return;
+        if (!mounted) return;
         showSendLoadingDialog(
           context,
           messageKey: 'write.filemessage.upload_file_process',
@@ -205,7 +205,7 @@ class FileMessageWriteState extends State<FileMessageWrite> {
         navigator.pop(); // pop the Uploading file ... dialog
 
         if (ret == null) {
-          if (!context.mounted) break;
+          if (!mounted) break;
           userCancel = await showSendErrorDialog(
             context,
             errorMessageKey: 'write.filemessage.upload_error',
