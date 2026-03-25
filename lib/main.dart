@@ -213,6 +213,7 @@ void main() async {
           final eventId = state.pathParameters['id']!;
           final roomId = state.uri.queryParameters['room']!;
           return ScaffoldWithNavigation(
+            disableBodyPadding: true,
             extraActions: [
               Builder(
                 builder:

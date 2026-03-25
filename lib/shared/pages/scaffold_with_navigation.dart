@@ -9,10 +9,20 @@ class ScaffoldWithNavigation extends StatefulWidget {
   final Widget child;
   final bool showNavigation;
 
+  /// Extra actions to display in the AppBar before the menu button.
+  final List<Widget>? extraActions;
+
+  /// When true, the body is not wrapped in SafeArea or horizontal padding.
+  /// The child is then responsible for its own padding and safe area handling.
+  /// Use this for pages that need a full-bleed bottom bar (e.g. the post detail page).
+  final bool disableBodyPadding;
+
   const ScaffoldWithNavigation({
     super.key,
     required this.child,
     this.showNavigation = true,
+    this.extraActions,
+    this.disableBodyPadding = false,
   });
 
   @override
@@ -43,6 +53,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         actions:
             widget.showNavigation
                 ? <Widget>[
+                  if (widget.extraActions != null) ...widget.extraActions!,
                   Builder(
                     builder: (context) {
                       return IconButton(
@@ -58,12 +69,15 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
           child: TopLoadingBar(),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: widget.child,
-        ),
-      ),
+      body:
+          widget.disableBodyPadding
+              ? widget.child
+              : SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: widget.child,
+                ),
+              ),
       endDrawer: widget.showNavigation ? const Menu() : null,
     );
   }
