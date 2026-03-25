@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'file_display.dart';
 
 import '/shared/platform/platform.dart';
 import '/shared/utils/file_decryption_helper.dart';
+import '/shared/utils/share_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_player/video_player.dart';
@@ -224,64 +227,53 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
             ) {
               return Column(
                 children: [
-                  Builder(builder: (context) {
-                    final event = files[itemIndex].displayEvent;
-                    final body = event.body;
-                    final filename = event.content.tryGet<String>('filename');
-                    final hasCaption = filename != null && body != filename;
-                    if (!hasCaption) return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                      child: Text(body),
-                    );
-                  }),
+                  Builder(
+                    builder: (context) {
+                      final event = files[itemIndex].displayEvent;
+                      final body = event.body;
+                      final filename = event.content.tryGet<String>('filename');
+                      final hasCaption = filename != null && body != filename;
+                      if (!hasCaption) return const SizedBox.shrink();
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 4.0,
+                        ),
+                        child: Text(body),
+                      );
+                    },
+                  ),
                   Expanded(
                     child: GestureDetector(
                       child: FileDisplay(file: files[itemIndex]),
                       onTap: () {
-                        showDialog<String>(
+                        showGeneralDialog(
                           context: context,
-                          builder:
-                              (BuildContext context) => Dialog(
-                                child: DismissiblePage(
-                                  onDismissed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  // Note that scrollable widget inside DismissiblePage might limit the functionality
-                                  // If scroll direction matches DismissiblePage direction
-                                  direction:
-                                      DismissiblePageDismissDirection.multi,
-                                  isFullScreen: true,
-                                  child: Stack(
-                                    children: [
-                                      Hero(
-                                        tag: itemIndex,
-                                        child: FileDisplay(
-                                          file: files[itemIndex],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 16,
-                                        right: 16,
-                                        child: SafeArea(
-                                          child: IconButton(
-                                            onPressed:
-                                                () =>
-                                                    Navigator.of(context).pop(),
-                                            style: IconButton.styleFrom(
-                                              backgroundColor: Colors.black54,
-                                              foregroundColor: Colors.white,
-                                            ),
-                                            icon: const Icon(
-                                              Icons.close_rounded,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                          barrierDismissible: true,
+                          barrierLabel: 'Dismiss',
+                          barrierColor: Colors.black,
+                          transitionDuration: const Duration(milliseconds: 200),
+                          pageBuilder: (
+                            context,
+                            animation,
+                            secondaryAnimation,
+                          ) {
+                            return _FullscreenImageViewer(
+                              file: files[itemIndex],
+                              parentEvent: widget.event,
+                            );
+                          },
+                          transitionBuilder: (
+                            context,
+                            animation,
+                            secondaryAnimation,
+                            child,
+                          ) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
                         );
                       },
                     ),
@@ -302,6 +294,142 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// Reddit-style fullscreen image viewer with auto-hiding controls.
+///
+/// Controls (close + share) appear on tap and auto-hide after 3 seconds of
+/// inactivity. Supports pinch-to-zoom/pan via [InteractiveViewer] and
+/// swipe-to-dismiss via [DismissiblePage].
+class _FullscreenImageViewer extends StatefulWidget {
+  const _FullscreenImageViewer({required this.file, required this.parentEvent});
+
+  final ({
+    Event origEvent,
+    Event displayEvent,
+    VideoPlayerController? videoController,
+  })
+  file;
+
+  /// The root post event — used to generate a shareable link.
+  final Event parentEvent;
+
+  @override
+  State<_FullscreenImageViewer> createState() => _FullscreenImageViewerState();
+}
+
+class _FullscreenImageViewerState extends State<_FullscreenImageViewer> {
+  bool _controlsVisible = true;
+  Timer? _hideTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startHideTimer();
+  }
+
+  @override
+  void dispose() {
+    _hideTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startHideTimer() {
+    _hideTimer?.cancel();
+    _hideTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() => _controlsVisible = false);
+      }
+    });
+  }
+
+  void _toggleControls() {
+    setState(() {
+      _controlsVisible = !_controlsVisible;
+    });
+    if (_controlsVisible) {
+      _startHideTimer();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: DismissiblePage(
+        onDismissed: () => Navigator.of(context).pop(),
+        direction: DismissiblePageDismissDirection.vertical,
+        isFullScreen: true,
+        backgroundColor: Colors.transparent,
+        child: GestureDetector(
+          onTap: _toggleControls,
+          behavior: HitTestBehavior.opaque,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // --- Image with pinch-to-zoom ---
+              InteractiveViewer(
+                minScale: 1.0,
+                maxScale: 5.0,
+                child: Center(child: FileDisplay(file: widget.file)),
+              ),
+
+              // --- Auto-hiding controls overlay ---
+              AnimatedOpacity(
+                opacity: _controlsVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 250),
+                child: IgnorePointer(
+                  ignoring: !_controlsVisible,
+                  child: Stack(
+                    children: [
+                      // Close button — top right
+                      Positioned(
+                        top: 16,
+                        right: 16,
+                        child: SafeArea(
+                          child: IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.black54,
+                              foregroundColor: Colors.white,
+                            ),
+                            icon: const Icon(Icons.close_rounded),
+                          ),
+                        ),
+                      ),
+                      // Share button — top right, below close
+                      Positioned(
+                        top: 68,
+                        right: 16,
+                        child: SafeArea(
+                          child: IconButton(
+                            onPressed: () {
+                              ShareHelper.sharePost(
+                                context,
+                                widget.parentEvent.eventId,
+                                widget.parentEvent.roomId ?? '',
+                              );
+                              // Reset the auto-hide timer after interaction
+                              _startHideTimer();
+                            },
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.black54,
+                              foregroundColor: Colors.white,
+                            ),
+                            icon: const Icon(Icons.share_outlined),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
