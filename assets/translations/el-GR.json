@@ -93,7 +93,13 @@
                 "caption_offset": "μετατόπιση υποτίτλων",
                 "playback_speed": "ταχύτητα αναπαραγωγής"
             }
-        }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
         "legal": {
@@ -178,6 +184,82 @@
             "no_posts": "Δεν υπάρχουν δημοσιεύσεις ακόμη σε αυτό το δωμάτιο.",
             "no_peek": "Το ιστορικό αυτού του δωματίου είναι ιδιωτικό. Συμμετάσχετε στο δωμάτιο για να δείτε τις δημοσιεύσεις.",
             "join_to_see": "Συμμετάσχετε για να δείτε δημοσιεύσεις"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
         }
     },
     "intro": {
@@ -252,12 +334,22 @@
             "buttons": {
                 "upload_stop": "Ακύρωση",
                 "upload_retry": "Επανάληψη"
-            }
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
         },
         "roomselect": {
             "type_prompt": "Επιλέξτε τον τύπο μηνύματος που θέλετε να δημοσιεύσετε",
             "room_prompt": "Επιλέξτε το δωμάτιο στο οποίο θέλετε να δημοσιεύσετε:",
-            "error_no_rooms": "Δεν έχετε συμμετάσχει σε κανένα δωμάτιο ή δεν έχετε δικαιώματα δημοσίευσης."
+            "error_no_rooms": "Δεν έχετε συμμετάσχει σε κανένα δωμάτιο ή δεν έχετε δικαιώματα δημοσίευσης.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
         },
         "textmessage": {
             "answer_promt": "Εισάγετε το κείμενό σας:",
@@ -268,7 +360,48 @@
             "buttons": {
                 "send_stop": "Χωρίς επανάληψη",
                 "resend": "Επανάληψη"
-            }
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
         }
     },
     "profile": {

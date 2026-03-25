@@ -18,13 +18,32 @@
     },
     "cancel": "Avbryt",
     "feed": {
-        "nav": { "home": "Hem", "discover": "Utforska", "messages": "Meddelanden", "settings": "Inställningar" },
-        "pages": { "home": { "roomlabel": "Rum: {}", "empty": "Ditt flöde är tomt. Följ några rum för att se inlägg!", "empty_button": "Hitta nya rum" } }
+        "nav": {
+            "home": "Hem",
+            "discover": "Utforska",
+            "messages": "Meddelanden",
+            "settings": "Inställningar"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Rum: {}",
+                "empty": "Ditt flöde är tomt. Följ några rum för att se inlägg!",
+                "empty_button": "Hitta nya rum"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Inlägget hittades inte eller är otillgängligt." },
-        "menu": { "report_block": "Rapportera / Blockera" },
-        "e2e": { "encrypted": "Ende-till-ende-krypterat", "unencrypted": "Inte krypterat", "failed": "Dekryptering misslyckades" },
+        "error": {
+            "not_found": "Inlägget hittades inte eller är otillgängligt."
+        },
+        "menu": {
+            "report_block": "Rapportera / Blockera"
+        },
+        "e2e": {
+            "encrypted": "Ende-till-ende-krypterat",
+            "unencrypted": "Inte krypterat",
+            "failed": "Dekryptering misslyckades"
+        },
         "dialog": {
             "report_block_title": "Rapportera innehåll eller blockera användare",
             "report_desc": "Beskriv varför du rapporterar detta innehåll (valfritt).",
@@ -32,77 +51,374 @@
             "report_reason_hint": "Detta innehåll är stötande eftersom...",
             "block_user_checkbox": "Blockera även denna användare",
             "block_user_desc": "Du kommer inte längre se innehåll från {}",
-            "submit": "Skicka", "cancel": "Avbryt",
+            "submit": "Skicka",
+            "cancel": "Avbryt",
             "report_block_success": "Rapport skickad. Tack.",
             "report_block_error": "Ett fel uppstod: {}"
         },
-        "pages": { "post": { "no_comments": "Inga kommentarer ännu." } },
+        "pages": {
+            "post": {
+                "no_comments": "Inga kommentarer ännu."
+            }
+        },
         "continue_thread": "Fortsätt denna tråd...",
         "replying_to": "Svarar till {}",
         "reply_placeholder": "Skriv ett svar...",
-        "mixins": { "iconpicker": { "title": "Välj ikon" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Välj ikon"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "stäng" } },
-            "filedisplay": { "decrypting": "Filen dekrypteras...", "decrypt_error": "Kunde inte ladda filen.", "video_desktop_error": "Videor kan inte visas på Linux, Windows eller MacOS. Överväg att bidra på Github om du vill se denna funktion!", "audio_desktop_error": "Ljud kan inte spelas upp på Linux, Windows eller MacOS." },
-            "comment": { "load_error": "Kunde inte ladda svar." },
-            "reaction": { "unknown_sender": "okänd", "sent_by": "Skickad av {}" },
-            "videoplayercontrol": { "play": "spela", "caption_offset": "undertextförskjutning", "playback_speed": "uppspelningshastighet" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "stäng"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Filen dekrypteras...",
+                "decrypt_error": "Kunde inte ladda filen.",
+                "video_desktop_error": "Videor kan inte visas på Linux, Windows eller MacOS. Överväg att bidra på Github om du vill se denna funktion!",
+                "audio_desktop_error": "Ljud kan inte spelas upp på Linux, Windows eller MacOS."
+            },
+            "comment": {
+                "load_error": "Kunde inte ladda svar."
+            },
+            "reaction": {
+                "unknown_sender": "okänd",
+                "sent_by": "Skickad av {}"
+            },
+            "videoplayercontrol": {
+                "play": "spela",
+                "caption_offset": "undertextförskjutning",
+                "playback_speed": "uppspelningshastighet"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Juridiskt", "tos": "Användarvillkor", "privacy": "Integritetspolicy", "imprint": "Impressum", "licenses": "Öppen källkod-licenser" },
+        "legal": {
+            "title": "Juridiskt",
+            "tos": "Användarvillkor",
+            "privacy": "Integritetspolicy",
+            "imprint": "Impressum",
+            "licenses": "Öppen källkod-licenser"
+        },
         "followfeeds": {
             "filter_server_header": "Välj en server från listan eller lägg till en ny:",
             "filter_rooms_header": "Sök efter ett rum att följa eller sluta följa:",
             "roomname_placeholder": "Ange ett rumsnamn",
-            "buttons": { "add_server": "Lägg till server", "retry": "Försök igen" },
+            "buttons": {
+                "add_server": "Lägg till server",
+                "retry": "Försök igen"
+            },
             "no_rooms_found": "Inga rum hittades för de angivna sökkriterierna.",
             "error_loading_rooms": "Fel: Kunde inte ladda rum"
         },
-        "ownfeeds": { "header": "Hantera dina egna rum", "buttons": { "create_room": "Skapa ett nytt rum" } },
+        "ownfeeds": {
+            "header": "Hantera dina egna rum",
+            "buttons": {
+                "create_room": "Skapa ett nytt rum"
+            }
+        },
         "menu": {
-            "logged_in_as": "Inloggad som {}", "logout": "Logga ut", "logout_confirm": "Är du säker på att du vill logga ut?",
-            "login": "Logga in", "not_logged_in": "Logga in för att få tillgång till alla funktioner",
-            "home_site_label": "Hem", "feeds_site_label": "Flöden", "navigation_label": "Navigering",
-            "account_label": "Konto", "preferences_label": "Inställningar", "about_label": "Om",
+            "logged_in_as": "Inloggad som {}",
+            "logout": "Logga ut",
+            "logout_confirm": "Är du säker på att du vill logga ut?",
+            "login": "Logga in",
+            "not_logged_in": "Logga in för att få tillgång till alla funktioner",
+            "home_site_label": "Hem",
+            "feeds_site_label": "Flöden",
+            "navigation_label": "Navigering",
+            "account_label": "Konto",
+            "preferences_label": "Inställningar",
+            "about_label": "Om",
             "ownfeeds_label": "Egna flöden",
             "profile_label": "Redigera profil",
             "security_label": "Säkerhet"
         },
-        "room": { "desc": "Rumsnamn: {}", "leave": "Lämna rum", "join": "Gå med i rummet och lägg till det i substitution", "join_short": "Gå med", "permissions": "Behörigheter" },
-        "dialog": {
-            "delete": { "title": "Lämna rum {}", "desc": "Är du säker på att du vill lämna rum {}?", "button": { "submit": "Ja, lämna det", "cancel": "Nej, avbryt" } },
-            "add": { "title": "Lägg till en ny server", "input_placeholder": "Ange serveradress", "button": { "submit": "Lägg till" }, "snackbar": { "success": "Servern har lagts till", "error_homeserver": "Den angivna hemservern är inte giltig" } },
-            "create": { "title": "Skapa ett nytt rum", "placeholder_name": "rumsnamn", "placeholder_alias": "rumsalias (offentlig rumsadress)", "placeholder_topic": "rumsämne", "submit": "Skapa", "error": "Kunde inte skapa rum. Försök igen." }
+        "room": {
+            "desc": "Rumsnamn: {}",
+            "leave": "Lämna rum",
+            "join": "Gå med i rummet och lägg till det i substitution",
+            "join_short": "Gå med",
+            "permissions": "Behörigheter"
         },
-        "room_preview": { "members": "{} medlemmar", "latest_posts": "Senaste inlägg", "no_posts": "Inga inlägg ännu i detta rum.", "no_peek": "Detta rums historik är privat. Gå med i rummet för att se dess inlägg.", "join_to_see": "Gå med för att se inlägg" }
+        "dialog": {
+            "delete": {
+                "title": "Lämna rum {}",
+                "desc": "Är du säker på att du vill lämna rum {}?",
+                "button": {
+                    "submit": "Ja, lämna det",
+                    "cancel": "Nej, avbryt"
+                }
+            },
+            "add": {
+                "title": "Lägg till en ny server",
+                "input_placeholder": "Ange serveradress",
+                "button": {
+                    "submit": "Lägg till"
+                },
+                "snackbar": {
+                    "success": "Servern har lagts till",
+                    "error_homeserver": "Den angivna hemservern är inte giltig"
+                }
+            },
+            "create": {
+                "title": "Skapa ett nytt rum",
+                "placeholder_name": "rumsnamn",
+                "placeholder_alias": "rumsalias (offentlig rumsadress)",
+                "placeholder_topic": "rumsämne",
+                "submit": "Skapa",
+                "error": "Kunde inte skapa rum. Försök igen."
+            }
+        },
+        "room_preview": {
+            "members": "{} medlemmar",
+            "latest_posts": "Senaste inlägg",
+            "no_posts": "Inga inlägg ännu i detta rum.",
+            "no_peek": "Detta rums historik är privat. Gå med i rummet för att se dess inlägg.",
+            "join_to_see": "Gå med för att se inlägg"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Toppen, du är redan inloggad. \nDu kan fortsätta med nästa steg",
         "isNotLoggedIn": "Vänligen logga in först",
-        "buttons": { "next": "Nästa", "back": "Tillbaka" },
-        "welcome": { "title": "Välkommen till substitution", "desc": "... det nya sociala nätverket ovanpå matrix-protokollet" },
-        "account": { "title": "Matrix-konton", "desc": "Du måste vara inloggad på ett Matrix-konto på en valfri server för att kunna använda denna app. Om du inte vet hur du skaffar ett, besök denna sida: https://matrix.org/" },
-        "host": { "title": "Välj en värd" },
-        "login": { "title": "Logga in" },
-        "finished": { "title": "Nu kör vi", "desc": "Toppen, du har loggat in. Vi är redo att köra igång. Du kan nu välja om du vill gå med i substitution-välkomstrummet. Kör så, och ha kul!", "buttons": { "add_to_room_and_go": "Gå med i Substitution-rummet & kör!", "go": "Bara kör!" } }
+        "buttons": {
+            "next": "Nästa",
+            "back": "Tillbaka"
+        },
+        "welcome": {
+            "title": "Välkommen till substitution",
+            "desc": "... det nya sociala nätverket ovanpå matrix-protokollet"
+        },
+        "account": {
+            "title": "Matrix-konton",
+            "desc": "Du måste vara inloggad på ett Matrix-konto på en valfri server för att kunna använda denna app. Om du inte vet hur du skaffar ett, besök denna sida: https://matrix.org/"
+        },
+        "host": {
+            "title": "Välj en värd"
+        },
+        "login": {
+            "title": "Logga in"
+        },
+        "finished": {
+            "title": "Nu kör vi",
+            "desc": "Toppen, du har loggat in. Vi är redo att köra igång. Du kan nu välja om du vill gå med i substitution-välkomstrummet. Kör så, och ha kul!",
+            "buttons": {
+                "add_to_room_and_go": "Gå med i Substitution-rummet & kör!",
+                "go": "Bara kör!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Anslut till din hemserver", "body": "Vänligen välj en Matrix-hemserver. Du kan sedan välja att logga in eller bläddra bland offentligt tillgängliga rum.", "inputs": { "homeserver_label": "Adress till din hemserver" }, "buttons": { "login_label": "Logga in" } },
-        "login": { "loading": "Loggar in dig...", "header": "Logga in", "body": "Vänligen logga in med dina uppgifter.", "inputs": { "username_label": "Användarnamn", "password_label": "Lösenord" }, "buttons": { "login_label": "Logga in", "sso_label": "Logga in med {}", "register_web_label": "Registrera" } }
+        "host": {
+            "header": "Anslut till din hemserver",
+            "body": "Vänligen välj en Matrix-hemserver. Du kan sedan välja att logga in eller bläddra bland offentligt tillgängliga rum.",
+            "inputs": {
+                "homeserver_label": "Adress till din hemserver"
+            },
+            "buttons": {
+                "login_label": "Logga in"
+            }
+        },
+        "login": {
+            "loading": "Loggar in dig...",
+            "header": "Logga in",
+            "body": "Vänligen logga in med dina uppgifter.",
+            "inputs": {
+                "username_label": "Användarnamn",
+                "password_label": "Lösenord"
+            },
+            "buttons": {
+                "login_label": "Logga in",
+                "sso_label": "Logga in med {}",
+                "register_web_label": "Registrera"
+            }
+        }
     },
     "write": {
-        "answer": "Svara", "roomheader": "Rum: {}",
-        "filemessage": { "video_preview": "Video", "caption_header": "Bildtext (valfritt):", "upload_files": "Lägg till nya filer att ladda upp", "title_header": "Titel:", "upload_start": "Startar uppladdning...", "upload_file_process": "Laddar upp fil {}", "upload_error": "Uppladdning av {} misslyckades. Försöka igen?", "upload_file_complete": "Uppladdning av {} är klar!", "upload_complete": "Alla filer har laddats upp!", "buttons": { "upload_stop": "Avbryt", "upload_retry": "Försök igen" } },
-        "roomselect": { "type_prompt": "Välj vilken typ av meddelande du vill publicera", "room_prompt": "Välj rummet du vill publicera i:", "error_no_rooms": "Du har inte gått med i några rum eller saknar rättigheter att publicera." },
-        "textmessage": { "answer_promt": "Ange din text:", "input_placeholder": "Skriv din text här...", "send_start": "Börjar skicka meddelandet...", "send_failed": "Sändningen misslyckades. Vill du skicka meddelandet igen?", "send_complete": "Meddelandet har skickats!", "buttons": { "send_stop": "Försök inte igen", "resend": "Försök igen" } }
+        "answer": "Svara",
+        "roomheader": "Rum: {}",
+        "filemessage": {
+            "video_preview": "Video",
+            "caption_header": "Bildtext (valfritt):",
+            "upload_files": "Lägg till nya filer att ladda upp",
+            "title_header": "Titel:",
+            "upload_start": "Startar uppladdning...",
+            "upload_file_process": "Laddar upp fil {}",
+            "upload_error": "Uppladdning av {} misslyckades. Försöka igen?",
+            "upload_file_complete": "Uppladdning av {} är klar!",
+            "upload_complete": "Alla filer har laddats upp!",
+            "buttons": {
+                "upload_stop": "Avbryt",
+                "upload_retry": "Försök igen"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Välj vilken typ av meddelande du vill publicera",
+            "room_prompt": "Välj rummet du vill publicera i:",
+            "error_no_rooms": "Du har inte gått med i några rum eller saknar rättigheter att publicera.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Ange din text:",
+            "input_placeholder": "Skriv din text här...",
+            "send_start": "Börjar skicka meddelandet...",
+            "send_failed": "Sändningen misslyckades. Vill du skicka meddelandet igen?",
+            "send_complete": "Meddelandet har skickats!",
+            "buttons": {
+                "send_stop": "Försök inte igen",
+                "resend": "Försök igen"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Meddelande", "block_title": "Blockera användare", "block_desc": "Blockera {}? Du kommer inte längre se deras innehåll.",
-        "block_confirm": "Blockera", "block_success": "Användaren blockerad.", "block_error": "Kunde inte blockera användaren: {}",
-        "report_title": "Rapportera användare", "report_desc": "Beskriv anledningen till att du rapporterar denna användare.",
-        "report_reason": "Anledning", "report_reason_hint": "Denna användare är...", "report_submit": "Skicka",
-        "report_success": "Rapport skickad. Tack.", "feeds_section": "FLÖDEN", "no_feeds": "Inga offentliga flöden",
+        "send_message": "Meddelande",
+        "block_title": "Blockera användare",
+        "block_desc": "Blockera {}? Du kommer inte längre se deras innehåll.",
+        "block_confirm": "Blockera",
+        "block_success": "Användaren blockerad.",
+        "block_error": "Kunde inte blockera användaren: {}",
+        "report_title": "Rapportera användare",
+        "report_desc": "Beskriv anledningen till att du rapporterar denna användare.",
+        "report_reason": "Anledning",
+        "report_reason_hint": "Denna användare är...",
+        "report_submit": "Skicka",
+        "report_success": "Rapport skickad. Tack.",
+        "feeds_section": "FLÖDEN",
+        "no_feeds": "Inga offentliga flöden",
         "error_start_chat": "Kunde inte starta chatt: {}"
     },
     "startroom_dialog": {
@@ -112,10 +428,16 @@
         "skip": "Hoppa över"
     },
     "chat": {
-        "title": "Meddelanden", "input_placeholder": "Skriv ett meddelande...", "no_messages": "Inga meddelanden ännu. Säg hej!",
-        "no_conversations": "Inga konversationer ännu", "no_conversations_hint": "Besök en användares profil och tryck på 'Meddelande' för att starta en chatt.",
-        "media_message": "Media", "conversation_started": "Konversation startad",
-        "error_loading": "Kunde inte ladda denna konversation.", "error_sending": "Kunde inte skicka meddelandet.", "view_profile": "Visa profil"
+        "title": "Meddelanden",
+        "input_placeholder": "Skriv ett meddelande...",
+        "no_messages": "Inga meddelanden ännu. Säg hej!",
+        "no_conversations": "Inga konversationer ännu",
+        "no_conversations_hint": "Besök en användares profil och tryck på 'Meddelande' för att starta en chatt.",
+        "media_message": "Media",
+        "conversation_started": "Konversation startad",
+        "error_loading": "Kunde inte ladda denna konversation.",
+        "error_sending": "Kunde inte skicka meddelandet.",
+        "view_profile": "Visa profil"
     },
     "help": {
         "title": "Hjälp",

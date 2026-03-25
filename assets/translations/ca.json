@@ -93,7 +93,13 @@
                 "caption_offset": "desfasament dels subtítols",
                 "playback_speed": "velocitat de reproducció"
             }
-        }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
         "legal": {
@@ -178,6 +184,82 @@
             "no_posts": "Encara no hi ha publicacions en aquesta sala.",
             "no_peek": "L'historial d'aquesta sala és privat. Uneix-te per veure les publicacions.",
             "join_to_see": "Uneix-te per veure les publicacions"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
         }
     },
     "intro": {
@@ -252,12 +334,22 @@
             "buttons": {
                 "upload_stop": "Cancel·la",
                 "upload_retry": "Reintenta"
-            }
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
         },
         "roomselect": {
             "type_prompt": "Tria el tipus de missatge que vols publicar",
             "room_prompt": "Tria la sala on vols publicar:",
-            "error_no_rooms": "No t'has unit a cap sala o no tens els permisos per publicar."
+            "error_no_rooms": "No t'has unit a cap sala o no tens els permisos per publicar.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
         },
         "textmessage": {
             "answer_promt": "Introdueix el teu text:",
@@ -268,7 +360,48 @@
             "buttons": {
                 "send_stop": "No reintentis",
                 "resend": "Reintenta"
-            }
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
         }
     },
     "profile": {
@@ -310,17 +443,50 @@
         "title": "Ajuda",
         "subtitle": "Aprèn a utilitzar Substitution",
         "articles": {
-            "what_is_substitution": { "title": "Què és Substitution?", "body": "Substitution és una xarxa social descentralitzada per compartir art i contingut creatiu. A diferència de les xarxes socials tradicionals, Substitution està construïda sobre el protocol Matrix, cosa que significa que cap empresa controla les teves dades ni la xarxa.\n\nLes teves publicacions, missatges i perfil resideixen al servidor Matrix que triïs, no en servidors operats per Substitution. Això et dona plena propietat del teu contingut i la llibertat de canviar de servidor en qualsevol moment.\n\nSubstitution és de codi obert i impulsat per la comunitat. Està dissenyat per substituir les xarxes socials centralitzades per alguna cosa més justa, transparent i propietat dels usuaris." },
-            "what_is_matrix": { "title": "Què és el protocol Matrix?", "body": "Matrix és un protocol de comunicació obert i descentralitzat. Pensa-hi com el correu electrònic: de la mateixa manera que pots enviar un correu de Gmail a Outlook, Matrix et permet comunicar-te entre diferents servidors.\n\nAvantatges clau de Matrix:\n\n- Descentralitzat: Cap punt únic de fallada ni de control. Si un servidor cau, la resta de la xarxa continua funcionant.\n- Federat: Els servidors es comuniquen entre ells. Pots seguir sales i enviar missatges a usuaris de qualsevol servidor Matrix, no només del teu.\n- Codi obert: El protocol i la majoria del programari de servidor són totalment de codi obert.\n- Xifrat: Matrix admet el xifratge d'extrem a extrem per a converses privades.\n\nMés informació a https://matrix.org" },
-            "getting_started": { "title": "Com començar", "body": "Per utilitzar Substitution, necessites un compte Matrix. Aquí tens com començar:\n\n1. Tria un servidor: Un servidor és on resideixen el teu compte i les teves dades. Les opcions populars inclouen matrix.org, però n'hi ha moltes altres. També pots allotjar el teu propi.\n\n2. Crea un compte: Visita el lloc web del servidor que has triat per registrar-te, o utilitza l'enllaç de registre a la pantalla d'inici de sessió.\n\n3. Inicia sessió a Substitution: Obre l'aplicació, introdueix l'adreça del teu servidor i inicia sessió amb el teu nom d'usuari i contrasenya. Alguns servidors també admeten Single Sign-On (SSO).\n\n4. Explora: Un cop hagis iniciat sessió, utilitza la pestanya Descobreix per trobar sales a seguir, o crea la teva pròpia!" },
-            "what_are_rooms": { "title": "Què són les sales?", "body": "Les sales són el nucli de Substitution. Una sala és com un canal o feed on es publica contingut.\n\nCada sala té:\n- Un nom i una descripció opcional\n- Un propietari (el creador) que controla els permisos\n- Membres que segueixen i interactuen amb el contingut\n- Un àlies públic opcional (com un nom d'usuari per a la sala)\n\nLes sales poden ser públiques (qualsevol persona pot trobar-les i unir-s'hi mitjançant el directori de sales) o privades (només per invitació).\n\nEn mode Blog, només els moderadors i administradors poden crear publicacions, mentre que la resta pot comentar i reaccionar. En mode Comunitat, qualsevol membre pot publicar.\n\nLes sales també poden tenir xifratge d'extrem a extrem per a comunitats privades." },
-            "follow_rooms": { "title": "Com seguir sales", "body": "Per descobrir i seguir sales:\n\n1. Ves a la pestanya Descobreix (icona de brúixola a la barra de navegació inferior).\n\n2. Tria un servidor del menú desplegable a la part superior. Pots explorar sales de qualsevol servidor Matrix, no només del teu. Toca 'Afegeix servidor' per afegir-ne de nous.\n\n3. Cerca sales pel nom amb el camp de cerca.\n\n4. Toca una sala per veure'n una vista prèvia amb la descripció, el nombre de membres i les últimes publicacions.\n\n5. Toca 'Uneix-t'hi' per seguir la sala. Les seves publicacions apareixeran al teu feed d'Inici.\n\nPer deixar de seguir una sala, cerca-la a la pestanya Descobreix i toca 'Surt', o ves al feed de la sala i utilitza el menú." },
-            "create_room": { "title": "Com crear una sala", "body": "Per crear la teva pròpia sala:\n\n1. Obre el menú de navegació (menú hamburguesa) i toca 'Els meus feeds', o ves a Configuració i busca les teves sales.\n\n2. Toca 'Crea una nova sala'.\n\n3. Omple els detalls de la sala:\n   - Nom de la sala: El nom visible de la teva sala (obligatori).\n   - Àlies de la sala: Una adreça pública opcional (p. ex., 'el-meu-art'). Això fa que la sala sigui més fàcil de trobar i compartir.\n   - Descripció: Explica de què tracta la teva sala.\n\n4. Configura els paràmetres:\n   - Sala pública: Activa-ho per mostrar la teva sala al directori del servidor perquè qualsevol la pugui trobar. Desactiva-ho per fer-la només per invitació.\n   - Xifratge d'extrem a extrem: Activa-ho per a sales privades. Avís: no es pot desfer!\n   - Mode Blog: Activa-ho perquè només tu (i els moderadors) pugueu publicar. Desactiva-ho per permetre que qualsevol membre publiqui.\n\n5. Opcionalment, convida usuaris cercant el seu nom o identificador Matrix.\n\n6. Toca 'Crea sala' i ja està!\n\nLa sala es crearà al teu servidor, però els usuaris de qualsevol servidor s'hi podran unir." },
-            "manage_room": { "title": "Gestionar les teves sales", "body": "Com a propietari o administrador d'una sala, tens control total sobre les teves sales:\n\nEditar la configuració de la sala:\nVes a 'Els meus feeds' al menú del calaix, després toca la icona de configuració de la teva sala. Aquí pots canviar el nom, la descripció, l'àlies, l'avatar, la visibilitat i el mode de publicació.\n\nGestionar els membres:\nA la configuració de la sala, desplaça't fins a la secció de Membres. Pots:\n- Assignar rols: Promoure membres a Moderador o Administrador, o degradar-los a Usuari.\n- Expulsar membres: Eliminar un membre de la sala (pot tornar-hi si la sala és pública).\n- Bloquejar membres: Bloquejar permanentment un membre de la sala. Pots desbloquejar-lo més tard.\n\nMembres bloquejats:\nConsulta i gestiona els membres bloquejats a la secció 'Membres bloquejats' de la configuració de la sala.\n\nEliminar una sala:\nA la part inferior de la configuració de la sala, trobaràs la Zona de perill amb l'opció d'eliminar la sala. Aquesta acció és permanent i no es pot desfer." },
-            "write_post": { "title": "Com escriure una publicació", "body": "Per crear una nova publicació:\n\n1. Toca el botó + (botó d'acció flotant) a la pestanya Inici.\n\n2. Tria el tipus de publicació:\n   - Publicació de text: Escriu text enriquit amb format (negreta, cursiva, encapçalaments, llistes, enllaços i més).\n   - Publicació de fitxer: Puja imatges, vídeos o altres fitxers amb una llegenda opcional.\n\n3. Selecciona la sala on vols publicar. Només apareixeran les sales on tinguis permís de publicació.\n\n4. Escriu el teu contingut:\n   - Per a publicacions de text, utilitza la barra d'eines de l'editor de text enriquit per al format.\n   - Per a publicacions de fitxer, selecciona els fitxers i opcionalment afegeix un títol i una llegenda.\n\n5. Toca el botó d'enviar per publicar.\n\nLa teva publicació apareixerà al feed de la sala i al feed d'Inici de tothom que segueixi aquella sala." },
-            "share_rooms": { "title": "Compartir sales amb amics", "body": "Pots compartir fàcilment sales, perfils i publicacions amb amics:\n\nCompartir una sala:\nQuan estiguis veient el feed d'una sala, toca la icona de compartir a la barra superior. Això copia o comparteix un enllaç que qualsevol pot obrir.\n\nCompartir un perfil:\nA la pàgina de perfil de qualsevol usuari, toca la icona de compartir per compartir el seu enllaç de perfil.\n\nCompartir una publicació:\nA la pàgina de detall de la publicació, toca la icona de compartir per compartir un enllaç directe a aquella publicació.\n\nQuan el teu amic obri l'enllaç:\n- A la web: S'obre directament a l'aplicació web de Substitution.\n- Al seu telèfon (amb l'aplicació instal·lada): S'obre a l'aplicació Substitution amb una confirmació abans de navegar.\n\nAquesta és la manera més fàcil de convidar amics a les teves sales — simplement comparteix l'enllaç!" },
-            "direct_messages": { "title": "Missatges directes", "body": "Substitution inclou missatgeria directa per a converses privades:\n\n1. Ves al perfil d'un usuari tocant el seu nom o avatar a qualsevol publicació.\n\n2. Toca el botó 'Missatge' al seu perfil.\n\n3. Es crea una sala de xat privada entre tu i aquell usuari.\n\n4. Pots trobar totes les teves converses a la pestanya Missatges (icona de xat a la navegació inferior).\n\nEls missatges directes estan separats de les publicacions de les sales. Són converses privades individuals entre tu i un altre usuari." },
-            "opening_links": { "title": "Obrir enllaços d'amics", "body": "Quan algú comparteix un enllaç de Substitution amb tu, això és el que passa:\n\nEnllaços web (https://app.substitution.art/...):\nS'obren al teu navegador web i carreguen l'aplicació web de Substitution. Pots veure la sala, el perfil o la publicació directament. Inicia sessió si se't demana.\n\nEnllaços d'aplicació (substitution://...):\nSi tens l'aplicació Substitution instal·lada al telèfon, aquests enllaços s'obren directament a l'aplicació. Veuràs un diàleg de confirmació preguntant si vols navegar a la sala, el perfil o la publicació. Toca 'Continua' per continuar o 'Cancel·la' per quedar-te on ets.\n\nAquest pas de confirmació és una mesura de seguretat — assegura que sàpigues on et portarà un enllaç abans de navegar-hi." }
+            "what_is_substitution": {
+                "title": "Què és Substitution?",
+                "body": "Substitution és una xarxa social descentralitzada per compartir art i contingut creatiu. A diferència de les xarxes socials tradicionals, Substitution està construïda sobre el protocol Matrix, cosa que significa que cap empresa controla les teves dades ni la xarxa.\n\nLes teves publicacions, missatges i perfil resideixen al servidor Matrix que triïs, no en servidors operats per Substitution. Això et dona plena propietat del teu contingut i la llibertat de canviar de servidor en qualsevol moment.\n\nSubstitution és de codi obert i impulsat per la comunitat. Està dissenyat per substituir les xarxes socials centralitzades per alguna cosa més justa, transparent i propietat dels usuaris."
+            },
+            "what_is_matrix": {
+                "title": "Què és el protocol Matrix?",
+                "body": "Matrix és un protocol de comunicació obert i descentralitzat. Pensa-hi com el correu electrònic: de la mateixa manera que pots enviar un correu de Gmail a Outlook, Matrix et permet comunicar-te entre diferents servidors.\n\nAvantatges clau de Matrix:\n\n- Descentralitzat: Cap punt únic de fallada ni de control. Si un servidor cau, la resta de la xarxa continua funcionant.\n- Federat: Els servidors es comuniquen entre ells. Pots seguir sales i enviar missatges a usuaris de qualsevol servidor Matrix, no només del teu.\n- Codi obert: El protocol i la majoria del programari de servidor són totalment de codi obert.\n- Xifrat: Matrix admet el xifratge d'extrem a extrem per a converses privades.\n\nMés informació a https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Com començar",
+                "body": "Per utilitzar Substitution, necessites un compte Matrix. Aquí tens com començar:\n\n1. Tria un servidor: Un servidor és on resideixen el teu compte i les teves dades. Les opcions populars inclouen matrix.org, però n'hi ha moltes altres. També pots allotjar el teu propi.\n\n2. Crea un compte: Visita el lloc web del servidor que has triat per registrar-te, o utilitza l'enllaç de registre a la pantalla d'inici de sessió.\n\n3. Inicia sessió a Substitution: Obre l'aplicació, introdueix l'adreça del teu servidor i inicia sessió amb el teu nom d'usuari i contrasenya. Alguns servidors també admeten Single Sign-On (SSO).\n\n4. Explora: Un cop hagis iniciat sessió, utilitza la pestanya Descobreix per trobar sales a seguir, o crea la teva pròpia!"
+            },
+            "what_are_rooms": {
+                "title": "Què són les sales?",
+                "body": "Les sales són el nucli de Substitution. Una sala és com un canal o feed on es publica contingut.\n\nCada sala té:\n- Un nom i una descripció opcional\n- Un propietari (el creador) que controla els permisos\n- Membres que segueixen i interactuen amb el contingut\n- Un àlies públic opcional (com un nom d'usuari per a la sala)\n\nLes sales poden ser públiques (qualsevol persona pot trobar-les i unir-s'hi mitjançant el directori de sales) o privades (només per invitació).\n\nEn mode Blog, només els moderadors i administradors poden crear publicacions, mentre que la resta pot comentar i reaccionar. En mode Comunitat, qualsevol membre pot publicar.\n\nLes sales també poden tenir xifratge d'extrem a extrem per a comunitats privades."
+            },
+            "follow_rooms": {
+                "title": "Com seguir sales",
+                "body": "Per descobrir i seguir sales:\n\n1. Ves a la pestanya Descobreix (icona de brúixola a la barra de navegació inferior).\n\n2. Tria un servidor del menú desplegable a la part superior. Pots explorar sales de qualsevol servidor Matrix, no només del teu. Toca 'Afegeix servidor' per afegir-ne de nous.\n\n3. Cerca sales pel nom amb el camp de cerca.\n\n4. Toca una sala per veure'n una vista prèvia amb la descripció, el nombre de membres i les últimes publicacions.\n\n5. Toca 'Uneix-t'hi' per seguir la sala. Les seves publicacions apareixeran al teu feed d'Inici.\n\nPer deixar de seguir una sala, cerca-la a la pestanya Descobreix i toca 'Surt', o ves al feed de la sala i utilitza el menú."
+            },
+            "create_room": {
+                "title": "Com crear una sala",
+                "body": "Per crear la teva pròpia sala:\n\n1. Obre el menú de navegació (menú hamburguesa) i toca 'Els meus feeds', o ves a Configuració i busca les teves sales.\n\n2. Toca 'Crea una nova sala'.\n\n3. Omple els detalls de la sala:\n   - Nom de la sala: El nom visible de la teva sala (obligatori).\n   - Àlies de la sala: Una adreça pública opcional (p. ex., 'el-meu-art'). Això fa que la sala sigui més fàcil de trobar i compartir.\n   - Descripció: Explica de què tracta la teva sala.\n\n4. Configura els paràmetres:\n   - Sala pública: Activa-ho per mostrar la teva sala al directori del servidor perquè qualsevol la pugui trobar. Desactiva-ho per fer-la només per invitació.\n   - Xifratge d'extrem a extrem: Activa-ho per a sales privades. Avís: no es pot desfer!\n   - Mode Blog: Activa-ho perquè només tu (i els moderadors) pugueu publicar. Desactiva-ho per permetre que qualsevol membre publiqui.\n\n5. Opcionalment, convida usuaris cercant el seu nom o identificador Matrix.\n\n6. Toca 'Crea sala' i ja està!\n\nLa sala es crearà al teu servidor, però els usuaris de qualsevol servidor s'hi podran unir."
+            },
+            "manage_room": {
+                "title": "Gestionar les teves sales",
+                "body": "Com a propietari o administrador d'una sala, tens control total sobre les teves sales:\n\nEditar la configuració de la sala:\nVes a 'Els meus feeds' al menú del calaix, després toca la icona de configuració de la teva sala. Aquí pots canviar el nom, la descripció, l'àlies, l'avatar, la visibilitat i el mode de publicació.\n\nGestionar els membres:\nA la configuració de la sala, desplaça't fins a la secció de Membres. Pots:\n- Assignar rols: Promoure membres a Moderador o Administrador, o degradar-los a Usuari.\n- Expulsar membres: Eliminar un membre de la sala (pot tornar-hi si la sala és pública).\n- Bloquejar membres: Bloquejar permanentment un membre de la sala. Pots desbloquejar-lo més tard.\n\nMembres bloquejats:\nConsulta i gestiona els membres bloquejats a la secció 'Membres bloquejats' de la configuració de la sala.\n\nEliminar una sala:\nA la part inferior de la configuració de la sala, trobaràs la Zona de perill amb l'opció d'eliminar la sala. Aquesta acció és permanent i no es pot desfer."
+            },
+            "write_post": {
+                "title": "Com escriure una publicació",
+                "body": "Per crear una nova publicació:\n\n1. Toca el botó + (botó d'acció flotant) a la pestanya Inici.\n\n2. Tria el tipus de publicació:\n   - Publicació de text: Escriu text enriquit amb format (negreta, cursiva, encapçalaments, llistes, enllaços i més).\n   - Publicació de fitxer: Puja imatges, vídeos o altres fitxers amb una llegenda opcional.\n\n3. Selecciona la sala on vols publicar. Només apareixeran les sales on tinguis permís de publicació.\n\n4. Escriu el teu contingut:\n   - Per a publicacions de text, utilitza la barra d'eines de l'editor de text enriquit per al format.\n   - Per a publicacions de fitxer, selecciona els fitxers i opcionalment afegeix un títol i una llegenda.\n\n5. Toca el botó d'enviar per publicar.\n\nLa teva publicació apareixerà al feed de la sala i al feed d'Inici de tothom que segueixi aquella sala."
+            },
+            "share_rooms": {
+                "title": "Compartir sales amb amics",
+                "body": "Pots compartir fàcilment sales, perfils i publicacions amb amics:\n\nCompartir una sala:\nQuan estiguis veient el feed d'una sala, toca la icona de compartir a la barra superior. Això copia o comparteix un enllaç que qualsevol pot obrir.\n\nCompartir un perfil:\nA la pàgina de perfil de qualsevol usuari, toca la icona de compartir per compartir el seu enllaç de perfil.\n\nCompartir una publicació:\nA la pàgina de detall de la publicació, toca la icona de compartir per compartir un enllaç directe a aquella publicació.\n\nQuan el teu amic obri l'enllaç:\n- A la web: S'obre directament a l'aplicació web de Substitution.\n- Al seu telèfon (amb l'aplicació instal·lada): S'obre a l'aplicació Substitution amb una confirmació abans de navegar.\n\nAquesta és la manera més fàcil de convidar amics a les teves sales — simplement comparteix l'enllaç!"
+            },
+            "direct_messages": {
+                "title": "Missatges directes",
+                "body": "Substitution inclou missatgeria directa per a converses privades:\n\n1. Ves al perfil d'un usuari tocant el seu nom o avatar a qualsevol publicació.\n\n2. Toca el botó 'Missatge' al seu perfil.\n\n3. Es crea una sala de xat privada entre tu i aquell usuari.\n\n4. Pots trobar totes les teves converses a la pestanya Missatges (icona de xat a la navegació inferior).\n\nEls missatges directes estan separats de les publicacions de les sales. Són converses privades individuals entre tu i un altre usuari."
+            },
+            "opening_links": {
+                "title": "Obrir enllaços d'amics",
+                "body": "Quan algú comparteix un enllaç de Substitution amb tu, això és el que passa:\n\nEnllaços web (https://app.substitution.art/...):\nS'obren al teu navegador web i carreguen l'aplicació web de Substitution. Pots veure la sala, el perfil o la publicació directament. Inicia sessió si se't demana.\n\nEnllaços d'aplicació (substitution://...):\nSi tens l'aplicació Substitution instal·lada al telèfon, aquests enllaços s'obren directament a l'aplicació. Veuràs un diàleg de confirmació preguntant si vols navegar a la sala, el perfil o la publicació. Toca 'Continua' per continuar o 'Cancel·la' per quedar-te on ets.\n\nAquest pas de confirmació és una mesura de seguretat — assegura que sàpigues on et portarà un enllaç abans de navegar-hi."
+            }
         }
     },
     "deep_link": {

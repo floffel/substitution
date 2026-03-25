@@ -36,6 +36,12 @@ void main() {
 
     when(() => mockDisplayEvent.room).thenReturn(mockRoom);
     when(() => mockDisplayEvent.messageType).thenReturn(MessageTypes.Text);
+    when(() => mockDisplayEvent.type).thenReturn(EventTypes.Message);
+    when(() => mockDisplayEvent.content).thenReturn({
+      'msgtype': MessageTypes.Text,
+      'body': 'Hello',
+      'formatted_body': '<b>Hello</b>',
+    });
     when(() => mockDisplayEvent.formattedText).thenReturn('<b>Hello</b>');
     when(() => mockDisplayEvent.body).thenReturn('Hello');
     when(

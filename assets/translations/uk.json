@@ -18,13 +18,32 @@
     },
     "cancel": "Скасувати",
     "feed": {
-        "nav": { "home": "Головна", "discover": "Огляд", "messages": "Повідомлення", "settings": "Налаштування" },
-        "pages": { "home": { "roomlabel": "Кімната: {}", "empty": "Ваша стрічка порожня. Підпишіться на кімнати, щоб бачити публікації!", "empty_button": "Знайти нові кімнати" } }
+        "nav": {
+            "home": "Головна",
+            "discover": "Огляд",
+            "messages": "Повідомлення",
+            "settings": "Налаштування"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Кімната: {}",
+                "empty": "Ваша стрічка порожня. Підпишіться на кімнати, щоб бачити публікації!",
+                "empty_button": "Знайти нові кімнати"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Публікацію не знайдено або вона недоступна." },
-        "menu": { "report_block": "Поскаржитися / Заблокувати" },
-        "e2e": { "encrypted": "Наскрізне шифрування", "unencrypted": "Без шифрування", "failed": "Помилка розшифрування" },
+        "error": {
+            "not_found": "Публікацію не знайдено або вона недоступна."
+        },
+        "menu": {
+            "report_block": "Поскаржитися / Заблокувати"
+        },
+        "e2e": {
+            "encrypted": "Наскрізне шифрування",
+            "unencrypted": "Без шифрування",
+            "failed": "Помилка розшифрування"
+        },
         "dialog": {
             "report_block_title": "Поскаржитися на контент або заблокувати користувача",
             "report_desc": "Будь ласка, опишіть, чому ви скаржитесь на цей контент (необов'язково).",
@@ -32,75 +51,374 @@
             "report_reason_hint": "Цей контент є образливим, тому що...",
             "block_user_checkbox": "Також заблокувати цього користувача",
             "block_user_desc": "Ви більше не бачитимете контент від {}",
-            "submit": "Надіслати", "cancel": "Скасувати",
+            "submit": "Надіслати",
+            "cancel": "Скасувати",
             "report_block_success": "Скаргу надіслано. Дякуємо.",
             "report_block_error": "Сталася помилка: {}"
         },
-        "pages": { "post": { "no_comments": "Коментарів ще немає." } },
+        "pages": {
+            "post": {
+                "no_comments": "Коментарів ще немає."
+            }
+        },
         "continue_thread": "Продовжити цю гілку...",
         "replying_to": "Відповідь для {}",
         "reply_placeholder": "Написати відповідь...",
-        "mixins": { "iconpicker": { "title": "Обрати іконку" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Обрати іконку"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "закрити" } },
-            "filedisplay": { "decrypting": "Файл розшифровується...", "decrypt_error": "Не вдалося завантажити файл.", "video_desktop_error": "Відео не може бути відтворене на Linux, Windows та MacOS. Допоможіть нам на Github, якщо хочете бачити цю функцію!", "audio_desktop_error": "Аудіо не може бути відтворене на Linux, Windows та MacOS." },
-            "comment": { "load_error": "Не вдалося завантажити відповіді." },
-            "reaction": { "unknown_sender": "невідомий", "sent_by": "Надіслано {}" },
-            "videoplayercontrol": { "play": "відтворити", "caption_offset": "зміщення субтитрів", "playback_speed": "швидкість відтворення" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "закрити"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Файл розшифровується...",
+                "decrypt_error": "Не вдалося завантажити файл.",
+                "video_desktop_error": "Відео не може бути відтворене на Linux, Windows та MacOS. Допоможіть нам на Github, якщо хочете бачити цю функцію!",
+                "audio_desktop_error": "Аудіо не може бути відтворене на Linux, Windows та MacOS."
+            },
+            "comment": {
+                "load_error": "Не вдалося завантажити відповіді."
+            },
+            "reaction": {
+                "unknown_sender": "невідомий",
+                "sent_by": "Надіслано {}"
+            },
+            "videoplayercontrol": {
+                "play": "відтворити",
+                "caption_offset": "зміщення субтитрів",
+                "playback_speed": "швидкість відтворення"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Правова інформація", "tos": "Умови використання", "privacy": "Політика конфіденційності", "imprint": "Імпресум", "licenses": "Ліцензії відкритого коду" },
+        "legal": {
+            "title": "Правова інформація",
+            "tos": "Умови використання",
+            "privacy": "Політика конфіденційності",
+            "imprint": "Імпресум",
+            "licenses": "Ліцензії відкритого коду"
+        },
         "followfeeds": {
             "filter_server_header": "Оберіть сервер зі списку або додайте новий:",
             "filter_rooms_header": "Знайдіть кімнату, щоб підписатися або відписатися:",
             "roomname_placeholder": "Введіть назву кімнати",
-            "buttons": { "add_server": "Додати сервер", "retry": "Повторити" },
+            "buttons": {
+                "add_server": "Додати сервер",
+                "retry": "Повторити"
+            },
             "no_rooms_found": "Кімнат за вказаними критеріями не знайдено.",
             "error_loading_rooms": "Помилка: не вдалося завантажити кімнати"
         },
-        "ownfeeds": { "header": "Керування вашими кімнатами", "buttons": { "create_room": "Створити нову кімнату" } },
+        "ownfeeds": {
+            "header": "Керування вашими кімнатами",
+            "buttons": {
+                "create_room": "Створити нову кімнату"
+            }
+        },
         "menu": {
-            "logged_in_as": "Ви увійшли як {}", "logout": "Вийти", "logout_confirm": "Ви впевнені, що хочете вийти?",
-            "login": "Увійти", "not_logged_in": "Увійдіть, щоб отримати доступ до всіх функцій",
-            "home_site_label": "Головна", "feeds_site_label": "Стрічки", "navigation_label": "Навігація",
-            "account_label": "Обліковий запис", "preferences_label": "Налаштування", "about_label": "Про додаток",
-            "ownfeeds_label": "Власні стрічки", "profile_label": "Редагувати профіль", "security_label": "Безпека"
+            "logged_in_as": "Ви увійшли як {}",
+            "logout": "Вийти",
+            "logout_confirm": "Ви впевнені, що хочете вийти?",
+            "login": "Увійти",
+            "not_logged_in": "Увійдіть, щоб отримати доступ до всіх функцій",
+            "home_site_label": "Головна",
+            "feeds_site_label": "Стрічки",
+            "navigation_label": "Навігація",
+            "account_label": "Обліковий запис",
+            "preferences_label": "Налаштування",
+            "about_label": "Про додаток",
+            "ownfeeds_label": "Власні стрічки",
+            "profile_label": "Редагувати профіль",
+            "security_label": "Безпека"
         },
-        "room": { "desc": "Назва кімнати: {}", "leave": "Покинути кімнату", "join": "Увійти до кімнати та додати до Substitution", "join_short": "Приєднатися", "permissions": "Дозволи" },
+        "room": {
+            "desc": "Назва кімнати: {}",
+            "leave": "Покинути кімнату",
+            "join": "Увійти до кімнати та додати до Substitution",
+            "join_short": "Приєднатися",
+            "permissions": "Дозволи"
+        },
         "dialog": {
-            "delete": { "title": "Покинути кімнату {}", "desc": "Ви впевнені, що хочете покинути кімнату {}?", "button": { "submit": "Так, покинути", "cancel": "Ні, скасувати" } },
-            "add": { "title": "Додати новий сервер", "input_placeholder": "Введіть адресу сервера", "button": { "submit": "Додати" }, "snackbar": { "success": "Сервер додано", "error_homeserver": "Введений домашній сервер недійсний" } },
-            "create": { "title": "Створити нову кімнату", "placeholder_name": "назва кімнати", "placeholder_alias": "псевдонім кімнати (публічна адреса)", "placeholder_topic": "тема кімнати", "submit": "Створити", "error": "Не вдалося створити кімнату. Спробуйте ще раз." }
+            "delete": {
+                "title": "Покинути кімнату {}",
+                "desc": "Ви впевнені, що хочете покинути кімнату {}?",
+                "button": {
+                    "submit": "Так, покинути",
+                    "cancel": "Ні, скасувати"
+                }
+            },
+            "add": {
+                "title": "Додати новий сервер",
+                "input_placeholder": "Введіть адресу сервера",
+                "button": {
+                    "submit": "Додати"
+                },
+                "snackbar": {
+                    "success": "Сервер додано",
+                    "error_homeserver": "Введений домашній сервер недійсний"
+                }
+            },
+            "create": {
+                "title": "Створити нову кімнату",
+                "placeholder_name": "назва кімнати",
+                "placeholder_alias": "псевдонім кімнати (публічна адреса)",
+                "placeholder_topic": "тема кімнати",
+                "submit": "Створити",
+                "error": "Не вдалося створити кімнату. Спробуйте ще раз."
+            }
         },
-        "room_preview": { "members": "{} учасників", "latest_posts": "Останні публікації", "no_posts": "У цій кімнаті ще немає публікацій.", "no_peek": "Історія цієї кімнати є приватною. Приєднайтесь, щоб побачити публікації.", "join_to_see": "Приєднайтесь, щоб побачити публікації" }
+        "room_preview": {
+            "members": "{} учасників",
+            "latest_posts": "Останні публікації",
+            "no_posts": "У цій кімнаті ще немає публікацій.",
+            "no_peek": "Історія цієї кімнати є приватною. Приєднайтесь, щоб побачити публікації.",
+            "join_to_see": "Приєднайтесь, щоб побачити публікації"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Чудово, ви вже увійшли. \nМожете продовжити з наступними кроками",
         "isNotLoggedIn": "Спочатку увійдіть",
-        "buttons": { "next": "Далі", "back": "Назад" },
-        "welcome": { "title": "Ласкаво просимо до Substitution", "desc": "... нова соціальна мережа на основі протоколу Matrix" },
-        "account": { "title": "Облікові записи Matrix", "desc": "Вам потрібно увійти в обліковий запис Matrix на будь-якому сервері, щоб користуватися цим додатком. Якщо ви не знаєте, як його отримати, відвідайте цей сайт: https://matrix.org/" },
-        "host": { "title": "Оберіть сервер" },
-        "login": { "title": "Вхід" },
-        "finished": { "title": "Поїхали", "desc": "Чудово, ви увійшли. Ми готові почати. Тепер ви можете обрати, чи хочете ви приєднатися до кімнати привітання Substitution. Поїхали, і нехай вам буде весело!", "buttons": { "add_to_room_and_go": "Приєднатися до кімнати Substitution і почати!", "go": "Просто почати!" } }
+        "buttons": {
+            "next": "Далі",
+            "back": "Назад"
+        },
+        "welcome": {
+            "title": "Ласкаво просимо до Substitution",
+            "desc": "... нова соціальна мережа на основі протоколу Matrix"
+        },
+        "account": {
+            "title": "Облікові записи Matrix",
+            "desc": "Вам потрібно увійти в обліковий запис Matrix на будь-якому сервері, щоб користуватися цим додатком. Якщо ви не знаєте, як його отримати, відвідайте цей сайт: https://matrix.org/"
+        },
+        "host": {
+            "title": "Оберіть сервер"
+        },
+        "login": {
+            "title": "Вхід"
+        },
+        "finished": {
+            "title": "Поїхали",
+            "desc": "Чудово, ви увійшли. Ми готові почати. Тепер ви можете обрати, чи хочете ви приєднатися до кімнати привітання Substitution. Поїхали, і нехай вам буде весело!",
+            "buttons": {
+                "add_to_room_and_go": "Приєднатися до кімнати Substitution і почати!",
+                "go": "Просто почати!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Підключення до домашнього сервера", "body": "Оберіть домашній сервер Matrix. Потім ви зможете увійти або переглянути публічні кімнати.", "inputs": { "homeserver_label": "Адреса вашого домашнього сервера" }, "buttons": { "login_label": "Увійти" } },
-        "login": { "loading": "Виконується вхід...", "header": "Вхід", "body": "Увійдіть за допомогою ваших облікових даних.", "inputs": { "username_label": "Ім'я користувача", "password_label": "Пароль" }, "buttons": { "login_label": "Увійти", "sso_label": "Увійти через {}", "register_web_label": "Реєстрація" } }
+        "host": {
+            "header": "Підключення до домашнього сервера",
+            "body": "Оберіть домашній сервер Matrix. Потім ви зможете увійти або переглянути публічні кімнати.",
+            "inputs": {
+                "homeserver_label": "Адреса вашого домашнього сервера"
+            },
+            "buttons": {
+                "login_label": "Увійти"
+            }
+        },
+        "login": {
+            "loading": "Виконується вхід...",
+            "header": "Вхід",
+            "body": "Увійдіть за допомогою ваших облікових даних.",
+            "inputs": {
+                "username_label": "Ім'я користувача",
+                "password_label": "Пароль"
+            },
+            "buttons": {
+                "login_label": "Увійти",
+                "sso_label": "Увійти через {}",
+                "register_web_label": "Реєстрація"
+            }
+        }
     },
     "write": {
-        "answer": "Відповісти", "roomheader": "Кімната: {}",
-        "filemessage": { "video_preview": "Відео", "caption_header": "Підпис (необов'язково):", "upload_files": "Додати нові файли для завантаження", "title_header": "Заголовок:", "upload_start": "Починається завантаження...", "upload_file_process": "Завантаження файлу {}", "upload_error": "Завантаження {} не вдалося. Повторити завантаження?", "upload_file_complete": "Завантаження {} завершено!", "upload_complete": "Усі файли завантажено!", "buttons": { "upload_stop": "Скасувати", "upload_retry": "Повторити" } },
-        "roomselect": { "type_prompt": "Оберіть тип повідомлення, яке хочете опублікувати", "room_prompt": "Оберіть кімнату, в якій хочете опублікувати:", "error_no_rooms": "Ви не приєдналися до жодної кімнати або у вас немає прав для публікації." },
-        "textmessage": { "answer_promt": "Введіть ваш текст:", "input_placeholder": "Введіть текст тут...", "send_start": "Надсилання повідомлення розпочато...", "send_failed": "Не вдалося надіслати повідомлення. Бажаєте повторити?", "send_complete": "Повідомлення успішно надіслано!", "buttons": { "send_stop": "Не повторювати", "resend": "Повторити" } }
+        "answer": "Відповісти",
+        "roomheader": "Кімната: {}",
+        "filemessage": {
+            "video_preview": "Відео",
+            "caption_header": "Підпис (необов'язково):",
+            "upload_files": "Додати нові файли для завантаження",
+            "title_header": "Заголовок:",
+            "upload_start": "Починається завантаження...",
+            "upload_file_process": "Завантаження файлу {}",
+            "upload_error": "Завантаження {} не вдалося. Повторити завантаження?",
+            "upload_file_complete": "Завантаження {} завершено!",
+            "upload_complete": "Усі файли завантажено!",
+            "buttons": {
+                "upload_stop": "Скасувати",
+                "upload_retry": "Повторити"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Оберіть тип повідомлення, яке хочете опублікувати",
+            "room_prompt": "Оберіть кімнату, в якій хочете опублікувати:",
+            "error_no_rooms": "Ви не приєдналися до жодної кімнати або у вас немає прав для публікації.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Введіть ваш текст:",
+            "input_placeholder": "Введіть текст тут...",
+            "send_start": "Надсилання повідомлення розпочато...",
+            "send_failed": "Не вдалося надіслати повідомлення. Бажаєте повторити?",
+            "send_complete": "Повідомлення успішно надіслано!",
+            "buttons": {
+                "send_stop": "Не повторювати",
+                "resend": "Повторити"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Повідомлення", "block_title": "Заблокувати користувача", "block_desc": "Заблокувати {}? Ви більше не бачитимете їхній контент.",
-        "block_confirm": "Заблокувати", "block_success": "Користувача заблоковано.", "block_error": "Не вдалося заблокувати користувача: {}",
-        "report_title": "Поскаржитися на користувача", "report_desc": "Будь ласка, опишіть причину скарги на цього користувача.",
-        "report_reason": "Причина", "report_reason_hint": "Цей користувач...", "report_submit": "Надіслати",
-        "report_success": "Скаргу надіслано. Дякуємо.", "feeds_section": "СТРІЧКИ", "no_feeds": "Немає публічних стрічок",
+        "send_message": "Повідомлення",
+        "block_title": "Заблокувати користувача",
+        "block_desc": "Заблокувати {}? Ви більше не бачитимете їхній контент.",
+        "block_confirm": "Заблокувати",
+        "block_success": "Користувача заблоковано.",
+        "block_error": "Не вдалося заблокувати користувача: {}",
+        "report_title": "Поскаржитися на користувача",
+        "report_desc": "Будь ласка, опишіть причину скарги на цього користувача.",
+        "report_reason": "Причина",
+        "report_reason_hint": "Цей користувач...",
+        "report_submit": "Надіслати",
+        "report_success": "Скаргу надіслано. Дякуємо.",
+        "feeds_section": "СТРІЧКИ",
+        "no_feeds": "Немає публічних стрічок",
         "error_start_chat": "Не вдалося розпочати чат: {}"
     },
     "startroom_dialog": {
@@ -110,10 +428,16 @@
         "skip": "Пропустити"
     },
     "chat": {
-        "title": "Повідомлення", "input_placeholder": "Введіть повідомлення...", "no_messages": "Повідомлень ще немає. Привітайтесь!",
-        "no_conversations": "Розмов ще немає", "no_conversations_hint": "Відвідайте профіль користувача та натисніть «Повідомлення», щоб розпочати чат.",
-        "media_message": "Медіа", "conversation_started": "Розмову розпочато",
-        "error_loading": "Не вдалося завантажити цю розмову.", "error_sending": "Не вдалося надіслати повідомлення.", "view_profile": "Переглянути профіль"
+        "title": "Повідомлення",
+        "input_placeholder": "Введіть повідомлення...",
+        "no_messages": "Повідомлень ще немає. Привітайтесь!",
+        "no_conversations": "Розмов ще немає",
+        "no_conversations_hint": "Відвідайте профіль користувача та натисніть «Повідомлення», щоб розпочати чат.",
+        "media_message": "Медіа",
+        "conversation_started": "Розмову розпочато",
+        "error_loading": "Не вдалося завантажити цю розмову.",
+        "error_sending": "Не вдалося надіслати повідомлення.",
+        "view_profile": "Переглянути профіль"
     },
     "help": {
         "title": "Довідка",

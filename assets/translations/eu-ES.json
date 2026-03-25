@@ -93,7 +93,13 @@
                 "caption_offset": "azpitituluen desplazamendua",
                 "playback_speed": "erreprodukzio-abiadura"
             }
-        }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
         "legal": {
@@ -178,6 +184,82 @@
             "no_posts": "Oraindik argitalpenik ez gela honetan.",
             "no_peek": "Gela honen historia pribatua da. Sartu gelan bere argitalpenak ikusteko.",
             "join_to_see": "Sartu argitalpenak ikusteko"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
         }
     },
     "intro": {
@@ -252,12 +334,22 @@
             "buttons": {
                 "upload_stop": "Utzi",
                 "upload_retry": "Saiatu berriro"
-            }
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
         },
         "roomselect": {
             "type_prompt": "Aukeratu argitaratu nahi duzun mezu mota",
             "room_prompt": "Aukeratu argitaratu nahi duzun gela:",
-            "error_no_rooms": "Ez zara gela batean ere sartu edo ez daukazu argitaratzeko eskubiderik."
+            "error_no_rooms": "Ez zara gela batean ere sartu edo ez daukazu argitaratzeko eskubiderik.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
         },
         "textmessage": {
             "answer_promt": "Sartu zure testua:",
@@ -268,7 +360,48 @@
             "buttons": {
                 "send_stop": "Ez saiatu berriro",
                 "resend": "Saiatu berriro"
-            }
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
         }
     },
     "profile": {
@@ -310,17 +443,50 @@
         "title": "Laguntza",
         "subtitle": "Ikasi Substitution erabiltzen",
         "articles": {
-            "what_is_substitution": { "title": "Zer da Substitution?", "body": "Substitution artea eta eduki sortzailea partekatzeko sare sozial deszentralizatu bat da. Ohiko sare sozialetatik desberdina da, Substitution Matrix protokoloaren gainean eraikita baitago, eta horrek esan nahi du enpresa bakar batek ere ez dituela zure datuak edo sarea kontrolatzen.\n\nZure argitalpenak, mezuak eta profila aukeratzen duzun Matrix hasiera-zerbitzarian daude, ez Substitution-ek kudeatutako zerbitzarietan. Honek zure edukiaren jabetza osoa ematen dizu eta zerbitzariz aldatzeko askatasuna edozein unetan.\n\nSubstitution kode irekikoa da eta komunitateak bultzatzen du. Sare sozial zentralizatuak zerbait zuzenago, gardenago eta erabiltzaileen jabetzakoarekin ordezkatzeko diseinatuta dago." },
-            "what_is_matrix": { "title": "Zer da Matrix protokoloa?", "body": "Matrix komunikazio-protokolo ireki eta deszentralizatu bat da. Pentsatu posta elektronikoa bezala: Gmailtik Outlookera mezu elektroniko bat bidali dezakezun bezala, Matrix-ek zerbitzari ezberdinen artean komunikatzea ahalbidetzen dizu.\n\nMatrix-en abantaila nagusiak:\n\n- Deszentralizatua: Hutsegite- edo kontrol-puntu bakar bat ere ez. Zerbitzari bat erortzen bada, sareko gainerakoak funtzionatzen jarraitzen du.\n- Federatua: Zerbitzariak elkarren artean komunikatzen dira. Edozein Matrix zerbitzaritako gelak jarraitu eta erabiltzaileei mezuak bidali ditzakezu, ez bakarrik zurean.\n- Kode irekia: Protokoloa eta zerbitzari-software gehiena guztiz kode irekikoak dira.\n- Zifratua: Matrix-ek muturretik muturrerako zifratzea onartzen du elkarrizketa pribatuetarako.\n\nInformazio gehiago hemen: https://matrix.org" },
-            "getting_started": { "title": "Nola hasi", "body": "Substitution erabiltzeko, Matrix kontu bat behar duzu. Hona hemen nola hasi:\n\n1. Aukeratu hasiera-zerbitzari bat: Hasiera-zerbitzari bat zure kontua eta datuak dauden tokia da. Aukera ezagunen artean matrix.org dago, baina beste asko ere badaude. Zure kabuz ere ostata dezakezu.\n\n2. Sortu kontu bat: Bisitatu aukeratutako hasiera-zerbitzariaren webgunea erregistratzeko, edo erabili erregistro-esteka saioa hasteko pantailan.\n\n3. Hasi saioa Substitution-en: Ireki aplikazioa, sartu zure hasiera-zerbitzariaren helbidea eta hasi saioa zure erabiltzaile-izen eta pasahitzarekin. Zerbitzari batzuek Single Sign-On (SSO) ere onartzen dute.\n\n4. Esploratu: Saioa hasi ondoren, erabili Esploratu fitxa gelak aurkitzeko, edo sortu zurea!" },
-            "what_are_rooms": { "title": "Zer dira gelak?", "body": "Gelak Substitution-en muina dira. Gela bat kanal edo jario bat bezalakoa da, non edukia argitaratzen den.\n\nGela bakoitzak du:\n- Izen bat eta aukerako deskribapen bat\n- Jabe bat (sortzailea) baimenak kontrolatzen dituena\n- Edukia jarraitzen eta edukiarekin elkarreragiten duten kideak\n- Aukerako alias publiko bat (gelarako erabiltzaile-izen bat bezala)\n\nGelak publikoak izan daitezke (edonork aurki eta sar daiteke gelen direktorioan) edo pribatuak (gonbidapen bidez soilik).\n\nBlog moduan, moderatzaileek eta administratzaileek soilik sor ditzakete argitalpenak, gainerakoek iruzkindu eta erreakzionatu dezaketen bitartean. Komunitate moduan, edozein kidek argitaratu dezake.\n\nGelak muturretik muturrera zifratuta ere egon daitezke komunitate pribatuetarako." },
-            "follow_rooms": { "title": "Nola jarraitu gelak", "body": "Gelak aurkitu eta jarraitzeko:\n\n1. Joan Esploratu fitxara (ipar-orratza ikonoa beheko nabigazio-barran).\n\n2. Aukeratu zerbitzari bat goiko goitibehera-menutik. Edozein Matrix zerbitzaritako gelak arakatu ditzakezu, ez bakarrik zurekoak. Sakatu 'Gehitu zerbitzaria' berriak gehitzeko.\n\n3. Bilatu gelak izenaren arabera bilaketa-eremua erabiliz.\n\n4. Sakatu gela bat aurrebista ikusteko bere deskribapena, kide-kopurua eta azken argitalpenekin.\n\n5. Sakatu 'Sartu' gela jarraitzeko. Bere argitalpenak zure Hasierako jarioan agertuko dira.\n\nGela bat jarraitzeari uzteko, bilatu Esploratu fitxan eta sakatu 'Irten', edo joan gelako jariora eta erabili menua." },
-            "create_room": { "title": "Nola sortu gela bat", "body": "Zure gela propioa sortzeko:\n\n1. Ireki nabigazio-menua (hamburger menua) eta sakatu 'Nire jarioak', edo joan Ezarpenetara eta bilatu zure gelak.\n\n2. Sakatu 'Sortu gela berri bat'.\n\n3. Bete gelaren xehetasunak:\n   - Gela-izena: Zure gelaren bistaratzeko izena (derrigorrezkoa).\n   - Gela-aliasa: Aukerako helbide publiko bat (adib., 'nire-artea'). Honek gela errazago aurkitzea eta partekatzea egiten du.\n   - Deskribapena: Kontatu jendeari zure gela zertaz den.\n\n4. Konfiguratu ezarpenak:\n   - Gela publikoa: Gaitu zure gela zerbitzariaren direktorioan agertzeko, edonork aurkitu dezan. Desgaitu gonbidapenez soilik izateko.\n   - Muturretik muturrerako zifratzea: Gaitu gela pribatuetarako. Abisua: ezin da desegin!\n   - Blog modua: Gaitu zuk (eta moderatzaileek) soilik argitaratu ahal izateko. Desgaitu edozein kidek argitaratu ahal izan dezan.\n\n5. Aukeran, gonbidatu erabiltzaileak haien izena edo Matrix identifikatzailea bilatuz.\n\n6. Sakatu 'Sortu gela' eta kito!\n\nGela zure hasiera-zerbitzarian sortuko da, baina edozein zerbitzaritako erabiltzaileak sar daitezke." },
-            "manage_room": { "title": "Zure gelak kudeatzea", "body": "Gela baten jabe edo administratzaile gisa, kontrol osoa duzu zure gelen gainean:\n\nGelaren ezarpenak editatzea:\nJoan 'Nire jarioak' atalera tiraderan, gero sakatu zure gelako ezarpenen ikonoa. Hemen izena, deskribapena, aliasa, avatarra, ikusgaitasuna eta argitalpen-modua alda ditzakezu.\n\nKideak kudeatzea:\nGelaren ezarpenetan, joan Kideak atalera. Hau egin dezakezu:\n- Rolak esleitu: Kideak Moderatzaile edo Administratzaile izatera igo, edo Erabiltzaile izatera jaitsi.\n- Kideak kanporatu: Kide bat gelatik kendu (berriro sar daiteke gela publikoa bada).\n- Kideak blokeatu: Kide bat betirako blokeatu gelatik. Geroago desblokeatu dezakezu.\n\nBlokeatutako kideak:\nIkusi eta kudeatu blokeatutako kideak gelaren ezarpenetako 'Blokeatutako kideak' atalean.\n\nGela bat ezabatzea:\nGelaren ezarpenen behealdean, Arrisku Gunea aurkituko duzu gela ezabatzeko aukerarekin. Ekintza hau behin betikoa da eta ezin da desegin." },
-            "write_post": { "title": "Nola idatzi argitalpen bat", "body": "Argitalpen berri bat sortzeko:\n\n1. Sakatu + botoia (ekintza-botoi mugikorra) Hasiera fitxan.\n\n2. Aukeratu argitalpen mota:\n   - Testu-argitalpena: Idatzi testu aberastua formatuarekin (lodia, etzana, izenburuak, zerrendak, estekak eta gehiago).\n   - Fitxategi-argitalpena: Igo irudiak, bideoak edo beste fitxategi batzuk aukerako azpitituluarekin.\n\n3. Hautatu argitaratu nahi duzun gela. Argitaratzeko baimena duzun gelak soilik agertuko dira.\n\n4. Idatzi zure edukia:\n   - Testu-argitalpenetarako, erabili testu aberastuko editorearen tresna-barra formatua emateko.\n   - Fitxategi-argitalpenetarako, hautatu fitxategiak eta aukeran gehitu izenburua eta azpititulua.\n\n5. Sakatu bidalketa-botoia argitaratzeko.\n\nZure argitalpena gelako jarioan eta gela hori jarraitzen duen guztien Hasierako jarioan agertuko da." },
-            "share_rooms": { "title": "Gelak lagunekin partekatzea", "body": "Gelak, profilak eta argitalpenak erraz parteka ditzakezu lagunekin:\n\nGela bat partekatzea:\nGelako jarioa ikusten duzunean, sakatu partekatzeko ikonoa goiko barran. Honek edonork ireki dezakeen esteka bat kopiatzen edo partekatzen du.\n\nProfil bat partekatzea:\nEdozein erabiltzaileren profil-orrian, sakatu partekatzeko ikonoa bere profileko esteka partekatzeko.\n\nArgitalpen bat partekatzea:\nArgitalpenaren xehetasun-orrian, sakatu partekatzeko ikonoa argitalpen horretarako zuzeneko esteka partekatzeko.\n\nZure lagunak esteka irekitzean:\n- Webean: Zuzenean irekitzen da Substitution-en web aplikazioan.\n- Bere telefonoan (aplikazioa instalatuta duela): Substitution aplikazioan irekitzen da nabigatu aurretik berrespen batekin.\n\nHau da zure geletara lagunak gonbidatzeko modurik errazena — partekatu esteka besterik ez!" },
-            "direct_messages": { "title": "Mezu zuzenak", "body": "Substitution-ek zuzeneko mezularitza du elkarrizketa pribatuetarako:\n\n1. Joan erabiltzaile baten profilara bere izena edo avatarra sakatuz edozein argitalpenetan.\n\n2. Sakatu 'Mezua' botoia bere profilean.\n\n3. Txat-gela pribatu bat sortzen da zure eta erabiltzaile horren artean.\n\n4. Zure elkarrizketa guztiak Mezuak fitxan aurki ditzakezu (txat-ikonoa beheko nabigazioan).\n\nMezu zuzenak gelako argitalpenetatik bereizita daude. Zu eta beste erabiltzaile baten arteko elkarrizketa pribatu indibidualak dira." },
-            "opening_links": { "title": "Lagunen estekak irekitzea", "body": "Norbaitek Substitution-en esteka bat partekatzen dizunean, hau gertatzen da:\n\nWeb estekak (https://app.substitution.art/...):\nZure web nabigatzailean irekitzen dira eta Substitution-en web aplikazioa kargatzen dute. Gela, profila edo argitalpena zuzenean ikus dezakezu. Hasi saioa eskatzen bazaizu.\n\nAplikazio-estekak (substitution://...):\nSubstitution aplikazioa telefonoan instalatuta baduzu, esteka hauek zuzenean irekitzen dira aplikazioan. Berrespen-elkarrizketa bat ikusiko duzu gelara, profilera edo argitalpenera nabigatu nahi duzun galdetuz. Sakatu 'Jarraitu' aurrera egiteko edo 'Utzi' zauden tokian gelditzeko.\n\nBerrespen-urrats hau segurtasun-neurri bat da — esteka batek nora eramango zaituen ziurtatzen du nabigatu aurretik." }
+            "what_is_substitution": {
+                "title": "Zer da Substitution?",
+                "body": "Substitution artea eta eduki sortzailea partekatzeko sare sozial deszentralizatu bat da. Ohiko sare sozialetatik desberdina da, Substitution Matrix protokoloaren gainean eraikita baitago, eta horrek esan nahi du enpresa bakar batek ere ez dituela zure datuak edo sarea kontrolatzen.\n\nZure argitalpenak, mezuak eta profila aukeratzen duzun Matrix hasiera-zerbitzarian daude, ez Substitution-ek kudeatutako zerbitzarietan. Honek zure edukiaren jabetza osoa ematen dizu eta zerbitzariz aldatzeko askatasuna edozein unetan.\n\nSubstitution kode irekikoa da eta komunitateak bultzatzen du. Sare sozial zentralizatuak zerbait zuzenago, gardenago eta erabiltzaileen jabetzakoarekin ordezkatzeko diseinatuta dago."
+            },
+            "what_is_matrix": {
+                "title": "Zer da Matrix protokoloa?",
+                "body": "Matrix komunikazio-protokolo ireki eta deszentralizatu bat da. Pentsatu posta elektronikoa bezala: Gmailtik Outlookera mezu elektroniko bat bidali dezakezun bezala, Matrix-ek zerbitzari ezberdinen artean komunikatzea ahalbidetzen dizu.\n\nMatrix-en abantaila nagusiak:\n\n- Deszentralizatua: Hutsegite- edo kontrol-puntu bakar bat ere ez. Zerbitzari bat erortzen bada, sareko gainerakoak funtzionatzen jarraitzen du.\n- Federatua: Zerbitzariak elkarren artean komunikatzen dira. Edozein Matrix zerbitzaritako gelak jarraitu eta erabiltzaileei mezuak bidali ditzakezu, ez bakarrik zurean.\n- Kode irekia: Protokoloa eta zerbitzari-software gehiena guztiz kode irekikoak dira.\n- Zifratua: Matrix-ek muturretik muturrerako zifratzea onartzen du elkarrizketa pribatuetarako.\n\nInformazio gehiago hemen: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Nola hasi",
+                "body": "Substitution erabiltzeko, Matrix kontu bat behar duzu. Hona hemen nola hasi:\n\n1. Aukeratu hasiera-zerbitzari bat: Hasiera-zerbitzari bat zure kontua eta datuak dauden tokia da. Aukera ezagunen artean matrix.org dago, baina beste asko ere badaude. Zure kabuz ere ostata dezakezu.\n\n2. Sortu kontu bat: Bisitatu aukeratutako hasiera-zerbitzariaren webgunea erregistratzeko, edo erabili erregistro-esteka saioa hasteko pantailan.\n\n3. Hasi saioa Substitution-en: Ireki aplikazioa, sartu zure hasiera-zerbitzariaren helbidea eta hasi saioa zure erabiltzaile-izen eta pasahitzarekin. Zerbitzari batzuek Single Sign-On (SSO) ere onartzen dute.\n\n4. Esploratu: Saioa hasi ondoren, erabili Esploratu fitxa gelak aurkitzeko, edo sortu zurea!"
+            },
+            "what_are_rooms": {
+                "title": "Zer dira gelak?",
+                "body": "Gelak Substitution-en muina dira. Gela bat kanal edo jario bat bezalakoa da, non edukia argitaratzen den.\n\nGela bakoitzak du:\n- Izen bat eta aukerako deskribapen bat\n- Jabe bat (sortzailea) baimenak kontrolatzen dituena\n- Edukia jarraitzen eta edukiarekin elkarreragiten duten kideak\n- Aukerako alias publiko bat (gelarako erabiltzaile-izen bat bezala)\n\nGelak publikoak izan daitezke (edonork aurki eta sar daiteke gelen direktorioan) edo pribatuak (gonbidapen bidez soilik).\n\nBlog moduan, moderatzaileek eta administratzaileek soilik sor ditzakete argitalpenak, gainerakoek iruzkindu eta erreakzionatu dezaketen bitartean. Komunitate moduan, edozein kidek argitaratu dezake.\n\nGelak muturretik muturrera zifratuta ere egon daitezke komunitate pribatuetarako."
+            },
+            "follow_rooms": {
+                "title": "Nola jarraitu gelak",
+                "body": "Gelak aurkitu eta jarraitzeko:\n\n1. Joan Esploratu fitxara (ipar-orratza ikonoa beheko nabigazio-barran).\n\n2. Aukeratu zerbitzari bat goiko goitibehera-menutik. Edozein Matrix zerbitzaritako gelak arakatu ditzakezu, ez bakarrik zurekoak. Sakatu 'Gehitu zerbitzaria' berriak gehitzeko.\n\n3. Bilatu gelak izenaren arabera bilaketa-eremua erabiliz.\n\n4. Sakatu gela bat aurrebista ikusteko bere deskribapena, kide-kopurua eta azken argitalpenekin.\n\n5. Sakatu 'Sartu' gela jarraitzeko. Bere argitalpenak zure Hasierako jarioan agertuko dira.\n\nGela bat jarraitzeari uzteko, bilatu Esploratu fitxan eta sakatu 'Irten', edo joan gelako jariora eta erabili menua."
+            },
+            "create_room": {
+                "title": "Nola sortu gela bat",
+                "body": "Zure gela propioa sortzeko:\n\n1. Ireki nabigazio-menua (hamburger menua) eta sakatu 'Nire jarioak', edo joan Ezarpenetara eta bilatu zure gelak.\n\n2. Sakatu 'Sortu gela berri bat'.\n\n3. Bete gelaren xehetasunak:\n   - Gela-izena: Zure gelaren bistaratzeko izena (derrigorrezkoa).\n   - Gela-aliasa: Aukerako helbide publiko bat (adib., 'nire-artea'). Honek gela errazago aurkitzea eta partekatzea egiten du.\n   - Deskribapena: Kontatu jendeari zure gela zertaz den.\n\n4. Konfiguratu ezarpenak:\n   - Gela publikoa: Gaitu zure gela zerbitzariaren direktorioan agertzeko, edonork aurkitu dezan. Desgaitu gonbidapenez soilik izateko.\n   - Muturretik muturrerako zifratzea: Gaitu gela pribatuetarako. Abisua: ezin da desegin!\n   - Blog modua: Gaitu zuk (eta moderatzaileek) soilik argitaratu ahal izateko. Desgaitu edozein kidek argitaratu ahal izan dezan.\n\n5. Aukeran, gonbidatu erabiltzaileak haien izena edo Matrix identifikatzailea bilatuz.\n\n6. Sakatu 'Sortu gela' eta kito!\n\nGela zure hasiera-zerbitzarian sortuko da, baina edozein zerbitzaritako erabiltzaileak sar daitezke."
+            },
+            "manage_room": {
+                "title": "Zure gelak kudeatzea",
+                "body": "Gela baten jabe edo administratzaile gisa, kontrol osoa duzu zure gelen gainean:\n\nGelaren ezarpenak editatzea:\nJoan 'Nire jarioak' atalera tiraderan, gero sakatu zure gelako ezarpenen ikonoa. Hemen izena, deskribapena, aliasa, avatarra, ikusgaitasuna eta argitalpen-modua alda ditzakezu.\n\nKideak kudeatzea:\nGelaren ezarpenetan, joan Kideak atalera. Hau egin dezakezu:\n- Rolak esleitu: Kideak Moderatzaile edo Administratzaile izatera igo, edo Erabiltzaile izatera jaitsi.\n- Kideak kanporatu: Kide bat gelatik kendu (berriro sar daiteke gela publikoa bada).\n- Kideak blokeatu: Kide bat betirako blokeatu gelatik. Geroago desblokeatu dezakezu.\n\nBlokeatutako kideak:\nIkusi eta kudeatu blokeatutako kideak gelaren ezarpenetako 'Blokeatutako kideak' atalean.\n\nGela bat ezabatzea:\nGelaren ezarpenen behealdean, Arrisku Gunea aurkituko duzu gela ezabatzeko aukerarekin. Ekintza hau behin betikoa da eta ezin da desegin."
+            },
+            "write_post": {
+                "title": "Nola idatzi argitalpen bat",
+                "body": "Argitalpen berri bat sortzeko:\n\n1. Sakatu + botoia (ekintza-botoi mugikorra) Hasiera fitxan.\n\n2. Aukeratu argitalpen mota:\n   - Testu-argitalpena: Idatzi testu aberastua formatuarekin (lodia, etzana, izenburuak, zerrendak, estekak eta gehiago).\n   - Fitxategi-argitalpena: Igo irudiak, bideoak edo beste fitxategi batzuk aukerako azpitituluarekin.\n\n3. Hautatu argitaratu nahi duzun gela. Argitaratzeko baimena duzun gelak soilik agertuko dira.\n\n4. Idatzi zure edukia:\n   - Testu-argitalpenetarako, erabili testu aberastuko editorearen tresna-barra formatua emateko.\n   - Fitxategi-argitalpenetarako, hautatu fitxategiak eta aukeran gehitu izenburua eta azpititulua.\n\n5. Sakatu bidalketa-botoia argitaratzeko.\n\nZure argitalpena gelako jarioan eta gela hori jarraitzen duen guztien Hasierako jarioan agertuko da."
+            },
+            "share_rooms": {
+                "title": "Gelak lagunekin partekatzea",
+                "body": "Gelak, profilak eta argitalpenak erraz parteka ditzakezu lagunekin:\n\nGela bat partekatzea:\nGelako jarioa ikusten duzunean, sakatu partekatzeko ikonoa goiko barran. Honek edonork ireki dezakeen esteka bat kopiatzen edo partekatzen du.\n\nProfil bat partekatzea:\nEdozein erabiltzaileren profil-orrian, sakatu partekatzeko ikonoa bere profileko esteka partekatzeko.\n\nArgitalpen bat partekatzea:\nArgitalpenaren xehetasun-orrian, sakatu partekatzeko ikonoa argitalpen horretarako zuzeneko esteka partekatzeko.\n\nZure lagunak esteka irekitzean:\n- Webean: Zuzenean irekitzen da Substitution-en web aplikazioan.\n- Bere telefonoan (aplikazioa instalatuta duela): Substitution aplikazioan irekitzen da nabigatu aurretik berrespen batekin.\n\nHau da zure geletara lagunak gonbidatzeko modurik errazena — partekatu esteka besterik ez!"
+            },
+            "direct_messages": {
+                "title": "Mezu zuzenak",
+                "body": "Substitution-ek zuzeneko mezularitza du elkarrizketa pribatuetarako:\n\n1. Joan erabiltzaile baten profilara bere izena edo avatarra sakatuz edozein argitalpenetan.\n\n2. Sakatu 'Mezua' botoia bere profilean.\n\n3. Txat-gela pribatu bat sortzen da zure eta erabiltzaile horren artean.\n\n4. Zure elkarrizketa guztiak Mezuak fitxan aurki ditzakezu (txat-ikonoa beheko nabigazioan).\n\nMezu zuzenak gelako argitalpenetatik bereizita daude. Zu eta beste erabiltzaile baten arteko elkarrizketa pribatu indibidualak dira."
+            },
+            "opening_links": {
+                "title": "Lagunen estekak irekitzea",
+                "body": "Norbaitek Substitution-en esteka bat partekatzen dizunean, hau gertatzen da:\n\nWeb estekak (https://app.substitution.art/...):\nZure web nabigatzailean irekitzen dira eta Substitution-en web aplikazioa kargatzen dute. Gela, profila edo argitalpena zuzenean ikus dezakezu. Hasi saioa eskatzen bazaizu.\n\nAplikazio-estekak (substitution://...):\nSubstitution aplikazioa telefonoan instalatuta baduzu, esteka hauek zuzenean irekitzen dira aplikazioan. Berrespen-elkarrizketa bat ikusiko duzu gelara, profilera edo argitalpenera nabigatu nahi duzun galdetuz. Sakatu 'Jarraitu' aurrera egiteko edo 'Utzi' zauden tokian gelditzeko.\n\nBerrespen-urrats hau segurtasun-neurri bat da — esteka batek nora eramango zaituen ziurtatzen du nabigatu aurretik."
+            }
         }
     },
     "deep_link": {

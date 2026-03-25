@@ -158,8 +158,8 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 500));
 
-      // Find send button (IconButton with send icon)
-      final sendButton = find.byIcon(Icons.send);
+      // Find send button (FilledButton with send_rounded icon)
+      final sendButton = find.byIcon(Icons.send_rounded);
       expect(sendButton, findsOneWidget);
     });
 

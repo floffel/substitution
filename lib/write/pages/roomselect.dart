@@ -8,6 +8,68 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+/// All supported post types the user can select on the room-select page.
+enum PostType { text, photoVideo, location, voice, document, emote, sticker }
+
+extension PostTypeExtension on PostType {
+  String get labelKey {
+    switch (this) {
+      case PostType.text:
+        return 'write.roomselect.type_text';
+      case PostType.photoVideo:
+        return 'write.roomselect.type_photo';
+      case PostType.location:
+        return 'write.roomselect.type_location';
+      case PostType.voice:
+        return 'write.roomselect.type_voice';
+      case PostType.document:
+        return 'write.roomselect.type_document';
+      case PostType.emote:
+        return 'write.roomselect.type_emote';
+      case PostType.sticker:
+        return 'write.roomselect.type_sticker';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case PostType.text:
+        return Icons.post_add_rounded;
+      case PostType.photoVideo:
+        return Icons.add_a_photo_rounded;
+      case PostType.location:
+        return Icons.location_on_rounded;
+      case PostType.voice:
+        return Icons.mic_rounded;
+      case PostType.document:
+        return Icons.attach_file_rounded;
+      case PostType.emote:
+        return Icons.mood_rounded;
+      case PostType.sticker:
+        return Icons.sticky_note_2_rounded;
+    }
+  }
+
+  String routePrefix(String roomId) {
+    switch (this) {
+      case PostType.text:
+        return '/write/$roomId';
+      case PostType.photoVideo:
+        return '/file/$roomId';
+      case PostType.location:
+        return '/location/$roomId';
+      case PostType.voice:
+        return '/voice/$roomId';
+      case PostType.document:
+        return '/document/$roomId';
+      case PostType.emote:
+        return '/emote/$roomId';
+      case PostType.sticker:
+        return '/sticker/$roomId';
+    }
+  }
+}
+
 @immutable
 class RoomSelectPage extends StatefulWidget {
   const RoomSelectPage({super.key});
@@ -23,15 +85,15 @@ class RoomSelectPage extends StatefulWidget {
 class RoomSelectPageState extends State<RoomSelectPage> {
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
-  bool postType = false;
+  PostType _selectedType = PostType.text;
 
-  final WidgetStateProperty<Icon?> postTypeThumbIcon =
-      WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
-        if (states.contains(WidgetState.selected)) {
-          return const Icon(Icons.add_a_photo_rounded);
-        }
-        return const Icon(Icons.post_add_rounded);
-      });
+  late Future<List<SubstitutionRoom>> _joinedRoomsFuture;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _joinedRoomsFuture = _getJoinedRooms();
+  }
 
   Future<List<SubstitutionRoom>> _getJoinedRooms() async {
     final substitutionService = Provider.of<SubstitutionService>(
@@ -71,39 +133,34 @@ class RoomSelectPageState extends State<RoomSelectPage> {
     final colorScheme = theme.colorScheme;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Post type selector card
-        Card(
-          margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.edit_note_rounded,
-                  color: colorScheme.onSurfaceVariant,
+        // Post type selector grid
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
+                child: Text(
+                  'write.roomselect.type_prompt'.tr(),
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: const Text("write.roomselect.type_prompt").tr(),
-                ),
-                Switch(
-                  thumbIcon: postTypeThumbIcon,
-                  value: postType,
-                  onChanged: (bool value) {
-                    setState(() {
-                      postType = value;
-                    });
-                  },
-                ),
-              ],
-            ),
+              ),
+              _PostTypeGrid(
+                selected: _selectedType,
+                onSelect: (type) => setState(() => _selectedType = type),
+              ),
+            ],
           ),
         ),
 
         // Section header
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+          padding: const EdgeInsets.fromLTRB(4, 12, 4, 8),
           child: Row(
             children: [
               Icon(
@@ -127,7 +184,7 @@ class RoomSelectPageState extends State<RoomSelectPage> {
         // Room list
         Expanded(
           child: FutureBuilder(
-            future: _getJoinedRooms(),
+            future: _joinedRoomsFuture,
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -161,22 +218,20 @@ class RoomSelectPageState extends State<RoomSelectPage> {
               }
 
               return ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 0),
                 itemCount: snapshot.data!.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 2),
                 itemBuilder: (ctx, index) {
                   final room = snapshot.data![index];
                   return Card(
                     margin: const EdgeInsets.symmetric(
-                      horizontal: 8,
+                      horizontal: 0,
                       vertical: 2,
                     ),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(22),
                       onTap: () {
-                        context.push(
-                          "/${postType ? "file" : "write"}/${room.id}",
-                        );
+                        context.push(_selectedType.routePrefix(room.id));
                       },
                       child: RoomWidget(room: room),
                     ),
@@ -187,6 +242,63 @@ class RoomSelectPageState extends State<RoomSelectPage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PostTypeGrid extends StatelessWidget {
+  const _PostTypeGrid({required this.selected, required this.onSelect});
+
+  final PostType selected;
+  final ValueChanged<PostType> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children:
+          PostType.values
+              .map(
+                (type) => _PostTypeChip(
+                  type: type,
+                  isSelected: type == selected,
+                  onTap: () => onSelect(type),
+                ),
+              )
+              .toList(),
+    );
+  }
+}
+
+class _PostTypeChip extends StatelessWidget {
+  const _PostTypeChip({
+    required this.type,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final PostType type;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return FilterChip(
+      label: Text(type.labelKey.tr()),
+      avatar: Icon(
+        type.icon,
+        size: 18,
+        color:
+            isSelected
+                ? colorScheme.onSecondaryContainer
+                : colorScheme.onSurfaceVariant,
+      ),
+      selected: isSelected,
+      onSelected: (_) => onTap(),
+      showCheckmark: false,
     );
   }
 }

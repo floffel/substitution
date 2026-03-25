@@ -1,5 +1,6 @@
-import '/post/widgets/post.dart';
-import '/shared/widgets/mxc_image.dart';
+import '/write/widgets/room_header.dart';
+import '/write/widgets/reply_preview.dart';
+import '/write/widgets/send_progress_dialog.dart';
 
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +50,8 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   final FocusNode _editorFocusNode = FocusNode();
   final ScrollController _editorScrollController = ScrollController();
 
+  bool _isEmpty = true;
+
   // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
   // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
   // TODO: this throws an exception if the account data is not valid!
@@ -57,18 +60,118 @@ class TextMessageWriteState extends State<TextMessageWrite> {
       await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_onEditorChanged);
+  }
+
+  void _onEditorChanged() {
+    final empty = _controller.document.isEmpty();
+    if (empty != _isEmpty) {
+      setState(() => _isEmpty = empty);
+    }
+  }
+
+  @override
   void dispose() {
+    _controller.removeListener(_onEditorChanged);
     _controller.dispose();
     _editorFocusNode.dispose();
     _editorScrollController.dispose();
     super.dispose();
   }
 
+  Future<void> _send() async {
+    if (_isEmpty) return;
+
+    final scavMsg = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final goRouter = GoRouter.of(context);
+    debugPrint("started sending message...");
+
+    final deltaJson = _controller.document.toDelta().toJson();
+    final converter = QuillDeltaToHtmlConverter(
+      List.castFrom(deltaJson),
+      ConverterOptions.forEmail(),
+    );
+
+    final html = converter.convert();
+
+    String? ret;
+    var eventThreadId = widget.eventId;
+    bool userCancel = false;
+    // try to send the message as long as it did not succeed or the user did not cancel
+    // TODO: this is the same as in filemessage.dart => make it modular somehow?
+    while (ret == null && !userCancel) {
+      // TODO: make it a mixin, its almost the same as in login.dart
+      if (!context.mounted) return;
+      showSendLoadingDialog(
+        context,
+        messageKey: 'write.textmessage.send_start',
+      );
+
+      if ((await event)?.relationshipType == RelationshipTypes.thread) {
+        // commenting a comment => we can't start a new thread, rather use the existing one
+        eventThreadId = (await event)?.relationshipEventId;
+      }
+
+      ret = await room!.sendEvent(
+        {
+          "body": _controller.document.toPlainText(),
+          'format': 'org.matrix.custom.html',
+          'formatted_body': html,
+          'msgtype': MessageTypes.Text,
+        },
+        threadRootEventId: eventThreadId,
+        inReplyTo: await event,
+      );
+
+      navigator.pop(); // pop the send started window
+
+      if (ret == null) {
+        if (!context.mounted) break;
+        userCancel = await showSendErrorDialog(
+          context,
+          errorMessageKey: 'write.textmessage.send_failed',
+          retryKey: 'write.textmessage.buttons.resend',
+          cancelKey: 'write.textmessage.buttons.send_stop',
+        );
+      } else {
+        if (mounted) {
+          scavMsg.showSnackBar(
+            SnackBar(content: Text('write.textmessage.send_complete'.tr())),
+          );
+        }
+      }
+    }
+
+    if (eventThreadId != null) {
+      Event answerEvent = Event.fromMatrixEvent(
+        await client.getOneRoomEvent(widget.roomId, eventThreadId),
+        room!,
+      );
+      goRouter.go(
+        Uri(
+          path: "/post/${answerEvent.eventId}",
+          queryParameters: {'room': answerEvent.room.id},
+        ).toString(),
+      );
+    } else if (room != null) {
+      goRouter.go("/feed/${room!.id}");
+    } else {
+      goRouter.go("/");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Top section: reply preview + room info (scrollable if needed)
+        // Top section: reply preview + room info
         if (widget.eventId != null || room != null)
           Flexible(
             flex: 0,
@@ -76,66 +179,18 @@ class TextMessageWriteState extends State<TextMessageWrite> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.eventId != null) ...[
-                    const Text("write.answer").tr(),
-                    FutureBuilder<({Event event, Event displayEvent})?>(
-                      future: eventData,
-                      builder: (ctx, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Icon(
-                              Icons.error_outline,
-                              color: Theme.of(ctx).colorScheme.error,
-                            ),
-                          );
-                        }
-                        if (snapshot.data != null) {
-                          return PostWidget(
-                            event: (snapshot.data!.event),
-                            displayEvent: (snapshot.data!.displayEvent),
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    ),
-                  ],
+                  if (widget.eventId != null)
+                    ReplyPreviewWidget(future: eventData),
                   if (room != null) ...[
-                    const Text("write.roomheader").tr(args: [""]),
-                    ListTile(
-                      title: const Text(
-                        'write.roomheader',
-                      ).tr(args: [room!.name]),
-                      subtitle: Text(room!.id),
-                      leading:
-                          room!.avatar != null
-                              ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: ClipOval(
-                                  child: MxcImage(
-                                    uri: room!.avatar!,
-                                    client: client,
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                    isThumbnail: true,
-                                  ),
-                                ),
-                              )
-                              : const Text("error_no_image").tr(),
-                    ),
+                    const SizedBox(height: 4),
+                    RoomHeaderWidget(room: room!),
                   ],
+                  const SizedBox(height: 4),
                 ],
               ),
             ),
           ),
+
         // Formatting toolbar
         quill.QuillSimpleToolbar(
           controller: _controller,
@@ -163,11 +218,12 @@ class TextMessageWriteState extends State<TextMessageWrite> {
           ),
         ),
         const SizedBox(height: 8),
+
         // Editor area (fills remaining space)
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).colorScheme.outline),
+              border: Border.all(color: colorScheme.outline),
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.all(12),
@@ -182,154 +238,18 @@ class TextMessageWriteState extends State<TextMessageWrite> {
             ),
           ),
         ),
-        const SizedBox(height: 8),
-        // Send button row
-        Row(
-          children: [
-            const Spacer(),
-            IconButton(
-              onPressed: () async {
-                final scavMsg = ScaffoldMessenger.of(context);
-                final navigator = Navigator.of(context);
-                final goRouter = GoRouter.of(context);
-                debugPrint("started sending message...");
+        const SizedBox(height: 12),
 
-                final deltaJson = _controller.document.toDelta().toJson();
-                final converter = QuillDeltaToHtmlConverter(
-                  List.castFrom(deltaJson),
-                  ConverterOptions.forEmail(),
-                );
-
-                final html = converter.convert();
-
-                String? ret;
-                var eventThreadId = widget.eventId;
-                bool userCancel = false;
-                // try to send the message as long as it did not succeed or as long as the user did not cancel
-                // TODO: this is the same as in filemessage.dart => make it modular somehow?
-                while (ret == null || userCancel) {
-                  // TODO: make it a mixin, its almost the same as in login.dart
-                  if (!context.mounted) return;
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("loading".tr()),
-                        content: AspectRatio(
-                          aspectRatio: .7,
-                          child: FittedBox(
-                            child: Column(
-                              children: [
-                                const CircularProgressIndicator(),
-                                const Text("write.textmessage.send_start").tr(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-
-                  if ((await event)?.relationshipType ==
-                      RelationshipTypes.thread) {
-                    // commenting a comment => we can't start a new thread, rather use the existing one
-                    eventThreadId = (await event)?.relationshipEventId;
-                  }
-
-                  ret = await room!.sendEvent(
-                    {
-                      "body": _controller.document.toPlainText(),
-                      'format': 'org.matrix.custom.html',
-                      'formatted_body': html,
-                      'msgtype': MessageTypes.Text,
-                    },
-                    threadRootEventId: eventThreadId,
-                    inReplyTo: await event,
-                  );
-
-                  navigator.pop(); // pop the send started window
-
-                  if (ret == null) {
-                    if (!context.mounted) break;
-                    userCancel =
-                        await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("loading").tr(),
-                              content: AspectRatio(
-                                aspectRatio: 1,
-                                child: FittedBox(
-                                  child:
-                                      const Text(
-                                        "write.textmessage.send_failed",
-                                      ).tr(),
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child:
-                                      const Text(
-                                        "write.textmessage.send_stop",
-                                      ).tr(),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(true);
-                                  },
-                                ),
-                                TextButton(
-                                  child:
-                                      const Text(
-                                        "write.textmessage.resend",
-                                      ).tr(),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(false);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ) ??
-                        false;
-                  } else {
-                    if (mounted) {
-                      scavMsg.showSnackBar(
-                        SnackBar(
-                          content:
-                              const Text(
-                                "write.textmessage.send_complete",
-                              ).tr(),
-                        ),
-                      );
-                    }
-                  }
-                }
-
-                if (eventThreadId != null) {
-                  Event answerEvent = Event.fromMatrixEvent(
-                    await client.getOneRoomEvent(
-                      widget.roomId,
-                      (eventThreadId),
-                    ),
-                    room!,
-                  );
-
-                  goRouter.go(
-                    Uri(
-                      path: "/post/${answerEvent.eventId}",
-                      queryParameters: {'room': answerEvent.room.id},
-                    ).toString(),
-                  );
-                } else if (room != null) {
-                  goRouter.go("/feed/${room!.id}");
-                } else {
-                  goRouter.go("/");
-                }
-              },
-              icon: const Icon(Icons.send),
-            ),
-          ],
+        // Send button
+        FilledButton.icon(
+          onPressed: _isEmpty ? null : _send,
+          icon: const Icon(Icons.send_rounded),
+          label: Text('write.textmessage.send_button'.tr()),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+          ),
         ),
+        const SizedBox(height: 4),
       ],
     );
   }

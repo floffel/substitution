@@ -18,13 +18,32 @@
     },
     "cancel": "Zrušiť",
     "feed": {
-        "nav": { "home": "Domov", "discover": "Objavovať", "messages": "Správy", "settings": "Nastavenia" },
-        "pages": { "home": { "roomlabel": "Miestnosť: {}", "empty": "Váš kanál je prázdny. Sledujte miestnosti, aby ste videli príspevky!", "empty_button": "Nájsť nové miestnosti" } }
+        "nav": {
+            "home": "Domov",
+            "discover": "Objavovať",
+            "messages": "Správy",
+            "settings": "Nastavenia"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Miestnosť: {}",
+                "empty": "Váš kanál je prázdny. Sledujte miestnosti, aby ste videli príspevky!",
+                "empty_button": "Nájsť nové miestnosti"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Príspevok nebol nájdený alebo nie je dostupný." },
-        "menu": { "report_block": "Nahlásiť / Zablokovať" },
-        "e2e": { "encrypted": "End-to-end šifrované", "unencrypted": "Nešifrované", "failed": "Dešifrovanie zlyhalo" },
+        "error": {
+            "not_found": "Príspevok nebol nájdený alebo nie je dostupný."
+        },
+        "menu": {
+            "report_block": "Nahlásiť / Zablokovať"
+        },
+        "e2e": {
+            "encrypted": "End-to-end šifrované",
+            "unencrypted": "Nešifrované",
+            "failed": "Dešifrovanie zlyhalo"
+        },
         "dialog": {
             "report_block_title": "Nahlásiť obsah alebo zablokovať používateľa",
             "report_desc": "Popíšte, prečo nahlasujete tento obsah (voliteľné).",
@@ -32,75 +51,374 @@
             "report_reason_hint": "Tento obsah je urážlivý, pretože...",
             "block_user_checkbox": "Tiež zablokovať tohto používateľa",
             "block_user_desc": "Už neuvidíte obsah od {}",
-            "submit": "Odoslať", "cancel": "Zrušiť",
+            "submit": "Odoslať",
+            "cancel": "Zrušiť",
             "report_block_success": "Nahlásenie bolo odoslané. Ďakujeme.",
             "report_block_error": "Vyskytla sa chyba: {}"
         },
-        "pages": { "post": { "no_comments": "Zatiaľ žiadne komentáre." } },
+        "pages": {
+            "post": {
+                "no_comments": "Zatiaľ žiadne komentáre."
+            }
+        },
         "continue_thread": "Pokračovať v diskusii...",
         "replying_to": "Odpoveď pre {}",
         "reply_placeholder": "Napíšte odpoveď...",
-        "mixins": { "iconpicker": { "title": "Vybrať ikonu" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Vybrať ikonu"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "zavrieť" } },
-            "filedisplay": { "decrypting": "Súbor sa dešifruje...", "decrypt_error": "Súbor sa nepodarilo načítať.", "video_desktop_error": "Videá nie je možné prehrávať na Linux, Windows ani MacOS. Prispejte na Github, ak chcete vidieť túto funkciu!", "audio_desktop_error": "Zvuk nie je možné prehrávať na Linux, Windows ani MacOS." },
-            "comment": { "load_error": "Nepodarilo sa načítať odpovede." },
-            "reaction": { "unknown_sender": "neznámy", "sent_by": "Odoslal/a {}" },
-            "videoplayercontrol": { "play": "prehrať", "caption_offset": "posun titulkov", "playback_speed": "rýchlosť prehrávania" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "zavrieť"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Súbor sa dešifruje...",
+                "decrypt_error": "Súbor sa nepodarilo načítať.",
+                "video_desktop_error": "Videá nie je možné prehrávať na Linux, Windows ani MacOS. Prispejte na Github, ak chcete vidieť túto funkciu!",
+                "audio_desktop_error": "Zvuk nie je možné prehrávať na Linux, Windows ani MacOS."
+            },
+            "comment": {
+                "load_error": "Nepodarilo sa načítať odpovede."
+            },
+            "reaction": {
+                "unknown_sender": "neznámy",
+                "sent_by": "Odoslal/a {}"
+            },
+            "videoplayercontrol": {
+                "play": "prehrať",
+                "caption_offset": "posun titulkov",
+                "playback_speed": "rýchlosť prehrávania"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Právne informácie", "tos": "Podmienky služby", "privacy": "Zásady ochrany osobných údajov", "imprint": "Impressum", "licenses": "Licencie open source" },
+        "legal": {
+            "title": "Právne informácie",
+            "tos": "Podmienky služby",
+            "privacy": "Zásady ochrany osobných údajov",
+            "imprint": "Impressum",
+            "licenses": "Licencie open source"
+        },
         "followfeeds": {
             "filter_server_header": "Vyberte server zo zoznamu alebo pridajte nový:",
             "filter_rooms_header": "Vyhľadajte miestnosť na sledovanie alebo zrušenie sledovania:",
             "roomname_placeholder": "Zadajte názov miestnosti",
-            "buttons": { "add_server": "Pridať server", "retry": "Skúsiť znova" },
+            "buttons": {
+                "add_server": "Pridať server",
+                "retry": "Skúsiť znova"
+            },
             "no_rooms_found": "Pre zadané kritériá vyhľadávania neboli nájdené žiadne miestnosti.",
             "error_loading_rooms": "Chyba: Nepodarilo sa načítať miestnosti"
         },
-        "ownfeeds": { "header": "Spravujte svoje miestnosti", "buttons": { "create_room": "Vytvoriť novú miestnosť" } },
+        "ownfeeds": {
+            "header": "Spravujte svoje miestnosti",
+            "buttons": {
+                "create_room": "Vytvoriť novú miestnosť"
+            }
+        },
         "menu": {
-            "logged_in_as": "Prihlásený ako {}", "logout": "Odhlásiť sa", "logout_confirm": "Ste si istý, že sa chcete odhlásiť?",
-            "login": "Prihlásiť sa", "not_logged_in": "Prihláste sa pre prístup ku všetkým funkciám",
-            "home_site_label": "Domov", "feeds_site_label": "Kanály", "navigation_label": "Navigácia",
-            "account_label": "Účet", "preferences_label": "Predvoľby", "about_label": "O aplikácii",
-            "ownfeeds_label": "Vlastné kanály", "profile_label": "Upraviť profil", "security_label": "Bezpečnosť"
+            "logged_in_as": "Prihlásený ako {}",
+            "logout": "Odhlásiť sa",
+            "logout_confirm": "Ste si istý, že sa chcete odhlásiť?",
+            "login": "Prihlásiť sa",
+            "not_logged_in": "Prihláste sa pre prístup ku všetkým funkciám",
+            "home_site_label": "Domov",
+            "feeds_site_label": "Kanály",
+            "navigation_label": "Navigácia",
+            "account_label": "Účet",
+            "preferences_label": "Predvoľby",
+            "about_label": "O aplikácii",
+            "ownfeeds_label": "Vlastné kanály",
+            "profile_label": "Upraviť profil",
+            "security_label": "Bezpečnosť"
         },
-        "room": { "desc": "Názov miestnosti: {}", "leave": "Opustiť miestnosť", "join": "Vstúpiť do miestnosti a pridať ju do substitution", "join_short": "Vstúpiť", "permissions": "Oprávnenia" },
+        "room": {
+            "desc": "Názov miestnosti: {}",
+            "leave": "Opustiť miestnosť",
+            "join": "Vstúpiť do miestnosti a pridať ju do substitution",
+            "join_short": "Vstúpiť",
+            "permissions": "Oprávnenia"
+        },
         "dialog": {
-            "delete": { "title": "Opustiť miestnosť {}", "desc": "Ste si istý, že chcete opustiť miestnosť {}?", "button": { "submit": "Áno, opustiť", "cancel": "Nie, zrušiť" } },
-            "add": { "title": "Pridať nový server", "input_placeholder": "Zadajte adresu servera", "button": { "submit": "Pridať" }, "snackbar": { "success": "Server bol pridaný", "error_homeserver": "Zadaný domovský server nie je platný" } },
-            "create": { "title": "Vytvoriť novú miestnosť", "placeholder_name": "názov miestnosti", "placeholder_alias": "alias miestnosti (verejná adresa)", "placeholder_topic": "téma miestnosti", "submit": "Vytvoriť", "error": "Miestnosť sa nepodarilo vytvoriť. Skúste to prosím znova." }
+            "delete": {
+                "title": "Opustiť miestnosť {}",
+                "desc": "Ste si istý, že chcete opustiť miestnosť {}?",
+                "button": {
+                    "submit": "Áno, opustiť",
+                    "cancel": "Nie, zrušiť"
+                }
+            },
+            "add": {
+                "title": "Pridať nový server",
+                "input_placeholder": "Zadajte adresu servera",
+                "button": {
+                    "submit": "Pridať"
+                },
+                "snackbar": {
+                    "success": "Server bol pridaný",
+                    "error_homeserver": "Zadaný domovský server nie je platný"
+                }
+            },
+            "create": {
+                "title": "Vytvoriť novú miestnosť",
+                "placeholder_name": "názov miestnosti",
+                "placeholder_alias": "alias miestnosti (verejná adresa)",
+                "placeholder_topic": "téma miestnosti",
+                "submit": "Vytvoriť",
+                "error": "Miestnosť sa nepodarilo vytvoriť. Skúste to prosím znova."
+            }
         },
-        "room_preview": { "members": "{} členov", "latest_posts": "Najnovšie príspevky", "no_posts": "V tejto miestnosti zatiaľ nie sú žiadne príspevky.", "no_peek": "História tejto miestnosti je súkromná. Vstúpte do miestnosti, aby ste videli príspevky.", "join_to_see": "Vstúpte pre zobrazenie príspevkov" }
+        "room_preview": {
+            "members": "{} členov",
+            "latest_posts": "Najnovšie príspevky",
+            "no_posts": "V tejto miestnosti zatiaľ nie sú žiadne príspevky.",
+            "no_peek": "História tejto miestnosti je súkromná. Vstúpte do miestnosti, aby ste videli príspevky.",
+            "join_to_see": "Vstúpte pre zobrazenie príspevkov"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Skvelé, už ste prihlásený. \nMôžete pokračovať ďalšími krokmi",
         "isNotLoggedIn": "Najskôr sa prihláste",
-        "buttons": { "next": "Ďalej", "back": "Späť" },
-        "welcome": { "title": "Vitajte v substitution", "desc": "... nová sociálna sieť na základe protokolu Matrix" },
-        "account": { "title": "Účty Matrix", "desc": "Na používanie tejto aplikácie musíte byť prihlásený do účtu Matrix na ľubovoľnom serveri. Ak neviete, ako ho získať, navštívte túto stránku: https://matrix.org/" },
-        "host": { "title": "Vyberte server" },
-        "login": { "title": "Prihlásenie" },
-        "finished": { "title": "Poďme na to", "desc": "Skvelé, ste prihlásený. Sme pripravení na substitution. Teraz si môžete vybrať, či sa chcete pripojiť k uvítacej miestnosti substitution. Poďme na to a bavte sa!", "buttons": { "add_to_room_and_go": "Pripojiť sa k miestnosti Substitution a ísť!", "go": "Jednoducho ísť!" } }
+        "buttons": {
+            "next": "Ďalej",
+            "back": "Späť"
+        },
+        "welcome": {
+            "title": "Vitajte v substitution",
+            "desc": "... nová sociálna sieť na základe protokolu Matrix"
+        },
+        "account": {
+            "title": "Účty Matrix",
+            "desc": "Na používanie tejto aplikácie musíte byť prihlásený do účtu Matrix na ľubovoľnom serveri. Ak neviete, ako ho získať, navštívte túto stránku: https://matrix.org/"
+        },
+        "host": {
+            "title": "Vyberte server"
+        },
+        "login": {
+            "title": "Prihlásenie"
+        },
+        "finished": {
+            "title": "Poďme na to",
+            "desc": "Skvelé, ste prihlásený. Sme pripravení na substitution. Teraz si môžete vybrať, či sa chcete pripojiť k uvítacej miestnosti substitution. Poďme na to a bavte sa!",
+            "buttons": {
+                "add_to_room_and_go": "Pripojiť sa k miestnosti Substitution a ísť!",
+                "go": "Jednoducho ísť!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Pripojte sa k domovskému serveru", "body": "Vyberte si domovský server Matrix. Potom sa môžete prihlásiť alebo prehliadať verejne dostupné miestnosti.", "inputs": { "homeserver_label": "Adresa vášho domovského servera" }, "buttons": { "login_label": "Prihlásiť sa" } },
-        "login": { "loading": "Prihlasovanie...", "header": "Prihlásenie", "body": "Prihláste sa pomocou svojich prihlasovacích údajov.", "inputs": { "username_label": "Používateľské meno", "password_label": "Heslo" }, "buttons": { "login_label": "Prihlásiť sa", "sso_label": "Prihlásiť sa cez {}", "register_web_label": "Registrovať sa" } }
+        "host": {
+            "header": "Pripojte sa k domovskému serveru",
+            "body": "Vyberte si domovský server Matrix. Potom sa môžete prihlásiť alebo prehliadať verejne dostupné miestnosti.",
+            "inputs": {
+                "homeserver_label": "Adresa vášho domovského servera"
+            },
+            "buttons": {
+                "login_label": "Prihlásiť sa"
+            }
+        },
+        "login": {
+            "loading": "Prihlasovanie...",
+            "header": "Prihlásenie",
+            "body": "Prihláste sa pomocou svojich prihlasovacích údajov.",
+            "inputs": {
+                "username_label": "Používateľské meno",
+                "password_label": "Heslo"
+            },
+            "buttons": {
+                "login_label": "Prihlásiť sa",
+                "sso_label": "Prihlásiť sa cez {}",
+                "register_web_label": "Registrovať sa"
+            }
+        }
     },
     "write": {
-        "answer": "Odpovedať", "roomheader": "Miestnosť: {}",
-        "filemessage": { "video_preview": "Video", "caption_header": "Popis (voliteľné):", "upload_files": "Pridať nové súbory na nahranie", "title_header": "Názov:", "upload_start": "Začína sa nahrávanie...", "upload_file_process": "Nahráva sa súbor {}", "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?", "upload_file_complete": "Nahrávanie {} je dokončené!", "upload_complete": "Všetky súbory boli nahrané!", "buttons": { "upload_stop": "Zrušiť", "upload_retry": "Skúsiť znova" } },
-        "roomselect": { "type_prompt": "Vyberte typ správy, ktorú chcete zverejniť", "room_prompt": "Vyberte miestnosť, v ktorej chcete zverejniť:", "error_no_rooms": "Nepripojili ste sa k žiadnym miestnostiam alebo nemáte oprávnenie na zverejňovanie." },
-        "textmessage": { "answer_promt": "Zadajte text:", "input_placeholder": "Zadajte text sem...", "send_start": "Správa sa odosiela...", "send_failed": "Odoslanie správy zlyhalo. Chcete správu odoslať znova?", "send_complete": "Správa bola úspešne odoslaná!", "buttons": { "send_stop": "Neopakovať", "resend": "Skúsiť znova" } }
+        "answer": "Odpovedať",
+        "roomheader": "Miestnosť: {}",
+        "filemessage": {
+            "video_preview": "Video",
+            "caption_header": "Popis (voliteľné):",
+            "upload_files": "Pridať nové súbory na nahranie",
+            "title_header": "Názov:",
+            "upload_start": "Začína sa nahrávanie...",
+            "upload_file_process": "Nahráva sa súbor {}",
+            "upload_error": "Nahrávanie {} zlyhalo. Skúsiť znova?",
+            "upload_file_complete": "Nahrávanie {} je dokončené!",
+            "upload_complete": "Všetky súbory boli nahrané!",
+            "buttons": {
+                "upload_stop": "Zrušiť",
+                "upload_retry": "Skúsiť znova"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Vyberte typ správy, ktorú chcete zverejniť",
+            "room_prompt": "Vyberte miestnosť, v ktorej chcete zverejniť:",
+            "error_no_rooms": "Nepripojili ste sa k žiadnym miestnostiam alebo nemáte oprávnenie na zverejňovanie.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Zadajte text:",
+            "input_placeholder": "Zadajte text sem...",
+            "send_start": "Správa sa odosiela...",
+            "send_failed": "Odoslanie správy zlyhalo. Chcete správu odoslať znova?",
+            "send_complete": "Správa bola úspešne odoslaná!",
+            "buttons": {
+                "send_stop": "Neopakovať",
+                "resend": "Skúsiť znova"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Správa", "block_title": "Zablokovať používateľa", "block_desc": "Zablokovať {}? Už neuvidíte ich obsah.",
-        "block_confirm": "Zablokovať", "block_success": "Používateľ zablokovaný.", "block_error": "Nepodarilo sa zablokovať používateľa: {}",
-        "report_title": "Nahlásiť používateľa", "report_desc": "Popíšte dôvod nahlásenia tohto používateľa.",
-        "report_reason": "Dôvod", "report_reason_hint": "Tento používateľ...", "report_submit": "Odoslať",
-        "report_success": "Nahlásenie bolo odoslané. Ďakujeme.", "feeds_section": "KANÁLY", "no_feeds": "Žiadne verejné kanály",
+        "send_message": "Správa",
+        "block_title": "Zablokovať používateľa",
+        "block_desc": "Zablokovať {}? Už neuvidíte ich obsah.",
+        "block_confirm": "Zablokovať",
+        "block_success": "Používateľ zablokovaný.",
+        "block_error": "Nepodarilo sa zablokovať používateľa: {}",
+        "report_title": "Nahlásiť používateľa",
+        "report_desc": "Popíšte dôvod nahlásenia tohto používateľa.",
+        "report_reason": "Dôvod",
+        "report_reason_hint": "Tento používateľ...",
+        "report_submit": "Odoslať",
+        "report_success": "Nahlásenie bolo odoslané. Ďakujeme.",
+        "feeds_section": "KANÁLY",
+        "no_feeds": "Žiadne verejné kanály",
         "error_start_chat": "Nepodarilo sa začať konverzáciu: {}"
     },
     "startroom_dialog": {
@@ -110,10 +428,16 @@
         "skip": "Preskočiť"
     },
     "chat": {
-        "title": "Správy", "input_placeholder": "Napíšte správu...", "no_messages": "Zatiaľ žiadne správy. Pozdravte sa!",
-        "no_conversations": "Zatiaľ žiadne konverzácie", "no_conversations_hint": "Navštívte profil používateľa a klepnite na 'Správa' pre začatie konverzácie.",
-        "media_message": "Médiá", "conversation_started": "Konverzácia začala",
-        "error_loading": "Nepodarilo sa načítať túto konverzáciu.", "error_sending": "Odoslanie správy zlyhalo.", "view_profile": "Zobraziť profil"
+        "title": "Správy",
+        "input_placeholder": "Napíšte správu...",
+        "no_messages": "Zatiaľ žiadne správy. Pozdravte sa!",
+        "no_conversations": "Zatiaľ žiadne konverzácie",
+        "no_conversations_hint": "Navštívte profil používateľa a klepnite na 'Správa' pre začatie konverzácie.",
+        "media_message": "Médiá",
+        "conversation_started": "Konverzácia začala",
+        "error_loading": "Nepodarilo sa načítať túto konverzáciu.",
+        "error_sending": "Odoslanie správy zlyhalo.",
+        "view_profile": "Zobraziť profil"
     },
     "help": {
         "title": "Pomoc",

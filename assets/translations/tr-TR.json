@@ -18,13 +18,32 @@
     },
     "cancel": "İptal",
     "feed": {
-        "nav": { "home": "Ana Sayfa", "discover": "Keşfet", "messages": "Mesajlar", "settings": "Ayarlar" },
-        "pages": { "home": { "roomlabel": "Oda: {}", "empty": "Akışınız boş. Gönderileri görmek için bazı odaları takip edin!", "empty_button": "Yeni odalar bul" } }
+        "nav": {
+            "home": "Ana Sayfa",
+            "discover": "Keşfet",
+            "messages": "Mesajlar",
+            "settings": "Ayarlar"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Oda: {}",
+                "empty": "Akışınız boş. Gönderileri görmek için bazı odaları takip edin!",
+                "empty_button": "Yeni odalar bul"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Gönderi bulunamadı veya kullanılamıyor." },
-        "menu": { "report_block": "Bildir / Engelle" },
-        "e2e": { "encrypted": "Uçtan uca şifreli", "unencrypted": "Şifrelenmemiş", "failed": "Şifre çözme başarısız oldu" },
+        "error": {
+            "not_found": "Gönderi bulunamadı veya kullanılamıyor."
+        },
+        "menu": {
+            "report_block": "Bildir / Engelle"
+        },
+        "e2e": {
+            "encrypted": "Uçtan uca şifreli",
+            "unencrypted": "Şifrelenmemiş",
+            "failed": "Şifre çözme başarısız oldu"
+        },
         "dialog": {
             "report_block_title": "İçeriği Bildir veya Kullanıcıyı Engelle",
             "report_desc": "Bu içeriği neden bildirdiğinizi açıklayın (isteğe bağlı).",
@@ -32,77 +51,374 @@
             "report_reason_hint": "Bu içerik sakıncalı çünkü...",
             "block_user_checkbox": "Bu kullanıcıyı da engelle",
             "block_user_desc": "Artık {} kullanıcısının içeriklerini görmeyeceksiniz",
-            "submit": "Gönder", "cancel": "İptal",
+            "submit": "Gönder",
+            "cancel": "İptal",
             "report_block_success": "Bildirim gönderildi. Teşekkürler.",
             "report_block_error": "Bir hata oluştu: {}"
         },
-        "pages": { "post": { "no_comments": "Henüz yorum yok." } },
+        "pages": {
+            "post": {
+                "no_comments": "Henüz yorum yok."
+            }
+        },
         "continue_thread": "Bu konuya devam et...",
         "replying_to": "{} kullanıcısına yanıt veriliyor",
         "reply_placeholder": "Bir yanıt yazın...",
-        "mixins": { "iconpicker": { "title": "Simge seçin" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Simge seçin"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "kapat" } },
-            "filedisplay": { "decrypting": "Dosya şifresi çözülüyor...", "decrypt_error": "Dosya yüklenemedi.", "video_desktop_error": "Videolar Linux, Windows veya MacOS üzerinde görüntülenemez. Bu özelliği görmek isterseniz Github üzerinden katkıda bulunmayı düşünün!", "audio_desktop_error": "Ses Linux, Windows veya MacOS üzerinde oynatılamaz." },
-            "comment": { "load_error": "Yanıtlar yüklenemedi." },
-            "reaction": { "unknown_sender": "bilinmiyor", "sent_by": "{} tarafından gönderildi" },
-            "videoplayercontrol": { "play": "oynat", "caption_offset": "altyazı ofseti", "playback_speed": "oynatma hızı" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "kapat"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Dosya şifresi çözülüyor...",
+                "decrypt_error": "Dosya yüklenemedi.",
+                "video_desktop_error": "Videolar Linux, Windows veya MacOS üzerinde görüntülenemez. Bu özelliği görmek isterseniz Github üzerinden katkıda bulunmayı düşünün!",
+                "audio_desktop_error": "Ses Linux, Windows veya MacOS üzerinde oynatılamaz."
+            },
+            "comment": {
+                "load_error": "Yanıtlar yüklenemedi."
+            },
+            "reaction": {
+                "unknown_sender": "bilinmiyor",
+                "sent_by": "{} tarafından gönderildi"
+            },
+            "videoplayercontrol": {
+                "play": "oynat",
+                "caption_offset": "altyazı ofseti",
+                "playback_speed": "oynatma hızı"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Yasal", "tos": "Hizmet Şartları", "privacy": "Gizlilik Politikası", "imprint": "Künye", "licenses": "Açık Kaynak Lisansları" },
+        "legal": {
+            "title": "Yasal",
+            "tos": "Hizmet Şartları",
+            "privacy": "Gizlilik Politikası",
+            "imprint": "Künye",
+            "licenses": "Açık Kaynak Lisansları"
+        },
         "followfeeds": {
             "filter_server_header": "Listeden bir sunucu seçin veya yeni bir tane ekleyin:",
             "filter_rooms_header": "Takip etmek veya takipten çıkmak için bir oda arayın:",
             "roomname_placeholder": "Oda adı girin",
-            "buttons": { "add_server": "Sunucu Ekle", "retry": "Tekrar Dene" },
+            "buttons": {
+                "add_server": "Sunucu Ekle",
+                "retry": "Tekrar Dene"
+            },
             "no_rooms_found": "Verilen arama kriterlerine uygun oda bulunamadı.",
             "error_loading_rooms": "Hata: Odalar yüklenemedi"
         },
-        "ownfeeds": { "header": "Kendi odalarınızı yönetin", "buttons": { "create_room": "Yeni Oda Oluştur" } },
+        "ownfeeds": {
+            "header": "Kendi odalarınızı yönetin",
+            "buttons": {
+                "create_room": "Yeni Oda Oluştur"
+            }
+        },
         "menu": {
-            "logged_in_as": "{} olarak giriş yapıldı", "logout": "Çıkış Yap", "logout_confirm": "Çıkış yapmak istediğinizden emin misiniz?",
-            "login": "Giriş Yap", "not_logged_in": "Tüm özelliklere erişmek için giriş yapın",
-            "home_site_label": "Ana Sayfa", "feeds_site_label": "Akışlar", "navigation_label": "Gezinme",
-            "account_label": "Hesap", "preferences_label": "Tercihler", "about_label": "Hakkında",
+            "logged_in_as": "{} olarak giriş yapıldı",
+            "logout": "Çıkış Yap",
+            "logout_confirm": "Çıkış yapmak istediğinizden emin misiniz?",
+            "login": "Giriş Yap",
+            "not_logged_in": "Tüm özelliklere erişmek için giriş yapın",
+            "home_site_label": "Ana Sayfa",
+            "feeds_site_label": "Akışlar",
+            "navigation_label": "Gezinme",
+            "account_label": "Hesap",
+            "preferences_label": "Tercihler",
+            "about_label": "Hakkında",
             "ownfeeds_label": "Kendi Akışlarım",
             "profile_label": "Profili Düzenle",
             "security_label": "Güvenlik"
         },
-        "room": { "desc": "Oda adı: {}", "leave": "Odadan ayrıl", "join": "Odaya gir ve substitution'a ekle", "join_short": "Katıl", "permissions": "İzinler" },
-        "dialog": {
-            "delete": { "title": "Odadan ayrıl {}", "desc": "{} odasından ayrılmak istediğinizden emin misiniz?", "button": { "submit": "Evet, ayrıl", "cancel": "Hayır, iptal et" } },
-            "add": { "title": "Yeni Sunucu Ekle", "input_placeholder": "Sunucu adresini girin", "button": { "submit": "Ekle" }, "snackbar": { "success": "Sunucu eklendi", "error_homeserver": "Girilen ana sunucu geçerli değil" } },
-            "create": { "title": "Yeni oda oluştur", "placeholder_name": "oda adı", "placeholder_alias": "oda takma adı (genel oda adresi)", "placeholder_topic": "oda konusu", "submit": "Oluştur", "error": "Oda oluşturulamadı. Lütfen tekrar deneyin." }
+        "room": {
+            "desc": "Oda adı: {}",
+            "leave": "Odadan ayrıl",
+            "join": "Odaya gir ve substitution'a ekle",
+            "join_short": "Katıl",
+            "permissions": "İzinler"
         },
-        "room_preview": { "members": "{} üye", "latest_posts": "Son gönderiler", "no_posts": "Bu odada henüz gönderi yok.", "no_peek": "Bu odanın geçmişi özeldir. Gönderileri görmek için odaya katılın.", "join_to_see": "Gönderileri görmek için katılın" }
+        "dialog": {
+            "delete": {
+                "title": "Odadan ayrıl {}",
+                "desc": "{} odasından ayrılmak istediğinizden emin misiniz?",
+                "button": {
+                    "submit": "Evet, ayrıl",
+                    "cancel": "Hayır, iptal et"
+                }
+            },
+            "add": {
+                "title": "Yeni Sunucu Ekle",
+                "input_placeholder": "Sunucu adresini girin",
+                "button": {
+                    "submit": "Ekle"
+                },
+                "snackbar": {
+                    "success": "Sunucu eklendi",
+                    "error_homeserver": "Girilen ana sunucu geçerli değil"
+                }
+            },
+            "create": {
+                "title": "Yeni oda oluştur",
+                "placeholder_name": "oda adı",
+                "placeholder_alias": "oda takma adı (genel oda adresi)",
+                "placeholder_topic": "oda konusu",
+                "submit": "Oluştur",
+                "error": "Oda oluşturulamadı. Lütfen tekrar deneyin."
+            }
+        },
+        "room_preview": {
+            "members": "{} üye",
+            "latest_posts": "Son gönderiler",
+            "no_posts": "Bu odada henüz gönderi yok.",
+            "no_peek": "Bu odanın geçmişi özeldir. Gönderileri görmek için odaya katılın.",
+            "join_to_see": "Gönderileri görmek için katılın"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Harika, zaten giriş yapmışsınız. \nSonraki adımlarla devam edebilirsiniz",
         "isNotLoggedIn": "Lütfen önce giriş yapın",
-        "buttons": { "next": "İleri", "back": "Geri" },
-        "welcome": { "title": "substitution'a hoş geldiniz", "desc": "... matrix protokolü üzerindeki yeni sosyal ağ" },
-        "account": { "title": "Matrix Hesapları", "desc": "Bu uygulamayı kullanabilmek için herhangi bir sunucudaki Matrix hesabınızla giriş yapmış olmanız gerekmektedir. Nasıl hesap alacağınızı bilmiyorsanız, bu siteyi ziyaret edin: https://matrix.org/" },
-        "host": { "title": "Bir ana bilgisayar seçin" },
-        "login": { "title": "Giriş Yap" },
-        "finished": { "title": "Haydi başlayalım", "desc": "Harika, giriş yaptınız. Hazırız. Artık substitution karşılama odasına katılıp katılmamayı seçebilirsiniz. Haydi başlayalım, iyi eğlenceler!", "buttons": { "add_to_room_and_go": "Substitution Odasına Katıl ve Başla!", "go": "Sadece başla!" } }
+        "buttons": {
+            "next": "İleri",
+            "back": "Geri"
+        },
+        "welcome": {
+            "title": "substitution'a hoş geldiniz",
+            "desc": "... matrix protokolü üzerindeki yeni sosyal ağ"
+        },
+        "account": {
+            "title": "Matrix Hesapları",
+            "desc": "Bu uygulamayı kullanabilmek için herhangi bir sunucudaki Matrix hesabınızla giriş yapmış olmanız gerekmektedir. Nasıl hesap alacağınızı bilmiyorsanız, bu siteyi ziyaret edin: https://matrix.org/"
+        },
+        "host": {
+            "title": "Bir ana bilgisayar seçin"
+        },
+        "login": {
+            "title": "Giriş Yap"
+        },
+        "finished": {
+            "title": "Haydi başlayalım",
+            "desc": "Harika, giriş yaptınız. Hazırız. Artık substitution karşılama odasına katılıp katılmamayı seçebilirsiniz. Haydi başlayalım, iyi eğlenceler!",
+            "buttons": {
+                "add_to_room_and_go": "Substitution Odasına Katıl ve Başla!",
+                "go": "Sadece başla!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Ana Sunucunuza Bağlanın", "body": "Lütfen bir Matrix Ana Sunucusu seçin. Ardından giriş yapmayı veya halka açık odaları göz atmayı seçebilirsiniz.", "inputs": { "homeserver_label": "Ana Sunucu Adresiniz" }, "buttons": { "login_label": "Giriş Yap" } },
-        "login": { "loading": "Giriş yapılıyor...", "header": "Giriş Yap", "body": "Lütfen kimlik bilgilerinizle giriş yapın.", "inputs": { "username_label": "Kullanıcı Adı", "password_label": "Şifre" }, "buttons": { "login_label": "Giriş Yap", "sso_label": "{} ile giriş yap", "register_web_label": "Kayıt Ol" } }
+        "host": {
+            "header": "Ana Sunucunuza Bağlanın",
+            "body": "Lütfen bir Matrix Ana Sunucusu seçin. Ardından giriş yapmayı veya halka açık odaları göz atmayı seçebilirsiniz.",
+            "inputs": {
+                "homeserver_label": "Ana Sunucu Adresiniz"
+            },
+            "buttons": {
+                "login_label": "Giriş Yap"
+            }
+        },
+        "login": {
+            "loading": "Giriş yapılıyor...",
+            "header": "Giriş Yap",
+            "body": "Lütfen kimlik bilgilerinizle giriş yapın.",
+            "inputs": {
+                "username_label": "Kullanıcı Adı",
+                "password_label": "Şifre"
+            },
+            "buttons": {
+                "login_label": "Giriş Yap",
+                "sso_label": "{} ile giriş yap",
+                "register_web_label": "Kayıt Ol"
+            }
+        }
     },
     "write": {
-        "answer": "Yanıtla", "roomheader": "Oda: {}",
-        "filemessage": { "video_preview": "Video", "caption_header": "Açıklama (isteğe bağlı):", "upload_files": "Yüklemek için yeni dosyalar ekleyin", "title_header": "Başlık:", "upload_start": "Yükleme başlatılıyor...", "upload_file_process": "{} dosyası yükleniyor", "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?", "upload_file_complete": "{} yüklemesi tamamlandı!", "upload_complete": "Tüm dosyalar yüklendi!", "buttons": { "upload_stop": "İptal", "upload_retry": "Tekrar Dene" } },
-        "roomselect": { "type_prompt": "Göndermek istediğiniz mesaj türünü seçin", "room_prompt": "Gönderi yapmak istediğiniz odayı seçin:", "error_no_rooms": "Herhangi bir odaya katılmadınız veya gönderi yapma yetkiniz yok." },
-        "textmessage": { "answer_promt": "Metninizi girin:", "input_placeholder": "Metninizi buraya girin...", "send_start": "Mesaj gönderiliyor...", "send_failed": "Mesaj gönderilemedi. Tekrar göndermek ister misiniz?", "send_complete": "Mesaj başarıyla gönderildi!", "buttons": { "send_stop": "Tekrar deneme", "resend": "Tekrar Dene" } }
+        "answer": "Yanıtla",
+        "roomheader": "Oda: {}",
+        "filemessage": {
+            "video_preview": "Video",
+            "caption_header": "Açıklama (isteğe bağlı):",
+            "upload_files": "Yüklemek için yeni dosyalar ekleyin",
+            "title_header": "Başlık:",
+            "upload_start": "Yükleme başlatılıyor...",
+            "upload_file_process": "{} dosyası yükleniyor",
+            "upload_error": "{} yüklemesi başarısız oldu. Tekrar denensin mi?",
+            "upload_file_complete": "{} yüklemesi tamamlandı!",
+            "upload_complete": "Tüm dosyalar yüklendi!",
+            "buttons": {
+                "upload_stop": "İptal",
+                "upload_retry": "Tekrar Dene"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Göndermek istediğiniz mesaj türünü seçin",
+            "room_prompt": "Gönderi yapmak istediğiniz odayı seçin:",
+            "error_no_rooms": "Herhangi bir odaya katılmadınız veya gönderi yapma yetkiniz yok.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Metninizi girin:",
+            "input_placeholder": "Metninizi buraya girin...",
+            "send_start": "Mesaj gönderiliyor...",
+            "send_failed": "Mesaj gönderilemedi. Tekrar göndermek ister misiniz?",
+            "send_complete": "Mesaj başarıyla gönderildi!",
+            "buttons": {
+                "send_stop": "Tekrar deneme",
+                "resend": "Tekrar Dene"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Mesaj", "block_title": "Kullanıcıyı Engelle", "block_desc": "{} engellensin mi? Artık içeriklerini görmeyeceksiniz.",
-        "block_confirm": "Engelle", "block_success": "Kullanıcı engellendi.", "block_error": "Kullanıcı engellenemedi: {}",
-        "report_title": "Kullanıcıyı Bildir", "report_desc": "Bu kullanıcıyı bildirme nedeninizi açıklayın.",
-        "report_reason": "Neden", "report_reason_hint": "Bu kullanıcı...", "report_submit": "Gönder",
-        "report_success": "Bildirim gönderildi. Teşekkürler.", "feeds_section": "AKIŞLAR", "no_feeds": "Herkese açık akış yok",
+        "send_message": "Mesaj",
+        "block_title": "Kullanıcıyı Engelle",
+        "block_desc": "{} engellensin mi? Artık içeriklerini görmeyeceksiniz.",
+        "block_confirm": "Engelle",
+        "block_success": "Kullanıcı engellendi.",
+        "block_error": "Kullanıcı engellenemedi: {}",
+        "report_title": "Kullanıcıyı Bildir",
+        "report_desc": "Bu kullanıcıyı bildirme nedeninizi açıklayın.",
+        "report_reason": "Neden",
+        "report_reason_hint": "Bu kullanıcı...",
+        "report_submit": "Gönder",
+        "report_success": "Bildirim gönderildi. Teşekkürler.",
+        "feeds_section": "AKIŞLAR",
+        "no_feeds": "Herkese açık akış yok",
         "error_start_chat": "Sohbet başlatılamadı: {}"
     },
     "startroom_dialog": {
@@ -112,10 +428,16 @@
         "skip": "Atla"
     },
     "chat": {
-        "title": "Mesajlar", "input_placeholder": "Bir mesaj yazın...", "no_messages": "Henüz mesaj yok. Merhaba deyin!",
-        "no_conversations": "Henüz konuşma yok", "no_conversations_hint": "Bir kullanıcının profilini ziyaret edin ve sohbet başlatmak için 'Mesaj' düğmesine dokunun.",
-        "media_message": "Medya", "conversation_started": "Konuşma başlatıldı",
-        "error_loading": "Bu konuşma yüklenemedi.", "error_sending": "Mesaj gönderilemedi.", "view_profile": "Profili görüntüle"
+        "title": "Mesajlar",
+        "input_placeholder": "Bir mesaj yazın...",
+        "no_messages": "Henüz mesaj yok. Merhaba deyin!",
+        "no_conversations": "Henüz konuşma yok",
+        "no_conversations_hint": "Bir kullanıcının profilini ziyaret edin ve sohbet başlatmak için 'Mesaj' düğmesine dokunun.",
+        "media_message": "Medya",
+        "conversation_started": "Konuşma başlatıldı",
+        "error_loading": "Bu konuşma yüklenemedi.",
+        "error_sending": "Mesaj gönderilemedi.",
+        "view_profile": "Profili görüntüle"
     },
     "help": {
         "title": "Yardım",

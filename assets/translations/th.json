@@ -18,13 +18,32 @@
     },
     "cancel": "ยกเลิก",
     "feed": {
-        "nav": { "home": "หน้าหลัก", "discover": "ค้นพบ", "messages": "ข้อความ", "settings": "การตั้งค่า" },
-        "pages": { "home": { "roomlabel": "ห้อง: {}", "empty": "ฟีดของคุณว่างเปล่า ติดตามห้องบางห้องเพื่อดูโพสต์!", "empty_button": "ค้นหาห้องใหม่" } }
+        "nav": {
+            "home": "หน้าหลัก",
+            "discover": "ค้นพบ",
+            "messages": "ข้อความ",
+            "settings": "การตั้งค่า"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "ห้อง: {}",
+                "empty": "ฟีดของคุณว่างเปล่า ติดตามห้องบางห้องเพื่อดูโพสต์!",
+                "empty_button": "ค้นหาห้องใหม่"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "ไม่พบโพสต์หรือไม่สามารถใช้งานได้" },
-        "menu": { "report_block": "รายงาน / บล็อก" },
-        "e2e": { "encrypted": "เข้ารหัสแบบต้นทางถึงปลายทาง", "unencrypted": "ไม่ได้เข้ารหัส", "failed": "การถอดรหัสล้มเหลว" },
+        "error": {
+            "not_found": "ไม่พบโพสต์หรือไม่สามารถใช้งานได้"
+        },
+        "menu": {
+            "report_block": "รายงาน / บล็อก"
+        },
+        "e2e": {
+            "encrypted": "เข้ารหัสแบบต้นทางถึงปลายทาง",
+            "unencrypted": "ไม่ได้เข้ารหัส",
+            "failed": "การถอดรหัสล้มเหลว"
+        },
         "dialog": {
             "report_block_title": "รายงานเนื้อหาหรือบล็อกผู้ใช้",
             "report_desc": "กรุณาอธิบายว่าทำไมคุณจึงรายงานเนื้อหานี้ (ไม่บังคับ)",
@@ -32,75 +51,374 @@
             "report_reason_hint": "เนื้อหานี้ไม่เหมาะสมเพราะ...",
             "block_user_checkbox": "บล็อกผู้ใช้นี้ด้วย",
             "block_user_desc": "คุณจะไม่เห็นเนื้อหาจาก {} อีกต่อไป",
-            "submit": "ส่ง", "cancel": "ยกเลิก",
+            "submit": "ส่ง",
+            "cancel": "ยกเลิก",
             "report_block_success": "ส่งรายงานแล้ว ขอบคุณ",
             "report_block_error": "เกิดข้อผิดพลาด: {}"
         },
-        "pages": { "post": { "no_comments": "ยังไม่มีความคิดเห็น" } },
+        "pages": {
+            "post": {
+                "no_comments": "ยังไม่มีความคิดเห็น"
+            }
+        },
         "continue_thread": "ดำเนินการเธรดนี้ต่อ...",
         "replying_to": "กำลังตอบกลับ {}",
         "reply_placeholder": "เขียนคำตอบ...",
-        "mixins": { "iconpicker": { "title": "เลือกไอคอน" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "เลือกไอคอน"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "ปิด" } },
-            "filedisplay": { "decrypting": "กำลังถอดรหัสไฟล์...", "decrypt_error": "ไม่สามารถโหลดไฟล์ได้", "video_desktop_error": "ไม่สามารถแสดงวิดีโอบน Linux, Windows หรือ MacOS ได้ หากคุณต้องการเห็นฟีเจอร์นี้ ลองพิจารณาร่วมพัฒนาบน Github!", "audio_desktop_error": "ไม่สามารถเล่นเสียงบน Linux, Windows หรือ MacOS ได้" },
-            "comment": { "load_error": "ไม่สามารถโหลดการตอบกลับได้" },
-            "reaction": { "unknown_sender": "ไม่ทราบ", "sent_by": "ส่งโดย {}" },
-            "videoplayercontrol": { "play": "เล่น", "caption_offset": "ออฟเซ็ตคำบรรยาย", "playback_speed": "ความเร็วในการเล่น" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "ปิด"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "กำลังถอดรหัสไฟล์...",
+                "decrypt_error": "ไม่สามารถโหลดไฟล์ได้",
+                "video_desktop_error": "ไม่สามารถแสดงวิดีโอบน Linux, Windows หรือ MacOS ได้ หากคุณต้องการเห็นฟีเจอร์นี้ ลองพิจารณาร่วมพัฒนาบน Github!",
+                "audio_desktop_error": "ไม่สามารถเล่นเสียงบน Linux, Windows หรือ MacOS ได้"
+            },
+            "comment": {
+                "load_error": "ไม่สามารถโหลดการตอบกลับได้"
+            },
+            "reaction": {
+                "unknown_sender": "ไม่ทราบ",
+                "sent_by": "ส่งโดย {}"
+            },
+            "videoplayercontrol": {
+                "play": "เล่น",
+                "caption_offset": "ออฟเซ็ตคำบรรยาย",
+                "playback_speed": "ความเร็วในการเล่น"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "ข้อกฎหมาย", "tos": "เงื่อนไขการใช้บริการ", "privacy": "นโยบายความเป็นส่วนตัว", "imprint": "ข้อมูลทางกฎหมาย", "licenses": "ใบอนุญาตโอเพนซอร์ส" },
+        "legal": {
+            "title": "ข้อกฎหมาย",
+            "tos": "เงื่อนไขการใช้บริการ",
+            "privacy": "นโยบายความเป็นส่วนตัว",
+            "imprint": "ข้อมูลทางกฎหมาย",
+            "licenses": "ใบอนุญาตโอเพนซอร์ส"
+        },
         "followfeeds": {
             "filter_server_header": "เลือกเซิร์ฟเวอร์จากรายการหรือเพิ่มเซิร์ฟเวอร์ใหม่:",
             "filter_rooms_header": "ค้นหาห้องเพื่อติดตามหรือเลิกติดตาม:",
             "roomname_placeholder": "ป้อนชื่อห้อง",
-            "buttons": { "add_server": "เพิ่มเซิร์ฟเวอร์", "retry": "ลองใหม่" },
+            "buttons": {
+                "add_server": "เพิ่มเซิร์ฟเวอร์",
+                "retry": "ลองใหม่"
+            },
             "no_rooms_found": "ไม่พบห้องตามเกณฑ์การค้นหาที่กำหนด",
             "error_loading_rooms": "ข้อผิดพลาด: ไม่สามารถโหลดห้องได้"
         },
-        "ownfeeds": { "header": "จัดการห้องของคุณเอง", "buttons": { "create_room": "สร้างห้องใหม่" } },
+        "ownfeeds": {
+            "header": "จัดการห้องของคุณเอง",
+            "buttons": {
+                "create_room": "สร้างห้องใหม่"
+            }
+        },
         "menu": {
-            "logged_in_as": "เข้าสู่ระบบเป็น {}", "logout": "ออกจากระบบ", "logout_confirm": "คุณแน่ใจหรือว่าต้องการออกจากระบบ?",
-            "login": "เข้าสู่ระบบ", "not_logged_in": "เข้าสู่ระบบเพื่อเข้าถึงฟีเจอร์ทั้งหมด",
-            "home_site_label": "หน้าหลัก", "feeds_site_label": "ฟีด", "navigation_label": "การนำทาง",
-            "account_label": "บัญชี", "preferences_label": "การตั้งค่า", "about_label": "เกี่ยวกับ",
-            "ownfeeds_label": "ฟีดของฉัน", "profile_label": "แก้ไขโปรไฟล์", "security_label": "ความปลอดภัย"
+            "logged_in_as": "เข้าสู่ระบบเป็น {}",
+            "logout": "ออกจากระบบ",
+            "logout_confirm": "คุณแน่ใจหรือว่าต้องการออกจากระบบ?",
+            "login": "เข้าสู่ระบบ",
+            "not_logged_in": "เข้าสู่ระบบเพื่อเข้าถึงฟีเจอร์ทั้งหมด",
+            "home_site_label": "หน้าหลัก",
+            "feeds_site_label": "ฟีด",
+            "navigation_label": "การนำทาง",
+            "account_label": "บัญชี",
+            "preferences_label": "การตั้งค่า",
+            "about_label": "เกี่ยวกับ",
+            "ownfeeds_label": "ฟีดของฉัน",
+            "profile_label": "แก้ไขโปรไฟล์",
+            "security_label": "ความปลอดภัย"
         },
-        "room": { "desc": "ชื่อห้อง: {}", "leave": "ออกจากห้อง", "join": "เข้าห้องและเพิ่มไปยัง substitution", "join_short": "เข้าร่วม", "permissions": "สิทธิ์" },
+        "room": {
+            "desc": "ชื่อห้อง: {}",
+            "leave": "ออกจากห้อง",
+            "join": "เข้าห้องและเพิ่มไปยัง substitution",
+            "join_short": "เข้าร่วม",
+            "permissions": "สิทธิ์"
+        },
         "dialog": {
-            "delete": { "title": "ออกจากห้อง {}", "desc": "คุณแน่ใจหรือว่าต้องการออกจากห้อง {}?", "button": { "submit": "ใช่ ออกจากห้อง", "cancel": "ไม่ ยกเลิก" } },
-            "add": { "title": "เพิ่มเซิร์ฟเวอร์ใหม่", "input_placeholder": "ป้อนที่อยู่เซิร์ฟเวอร์", "button": { "submit": "เพิ่ม" }, "snackbar": { "success": "เพิ่มเซิร์ฟเวอร์แล้ว", "error_homeserver": "โฮมเซิร์ฟเวอร์ที่ป้อนไม่ถูกต้อง" } },
-            "create": { "title": "สร้างห้องใหม่", "placeholder_name": "ชื่อห้อง", "placeholder_alias": "นามแฝงของห้อง (ที่อยู่ห้องสาธารณะ)", "placeholder_topic": "หัวข้อห้อง", "submit": "สร้าง", "error": "ไม่สามารถสร้างห้องได้ กรุณาลองใหม่อีกครั้ง" }
+            "delete": {
+                "title": "ออกจากห้อง {}",
+                "desc": "คุณแน่ใจหรือว่าต้องการออกจากห้อง {}?",
+                "button": {
+                    "submit": "ใช่ ออกจากห้อง",
+                    "cancel": "ไม่ ยกเลิก"
+                }
+            },
+            "add": {
+                "title": "เพิ่มเซิร์ฟเวอร์ใหม่",
+                "input_placeholder": "ป้อนที่อยู่เซิร์ฟเวอร์",
+                "button": {
+                    "submit": "เพิ่ม"
+                },
+                "snackbar": {
+                    "success": "เพิ่มเซิร์ฟเวอร์แล้ว",
+                    "error_homeserver": "โฮมเซิร์ฟเวอร์ที่ป้อนไม่ถูกต้อง"
+                }
+            },
+            "create": {
+                "title": "สร้างห้องใหม่",
+                "placeholder_name": "ชื่อห้อง",
+                "placeholder_alias": "นามแฝงของห้อง (ที่อยู่ห้องสาธารณะ)",
+                "placeholder_topic": "หัวข้อห้อง",
+                "submit": "สร้าง",
+                "error": "ไม่สามารถสร้างห้องได้ กรุณาลองใหม่อีกครั้ง"
+            }
         },
-        "room_preview": { "members": "{} สมาชิก", "latest_posts": "โพสต์ล่าสุด", "no_posts": "ยังไม่มีโพสต์ในห้องนี้", "no_peek": "ประวัติของห้องนี้เป็นส่วนตัว เข้าร่วมห้องเพื่อดูโพสต์", "join_to_see": "เข้าร่วมเพื่อดูโพสต์" }
+        "room_preview": {
+            "members": "{} สมาชิก",
+            "latest_posts": "โพสต์ล่าสุด",
+            "no_posts": "ยังไม่มีโพสต์ในห้องนี้",
+            "no_peek": "ประวัติของห้องนี้เป็นส่วนตัว เข้าร่วมห้องเพื่อดูโพสต์",
+            "join_to_see": "เข้าร่วมเพื่อดูโพสต์"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "ยอดเยี่ยม คุณเข้าสู่ระบบแล้ว \nคุณสามารถดำเนินการขั้นตอนถัดไปได้",
         "isNotLoggedIn": "กรุณาเข้าสู่ระบบก่อน",
-        "buttons": { "next": "ถัดไป", "back": "ย้อนกลับ" },
-        "welcome": { "title": "ยินดีต้อนรับสู่ substitution", "desc": "... เครือข่ายสังคมใหม่บนโปรโตคอล matrix" },
-        "account": { "title": "บัญชี Matrix", "desc": "คุณต้องเข้าสู่ระบบบัญชี Matrix บนเซิร์ฟเวอร์ใดก็ได้เพื่อใช้แอปนี้ หากคุณไม่ทราบวิธีรับบัญชี ไปที่เว็บไซต์นี้: https://matrix.org/" },
-        "host": { "title": "เลือกโฮสต์" },
-        "login": { "title": "เข้าสู่ระบบ" },
-        "finished": { "title": "ไปกันเลย", "desc": "ยอดเยี่ยม คุณเข้าสู่ระบบแล้ว เราพร้อมแล้ว ตอนนี้คุณสามารถเลือกว่าจะเข้าร่วมห้องต้อนรับ substitution หรือไม่ ไปกันเลย สนุกให้เต็มที่!", "buttons": { "add_to_room_and_go": "เข้าร่วมห้อง Substitution แล้วไป!", "go": "ไปเลย!" } }
+        "buttons": {
+            "next": "ถัดไป",
+            "back": "ย้อนกลับ"
+        },
+        "welcome": {
+            "title": "ยินดีต้อนรับสู่ substitution",
+            "desc": "... เครือข่ายสังคมใหม่บนโปรโตคอล matrix"
+        },
+        "account": {
+            "title": "บัญชี Matrix",
+            "desc": "คุณต้องเข้าสู่ระบบบัญชี Matrix บนเซิร์ฟเวอร์ใดก็ได้เพื่อใช้แอปนี้ หากคุณไม่ทราบวิธีรับบัญชี ไปที่เว็บไซต์นี้: https://matrix.org/"
+        },
+        "host": {
+            "title": "เลือกโฮสต์"
+        },
+        "login": {
+            "title": "เข้าสู่ระบบ"
+        },
+        "finished": {
+            "title": "ไปกันเลย",
+            "desc": "ยอดเยี่ยม คุณเข้าสู่ระบบแล้ว เราพร้อมแล้ว ตอนนี้คุณสามารถเลือกว่าจะเข้าร่วมห้องต้อนรับ substitution หรือไม่ ไปกันเลย สนุกให้เต็มที่!",
+            "buttons": {
+                "add_to_room_and_go": "เข้าร่วมห้อง Substitution แล้วไป!",
+                "go": "ไปเลย!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "เชื่อมต่อกับโฮมเซิร์ฟเวอร์ของคุณ", "body": "กรุณาเลือกโฮมเซิร์ฟเวอร์ Matrix จากนั้นคุณสามารถเลือกเข้าสู่ระบบหรือเรียกดูห้องสาธารณะที่มีอยู่", "inputs": { "homeserver_label": "ที่อยู่โฮมเซิร์ฟเวอร์ของคุณ" }, "buttons": { "login_label": "เข้าสู่ระบบ" } },
-        "login": { "loading": "กำลังเข้าสู่ระบบ...", "header": "เข้าสู่ระบบ", "body": "กรุณาเข้าสู่ระบบด้วยข้อมูลประจำตัวของคุณ", "inputs": { "username_label": "ชื่อผู้ใช้", "password_label": "รหัสผ่าน" }, "buttons": { "login_label": "เข้าสู่ระบบ", "sso_label": "เข้าสู่ระบบด้วย {}", "register_web_label": "ลงทะเบียน" } }
+        "host": {
+            "header": "เชื่อมต่อกับโฮมเซิร์ฟเวอร์ของคุณ",
+            "body": "กรุณาเลือกโฮมเซิร์ฟเวอร์ Matrix จากนั้นคุณสามารถเลือกเข้าสู่ระบบหรือเรียกดูห้องสาธารณะที่มีอยู่",
+            "inputs": {
+                "homeserver_label": "ที่อยู่โฮมเซิร์ฟเวอร์ของคุณ"
+            },
+            "buttons": {
+                "login_label": "เข้าสู่ระบบ"
+            }
+        },
+        "login": {
+            "loading": "กำลังเข้าสู่ระบบ...",
+            "header": "เข้าสู่ระบบ",
+            "body": "กรุณาเข้าสู่ระบบด้วยข้อมูลประจำตัวของคุณ",
+            "inputs": {
+                "username_label": "ชื่อผู้ใช้",
+                "password_label": "รหัสผ่าน"
+            },
+            "buttons": {
+                "login_label": "เข้าสู่ระบบ",
+                "sso_label": "เข้าสู่ระบบด้วย {}",
+                "register_web_label": "ลงทะเบียน"
+            }
+        }
     },
     "write": {
-        "answer": "ตอบ", "roomheader": "ห้อง: {}",
-        "filemessage": { "video_preview": "วิดีโอ", "caption_header": "คำบรรยาย (ไม่บังคับ):", "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด", "title_header": "ชื่อเรื่อง:", "upload_start": "เริ่มอัปโหลด...", "upload_file_process": "กำลังอัปโหลดไฟล์ {}", "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?", "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!", "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!", "buttons": { "upload_stop": "ยกเลิก", "upload_retry": "ลองใหม่" } },
-        "roomselect": { "type_prompt": "เลือกประเภทข้อความที่คุณต้องการโพสต์", "room_prompt": "เลือกห้องที่คุณต้องการโพสต์:", "error_no_rooms": "คุณยังไม่ได้เข้าร่วมห้องใด ๆ หรือคุณไม่มีสิทธิ์ในการโพสต์" },
-        "textmessage": { "answer_promt": "ป้อนข้อความของคุณ:", "input_placeholder": "ป้อนข้อความของคุณที่นี่...", "send_start": "เริ่มส่งข้อความ...", "send_failed": "การส่งข้อความล้มเหลว คุณต้องการส่งใหม่หรือไม่?", "send_complete": "ส่งข้อความสำเร็จแล้ว!", "buttons": { "send_stop": "ไม่ต้องลองใหม่", "resend": "ลองใหม่" } }
+        "answer": "ตอบ",
+        "roomheader": "ห้อง: {}",
+        "filemessage": {
+            "video_preview": "วิดีโอ",
+            "caption_header": "คำบรรยาย (ไม่บังคับ):",
+            "upload_files": "เพิ่มไฟล์ใหม่สำหรับอัปโหลด",
+            "title_header": "ชื่อเรื่อง:",
+            "upload_start": "เริ่มอัปโหลด...",
+            "upload_file_process": "กำลังอัปโหลดไฟล์ {}",
+            "upload_error": "การอัปโหลด {} ล้มเหลว ลองอัปโหลดอีกครั้ง?",
+            "upload_file_complete": "การอัปโหลด {} เสร็จสมบูรณ์!",
+            "upload_complete": "อัปโหลดไฟล์ทั้งหมดแล้ว!",
+            "buttons": {
+                "upload_stop": "ยกเลิก",
+                "upload_retry": "ลองใหม่"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "เลือกประเภทข้อความที่คุณต้องการโพสต์",
+            "room_prompt": "เลือกห้องที่คุณต้องการโพสต์:",
+            "error_no_rooms": "คุณยังไม่ได้เข้าร่วมห้องใด ๆ หรือคุณไม่มีสิทธิ์ในการโพสต์",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "ป้อนข้อความของคุณ:",
+            "input_placeholder": "ป้อนข้อความของคุณที่นี่...",
+            "send_start": "เริ่มส่งข้อความ...",
+            "send_failed": "การส่งข้อความล้มเหลว คุณต้องการส่งใหม่หรือไม่?",
+            "send_complete": "ส่งข้อความสำเร็จแล้ว!",
+            "buttons": {
+                "send_stop": "ไม่ต้องลองใหม่",
+                "resend": "ลองใหม่"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "ข้อความ", "block_title": "บล็อกผู้ใช้", "block_desc": "บล็อก {}? คุณจะไม่เห็นเนื้อหาของพวกเขาอีกต่อไป",
-        "block_confirm": "บล็อก", "block_success": "บล็อกผู้ใช้แล้ว", "block_error": "ไม่สามารถบล็อกผู้ใช้ได้: {}",
-        "report_title": "รายงานผู้ใช้", "report_desc": "กรุณาอธิบายเหตุผลในการรายงานผู้ใช้นี้",
-        "report_reason": "เหตุผล", "report_reason_hint": "ผู้ใช้นี้...", "report_submit": "ส่ง",
-        "report_success": "ส่งรายงานแล้ว ขอบคุณ", "feeds_section": "ฟีด", "no_feeds": "ไม่มีฟีดสาธารณะ",
+        "send_message": "ข้อความ",
+        "block_title": "บล็อกผู้ใช้",
+        "block_desc": "บล็อก {}? คุณจะไม่เห็นเนื้อหาของพวกเขาอีกต่อไป",
+        "block_confirm": "บล็อก",
+        "block_success": "บล็อกผู้ใช้แล้ว",
+        "block_error": "ไม่สามารถบล็อกผู้ใช้ได้: {}",
+        "report_title": "รายงานผู้ใช้",
+        "report_desc": "กรุณาอธิบายเหตุผลในการรายงานผู้ใช้นี้",
+        "report_reason": "เหตุผล",
+        "report_reason_hint": "ผู้ใช้นี้...",
+        "report_submit": "ส่ง",
+        "report_success": "ส่งรายงานแล้ว ขอบคุณ",
+        "feeds_section": "ฟีด",
+        "no_feeds": "ไม่มีฟีดสาธารณะ",
         "error_start_chat": "ไม่สามารถเริ่มแชทได้: {}"
     },
     "startroom_dialog": {
@@ -110,10 +428,16 @@
         "skip": "ข้าม"
     },
     "chat": {
-        "title": "ข้อความ", "input_placeholder": "พิมพ์ข้อความ...", "no_messages": "ยังไม่มีข้อความ ทักทายสิ!",
-        "no_conversations": "ยังไม่มีการสนทนา", "no_conversations_hint": "เยี่ยมชมโปรไฟล์ของผู้ใช้แล้วแตะ 'ข้อความ' เพื่อเริ่มแชท",
-        "media_message": "สื่อ", "conversation_started": "เริ่มการสนทนาแล้ว",
-        "error_loading": "ไม่สามารถโหลดการสนทนานี้ได้", "error_sending": "ส่งข้อความไม่สำเร็จ", "view_profile": "ดูโปรไฟล์"
+        "title": "ข้อความ",
+        "input_placeholder": "พิมพ์ข้อความ...",
+        "no_messages": "ยังไม่มีข้อความ ทักทายสิ!",
+        "no_conversations": "ยังไม่มีการสนทนา",
+        "no_conversations_hint": "เยี่ยมชมโปรไฟล์ของผู้ใช้แล้วแตะ 'ข้อความ' เพื่อเริ่มแชท",
+        "media_message": "สื่อ",
+        "conversation_started": "เริ่มการสนทนาแล้ว",
+        "error_loading": "ไม่สามารถโหลดการสนทนานี้ได้",
+        "error_sending": "ส่งข้อความไม่สำเร็จ",
+        "view_profile": "ดูโปรไฟล์"
     },
     "help": {
         "title": "ช่วยเหลือ",

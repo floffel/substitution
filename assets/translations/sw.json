@@ -18,13 +18,32 @@
     },
     "cancel": "Ghairi",
     "feed": {
-        "nav": { "home": "Nyumbani", "discover": "Gundua", "messages": "Ujumbe", "settings": "Mipangilio" },
-        "pages": { "home": { "roomlabel": "Chumba: {}", "empty": "Mlisho wako ni tupu. Fuata vyumba ili uone machapisho!", "empty_button": "Tafuta vyumba vipya" } }
+        "nav": {
+            "home": "Nyumbani",
+            "discover": "Gundua",
+            "messages": "Ujumbe",
+            "settings": "Mipangilio"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Chumba: {}",
+                "empty": "Mlisho wako ni tupu. Fuata vyumba ili uone machapisho!",
+                "empty_button": "Tafuta vyumba vipya"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Chapisho halipatikani au halipatikani." },
-        "menu": { "report_block": "Ripoti / Zuia" },
-        "e2e": { "encrypted": "Imesimbwa kwa njia ya mwisho hadi mwisho", "unencrypted": "Haijasimbwa", "failed": "Usimbuaji umeshindwa" },
+        "error": {
+            "not_found": "Chapisho halipatikani au halipatikani."
+        },
+        "menu": {
+            "report_block": "Ripoti / Zuia"
+        },
+        "e2e": {
+            "encrypted": "Imesimbwa kwa njia ya mwisho hadi mwisho",
+            "unencrypted": "Haijasimbwa",
+            "failed": "Usimbuaji umeshindwa"
+        },
         "dialog": {
             "report_block_title": "Ripoti Maudhui au Zuia Mtumiaji",
             "report_desc": "Tafadhali eleza kwa nini unaripoti maudhui haya (si lazima).",
@@ -32,75 +51,374 @@
             "report_reason_hint": "Maudhui haya ni ya kukera kwa sababu...",
             "block_user_checkbox": "Pia zuia mtumiaji huyu",
             "block_user_desc": "Hutaona tena maudhui kutoka kwa {}",
-            "submit": "Wasilisha", "cancel": "Ghairi",
+            "submit": "Wasilisha",
+            "cancel": "Ghairi",
             "report_block_success": "Ripoti imewasilishwa. Asante.",
             "report_block_error": "Hitilafu imetokea: {}"
         },
-        "pages": { "post": { "no_comments": "Hakuna maoni bado." } },
+        "pages": {
+            "post": {
+                "no_comments": "Hakuna maoni bado."
+            }
+        },
         "continue_thread": "Endelea na mazungumzo haya...",
         "replying_to": "Kujibu {}",
         "reply_placeholder": "Andika jibu...",
-        "mixins": { "iconpicker": { "title": "Chagua ikoni" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Chagua ikoni"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "funga" } },
-            "filedisplay": { "decrypting": "Faili inasimbuliwa...", "decrypt_error": "Imeshindwa kupakia faili.", "video_desktop_error": "Video haziwezi kuonyeshwa kwenye Linux, Windows wala MacOS. Fikiria kuchangia kwenye Github, ikiwa ungependa kuona kipengele hiki!", "audio_desktop_error": "Sauti haiwezi kuchezwa kwenye Linux, Windows wala MacOS." },
-            "comment": { "load_error": "Imeshindwa kupakia majibu." },
-            "reaction": { "unknown_sender": "haijulikani", "sent_by": "Imetumwa na {}" },
-            "videoplayercontrol": { "play": "cheza", "caption_offset": "urekebishaji wa manukuu", "playback_speed": "kasi ya kucheza" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "funga"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Faili inasimbuliwa...",
+                "decrypt_error": "Imeshindwa kupakia faili.",
+                "video_desktop_error": "Video haziwezi kuonyeshwa kwenye Linux, Windows wala MacOS. Fikiria kuchangia kwenye Github, ikiwa ungependa kuona kipengele hiki!",
+                "audio_desktop_error": "Sauti haiwezi kuchezwa kwenye Linux, Windows wala MacOS."
+            },
+            "comment": {
+                "load_error": "Imeshindwa kupakia majibu."
+            },
+            "reaction": {
+                "unknown_sender": "haijulikani",
+                "sent_by": "Imetumwa na {}"
+            },
+            "videoplayercontrol": {
+                "play": "cheza",
+                "caption_offset": "urekebishaji wa manukuu",
+                "playback_speed": "kasi ya kucheza"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Kisheria", "tos": "Masharti ya Huduma", "privacy": "Sera ya Faragha", "imprint": "Maelezo ya Kisheria", "licenses": "Leseni za Chanzo Huria" },
+        "legal": {
+            "title": "Kisheria",
+            "tos": "Masharti ya Huduma",
+            "privacy": "Sera ya Faragha",
+            "imprint": "Maelezo ya Kisheria",
+            "licenses": "Leseni za Chanzo Huria"
+        },
         "followfeeds": {
             "filter_server_header": "Chagua seva kutoka kwenye orodha au ongeza mpya:",
             "filter_rooms_header": "Tafuta chumba cha kufuata au kuacha kufuata:",
             "roomname_placeholder": "Ingiza jina la chumba",
-            "buttons": { "add_server": "Ongeza Seva", "retry": "Jaribu Tena" },
+            "buttons": {
+                "add_server": "Ongeza Seva",
+                "retry": "Jaribu Tena"
+            },
             "no_rooms_found": "Hakuna vyumba vilivyopatikana kwa vigezo vya utafutaji.",
             "error_loading_rooms": "Hitilafu: Imeshindwa kupakia vyumba"
         },
-        "ownfeeds": { "header": "Dhibiti vyumba vyako", "buttons": { "create_room": "Unda Chumba Kipya" } },
+        "ownfeeds": {
+            "header": "Dhibiti vyumba vyako",
+            "buttons": {
+                "create_room": "Unda Chumba Kipya"
+            }
+        },
         "menu": {
-            "logged_in_as": "Umeingia kama {}", "logout": "Toka", "logout_confirm": "Una uhakika unataka kutoka?",
-            "login": "Ingia", "not_logged_in": "Ingia ili ufikie vipengele vyote",
-            "home_site_label": "Nyumbani", "feeds_site_label": "Milisho", "navigation_label": "Urambazaji",
-            "account_label": "Akaunti", "preferences_label": "Mapendeleo", "about_label": "Kuhusu",
-            "ownfeeds_label": "Milisho Yangu", "profile_label": "Hariri Wasifu", "security_label": "Usalama"
+            "logged_in_as": "Umeingia kama {}",
+            "logout": "Toka",
+            "logout_confirm": "Una uhakika unataka kutoka?",
+            "login": "Ingia",
+            "not_logged_in": "Ingia ili ufikie vipengele vyote",
+            "home_site_label": "Nyumbani",
+            "feeds_site_label": "Milisho",
+            "navigation_label": "Urambazaji",
+            "account_label": "Akaunti",
+            "preferences_label": "Mapendeleo",
+            "about_label": "Kuhusu",
+            "ownfeeds_label": "Milisho Yangu",
+            "profile_label": "Hariri Wasifu",
+            "security_label": "Usalama"
         },
-        "room": { "desc": "Jina la chumba: {}", "leave": "Ondoka kwenye chumba", "join": "Ingia kwenye chumba na kiongeze kwa substitution", "join_short": "Jiunge", "permissions": "Ruhusa" },
+        "room": {
+            "desc": "Jina la chumba: {}",
+            "leave": "Ondoka kwenye chumba",
+            "join": "Ingia kwenye chumba na kiongeze kwa substitution",
+            "join_short": "Jiunge",
+            "permissions": "Ruhusa"
+        },
         "dialog": {
-            "delete": { "title": "Ondoka kwenye chumba {}", "desc": "Una uhakika unataka kuondoka kwenye chumba {}?", "button": { "submit": "Ndiyo, ondoka", "cancel": "Hapana, ghairi" } },
-            "add": { "title": "Ongeza Seva Mpya", "input_placeholder": "Ingiza anwani ya seva", "button": { "submit": "Ongeza" }, "snackbar": { "success": "Seva imeongezwa", "error_homeserver": "Seva iliyoingizwa si halali" } },
-            "create": { "title": "Unda chumba kipya", "placeholder_name": "jina la chumba", "placeholder_alias": "lakabu ya chumba (anwani ya umma)", "placeholder_topic": "mada ya chumba", "submit": "Unda", "error": "Imeshindwa kuunda chumba. Tafadhali jaribu tena." }
+            "delete": {
+                "title": "Ondoka kwenye chumba {}",
+                "desc": "Una uhakika unataka kuondoka kwenye chumba {}?",
+                "button": {
+                    "submit": "Ndiyo, ondoka",
+                    "cancel": "Hapana, ghairi"
+                }
+            },
+            "add": {
+                "title": "Ongeza Seva Mpya",
+                "input_placeholder": "Ingiza anwani ya seva",
+                "button": {
+                    "submit": "Ongeza"
+                },
+                "snackbar": {
+                    "success": "Seva imeongezwa",
+                    "error_homeserver": "Seva iliyoingizwa si halali"
+                }
+            },
+            "create": {
+                "title": "Unda chumba kipya",
+                "placeholder_name": "jina la chumba",
+                "placeholder_alias": "lakabu ya chumba (anwani ya umma)",
+                "placeholder_topic": "mada ya chumba",
+                "submit": "Unda",
+                "error": "Imeshindwa kuunda chumba. Tafadhali jaribu tena."
+            }
         },
-        "room_preview": { "members": "Wanachama {}", "latest_posts": "Machapisho ya hivi karibuni", "no_posts": "Hakuna machapisho bado katika chumba hiki.", "no_peek": "Historia ya chumba hiki ni ya faragha. Jiunge na chumba ili kuona machapisho yake.", "join_to_see": "Jiunge ili kuona machapisho" }
+        "room_preview": {
+            "members": "Wanachama {}",
+            "latest_posts": "Machapisho ya hivi karibuni",
+            "no_posts": "Hakuna machapisho bado katika chumba hiki.",
+            "no_peek": "Historia ya chumba hiki ni ya faragha. Jiunge na chumba ili kuona machapisho yake.",
+            "join_to_see": "Jiunge ili kuona machapisho"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Poa, umeshaingia. \nUnaweza kuendelea na hatua zinazofuata",
         "isNotLoggedIn": "Tafadhali ingia kwanza",
-        "buttons": { "next": "Ifuatayo", "back": "Nyuma" },
-        "welcome": { "title": "Karibu kwenye substitution", "desc": "... mtandao mpya wa kijamii juu ya itifaki ya matrix" },
-        "account": { "title": "Akaunti za Matrix", "desc": "Lazima uwe umeingia kwenye akaunti ya Matrix kwenye seva yoyote ili uweze kutumia programu hii. Ikiwa hujui jinsi ya kupata moja, tembelea tovuti hii: https://matrix.org/" },
-        "host": { "title": "Chagua seva" },
-        "login": { "title": "Ingia" },
-        "finished": { "title": "Twende", "desc": "Poa, umeingia. Tuko tayari kubadilisha. Sasa unaweza kuchagua kama unataka kujiunga na chumba cha karibu cha substitution. Twende, na ufurahie!", "buttons": { "add_to_room_and_go": "Jiunge na Chumba cha Substitution na uende!", "go": "Endelea tu!" } }
+        "buttons": {
+            "next": "Ifuatayo",
+            "back": "Nyuma"
+        },
+        "welcome": {
+            "title": "Karibu kwenye substitution",
+            "desc": "... mtandao mpya wa kijamii juu ya itifaki ya matrix"
+        },
+        "account": {
+            "title": "Akaunti za Matrix",
+            "desc": "Lazima uwe umeingia kwenye akaunti ya Matrix kwenye seva yoyote ili uweze kutumia programu hii. Ikiwa hujui jinsi ya kupata moja, tembelea tovuti hii: https://matrix.org/"
+        },
+        "host": {
+            "title": "Chagua seva"
+        },
+        "login": {
+            "title": "Ingia"
+        },
+        "finished": {
+            "title": "Twende",
+            "desc": "Poa, umeingia. Tuko tayari kubadilisha. Sasa unaweza kuchagua kama unataka kujiunga na chumba cha karibu cha substitution. Twende, na ufurahie!",
+            "buttons": {
+                "add_to_room_and_go": "Jiunge na Chumba cha Substitution na uende!",
+                "go": "Endelea tu!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Unganisha na Seva yako", "body": "Tafadhali chagua Seva ya Matrix. Kisha unaweza kuchagua kuingia au kuvinjari vyumba vya umma vinavyopatikana.", "inputs": { "homeserver_label": "Anwani ya Seva yako" }, "buttons": { "login_label": "Ingia" } },
-        "login": { "loading": "Inaingia...", "header": "Ingia", "body": "Tafadhali ingia kwa vitambulisho vyako.", "inputs": { "username_label": "Jina la mtumiaji", "password_label": "Nenosiri" }, "buttons": { "login_label": "Ingia", "sso_label": "Ingia kwa {}", "register_web_label": "Jisajili" } }
+        "host": {
+            "header": "Unganisha na Seva yako",
+            "body": "Tafadhali chagua Seva ya Matrix. Kisha unaweza kuchagua kuingia au kuvinjari vyumba vya umma vinavyopatikana.",
+            "inputs": {
+                "homeserver_label": "Anwani ya Seva yako"
+            },
+            "buttons": {
+                "login_label": "Ingia"
+            }
+        },
+        "login": {
+            "loading": "Inaingia...",
+            "header": "Ingia",
+            "body": "Tafadhali ingia kwa vitambulisho vyako.",
+            "inputs": {
+                "username_label": "Jina la mtumiaji",
+                "password_label": "Nenosiri"
+            },
+            "buttons": {
+                "login_label": "Ingia",
+                "sso_label": "Ingia kwa {}",
+                "register_web_label": "Jisajili"
+            }
+        }
     },
     "write": {
-        "answer": "Jibu", "roomheader": "Chumba: {}",
-        "filemessage": { "video_preview": "Video", "caption_header": "Maelezo (hiari):", "upload_files": "Ongeza faili mpya za kupakia", "title_header": "Kichwa:", "upload_start": "Inaanza kupakia...", "upload_file_process": "Inapakia faili {}", "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?", "upload_file_complete": "Kupakia {} kumekamilika!", "upload_complete": "Faili zote zimepakiwa!", "buttons": { "upload_stop": "Ghairi", "upload_retry": "Jaribu Tena" } },
-        "roomselect": { "type_prompt": "Chagua aina ya ujumbe unayotaka kuchapisha", "room_prompt": "Chagua chumba ambacho ungependa kuchapisha:", "error_no_rooms": "Hujajiunga na vyumba vyovyote au huna haki za kuchapisha." },
-        "textmessage": { "answer_promt": "Ingiza Maandishi yako:", "input_placeholder": "Ingiza maandishi yako hapa...", "send_start": "Imeanza kutuma ujumbe...", "send_failed": "Kutuma ujumbe kumeshindwa. Ungependa kutuma tena?", "send_complete": "Ujumbe umetumwa kwa mafanikio!", "buttons": { "send_stop": "Usijaribu tena", "resend": "Jaribu Tena" } }
+        "answer": "Jibu",
+        "roomheader": "Chumba: {}",
+        "filemessage": {
+            "video_preview": "Video",
+            "caption_header": "Maelezo (hiari):",
+            "upload_files": "Ongeza faili mpya za kupakia",
+            "title_header": "Kichwa:",
+            "upload_start": "Inaanza kupakia...",
+            "upload_file_process": "Inapakia faili {}",
+            "upload_error": "Kupakia {} kumeshindwa. Jaribu tena?",
+            "upload_file_complete": "Kupakia {} kumekamilika!",
+            "upload_complete": "Faili zote zimepakiwa!",
+            "buttons": {
+                "upload_stop": "Ghairi",
+                "upload_retry": "Jaribu Tena"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Chagua aina ya ujumbe unayotaka kuchapisha",
+            "room_prompt": "Chagua chumba ambacho ungependa kuchapisha:",
+            "error_no_rooms": "Hujajiunga na vyumba vyovyote au huna haki za kuchapisha.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Ingiza Maandishi yako:",
+            "input_placeholder": "Ingiza maandishi yako hapa...",
+            "send_start": "Imeanza kutuma ujumbe...",
+            "send_failed": "Kutuma ujumbe kumeshindwa. Ungependa kutuma tena?",
+            "send_complete": "Ujumbe umetumwa kwa mafanikio!",
+            "buttons": {
+                "send_stop": "Usijaribu tena",
+                "resend": "Jaribu Tena"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Ujumbe", "block_title": "Zuia Mtumiaji", "block_desc": "Zuia {}? Hutaona tena maudhui yao.",
-        "block_confirm": "Zuia", "block_success": "Mtumiaji amezuiwa.", "block_error": "Imeshindwa kumzuia mtumiaji: {}",
-        "report_title": "Ripoti Mtumiaji", "report_desc": "Tafadhali eleza sababu ya kuripoti mtumiaji huyu.",
-        "report_reason": "Sababu", "report_reason_hint": "Mtumiaji huyu ni...", "report_submit": "Wasilisha",
-        "report_success": "Ripoti imewasilishwa. Asante.", "feeds_section": "MILISHO", "no_feeds": "Hakuna milisho ya umma",
+        "send_message": "Ujumbe",
+        "block_title": "Zuia Mtumiaji",
+        "block_desc": "Zuia {}? Hutaona tena maudhui yao.",
+        "block_confirm": "Zuia",
+        "block_success": "Mtumiaji amezuiwa.",
+        "block_error": "Imeshindwa kumzuia mtumiaji: {}",
+        "report_title": "Ripoti Mtumiaji",
+        "report_desc": "Tafadhali eleza sababu ya kuripoti mtumiaji huyu.",
+        "report_reason": "Sababu",
+        "report_reason_hint": "Mtumiaji huyu ni...",
+        "report_submit": "Wasilisha",
+        "report_success": "Ripoti imewasilishwa. Asante.",
+        "feeds_section": "MILISHO",
+        "no_feeds": "Hakuna milisho ya umma",
         "error_start_chat": "Imeshindwa kuanza mazungumzo: {}"
     },
     "startroom_dialog": {
@@ -110,10 +428,16 @@
         "skip": "Ruka"
     },
     "chat": {
-        "title": "Ujumbe", "input_placeholder": "Andika ujumbe...", "no_messages": "Hakuna ujumbe bado. Sema habari!",
-        "no_conversations": "Hakuna mazungumzo bado", "no_conversations_hint": "Tembelea wasifu wa mtumiaji na ubonyeze 'Ujumbe' ili kuanza mazungumzo.",
-        "media_message": "Midia", "conversation_started": "Mazungumzo yameanza",
-        "error_loading": "Imeshindwa kupakia mazungumzo haya.", "error_sending": "Imeshindwa kutuma ujumbe.", "view_profile": "Tazama wasifu"
+        "title": "Ujumbe",
+        "input_placeholder": "Andika ujumbe...",
+        "no_messages": "Hakuna ujumbe bado. Sema habari!",
+        "no_conversations": "Hakuna mazungumzo bado",
+        "no_conversations_hint": "Tembelea wasifu wa mtumiaji na ubonyeze 'Ujumbe' ili kuanza mazungumzo.",
+        "media_message": "Midia",
+        "conversation_started": "Mazungumzo yameanza",
+        "error_loading": "Imeshindwa kupakia mazungumzo haya.",
+        "error_sending": "Imeshindwa kutuma ujumbe.",
+        "view_profile": "Tazama wasifu"
     },
     "help": {
         "title": "Msaada",

@@ -18,13 +18,32 @@
     },
     "cancel": "ரத்துசெய்",
     "feed": {
-        "nav": { "home": "முகப்பு", "discover": "கண்டறி", "messages": "செய்திகள்", "settings": "அமைப்புகள்" },
-        "pages": { "home": { "roomlabel": "அறை: {}", "empty": "உங்கள் ஊட்டம் காலியாக உள்ளது. இடுகைகளைக் காண சில அறைகளைப் பின்தொடரவும்!", "empty_button": "புதிய அறைகளைக் கண்டறியுங்கள்" } }
+        "nav": {
+            "home": "முகப்பு",
+            "discover": "கண்டறி",
+            "messages": "செய்திகள்",
+            "settings": "அமைப்புகள்"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "அறை: {}",
+                "empty": "உங்கள் ஊட்டம் காலியாக உள்ளது. இடுகைகளைக் காண சில அறைகளைப் பின்தொடரவும்!",
+                "empty_button": "புதிய அறைகளைக் கண்டறியுங்கள்"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "இடுகை கண்டறியப்படவில்லை அல்லது கிடைக்கவில்லை." },
-        "menu": { "report_block": "புகாரளி / தடுக்கவும்" },
-        "e2e": { "encrypted": "முனைக்கு முனை மறையாக்கம் செய்யப்பட்டது", "unencrypted": "மறையாக்கம் செய்யப்படவில்லை", "failed": "மறைநீக்கம் தோல்வியடைந்தது" },
+        "error": {
+            "not_found": "இடுகை கண்டறியப்படவில்லை அல்லது கிடைக்கவில்லை."
+        },
+        "menu": {
+            "report_block": "புகாரளி / தடுக்கவும்"
+        },
+        "e2e": {
+            "encrypted": "முனைக்கு முனை மறையாக்கம் செய்யப்பட்டது",
+            "unencrypted": "மறையாக்கம் செய்யப்படவில்லை",
+            "failed": "மறைநீக்கம் தோல்வியடைந்தது"
+        },
         "dialog": {
             "report_block_title": "உள்ளடக்கத்தைப் புகாரளிக்கவும் அல்லது பயனரைத் தடுக்கவும்",
             "report_desc": "இந்த உள்ளடக்கத்தை ஏன் புகாரளிக்கிறீர்கள் என்று விவரிக்கவும் (விருப்பத்திற்குரியது).",
@@ -32,77 +51,374 @@
             "report_reason_hint": "இந்த உள்ளடக்கம் ஆட்சேபனைக்குரியது ஏனெனில்...",
             "block_user_checkbox": "இந்தப் பயனரையும் தடுக்கவும்",
             "block_user_desc": "இனி {} இடமிருந்து உள்ளடக்கத்தைக் காண மாட்டீர்கள்",
-            "submit": "சமர்ப்பி", "cancel": "ரத்துசெய்",
+            "submit": "சமர்ப்பி",
+            "cancel": "ரத்துசெய்",
             "report_block_success": "புகார் சமர்ப்பிக்கப்பட்டது. நன்றி.",
             "report_block_error": "ஒரு பிழை ஏற்பட்டது: {}"
         },
-        "pages": { "post": { "no_comments": "இன்னும் கருத்துகள் இல்லை." } },
+        "pages": {
+            "post": {
+                "no_comments": "இன்னும் கருத்துகள் இல்லை."
+            }
+        },
         "continue_thread": "இந்தத் தொடரைத் தொடரவும்...",
         "replying_to": "{} க்கு பதிலளிக்கிறது",
         "reply_placeholder": "பதிலை எழுதுங்கள்...",
-        "mixins": { "iconpicker": { "title": "சின்னத்தைத் தேர்ந்தெடுக்கவும்" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "சின்னத்தைத் தேர்ந்தெடுக்கவும்"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "மூடு" } },
-            "filedisplay": { "decrypting": "கோப்பு மறைநீக்கம் செய்யப்படுகிறது...", "decrypt_error": "கோப்பை ஏற்ற இயலவில்லை.", "video_desktop_error": "Linux, Windows அல்லது MacOS இல் வீடியோக்களைக் காண இயலாது. இந்தச் செயல்பாட்டைக் காண விரும்பினால் Github இல் பங்களிக்கவும்!", "audio_desktop_error": "Linux, Windows அல்லது MacOS இல் ஆடியோவை இயக்க இயலாது." },
-            "comment": { "load_error": "பதில்களை ஏற்ற இயலவில்லை." },
-            "reaction": { "unknown_sender": "தெரியாதது", "sent_by": "{} அனுப்பியது" },
-            "videoplayercontrol": { "play": "இயக்கு", "caption_offset": "தலைப்பு ஆஃப்செட்", "playback_speed": "இயக்க வேகம்" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "மூடு"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "கோப்பு மறைநீக்கம் செய்யப்படுகிறது...",
+                "decrypt_error": "கோப்பை ஏற்ற இயலவில்லை.",
+                "video_desktop_error": "Linux, Windows அல்லது MacOS இல் வீடியோக்களைக் காண இயலாது. இந்தச் செயல்பாட்டைக் காண விரும்பினால் Github இல் பங்களிக்கவும்!",
+                "audio_desktop_error": "Linux, Windows அல்லது MacOS இல் ஆடியோவை இயக்க இயலாது."
+            },
+            "comment": {
+                "load_error": "பதில்களை ஏற்ற இயலவில்லை."
+            },
+            "reaction": {
+                "unknown_sender": "தெரியாதது",
+                "sent_by": "{} அனுப்பியது"
+            },
+            "videoplayercontrol": {
+                "play": "இயக்கு",
+                "caption_offset": "தலைப்பு ஆஃப்செட்",
+                "playback_speed": "இயக்க வேகம்"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "சட்டப்பூர்வ", "tos": "சேவை விதிமுறைகள்", "privacy": "தனியுரிமைக் கொள்கை", "imprint": "அச்சு", "licenses": "திறந்த மூல உரிமங்கள்" },
+        "legal": {
+            "title": "சட்டப்பூர்வ",
+            "tos": "சேவை விதிமுறைகள்",
+            "privacy": "தனியுரிமைக் கொள்கை",
+            "imprint": "அச்சு",
+            "licenses": "திறந்த மூல உரிமங்கள்"
+        },
         "followfeeds": {
             "filter_server_header": "பட்டியலிலிருந்து ஒரு சர்வரைத் தேர்ந்தெடுக்கவும் அல்லது புதியதைச் சேர்க்கவும்:",
             "filter_rooms_header": "பின்தொடர அல்லது நிறுத்த ஒரு அறையைத் தேடுங்கள்:",
             "roomname_placeholder": "அறைப் பெயரை உள்ளிடவும்",
-            "buttons": { "add_server": "சர்வரைச் சேர்", "retry": "மீண்டும் முயற்சி" },
+            "buttons": {
+                "add_server": "சர்வரைச் சேர்",
+                "retry": "மீண்டும் முயற்சி"
+            },
             "no_rooms_found": "கொடுக்கப்பட்ட தேடல் அளவுகோல்களுக்கு அறைகள் கிடைக்கவில்லை.",
             "error_loading_rooms": "பிழை: அறைகளை ஏற்றுவதில் தோல்வி"
         },
-        "ownfeeds": { "header": "உங்கள் சொந்த அறைகளை நிர்வகிக்கவும்", "buttons": { "create_room": "புதிய அறையை உருவாக்கு" } },
+        "ownfeeds": {
+            "header": "உங்கள் சொந்த அறைகளை நிர்வகிக்கவும்",
+            "buttons": {
+                "create_room": "புதிய அறையை உருவாக்கு"
+            }
+        },
         "menu": {
-            "logged_in_as": "{} ஆக உள்நுழைந்துள்ளீர்கள்", "logout": "வெளியேறு", "logout_confirm": "நீங்கள் நிச்சயமாக வெளியேற விரும்புகிறீர்களா?",
-            "login": "உள்நுழை", "not_logged_in": "அனைத்து அம்சங்களையும் அணுக உள்நுழையவும்",
-            "home_site_label": "முகப்பு", "feeds_site_label": "ஊட்டங்கள்", "navigation_label": "வழிசெலுத்தல்",
-            "account_label": "கணக்கு", "preferences_label": "விருப்பத்தேர்வுகள்", "about_label": "பற்றி",
+            "logged_in_as": "{} ஆக உள்நுழைந்துள்ளீர்கள்",
+            "logout": "வெளியேறு",
+            "logout_confirm": "நீங்கள் நிச்சயமாக வெளியேற விரும்புகிறீர்களா?",
+            "login": "உள்நுழை",
+            "not_logged_in": "அனைத்து அம்சங்களையும் அணுக உள்நுழையவும்",
+            "home_site_label": "முகப்பு",
+            "feeds_site_label": "ஊட்டங்கள்",
+            "navigation_label": "வழிசெலுத்தல்",
+            "account_label": "கணக்கு",
+            "preferences_label": "விருப்பத்தேர்வுகள்",
+            "about_label": "பற்றி",
             "ownfeeds_label": "சொந்த ஊட்டங்கள்",
             "profile_label": "சுயவிவரத்தைத் திருத்து",
             "security_label": "பாதுகாப்பு"
         },
-        "room": { "desc": "அறைப் பெயர்: {}", "leave": "அறையை விடு", "join": "அறையில் நுழைந்து substitution இல் சேர்க்கவும்", "join_short": "சேரவும்", "permissions": "அனுமதிகள்" },
-        "dialog": {
-            "delete": { "title": "அறையை விடு {}", "desc": "நீங்கள் நிச்சயமாக {} அறையை விட விரும்புகிறீர்களா?", "button": { "submit": "ஆம், விடுங்கள்", "cancel": "இல்லை, ரத்துசெய்" } },
-            "add": { "title": "புதிய சர்வரைச் சேர்", "input_placeholder": "சர்வர் முகவரியை உள்ளிடவும்", "button": { "submit": "சேர்" }, "snackbar": { "success": "சர்வர் சேர்க்கப்பட்டது", "error_homeserver": "உள்ளிட்ட ஹோம்சர்வர் செல்லுபடியாகாது" } },
-            "create": { "title": "புதிய அறையை உருவாக்கு", "placeholder_name": "அறைப் பெயர்", "placeholder_alias": "அறை மாற்றுப் பெயர் (பொது அறை முகவரி)", "placeholder_topic": "அறை தலைப்பு", "submit": "உருவாக்கு", "error": "அறையை உருவாக்க இயலவில்லை. மீண்டும் முயற்சிக்கவும்." }
+        "room": {
+            "desc": "அறைப் பெயர்: {}",
+            "leave": "அறையை விடு",
+            "join": "அறையில் நுழைந்து substitution இல் சேர்க்கவும்",
+            "join_short": "சேரவும்",
+            "permissions": "அனுமதிகள்"
         },
-        "room_preview": { "members": "{} உறுப்பினர்கள்", "latest_posts": "சமீபத்திய இடுகைகள்", "no_posts": "இந்த அறையில் இன்னும் இடுகைகள் இல்லை.", "no_peek": "இந்த அறையின் வரலாறு தனிப்பட்டது. இடுகைகளைக் காண அறையில் சேரவும்.", "join_to_see": "இடுகைகளைக் காண சேரவும்" }
+        "dialog": {
+            "delete": {
+                "title": "அறையை விடு {}",
+                "desc": "நீங்கள் நிச்சயமாக {} அறையை விட விரும்புகிறீர்களா?",
+                "button": {
+                    "submit": "ஆம், விடுங்கள்",
+                    "cancel": "இல்லை, ரத்துசெய்"
+                }
+            },
+            "add": {
+                "title": "புதிய சர்வரைச் சேர்",
+                "input_placeholder": "சர்வர் முகவரியை உள்ளிடவும்",
+                "button": {
+                    "submit": "சேர்"
+                },
+                "snackbar": {
+                    "success": "சர்வர் சேர்க்கப்பட்டது",
+                    "error_homeserver": "உள்ளிட்ட ஹோம்சர்வர் செல்லுபடியாகாது"
+                }
+            },
+            "create": {
+                "title": "புதிய அறையை உருவாக்கு",
+                "placeholder_name": "அறைப் பெயர்",
+                "placeholder_alias": "அறை மாற்றுப் பெயர் (பொது அறை முகவரி)",
+                "placeholder_topic": "அறை தலைப்பு",
+                "submit": "உருவாக்கு",
+                "error": "அறையை உருவாக்க இயலவில்லை. மீண்டும் முயற்சிக்கவும்."
+            }
+        },
+        "room_preview": {
+            "members": "{} உறுப்பினர்கள்",
+            "latest_posts": "சமீபத்திய இடுகைகள்",
+            "no_posts": "இந்த அறையில் இன்னும் இடுகைகள் இல்லை.",
+            "no_peek": "இந்த அறையின் வரலாறு தனிப்பட்டது. இடுகைகளைக் காண அறையில் சேரவும்.",
+            "join_to_see": "இடுகைகளைக் காண சேரவும்"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "அருமை, நீங்கள் ஏற்கனவே உள்நுழைந்துள்ளீர்கள். \nஅடுத்த படிகளுடன் தொடரலாம்",
         "isNotLoggedIn": "முதலில் உள்நுழையவும்",
-        "buttons": { "next": "அடுத்து", "back": "பின்" },
-        "welcome": { "title": "substitution க்கு வரவேற்கிறோம்", "desc": "... matrix நெறிமுறையின் மேல் புதிய சமூக வலைப்பின்னல்" },
-        "account": { "title": "Matrix கணக்குகள்", "desc": "இந்தப் பயன்பாட்டைப் பயன்படுத்த, ஏதேனும் ஒரு சர்வரில் Matrix கணக்கில் உள்நுழைந்திருக்க வேண்டும். ஒன்றை எவ்வாறு பெறுவது என்று தெரியாவிட்டால், இந்த தளத்தைப் பார்வையிடவும்: https://matrix.org/" },
-        "host": { "title": "ஒரு ஹோஸ்டைத் தேர்ந்தெடுக்கவும்" },
-        "login": { "title": "உள்நுழை" },
-        "finished": { "title": "போகலாம்", "desc": "அருமை, நீங்கள் உள்நுழைந்துவிட்டீர்கள். நாங்கள் தயாராக உள்ளோம். இப்போது substitution வரவேற்பு அறையில் சேர விரும்புகிறீர்களா என்று தேர்வு செய்யலாம். போகலாம், மகிழுங்கள்!", "buttons": { "add_to_room_and_go": "Substitution அறையில் சேர்ந்து போங்கள்!", "go": "போதும் போங்கள்!" } }
+        "buttons": {
+            "next": "அடுத்து",
+            "back": "பின்"
+        },
+        "welcome": {
+            "title": "substitution க்கு வரவேற்கிறோம்",
+            "desc": "... matrix நெறிமுறையின் மேல் புதிய சமூக வலைப்பின்னல்"
+        },
+        "account": {
+            "title": "Matrix கணக்குகள்",
+            "desc": "இந்தப் பயன்பாட்டைப் பயன்படுத்த, ஏதேனும் ஒரு சர்வரில் Matrix கணக்கில் உள்நுழைந்திருக்க வேண்டும். ஒன்றை எவ்வாறு பெறுவது என்று தெரியாவிட்டால், இந்த தளத்தைப் பார்வையிடவும்: https://matrix.org/"
+        },
+        "host": {
+            "title": "ஒரு ஹோஸ்டைத் தேர்ந்தெடுக்கவும்"
+        },
+        "login": {
+            "title": "உள்நுழை"
+        },
+        "finished": {
+            "title": "போகலாம்",
+            "desc": "அருமை, நீங்கள் உள்நுழைந்துவிட்டீர்கள். நாங்கள் தயாராக உள்ளோம். இப்போது substitution வரவேற்பு அறையில் சேர விரும்புகிறீர்களா என்று தேர்வு செய்யலாம். போகலாம், மகிழுங்கள்!",
+            "buttons": {
+                "add_to_room_and_go": "Substitution அறையில் சேர்ந்து போங்கள்!",
+                "go": "போதும் போங்கள்!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "உங்கள் ஹோம்சர்வருடன் இணையவும்", "body": "ஒரு Matrix ஹோம்சர்வரைத் தேர்ந்தெடுக்கவும். பின்னர் உள்நுழையவோ அல்லது பொதுவில் கிடைக்கும் அறைகளை உலாவவோ தேர்வு செய்யலாம்.", "inputs": { "homeserver_label": "உங்கள் ஹோம்சர்வர் முகவரி" }, "buttons": { "login_label": "உள்நுழை" } },
-        "login": { "loading": "உள்நுழைகிறது...", "header": "உள்நுழை", "body": "உங்கள் சான்றுகளுடன் உள்நுழையவும்.", "inputs": { "username_label": "பயனர்பெயர்", "password_label": "கடவுச்சொல்" }, "buttons": { "login_label": "உள்நுழை", "sso_label": "{} மூலம் உள்நுழை", "register_web_label": "பதிவு செய்" } }
+        "host": {
+            "header": "உங்கள் ஹோம்சர்வருடன் இணையவும்",
+            "body": "ஒரு Matrix ஹோம்சர்வரைத் தேர்ந்தெடுக்கவும். பின்னர் உள்நுழையவோ அல்லது பொதுவில் கிடைக்கும் அறைகளை உலாவவோ தேர்வு செய்யலாம்.",
+            "inputs": {
+                "homeserver_label": "உங்கள் ஹோம்சர்வர் முகவரி"
+            },
+            "buttons": {
+                "login_label": "உள்நுழை"
+            }
+        },
+        "login": {
+            "loading": "உள்நுழைகிறது...",
+            "header": "உள்நுழை",
+            "body": "உங்கள் சான்றுகளுடன் உள்நுழையவும்.",
+            "inputs": {
+                "username_label": "பயனர்பெயர்",
+                "password_label": "கடவுச்சொல்"
+            },
+            "buttons": {
+                "login_label": "உள்நுழை",
+                "sso_label": "{} மூலம் உள்நுழை",
+                "register_web_label": "பதிவு செய்"
+            }
+        }
     },
     "write": {
-        "answer": "பதில்", "roomheader": "அறை: {}",
-        "filemessage": { "video_preview": "வீடியோ", "caption_header": "தலைப்புரை (விருப்பமானது):", "upload_files": "பதிவேற்ற புதிய கோப்புகளைச் சேர்க்கவும்", "title_header": "தலைப்பு:", "upload_start": "பதிவேற்றம் தொடங்குகிறது...", "upload_file_process": "{} கோப்பைப் பதிவேற்றுகிறது", "upload_error": "{} பதிவேற்றம் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவா?", "upload_file_complete": "{} பதிவேற்றம் முடிந்தது!", "upload_complete": "அனைத்துக் கோப்புகளும் பதிவேற்றப்பட்டன!", "buttons": { "upload_stop": "ரத்துசெய்", "upload_retry": "மீண்டும் முயற்சி" } },
-        "roomselect": { "type_prompt": "நீங்கள் இடுகையிட விரும்பும் செய்தி வகையைத் தேர்ந்தெடுக்கவும்", "room_prompt": "நீங்கள் இடுகையிட விரும்பும் அறையைத் தேர்ந்தெடுக்கவும்:", "error_no_rooms": "நீங்கள் எந்த அறையிலும் சேரவில்லை அல்லது இடுகையிட உரிமை இல்லை." },
-        "textmessage": { "answer_promt": "உங்கள் உரையை உள்ளிடவும்:", "input_placeholder": "உங்கள் உரையை இங்கே உள்ளிடவும்...", "send_start": "செய்தி அனுப்பத் தொடங்கியது...", "send_failed": "செய்தி அனுப்புதல் தோல்வியடைந்தது. மீண்டும் அனுப்ப விரும்புகிறீர்களா?", "send_complete": "செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!", "buttons": { "send_stop": "மீண்டும் முயற்சிக்க வேண்டாம்", "resend": "மீண்டும் முயற்சி" } }
+        "answer": "பதில்",
+        "roomheader": "அறை: {}",
+        "filemessage": {
+            "video_preview": "வீடியோ",
+            "caption_header": "தலைப்புரை (விருப்பமானது):",
+            "upload_files": "பதிவேற்ற புதிய கோப்புகளைச் சேர்க்கவும்",
+            "title_header": "தலைப்பு:",
+            "upload_start": "பதிவேற்றம் தொடங்குகிறது...",
+            "upload_file_process": "{} கோப்பைப் பதிவேற்றுகிறது",
+            "upload_error": "{} பதிவேற்றம் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவா?",
+            "upload_file_complete": "{} பதிவேற்றம் முடிந்தது!",
+            "upload_complete": "அனைத்துக் கோப்புகளும் பதிவேற்றப்பட்டன!",
+            "buttons": {
+                "upload_stop": "ரத்துசெய்",
+                "upload_retry": "மீண்டும் முயற்சி"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "நீங்கள் இடுகையிட விரும்பும் செய்தி வகையைத் தேர்ந்தெடுக்கவும்",
+            "room_prompt": "நீங்கள் இடுகையிட விரும்பும் அறையைத் தேர்ந்தெடுக்கவும்:",
+            "error_no_rooms": "நீங்கள் எந்த அறையிலும் சேரவில்லை அல்லது இடுகையிட உரிமை இல்லை.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "உங்கள் உரையை உள்ளிடவும்:",
+            "input_placeholder": "உங்கள் உரையை இங்கே உள்ளிடவும்...",
+            "send_start": "செய்தி அனுப்பத் தொடங்கியது...",
+            "send_failed": "செய்தி அனுப்புதல் தோல்வியடைந்தது. மீண்டும் அனுப்ப விரும்புகிறீர்களா?",
+            "send_complete": "செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!",
+            "buttons": {
+                "send_stop": "மீண்டும் முயற்சிக்க வேண்டாம்",
+                "resend": "மீண்டும் முயற்சி"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "செய்தி", "block_title": "பயனரைத் தடு", "block_desc": "{} ஐத் தடுக்கவா? அவர்களின் உள்ளடக்கத்தை இனி காண மாட்டீர்கள்.",
-        "block_confirm": "தடு", "block_success": "பயனர் தடுக்கப்பட்டார்.", "block_error": "பயனரைத் தடுக்க இயலவில்லை: {}",
-        "report_title": "பயனரைப் புகாரளி", "report_desc": "இந்தப் பயனரைப் புகாரளிப்பதற்கான காரணத்தை விவரிக்கவும்.",
-        "report_reason": "காரணம்", "report_reason_hint": "இந்தப் பயனர்...", "report_submit": "சமர்ப்பி",
-        "report_success": "புகார் சமர்ப்பிக்கப்பட்டது. நன்றி.", "feeds_section": "ஊட்டங்கள்", "no_feeds": "பொது ஊட்டங்கள் இல்லை",
+        "send_message": "செய்தி",
+        "block_title": "பயனரைத் தடு",
+        "block_desc": "{} ஐத் தடுக்கவா? அவர்களின் உள்ளடக்கத்தை இனி காண மாட்டீர்கள்.",
+        "block_confirm": "தடு",
+        "block_success": "பயனர் தடுக்கப்பட்டார்.",
+        "block_error": "பயனரைத் தடுக்க இயலவில்லை: {}",
+        "report_title": "பயனரைப் புகாரளி",
+        "report_desc": "இந்தப் பயனரைப் புகாரளிப்பதற்கான காரணத்தை விவரிக்கவும்.",
+        "report_reason": "காரணம்",
+        "report_reason_hint": "இந்தப் பயனர்...",
+        "report_submit": "சமர்ப்பி",
+        "report_success": "புகார் சமர்ப்பிக்கப்பட்டது. நன்றி.",
+        "feeds_section": "ஊட்டங்கள்",
+        "no_feeds": "பொது ஊட்டங்கள் இல்லை",
         "error_start_chat": "அரட்டையைத் தொடங்க இயலவில்லை: {}"
     },
     "startroom_dialog": {
@@ -112,10 +428,16 @@
         "skip": "தவிர்"
     },
     "chat": {
-        "title": "செய்திகள்", "input_placeholder": "ஒரு செய்தியை உள்ளிடவும்...", "no_messages": "இன்னும் செய்திகள் இல்லை. வணக்கம் சொல்லுங்கள்!",
-        "no_conversations": "இன்னும் உரையாடல்கள் இல்லை", "no_conversations_hint": "ஒரு பயனரின் சுயவிவரத்தைப் பார்வையிட்டு 'செய்தி' என்பதைத் தட்டி அரட்டையைத் தொடங்கவும்.",
-        "media_message": "மீடியா", "conversation_started": "உரையாடல் தொடங்கியது",
-        "error_loading": "இந்த உரையாடலை ஏற்ற இயலவில்லை.", "error_sending": "செய்தி அனுப்புவதில் தோல்வி.", "view_profile": "சுயவிவரத்தைக் காண்க"
+        "title": "செய்திகள்",
+        "input_placeholder": "ஒரு செய்தியை உள்ளிடவும்...",
+        "no_messages": "இன்னும் செய்திகள் இல்லை. வணக்கம் சொல்லுங்கள்!",
+        "no_conversations": "இன்னும் உரையாடல்கள் இல்லை",
+        "no_conversations_hint": "ஒரு பயனரின் சுயவிவரத்தைப் பார்வையிட்டு 'செய்தி' என்பதைத் தட்டி அரட்டையைத் தொடங்கவும்.",
+        "media_message": "மீடியா",
+        "conversation_started": "உரையாடல் தொடங்கியது",
+        "error_loading": "இந்த உரையாடலை ஏற்ற இயலவில்லை.",
+        "error_sending": "செய்தி அனுப்புவதில் தோல்வி.",
+        "view_profile": "சுயவிவரத்தைக் காண்க"
     },
     "help": {
         "title": "உதவி",

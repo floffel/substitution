@@ -1,6 +1,8 @@
 import '/post/interfaces/i_event.dart';
 import '/post/widgets/display/file_display_container.dart';
+import '/post/widgets/display/location_display.dart';
 import '/post/widgets/display/reactions_display.dart';
+import '/shared/widgets/mxc_image.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/widgets/dialog_report_block.dart';
 import '/shared/utils/relative_time.dart';
@@ -79,7 +81,23 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final timestamp = relativeTime(widget.displayEvent.originServerTs);
-    final isTextPost = widget.displayEvent.messageType == MessageTypes.Text;
+    final messageType = widget.displayEvent.messageType;
+    final isTextPost = messageType == MessageTypes.Text;
+    final isEmotePost = messageType == MessageTypes.Emote;
+    final isLocationPost = messageType == MessageTypes.Location;
+    final isVoicePost =
+        messageType == MessageTypes.Audio &&
+        (widget.displayEvent.content['org.matrix.msc3245.voice'] != null);
+    final isStickerPost = widget.displayEvent.type == EventTypes.Sticker;
+    final isGenericFile = messageType == MessageTypes.File;
+    final isMediaPost =
+        !isTextPost &&
+        !isEmotePost &&
+        !isLocationPost &&
+        !isVoicePost &&
+        !isStickerPost &&
+        !isGenericFile &&
+        messageType != MessageTypes.BadEncrypted;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
@@ -220,7 +238,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
             ),
           ),
 
-          // --- Content: Text or Media ---
+          // --- Content: Text, Media, Location, Emote, Voice, Sticker, or File ---
           if (isTextPost)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -231,7 +249,62 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                         : widget.displayEvent.body,
               ),
             )
-          else
+          else if (isEmotePost)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 4.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.mood_rounded,
+                    size: 16,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      '* ${widget.displayEvent.senderFromMemoryOrFallback.displayName ?? widget.displayEvent.senderId} ${widget.displayEvent.body}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else if (isLocationPost)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
+              child: LocationDisplay(event: widget.displayEvent),
+            )
+          else if (isVoicePost)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: _VoicePostPreview(event: widget.displayEvent),
+            )
+          else if (isStickerPost)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
+              child: _StickerPreview(
+                event: widget.displayEvent,
+                client: client,
+              ),
+            )
+          else if (isGenericFile)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: _GenericFilePreview(event: widget.displayEvent),
+            )
+          else if (isMediaPost)
             // Edge-to-edge media – no horizontal padding
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -273,6 +346,184 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                 const Spacer(),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Displays a voice message post with play controls.
+class _VoicePostPreview extends StatelessWidget {
+  const _VoicePostPreview({required this.event});
+
+  final Event event;
+
+  String get _durationText {
+    final ms =
+        event.content.tryGetMap<String, Object?>(
+          'org.matrix.msc1767.audio',
+        )?['duration'];
+    if (ms is int && ms > 0) {
+      final d = Duration(milliseconds: ms);
+      final min = d.inMinutes.toString().padLeft(2, '0');
+      final sec = (d.inSeconds % 60).toString().padLeft(2, '0');
+      return '$min:$sec';
+    }
+    return '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.graphic_eq_rounded,
+            color: colorScheme.onSecondaryContainer,
+            size: 28,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'post.voice_message'.tr(),
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colorScheme.onSecondaryContainer,
+                  ),
+                ),
+                if (_durationText.isNotEmpty)
+                  Text(
+                    _durationText,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSecondaryContainer.withValues(
+                        alpha: 0.7,
+                      ),
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.play_circle_outline_rounded,
+            color: colorScheme.onSecondaryContainer,
+            size: 32,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Displays a sticker post (m.sticker event type).
+class _StickerPreview extends StatelessWidget {
+  const _StickerPreview({required this.event, required this.client});
+
+  final Event event;
+  final Client client;
+
+  @override
+  Widget build(BuildContext context) {
+    final url = event.content.tryGet<String>('url');
+    if (url == null) return const SizedBox.shrink();
+    final uri = Uri.tryParse(url);
+    if (uri == null) return const SizedBox.shrink();
+
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: MxcImage(
+          uri: uri,
+          client: client,
+          fit: BoxFit.contain,
+          isThumbnail: true,
+          errorBuilder:
+              (context, _) => const Icon(Icons.sticky_note_2_rounded, size: 64),
+        ),
+      ),
+    );
+  }
+}
+
+/// Displays a generic file attachment (m.file) with a download prompt.
+class _GenericFilePreview extends StatelessWidget {
+  const _GenericFilePreview({required this.event});
+
+  final Event event;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final filename =
+        event.content.tryGet<String>('filename') ??
+        event.content.tryGet<String>('body') ??
+        'file';
+    final info = event.content.tryGetMap<String, Object?>('info');
+    final size = info?['size'];
+    String? sizeText;
+    if (size is int) {
+      if (size < 1024) {
+        sizeText = '$size B';
+      } else if (size < 1024 * 1024) {
+        sizeText = '${(size / 1024).toStringAsFixed(1)} KB';
+      } else {
+        sizeText = '${(size / (1024 * 1024)).toStringAsFixed(1)} MB';
+      }
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.insert_drive_file_rounded,
+            color: colorScheme.onSurfaceVariant,
+            size: 32,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  filename,
+                  style: theme.textTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (sizeText != null)
+                  Text(
+                    sizeText,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.download_rounded,
+            color: colorScheme.onSurfaceVariant,
+            size: 24,
           ),
         ],
       ),

@@ -18,13 +18,32 @@
     },
     "cancel": "Откажи",
     "feed": {
-        "nav": { "home": "Почетна", "discover": "Откривање", "messages": "Поруке", "settings": "Подешавања" },
-        "pages": { "home": { "roomlabel": "Соба: {}", "empty": "Ваш фид је празан. Пратите неке собе да бисте видели објаве!", "empty_button": "Пронађите нове собе" } }
+        "nav": {
+            "home": "Почетна",
+            "discover": "Откривање",
+            "messages": "Поруке",
+            "settings": "Подешавања"
+        },
+        "pages": {
+            "home": {
+                "roomlabel": "Соба: {}",
+                "empty": "Ваш фид је празан. Пратите неке собе да бисте видели објаве!",
+                "empty_button": "Пронађите нове собе"
+            }
+        }
     },
     "post": {
-        "error": { "not_found": "Објава није пронађена или није доступна." },
-        "menu": { "report_block": "Пријави / Блокирај" },
-        "e2e": { "encrypted": "Шифровано од краја до краја", "unencrypted": "Није шифровано", "failed": "Дешифровање није успело" },
+        "error": {
+            "not_found": "Објава није пронађена или није доступна."
+        },
+        "menu": {
+            "report_block": "Пријави / Блокирај"
+        },
+        "e2e": {
+            "encrypted": "Шифровано од краја до краја",
+            "unencrypted": "Није шифровано",
+            "failed": "Дешифровање није успело"
+        },
         "dialog": {
             "report_block_title": "Пријавите садржај или блокирајте корисника",
             "report_desc": "Опишите зашто пријављујете овај садржај (опционално).",
@@ -32,75 +51,374 @@
             "report_reason_hint": "Овај садржај је увредљив јер...",
             "block_user_checkbox": "Такође блокирај овог корисника",
             "block_user_desc": "Више нећете видети садржај од {}",
-            "submit": "Пошаљи", "cancel": "Откажи",
+            "submit": "Пошаљи",
+            "cancel": "Откажи",
             "report_block_success": "Пријава је послата. Хвала.",
             "report_block_error": "Дошло је до грешке: {}"
         },
-        "pages": { "post": { "no_comments": "Још нема коментара." } },
+        "pages": {
+            "post": {
+                "no_comments": "Још нема коментара."
+            }
+        },
         "continue_thread": "Наставите ову тему...",
         "replying_to": "Одговор на {}",
         "reply_placeholder": "Напишите одговор...",
-        "mixins": { "iconpicker": { "title": "Изаберите иконицу" } },
+        "mixins": {
+            "iconpicker": {
+                "title": "Изаберите иконицу"
+            }
+        },
         "widgets": {
-            "filecomponent": { "button": { "close": "затвори" } },
-            "filedisplay": { "decrypting": "Датотека се дешифрује...", "decrypt_error": "Датотека није могла бити учитана.", "video_desktop_error": "Видео снимци не могу да се приказују на Linux, Windows ни MacOS. Допринесите на Github ако желите да видите ову функцију!", "audio_desktop_error": "Аудио не може да се репродукује на Linux, Windows ни MacOS." },
-            "comment": { "load_error": "Одговори нису могли бити учитани." },
-            "reaction": { "unknown_sender": "непознато", "sent_by": "Послао/ла {}" },
-            "videoplayercontrol": { "play": "пусти", "caption_offset": "померај титлова", "playback_speed": "брзина репродукције" }
-        }
+            "filecomponent": {
+                "button": {
+                    "close": "затвори"
+                }
+            },
+            "filedisplay": {
+                "decrypting": "Датотека се дешифрује...",
+                "decrypt_error": "Датотека није могла бити учитана.",
+                "video_desktop_error": "Видео снимци не могу да се приказују на Linux, Windows ни MacOS. Допринесите на Github ако желите да видите ову функцију!",
+                "audio_desktop_error": "Аудио не може да се репродукује на Linux, Windows ни MacOS."
+            },
+            "comment": {
+                "load_error": "Одговори нису могли бити учитани."
+            },
+            "reaction": {
+                "unknown_sender": "непознато",
+                "sent_by": "Послао/ла {}"
+            },
+            "videoplayercontrol": {
+                "play": "пусти",
+                "caption_offset": "померај титлова",
+                "playback_speed": "брзина репродукције"
+            }
+        },
+        "location": {
+            "invalid": "Invalid location data",
+            "shared": "Shared a location",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message"
     },
     "settings": {
-        "legal": { "title": "Правне информације", "tos": "Услови коришћења", "privacy": "Политика приватности", "imprint": "Импресум", "licenses": "Лиценце отвореног кода" },
+        "legal": {
+            "title": "Правне информације",
+            "tos": "Услови коришћења",
+            "privacy": "Политика приватности",
+            "imprint": "Импресум",
+            "licenses": "Лиценце отвореног кода"
+        },
         "followfeeds": {
             "filter_server_header": "Изаберите сервер са листе или додајте нови:",
             "filter_rooms_header": "Претражите собу да бисте пратили или отпратили:",
             "roomname_placeholder": "Унесите назив собе",
-            "buttons": { "add_server": "Додај сервер", "retry": "Покушај поново" },
+            "buttons": {
+                "add_server": "Додај сервер",
+                "retry": "Покушај поново"
+            },
             "no_rooms_found": "Нису пронађене собе за задате критеријуме претраге.",
             "error_loading_rooms": "Грешка: Учитавање соба није успело"
         },
-        "ownfeeds": { "header": "Управљајте својим собама", "buttons": { "create_room": "Направите нову собу" } },
+        "ownfeeds": {
+            "header": "Управљајте својим собама",
+            "buttons": {
+                "create_room": "Направите нову собу"
+            }
+        },
         "menu": {
-            "logged_in_as": "Пријављени сте као {}", "logout": "Одјави се", "logout_confirm": "Да ли сте сигурни да желите да се одјавите?",
-            "login": "Пријави се", "not_logged_in": "Пријавите се да бисте приступили свим функцијама",
-            "home_site_label": "Почетна", "feeds_site_label": "Фидови", "navigation_label": "Навигација",
-            "account_label": "Налог", "preferences_label": "Подешавања", "about_label": "О апликацији",
-            "ownfeeds_label": "Сопствени фидови", "profile_label": "Уреди профил", "security_label": "Безбедност"
+            "logged_in_as": "Пријављени сте као {}",
+            "logout": "Одјави се",
+            "logout_confirm": "Да ли сте сигурни да желите да се одјавите?",
+            "login": "Пријави се",
+            "not_logged_in": "Пријавите се да бисте приступили свим функцијама",
+            "home_site_label": "Почетна",
+            "feeds_site_label": "Фидови",
+            "navigation_label": "Навигација",
+            "account_label": "Налог",
+            "preferences_label": "Подешавања",
+            "about_label": "О апликацији",
+            "ownfeeds_label": "Сопствени фидови",
+            "profile_label": "Уреди профил",
+            "security_label": "Безбедност"
         },
-        "room": { "desc": "Назив собе: {}", "leave": "Напусти собу", "join": "Уђи у собу и додај је у substitution", "join_short": "Придружи се", "permissions": "Дозволе" },
+        "room": {
+            "desc": "Назив собе: {}",
+            "leave": "Напусти собу",
+            "join": "Уђи у собу и додај је у substitution",
+            "join_short": "Придружи се",
+            "permissions": "Дозволе"
+        },
         "dialog": {
-            "delete": { "title": "Напусти собу {}", "desc": "Да ли сте сигурни да желите да напустите собу {}?", "button": { "submit": "Да, напусти", "cancel": "Не, откажи" } },
-            "add": { "title": "Додај нови сервер", "input_placeholder": "Унесите адресу сервера", "button": { "submit": "Додај" }, "snackbar": { "success": "Сервер је додат", "error_homeserver": "Унети сервер није валидан" } },
-            "create": { "title": "Направи нову собу", "placeholder_name": "назив собе", "placeholder_alias": "алијас собе (јавна адреса)", "placeholder_topic": "тема собе", "submit": "Направи", "error": "Соба није могла бити направљена. Покушајте поново." }
+            "delete": {
+                "title": "Напусти собу {}",
+                "desc": "Да ли сте сигурни да желите да напустите собу {}?",
+                "button": {
+                    "submit": "Да, напусти",
+                    "cancel": "Не, откажи"
+                }
+            },
+            "add": {
+                "title": "Додај нови сервер",
+                "input_placeholder": "Унесите адресу сервера",
+                "button": {
+                    "submit": "Додај"
+                },
+                "snackbar": {
+                    "success": "Сервер је додат",
+                    "error_homeserver": "Унети сервер није валидан"
+                }
+            },
+            "create": {
+                "title": "Направи нову собу",
+                "placeholder_name": "назив собе",
+                "placeholder_alias": "алијас собе (јавна адреса)",
+                "placeholder_topic": "тема собе",
+                "submit": "Направи",
+                "error": "Соба није могла бити направљена. Покушајте поново."
+            }
         },
-        "room_preview": { "members": "{} чланова", "latest_posts": "Најновије објаве", "no_posts": "Још нема објава у овој соби.", "no_peek": "Историја ове собе је приватна. Придружите се соби да бисте видели објаве.", "join_to_see": "Придружите се да бисте видели објаве" }
+        "room_preview": {
+            "members": "{} чланова",
+            "latest_posts": "Најновије објаве",
+            "no_posts": "Још нема објава у овој соби.",
+            "no_peek": "Историја ове собе је приватна. Придружите се соби да бисте видели објаве.",
+            "join_to_see": "Придружите се да бисте видели објаве"
+        },
+        "room_form": {
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "alias_label": "Room Alias",
+            "alias_prefix": "#",
+            "avatar_hint": "Tap to set a room picture",
+            "ban_action": "Ban",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_confirm_title": "Ban Member",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_success": "Banned {}",
+            "banned_empty": "No banned members",
+            "create_button": "Create Room",
+            "create_error": "Could not create room. Please try again.",
+            "create_success": "Room created successfully!",
+            "delete_action": "Delete",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_confirm_title": "Delete Room",
+            "delete_error": "Could not delete room: {}",
+            "delete_room": "Delete Room",
+            "delete_success": "Room deleted.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "invite_empty": "No users found",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_search_hint": "Search by name or @user:server",
+            "kick_action": "Kick",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_confirm_title": "Kick Member",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_success": "Kicked {}",
+            "load_error": "Could not load room settings: {}",
+            "member_action_error": "Action failed: {}",
+            "member_ban": "Ban from Room",
+            "member_kick": "Kick from Room",
+            "member_role_admin": "Admin",
+            "member_role_moderator": "Moderator",
+            "member_role_user": "User",
+            "member_set_role": "Set Role",
+            "member_unban": "Unban",
+            "members_empty": "No members found",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "no_permission": "You do not have permission to manage this room.",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "posting_mode_label": "Blog Mode",
+            "power_level_success": "Role updated for {}",
+            "room_not_found": "Room not found.",
+            "save_button": "Save Changes",
+            "save_error": "Could not save changes: {}",
+            "save_success": "Room settings saved.",
+            "section_banned": "Banned Members",
+            "section_basic": "Room Details",
+            "section_danger": "Danger Zone",
+            "section_invite": "Invite Users",
+            "section_members": "Members",
+            "section_server": "Homeserver",
+            "section_settings": "Settings",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "topic_hint": "What is this room about?",
+            "topic_label": "Description",
+            "unban_action": "Unban",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_confirm_title": "Unban Member",
+            "unban_success": "Unbanned {}",
+            "visibility_label": "Public Room",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join"
+        }
     },
     "intro": {
         "isLoggedIn": "Одлично, већ сте пријављени. \nМожете наставити са следећим корацима",
         "isNotLoggedIn": "Прво се пријавите",
-        "buttons": { "next": "Даље", "back": "Назад" },
-        "welcome": { "title": "Добродошли у substitution", "desc": "... нова друштвена мрежа на основу Matrix протокола" },
-        "account": { "title": "Matrix налози", "desc": "Морате бити пријављени на Matrix налог на произвољном серверу да бисте могли да користите ову апликацију. Ако не знате како да набавите налог, посетите овај сајт: https://matrix.org/" },
-        "host": { "title": "Изаберите сервер" },
-        "login": { "title": "Пријава" },
-        "finished": { "title": "Кренимо", "desc": "Одлично, пријављени сте. Спремни смо за substitution. Сада можете одабрати да ли желите да се придружите собу добродошлице. Кренимо, и забавите се!", "buttons": { "add_to_room_and_go": "Придружи се Substitution соби и крени!", "go": "Само крени!" } }
+        "buttons": {
+            "next": "Даље",
+            "back": "Назад"
+        },
+        "welcome": {
+            "title": "Добродошли у substitution",
+            "desc": "... нова друштвена мрежа на основу Matrix протокола"
+        },
+        "account": {
+            "title": "Matrix налози",
+            "desc": "Морате бити пријављени на Matrix налог на произвољном серверу да бисте могли да користите ову апликацију. Ако не знате како да набавите налог, посетите овај сајт: https://matrix.org/"
+        },
+        "host": {
+            "title": "Изаберите сервер"
+        },
+        "login": {
+            "title": "Пријава"
+        },
+        "finished": {
+            "title": "Кренимо",
+            "desc": "Одлично, пријављени сте. Спремни смо за substitution. Сада можете одабрати да ли желите да се придружите собу добродошлице. Кренимо, и забавите се!",
+            "buttons": {
+                "add_to_room_and_go": "Придружи се Substitution соби и крени!",
+                "go": "Само крени!"
+            }
+        }
     },
     "auth": {
-        "host": { "header": "Повежите се са вашим сервером", "body": "Одаберите Matrix сервер. Затим можете да се пријавите или да прегледате јавно доступне собе.", "inputs": { "homeserver_label": "Адреса вашег сервера" }, "buttons": { "login_label": "Пријави се" } },
-        "login": { "loading": "Пријављивање...", "header": "Пријава", "body": "Пријавите се својим подацима.", "inputs": { "username_label": "Корисничко име", "password_label": "Лозинка" }, "buttons": { "login_label": "Пријави се", "sso_label": "Пријави се преко {}", "register_web_label": "Регистрација" } }
+        "host": {
+            "header": "Повежите се са вашим сервером",
+            "body": "Одаберите Matrix сервер. Затим можете да се пријавите или да прегледате јавно доступне собе.",
+            "inputs": {
+                "homeserver_label": "Адреса вашег сервера"
+            },
+            "buttons": {
+                "login_label": "Пријави се"
+            }
+        },
+        "login": {
+            "loading": "Пријављивање...",
+            "header": "Пријава",
+            "body": "Пријавите се својим подацима.",
+            "inputs": {
+                "username_label": "Корисничко име",
+                "password_label": "Лозинка"
+            },
+            "buttons": {
+                "login_label": "Пријави се",
+                "sso_label": "Пријави се преко {}",
+                "register_web_label": "Регистрација"
+            }
+        }
     },
     "write": {
-        "answer": "Одговори", "roomheader": "Соба: {}",
-        "filemessage": { "video_preview": "Видео", "caption_header": "Опис (необавезно):", "upload_files": "Додајте нове датотеке за отпремање", "title_header": "Наслов:", "upload_start": "Почиње отпремање...", "upload_file_process": "Отпремање датотеке {}", "upload_error": "Отпремање {} није успело. Покушати поново?", "upload_file_complete": "Отпремање {} је завршено!", "upload_complete": "Све датотеке су отпремљене!", "buttons": { "upload_stop": "Откажи", "upload_retry": "Покушај поново" } },
-        "roomselect": { "type_prompt": "Изаберите врсту поруке коју желите да објавите", "room_prompt": "Изаберите собу у којој желите да објавите:", "error_no_rooms": "Нисте се придружили ниједној соби или немате права за објављивање." },
-        "textmessage": { "answer_promt": "Унесите текст:", "input_placeholder": "Унесите текст овде...", "send_start": "Слање поруке је почело...", "send_failed": "Слање поруке није успело. Желите ли да поново пошаљете поруку?", "send_complete": "Порука је успешно послата!", "buttons": { "send_stop": "Не покушавај поново", "resend": "Покушај поново" } }
+        "answer": "Одговори",
+        "roomheader": "Соба: {}",
+        "filemessage": {
+            "video_preview": "Видео",
+            "caption_header": "Опис (необавезно):",
+            "upload_files": "Додајте нове датотеке за отпремање",
+            "title_header": "Наслов:",
+            "upload_start": "Почиње отпремање...",
+            "upload_file_process": "Отпремање датотеке {}",
+            "upload_error": "Отпремање {} није успело. Покушати поново?",
+            "upload_file_complete": "Отпремање {} је завршено!",
+            "upload_complete": "Све датотеке су отпремљене!",
+            "buttons": {
+                "upload_stop": "Откажи",
+                "upload_retry": "Покушај поново"
+            },
+            "audio_preview": "Audio",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send"
+        },
+        "roomselect": {
+            "type_prompt": "Изаберите врсту поруке коју желите да објавите",
+            "room_prompt": "Изаберите собу у којој желите да објавите:",
+            "error_no_rooms": "Нисте се придружили ниједној соби или немате права за објављивање.",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_location": "Location",
+            "type_photo": "Photo / Video",
+            "type_sticker": "Sticker",
+            "type_text": "Text",
+            "type_voice": "Voice"
+        },
+        "textmessage": {
+            "answer_promt": "Унесите текст:",
+            "input_placeholder": "Унесите текст овде...",
+            "send_start": "Слање поруке је почело...",
+            "send_failed": "Слање поруке није успело. Желите ли да поново пошаљете поруку?",
+            "send_complete": "Порука је успешно послата!",
+            "buttons": {
+                "send_stop": "Не покушавај поново",
+                "resend": "Покушај поново"
+            },
+            "send_button": "Send"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_hint": "e.g. waves hello",
+            "input_label": "Action description"
+        },
+        "locationmessage": {
+            "coordinates": "Lat: {} | Lon: {}",
+            "default_body": "Location",
+            "description_hint": "e.g. My favorite coffee shop",
+            "description_label": "Description (optional)",
+            "location_disabled": "Location services are disabled on this device.",
+            "location_error": "Could not retrieve your location. Please try again.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "send_button": "Share Location",
+            "send_complete": "Location shared!",
+            "send_failed": "Failed to share location. Retry?",
+            "send_start": "Sharing location...",
+            "use_current_location": "Use my current location"
+        },
+        "reply_load_error": "Could not load the original post.",
+        "send_cancel": "Cancel",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
+        },
+        "voicemessage": {
+            "discard": "Discard recording",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "recorded": "Recording complete — tap Send to post",
+            "recording": "Recording...",
+            "send_button": "Send Voice Message",
+            "send_complete": "Voice message sent!",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_start": "Sending voice message...",
+            "tap_to_record": "Tap the microphone to start recording"
+        }
     },
     "profile": {
-        "send_message": "Порука", "block_title": "Блокирај корисника", "block_desc": "Блокирати {}? Више нећете видети њихов садржај.",
-        "block_confirm": "Блокирај", "block_success": "Корисник је блокиран.", "block_error": "Није могуће блокирати корисника: {}",
-        "report_title": "Пријави корисника", "report_desc": "Опишите разлог за пријављивање овог корисника.",
-        "report_reason": "Разлог", "report_reason_hint": "Овај корисник...", "report_submit": "Пошаљи",
-        "report_success": "Пријава је послата. Хвала.", "feeds_section": "ФИДОВИ", "no_feeds": "Нема јавних фидова",
+        "send_message": "Порука",
+        "block_title": "Блокирај корисника",
+        "block_desc": "Блокирати {}? Више нећете видети њихов садржај.",
+        "block_confirm": "Блокирај",
+        "block_success": "Корисник је блокиран.",
+        "block_error": "Није могуће блокирати корисника: {}",
+        "report_title": "Пријави корисника",
+        "report_desc": "Опишите разлог за пријављивање овог корисника.",
+        "report_reason": "Разлог",
+        "report_reason_hint": "Овај корисник...",
+        "report_submit": "Пошаљи",
+        "report_success": "Пријава је послата. Хвала.",
+        "feeds_section": "ФИДОВИ",
+        "no_feeds": "Нема јавних фидова",
         "error_start_chat": "Није могуће започети ћаскање: {}"
     },
     "startroom_dialog": {
@@ -110,10 +428,16 @@
         "skip": "Прескочи"
     },
     "chat": {
-        "title": "Поруке", "input_placeholder": "Напишите поруку...", "no_messages": "Још нема порука. Поздравите се!",
-        "no_conversations": "Још нема разговора", "no_conversations_hint": "Посетите профил корисника и додирните 'Порука' да бисте започели ћаскање.",
-        "media_message": "Медија", "conversation_started": "Разговор је започет",
-        "error_loading": "Није могуће учитати овај разговор.", "error_sending": "Слање поруке није успело.", "view_profile": "Прикажи профил"
+        "title": "Поруке",
+        "input_placeholder": "Напишите поруку...",
+        "no_messages": "Још нема порука. Поздравите се!",
+        "no_conversations": "Још нема разговора",
+        "no_conversations_hint": "Посетите профил корисника и додирните 'Порука' да бисте започели ћаскање.",
+        "media_message": "Медија",
+        "conversation_started": "Разговор је започет",
+        "error_loading": "Није могуће учитати овај разговор.",
+        "error_sending": "Слање поруке није успело.",
+        "view_profile": "Прикажи профил"
     },
     "help": {
         "title": "Помоћ",

@@ -1,5 +1,6 @@
-import '/post/widgets/post.dart';
-import '/shared/widgets/mxc_image.dart';
+import '/write/widgets/room_header.dart';
+import '/write/widgets/reply_preview.dart';
+import '/write/widgets/send_progress_dialog.dart';
 
 import '/shared/platform/image_helper.dart' show imageFromPath;
 import 'package:provider/provider.dart';
@@ -25,19 +26,48 @@ class FileMessageWrite extends StatefulWidget {
 }
 
 class FileMessageWriteState extends State<FileMessageWrite> {
-  List<String> imageExtensions = const ['jpg', 'jpeg', 'png', 'gif'];
-  List<String> videoExtensions = const ['mp4']; // todo: test ogg etc
+  final List<String> imageExtensions = const [
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'webp',
+  ];
+  final List<String> videoExtensions = const ['mp4', 'mov', 'webm'];
+  final List<String> audioExtensions = const ['mp3', 'ogg', 'wav', 'm4a'];
+  final List<String> documentExtensions = const [
+    'pdf',
+    'doc',
+    'docx',
+    'txt',
+    'zip',
+  ];
 
   late final XTypeGroup imgTypeGroup = XTypeGroup(
-    label: 'JPEGs',
+    label: 'Images',
     extensions: imageExtensions,
   );
   late final XTypeGroup videoTypeGroup = XTypeGroup(
-    label: 'PNGs',
+    label: 'Videos',
     extensions: videoExtensions,
   );
+  late final XTypeGroup audioTypeGroup = XTypeGroup(
+    label: 'Audio',
+    extensions: audioExtensions,
+  );
+  late final XTypeGroup documentTypeGroup = XTypeGroup(
+    label: 'Documents',
+    extensions: documentExtensions,
+  );
 
-  List<({XFile file, TextEditingController textEditController, TextEditingController captionController})> files = [];
+  List<
+    ({
+      XFile file,
+      TextEditingController textEditController,
+      TextEditingController captionController,
+    })
+  >
+  files = [];
 
   // todo: make client a mixin
   Client get client => Provider.of<Client>(context, listen: false);
@@ -58,317 +88,338 @@ class FileMessageWriteState extends State<FileMessageWrite> {
     return (event: e, displayEvent: e.getDisplayEvent(timeline));
   }
 
+  String _extensionOf(XFile f) => f.name.split('.').last.toLowerCase();
+
+  bool _isImage(XFile f) => imageExtensions.contains(_extensionOf(f));
+  bool _isVideo(XFile f) => videoExtensions.contains(_extensionOf(f));
+  bool _isAudio(XFile f) => audioExtensions.contains(_extensionOf(f));
+
+  IconData _fileIcon(XFile f) {
+    if (_isImage(f)) return Icons.image_rounded;
+    if (_isVideo(f)) return Icons.videocam_rounded;
+    if (_isAudio(f)) return Icons.audiotrack_rounded;
+    return Icons.insert_drive_file_rounded;
+  }
+
+  @override
+  void dispose() {
+    for (final f in files) {
+      f.textEditController.dispose();
+      f.captionController.dispose();
+    }
+    super.dispose();
+  }
+
+  Future<void> _pickFiles() async {
+    for (var f in files) {
+      f.textEditController.dispose();
+      f.captionController.dispose();
+    }
+
+    // TODO: change for ios, file types are unsupported
+    final List<XFile> newFiles = await openFiles(
+      acceptedTypeGroups: [
+        imgTypeGroup,
+        videoTypeGroup,
+        audioTypeGroup,
+        documentTypeGroup,
+      ],
+    );
+    if (newFiles.isEmpty) return;
+
+    setState(() {
+      files =
+          newFiles.map((f) {
+            final nameWithoutExt = f.name
+                .split('.')
+                .reversed
+                .skip(1)
+                .toList()
+                .reversed
+                .join('.');
+            return (
+              file: f,
+              textEditController: TextEditingController(text: nameWithoutExt),
+              captionController: TextEditingController(),
+            );
+          }).toList();
+    });
+  }
+
+  Future<void> _send() async {
+    if (files.isEmpty) return;
+
+    final scavMsg = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final goRouter = GoRouter.of(context);
+
+    debugPrint("started sending message...");
+
+    showSendLoadingDialog(
+      context,
+      messageKey: 'write.filemessage.upload_start',
+    );
+
+    Event? answerEvent = await event;
+    var eventThreadId = widget.eventId;
+
+    if (answerEvent?.relationshipType == RelationshipTypes.thread) {
+      // commenting a comment => we can't start a new thread, rather use the existing one
+      eventThreadId = answerEvent?.relationshipEventId;
+    }
+
+    navigator.pop(); // pop the "starting upload" overlay
+
+    for (var f in files) {
+      String? ret;
+      bool userCancel = false;
+      // try uploading the file as long as it did not succeed or the user did not cancel
+      while (ret == null && !userCancel) {
+        final String uploadFileName = [
+          f.textEditController.text,
+          _extensionOf(f.file),
+        ].join(".");
+
+        if (!context.mounted) return;
+        showSendLoadingDialog(
+          context,
+          messageKey: 'write.filemessage.upload_file_process',
+          args: [uploadFileName],
+        );
+
+        final MatrixFile uploadFile = MatrixFile(
+          bytes: await f.file.readAsBytes(),
+          name: uploadFileName,
+        );
+        final caption = f.captionController.text.trim();
+        ret = await room!.sendFileEvent(
+          uploadFile,
+          threadRootEventId: eventThreadId,
+          inReplyTo: answerEvent,
+          extraContent:
+              caption.isNotEmpty
+                  ? {'body': caption, 'filename': uploadFileName}
+                  : null,
+        );
+
+        navigator.pop(); // pop the Uploading file ... dialog
+
+        if (ret == null) {
+          if (!context.mounted) break;
+          userCancel = await showSendErrorDialog(
+            context,
+            errorMessageKey: 'write.filemessage.upload_error',
+            errorArgs: [f.textEditController.text],
+            retryKey: 'write.filemessage.buttons.upload_retry',
+            cancelKey: 'write.filemessage.buttons.upload_stop',
+          );
+        } else {
+          if (mounted) {
+            scavMsg.showSnackBar(
+              SnackBar(
+                content: Text(
+                  'write.filemessage.upload_file_complete'.tr(
+                    args: [uploadFileName],
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+      }
+    }
+
+    if (mounted) {
+      scavMsg.showSnackBar(
+        SnackBar(content: Text('write.filemessage.upload_complete'.tr())),
+      );
+    }
+
+    if (answerEvent != null) {
+      goRouter.go(
+        Uri(
+          path: "/post/${answerEvent.eventId}",
+          queryParameters: {'room': answerEvent.room.id},
+        ).toString(),
+      );
+    } else if (room != null) {
+      goRouter.go("/feed/${room!.id}");
+    } else {
+      goRouter.go("/");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.eventId != null) ...[
-          const Text("write.answer").tr(),
-
-          FutureBuilder<({Event event, Event displayEvent})?>(
-            future: eventData,
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (!snapshot.hasData) {
-                return const SizedBox.shrink();
-              }
-
-              return PostWidget(
-                event: (snapshot.data!.event),
-                displayEvent: (snapshot.data!.displayEvent),
-              );
-            },
-          ),
-        ],
-        if (room != null) ...[
-          const Text("write.roomheader").tr(args: [""]),
-          ListTile(
-            title: const Text('write.roomheader').tr(args: [room!.name]),
-            subtitle: Text(room!.id),
-            leading:
-                room!.avatar != null
-                    ? SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: ClipOval(
-                        child: MxcImage(
-                          uri: room!.avatar!,
-                          client: client,
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                          isThumbnail: true,
-                        ),
-                      ),
-                    )
-                    : const Text("error_no_image").tr(),
-          ),
-        ],
-        // hier will ich ein upload bt und dann die liste um den dateien Titel (namen) zu geben
-        TextButton(
-          onPressed: () async {
-            for (var f in files) {
-              f.textEditController.dispose();
-              f.captionController.dispose();
-            }
-
-            // TODO: change for ios, file types are unsupported
-            List<XFile> newFiles = await openFiles(
-              acceptedTypeGroups: [imgTypeGroup, videoTypeGroup],
-            );
-
-            files =
-                newFiles
-                    .map(
-                      (f) => (
-                        file: f,
-                        textEditController: TextEditingController(
-                          text:
-                              f.name
-                                  .split('.')
-                                  .reversed
-                                  .skip(1)
-                                  .toList()
-                                  .reversed
-                                  .join(),
-                        ),
-                        captionController: TextEditingController(),
-                      ),
-                    )
-                    .toList();
-
-            setState(() {});
-          },
-          // todo: nicer design...
-          child: Row(
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
             children: [
-              const Spacer(),
-              const Icon(Icons.add),
-              const Spacer(),
-              const Text("write.filemessage.upload_files").tr(),
-              const Spacer(),
+              if (widget.eventId != null) ReplyPreviewWidget(future: eventData),
+
+              if (room != null) ...[
+                const SizedBox(height: 4),
+                RoomHeaderWidget(room: room!),
+              ],
+
+              const SizedBox(height: 12),
+
+              // File picker button
+              OutlinedButton.icon(
+                onPressed: _pickFiles,
+                icon: const Icon(Icons.add_rounded),
+                label: Text('write.filemessage.upload_files'.tr()),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // File entries
+              if (files.isNotEmpty) ...[
+                ...files.map(
+                  (f) => _FileEntryCard(
+                    key: ValueKey(f.file.path),
+                    file: f.file,
+                    textEditController: f.textEditController,
+                    captionController: f.captionController,
+                    fileIcon: _fileIcon(f.file),
+                    isImage: _isImage(f.file),
+                    isVideo: _isVideo(f.file),
+                    isAudio: _isAudio(f.file),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
-        if (files != []) ...[
-          ...files.map(
-            (f) => Column(
-              children: [
-                TextFormField(
-                  controller: f.textEditController,
-                  decoration: InputDecoration(
-                    labelText: "write.filemessage.title_header".tr(),
-                  ),
-                ),
-                TextFormField(
-                  controller: f.captionController,
-                  decoration: InputDecoration(
-                    labelText: "write.filemessage.caption_header".tr(),
-                  ),
-                  maxLines: 3,
-                  minLines: 1,
-                ),
+        const SizedBox(height: 8),
 
-                if (imageExtensions.contains(f.file.name.split('.').last)) ...[
-                  imageFromPath(f.file.path),
-                ] else ...[
-                  Column(
+        // Send button
+        FilledButton.icon(
+          onPressed: files.isNotEmpty ? _send : null,
+          icon: const Icon(Icons.send_rounded),
+          label: Text(
+            files.isEmpty
+                ? 'write.filemessage.send_button_empty'.tr()
+                : 'write.filemessage.send_button'.tr(
+                  args: [files.length.toString()],
+                ),
+          ),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+          ),
+        ),
+        const SizedBox(height: 4),
+      ],
+    );
+  }
+}
+
+class _FileEntryCard extends StatelessWidget {
+  const _FileEntryCard({
+    super.key,
+    required this.file,
+    required this.textEditController,
+    required this.captionController,
+    required this.fileIcon,
+    required this.isImage,
+    required this.isVideo,
+    required this.isAudio,
+  });
+
+  final XFile file;
+  final TextEditingController textEditController;
+  final TextEditingController captionController;
+  final IconData fileIcon;
+  final bool isImage;
+  final bool isVideo;
+  final bool isAudio;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // File preview
+            if (isImage) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: imageFromPath(file.path),
+              ),
+              const SizedBox(height: 8),
+            ] else ...[
+              Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.videocam, size: 48),
-                      const Text('write.filemessage.video_preview').tr(),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ],
-
-        Row(
-          children: [
-            const Spacer(),
-            IconButton(
-              onPressed: () async {
-                final scavMsg = ScaffoldMessenger.of(context);
-                final navigator = Navigator.of(context);
-                final goRouter = GoRouter.of(context);
-
-                debugPrint("started sending message...");
-
-                // TODO: this could be a seperated widget to give updates to the user via setState rather than
-                // always showing new windows...
-
-                // TODO: make it a mixin, its almost the same as in login.dart
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("loading".tr()),
-                      content: AspectRatio(
-                        aspectRatio: .7,
-                        child: FittedBox(
-                          child: Column(
-                            children: [
-                              const CircularProgressIndicator(),
-                              const Text(
-                                "write.filemessage.upload_files.upload_start",
-                              ).tr(),
-                            ],
-                          ),
+                      Icon(
+                        fileIcon,
+                        size: 32,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        isVideo
+                            ? 'write.filemessage.video_preview'.tr()
+                            : isAudio
+                            ? 'write.filemessage.audio_preview'.tr()
+                            : file.name.split('.').last.toUpperCase(),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    );
-                  },
-                );
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
 
-                Event? answerEvent = await event;
-                var eventThreadId = widget.eventId;
+            // Title field
+            TextFormField(
+              controller: textEditController,
+              decoration: InputDecoration(
+                labelText: 'write.filemessage.title_header'.tr(),
+                prefixIcon: const Icon(Icons.title_rounded),
+                border: const OutlineInputBorder(),
+                isDense: true,
+              ),
+            ),
+            const SizedBox(height: 8),
 
-                if (answerEvent?.relationshipType == RelationshipTypes.thread) {
-                  // commenting a comment => we can't start a new thread, rather use the existing one
-                  eventThreadId = answerEvent?.relationshipEventId;
-                }
-
-                navigator.pop(); // pop the "starting upload" overlay
-
-                for (var f in files) {
-                  String? ret;
-                  bool userCancel = false;
-                  // try to uploading the file as long as it did not succeed or as long as the user did not cancel
-                  while (ret == null || userCancel) {
-                    String uploadFileName = [
-                      f.textEditController.text,
-                      f.file.name.split(".").last,
-                    ].join(".");
-
-                    // TODO: make it a mixin, its almost the same as in login.dart
-                    if (!context.mounted) return;
-                    showDialog<void>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("loading".tr()),
-                          content: AspectRatio(
-                            aspectRatio: .7,
-                            child: FittedBox(
-                              child: Column(
-                                children: [
-                                  const CircularProgressIndicator(),
-                                  const Text(
-                                    "write.filemessage.upload_file_process",
-                                  ).tr(args: [uploadFileName]),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-
-                    MatrixFile uploadFile = MatrixFile(
-                      bytes: await f.file.readAsBytes(),
-                      name: uploadFileName,
-                    );
-                    final caption = f.captionController.text.trim();
-                    ret = await room!.sendFileEvent(
-                      uploadFile,
-                      threadRootEventId: eventThreadId,
-                      inReplyTo: answerEvent,
-                      extraContent: caption.isNotEmpty
-                          ? {'body': caption, 'filename': uploadFileName}
-                          : null,
-                    );
-
-                    navigator.pop(); // pop the Uploading file ... dialog
-
-                    if (ret == null) {
-                      if (!context.mounted) break;
-                      userCancel =
-                          await showDialog<bool>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("loading").tr(),
-                                content: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: FittedBox(
-                                    child: const Text(
-                                      "write.filemessage.upload_error",
-                                    ).tr(args: [f.textEditController.text]),
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child:
-                                        const Text(
-                                          "write.filemessage.upload_stop",
-                                        ).tr(),
-                                    onPressed: () {
-                                      Navigator.of(context).pop(true);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child:
-                                        const Text(
-                                          "write.filemessage.upload_retry",
-                                        ).tr(),
-                                    onPressed: () {
-                                      Navigator.of(context).pop(false);
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ) ??
-                          false;
-                    } else {
-                      if (mounted) {
-                        scavMsg.showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              "write.filemessage.upload_file_complete",
-                            ).tr(args: [uploadFileName]),
-                          ),
-                        );
-                      }
-                    }
-                  }
-
-                }
-
-                // todo: show complete action and route to home or so
-                if (mounted) {
-                  scavMsg.showSnackBar(
-                    SnackBar(
-                      content:
-                          const Text("write.filemessage.upload_complete").tr(),
-                    ),
-                  );
-                }
-
-                if (answerEvent != null) {
-                  goRouter.go(
-                    Uri(
-                      path: "/post/${answerEvent.eventId}",
-                      queryParameters: {'room': answerEvent.room.id},
-                    ).toString(),
-                  );
-                } else if (room != null) {
-                  goRouter.go("/feed/${room!.id}");
-                } else {
-                  goRouter.go("/");
-                }
-              },
-              icon: const Icon(Icons.send),
+            // Caption field
+            TextFormField(
+              controller: captionController,
+              decoration: InputDecoration(
+                labelText: 'write.filemessage.caption_header'.tr(),
+                prefixIcon: const Icon(Icons.short_text_rounded),
+                border: const OutlineInputBorder(),
+                isDense: true,
+              ),
+              maxLines: 3,
+              minLines: 1,
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
