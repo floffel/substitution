@@ -7,8 +7,10 @@ import '/settings/pages/ownfeeds.dart';
 import '/settings/pages/key_verification.dart';
 import '/settings/pages/profile.dart';
 import '/write/pages/textmessage.dart';
-import '/settings/pages/room_permissions.dart';
+import '/settings/pages/room_form_page.dart';
 import '/settings/pages/legal.dart';
+import '/help/pages/help_page.dart';
+import '/shared/widgets/deep_link_confirmation_dialog.dart';
 import '/write/pages/filemessage.dart';
 import '/write/pages/roomselect.dart';
 import '/auth/pages/host_page.dart';
@@ -26,6 +28,7 @@ import '/shared/theme/app_theme.dart';
 
 import '/shared/constants.dart';
 import '/shared/widgets/startroom_dialog.dart';
+import '/shared/utils/share_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -210,6 +213,16 @@ void main() async {
           final eventId = state.pathParameters['id']!;
           final roomId = state.uri.queryParameters['room']!;
           return ScaffoldWithNavigation(
+            extraActions: [
+              Builder(
+                builder:
+                    (ctx) => IconButton(
+                      onPressed:
+                          () => ShareHelper.sharePost(ctx, eventId, roomId),
+                      icon: const Icon(Icons.share_outlined),
+                    ),
+              ),
+            ],
             child: Post(eventId: eventId, roomId: roomId),
           );
         },
@@ -255,14 +268,32 @@ void main() async {
           );
         },
       ),
+      // Legacy permissions route — kept for backwards compatibility.
+      // Redirects to the new unified room edit page.
+      GoRoute(
+        redirect: (context, state) {
+          if (ageAndAuthRedirect(context, state) != null) {
+            return ageAndAuthRedirect(context, state);
+          }
+          final roomId = state.pathParameters['roomId']!;
+          return '/settings/room/$roomId/edit';
+        },
+        path: '/settings/room/:roomId/permissions',
+        builder: (context, state) => const SizedBox.shrink(),
+      ),
       GoRoute(
         redirect: testRedirect,
-        path: '/settings/room/:roomId/permissions',
+        path: '/settings/room/create',
+        builder:
+            (context, state) =>
+                ScaffoldWithNavigation(child: const RoomFormPage()),
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/settings/room/:roomId/edit',
         builder: (context, state) {
           final roomId = state.pathParameters['roomId']!;
-          return ScaffoldWithNavigation(
-            child: RoomPermissionsPage(roomId: roomId),
-          );
+          return ScaffoldWithNavigation(child: RoomFormPage(roomId: roomId));
         },
       ),
       GoRoute(
@@ -291,6 +322,11 @@ void main() async {
         builder:
             (context, state) =>
                 const ScaffoldWithNavigation(child: LegalPage()),
+      ),
+      GoRoute(
+        path: '/help',
+        builder:
+            (context, state) => const ScaffoldWithNavigation(child: HelpPage()),
       ),
       GoRoute(
         redirect: testRedirect,
@@ -601,9 +637,50 @@ void main() async {
         return;
       }
 
-      // For any other deep links, navigate normally.
+      // For any other deep links, show a confirmation dialog before navigating.
       final location = uri.hasQuery ? '$routePath?${uri.query}' : routePath;
-      router.go(location);
+      final navContext = rootNavigatorKey.currentContext;
+      if (navContext == null || !navContext.mounted) {
+        router.go(location);
+        return;
+      }
+
+      // Determine the deep link type and identifier for the dialog.
+      DeepLinkType linkType = DeepLinkType.generic;
+      String? identifier = routePath;
+
+      if (routePath.startsWith('/feed/')) {
+        linkType = DeepLinkType.room;
+        final roomPart = routePath.substring('/feed/'.length);
+        identifier = roomPart.startsWith('!') ? roomPart : '#$roomPart';
+      } else if (routePath.startsWith('/profile/')) {
+        linkType = DeepLinkType.user;
+        identifier = Uri.decodeComponent(
+          routePath.substring('/profile/'.length),
+        );
+      } else if (routePath.startsWith('/post/')) {
+        linkType = DeepLinkType.post;
+        identifier = null;
+      }
+
+      // Check if user is logged in for protected routes.
+      if (!client.isLogged() && linkType != DeepLinkType.generic) {
+        final wantsLogin = await showDeepLinkLoginRequired(navContext);
+        if (wantsLogin && navContext.mounted) {
+          router.go('/auth/host');
+        }
+        return;
+      }
+
+      final confirmed = await showDeepLinkConfirmation(
+        navContext,
+        type: linkType,
+        identifier: identifier,
+      );
+
+      if (confirmed) {
+        router.go(location);
+      }
     });
   }
 
@@ -951,18 +1028,20 @@ class _StartupLoadingScreenState extends State<_StartupLoadingScreen>
     _logoScale = Tween<double>(begin: 0.6, end: 1.0).animate(
       CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
     );
-    _logoOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.easeOut),
-    );
+    _logoOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeOut));
 
     // Text: fade + slide up, starts after logo
     _textController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    _textOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _textController, curve: Curves.easeOut),
-    );
+    _textOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeOut));
     _textSlide = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
@@ -1003,11 +1082,11 @@ class _StartupLoadingScreenState extends State<_StartupLoadingScreen>
 
   @override
   Widget build(BuildContext context) {
-    final brightness =
-        MediaQuery.platformBrightnessOf(context);
+    final brightness = MediaQuery.platformBrightnessOf(context);
     final isDark = brightness == Brightness.dark;
     final bg = isDark ? _darkBg : _lightBg;
-    final textColor = isDark ? const Color(0xFFE3E2DF) : const Color(0xFF1A1C1E);
+    final textColor =
+        isDark ? const Color(0xFFE3E2DF) : const Color(0xFF1A1C1E);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -1025,10 +1104,7 @@ class _StartupLoadingScreenState extends State<_StartupLoadingScreen>
                 gradient: RadialGradient(
                   center: const Alignment(0, -0.2),
                   radius: glowSize,
-                  colors: [
-                    _sage.withValues(alpha: glowOpacity),
-                    bg,
-                  ],
+                  colors: [_sage.withValues(alpha: glowOpacity), bg],
                 ),
               ),
               child: child,
@@ -1094,8 +1170,8 @@ class _StartupLoadingScreenState extends State<_StartupLoadingScreen>
                             t < 0.3
                                 ? (t / 0.3)
                                 : t < 0.6
-                                    ? 1.0 - ((t - 0.3) / 0.3)
-                                    : 0.0;
+                                ? 1.0 - ((t - 0.3) / 0.3)
+                                : 0.0;
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
                           width: 8,

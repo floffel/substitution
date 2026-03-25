@@ -112,7 +112,7 @@ class RoomWidgetState extends State<RoomWidget> {
               ),
               tooltip: 'settings.room.permissions'.tr(),
               onPressed: () {
-                context.push('/settings/room/${widget.room.id}/permissions');
+                context.push('/settings/room/${widget.room.id}/edit');
               },
             ),
           showLeaveRoom

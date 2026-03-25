@@ -1,7 +1,6 @@
 import 'dart:async';
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
-import '/settings/widgets/dialogcreateroom.dart';
 import '/settings/widgets/roomwidget.dart';
 import '/settings/widgets/sheet_room_preview.dart';
 import '/shared/extensions/client_extensions.dart';
@@ -13,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 
 @immutable
 class FollowFeedSettings extends StatefulWidget {
@@ -330,16 +330,14 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
                           "settings.ownfeeds.buttons.create_room",
                         ).tr(),
                     onPressed: () async {
-                      await showDialog<void>(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return const DialogCreateRoom();
-                        },
+                      final result = await context.push<bool>(
+                        '/settings/room/create',
                       );
-                      _searchGeneration++;
-                      setState(() {});
-                      _pagingController.refresh();
+                      if (result == true) {
+                        _searchGeneration++;
+                        setState(() {});
+                        _pagingController.refresh();
+                      }
                     },
                   ),
                 ],

@@ -8,8 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/widgets/roomwidget.dart';
-import 'package:substitution/settings/pages/room_permissions.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
+import 'package:substitution/settings/pages/room_form_page.dart';
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -106,14 +107,14 @@ void main() {
         await $(settingsButton).tap();
         await settle($.tester);
 
-        // 4. Verify RoomPermissionsPage
-        debugPrint('PERMISSIONS: Verifying RoomPermissionsPage...');
+        // 4. Verify RoomFormPage
+        debugPrint('PERMISSIONS: Verifying RoomFormPage...');
         await fastWait(
           $.tester,
-          () => $(RoomPermissionsPage).exists,
+          () => $(RoomFormPage).exists,
           timeout: const Duration(seconds: 60),
         );
-        expect($(RoomPermissionsPage).exists, true);
+        expect($(RoomFormPage).exists, true);
 
         // 5. Toggle Blog Mode Switch
         debugPrint('PERMISSIONS: Toggling switch...');
@@ -123,9 +124,9 @@ void main() {
         await blogSwitch.tap();
         await settle($.tester);
 
-        // 6. Verify state update or snackbar
+        // 6. Verify state update (save button or snackbar after toggle)
         await fastWait($.tester, () {
-          return find.textContaining('Switched to').evaluate().isNotEmpty;
+          return find.byType(Switch).evaluate().isNotEmpty;
         }, timeout: const Duration(seconds: 60));
 
         expect($.tester.widget<Switch>(blogSwitch).value, !initialState);

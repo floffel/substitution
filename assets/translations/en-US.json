@@ -172,6 +172,82 @@
                 "error": "Could not create room. Please try again."
             }
         },
+        "room_form": {
+            "title_create": "Create Room",
+            "title_edit": "Room Settings",
+            "avatar_hint": "Tap to set a room picture",
+            "section_basic": "Room Details",
+            "name_label": "Room Name",
+            "name_required": "Room name is required",
+            "alias_label": "Room Alias",
+            "alias_hint": "Optional public address (e.g. my-room)",
+            "alias_prefix": "#",
+            "alias_invalid": "Alias may only contain lowercase letters, numbers, dots, underscores, and hyphens",
+            "topic_label": "Description",
+            "topic_hint": "What is this room about?",
+            "section_server": "Homeserver",
+            "server_info": "This room will be created on {}",
+            "server_info_subtitle": "Rooms are always created on your own homeserver. Members from any other server can still join.",
+            "section_settings": "Settings",
+            "visibility_label": "Public Room",
+            "visibility_public_desc": "Listed in the room directory — anyone can find and join",
+            "visibility_private_desc": "Invite-only — not listed in the public directory",
+            "encryption_label": "End-to-End Encryption",
+            "encryption_desc": "Messages can only be read by room members",
+            "encryption_warning": "Encryption cannot be disabled once enabled. Make sure all your members support encrypted rooms.",
+            "encryption_already_on": "This room is already end-to-end encrypted",
+            "posting_mode_label": "Blog Mode",
+            "posting_blog_desc": "Only moderators and admins can post",
+            "posting_community_desc": "Anyone in the room can post",
+            "section_invite": "Invite Users",
+            "invite_search_hint": "Search by name or @user:server",
+            "invite_empty": "No users found",
+            "invite_search_error": "Search failed. Tap to retry.",
+            "invite_note": "Invited users will be notified and can join the room.",
+            "section_members": "Members",
+            "members_empty": "No members found",
+            "member_role_user": "User",
+            "member_role_moderator": "Moderator",
+            "member_role_admin": "Admin",
+            "member_set_role": "Set Role",
+            "member_kick": "Kick from Room",
+            "member_ban": "Ban from Room",
+            "kick_confirm_title": "Kick Member",
+            "kick_confirm_body": "Remove {} from this room? They can rejoin if the room is public.",
+            "kick_reason_hint": "Reason (optional)",
+            "kick_action": "Kick",
+            "ban_confirm_title": "Ban Member",
+            "ban_confirm_body": "Ban {} from this room? They will not be able to rejoin until unbanned.",
+            "ban_reason_hint": "Reason (optional)",
+            "ban_action": "Ban",
+            "ban_success": "Banned {}",
+            "kick_success": "Kicked {}",
+            "section_banned": "Banned Members",
+            "banned_empty": "No banned members",
+            "member_unban": "Unban",
+            "unban_confirm_title": "Unban Member",
+            "unban_confirm_body": "Allow {} back into this room?",
+            "unban_action": "Unban",
+            "unban_success": "Unbanned {}",
+            "power_level_success": "Role updated for {}",
+            "member_action_error": "Action failed: {}",
+            "create_button": "Create Room",
+            "save_button": "Save Changes",
+            "create_success": "Room created successfully!",
+            "save_success": "Room settings saved.",
+            "create_error": "Could not create room. Please try again.",
+            "save_error": "Could not save changes: {}",
+            "section_danger": "Danger Zone",
+            "delete_room": "Delete Room",
+            "delete_confirm_title": "Delete Room",
+            "delete_confirm_body": "Are you sure you want to delete \"{}\"? This cannot be undone.",
+            "delete_action": "Delete",
+            "delete_success": "Room deleted.",
+            "delete_error": "Could not delete room: {}",
+            "no_permission": "You do not have permission to manage this room.",
+            "room_not_found": "Room not found.",
+            "load_error": "Could not load room settings: {}"
+        },
         "room_preview": {
             "members": "{} members",
             "latest_posts": "Latest posts",
@@ -305,5 +381,74 @@
         "error_loading": "Could not load this conversation.",
         "error_sending": "Failed to send message.",
         "view_profile": "View profile"
+    },
+    "help": {
+        "title": "Help",
+        "subtitle": "Learn how to use Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "What is Substitution?",
+                "body": "Substitution is a decentralized social network for sharing art and creative content. Unlike traditional social media, Substitution is built on top of the Matrix protocol, which means no single company controls your data or the network.\n\nYour posts, messages, and profile live on the Matrix homeserver you choose — not on servers operated by Substitution. This gives you full ownership of your content and the freedom to move between servers at any time.\n\nSubstitution is open source and community-driven. It's designed to substitute centralized social networks with something more fair, transparent, and user-owned."
+            },
+            "what_is_matrix": {
+                "title": "What is the Matrix Protocol?",
+                "body": "Matrix is an open, decentralized communication protocol. Think of it like email: just as you can send an email from Gmail to Outlook, Matrix lets you communicate across different servers.\n\nKey benefits of Matrix:\n\n- Decentralized: No single point of failure or control. If one server goes down, the rest of the network keeps working.\n- Federated: Servers talk to each other. You can follow rooms and message users on any Matrix server, not just your own.\n- Open source: The protocol and most server software are fully open source.\n- Encrypted: Matrix supports end-to-end encryption for private conversations.\n\nLearn more at https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Getting Started",
+                "body": "To use Substitution, you need a Matrix account. Here's how to get started:\n\n1. Choose a homeserver: A homeserver is where your account and data live. Popular choices include matrix.org, but there are many others. You can also host your own.\n\n2. Create an account: Visit your chosen homeserver's website to register, or use the registration link in the login screen.\n\n3. Log in to Substitution: Open the app, enter your homeserver address, and log in with your username and password. Some servers also support Single Sign-On (SSO).\n\n4. Explore: Once logged in, use the Discover tab to find rooms to follow, or create your own!"
+            },
+            "what_are_rooms": {
+                "title": "What are Rooms?",
+                "body": "Rooms are the core of Substitution. A room is like a channel or feed where content gets posted.\n\nEach room has:\n- A name and optional description\n- An owner (the creator) who controls permissions\n- Members who follow and interact with the content\n- An optional public alias (like a username for the room)\n\nRooms can be public (anyone can find and join them via the room directory) or private (invite-only).\n\nIn Blog Mode, only moderators and admins can create posts, while everyone else can comment and react. In Community Mode, any member can post.\n\nRooms can also be end-to-end encrypted for private communities."
+            },
+            "follow_rooms": {
+                "title": "How to Follow Rooms",
+                "body": "To discover and follow rooms:\n\n1. Go to the Discover tab (compass icon in the bottom navigation bar).\n\n2. Choose a server from the dropdown at the top. You can browse rooms on any Matrix server, not just your own. Tap 'Add Server' to add new ones.\n\n3. Search for rooms by name using the search field.\n\n4. Tap on a room to see a preview with its description, member count, and latest posts.\n\n5. Tap 'Join' to follow the room. Its posts will now appear in your Home feed.\n\nTo unfollow a room, find it in the Discover tab and tap 'Leave', or go to the room's feed and use the menu."
+            },
+            "create_room": {
+                "title": "How to Create a Room",
+                "body": "To create your own room:\n\n1. Open the navigation drawer (hamburger menu) and tap 'Own Feeds', or go to Settings and find your rooms.\n\n2. Tap 'Create a new Room'.\n\n3. Fill in the room details:\n   - Room Name: The display name for your room (required).\n   - Room Alias: An optional public address (e.g., 'my-art'). This makes the room easier to find and share.\n   - Description: Tell people what your room is about.\n\n4. Configure settings:\n   - Public Room: Enable to list your room in the server's directory so anyone can find it. Disable for invite-only.\n   - End-to-End Encryption: Enable for private rooms. Warning: this cannot be undone!\n   - Blog Mode: Enable so only you (and moderators) can post. Disable to let any member post.\n\n5. Optionally invite users by searching for their name or Matrix ID.\n\n6. Tap 'Create Room' and you're done!\n\nThe room will be created on your homeserver, but users from any server can join."
+            },
+            "manage_room": {
+                "title": "Managing Your Rooms",
+                "body": "As a room owner or admin, you have full control over your rooms:\n\nEditing Room Settings:\nGo to 'Own Feeds' in the drawer menu, then tap the settings icon on your room. Here you can change the name, description, alias, avatar, visibility, and posting mode.\n\nManaging Members:\nIn the room settings, scroll to the Members section. You can:\n- Set roles: Promote members to Moderator or Admin, or demote them back to User.\n- Kick members: Remove a member from the room (they can rejoin if the room is public).\n- Ban members: Permanently block a member from the room. You can unban them later.\n\nBanned Members:\nView and manage banned members in the 'Banned Members' section of room settings.\n\nDeleting a Room:\nAt the bottom of the room settings, you'll find the Danger Zone with the option to delete the room. This action is permanent and cannot be undone."
+            },
+            "write_post": {
+                "title": "How to Write a Post",
+                "body": "To create a new post:\n\n1. Tap the + button (floating action button) on the Home tab.\n\n2. Choose the type of post:\n   - Text Post: Write rich text with formatting (bold, italic, headings, lists, links, and more).\n   - File Post: Upload images, videos, or other files with an optional caption.\n\n3. Select the room you want to post in. Only rooms where you have posting permission will appear.\n\n4. Write your content:\n   - For text posts, use the rich text editor toolbar for formatting.\n   - For file posts, select your files and optionally add a title and caption.\n\n5. Tap the send button to publish your post.\n\nYour post will appear in the room's feed and in the Home feed of everyone who follows that room."
+            },
+            "share_rooms": {
+                "title": "Sharing Rooms with Friends",
+                "body": "You can easily share rooms, profiles, and posts with friends:\n\nSharing a Room:\nWhen viewing a room's feed, tap the share icon in the top bar. This copies or shares a link that anyone can open.\n\nSharing a Profile:\nOn any user's profile page, tap the share icon to share their profile link.\n\nSharing a Post:\nOn the post detail page, tap the share icon to share a direct link to that specific post.\n\nWhen your friend opens the link:\n- On the web: It opens directly in the Substitution web app.\n- On their phone (with the app installed): It opens in the Substitution app with a confirmation prompt before navigating.\n\nThis is the easiest way to invite friends to your rooms — just share the link!"
+            },
+            "direct_messages": {
+                "title": "Direct Messages",
+                "body": "Substitution includes direct messaging for private conversations:\n\n1. Go to a user's profile by tapping their name or avatar on any post.\n\n2. Tap the 'Message' button on their profile.\n\n3. A private chat room is created between you and that user.\n\n4. You can find all your conversations in the Messages tab (chat icon in the bottom navigation).\n\nDirect messages are separate from room posts. They're private one-on-one conversations between you and another user."
+            },
+            "opening_links": {
+                "title": "Opening Links from Friends",
+                "body": "When someone shares a Substitution link with you, here's what happens:\n\nWeb Links (https://app.substitution.art/...):\nThese open in your web browser and load the Substitution web app. You can view the room, profile, or post directly. Log in if prompted.\n\nApp Links (substitution://...):\nIf you have the Substitution app installed on your phone, these links open directly in the app. You'll see a confirmation dialog asking if you want to navigate to the room, profile, or post. Tap 'Continue' to proceed or 'Cancel' to stay where you are.\n\nThis confirmation step is a safety feature — it ensures you know where a link will take you before navigating."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Open Link",
+            "room": "You are about to open the room:\n\n{}",
+            "user": "You are about to view the profile of:\n\n{}",
+            "post": "You are about to open a post.",
+            "generic": "You are about to navigate to:\n\n{}",
+            "continue_button": "Continue",
+            "cancel_button": "Cancel",
+            "login_required": "You need to be logged in to open this link. Would you like to log in now?",
+            "login_button": "Log In"
+        }
+    },
+    "share": {
+        "link_copied": "Link copied to clipboard!",
+        "share_room": "Check out this room on Substitution",
+        "share_profile": "Check out this profile on Substitution",
+        "share_post": "Check out this post on Substitution"
     }
 }

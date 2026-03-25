@@ -1,5 +1,4 @@
 import '/settings/widgets/roomwidget.dart';
-import '/settings/widgets/dialogcreateroom.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/models/substitution_room.dart';
 
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:matrix/matrix.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 
 @immutable
 class OwnFeedSettings extends StatefulWidget {
@@ -115,14 +115,10 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
               icon: const Icon(Icons.add_rounded),
               label: const Text("settings.ownfeeds.buttons.create_room").tr(),
               onPressed: () async {
-                await showDialog<void>(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return const DialogCreateRoom();
-                  },
+                final result = await context.push<bool>(
+                  '/settings/room/create',
                 );
-                refreshRooms();
+                if (result == true) refreshRooms();
               },
             ),
           ),
