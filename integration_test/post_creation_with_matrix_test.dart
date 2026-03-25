@@ -148,9 +148,9 @@ void main() {
           await $.tester.pump(const Duration(milliseconds: 300));
         }
 
-        // 6. Tap Send button (Icons.send)
+        // 6. Tap Send button (Icons.send_rounded)
         debugPrint('POST_CREATION: Tapping Send...');
-        final sendButton = $(Icons.send);
+        final sendButton = $(Icons.send_rounded);
         await sendButton.waitUntilVisible();
         await sendButton.tap();
 
