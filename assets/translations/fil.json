@@ -305,5 +305,74 @@
         "error_loading": "Hindi ma-load ang usapang ito.",
         "error_sending": "Nabigong ipadala ang mensahe.",
         "view_profile": "Tingnan ang profile"
+    },
+    "help": {
+        "title": "Tulong",
+        "subtitle": "Alamin kung paano gamitin ang Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Ano ang Substitution?",
+                "body": "Ang Substitution ay isang desentralisadong social network para sa pagbabahagi ng sining at malikhaing nilalaman. Hindi tulad ng tradisyonal na social media, ang Substitution ay itinayo sa ibabaw ng Matrix protocol, na nangangahulugang walang isang kumpanya ang kumokontrol sa iyong data o sa network.\n\nAng iyong mga post, mensahe, at profile ay nakalagay sa Matrix homeserver na iyong pinili — hindi sa mga server na pinapatakbo ng Substitution. Binibigyan ka nito ng buong pagmamay-ari sa iyong nilalaman at kalayaan na lumipat sa pagitan ng mga server anumang oras.\n\nAng Substitution ay open source at pinapatakbo ng komunidad. Idinisenyo ito para palitan ang mga sentralisadong social network ng isang bagay na mas patas, transparent, at pag-aari ng mga user."
+            },
+            "what_is_matrix": {
+                "title": "Ano ang Matrix Protocol?",
+                "body": "Ang Matrix ay isang bukas at desentralisadong communication protocol. Isipin mo itong tulad ng email: kung paanong maaari kang magpadala ng email mula sa Gmail papuntang Outlook, pinapayagan ka ng Matrix na makipag-ugnayan sa iba't ibang server.\n\nMga pangunahing benepisyo ng Matrix:\n\n- Desentralisado: Walang iisang punto ng pagkabigo o kontrol. Kung mag-down ang isang server, patuloy na gumagana ang natitirang network.\n- Pederated: Nag-uusap ang mga server sa isa't isa. Maaari kang mag-follow ng mga room at mag-mensahe sa mga user sa anumang Matrix server, hindi lang sa sarili mo.\n- Open source: Ang protocol at karamihan sa server software ay ganap na open source.\n- Naka-encrypt: Sinusuportahan ng Matrix ang end-to-end encryption para sa mga pribadong usapan.\n\nMatuto pa sa https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Pagsisimula",
+                "body": "Para magamit ang Substitution, kailangan mo ng Matrix account. Narito kung paano magsimula:\n\n1. Pumili ng homeserver: Ang homeserver ang lugar kung saan nakalagay ang iyong account at data. Kabilang sa mga sikat na pagpipilian ang matrix.org, ngunit marami pang iba. Maaari ka ring mag-host ng sarili mo.\n\n2. Gumawa ng account: Bisitahin ang website ng iyong napiling homeserver para magparehistro, o gamitin ang registration link sa login screen.\n\n3. Mag-log in sa Substitution: Buksan ang app, i-enter ang address ng iyong homeserver, at mag-log in gamit ang iyong username at password. May mga server na sumusuporta rin ng Single Sign-On (SSO).\n\n4. Mag-explore: Kapag naka-log in na, gamitin ang Discover tab para makahanap ng mga room na susundan, o gumawa ng sarili mo!"
+            },
+            "what_are_rooms": {
+                "title": "Ano ang mga Room?",
+                "body": "Ang mga room ang puso ng Substitution. Ang room ay parang channel o feed kung saan nagpo-post ng nilalaman.\n\nBawat room ay may:\n- Pangalan at opsyonal na paglalarawan\n- May-ari (ang gumawa) na kumokontrol ng mga permiso\n- Mga miyembro na nagfo-follow at nakikipag-ugnayan sa nilalaman\n- Opsyonal na pampublikong alias (tulad ng username para sa room)\n\nAng mga room ay maaaring pampubliko (kahit sino ay maaaring makahanap at sumali sa pamamagitan ng room directory) o pribado (sa pamamagitan lang ng imbitasyon).\n\nSa Blog Mode, tanging mga moderator at admin lang ang maaaring gumawa ng mga post, habang ang lahat ng iba pa ay maaaring mag-comment at mag-react. Sa Community Mode, sinumang miyembro ay maaaring mag-post.\n\nAng mga room ay maaari ring i-end-to-end encrypt para sa mga pribadong komunidad."
+            },
+            "follow_rooms": {
+                "title": "Paano Mag-follow ng mga Room",
+                "body": "Para matuklasan at mag-follow ng mga room:\n\n1. Pumunta sa Discover tab (compass icon sa bottom navigation bar).\n\n2. Pumili ng server mula sa dropdown sa itaas. Maaari kang mag-browse ng mga room sa anumang Matrix server, hindi lang sa sarili mo. I-tap ang 'Magdagdag ng Server' para magdagdag ng bago.\n\n3. Maghanap ng mga room ayon sa pangalan gamit ang search field.\n\n4. I-tap ang isang room para makita ang preview na may paglalarawan, bilang ng mga miyembro, at pinakabagong mga post.\n\n5. I-tap ang 'Sumali' para i-follow ang room. Ang mga post nito ay lalabas sa iyong Home feed.\n\nPara mag-unfollow ng room, hanapin ito sa Discover tab at i-tap ang 'Umalis', o pumunta sa feed ng room at gamitin ang menu."
+            },
+            "create_room": {
+                "title": "Paano Gumawa ng Room",
+                "body": "Para gumawa ng sarili mong room:\n\n1. Buksan ang navigation drawer (hamburger menu) at i-tap ang 'Sariling mga Feed', o pumunta sa Settings at hanapin ang iyong mga room.\n\n2. I-tap ang 'Gumawa ng Bagong Room'.\n\n3. Punan ang mga detalye ng room:\n   - Pangalan ng Room: Ang display name para sa iyong room (kinakailangan).\n   - Alias ng Room: Opsyonal na pampublikong address (hal., 'my-art'). Ginagawa nitong mas madaling mahanap at ma-share ang room.\n   - Paglalarawan: Sabihin sa mga tao kung tungkol saan ang iyong room.\n\n4. I-configure ang mga setting:\n   - Pampublikong Room: I-enable para ilista ang iyong room sa directory ng server upang mahanap ng kahit sino. I-disable para sa imbitasyon lang.\n   - End-to-End Encryption: I-enable para sa mga pribadong room. Babala: hindi na ito maaaring i-undo!\n   - Blog Mode: I-enable para ikaw (at mga moderator) lang ang makakapag-post. I-disable para payagan ang sinumang miyembro na mag-post.\n\n5. Opsyonal na mag-imbita ng mga user sa pamamagitan ng paghahanap ng kanilang pangalan o Matrix ID.\n\n6. I-tap ang 'Gumawa ng Room' at tapos na!\n\nAng room ay malilikha sa iyong homeserver, ngunit maaaring sumali ang mga user mula sa anumang server."
+            },
+            "manage_room": {
+                "title": "Pamamahala ng Iyong mga Room",
+                "body": "Bilang may-ari o admin ng room, mayroon kang buong kontrol sa iyong mga room:\n\nPag-edit ng Room Settings:\nPumunta sa 'Sariling mga Feed' sa drawer menu, pagkatapos i-tap ang settings icon sa iyong room. Dito maaari mong baguhin ang pangalan, paglalarawan, alias, avatar, visibility, at posting mode.\n\nPamamahala ng mga Miyembro:\nSa room settings, mag-scroll sa Members section. Maaari mong:\n- Itakda ang mga tungkulin: I-promote ang mga miyembro sa Moderator o Admin, o i-demote pabalik sa User.\n- I-kick ang mga miyembro: Alisin ang isang miyembro mula sa room (maaari silang bumalik kung pampubliko ang room).\n- I-ban ang mga miyembro: Permanenteng i-block ang isang miyembro mula sa room. Maaari mong i-unban sila mamaya.\n\nMga Na-ban na Miyembro:\nTingnan at pamahalaan ang mga na-ban na miyembro sa 'Mga Na-ban na Miyembro' section ng room settings.\n\nPag-delete ng Room:\nSa ibaba ng room settings, makikita mo ang Danger Zone na may opsyon para i-delete ang room. Ang aksyong ito ay permanente at hindi na maaaring i-undo."
+            },
+            "write_post": {
+                "title": "Paano Magsulat ng Post",
+                "body": "Para gumawa ng bagong post:\n\n1. I-tap ang + button (floating action button) sa Home tab.\n\n2. Pumili ng uri ng post:\n   - Text Post: Sumulat ng rich text na may formatting (bold, italic, heading, list, link, at iba pa).\n   - File Post: Mag-upload ng mga larawan, video, o iba pang mga file na may opsyonal na caption.\n\n3. Piliin ang room kung saan mo gustong mag-post. Tanging mga room lang kung saan may permiso kang mag-post ang lalabas.\n\n4. Isulat ang iyong nilalaman:\n   - Para sa text post, gamitin ang rich text editor toolbar para sa formatting.\n   - Para sa file post, piliin ang iyong mga file at opsyonal na magdagdag ng pamagat at caption.\n\n5. I-tap ang send button para i-publish ang iyong post.\n\nAng iyong post ay lalabas sa feed ng room at sa Home feed ng lahat ng nag-follow ng room na iyon."
+            },
+            "share_rooms": {
+                "title": "Pagbabahagi ng mga Room sa mga Kaibigan",
+                "body": "Madali mong maibabahagi ang mga room, profile, at post sa mga kaibigan:\n\nPagbabahagi ng Room:\nHabang tinitingnan ang feed ng room, i-tap ang share icon sa top bar. Iko-copy o iba-bahagi nito ang link na maaaring buksan ng kahit sino.\n\nPagbabahagi ng Profile:\nSa profile page ng sinumang user, i-tap ang share icon para ibahagi ang kanilang profile link.\n\nPagbabahagi ng Post:\nSa post detail page, i-tap ang share icon para ibahagi ang direktang link sa partikular na post na iyon.\n\nKapag binuksan ng iyong kaibigan ang link:\n- Sa web: Direktang bubukas sa Substitution web app.\n- Sa kanilang telepono (na naka-install ang app): Bubukas sa Substitution app na may confirmation prompt bago mag-navigate.\n\nIto ang pinakamadaling paraan para mag-imbita ng mga kaibigan sa iyong mga room — ibahagi lang ang link!"
+            },
+            "direct_messages": {
+                "title": "Mga Direktang Mensahe",
+                "body": "Kasama sa Substitution ang direct messaging para sa mga pribadong usapan:\n\n1. Pumunta sa profile ng isang user sa pamamagitan ng pag-tap sa kanilang pangalan o avatar sa anumang post.\n\n2. I-tap ang 'Mensahe' button sa kanilang profile.\n\n3. Gagawa ng pribadong chat room sa pagitan mo at ng user na iyon.\n\n4. Mahahanap mo ang lahat ng iyong mga usapan sa Messages tab (chat icon sa bottom navigation).\n\nAng mga direktang mensahe ay hiwalay sa mga room post. Ang mga ito ay pribadong one-on-one na usapan sa pagitan mo at ng ibang user."
+            },
+            "opening_links": {
+                "title": "Pagbukas ng mga Link mula sa mga Kaibigan",
+                "body": "Kapag may nagbahagi ng Substitution link sa iyo, narito ang mangyayari:\n\nMga Web Link (https://app.substitution.art/...):\nAng mga link na ito ay bubukas sa iyong web browser at ilo-load ang Substitution web app. Maaari mong direktang tingnan ang room, profile, o post. Mag-log in kung kailangan.\n\nMga App Link (substitution://...):\nKung naka-install ang Substitution app sa iyong telepono, ang mga link na ito ay direktang bubukas sa app. Makikita mo ang isang confirmation dialog na nagtatanong kung gusto mong mag-navigate sa room, profile, o post. I-tap ang 'Magpatuloy' para tumuloy o 'Kanselahin' para manatili kung nasaan ka.\n\nAng confirmation step na ito ay isang safety feature — tinitiyak nito na alam mo kung saan ka dadalhin ng link bago mag-navigate."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Buksan ang Link",
+            "room": "Bubuksan mo ang room:\n\n{}",
+            "user": "Titingnan mo ang profile ng:\n\n{}",
+            "post": "Bubuksan mo ang isang post.",
+            "generic": "Mag-na-navigate ka sa:\n\n{}",
+            "continue_button": "Magpatuloy",
+            "cancel_button": "Kanselahin",
+            "login_required": "Kailangan mong mag-log in para buksan ang link na ito. Gusto mo bang mag-log in ngayon?",
+            "login_button": "Mag-log In"
+        }
+    },
+    "share": {
+        "link_copied": "Nakopya ang link sa clipboard!",
+        "share_room": "Tingnan ang room na ito sa Substitution",
+        "share_profile": "Tingnan ang profile na ito sa Substitution",
+        "share_post": "Tingnan ang post na ito sa Substitution"
     }
 }

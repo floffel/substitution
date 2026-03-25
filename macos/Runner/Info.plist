@@ -28,5 +28,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Substitution needs microphone access to record voice messages.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Substitution needs your location to share it in messages.</string>
 </dict>
 </plist>

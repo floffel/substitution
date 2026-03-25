@@ -45,6 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Substitution needs microphone access to record voice messages.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Substitution needs your location to share it in messages.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

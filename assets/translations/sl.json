@@ -114,5 +114,74 @@
         "no_conversations": "Še ni pogovorov", "no_conversations_hint": "Obiščite profil uporabnika in tapnite 'Sporočilo', da začnete klepet.",
         "media_message": "Mediji", "conversation_started": "Pogovor se je začel",
         "error_loading": "Tega pogovora ni bilo mogoče naložiti.", "error_sending": "Pošiljanje sporočila ni uspelo.", "view_profile": "Prikaži profil"
+    },
+    "help": {
+        "title": "Pomoč",
+        "subtitle": "Naučite se uporabljati Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Kaj je Substitution?",
+                "body": "Substitution je decentralizirano družbeno omrežje za deljenje umetnosti in ustvarjalnih vsebin. Za razliko od tradicionalnih družbenih medijev je Substitution zgrajen na protokolu Matrix, kar pomeni, da nobeno posamezno podjetje ne nadzoruje vaših podatkov ali omrežja.\n\nVaše objave, sporočila in profil živijo na domačem strežniku Matrix, ki ga izberete — ne na strežnikih, ki jih upravlja Substitution. To vam daje polno lastništvo nad vašimi vsebinami in svobodo selitve med strežniki kadar koli.\n\nSubstitution je odprtokoden in ga vodi skupnost. Zasnovan je tako, da nadomesti centralizirane družbene mreže z nečim bolj pravičnim, preglednim in v lasti uporabnikov."
+            },
+            "what_is_matrix": {
+                "title": "Kaj je protokol Matrix?",
+                "body": "Matrix je odprt, decentraliziran komunikacijski protokol. Predstavljajte si ga kot e-pošto: tako kot lahko pošljete e-pošto z Gmaila na Outlook, Matrix omogoča komunikacijo med različnimi strežniki.\n\nKljučne prednosti Matrix:\n\n- Decentraliziran: Ni ene same točke odpovedi ali nadzora. Če en strežnik pade, preostali del omrežja deluje naprej.\n- Federiran: Strežniki komunicirajo med seboj. Sledite lahko sobam in pošiljate sporočila uporabnikom na katerem koli strežniku Matrix, ne le na svojem.\n- Odprtokoden: Protokol in večina strežniške programske opreme sta v celoti odprtokodna.\n- Šifriran: Matrix podpira šifriranje od konca do konca za zasebne pogovore.\n\nVeč informacij najdete na https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Začetek uporabe",
+                "body": "Za uporabo Substitution potrebujete račun Matrix. Tukaj je opisano, kako začeti:\n\n1. Izberite domači strežnik: Domači strežnik je mesto, kjer živita vaš račun in podatki. Priljubljene izbire vključujejo matrix.org, vendar jih je še veliko drugih. Lahko tudi gostite svojega.\n\n2. Ustvarite račun: Obiščite spletno stran izbranega domačega strežnika za registracijo ali uporabite registracijsko povezavo na prijavnem zaslonu.\n\n3. Prijavite se v Substitution: Odprite aplikacijo, vnesite naslov svojega domačega strežnika in se prijavite z uporabniškim imenom in geslom. Nekateri strežniki podpirajo tudi enotno prijavo (SSO).\n\n4. Odkrivajte: Ko ste prijavljeni, uporabite zavihek Odkrivaj za iskanje sob, ki jim želite slediti, ali ustvarite svojo!"
+            },
+            "what_are_rooms": {
+                "title": "Kaj so sobe?",
+                "body": "Sobe so jedro Substitution. Soba je kot kanal ali vir, kjer se objavlja vsebina.\n\nVsaka soba ima:\n- Ime in neobvezen opis\n- Lastnika (ustvarjalca), ki nadzira dovoljenja\n- Člane, ki sledijo in komunicirajo z vsebino\n- Neobvezen javni vzdevek (kot uporabniško ime za sobo)\n\nSobe so lahko javne (kdor koli jih lahko najde in se pridruži prek imenika sob) ali zasebne (samo na povabilo).\n\nV blogerskem načinu lahko objave ustvarjajo samo moderatorji in skrbniki, medtem ko vsi ostali lahko komentirajo in reagirajo. V skupnostnem načinu lahko objavlja kateri koli član.\n\nSobe so lahko tudi šifrirane od konca do konca za zasebne skupnosti."
+            },
+            "follow_rooms": {
+                "title": "Kako slediti sobam",
+                "body": "Za odkrivanje in sledenje sobam:\n\n1. Pojdite na zavihek Odkrivaj (ikona kompasa v spodnji navigacijski vrstici).\n\n2. Izberite strežnik iz spustnega seznama na vrhu. Brskate lahko po sobah na katerem koli strežniku Matrix, ne le na svojem. Tapnite 'Dodaj strežnik' za dodajanje novih.\n\n3. Iščite sobe po imenu z uporabo iskalnega polja.\n\n4. Tapnite na sobo za ogled predogleda z opisom, številom članov in najnovejšimi objavami.\n\n5. Tapnite 'Vstopi' za sledenje sobi. Njene objave se bodo zdaj prikazovale v vašem domačem viru.\n\nČe želite prenehati slediti sobi, jo poiščite na zavihku Odkrivaj in tapnite 'Zapusti' ali pojdite v vir sobe in uporabite meni."
+            },
+            "create_room": {
+                "title": "Kako ustvariti sobo",
+                "body": "Za ustvarjanje lastne sobe:\n\n1. Odprite navigacijski predal (hamburgerški meni) in tapnite 'Lastni viri' ali pojdite v Nastavitve in poiščite svoje sobe.\n\n2. Tapnite 'Ustvari novo sobo'.\n\n3. Izpolnite podrobnosti sobe:\n   - Ime sobe: Prikazano ime vaše sobe (obvezno).\n   - Vzdevek sobe: Neobvezen javni naslov (npr. 'my-art'). S tem je sobo lažje najti in deliti.\n   - Opis: Povejte ljudem, o čem je vaša soba.\n\n4. Konfigurirajte nastavitve:\n   - Javna soba: Omogočite za prikaz sobe v imeniku strežnika, da jo lahko najde kdor koli. Onemogočite za dostop samo na povabilo.\n   - Šifriranje od konca do konca: Omogočite za zasebne sobe. Opozorilo: tega ni mogoče razveljaviti!\n   - Blogerski način: Omogočite, da lahko objavljate samo vi (in moderatorji). Onemogočite, da lahko objavlja kateri koli član.\n\n5. Po želji povabite uporabnike z iskanjem po imenu ali Matrix ID.\n\n6. Tapnite 'Ustvari sobo' in končali ste!\n\nSoba bo ustvarjena na vašem domačem strežniku, vendar se ji lahko pridružijo uporabniki s katerega koli strežnika."
+            },
+            "manage_room": {
+                "title": "Upravljanje vaših sob",
+                "body": "Kot lastnik ali skrbnik sobe imate popoln nadzor nad svojimi sobami:\n\nUrejanje nastavitev sobe:\nPojdite na 'Lastni viri' v meniju predala, nato tapnite ikono nastavitev pri svoji sobi. Tukaj lahko spremenite ime, opis, vzdevek, avatar, vidnost in način objavljanja.\n\nUpravljanje članov:\nV nastavitvah sobe se pomaknite do razdelka Člani. Lahko:\n- Dodelite vloge: Povišajte člane v Moderatorja ali Skrbnika ali jih znižajte nazaj v Uporabnika.\n- Izključite člane: Odstranite člana iz sobe (lahko se ponovno pridruži, če je soba javna).\n- Prepovejte člane: Trajno blokirajte člana iz sobe. Lahko jih pozneje odvzamete prepoved.\n\nPrepovedani člani:\nOglejte si in upravljajte prepovedane člane v razdelku 'Prepovedani člani' v nastavitvah sobe.\n\nBrisanje sobe:\nNa dnu nastavitev sobe boste našli Nevarno cono z možnostjo brisanja sobe. To dejanje je trajno in ga ni mogoče razveljaviti."
+            },
+            "write_post": {
+                "title": "Kako napisati objavo",
+                "body": "Za ustvarjanje nove objave:\n\n1. Tapnite gumb + (plavajoči akcijski gumb) na zavihku Domov.\n\n2. Izberite vrsto objave:\n   - Besedilna objava: Napišite obogateno besedilo z oblikovanjem (krepko, ležeče, naslovi, seznami, povezave in več).\n   - Datotečna objava: Naložite slike, videe ali druge datoteke z neobveznim opisom.\n\n3. Izberite sobo, v kateri želite objaviti. Prikazane bodo samo sobe, kjer imate dovoljenje za objavljanje.\n\n4. Napišite svojo vsebino:\n   - Za besedilne objave uporabite orodno vrstico urejevalnika obogatenega besedila.\n   - Za datotečne objave izberite datoteke in po želji dodajte naslov ter opis.\n\n5. Tapnite gumb za pošiljanje, da objavite svojo objavo.\n\nVaša objava se bo prikazala v viru sobe in v domačem viru vseh, ki sledijo tej sobi."
+            },
+            "share_rooms": {
+                "title": "Deljenje sob s prijatelji",
+                "body": "Sobe, profile in objave lahko enostavno delite s prijatelji:\n\nDeljenje sobe:\nKo si ogledujete vir sobe, tapnite ikono za deljenje v zgornji vrstici. S tem se kopira ali deli povezava, ki jo lahko odpre kdor koli.\n\nDeljenje profila:\nNa profilni strani katerega koli uporabnika tapnite ikono za deljenje, da delite povezavo do njegovega profila.\n\nDeljenje objave:\nNa strani s podrobnostmi objave tapnite ikono za deljenje, da delite neposredno povezavo do te konkretne objave.\n\nKo vaš prijatelj odpre povezavo:\n- Na spletu: Odpre se neposredno v spletni aplikaciji Substitution.\n- Na telefonu (z nameščeno aplikacijo): Odpre se v aplikaciji Substitution s potrditvenim pozivom pred navigacijo.\n\nTo je najlažji način za povabilo prijateljev v vaše sobe — samo delite povezavo!"
+            },
+            "direct_messages": {
+                "title": "Neposredna sporočila",
+                "body": "Substitution vključuje neposredna sporočila za zasebne pogovore:\n\n1. Pojdite na profil uporabnika s tapkanjem na njegovo ime ali avatar pri kateri koli objavi.\n\n2. Tapnite gumb 'Sporočilo' na njegovem profilu.\n\n3. Med vami in tem uporabnikom se ustvari zasebna klepetalnica.\n\n4. Vse svoje pogovore najdete na zavihku Sporočila (ikona klepeta v spodnji navigacijski vrstici).\n\nNeposredna sporočila so ločena od objav v sobah. So zasebni pogovori ena na ena med vami in drugim uporabnikom."
+            },
+            "opening_links": {
+                "title": "Odpiranje povezav od prijateljev",
+                "body": "Ko vam nekdo deli povezavo Substitution, se zgodi naslednje:\n\nSpletne povezave (https://app.substitution.art/...):\nTe se odprejo v vašem spletnem brskalniku in naložijo spletno aplikacijo Substitution. Neposredno si lahko ogledate sobo, profil ali objavo. Prijavite se, če vas sistem pozove.\n\nPovezave aplikacije (substitution://...):\nČe imate na telefonu nameščeno aplikacijo Substitution, se te povezave odprejo neposredno v aplikaciji. Prikaže se potrditveno pogovorno okno, ki vas vpraša, ali želite navigirati do sobe, profila ali objave. Tapnite 'Nadaljuj' za nadaljevanje ali 'Prekliči' za obstanek na mestu.\n\nTa potrditveni korak je varnostna funkcija — zagotavlja, da veste, kam vas bo povezava popeljala, preden nadaljujete."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Odpri povezavo",
+            "room": "Odpirali boste sobo:\n\n{}",
+            "user": "Ogledali si boste profil:\n\n{}",
+            "post": "Odpirali boste objavo.",
+            "generic": "Navigirali boste na:\n\n{}",
+            "continue_button": "Nadaljuj",
+            "cancel_button": "Prekliči",
+            "login_required": "Za odprtje te povezave se morate prijaviti. Ali se želite prijaviti zdaj?",
+            "login_button": "Prijava"
+        }
+    },
+    "share": {
+        "link_copied": "Povezava kopirana v odložišče!",
+        "share_room": "Oglejte si to sobo na Substitution",
+        "share_profile": "Oglejte si ta profil na Substitution",
+        "share_post": "Oglejte si to objavo na Substitution"
     }
 }

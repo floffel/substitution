@@ -116,5 +116,74 @@
         "no_conversations": "Inga konversationer ännu", "no_conversations_hint": "Besök en användares profil och tryck på 'Meddelande' för att starta en chatt.",
         "media_message": "Media", "conversation_started": "Konversation startad",
         "error_loading": "Kunde inte ladda denna konversation.", "error_sending": "Kunde inte skicka meddelandet.", "view_profile": "Visa profil"
+    },
+    "help": {
+        "title": "Hjälp",
+        "subtitle": "Lär dig hur du använder Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Vad är Substitution?",
+                "body": "Substitution är ett decentraliserat socialt nätverk för att dela konst och kreativt innehåll. Till skillnad från traditionella sociala medier är Substitution byggt ovanpå Matrix-protokollet, vilket innebär att inget enskilt företag kontrollerar dina data eller nätverket.\n\nDina inlägg, meddelanden och profil finns på den Matrix-hemserver du väljer — inte på servrar som drivs av Substitution. Detta ger dig fullt ägande av ditt innehåll och friheten att byta server när som helst.\n\nSubstitution är öppen källkod och drivs av gemenskapen. Det är utformat för att ersätta centraliserade sociala nätverk med något mer rättvist, transparent och ägt av användarna."
+            },
+            "what_is_matrix": {
+                "title": "Vad är Matrix-protokollet?",
+                "body": "Matrix är ett öppet, decentraliserat kommunikationsprotokoll. Tänk på det som e-post: precis som du kan skicka ett e-postmeddelande från Gmail till Outlook, låter Matrix dig kommunicera mellan olika servrar.\n\nViktiga fördelar med Matrix:\n\n- Decentraliserat: Ingen enskild punkt för fel eller kontroll. Om en server går ner fortsätter resten av nätverket att fungera.\n- Federerat: Servrar kommunicerar med varandra. Du kan följa rum och skicka meddelanden till användare på vilken Matrix-server som helst, inte bara din egen.\n- Öppen källkod: Protokollet och den mesta servermjukvaran är helt öppen källkod.\n- Krypterat: Matrix stöder ende-till-ende-kryptering för privata konversationer.\n\nLäs mer på https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Komma igång",
+                "body": "För att använda Substitution behöver du ett Matrix-konto. Så här kommer du igång:\n\n1. Välj en hemserver: En hemserver är där ditt konto och dina data finns. Populära val inkluderar matrix.org, men det finns många andra. Du kan också driva din egen.\n\n2. Skapa ett konto: Besök webbplatsen för din valda hemserver för att registrera dig, eller använd registreringslänken på inloggningsskärmen.\n\n3. Logga in på Substitution: Öppna appen, ange din hemserveradress och logga in med ditt användarnamn och lösenord. Vissa servrar stöder även Single Sign-On (SSO).\n\n4. Utforska: När du är inloggad, använd fliken Utforska för att hitta rum att följa, eller skapa ditt eget!"
+            },
+            "what_are_rooms": {
+                "title": "Vad är rum?",
+                "body": "Rum är kärnan i Substitution. Ett rum är som en kanal eller ett flöde där innehåll publiceras.\n\nVarje rum har:\n- Ett namn och en valfri beskrivning\n- En ägare (skaparen) som kontrollerar behörigheter\n- Medlemmar som följer och interagerar med innehållet\n- Ett valfritt offentligt alias (som ett användarnamn för rummet)\n\nRum kan vara offentliga (vem som helst kan hitta och gå med via rumkatalogen) eller privata (endast på inbjudan).\n\nI Bloggläge kan bara moderatorer och administratörer skapa inlägg, medan alla andra kan kommentera och reagera. I Gemenskapsläge kan vilken medlem som helst publicera.\n\nRum kan också vara ende-till-ende-krypterade för privata gemenskaper."
+            },
+            "follow_rooms": {
+                "title": "Hur man följer rum",
+                "body": "För att upptäcka och följa rum:\n\n1. Gå till fliken Utforska (kompassikonen i den nedre navigeringsfältet).\n\n2. Välj en server från rullgardinsmenyn längst upp. Du kan bläddra bland rum på vilken Matrix-server som helst, inte bara din egen. Tryck på 'Lägg till server' för att lägga till nya.\n\n3. Sök efter rum med namn med hjälp av sökfältet.\n\n4. Tryck på ett rum för att se en förhandsgranskning med dess beskrivning, antal medlemmar och senaste inlägg.\n\n5. Tryck på 'Gå med' för att följa rummet. Dess inlägg visas nu i ditt Hem-flöde.\n\nFör att sluta följa ett rum, hitta det på fliken Utforska och tryck på 'Lämna', eller gå till rummets flöde och använd menyn."
+            },
+            "create_room": {
+                "title": "Hur man skapar ett rum",
+                "body": "För att skapa ditt eget rum:\n\n1. Öppna navigeringslådan (hamburgermenyn) och tryck på 'Egna flöden', eller gå till Inställningar och hitta dina rum.\n\n2. Tryck på 'Skapa ett nytt rum'.\n\n3. Fyll i rumsdetaljerna:\n   - Rumsnamn: Visningsnamnet för ditt rum (obligatoriskt).\n   - Rumsalias: En valfri offentlig adress (t.ex. 'min-konst'). Detta gör rummet lättare att hitta och dela.\n   - Beskrivning: Berätta för andra vad ditt rum handlar om.\n\n4. Konfigurera inställningar:\n   - Offentligt rum: Aktivera för att lista ditt rum i serverns katalog så att alla kan hitta det. Inaktivera för endast inbjudan.\n   - Ende-till-ende-kryptering: Aktivera för privata rum. Varning: detta kan inte ångras!\n   - Bloggläge: Aktivera så att bara du (och moderatorer) kan publicera. Inaktivera för att låta alla medlemmar publicera.\n\n5. Bjud eventuellt in användare genom att söka efter deras namn eller Matrix-ID.\n\n6. Tryck på 'Skapa rum' och du är klar!\n\nRummet skapas på din hemserver, men användare från vilken server som helst kan gå med."
+            },
+            "manage_room": {
+                "title": "Hantera dina rum",
+                "body": "Som rumsägare eller administratör har du full kontroll över dina rum:\n\nRedigera rumsinställningar:\nGå till 'Egna flöden' i lådmenyn och tryck sedan på inställningsikonen på ditt rum. Här kan du ändra namn, beskrivning, alias, avatar, synlighet och publiceringsläge.\n\nHantera medlemmar:\nI rumsinställningarna, bläddra till avsnittet Medlemmar. Du kan:\n- Ange roller: Befordra medlemmar till Moderator eller Administratör, eller degradera dem tillbaka till Användare.\n- Sparka medlemmar: Ta bort en medlem från rummet (de kan gå med igen om rummet är offentligt).\n- Banna medlemmar: Permanent blockera en medlem från rummet. Du kan häva bannet senare.\n\nBannade medlemmar:\nVisa och hantera bannade medlemmar i avsnittet 'Bannade medlemmar' i rumsinställningarna.\n\nTa bort ett rum:\nLängst ner i rumsinställningarna hittar du Farozonen med alternativet att ta bort rummet. Denna åtgärd är permanent och kan inte ångras."
+            },
+            "write_post": {
+                "title": "Hur man skriver ett inlägg",
+                "body": "För att skapa ett nytt inlägg:\n\n1. Tryck på + knappen (flytande åtgärdsknapp) på fliken Hem.\n\n2. Välj typ av inlägg:\n   - Textinlägg: Skriv rik text med formatering (fetstil, kursiv, rubriker, listor, länkar och mer).\n   - Filinlägg: Ladda upp bilder, videor eller andra filer med en valfri bildtext.\n\n3. Välj det rum du vill publicera i. Bara rum där du har behörighet att publicera visas.\n\n4. Skriv ditt innehåll:\n   - För textinlägg, använd verktygsfältet i den rika textredigeraren för formatering.\n   - För filinlägg, välj dina filer och lägg valfritt till en titel och bildtext.\n\n5. Tryck på skicka-knappen för att publicera ditt inlägg.\n\nDitt inlägg visas i rummets flöde och i Hem-flödet för alla som följer det rummet."
+            },
+            "share_rooms": {
+                "title": "Dela rum med vänner",
+                "body": "Du kan enkelt dela rum, profiler och inlägg med vänner:\n\nDela ett rum:\nNär du visar ett rums flöde, tryck på delningsikonen i det övre fältet. Detta kopierar eller delar en länk som vem som helst kan öppna.\n\nDela en profil:\nPå en användares profilsida, tryck på delningsikonen för att dela deras profillänk.\n\nDela ett inlägg:\nPå inläggets detaljsida, tryck på delningsikonen för att dela en direktlänk till det specifika inlägget.\n\nNär din vän öppnar länken:\n- På webben: Den öppnas direkt i Substitution-webbappen.\n- På deras telefon (med appen installerad): Den öppnas i Substitution-appen med en bekräftelseprompt innan navigering.\n\nDetta är det enklaste sättet att bjuda in vänner till dina rum — dela bara länken!"
+            },
+            "direct_messages": {
+                "title": "Direktmeddelanden",
+                "body": "Substitution inkluderar direktmeddelanden för privata konversationer:\n\n1. Gå till en användares profil genom att trycka på deras namn eller avatar på ett inlägg.\n\n2. Tryck på knappen 'Meddelande' på deras profil.\n\n3. Ett privat chattrum skapas mellan dig och den användaren.\n\n4. Du hittar alla dina konversationer på fliken Meddelanden (chattikonen i den nedre navigeringen).\n\nDirektmeddelanden är separata från rumsinlägg. De är privata en-till-en-konversationer mellan dig och en annan användare."
+            },
+            "opening_links": {
+                "title": "Öppna länkar från vänner",
+                "body": "När någon delar en Substitution-länk med dig, så här fungerar det:\n\nWebblänkar (https://app.substitution.art/...):\nDessa öppnas i din webbläsare och laddar Substitution-webbappen. Du kan visa rummet, profilen eller inlägget direkt. Logga in om du uppmanas.\n\nApplänkar (substitution://...):\nOm du har Substitution-appen installerad på din telefon öppnas dessa länkar direkt i appen. Du ser en bekräftelsedialog som frågar om du vill navigera till rummet, profilen eller inlägget. Tryck på 'Fortsätt' för att gå vidare eller 'Avbryt' för att stanna kvar.\n\nDetta bekräftelsesteg är en säkerhetsfunktion — det säkerställer att du vet vart en länk tar dig innan du navigerar."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Öppna länk",
+            "room": "Du är på väg att öppna rummet:\n\n{}",
+            "user": "Du är på väg att visa profilen för:\n\n{}",
+            "post": "Du är på väg att öppna ett inlägg.",
+            "generic": "Du är på väg att navigera till:\n\n{}",
+            "continue_button": "Fortsätt",
+            "cancel_button": "Avbryt",
+            "login_required": "Du måste vara inloggad för att öppna denna länk. Vill du logga in nu?",
+            "login_button": "Logga in"
+        }
+    },
+    "share": {
+        "link_copied": "Länk kopierad till urklipp!",
+        "share_room": "Kolla in det här rummet på Substitution",
+        "share_profile": "Kolla in den här profilen på Substitution",
+        "share_post": "Kolla in det här inlägget på Substitution"
     }
 }

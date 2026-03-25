@@ -65,6 +65,11 @@ dependencies:
   http: ^1.6.0
   url_launcher: ^6.3.2
   app_links: ^7.0.0
+  share_plus: ^10.1.4
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
+  record: ^6.2.0
+  geolocator: ^14.0.2
 
   flutter_test:
     sdk: flutter

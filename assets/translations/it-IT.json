@@ -305,5 +305,74 @@
         "error_loading": "Impossibile caricare questa conversazione.",
         "error_sending": "Invio del messaggio fallito.",
         "view_profile": "Visualizza profilo"
+    },
+    "help": {
+        "title": "Aiuto",
+        "subtitle": "Scopri come usare Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Cos'è Substitution?",
+                "body": "Substitution è un social network decentralizzato per la condivisione di arte e contenuti creativi. A differenza dei social media tradizionali, Substitution è costruito sul protocollo Matrix, il che significa che nessuna azienda controlla i tuoi dati o la rete.\n\nI tuoi post, messaggi e profilo risiedono sul server Matrix che scegli — non su server gestiti da Substitution. Questo ti dà la piena proprietà dei tuoi contenuti e la libertà di cambiare server in qualsiasi momento.\n\nSubstitution è open source e guidato dalla comunità. È progettato per sostituire i social network centralizzati con qualcosa di più equo, trasparente e di proprietà degli utenti."
+            },
+            "what_is_matrix": {
+                "title": "Cos'è il protocollo Matrix?",
+                "body": "Matrix è un protocollo di comunicazione aperto e decentralizzato. Pensalo come l'email: proprio come puoi inviare un'email da Gmail a Outlook, Matrix ti permette di comunicare tra server diversi.\n\nVantaggi principali di Matrix:\n\n- Decentralizzato: Nessun punto singolo di guasto o controllo. Se un server va offline, il resto della rete continua a funzionare.\n- Federato: I server comunicano tra loro. Puoi seguire stanze e inviare messaggi a utenti su qualsiasi server Matrix, non solo il tuo.\n- Open source: Il protocollo e la maggior parte del software server sono completamente open source.\n- Crittografato: Matrix supporta la crittografia end-to-end per le conversazioni private.\n\nScopri di più su https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Per iniziare",
+                "body": "Per usare Substitution, hai bisogno di un account Matrix. Ecco come iniziare:\n\n1. Scegli un homeserver: Un homeserver è il luogo dove risiedono il tuo account e i tuoi dati. Le scelte popolari includono matrix.org, ma ce ne sono molti altri. Puoi anche ospitarne uno tuo.\n\n2. Crea un account: Visita il sito web dell'homeserver che hai scelto per registrarti, oppure usa il link di registrazione nella schermata di accesso.\n\n3. Accedi a Substitution: Apri l'app, inserisci l'indirizzo del tuo homeserver e accedi con nome utente e password. Alcuni server supportano anche il Single Sign-On (SSO).\n\n4. Esplora: Una volta effettuato l'accesso, usa la scheda Esplora per trovare stanze da seguire, oppure creane una tua!"
+            },
+            "what_are_rooms": {
+                "title": "Cosa sono le stanze?",
+                "body": "Le stanze sono il cuore di Substitution. Una stanza è come un canale o un feed dove vengono pubblicati contenuti.\n\nOgni stanza ha:\n- Un nome e una descrizione facoltativa\n- Un proprietario (il creatore) che controlla i permessi\n- Membri che seguono e interagiscono con il contenuto\n- Un alias pubblico facoltativo (come un nome utente per la stanza)\n\nLe stanze possono essere pubbliche (chiunque può trovarle e unirsi tramite la directory delle stanze) o private (solo su invito).\n\nIn Modalità Blog, solo i moderatori e gli amministratori possono creare post, mentre tutti gli altri possono commentare e reagire. In Modalità Comunità, qualsiasi membro può pubblicare.\n\nLe stanze possono anche essere crittografate end-to-end per le comunità private."
+            },
+            "follow_rooms": {
+                "title": "Come seguire le stanze",
+                "body": "Per scoprire e seguire stanze:\n\n1. Vai alla scheda Esplora (icona bussola nella barra di navigazione in basso).\n\n2. Scegli un server dal menu a tendina in alto. Puoi esplorare stanze su qualsiasi server Matrix, non solo il tuo. Tocca «Aggiungi server» per aggiungerne di nuovi.\n\n3. Cerca stanze per nome usando il campo di ricerca.\n\n4. Tocca una stanza per vederne un'anteprima con descrizione, numero di membri e ultimi post.\n\n5. Tocca «Entra» per seguire la stanza. I suoi post appariranno ora nel tuo feed Home.\n\nPer smettere di seguire una stanza, trovala nella scheda Esplora e tocca «Lascia», oppure vai al feed della stanza e usa il menu."
+            },
+            "create_room": {
+                "title": "Come creare una stanza",
+                "body": "Per creare la tua stanza:\n\n1. Apri il menu di navigazione (menu hamburger) e tocca «I miei feed», oppure vai nelle Impostazioni e trova le tue stanze.\n\n2. Tocca «Crea una nuova stanza».\n\n3. Compila i dettagli della stanza:\n   - Nome della stanza: Il nome visualizzato della tua stanza (obbligatorio).\n   - Alias della stanza: Un indirizzo pubblico facoltativo (es.: «la-mia-arte»). Questo rende la stanza più facile da trovare e condividere.\n   - Descrizione: Spiega alle persone di cosa tratta la tua stanza.\n\n4. Configura le impostazioni:\n   - Stanza pubblica: Attivalo per elencare la tua stanza nella directory del server, così chiunque potrà trovarla. Disattivalo per renderla solo su invito.\n   - Crittografia end-to-end: Attivala per stanze private. Attenzione: questa azione non può essere annullata!\n   - Modalità Blog: Attivala perché solo tu (e i moderatori) possiate pubblicare. Disattivala per permettere a qualsiasi membro di pubblicare.\n\n5. Opzionalmente invita utenti cercando il loro nome o il loro ID Matrix.\n\n6. Tocca «Crea» e il gioco è fatto!\n\nLa stanza verrà creata sul tuo homeserver, ma utenti di qualsiasi server potranno unirsi."
+            },
+            "manage_room": {
+                "title": "Gestire le tue stanze",
+                "body": "Come proprietario o amministratore di una stanza, hai il pieno controllo sulle tue stanze:\n\nModificare le impostazioni della stanza:\nVai a «I miei feed» nel menu laterale, poi tocca l'icona delle impostazioni della tua stanza. Qui puoi modificare nome, descrizione, alias, avatar, visibilità e modalità di pubblicazione.\n\nGestire i membri:\nNelle impostazioni della stanza, scorri fino alla sezione Membri. Puoi:\n- Assegnare ruoli: Promuovere membri a Moderatore o Amministratore, o retrocederli a Utente.\n- Espellere membri: Rimuovere un membro dalla stanza (può rientrare se la stanza è pubblica).\n- Bannare membri: Bloccare permanentemente un membro dalla stanza. Puoi rimuovere il ban in seguito.\n\nMembri bannati:\nVisualizza e gestisci i membri bannati nella sezione «Membri bannati» delle impostazioni della stanza.\n\nEliminare una stanza:\nIn fondo alle impostazioni della stanza, troverai la Zona pericolosa con l'opzione per eliminare la stanza. Questa azione è permanente e non può essere annullata."
+            },
+            "write_post": {
+                "title": "Come scrivere un post",
+                "body": "Per creare un nuovo post:\n\n1. Tocca il pulsante + (pulsante di azione flottante) nella scheda Home.\n\n2. Scegli il tipo di post:\n   - Post di testo: Scrivi testo formattato (grassetto, corsivo, intestazioni, elenchi, link e altro).\n   - Post con file: Carica immagini, video o altri file con una didascalia facoltativa.\n\n3. Seleziona la stanza in cui desideri pubblicare. Appariranno solo le stanze in cui hai il permesso di pubblicare.\n\n4. Scrivi il tuo contenuto:\n   - Per i post di testo, usa la barra degli strumenti dell'editor di testo formattato.\n   - Per i post con file, seleziona i tuoi file e opzionalmente aggiungi un titolo e una didascalia.\n\n5. Tocca il pulsante di invio per pubblicare il tuo post.\n\nIl tuo post apparirà nel feed della stanza e nel feed Home di tutti coloro che seguono quella stanza."
+            },
+            "share_rooms": {
+                "title": "Condividere stanze con gli amici",
+                "body": "Puoi condividere facilmente stanze, profili e post con i tuoi amici:\n\nCondividere una stanza:\nQuando visualizzi il feed di una stanza, tocca l'icona di condivisione nella barra superiore. Questo copia o condivide un link che chiunque può aprire.\n\nCondividere un profilo:\nNella pagina del profilo di qualsiasi utente, tocca l'icona di condivisione per condividere il link del suo profilo.\n\nCondividere un post:\nNella pagina di dettaglio del post, tocca l'icona di condivisione per condividere un link diretto a quel post specifico.\n\nQuando il tuo amico apre il link:\n- Sul web: Si apre direttamente nell'app web di Substitution.\n- Sul suo telefono (con l'app installata): Si apre nell'app Substitution con una richiesta di conferma prima di navigare.\n\nQuesto è il modo più semplice per invitare amici nelle tue stanze — basta condividere il link!"
+            },
+            "direct_messages": {
+                "title": "Messaggi diretti",
+                "body": "Substitution include la messaggistica diretta per conversazioni private:\n\n1. Vai al profilo di un utente toccando il suo nome o avatar su qualsiasi post.\n\n2. Tocca il pulsante «Messaggio» sul suo profilo.\n\n3. Viene creata una chat privata tra te e quell'utente.\n\n4. Puoi trovare tutte le tue conversazioni nella scheda Messaggi (icona chat nella navigazione in basso).\n\nI messaggi diretti sono separati dai post delle stanze. Sono conversazioni private individuali tra te e un altro utente."
+            },
+            "opening_links": {
+                "title": "Aprire link dagli amici",
+                "body": "Quando qualcuno condivide un link di Substitution con te, ecco cosa succede:\n\nLink web (https://app.substitution.art/...):\nQuesti si aprono nel tuo browser web e caricano l'app web di Substitution. Puoi visualizzare direttamente la stanza, il profilo o il post. Accedi se richiesto.\n\nLink dell'app (substitution://...):\nSe hai l'app Substitution installata sul tuo telefono, questi link si aprono direttamente nell'app. Vedrai una finestra di conferma che ti chiede se vuoi navigare verso la stanza, il profilo o il post. Tocca «Continua» per procedere o «Annulla» per restare dove sei.\n\nQuesto passaggio di conferma è una misura di sicurezza — ti assicura di sapere dove ti porterà un link prima di navigare."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Apri link",
+            "room": "Stai per aprire la stanza:\n\n{}",
+            "user": "Stai per visualizzare il profilo di:\n\n{}",
+            "post": "Stai per aprire un post.",
+            "generic": "Stai per navigare verso:\n\n{}",
+            "continue_button": "Continua",
+            "cancel_button": "Annulla",
+            "login_required": "Devi aver effettuato l'accesso per aprire questo link. Vuoi accedere ora?",
+            "login_button": "Accedi"
+        }
+    },
+    "share": {
+        "link_copied": "Link copiato negli appunti!",
+        "share_room": "Dai un'occhiata a questa stanza su Substitution",
+        "share_profile": "Dai un'occhiata a questo profilo su Substitution",
+        "share_post": "Dai un'occhiata a questo post su Substitution"
     }
 }

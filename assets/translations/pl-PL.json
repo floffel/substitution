@@ -305,5 +305,74 @@
         "error_loading": "Nie udało się załadować tej rozmowy.",
         "error_sending": "Nie udało się wysłać wiadomości.",
         "view_profile": "Zobacz profil"
+    },
+    "help": {
+        "title": "Pomoc",
+        "subtitle": "Dowiedz się, jak korzystać z Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Czym jest Substitution?",
+                "body": "Substitution to zdecentralizowana sieć społecznościowa do udostępniania sztuki i treści twórczych. W przeciwieństwie do tradycyjnych mediów społecznościowych, Substitution jest zbudowany na protokole Matrix, co oznacza, że żadna pojedyncza firma nie kontroluje Twoich danych ani sieci.\n\nTwoje posty, wiadomości i profil znajdują się na wybranym przez Ciebie serwerze domowym Matrix — a nie na serwerach obsługiwanych przez Substitution. Daje Ci to pełną własność nad Twoimi treściami oraz swobodę przenoszenia się między serwerami w dowolnym momencie.\n\nSubstitution jest projektem open source, napędzanym przez społeczność. Został zaprojektowany, aby zastąpić scentralizowane sieci społecznościowe czymś bardziej sprawiedliwym, przejrzystym i należącym do użytkowników."
+            },
+            "what_is_matrix": {
+                "title": "Czym jest protokół Matrix?",
+                "body": "Matrix to otwarty, zdecentralizowany protokół komunikacyjny. Pomyśl o nim jak o e-mailu: tak jak możesz wysłać wiadomość z Gmaila do Outlooka, Matrix pozwala na komunikację między różnymi serwerami.\n\nGłówne zalety Matrix:\n\n- Zdecentralizowany: brak pojedynczego punktu awarii lub kontroli. Jeśli jeden serwer przestanie działać, reszta sieci nadal funkcjonuje.\n- Sfederowany: serwery komunikują się ze sobą. Możesz śledzić pokoje i wysyłać wiadomości do użytkowników na dowolnym serwerze Matrix, nie tylko na swoim.\n- Open source: protokół i większość oprogramowania serwerowego są w pełni otwarte.\n- Szyfrowany: Matrix obsługuje szyfrowanie end-to-end dla prywatnych rozmów.\n\nDowiedz się więcej na https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Pierwsze kroki",
+                "body": "Aby korzystać z Substitution, potrzebujesz konta Matrix. Oto jak zacząć:\n\n1. Wybierz serwer domowy: serwer domowy to miejsce, w którym przechowywane są Twoje konto i dane. Popularne opcje to matrix.org, ale istnieje wiele innych. Możesz też postawić własny.\n\n2. Utwórz konto: odwiedź stronę internetową wybranego serwera domowego, aby się zarejestrować, lub użyj linku rejestracyjnego na ekranie logowania.\n\n3. Zaloguj się do Substitution: otwórz aplikację, wpisz adres swojego serwera domowego i zaloguj się za pomocą nazwy użytkownika i hasła. Niektóre serwery obsługują również jednokrotne logowanie (SSO).\n\n4. Odkrywaj: po zalogowaniu użyj zakładki Odkrywaj, aby znaleźć pokoje do obserwowania, lub utwórz własny!"
+            },
+            "what_are_rooms": {
+                "title": "Czym są pokoje?",
+                "body": "Pokoje stanowią rdzeń Substitution. Pokój jest jak kanał lub strumień, w którym publikowane są treści.\n\nKażdy pokój ma:\n- Nazwę i opcjonalny opis\n- Właściciela (twórcę), który kontroluje uprawnienia\n- Członków, którzy obserwują i wchodzą w interakcję z treściami\n- Opcjonalny publiczny alias (jak nazwa użytkownika dla pokoju)\n\nPokoje mogą być publiczne (każdy może je znaleźć i dołączyć przez katalog pokojów) lub prywatne (tylko na zaproszenie).\n\nW trybie blogowym tylko moderatorzy i administratorzy mogą tworzyć posty, a wszyscy inni mogą komentować i reagować. W trybie społecznościowym każdy członek może publikować.\n\nPokoje mogą być również szyfrowane end-to-end dla prywatnych społeczności."
+            },
+            "follow_rooms": {
+                "title": "Jak obserwować pokoje",
+                "body": "Aby odkrywać i obserwować pokoje:\n\n1. Przejdź do zakładki Odkrywaj (ikona kompasu na dolnym pasku nawigacji).\n\n2. Wybierz serwer z listy rozwijanej u góry. Możesz przeglądać pokoje na dowolnym serwerze Matrix, nie tylko na swoim. Kliknij „Dodaj serwer”, aby dodać nowe.\n\n3. Szukaj pokojów po nazwie za pomocą pola wyszukiwania.\n\n4. Kliknij na pokój, aby zobaczyć podgląd z opisem, liczbą członków i najnowszymi postami.\n\n5. Kliknij „Dołącz”, aby obserwować pokój. Jego posty będą teraz pojawiać się w Twojej stronie głównej.\n\nAby przestać obserwować pokój, znajdź go w zakładce Odkrywaj i kliknij „Opuść”, lub przejdź do strumienia pokoju i skorzystaj z menu."
+            },
+            "create_room": {
+                "title": "Jak utworzyć pokój",
+                "body": "Aby utworzyć własny pokój:\n\n1. Otwórz panel nawigacji (menu hamburgerowe) i kliknij „Własne kanały”, lub przejdź do Ustawień i znajdź swoje pokoje.\n\n2. Kliknij „Utwórz nowy pokój”.\n\n3. Wypełnij dane pokoju:\n   - Nazwa pokoju: wyświetlana nazwa Twojego pokoju (wymagana).\n   - Alias pokoju: opcjonalny publiczny adres (np. 'my-art'). Ułatwia to znalezienie i udostępnianie pokoju.\n   - Opis: powiedz ludziom, o czym jest Twój pokój.\n\n4. Skonfiguruj ustawienia:\n   - Publiczny pokój: włącz, aby umieścić pokój w katalogu serwera, tak aby każdy mógł go znaleźć. Wyłącz, jeśli ma być dostępny tylko na zaproszenie.\n   - Szyfrowanie end-to-end: włącz dla prywatnych pokojów. Uwaga: tego nie można cofnąć!\n   - Tryb blogowy: włącz, aby tylko Ty (i moderatorzy) mogli publikować. Wyłącz, aby każdy członek mógł publikować.\n\n5. Opcjonalnie zaproś użytkowników, wyszukując ich po nazwie lub Matrix ID.\n\n6. Kliknij „Utwórz pokój” i gotowe!\n\nPokój zostanie utworzony na Twoim serwerze domowym, ale użytkownicy z dowolnego serwera mogą do niego dołączyć."
+            },
+            "manage_room": {
+                "title": "Zarządzanie pokojami",
+                "body": "Jako właściciel lub administrator pokoju masz pełną kontrolę nad swoimi pokojami:\n\nEdycja ustawień pokoju:\nPrzejdź do „Własne kanały” w menu nawigacji, a następnie kliknij ikonę ustawień przy swoim pokoju. Tutaj możesz zmienić nazwę, opis, alias, awatar, widoczność i tryb publikowania.\n\nZarządzanie członkami:\nW ustawieniach pokoju przewiń do sekcji Członkowie. Możesz:\n- Ustawiać role: awansować członków na Moderatora lub Administratora, lub zdegradować z powrotem do Użytkownika.\n- Wyrzucać członków: usunąć członka z pokoju (może ponownie dołączyć, jeśli pokój jest publiczny).\n- Banować członków: trwale zablokować członkowi dostęp do pokoju. Możesz go odbanować później.\n\nZbanowani członkowie:\nPrzeglądaj i zarządzaj zbanowanymi członkami w sekcji „Zbanowani członkowie” w ustawieniach pokoju.\n\nUsuwanie pokoju:\nNa dole ustawień pokoju znajdziesz Strefę niebezpieczeństwa z opcją usunięcia pokoju. Ta czynność jest trwała i nie może zostać cofnięta."
+            },
+            "write_post": {
+                "title": "Jak napisać post",
+                "body": "Aby utworzyć nowy post:\n\n1. Kliknij przycisk + (pływający przycisk akcji) na zakładce Strona główna.\n\n2. Wybierz typ posta:\n   - Post tekstowy: napisz sformatowany tekst z formatowaniem (pogrubienie, kursywa, nagłówki, listy, linki i więcej).\n   - Post plikowy: prześlij obrazy, filmy lub inne pliki z opcjonalnym podpisem.\n\n3. Wybierz pokój, w którym chcesz opublikować. Wyświetlone zostaną tylko pokoje, w których masz uprawnienia do publikowania.\n\n4. Napisz swoje treści:\n   - Dla postów tekstowych użyj paska narzędzi edytora tekstu sformatowanego.\n   - Dla postów plikowych wybierz pliki i opcjonalnie dodaj tytuł oraz podpis.\n\n5. Kliknij przycisk wysyłania, aby opublikować post.\n\nTwój post pojawi się w strumieniu pokoju oraz na stronie głównej wszystkich, którzy obserwują ten pokój."
+            },
+            "share_rooms": {
+                "title": "Udostępnianie pokojów znajomym",
+                "body": "Możesz łatwo udostępniać pokoje, profile i posty znajomym:\n\nUdostępnianie pokoju:\nPodczas przeglądania strumienia pokoju kliknij ikonę udostępniania na górnym pasku. Spowoduje to skopiowanie lub udostępnienie linku, który każdy może otworzyć.\n\nUdostępnianie profilu:\nNa stronie profilu dowolnego użytkownika kliknij ikonę udostępniania, aby udostępnić link do jego profilu.\n\nUdostępnianie posta:\nNa stronie szczegółów posta kliknij ikonę udostępniania, aby udostępnić bezpośredni link do tego konkretnego posta.\n\nGdy Twój znajomy otworzy link:\n- W przeglądarce: otwiera się bezpośrednio w aplikacji webowej Substitution.\n- Na telefonie (z zainstalowaną aplikacją): otwiera się w aplikacji Substitution z prośbą o potwierdzenie przed nawigacją.\n\nTo najłatwiejszy sposób na zaproszenie znajomych do swoich pokojów — wystarczy udostępnić link!"
+            },
+            "direct_messages": {
+                "title": "Wiadomości prywatne",
+                "body": "Substitution zawiera wiadomości prywatne do prywatnych rozmów:\n\n1. Przejdź do profilu użytkownika, klikając jego nazwę lub awatar przy dowolnym poście.\n\n2. Kliknij przycisk „Wiadomość” na jego profilu.\n\n3. Pomiędzy Tobą a tym użytkownikiem zostanie utworzony prywatny pokój czatu.\n\n4. Wszystkie swoje rozmowy znajdziesz w zakładce Wiadomości (ikona czatu na dolnym pasku nawigacji).\n\nWiadomości prywatne są oddzielone od postów w pokojach. To prywatne rozmowy jeden na jeden pomiędzy Tobą a innym użytkownikiem."
+            },
+            "opening_links": {
+                "title": "Otwieranie linków od znajomych",
+                "body": "Gdy ktoś udostępni Ci link Substitution, oto co się dzieje:\n\nLinki webowe (https://app.substitution.art/...):\nOtwierają się w przeglądarce internetowej i ładują aplikację webową Substitution. Możesz bezpośrednio zobaczyć pokój, profil lub post. Zaloguj się, jeśli zostaniesz o to poproszony.\n\nLinki aplikacji (substitution://...):\nJeśli masz zainstalowaną aplikację Substitution na telefonie, te linki otwierają się bezpośrednio w aplikacji. Zobaczysz okno dialogowe z potwierdzeniem, pytające czy chcesz przejść do pokoju, profilu lub posta. Kliknij „Kontynuuj”, aby przejść, lub „Anuluj”, aby pozostać na miejscu.\n\nTen krok potwierdzenia to funkcja bezpieczeństwa — zapewnia, że wiesz, dokąd link Cię przeniesie, zanim przejdziesz dalej."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Otwórz link",
+            "room": "Zamierzasz otworzyć pokój:\n\n{}",
+            "user": "Zamierzasz wyświetlić profil:\n\n{}",
+            "post": "Zamierzasz otworzyć post.",
+            "generic": "Zamierzasz przejść do:\n\n{}",
+            "continue_button": "Kontynuuj",
+            "cancel_button": "Anuluj",
+            "login_required": "Musisz być zalogowany, aby otworzyć ten link. Czy chcesz się teraz zalogować?",
+            "login_button": "Zaloguj się"
+        }
+    },
+    "share": {
+        "link_copied": "Link skopiowany do schowka!",
+        "share_room": "Zobacz ten pokój w Substitution",
+        "share_profile": "Zobacz ten profil w Substitution",
+        "share_post": "Zobacz ten post w Substitution"
     }
 }

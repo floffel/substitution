@@ -305,5 +305,74 @@
         "error_loading": "Nem sikerült betölteni ezt a beszélgetést.",
         "error_sending": "Nem sikerült elküldeni az üzenetet.",
         "view_profile": "Profil megtekintése"
+    },
+    "help": {
+        "title": "Súgó",
+        "subtitle": "Ismerje meg a Substitution használatát",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Mi az a Substitution?",
+                "body": "A Substitution egy decentralizált közösségi hálózat művészeti és kreatív tartalmak megosztására. A hagyományos közösségi médiával ellentétben a Substitution a Matrix protokollra épül, ami azt jelenti, hogy egyetlen vállalat sem irányítja az adatait vagy a hálózatot.\n\nA bejegyzései, üzenetei és profilja az Ön által választott Matrix kiszolgálón élnek – nem a Substitution által üzemeltetett szervereken. Ez teljes tulajdonjogot biztosít a tartalmak felett, és bármikor szabadon válthat szerverek között.\n\nA Substitution nyílt forráskódú és közösség által vezérelt. Célja, hogy a centralizált közösségi hálózatokat valami igazságosabbal, átláthatóbbal és felhasználó által birtokolttal helyettesítse."
+            },
+            "what_is_matrix": {
+                "title": "Mi az a Matrix protokoll?",
+                "body": "A Matrix egy nyílt, decentralizált kommunikációs protokoll. Gondoljon rá úgy, mint az e-mailre: ahogyan a Gmailből küldhet e-mailt az Outlookba, a Matrix lehetővé teszi a különböző szerverek közötti kommunikációt.\n\nA Matrix főbb előnyei:\n\n- Decentralizált: Nincs egyetlen meghibásodási pont vagy irányítási központ. Ha egy szerver leáll, a hálózat többi része tovább működik.\n- Föderált: A szerverek kommunikálnak egymással. Követhet szobákat és üzeneteket küldhet bármely Matrix szerveren lévő felhasználóknak, nem csak a sajátján.\n- Nyílt forráskódú: A protokoll és a legtöbb szerver szoftver teljesen nyílt forráskódú.\n- Titkosított: A Matrix támogatja a végpontok közötti titkosítást a privát beszélgetésekhez.\n\nTovábbi információ: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Első lépések",
+                "body": "A Substitution használatához Matrix fiókra van szüksége. Így kezdheti el:\n\n1. Válasszon kiszolgálót: A kiszolgáló az, ahol fiókja és adatai élnek. Népszerű választás a matrix.org, de sok más is létezik. Saját szervert is üzemeltethet.\n\n2. Hozzon létre fiókot: Látogassa meg a választott kiszolgáló webhelyét a regisztrációhoz, vagy használja a bejelentkezési képernyőn található regisztrációs hivatkozást.\n\n3. Jelentkezzen be a Substitutionbe: Nyissa meg az alkalmazást, adja meg a kiszolgáló címét, és jelentkezzen be felhasználónevével és jelszavával. Egyes szerverek egyszeri bejelentkezést (SSO) is támogatnak.\n\n4. Fedezze fel: Bejelentkezés után használja a Felfedezés fület szobák kereséséhez, vagy hozza létre a sajátját!"
+            },
+            "what_are_rooms": {
+                "title": "Mik azok a szobák?",
+                "body": "A szobák a Substitution magját képezik. Egy szoba olyan, mint egy csatorna vagy hírfolyam, ahol tartalmakat tesznek közzé.\n\nMinden szobának van:\n- Neve és opcionális leírása\n- Tulajdonosa (létrehozója), aki az engedélyeket kezeli\n- Tagjai, akik követik és interakcióba lépnek a tartalommal\n- Opcionális nyilvános aliasa (mint egy felhasználónév a szobának)\n\nA szobák lehetnek nyilvánosak (bárki megtalálhatja és csatlakozhat a szoba könyvtárban) vagy privátok (csak meghívóval).\n\nBlog módban csak a moderátorok és adminisztrátorok hozhatnak létre bejegyzéseket, míg mindenki más hozzászólhat és reagálhat. Közösségi módban bármely tag tehet közzé bejegyzést.\n\nA szobák végpontok közötti titkosítással is rendelkezhetnek privát közösségek számára."
+            },
+            "follow_rooms": {
+                "title": "Hogyan kövessen szobákat",
+                "body": "Szobák felfedezéséhez és követéséhez:\n\n1. Lépjen a Felfedezés fülre (iránytű ikon az alsó navigációs sávon).\n\n2. Válasszon szervert a felső legördülő menüből. Nem csak a saját szerverén, hanem bármely Matrix szerveren böngészhet szobákat. Új szerverek hozzáadásához koppintson a 'Szerver hozzáadása' gombra.\n\n3. Keresse szobákat név szerint a keresőmezővel.\n\n4. Koppintson egy szobára a leírásának, taglétszámának és legújabb bejegyzéseinek megtekintéséhez.\n\n5. Koppintson a 'Csatlakozás' gombra a szoba követéséhez. Bejegyzései mostantól megjelennek a Kezdőlap hírfolyamában.\n\nEgy szoba követésének megszüntetéséhez keresse meg a Felfedezés fülön, és koppintson az 'Elhagyás' gombra, vagy lépjen a szoba hírfolyamába és használja a menüt."
+            },
+            "create_room": {
+                "title": "Hogyan hozzon létre szobát",
+                "body": "Saját szoba létrehozásához:\n\n1. Nyissa meg a navigációs fiókot (hamburger menü), és koppintson a 'Saját hírfolyamok' elemre, vagy lépjen a Beállításokba és keresse meg szobáit.\n\n2. Koppintson az 'Új szoba létrehozása' gombra.\n\n3. Töltse ki a szoba adatait:\n   - Szoba neve: A szoba megjelenített neve (kötelező).\n   - Szoba alias: Opcionális nyilvános cím (pl. 'az-en-muveszetem'). Ezzel a szoba könnyebben megtalálható és megosztható.\n   - Leírás: Mondja el, miről szól a szobája.\n\n4. Konfigurálja a beállításokat:\n   - Nyilvános szoba: Engedélyezze, hogy szobája megjelenjen a szerver könyvtárában, és bárki megtalálhassa. Tiltsa le a csak meghívóval elérhető szobákhoz.\n   - Végpontok közötti titkosítás: Engedélyezze privát szobákhoz. Figyelmeztetés: ez nem vonható vissza!\n   - Blog mód: Engedélyezze, hogy csak Ön (és a moderátorok) tehessenek közzé bejegyzéseket. Tiltsa le, hogy bármely tag tehessen közzé.\n\n5. Opcionálisan hívjon meg felhasználókat nevük vagy Matrix azonosítójuk alapján.\n\n6. Koppintson a 'Létrehozás' gombra, és kész!\n\nA szoba az Ön kiszolgálóján jön létre, de bármely szerver felhasználói csatlakozhatnak."
+            },
+            "manage_room": {
+                "title": "Szobák kezelése",
+                "body": "Szoba tulajdonosként vagy adminisztrátorként teljes kontrollja van szobái felett:\n\nSzoba beállítások szerkesztése:\nA fiókmenüben lépjen a 'Saját hírfolyamok' elemre, majd koppintson a szoba beállítások ikonjára. Itt módosíthatja a nevet, leírást, aliast, avatárt, láthatóságot és közzétételi módot.\n\nTagok kezelése:\nA szoba beállításokban görgessen a Tagok részhez. Lehetősége van:\n- Szerepkörök beállítása: Léptessen elő tagokat Moderátorrá vagy Adminisztrátorrá, vagy fokozza le őket Felhasználóvá.\n- Tagok eltávolítása: Távolítson el egy tagot a szobából (nyilvános szoba esetén újra csatlakozhat).\n- Tagok kitiltása: Véglegesen tiltson ki egy tagot a szobából. Később feloldhatja a kitiltást.\n\nKitiltott tagok:\nA szoba beállítások 'Kitiltott tagok' részében megtekintheti és kezelheti a kitiltott tagokat.\n\nSzoba törlése:\nA szoba beállítások alján található a Veszélyes zóna a szoba törlésének lehetőségével. Ez a művelet végleges és nem vonható vissza."
+            },
+            "write_post": {
+                "title": "Hogyan írjon bejegyzést",
+                "body": "Új bejegyzés létrehozásához:\n\n1. Koppintson a + gombra (lebegő művelet gomb) a Kezdőlap fülön.\n\n2. Válassza ki a bejegyzés típusát:\n   - Szöveges bejegyzés: Írjon formázott szöveget (félkövér, dőlt, címsorok, listák, hivatkozások és még több).\n   - Fájlos bejegyzés: Töltsön fel képeket, videókat vagy más fájlokat opcionális felirattal.\n\n3. Válassza ki a szobát, ahol közzé szeretné tenni. Csak azok a szobák jelennek meg, ahol van közzétételi engedélye.\n\n4. Írja meg tartalmát:\n   - Szöveges bejegyzéseknél használja a formázási eszköztárat.\n   - Fájlos bejegyzéseknél válassza ki fájljait, és opcionálisan adjon hozzá címet és feliratot.\n\n5. Koppintson a küldés gombra a bejegyzés közzétételéhez.\n\nBejegyzése megjelenik a szoba hírfolyamában és mindenki Kezdőlap hírfolyamában, aki követi azt a szobát."
+            },
+            "share_rooms": {
+                "title": "Szobák megosztása barátokkal",
+                "body": "Könnyedén megoszthat szobákat, profilokat és bejegyzéseket barátaival:\n\nSzoba megosztása:\nEgy szoba hírfolyamának megtekintésekor koppintson a megosztás ikonra a felső sávon. Ez másolja vagy megosztja a hivatkozást, amelyet bárki megnyithat.\n\nProfil megosztása:\nBármely felhasználó profiloldalán koppintson a megosztás ikonra a profil hivatkozásának megosztásához.\n\nBejegyzés megosztása:\nA bejegyzés részletes oldalán koppintson a megosztás ikonra az adott bejegyzésre mutató közvetlen hivatkozás megosztásához.\n\nAmikor barátja megnyitja a hivatkozást:\n- A weben: Közvetlenül megnyílik a Substitution webalkalmazásban.\n- A telefonján (ha az alkalmazás telepítve van): A Substitution alkalmazásban nyílik meg, megerősítő kérdéssel a navigáció előtt.\n\nEz a legegyszerűbb módja barátai meghívásának a szobáiba – egyszerűen ossza meg a hivatkozást!"
+            },
+            "direct_messages": {
+                "title": "Közvetlen üzenetek",
+                "body": "A Substitution közvetlen üzenetküldést is tartalmaz privát beszélgetésekhez:\n\n1. Lépjen egy felhasználó profiljára bármely bejegyzésen a nevére vagy avatárjára koppintva.\n\n2. Koppintson az 'Üzenet' gombra a profiljukon.\n\n3. Privát csevegőszoba jön létre Ön és a felhasználó között.\n\n4. Minden beszélgetését megtalálhatja az Üzenetek fülön (csevegés ikon az alsó navigációs sávon).\n\nA közvetlen üzenetek különállóak a szoba bejegyzésektől. Privát, személyes beszélgetések Ön és egy másik felhasználó között."
+            },
+            "opening_links": {
+                "title": "Barátoktól kapott hivatkozások megnyitása",
+                "body": "Amikor valaki megoszt Önnel egy Substitution hivatkozást, a következő történik:\n\nWeb hivatkozások (https://app.substitution.art/...):\nEzek a webböngészőben nyílnak meg és betöltik a Substitution webalkalmazást. Közvetlenül megtekintheti a szobát, profilt vagy bejegyzést. Ha kéri, jelentkezzen be.\n\nAlkalmazás hivatkozások (substitution://...):\nHa a Substitution alkalmazás telepítve van a telefonján, ezek a hivatkozások közvetlenül az alkalmazásban nyílnak meg. Egy megerősítő párbeszédablak jelenik meg, amely megkérdezi, hogy szeretne-e a szobára, profilra vagy bejegyzésre navigálni. Koppintson a 'Tovább' gombra a folytatáshoz vagy a 'Mégse' gombra a maradáshoz.\n\nEz a megerősítő lépés biztonsági funkció – biztosítja, hogy tudja, hova visz egy hivatkozás, mielőtt navigálna."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Hivatkozás megnyitása",
+            "room": "A következő szobát készül megnyitni:\n\n{}",
+            "user": "A következő felhasználó profilját készül megtekinteni:\n\n{}",
+            "post": "Egy bejegyzést készül megnyitni.",
+            "generic": "A következő helyre készül navigálni:\n\n{}",
+            "continue_button": "Tovább",
+            "cancel_button": "Mégse",
+            "login_required": "A hivatkozás megnyitásához be kell jelentkeznie. Szeretne most bejelentkezni?",
+            "login_button": "Bejelentkezés"
+        }
+    },
+    "share": {
+        "link_copied": "Hivatkozás a vágólapra másolva!",
+        "share_room": "Nézze meg ezt a szobát a Substitutionben",
+        "share_profile": "Nézze meg ezt a profilt a Substitutionben",
+        "share_post": "Nézze meg ezt a bejegyzést a Substitutionben"
     }
 }

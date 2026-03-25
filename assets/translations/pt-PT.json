@@ -305,5 +305,74 @@
         "error_loading": "Não foi possível carregar esta conversa.",
         "error_sending": "Falha ao enviar mensagem.",
         "view_profile": "Ver perfil"
+    },
+    "help": {
+        "title": "Ajuda",
+        "subtitle": "Saiba como utilizar o Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "O que é o Substitution?",
+                "body": "O Substitution é uma rede social descentralizada para a partilha de arte e conteúdo criativo. Ao contrário das redes sociais tradicionais, o Substitution é construído sobre o protocolo Matrix, o que significa que nenhuma empresa controla os seus dados ou a rede.\n\nAs suas publicações, mensagens e perfil estão alojados no servidor Matrix que escolher — não em servidores operados pelo Substitution. Isto dá-lhe a propriedade total do seu conteúdo e a liberdade de mudar de servidor a qualquer momento.\n\nO Substitution é open source e orientado pela comunidade. Foi concebido para substituir as redes sociais centralizadas por algo mais justo, transparente e pertencente aos utilizadores."
+            },
+            "what_is_matrix": {
+                "title": "O que é o protocolo Matrix?",
+                "body": "O Matrix é um protocolo de comunicação aberto e descentralizado. Pense nele como o e-mail: tal como pode enviar um e-mail do Gmail para o Outlook, o Matrix permite-lhe comunicar entre servidores diferentes.\n\nBenefícios principais do Matrix:\n\n- Descentralizado: Sem ponto único de falha ou controlo. Se um servidor ficar offline, o resto da rede continua a funcionar.\n- Federado: Os servidores comunicam entre si. Pode seguir salas e enviar mensagens a utilizadores em qualquer servidor Matrix, não apenas no seu.\n- Open source: O protocolo e a maioria do software de servidor são totalmente open source.\n- Encriptado: O Matrix suporta encriptação ponta a ponta para conversas privadas.\n\nSaiba mais em https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Primeiros passos",
+                "body": "Para utilizar o Substitution, precisa de uma conta Matrix. Eis como começar:\n\n1. Escolha um servidor doméstico: Um servidor doméstico é onde a sua conta e os seus dados ficam alojados. As escolhas populares incluem matrix.org, mas existem muitas outras. Pode também alojar o seu próprio.\n\n2. Crie uma conta: Visite o site do servidor doméstico que escolheu para se registar, ou utilize o link de registo no ecrã de início de sessão.\n\n3. Inicie sessão no Substitution: Abra a aplicação, introduza o endereço do seu servidor doméstico e inicie sessão com o seu nome de utilizador e palavra-passe. Alguns servidores também suportam autenticação única (SSO).\n\n4. Explore: Depois de iniciar sessão, utilize o separador Descobrir para encontrar salas para seguir, ou crie a sua!"
+            },
+            "what_are_rooms": {
+                "title": "O que são as salas?",
+                "body": "As salas são o núcleo do Substitution. Uma sala é como um canal ou feed onde o conteúdo é publicado.\n\nCada sala tem:\n- Um nome e uma descrição opcional\n- Um proprietário (o criador) que controla as permissões\n- Membros que seguem e interagem com o conteúdo\n- Um alias público opcional (como um nome de utilizador para a sala)\n\nAs salas podem ser públicas (qualquer pessoa pode encontrá-las e aderir através do diretório de salas) ou privadas (apenas por convite).\n\nEm Modo Blog, apenas os moderadores e administradores podem criar publicações, enquanto os restantes podem comentar e reagir. Em Modo Comunidade, qualquer membro pode publicar.\n\nAs salas também podem ser encriptadas ponta a ponta para comunidades privadas."
+            },
+            "follow_rooms": {
+                "title": "Como seguir salas",
+                "body": "Para descobrir e seguir salas:\n\n1. Vá ao separador Descobrir (ícone de bússola na barra de navegação inferior).\n\n2. Escolha um servidor no menu suspenso no topo. Pode navegar pelas salas de qualquer servidor Matrix, não apenas o seu. Toque em «Adicionar servidor» para adicionar novos.\n\n3. Pesquise salas por nome usando o campo de pesquisa.\n\n4. Toque numa sala para ver uma pré-visualização com a sua descrição, número de membros e publicações recentes.\n\n5. Toque em «Entrar» para seguir a sala. As suas publicações aparecerão agora no seu feed de Início.\n\nPara deixar de seguir uma sala, encontre-a no separador Descobrir e toque em «Sair», ou vá ao feed da sala e utilize o menu."
+            },
+            "create_room": {
+                "title": "Como criar uma sala",
+                "body": "Para criar a sua própria sala:\n\n1. Abra o menu de navegação (menu hamburger) e toque em «Os meus feeds», ou vá a Definições e encontre as suas salas.\n\n2. Toque em «Criar uma nova sala».\n\n3. Preencha os detalhes da sala:\n   - Nome da sala: O nome de apresentação da sua sala (obrigatório).\n   - Alias da sala: Um endereço público opcional (ex.: «a-minha-arte»). Isto torna a sala mais fácil de encontrar e partilhar.\n   - Descrição: Diga às pessoas sobre o que é a sua sala.\n\n4. Configure as definições:\n   - Sala pública: Ative para listar a sua sala no diretório do servidor para que qualquer pessoa possa encontrá-la. Desative para apenas por convite.\n   - Encriptação ponta a ponta: Ative para salas privadas. Atenção: esta ação não pode ser revertida!\n   - Modo Blog: Ative para que apenas você (e os moderadores) possam publicar. Desative para permitir que qualquer membro publique.\n\n5. Opcionalmente convide utilizadores pesquisando o seu nome ou identificador Matrix.\n\n6. Toque em «Criar» e está feito!\n\nA sala será criada no seu servidor doméstico, mas utilizadores de qualquer servidor podem aderir."
+            },
+            "manage_room": {
+                "title": "Gerir as suas salas",
+                "body": "Como proprietário ou administrador de uma sala, tem controlo total sobre as suas salas:\n\nEditar definições da sala:\nVá a «Os meus feeds» no menu lateral e toque no ícone de definições da sua sala. Aqui pode alterar o nome, descrição, alias, avatar, visibilidade e modo de publicação.\n\nGerir membros:\nNas definições da sala, deslize até à secção Membros. Pode:\n- Definir funções: Promover membros a Moderador ou Administrador, ou despromovê-los de volta a Utilizador.\n- Expulsar membros: Remover um membro da sala (pode voltar a aderir se a sala for pública).\n- Banir membros: Bloquear permanentemente um membro da sala. Pode revogar o banimento mais tarde.\n\nMembros banidos:\nConsulte e gira os membros banidos na secção «Membros banidos» das definições da sala.\n\nEliminar uma sala:\nNo fundo das definições da sala, encontrará a Zona de perigo com a opção de eliminar a sala. Esta ação é permanente e não pode ser revertida."
+            },
+            "write_post": {
+                "title": "Como escrever uma publicação",
+                "body": "Para criar uma nova publicação:\n\n1. Toque no botão + (botão de ação flutuante) no separador Início.\n\n2. Escolha o tipo de publicação:\n   - Publicação de texto: Escreva texto formatado (negrito, itálico, cabeçalhos, listas, links e mais).\n   - Publicação de ficheiro: Carregue imagens, vídeos ou outros ficheiros com uma legenda opcional.\n\n3. Selecione a sala na qual pretende publicar. Apenas as salas onde tem permissão para publicar aparecerão.\n\n4. Escreva o seu conteúdo:\n   - Para publicações de texto, utilize a barra de ferramentas do editor de texto formatado.\n   - Para publicações de ficheiro, selecione os seus ficheiros e opcionalmente adicione um título e uma legenda.\n\n5. Toque no botão de envio para publicar a sua publicação.\n\nA sua publicação aparecerá no feed da sala e no feed de Início de todos os que seguem essa sala."
+            },
+            "share_rooms": {
+                "title": "Partilhar salas com amigos",
+                "body": "Pode partilhar facilmente salas, perfis e publicações com os seus amigos:\n\nPartilhar uma sala:\nQuando estiver a ver o feed de uma sala, toque no ícone de partilha na barra superior. Isto copia ou partilha um link que qualquer pessoa pode abrir.\n\nPartilhar um perfil:\nNa página de perfil de qualquer utilizador, toque no ícone de partilha para partilhar o link do seu perfil.\n\nPartilhar uma publicação:\nNa página de detalhe da publicação, toque no ícone de partilha para partilhar um link direto para essa publicação específica.\n\nQuando o seu amigo abre o link:\n- Na web: Abre diretamente na aplicação web do Substitution.\n- No telemóvel (com a aplicação instalada): Abre na aplicação Substitution com um pedido de confirmação antes de navegar.\n\nEsta é a forma mais fácil de convidar amigos para as suas salas — basta partilhar o link!"
+            },
+            "direct_messages": {
+                "title": "Mensagens diretas",
+                "body": "O Substitution inclui mensagens diretas para conversas privadas:\n\n1. Vá ao perfil de um utilizador tocando no seu nome ou avatar em qualquer publicação.\n\n2. Toque no botão «Mensagem» no seu perfil.\n\n3. É criada uma sala de chat privada entre si e esse utilizador.\n\n4. Pode encontrar todas as suas conversas no separador Mensagens (ícone de chat na navegação inferior).\n\nAs mensagens diretas são separadas das publicações das salas. São conversas privadas individuais entre si e outro utilizador."
+            },
+            "opening_links": {
+                "title": "Abrir links de amigos",
+                "body": "Quando alguém partilha um link do Substitution consigo, eis o que acontece:\n\nLinks web (https://app.substitution.art/...):\nEstes abrem no seu navegador web e carregam a aplicação web do Substitution. Pode ver a sala, perfil ou publicação diretamente. Inicie sessão se solicitado.\n\nLinks da aplicação (substitution://...):\nSe tiver a aplicação Substitution instalada no seu telemóvel, estes links abrem diretamente na aplicação. Verá uma caixa de diálogo de confirmação a perguntar se pretende navegar para a sala, perfil ou publicação. Toque em «Continuar» para prosseguir ou «Cancelar» para permanecer onde está.\n\nEste passo de confirmação é uma medida de segurança — garante que sabe para onde um link o levará antes de navegar."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Abrir link",
+            "room": "Está prestes a abrir a sala:\n\n{}",
+            "user": "Está prestes a ver o perfil de:\n\n{}",
+            "post": "Está prestes a abrir uma publicação.",
+            "generic": "Está prestes a navegar para:\n\n{}",
+            "continue_button": "Continuar",
+            "cancel_button": "Cancelar",
+            "login_required": "Precisa de ter sessão iniciada para abrir este link. Deseja iniciar sessão agora?",
+            "login_button": "Iniciar sessão"
+        }
+    },
+    "share": {
+        "link_copied": "Link copiado para a área de transferência!",
+        "share_room": "Veja esta sala no Substitution",
+        "share_profile": "Veja este perfil no Substitution",
+        "share_post": "Veja esta publicação no Substitution"
     }
 }

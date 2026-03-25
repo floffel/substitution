@@ -62,6 +62,12 @@
             }
         },
         "continue_thread": "Continue this thread...",
+        "location": {
+            "shared": "Shared a location",
+            "invalid": "Invalid location data",
+            "tap_to_open": "Tap to open"
+        },
+        "voice_message": "Voice message",
         "replying_to": "Replying to {}",
         "reply_placeholder": "Write a reply...",
         "mixins": {
@@ -315,36 +321,87 @@
     "write": {
         "answer": "Answer",
         "roomheader": "Room: {}",
+        "reply_load_error": "Could not load the original post.",
+        "send_error_title": "Failed to send",
+        "send_retry": "Retry",
+        "send_cancel": "Cancel",
         "filemessage": {
             "video_preview": "Video",
+            "audio_preview": "Audio",
             "caption_header": "Caption (optional):",
             "upload_files": "Add new files for upload",
-            "title_header": "Titel:",
+            "title_header": "Title:",
             "upload_start": "Starting upload...",
             "upload_file_process": "Uploading file {}",
             "upload_error": "Uploading {} failed. Retry Upload?",
             "upload_file_complete": "Uploading {} is complete!",
             "upload_complete": "All files have been uploaded!",
+            "send_button": "Send {} file(s)",
+            "send_button_empty": "Select files to send",
             "buttons": {
                 "upload_stop": "Cancel",
                 "upload_retry": "Retry"
             }
         },
         "roomselect": {
-            "type_prompt": "Choose the type of message that you like to post",
-            "room_prompt": "Choose the room in wich like to post:",
-            "error_no_rooms": "You have not joined any rooms or you don't have the rights to post."
+            "type_prompt": "Choose the type of post:",
+            "room_prompt": "Choose the room in which you'd like to post:",
+            "error_no_rooms": "You have not joined any rooms or you don't have the rights to post.",
+            "type_text": "Text",
+            "type_photo": "Photo / Video",
+            "type_location": "Location",
+            "type_voice": "Voice",
+            "type_document": "Document",
+            "type_emote": "Emote",
+            "type_sticker": "Sticker"
         },
         "textmessage": {
             "answer_promt": "Enter your Text:",
             "input_placeholder": "Enter your text here...",
-            "send_start": "Started sending the message...",
-            "send_failed": "Message sending failed. Do you like to resend the message?",
-            "send_complete": "Message has been sent successfully!",
+            "send_start": "Sending message...",
+            "send_failed": "Message sending failed. Do you want to retry?",
+            "send_complete": "Message sent successfully!",
+            "send_button": "Send",
             "buttons": {
-                "send_stop": "Don't retry",
+                "send_stop": "Cancel",
                 "resend": "Retry"
             }
+        },
+        "locationmessage": {
+            "send_start": "Sharing location...",
+            "send_failed": "Failed to share location. Retry?",
+            "send_complete": "Location shared!",
+            "send_button": "Share Location",
+            "use_current_location": "Use my current location",
+            "description_label": "Description (optional)",
+            "description_hint": "e.g. My favorite coffee shop",
+            "default_body": "Location",
+            "coordinates": "Lat: {} | Lon: {}",
+            "location_disabled": "Location services are disabled on this device.",
+            "permission_denied": "Location permission was denied.",
+            "permission_denied_forever": "Location permission is permanently denied. Please enable it in settings.",
+            "location_error": "Could not retrieve your location. Please try again."
+        },
+        "voicemessage": {
+            "send_start": "Sending voice message...",
+            "send_failed": "Failed to send voice message. Retry?",
+            "send_complete": "Voice message sent!",
+            "send_button": "Send Voice Message",
+            "permission_denied": "Microphone permission is required to record voice messages.",
+            "tap_to_record": "Tap the microphone to start recording",
+            "recording": "Recording...",
+            "recorded": "Recording complete — tap Send to post",
+            "discard": "Discard recording"
+        },
+        "emotemessage": {
+            "explanation": "An emote describes an action, displayed as: * your_name does something",
+            "input_label": "Action description",
+            "input_hint": "e.g. waves hello"
+        },
+        "stickermessage": {
+            "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
+            "select_prompt": "Select a sticker",
+            "send_button": "Send sticker: {}"
         }
     },
     "profile": {

@@ -7,12 +7,16 @@ import '/settings/pages/ownfeeds.dart';
 import '/settings/pages/key_verification.dart';
 import '/settings/pages/profile.dart';
 import '/write/pages/textmessage.dart';
+import '/write/pages/filemessage.dart';
+import '/write/pages/roomselect.dart';
+import '/write/pages/locationmessage.dart';
+import '/write/pages/voicemessage.dart';
+import '/write/pages/emotemessage.dart';
+import '/write/pages/stickermessage.dart';
 import '/settings/pages/room_form_page.dart';
 import '/settings/pages/legal.dart';
 import '/help/pages/help_page.dart';
 import '/shared/widgets/deep_link_confirmation_dialog.dart';
-import '/write/pages/filemessage.dart';
-import '/write/pages/roomselect.dart';
 import '/auth/pages/host_page.dart';
 import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
@@ -266,6 +270,62 @@ void main() async {
           final String roomId = state.pathParameters['roomid']!;
           return ScaffoldWithNavigation(
             child: FileMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/document/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          // Document posts reuse the file message page (same UI, different default type group selection)
+          return ScaffoldWithNavigation(
+            child: FileMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/location/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: LocationMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/voice/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: VoiceMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/emote/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: EmoteMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/sticker/:roomid',
+        builder: (contxt, state) {
+          final String? eventId = state.uri.queryParameters['event'];
+          final String roomId = state.pathParameters['roomid']!;
+          return ScaffoldWithNavigation(
+            child: StickerMessageWrite(eventId: eventId, roomId: roomId),
           );
         },
       ),

@@ -305,5 +305,74 @@
         "error_loading": "Unterhaltung konnte nicht geladen werden.",
         "error_sending": "Nachricht konnte nicht gesendet werden.",
         "view_profile": "Profil anzeigen"
+    },
+    "help": {
+        "title": "Hilfe",
+        "subtitle": "Erfahre, wie du Substitution nutzt",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Was ist Substitution?",
+                "body": "Substitution ist ein dezentrales soziales Netzwerk zum Teilen von Kunst und kreativen Inhalten. Anders als bei herkömmlichen sozialen Medien basiert Substitution auf dem Matrix-Protokoll — das bedeutet, kein einzelnes Unternehmen kontrolliert deine Daten oder das Netzwerk.\n\nDeine Beiträge, Nachrichten und dein Profil liegen auf dem Matrix-Homeserver deiner Wahl — nicht auf Servern von Substitution. So behältst du die volle Kontrolle über deine Inhalte und kannst jederzeit den Server wechseln.\n\nSubstitution ist Open Source und wird von der Community getragen. Es wurde entwickelt, um zentralisierte soziale Netzwerke durch etwas Faireres, Transparenteres und Nutzereigenes zu ersetzen."
+            },
+            "what_is_matrix": {
+                "title": "Was ist das Matrix-Protokoll?",
+                "body": "Matrix ist ein offenes, dezentrales Kommunikationsprotokoll. Stell es dir vor wie E-Mail: So wie du eine E-Mail von Gmail an Outlook senden kannst, ermöglicht Matrix die Kommunikation über verschiedene Server hinweg.\n\nWichtige Vorteile von Matrix:\n\n- Dezentral: Kein einzelner Ausfallpunkt oder Kontrollpunkt. Wenn ein Server ausfällt, funktioniert der Rest des Netzwerks weiter.\n- Föderiert: Server kommunizieren miteinander. Du kannst Räumen folgen und Nutzer auf jedem Matrix-Server anschreiben, nicht nur auf deinem eigenen.\n- Open Source: Das Protokoll und die meiste Server-Software sind vollständig quelloffen.\n- Verschlüsselt: Matrix unterstützt Ende-zu-Ende-Verschlüsselung für private Unterhaltungen.\n\nMehr Infos auf https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Erste Schritte",
+                "body": "Um Substitution zu nutzen, brauchst du einen Matrix-Account. So geht's:\n\n1. Homeserver wählen: Ein Homeserver ist der Ort, an dem dein Account und deine Daten gespeichert werden. Beliebte Optionen sind z.B. matrix.org, aber es gibt viele weitere. Du kannst auch deinen eigenen betreiben.\n\n2. Account erstellen: Besuche die Website deines gewählten Homeservers, um dich zu registrieren, oder nutze den Registrierungslink im Login-Bildschirm.\n\n3. In Substitution einloggen: Öffne die App, gib die Adresse deines Homeservers ein und logge dich mit Benutzername und Passwort ein. Einige Server unterstützen auch Single Sign-On (SSO).\n\n4. Entdecken: Nach dem Einloggen nutze den Entdecken-Tab, um Räumen zu folgen, oder erstelle deinen eigenen!"
+            },
+            "what_are_rooms": {
+                "title": "Was sind Räume?",
+                "body": "Räume sind das Herzstück von Substitution. Ein Raum ist wie ein Kanal oder Feed, in dem Inhalte gepostet werden.\n\nJeder Raum hat:\n- Einen Namen und eine optionale Beschreibung\n- Einen Besitzer (den Ersteller), der die Berechtigungen kontrolliert\n- Mitglieder, die den Inhalten folgen und damit interagieren\n- Optional einen öffentlichen Alias (wie ein Benutzername für den Raum)\n\nRäume können öffentlich (jeder kann sie im Raumverzeichnis finden und beitreten) oder privat (nur auf Einladung) sein.\n\nIm Blog-Modus können nur Moderatoren und Admins Beiträge erstellen, während alle anderen kommentieren und reagieren können. Im Community-Modus kann jedes Mitglied posten.\n\nRäume können auch Ende-zu-Ende-verschlüsselt sein für private Communities."
+            },
+            "follow_rooms": {
+                "title": "Räumen folgen",
+                "body": "So findest und folgst du Räumen:\n\n1. Gehe zum Entdecken-Tab (Kompass-Symbol in der unteren Navigationsleiste).\n\n2. Wähle einen Server aus dem Dropdown oben. Du kannst Räume auf jedem Matrix-Server durchsuchen, nicht nur auf deinem eigenen. Tippe auf 'Server hinzufügen', um neue hinzuzufügen.\n\n3. Suche nach Räumen anhand des Namens über das Suchfeld.\n\n4. Tippe auf einen Raum, um eine Vorschau mit Beschreibung, Mitgliederzahl und neuesten Beiträgen zu sehen.\n\n5. Tippe auf 'Beitreten', um dem Raum zu folgen. Seine Beiträge erscheinen dann in deinem Home-Feed.\n\nUm einem Raum zu entfolgen, finde ihn im Entdecken-Tab und tippe auf 'Verlassen', oder gehe zum Feed des Raums und nutze das Menü."
+            },
+            "create_room": {
+                "title": "Einen Raum erstellen",
+                "body": "So erstellst du einen eigenen Raum:\n\n1. Öffne das Navigationsmenü (Hamburger-Menü) und tippe auf 'Eigene Feeds', oder gehe zu den Einstellungen.\n\n2. Tippe auf 'Erstelle einen neuen Raum'.\n\n3. Fülle die Raumdetails aus:\n   - Raumname: Der Anzeigename für deinen Raum (erforderlich).\n   - Raumalias: Eine optionale öffentliche Adresse (z.B. 'meine-kunst'). Das macht den Raum leichter zu finden und zu teilen.\n   - Beschreibung: Erzähle, worum es in deinem Raum geht.\n\n4. Einstellungen konfigurieren:\n   - Öffentlicher Raum: Aktivieren, um den Raum im Verzeichnis des Servers aufzulisten. Deaktivieren für nur auf Einladung.\n   - Ende-zu-Ende-Verschlüsselung: Für private Räume aktivieren. Achtung: Das kann nicht rückgängig gemacht werden!\n   - Blog-Modus: Aktivieren, damit nur du (und Moderatoren) posten können. Deaktivieren, damit jedes Mitglied posten kann.\n\n5. Optional Nutzer einladen, indem du nach ihrem Namen oder ihrer Matrix-ID suchst.\n\n6. Tippe auf 'Raum erstellen' und fertig!\n\nDer Raum wird auf deinem Homeserver erstellt, aber Nutzer von jedem Server können beitreten."
+            },
+            "manage_room": {
+                "title": "Räume verwalten",
+                "body": "Als Raumbesitzer oder Admin hast du die volle Kontrolle über deine Räume:\n\nRaumeinstellungen bearbeiten:\nGehe zu 'Eigene Feeds' im Navigationsmenü und tippe auf das Einstellungssymbol deines Raums. Hier kannst du Name, Beschreibung, Alias, Avatar, Sichtbarkeit und Posting-Modus ändern.\n\nMitglieder verwalten:\nIn den Raumeinstellungen scrolle zum Abschnitt Mitglieder. Du kannst:\n- Rollen festlegen: Mitglieder zum Moderator oder Admin befördern oder zurückstufen.\n- Mitglieder entfernen: Ein Mitglied aus dem Raum entfernen (es kann wieder beitreten, wenn der Raum öffentlich ist).\n- Mitglieder sperren: Ein Mitglied dauerhaft vom Raum ausschließen. Du kannst die Sperre später aufheben.\n\nGesperrte Mitglieder:\nSiehe und verwalte gesperrte Mitglieder im Abschnitt 'Gesperrte Mitglieder' der Raumeinstellungen.\n\nRaum löschen:\nAm Ende der Raumeinstellungen findest du den Gefahrenbereich mit der Option, den Raum zu löschen. Diese Aktion ist endgültig und kann nicht rückgängig gemacht werden."
+            },
+            "write_post": {
+                "title": "Einen Beitrag schreiben",
+                "body": "So erstellst du einen neuen Beitrag:\n\n1. Tippe auf den + Button (schwebender Aktionsbutton) im Home-Tab.\n\n2. Wähle die Art des Beitrags:\n   - Textbeitrag: Schreibe formatierten Text mit Fettschrift, Kursivschrift, Überschriften, Listen, Links und mehr.\n   - Dateibeitrag: Lade Bilder, Videos oder andere Dateien mit optionaler Beschriftung hoch.\n\n3. Wähle den Raum, in dem du posten möchtest. Nur Räume, in denen du Posting-Berechtigung hast, werden angezeigt.\n\n4. Schreibe deinen Inhalt:\n   - Für Textbeiträge nutze die Formatierungsleiste des Rich-Text-Editors.\n   - Für Dateibeiträge wähle deine Dateien aus und füge optional einen Titel und eine Beschriftung hinzu.\n\n5. Tippe auf den Senden-Button, um deinen Beitrag zu veröffentlichen.\n\nDein Beitrag erscheint im Feed des Raums und im Home-Feed aller, die diesem Raum folgen."
+            },
+            "share_rooms": {
+                "title": "Räume mit Freunden teilen",
+                "body": "Du kannst ganz einfach Räume, Profile und Beiträge mit Freunden teilen:\n\nEinen Raum teilen:\nWenn du den Feed eines Raums ansiehst, tippe auf das Teilen-Symbol in der oberen Leiste. Dies kopiert oder teilt einen Link, den jeder öffnen kann.\n\nEin Profil teilen:\nAuf der Profilseite eines Nutzers tippe auf das Teilen-Symbol, um den Profillink zu teilen.\n\nEinen Beitrag teilen:\nAuf der Beitragsdetailseite tippe auf das Teilen-Symbol, um einen direkten Link zu diesem Beitrag zu teilen.\n\nWenn dein Freund den Link öffnet:\n- Im Web: Er öffnet sich direkt in der Substitution-Web-App.\n- Auf dem Handy (mit installierter App): Er öffnet sich in der Substitution-App mit einer Bestätigungsaufforderung vor der Navigation.\n\nDas ist der einfachste Weg, Freunde in deine Räume einzuladen — teile einfach den Link!"
+            },
+            "direct_messages": {
+                "title": "Direktnachrichten",
+                "body": "Substitution bietet Direktnachrichten für private Unterhaltungen:\n\n1. Gehe zum Profil eines Nutzers, indem du auf seinen Namen oder Avatar bei einem Beitrag tippst.\n\n2. Tippe auf den 'Nachricht'-Button auf seinem Profil.\n\n3. Ein privater Chatraum wird zwischen dir und diesem Nutzer erstellt.\n\n4. Du findest alle deine Unterhaltungen im Nachrichten-Tab (Chat-Symbol in der unteren Navigation).\n\nDirektnachrichten sind getrennt von Raumbeiträgen. Sie sind private Einzelgespräche zwischen dir und einem anderen Nutzer."
+            },
+            "opening_links": {
+                "title": "Links von Freunden öffnen",
+                "body": "Wenn dir jemand einen Substitution-Link schickt, passiert Folgendes:\n\nWeb-Links (https://app.substitution.art/...):\nDiese öffnen sich in deinem Webbrowser und laden die Substitution-Web-App. Du kannst den Raum, das Profil oder den Beitrag direkt ansehen. Logge dich ein, falls erforderlich.\n\nApp-Links (substitution://...):\nWenn du die Substitution-App auf deinem Handy installiert hast, öffnen sich diese Links direkt in der App. Du siehst einen Bestätigungsdialog, der dich fragt, ob du zum Raum, Profil oder Beitrag navigieren möchtest. Tippe auf 'Weiter', um fortzufahren, oder 'Abbrechen', um dort zu bleiben, wo du bist.\n\nDieser Bestätigungsschritt ist eine Sicherheitsfunktion — er stellt sicher, dass du weißt, wohin ein Link dich führt, bevor du navigierst."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Link öffnen",
+            "room": "Du bist dabei, folgenden Raum zu öffnen:\n\n{}",
+            "user": "Du bist dabei, das Profil anzusehen von:\n\n{}",
+            "post": "Du bist dabei, einen Beitrag zu öffnen.",
+            "generic": "Du bist dabei, zu folgendem Ziel zu navigieren:\n\n{}",
+            "continue_button": "Weiter",
+            "cancel_button": "Abbrechen",
+            "login_required": "Du musst eingeloggt sein, um diesen Link zu öffnen. Möchtest du dich jetzt einloggen?",
+            "login_button": "Einloggen"
+        }
+    },
+    "share": {
+        "link_copied": "Link in die Zwischenablage kopiert!",
+        "share_room": "Schau dir diesen Raum auf Substitution an",
+        "share_profile": "Schau dir dieses Profil auf Substitution an",
+        "share_post": "Schau dir diesen Beitrag auf Substitution an"
     }
 }

@@ -305,5 +305,74 @@
         "error_loading": "Kunne ikke laste denne samtalen.",
         "error_sending": "Kunne ikke sende melding.",
         "view_profile": "Vis profil"
+    },
+    "help": {
+        "title": "Hjelp",
+        "subtitle": "Lær hvordan du bruker Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Hva er Substitution?",
+                "body": "Substitution er et desentralisert sosialt nettverk for deling av kunst og kreativt innhold. I motsetning til tradisjonelle sosiale medier er Substitution bygget oppå Matrix-protokollen, noe som betyr at ingen enkelt bedrift kontrollerer dataene dine eller nettverket.\n\nInnleggene dine, meldingene og profilen din lever på Matrix-hjemmeserveren du velger — ikke på servere drevet av Substitution. Dette gir deg fullt eierskap over innholdet ditt og friheten til å bytte server når som helst.\n\nSubstitution er åpen kildekode og drevet av fellesskapet. Det er designet for å erstatte sentraliserte sosiale nettverk med noe mer rettferdig, transparent og eid av brukerne."
+            },
+            "what_is_matrix": {
+                "title": "Hva er Matrix-protokollen?",
+                "body": "Matrix er en åpen, desentralisert kommunikasjonsprotokoll. Tenk på det som e-post: akkurat som du kan sende en e-post fra Gmail til Outlook, lar Matrix deg kommunisere på tvers av ulike servere.\n\nViktige fordeler med Matrix:\n\n- Desentralisert: Ingen enkelt feilpunkt eller kontrollpunkt. Hvis én server går ned, fortsetter resten av nettverket å fungere.\n- Føderert: Servere snakker med hverandre. Du kan følge rom og sende meldinger til brukere på hvilken som helst Matrix-server, ikke bare din egen.\n- Åpen kildekode: Protokollen og det meste av serverprogramvaren er helt åpen kildekode.\n- Kryptert: Matrix støtter ende-til-ende-kryptering for private samtaler.\n\nLes mer på https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Kom i gang",
+                "body": "For å bruke Substitution trenger du en Matrix-konto. Slik kommer du i gang:\n\n1. Velg en hjemmeserver: En hjemmeserver er der kontoen og dataene dine bor. Populære valg inkluderer matrix.org, men det finnes mange andre. Du kan også drifte din egen.\n\n2. Opprett en konto: Besøk nettsiden til din valgte hjemmeserver for å registrere deg, eller bruk registreringslenken på innloggingsskjermen.\n\n3. Logg inn på Substitution: Åpne appen, skriv inn hjemmeserveradressen din og logg inn med brukernavn og passord. Noen servere støtter også Single Sign-On (SSO).\n\n4. Utforsk: Når du er logget inn, bruk fanen Oppdag for å finne rom å følge, eller opprett ditt eget!"
+            },
+            "what_are_rooms": {
+                "title": "Hva er rom?",
+                "body": "Rom er kjernen i Substitution. Et rom er som en kanal eller feed der innhold blir publisert.\n\nHvert rom har:\n- Et navn og en valgfri beskrivelse\n- En eier (skaperen) som kontrollerer tillatelser\n- Medlemmer som følger og samhandler med innholdet\n- Et valgfritt offentlig alias (som et brukernavn for rommet)\n\nRom kan være offentlige (hvem som helst kan finne og bli med via romkatalogen) eller private (kun på invitasjon).\n\nI Bloggmodus kan bare moderatorer og administratorer opprette innlegg, mens alle andre kan kommentere og reagere. I Fellesskapsmodus kan hvilket som helst medlem publisere.\n\nRom kan også være ende-til-ende-krypterte for private fellesskap."
+            },
+            "follow_rooms": {
+                "title": "Hvordan følge rom",
+                "body": "For å oppdage og følge rom:\n\n1. Gå til fanen Oppdag (kompassikonet i den nedre navigasjonslinjen).\n\n2. Velg en server fra nedtrekkslisten øverst. Du kan bla gjennom rom på hvilken som helst Matrix-server, ikke bare din egen. Trykk på 'Legg til server' for å legge til nye.\n\n3. Søk etter rom etter navn ved hjelp av søkefeltet.\n\n4. Trykk på et rom for å se en forhåndsvisning med beskrivelse, antall medlemmer og siste innlegg.\n\n5. Trykk på 'Bli med' for å følge rommet. Innleggene vil nå vises i Hjem-feeden din.\n\nFor å slutte å følge et rom, finn det i fanen Oppdag og trykk på 'Forlat', eller gå til rommets feed og bruk menyen."
+            },
+            "create_room": {
+                "title": "Hvordan opprette et rom",
+                "body": "For å opprette ditt eget rom:\n\n1. Åpne navigasjonsskuffen (hamburgermeny) og trykk på 'Egne feeder', eller gå til Innstillinger og finn rommene dine.\n\n2. Trykk på 'Opprett et nytt rom'.\n\n3. Fyll inn romdetaljene:\n   - Romnavn: Visningsnavnet for rommet ditt (påkrevd).\n   - Romalias: En valgfri offentlig adresse (f.eks. 'min-kunst'). Dette gjør rommet enklere å finne og dele.\n   - Beskrivelse: Fortell folk hva rommet ditt handler om.\n\n4. Konfigurer innstillinger:\n   - Offentlig rom: Aktiver for å liste rommet ditt i serverens katalog slik at alle kan finne det. Deaktiver for kun invitasjon.\n   - Ende-til-ende-kryptering: Aktiver for private rom. Advarsel: dette kan ikke angres!\n   - Bloggmodus: Aktiver slik at bare du (og moderatorer) kan publisere. Deaktiver for å la alle medlemmer publisere.\n\n5. Inviter eventuelt brukere ved å søke etter navnet eller Matrix-ID-en deres.\n\n6. Trykk på 'Opprett rom' og du er ferdig!\n\nRommet blir opprettet på hjemmeserveren din, men brukere fra hvilken som helst server kan bli med."
+            },
+            "manage_room": {
+                "title": "Administrere rommene dine",
+                "body": "Som romeier eller administrator har du full kontroll over rommene dine:\n\nRedigere rominnstillinger:\nGå til 'Egne feeder' i skuffmenyen, og trykk deretter på innstillingsikonet på rommet ditt. Her kan du endre navn, beskrivelse, alias, avatar, synlighet og publiseringsmodus.\n\nAdministrere medlemmer:\nI rominnstillingene, bla ned til seksjonen Medlemmer. Du kan:\n- Sette roller: Forfremme medlemmer til Moderator eller Administrator, eller degradere dem tilbake til Bruker.\n- Sparke medlemmer: Fjerne et medlem fra rommet (de kan bli med igjen hvis rommet er offentlig).\n- Utestenge medlemmer: Permanent blokkere et medlem fra rommet. Du kan oppheve utestengelsen senere.\n\nUtestengte medlemmer:\nSe og administrer utestengte medlemmer i seksjonen 'Utestengte medlemmer' i rominnstillingene.\n\nSlette et rom:\nNederst i rominnstillingene finner du Faresonen med muligheten til å slette rommet. Denne handlingen er permanent og kan ikke angres."
+            },
+            "write_post": {
+                "title": "Hvordan skrive et innlegg",
+                "body": "For å opprette et nytt innlegg:\n\n1. Trykk på + knappen (flytende handlingsknapp) på Hjem-fanen.\n\n2. Velg type innlegg:\n   - Tekstinnlegg: Skriv rik tekst med formatering (fet, kursiv, overskrifter, lister, lenker og mer).\n   - Filinnlegg: Last opp bilder, videoer eller andre filer med en valgfri bildetekst.\n\n3. Velg rommet du vil publisere i. Bare rom der du har tillatelse til å publisere vil vises.\n\n4. Skriv innholdet ditt:\n   - For tekstinnlegg, bruk verktøylinjen i riktekstredigereren for formatering.\n   - For filinnlegg, velg filene dine og legg eventuelt til en tittel og bildetekst.\n\n5. Trykk på send-knappen for å publisere innlegget ditt.\n\nInnlegget ditt vises i rommets feed og i Hjem-feeden til alle som følger det rommet."
+            },
+            "share_rooms": {
+                "title": "Dele rom med venner",
+                "body": "Du kan enkelt dele rom, profiler og innlegg med venner:\n\nDele et rom:\nNår du ser på et roms feed, trykk på delingsikonet i den øverste linjen. Dette kopierer eller deler en lenke som hvem som helst kan åpne.\n\nDele en profil:\nPå en brukers profilside, trykk på delingsikonet for å dele profillenken deres.\n\nDele et innlegg:\nPå innleggets detaljside, trykk på delingsikonet for å dele en direktelenke til det spesifikke innlegget.\n\nNår vennen din åpner lenken:\n- På nettet: Den åpnes direkte i Substitution-webappen.\n- På telefonen deres (med appen installert): Den åpnes i Substitution-appen med en bekreftelsesmelding før navigering.\n\nDette er den enkleste måten å invitere venner til rommene dine — bare del lenken!"
+            },
+            "direct_messages": {
+                "title": "Direktemeldinger",
+                "body": "Substitution inkluderer direktemeldinger for private samtaler:\n\n1. Gå til en brukers profil ved å trykke på navnet eller avataren deres på et innlegg.\n\n2. Trykk på knappen 'Melding' på profilen deres.\n\n3. Et privat chatterom opprettes mellom deg og den brukeren.\n\n4. Du finner alle samtalene dine under fanen Meldinger (chatteikon i den nedre navigasjonen).\n\nDirektemeldinger er atskilt fra rominnlegg. De er private én-til-én-samtaler mellom deg og en annen bruker."
+            },
+            "opening_links": {
+                "title": "Åpne lenker fra venner",
+                "body": "Når noen deler en Substitution-lenke med deg, skjer følgende:\n\nNettlenker (https://app.substitution.art/...):\nDisse åpnes i nettleseren din og laster Substitution-webappen. Du kan se rommet, profilen eller innlegget direkte. Logg inn hvis du blir bedt om det.\n\nApp-lenker (substitution://...):\nHvis du har Substitution-appen installert på telefonen din, åpnes disse lenkene direkte i appen. Du vil se en bekreftelsesdialog som spør om du vil navigere til rommet, profilen eller innlegget. Trykk på 'Fortsett' for å gå videre eller 'Avbryt' for å bli der du er.\n\nDette bekreftelsestrinnet er en sikkerhetsfunksjon — det sørger for at du vet hvor en lenke tar deg før du navigerer."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Åpne lenke",
+            "room": "Du er i ferd med å åpne rommet:\n\n{}",
+            "user": "Du er i ferd med å se profilen til:\n\n{}",
+            "post": "Du er i ferd med å åpne et innlegg.",
+            "generic": "Du er i ferd med å navigere til:\n\n{}",
+            "continue_button": "Fortsett",
+            "cancel_button": "Avbryt",
+            "login_required": "Du må være logget inn for å åpne denne lenken. Vil du logge inn nå?",
+            "login_button": "Logg inn"
+        }
+    },
+    "share": {
+        "link_copied": "Lenke kopiert til utklippstavlen!",
+        "share_room": "Sjekk ut dette rommet på Substitution",
+        "share_profile": "Sjekk ut denne profilen på Substitution",
+        "share_post": "Sjekk ut dette innlegget på Substitution"
     }
 }

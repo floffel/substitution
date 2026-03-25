@@ -305,5 +305,74 @@
         "error_loading": "Bu söhbət yüklənə bilmədi.",
         "error_sending": "Mesaj göndərilmədi.",
         "view_profile": "Profili gör"
+    },
+    "help": {
+        "title": "Kömək",
+        "subtitle": "Substitution-dan necə istifadə edəcəyinizi öyrənin",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Substitution nədir?",
+                "body": "Substitution sənət və yaradıcı məzmun paylaşmaq üçün mərkəzləşdirilməmiş sosial şəbəkədir. Ənənəvi sosial mediadan fərqli olaraq, Substitution Matrix protokolu üzərində qurulmuşdur, bu da heç bir şirkətin məlumatlarınızı və ya şəbəkəni idarə etmədiyi deməkdir.\n\nPaylaşımlarınız, mesajlarınız və profiliniz Substitution tərəfindən deyil, sizin seçdiyiniz Matrix ev serverində yerləşir. Bu, məzmununuz üzərində tam sahiblik və istənilən vaxt serverlər arasında keçid azadlığı verir.\n\nSubstitution açıq mənbəli və icma tərəfindən idarə olunur. Mərkəzləşdirilmiş sosial şəbəkələri daha ədalətli, şəffaf və istifadəçilərə məxsus bir şeylə əvəz etmək üçün nəzərdə tutulub."
+            },
+            "what_is_matrix": {
+                "title": "Matrix Protokolu nədir?",
+                "body": "Matrix açıq, mərkəzləşdirilməmiş ünsiyyət protokoludur. Bunu e-poçt kimi düşünün: Gmail-dən Outlook-a e-poçt göndərə bildiyiniz kimi, Matrix də müxtəlif serverlər arasında ünsiyyət qurmağa imkan verir.\n\nMatrix-in əsas üstünlükləri:\n\n- Mərkəzləşdirilməmiş: Tək bir uğursuzluq və ya nəzarət nöqtəsi yoxdur. Bir server çöksə, şəbəkənin qalan hissəsi işləməyə davam edir.\n- Federativ: Serverlər bir-biri ilə danışır. Yalnız öz serverinizdəki deyil, istənilən Matrix serverindəki otaqları izləyə və istifadəçilərə mesaj göndərə bilərsiniz.\n- Açıq mənbə: Protokol və əksər server proqram təminatı tamamilə açıq mənbəlidir.\n- Şifrələnmiş: Matrix özəl söhbətlər üçün uçdan-uca şifrələməni dəstəkləyir.\n\nDaha ətraflı: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Başlamaq",
+                "body": "Substitution-dan istifadə etmək üçün Matrix hesabına ehtiyacınız var. Necə başlamaq olar:\n\n1. Ev serveri seçin: Ev serveri hesabınızın və məlumatlarınızın yerləşdiyi yerdir. Populyar seçimlər arasında matrix.org var, lakin bir çox başqaları da mövcuddur. Öz serverinizi də idarə edə bilərsiniz.\n\n2. Hesab yaradın: Qeydiyyatdan keçmək üçün seçdiyiniz ev serverinin veb saytını ziyarət edin və ya giriş ekranındakı qeydiyyat linkindən istifadə edin.\n\n3. Substitution-a daxil olun: Tətbiqi açın, ev server ünvanınızı daxil edin və istifadəçi adınız və parolunuzla daxil olun. Bəzi serverlər həmçinin Tək Daxilolma (SSO) dəstəkləyir.\n\n4. Kəşf edin: Daxil olduqdan sonra izləmək üçün otaqlar tapmaq üçün Kəşf et sekmesindən istifadə edin və ya öz otağınızı yaradın!"
+            },
+            "what_are_rooms": {
+                "title": "Otaqlar nədir?",
+                "body": "Otaqlar Substitution-un əsasını təşkil edir. Otaq, məzmunun paylaşıldığı kanal və ya lent kimidir.\n\nHər otağın:\n- Adı və isteğe bağlı təsviri\n- İcazələri idarə edən sahibi (yaradıcı)\n- Məzmunu izləyən və qarşılıqlı əlaqədə olan üzvləri\n- İsteğe bağlı açıq ləqəbi (otaq üçün istifadəçi adı kimi) var\n\nOtaqlar açıq (hər kəs otaq kataloqunda tapıb qoşula bilər) və ya qapalı (yalnız dəvətlə) ola bilər.\n\nBloq Rejimində yalnız moderatorlar və adminlər paylaşım edə bilər, digərləri isə şərh yazıb reaksiya verə bilər. İcma Rejimində isə istənilən üzv paylaşım edə bilər.\n\nOtaqlar qapalı icmalar üçün uçdan-uca şifrələnmiş ola bilər."
+            },
+            "follow_rooms": {
+                "title": "Otaqları necə izləmək olar",
+                "body": "Otaqları kəşf etmək və izləmək üçün:\n\n1. Kəşf et sekmesine keçin (alt naviqasiya panelindəki kompas ikonu).\n\n2. Yuxarıdakı açılan menyudan server seçin. Yalnız öz serverinizdəki deyil, istənilən Matrix serverindəki otaqlara baxa bilərsiniz. Yeni serverlər əlavə etmək üçün 'Server əlavə et' düyməsinə toxunun.\n\n3. Axtarış sahəsindən ad ilə otaq axtarın.\n\n4. Təsvirini, üzv sayını və son paylaşımlarını görmək üçün otağa toxunun.\n\n5. Otağı izləmək üçün 'Qoşul' düyməsinə toxunun. Paylaşımları artıq Ana səhifə lentinizdə görünəcək.\n\nBir otağı izləməyi dayandırmaq üçün Kəşf et sekmesindən otağı tapıb 'Çıx' düyməsinə toxunun və ya otağın lentinə keçib menyudan istifadə edin."
+            },
+            "create_room": {
+                "title": "Otaq necə yaradılır",
+                "body": "Öz otağınızı yaratmaq üçün:\n\n1. Naviqasiya çekmecəsini (hamburger menyusu) açın və 'Öz Lentlər' düyməsinə toxunun və ya Parametrlərə keçib otaqlarınızı tapın.\n\n2. 'Yeni otaq yaradın' düyməsinə toxunun.\n\n3. Otaq təfərrüatlarını doldurun:\n   - Otaq Adı: Otağınızın görünən adı (tələb olunur).\n   - Otaq Ləqəbi: İsteğe bağlı açıq ünvan (məs. 'sənətim'). Bu, otağın daha asan tapılmasını və paylaşılmasını təmin edir.\n   - Təsvir: Otağınızın nə haqqında olduğunu bildirin.\n\n4. Parametrləri konfiqurasiya edin:\n   - Açıq Otaq: Otağınızı serverin kataloqunda siyahıya salmaq üçün aktivləşdirin ki, hər kəs tapa bilsin. Yalnız dəvətlə üçün deaktiv edin.\n   - Uçdan-Uca Şifrələmə: Qapalı otaqlar üçün aktivləşdirin. Xəbərdarlıq: bu geri qaytarıla bilməz!\n   - Bloq Rejimi: Yalnız sizin (və moderatorların) paylaşım edə bilməsi üçün aktivləşdirin. İstənilən üzvün paylaşım edə bilməsi üçün deaktiv edin.\n\n5. İsteğe bağlı olaraq adlarına və ya Matrix ID-lərinə görə axtarış edərək istifadəçiləri dəvət edin.\n\n6. 'Yarat' düyməsinə toxunun və hazırdır!\n\nOtaq sizin ev serverinizdə yaradılacaq, lakin istənilən serverdəki istifadəçilər qoşula bilər."
+            },
+            "manage_room": {
+                "title": "Otaqlarınızı idarə etmək",
+                "body": "Otaq sahibi və ya admin olaraq otaqlarınız üzərində tam nəzarətiniz var:\n\nOtaq Parametrlərini Redaktə Etmə:\nÇekmecə menyusunda 'Öz Lentlər'ə keçin, sonra otağınızdakı parametrlər ikonuna toxunun. Burada adı, təsviri, ləqəbi, avatarı, görünürlüyü və paylaşım rejimini dəyişdirə bilərsiniz.\n\nÜzvləri İdarə Etmə:\nOtaq parametrlərində Üzvlər bölməsinə sürüşdürün. Siz:\n- Rollar təyin edin: Üzvləri Moderator və ya Admin olaraq yüksəldin və ya yenidən İstifadəçi statusuna endirin.\n- Üzvləri çıxarın: Bir üzvü otaqdan çıxarın (otaq açıqdırsa yenidən qoşula bilər).\n- Üzvləri qadağan edin: Bir üzvü otaqdan həmişəlik blok edin. Sonra qadağanı ləğv edə bilərsiniz.\n\nQadağan Edilmiş Üzvlər:\nOtaq parametrlərinin 'Qadağan Edilmiş Üzvlər' bölməsində qadağan edilmiş üzvləri görüntüləyin və idarə edin.\n\nOtağın Silinməsi:\nOtaq parametrlərinin altında otağı silmə seçimi ilə Təhlükə Zonasını tapacaqsınız. Bu əməliyyat qalıcıdır və geri qaytarıla bilməz."
+            },
+            "write_post": {
+                "title": "Paylaşım necə yazılır",
+                "body": "Yeni paylaşım yaratmaq üçün:\n\n1. Ana səhifə sekmesindəki + düyməsinə (üzən əməliyyat düyməsi) toxunun.\n\n2. Paylaşım növünü seçin:\n   - Mətn Paylaşımı: Formatlaşdırılmış (qalın, kursiv, başlıqlar, siyahılar, keçidlər və s.) zəngin mətn yazın.\n   - Fayl Paylaşımı: İsteğe bağlı başlıq ilə şəkillər, videolar və ya digər faylları yükləyin.\n\n3. Paylaşım etmək istədiyiniz otağı seçin. Yalnız paylaşım icazəniz olan otaqlar görünəcək.\n\n4. Məzmununuzu yazın:\n   - Mətn paylaşımları üçün zəngin mətn redaktoru alət panelindən istifadə edin.\n   - Fayl paylaşımları üçün fayllarınızı seçin və isteğe bağlı olaraq başlıq və açıqlama əlavə edin.\n\n5. Paylaşımınızı dərc etmək üçün göndər düyməsinə toxunun.\n\nPaylaşımınız otağın lentində və həmin otağı izləyən hər kəsin Ana səhifə lentində görünəcək."
+            },
+            "share_rooms": {
+                "title": "Otaqları dostlarınızla paylaşmaq",
+                "body": "Otaqları, profilləri və paylaşımları dostlarınızla asanlıqla paylaşa bilərsiniz:\n\nOtaq Paylaşma:\nBir otağın lentinə baxarkən, yuxarı paneldəki paylaşım ikonuna toxunun. Bu, hər kəsin aça biləcəyi bir keçidi kopyalayır və ya paylaşır.\n\nProfil Paylaşma:\nİstənilən istifadəçinin profil səhifəsində, profil keçidini paylaşmaq üçün paylaşım ikonuna toxunun.\n\nPaylaşım Paylaşma:\nPaylaşım detalları səhifəsində, həmin paylaşıma birbaşa keçid paylaşmaq üçün paylaşım ikonuna toxunun.\n\nDostunuz keçidi açdıqda:\n- Vebdə: Birbaşa Substitution veb tətbiqində açılır.\n- Telefonlarında (tətbiq quraşdırılıbsa): Keçiddən əvvəl təsdiq sorğusu ilə Substitution tətbiqində açılır.\n\nBu, dostlarınızı otaqlarınıza dəvət etməyin ən asan yoludur — sadəcə keçidi paylaşın!"
+            },
+            "direct_messages": {
+                "title": "Birbaşa Mesajlar",
+                "body": "Substitution özəl söhbətlər üçün birbaşa mesajlaşma funksiyasını ehtiva edir:\n\n1. İstənilən paylaşımdakı adına və ya avatarına toxunaraq istifadəçinin profilinə keçin.\n\n2. Profillərindəki 'Mesaj' düyməsinə toxunun.\n\n3. Sizinlə həmin istifadəçi arasında özəl söhbət otağı yaradılır.\n\n4. Bütün söhbətlərinizi Mesajlar sekmesində (alt naviqasiya panelindəki söhbət ikonu) tapa bilərsiniz.\n\nBirbaşa mesajlar otaq paylaşımlarından ayrıdır. Onlar sizinlə başqa bir istifadəçi arasındakı özəl ikitərəfli söhbətlərdir."
+            },
+            "opening_links": {
+                "title": "Dostlardan gələn keçidləri açmaq",
+                "body": "Kimsə sizinlə Substitution keçidi paylaşdıqda baş verənlər:\n\nVeb Keçidləri (https://app.substitution.art/...):\nBunlar veb brauzerinizdə açılır və Substitution veb tətbiqini yükləyir. Otağı, profili və ya paylaşımı birbaşa görə bilərsiniz. Tələb olunarsa daxil olun.\n\nTətbiq Keçidləri (substitution://...):\nTelefonunuzda Substitution tətbiqi quraşdırılıbsa, bu keçidlər birbaşa tətbiqdə açılır. Otağa, profilə və ya paylaşıma keçmək istəyib-istəmədiyinizi soruşan təsdiq dialoqu görəcəksiniz. Davam etmək üçün 'Davam et' və ya qalmaq üçün 'Ləğv et' düyməsinə toxunun.\n\nBu təsdiq addımı təhlükəsizlik xüsusiyyətidir — keçidin sizi hara aparacağını keçiddən əvvəl bilməyinizi təmin edir."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Keçidi Aç",
+            "room": "Bu otağı açmaq üzrəsiniz:\n\n{}",
+            "user": "Bu istifadəçinin profilini görməyə hazırlaşırsınız:\n\n{}",
+            "post": "Bir paylaşımı açmaq üzrəsiniz.",
+            "generic": "Bu ünvana keçmək üzrəsiniz:\n\n{}",
+            "continue_button": "Davam et",
+            "cancel_button": "Ləğv et",
+            "login_required": "Bu keçidi açmaq üçün daxil olmalısınız. İndi daxil olmaq istəyirsiniz?",
+            "login_button": "Daxil ol"
+        }
+    },
+    "share": {
+        "link_copied": "Keçid buferə kopyalandı!",
+        "share_room": "Substitution-da bu otağa baxın",
+        "share_profile": "Substitution-da bu profilə baxın",
+        "share_post": "Substitution-da bu paylaşıma baxın"
     }
 }

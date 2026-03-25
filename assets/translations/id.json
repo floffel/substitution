@@ -305,5 +305,74 @@
         "error_loading": "Tidak dapat memuat percakapan ini.",
         "error_sending": "Gagal mengirim pesan.",
         "view_profile": "Lihat profil"
+    },
+    "help": {
+        "title": "Bantuan",
+        "subtitle": "Pelajari cara menggunakan Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Apa itu Substitution?",
+                "body": "Substitution adalah jejaring sosial terdesentralisasi untuk berbagi seni dan konten kreatif. Berbeda dengan media sosial tradisional, Substitution dibangun di atas protokol Matrix, yang berarti tidak ada satu perusahaan pun yang mengendalikan data atau jaringan Anda.\n\nPostingan, pesan, dan profil Anda disimpan di homeserver Matrix yang Anda pilih — bukan di server yang dioperasikan oleh Substitution. Ini memberi Anda kepemilikan penuh atas konten Anda dan kebebasan untuk berpindah antar server kapan saja.\n\nSubstitution bersifat open source dan digerakkan oleh komunitas. Dirancang untuk menggantikan jejaring sosial terpusat dengan sesuatu yang lebih adil, transparan, dan dimiliki oleh pengguna."
+            },
+            "what_is_matrix": {
+                "title": "Apa itu Protokol Matrix?",
+                "body": "Matrix adalah protokol komunikasi terbuka dan terdesentralisasi. Bayangkan seperti email: sama seperti Anda bisa mengirim email dari Gmail ke Outlook, Matrix memungkinkan Anda berkomunikasi lintas server yang berbeda.\n\nManfaat utama Matrix:\n\n- Terdesentralisasi: Tidak ada titik kegagalan atau kontrol tunggal. Jika satu server mati, jaringan lainnya tetap berjalan.\n- Terfederasi: Server saling berkomunikasi. Anda dapat mengikuti ruangan dan mengirim pesan ke pengguna di server Matrix mana pun, bukan hanya server Anda sendiri.\n- Sumber terbuka: Protokol dan sebagian besar perangkat lunak server sepenuhnya open source.\n- Terenkripsi: Matrix mendukung enkripsi ujung ke ujung untuk percakapan pribadi.\n\nPelajari lebih lanjut di https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Memulai",
+                "body": "Untuk menggunakan Substitution, Anda memerlukan akun Matrix. Berikut cara memulainya:\n\n1. Pilih homeserver: Homeserver adalah tempat akun dan data Anda disimpan. Pilihan populer termasuk matrix.org, tetapi masih banyak lagi. Anda juga bisa menghosting server sendiri.\n\n2. Buat akun: Kunjungi situs web homeserver pilihan Anda untuk mendaftar, atau gunakan tautan pendaftaran di layar login.\n\n3. Masuk ke Substitution: Buka aplikasi, masukkan alamat homeserver Anda, dan masuk dengan nama pengguna dan kata sandi. Beberapa server juga mendukung Single Sign-On (SSO).\n\n4. Jelajahi: Setelah masuk, gunakan tab Jelajahi untuk menemukan ruangan yang ingin diikuti, atau buat ruangan Anda sendiri!"
+            },
+            "what_are_rooms": {
+                "title": "Apa itu Ruangan?",
+                "body": "Ruangan adalah inti dari Substitution. Ruangan seperti kanal atau feed tempat konten diposting.\n\nSetiap ruangan memiliki:\n- Nama dan deskripsi opsional\n- Pemilik (pembuat) yang mengendalikan izin\n- Anggota yang mengikuti dan berinteraksi dengan konten\n- Alias publik opsional (seperti nama pengguna untuk ruangan)\n\nRuangan bisa bersifat publik (siapa saja bisa menemukan dan bergabung melalui direktori ruangan) atau pribadi (khusus undangan).\n\nDalam Mode Blog, hanya moderator dan admin yang bisa membuat postingan, sementara yang lain bisa berkomentar dan bereaksi. Dalam Mode Komunitas, anggota mana pun bisa memposting.\n\nRuangan juga bisa dienkripsi ujung ke ujung untuk komunitas pribadi."
+            },
+            "follow_rooms": {
+                "title": "Cara Mengikuti Ruangan",
+                "body": "Untuk menemukan dan mengikuti ruangan:\n\n1. Buka tab Jelajahi (ikon kompas di bilah navigasi bawah).\n\n2. Pilih server dari dropdown di bagian atas. Anda bisa menjelajahi ruangan di server Matrix mana pun, bukan hanya server Anda sendiri. Ketuk 'Tambah Server' untuk menambahkan server baru.\n\n3. Cari ruangan berdasarkan nama menggunakan kolom pencarian.\n\n4. Ketuk ruangan untuk melihat pratinjau dengan deskripsi, jumlah anggota, dan postingan terbaru.\n\n5. Ketuk 'Bergabung' untuk mengikuti ruangan. Postingannya akan muncul di feed Beranda Anda.\n\nUntuk berhenti mengikuti ruangan, temukan di tab Jelajahi dan ketuk 'Keluar', atau buka feed ruangan dan gunakan menu."
+            },
+            "create_room": {
+                "title": "Cara Membuat Ruangan",
+                "body": "Untuk membuat ruangan Anda sendiri:\n\n1. Buka laci navigasi (menu hamburger) dan ketuk 'Feed Saya', atau buka Pengaturan dan temukan ruangan Anda.\n\n2. Ketuk 'Buat Ruangan Baru'.\n\n3. Isi detail ruangan:\n   - Nama Ruangan: Nama tampilan untuk ruangan Anda (wajib).\n   - Alias Ruangan: Alamat publik opsional (mis., 'my-art'). Ini membuat ruangan lebih mudah ditemukan dan dibagikan.\n   - Deskripsi: Beritahu orang tentang ruangan Anda.\n\n4. Konfigurasikan pengaturan:\n   - Ruangan Publik: Aktifkan untuk mendaftarkan ruangan di direktori server agar siapa pun bisa menemukannya. Nonaktifkan untuk khusus undangan.\n   - Enkripsi Ujung ke Ujung: Aktifkan untuk ruangan pribadi. Peringatan: ini tidak bisa dibatalkan!\n   - Mode Blog: Aktifkan agar hanya Anda (dan moderator) yang bisa memposting. Nonaktifkan untuk mengizinkan anggota mana pun memposting.\n\n5. Opsional undang pengguna dengan mencari nama atau Matrix ID mereka.\n\n6. Ketuk 'Buat Ruangan' dan selesai!\n\nRuangan akan dibuat di homeserver Anda, tetapi pengguna dari server mana pun bisa bergabung."
+            },
+            "manage_room": {
+                "title": "Mengelola Ruangan Anda",
+                "body": "Sebagai pemilik atau admin ruangan, Anda memiliki kendali penuh atas ruangan Anda:\n\nMengedit Pengaturan Ruangan:\nBuka 'Feed Saya' di menu laci, lalu ketuk ikon pengaturan pada ruangan Anda. Di sini Anda bisa mengubah nama, deskripsi, alias, avatar, visibilitas, dan mode posting.\n\nMengelola Anggota:\nDi pengaturan ruangan, gulir ke bagian Anggota. Anda bisa:\n- Mengatur peran: Promosikan anggota menjadi Moderator atau Admin, atau turunkan kembali menjadi Pengguna.\n- Menendang anggota: Keluarkan anggota dari ruangan (mereka bisa bergabung kembali jika ruangan publik).\n- Memblokir anggota: Blokir anggota secara permanen dari ruangan. Anda bisa membatalkan blokir nanti.\n\nAnggota yang Diblokir:\nLihat dan kelola anggota yang diblokir di bagian 'Anggota yang Diblokir' di pengaturan ruangan.\n\nMenghapus Ruangan:\nDi bagian bawah pengaturan ruangan, Anda akan menemukan Zona Bahaya dengan opsi untuk menghapus ruangan. Tindakan ini permanen dan tidak bisa dibatalkan."
+            },
+            "write_post": {
+                "title": "Cara Menulis Postingan",
+                "body": "Untuk membuat postingan baru:\n\n1. Ketuk tombol + (tombol aksi mengambang) di tab Beranda.\n\n2. Pilih jenis postingan:\n   - Postingan Teks: Tulis teks kaya dengan pemformatan (tebal, miring, judul, daftar, tautan, dan lainnya).\n   - Postingan File: Unggah gambar, video, atau file lain dengan keterangan opsional.\n\n3. Pilih ruangan tempat Anda ingin memposting. Hanya ruangan di mana Anda memiliki izin memposting yang akan muncul.\n\n4. Tulis konten Anda:\n   - Untuk postingan teks, gunakan toolbar editor teks kaya untuk pemformatan.\n   - Untuk postingan file, pilih file Anda dan opsional tambahkan judul dan keterangan.\n\n5. Ketuk tombol kirim untuk mempublikasikan postingan Anda.\n\nPostingan Anda akan muncul di feed ruangan dan di feed Beranda semua orang yang mengikuti ruangan tersebut."
+            },
+            "share_rooms": {
+                "title": "Berbagi Ruangan dengan Teman",
+                "body": "Anda bisa dengan mudah berbagi ruangan, profil, dan postingan dengan teman:\n\nBerbagi Ruangan:\nSaat melihat feed ruangan, ketuk ikon bagikan di bilah atas. Ini menyalin atau membagikan tautan yang bisa dibuka siapa saja.\n\nBerbagi Profil:\nDi halaman profil pengguna mana pun, ketuk ikon bagikan untuk membagikan tautan profil mereka.\n\nBerbagi Postingan:\nDi halaman detail postingan, ketuk ikon bagikan untuk membagikan tautan langsung ke postingan tersebut.\n\nSaat teman Anda membuka tautan:\n- Di web: Terbuka langsung di aplikasi web Substitution.\n- Di ponsel (dengan aplikasi terpasang): Terbuka di aplikasi Substitution dengan konfirmasi sebelum navigasi.\n\nIni adalah cara termudah untuk mengundang teman ke ruangan Anda — cukup bagikan tautannya!"
+            },
+            "direct_messages": {
+                "title": "Pesan Langsung",
+                "body": "Substitution menyertakan fitur pesan langsung untuk percakapan pribadi:\n\n1. Buka profil pengguna dengan mengetuk nama atau avatar mereka di postingan mana pun.\n\n2. Ketuk tombol 'Pesan' di profil mereka.\n\n3. Ruang obrolan pribadi dibuat antara Anda dan pengguna tersebut.\n\n4. Anda bisa menemukan semua percakapan di tab Pesan (ikon obrolan di navigasi bawah).\n\nPesan langsung terpisah dari postingan ruangan. Ini adalah percakapan pribadi satu-satu antara Anda dan pengguna lain."
+            },
+            "opening_links": {
+                "title": "Membuka Tautan dari Teman",
+                "body": "Saat seseorang berbagi tautan Substitution dengan Anda, inilah yang terjadi:\n\nTautan Web (https://app.substitution.art/...):\nTautan ini terbuka di browser web Anda dan memuat aplikasi web Substitution. Anda bisa melihat ruangan, profil, atau postingan secara langsung. Masuk jika diminta.\n\nTautan Aplikasi (substitution://...):\nJika Anda memiliki aplikasi Substitution terpasang di ponsel, tautan ini terbuka langsung di aplikasi. Anda akan melihat dialog konfirmasi yang menanyakan apakah Anda ingin navigasi ke ruangan, profil, atau postingan. Ketuk 'Lanjutkan' untuk melanjutkan atau 'Batal' untuk tetap di tempat Anda.\n\nLangkah konfirmasi ini adalah fitur keamanan — memastikan Anda tahu ke mana tautan akan membawa Anda sebelum navigasi."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Buka Tautan",
+            "room": "Anda akan membuka ruangan:\n\n{}",
+            "user": "Anda akan melihat profil:\n\n{}",
+            "post": "Anda akan membuka sebuah postingan.",
+            "generic": "Anda akan menavigasi ke:\n\n{}",
+            "continue_button": "Lanjutkan",
+            "cancel_button": "Batal",
+            "login_required": "Anda perlu masuk untuk membuka tautan ini. Apakah Anda ingin masuk sekarang?",
+            "login_button": "Masuk"
+        }
+    },
+    "share": {
+        "link_copied": "Tautan disalin ke papan klip!",
+        "share_room": "Lihat ruangan ini di Substitution",
+        "share_profile": "Lihat profil ini di Substitution",
+        "share_post": "Lihat postingan ini di Substitution"
     }
 }

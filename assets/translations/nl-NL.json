@@ -305,5 +305,74 @@
         "error_loading": "Kon dit gesprek niet laden.",
         "error_sending": "Kon bericht niet verzenden.",
         "view_profile": "Profiel bekijken"
+    },
+    "help": {
+        "title": "Help",
+        "subtitle": "Leer hoe u Substitution kunt gebruiken",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Wat is Substitution?",
+                "body": "Substitution is een gedecentraliseerd sociaal netwerk voor het delen van kunst en creatieve inhoud. In tegenstelling tot traditionele sociale media is Substitution gebouwd bovenop het Matrix-protocol, wat betekent dat geen enkel bedrijf uw gegevens of het netwerk beheerst.\n\nUw berichten, gesprekken en profiel worden opgeslagen op de Matrix-homeserver die u kiest — niet op servers die door Substitution worden beheerd. Dit geeft u volledig eigenaarschap over uw inhoud en de vrijheid om op elk moment van server te wisselen.\n\nSubstitution is open source en wordt gedreven door de community. Het is ontworpen om gecentraliseerde sociale netwerken te vervangen door iets dat eerlijker, transparanter en eigendom van de gebruiker is."
+            },
+            "what_is_matrix": {
+                "title": "Wat is het Matrix-protocol?",
+                "body": "Matrix is een open, gedecentraliseerd communicatieprotocol. Zie het als e-mail: net zoals u een e-mail kunt sturen van Gmail naar Outlook, laat Matrix u communiceren tussen verschillende servers.\n\nBelangrijke voordelen van Matrix:\n\n- Gedecentraliseerd: Geen enkel centraal punt van uitval of controle. Als één server uitvalt, blijft de rest van het netwerk functioneren.\n- Gefedereerd: Servers communiceren met elkaar. U kunt kamers volgen en berichten sturen naar gebruikers op elke Matrix-server, niet alleen uw eigen server.\n- Open source: Het protocol en de meeste serversoftware zijn volledig open source.\n- Versleuteld: Matrix ondersteunt end-to-end versleuteling voor privégesprekken.\n\nMeer informatie op https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Aan de slag",
+                "body": "Om Substitution te gebruiken heeft u een Matrix-account nodig. Zo gaat u van start:\n\n1. Kies een homeserver: Een homeserver is waar uw account en gegevens worden opgeslagen. Populaire keuzes zijn onder andere matrix.org, maar er zijn er veel meer. U kunt ook uw eigen server hosten.\n\n2. Maak een account aan: Bezoek de website van uw gekozen homeserver om u te registreren, of gebruik de registratielink op het inlogscherm.\n\n3. Log in bij Substitution: Open de app, voer het adres van uw homeserver in en log in met uw gebruikersnaam en wachtwoord. Sommige servers ondersteunen ook Single Sign-On (SSO).\n\n4. Verkennen: Eenmaal ingelogd kunt u het tabblad Ontdekken gebruiken om kamers te vinden om te volgen, of maak uw eigen kamer aan!"
+            },
+            "what_are_rooms": {
+                "title": "Wat zijn kamers?",
+                "body": "Kamers vormen de kern van Substitution. Een kamer is als een kanaal of feed waar inhoud wordt geplaatst.\n\nElke kamer heeft:\n- Een naam en optionele beschrijving\n- Een eigenaar (de maker) die de rechten beheert\n- Leden die de inhoud volgen en ermee interacteren\n- Een optioneel openbaar alias (als een gebruikersnaam voor de kamer)\n\nKamers kunnen openbaar zijn (iedereen kan ze vinden en deelnemen via de kamerlijst) of privé (alleen op uitnodiging).\n\nIn Blogmodus kunnen alleen moderators en beheerders berichten plaatsen, terwijl iedereen kan reageren. In Communitymodus kan elk lid berichten plaatsen.\n\nKamers kunnen ook end-to-end versleuteld zijn voor privécommunities."
+            },
+            "follow_rooms": {
+                "title": "Hoe kamers te volgen",
+                "body": "Om kamers te ontdekken en te volgen:\n\n1. Ga naar het tabblad Ontdekken (kompaspictogram in de onderste navigatiebalk).\n\n2. Kies een server uit het keuzemenu bovenaan. U kunt kamers op elke Matrix-server bekijken, niet alleen uw eigen server. Tik op 'Server toevoegen' om nieuwe servers toe te voegen.\n\n3. Zoek kamers op naam met behulp van het zoekveld.\n\n4. Tik op een kamer om een voorbeeld te zien met de beschrijving, het aantal leden en de laatste berichten.\n\n5. Tik op 'Deelnemen' om de kamer te volgen. De berichten verschijnen nu in uw Home-feed.\n\nOm een kamer te ontvolgen, zoek deze op het tabblad Ontdekken en tik op 'Verlaten', of ga naar de feed van de kamer en gebruik het menu."
+            },
+            "create_room": {
+                "title": "Hoe een kamer aan te maken",
+                "body": "Om uw eigen kamer aan te maken:\n\n1. Open de navigatielade (hamburgermenu) en tik op 'Eigen feeds', of ga naar Instellingen en zoek uw kamers.\n\n2. Tik op 'Een nieuwe kamer aanmaken'.\n\n3. Vul de kamergegevens in:\n   - Kamernaam: De weergavenaam voor uw kamer (vereist).\n   - Kameralias: Een optioneel openbaar adres (bijv. 'mijn-kunst'). Dit maakt de kamer makkelijker te vinden en te delen.\n   - Beschrijving: Vertel mensen waar uw kamer over gaat.\n\n4. Configureer instellingen:\n   - Openbare kamer: Inschakelen om uw kamer in de serverlijst te plaatsen zodat iedereen deze kan vinden. Uitschakelen voor alleen op uitnodiging.\n   - End-to-end versleuteling: Inschakelen voor privékamers. Waarschuwing: dit kan niet ongedaan worden gemaakt!\n   - Blogmodus: Inschakelen zodat alleen u (en moderators) berichten kunnen plaatsen. Uitschakelen om elk lid te laten posten.\n\n5. Nodig optioneel gebruikers uit door te zoeken op hun naam of Matrix-ID.\n\n6. Tik op 'Kamer aanmaken' en u bent klaar!\n\nDe kamer wordt aangemaakt op uw homeserver, maar gebruikers van elke server kunnen deelnemen."
+            },
+            "manage_room": {
+                "title": "Uw kamers beheren",
+                "body": "Als kamereigenaar of beheerder heeft u volledige controle over uw kamers:\n\nKamerinstellingen bewerken:\nGa naar 'Eigen feeds' in het lademenu en tik vervolgens op het instellingenpictogram bij uw kamer. Hier kunt u de naam, beschrijving, alias, avatar, zichtbaarheid en plaatsingsmodus wijzigen.\n\nLeden beheren:\nIn de kamerinstellingen scrolt u naar het gedeelte Leden. U kunt:\n- Rollen instellen: Leden promoveren tot Moderator of Beheerder, of ze terugzetten naar Gebruiker.\n- Leden verwijderen: Een lid uit de kamer verwijderen (ze kunnen opnieuw deelnemen als de kamer openbaar is).\n- Leden verbannen: Een lid permanent blokkeren uit de kamer. U kunt ze later weer toelaten.\n\nVerbannen leden:\nBekijk en beheer verbannen leden in het gedeelte 'Verbannen leden' van de kamerinstellingen.\n\nEen kamer verwijderen:\nOnderaan de kamerinstellingen vindt u de Gevarenzone met de optie om de kamer te verwijderen. Deze actie is permanent en kan niet ongedaan worden gemaakt."
+            },
+            "write_post": {
+                "title": "Hoe een bericht te schrijven",
+                "body": "Om een nieuw bericht te maken:\n\n1. Tik op de + knop (zwevende actieknop) op het Home-tabblad.\n\n2. Kies het type bericht:\n   - Tekstbericht: Schrijf opgemaakte tekst met opmaak (vetgedrukt, cursief, koppen, lijsten, links en meer).\n   - Bestandsbericht: Upload afbeeldingen, video's of andere bestanden met een optioneel bijschrift.\n\n3. Selecteer de kamer waarin u wilt posten. Alleen kamers waar u toestemming heeft om te plaatsen worden getoond.\n\n4. Schrijf uw inhoud:\n   - Voor tekstberichten gebruikt u de werkbalk van de tekstbewerker voor opmaak.\n   - Voor bestandsberichten selecteert u uw bestanden en voegt u optioneel een titel en bijschrift toe.\n\n5. Tik op de verzendknop om uw bericht te publiceren.\n\nUw bericht verschijnt in de feed van de kamer en in de Home-feed van iedereen die die kamer volgt."
+            },
+            "share_rooms": {
+                "title": "Kamers delen met vrienden",
+                "body": "U kunt eenvoudig kamers, profielen en berichten met vrienden delen:\n\nEen kamer delen:\nWanneer u de feed van een kamer bekijkt, tik op het deelpictogram in de bovenste balk. Dit kopieert of deelt een link die iedereen kan openen.\n\nEen profiel delen:\nOp de profielpagina van een gebruiker tikt u op het deelpictogram om hun profiellink te delen.\n\nEen bericht delen:\nOp de berichtdetailpagina tikt u op het deelpictogram om een directe link naar dat specifieke bericht te delen.\n\nWanneer uw vriend de link opent:\n- Op het web: Het opent rechtstreeks in de Substitution web-app.\n- Op hun telefoon (met de app geïnstalleerd): Het opent in de Substitution-app met een bevestigingsprompt voordat er genavigeerd wordt.\n\nDit is de eenvoudigste manier om vrienden uit te nodigen voor uw kamers — deel gewoon de link!"
+            },
+            "direct_messages": {
+                "title": "Directe berichten",
+                "body": "Substitution bevat directe berichten voor privégesprekken:\n\n1. Ga naar het profiel van een gebruiker door op hun naam of avatar te tikken bij een bericht.\n\n2. Tik op de knop 'Bericht' op hun profiel.\n\n3. Er wordt een privé-chatroom aangemaakt tussen u en die gebruiker.\n\n4. U vindt al uw gesprekken op het tabblad Berichten (chatpictogram in de onderste navigatie).\n\nDirecte berichten staan los van kamerberichten. Het zijn privé één-op-één-gesprekken tussen u en een andere gebruiker."
+            },
+            "opening_links": {
+                "title": "Links van vrienden openen",
+                "body": "Wanneer iemand een Substitution-link met u deelt, gebeurt het volgende:\n\nWeblinks (https://app.substitution.art/...):\nDeze openen in uw webbrowser en laden de Substitution web-app. U kunt de kamer, het profiel of het bericht direct bekijken. Log in als daarom gevraagd wordt.\n\nApp-links (substitution://...):\nAls u de Substitution-app op uw telefoon hebt geïnstalleerd, openen deze links direct in de app. U ziet een bevestigingsdialoog die vraagt of u naar de kamer, het profiel of het bericht wilt navigeren. Tik op 'Doorgaan' om verder te gaan of 'Annuleren' om te blijven waar u bent.\n\nDeze bevestigingsstap is een veiligheidsfunctie — het zorgt ervoor dat u weet waar een link u naartoe brengt voordat u navigeert."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Link openen",
+            "room": "U staat op het punt de kamer te openen:\n\n{}",
+            "user": "U staat op het punt het profiel te bekijken van:\n\n{}",
+            "post": "U staat op het punt een bericht te openen.",
+            "generic": "U staat op het punt te navigeren naar:\n\n{}",
+            "continue_button": "Doorgaan",
+            "cancel_button": "Annuleren",
+            "login_required": "U moet ingelogd zijn om deze link te openen. Wilt u nu inloggen?",
+            "login_button": "Inloggen"
+        }
+    },
+    "share": {
+        "link_copied": "Link gekopieerd naar klembord!",
+        "share_room": "Bekijk deze kamer op Substitution",
+        "share_profile": "Bekijk dit profiel op Substitution",
+        "share_post": "Bekijk dit bericht op Substitution"
     }
 }

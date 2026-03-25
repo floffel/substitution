@@ -116,5 +116,74 @@
         "no_conversations": "Aún no hay conversaciones", "no_conversations_hint": "Visita el perfil de un usuario y toca 'Mensaje' para iniciar un chat.",
         "media_message": "Multimedia", "conversation_started": "Conversación iniciada",
         "error_loading": "No se pudo cargar esta conversación.", "error_sending": "Error al enviar el mensaje.", "view_profile": "Ver perfil"
+    },
+    "help": {
+        "title": "Ayuda",
+        "subtitle": "Aprende a usar Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "¿Qué es Substitution?",
+                "body": "Substitution es una red social descentralizada para compartir arte y contenido creativo. A diferencia de las redes sociales tradicionales, Substitution está construido sobre el protocolo Matrix, lo que significa que ninguna empresa controla tus datos ni la red.\n\nTus publicaciones, mensajes y perfil viven en el servidor Matrix que elijas — no en servidores operados por Substitution. Esto te da la propiedad total de tu contenido y la libertad de cambiarte de servidor en cualquier momento.\n\nSubstitution es de código abierto e impulsado por la comunidad. Está diseñado para sustituir las redes sociales centralizadas por algo más justo, transparente y que les pertenece a los usuarios."
+            },
+            "what_is_matrix": {
+                "title": "¿Qué es el protocolo Matrix?",
+                "body": "Matrix es un protocolo de comunicación abierto y descentralizado. Piénsalo como el correo electrónico: de la misma forma que puedes enviar un correo de Gmail a Outlook, Matrix te permite comunicarte entre diferentes servidores.\n\nBeneficios clave de Matrix:\n\n- Descentralizado: Sin punto único de falla o control. Si un servidor se cae, el resto de la red sigue funcionando.\n- Federado: Los servidores se comunican entre sí. Puedes seguir salas y enviar mensajes a usuarios en cualquier servidor Matrix, no solo en el tuyo.\n- Código abierto: El protocolo y la mayoría del software de servidor son completamente de código abierto.\n- Cifrado: Matrix soporta cifrado de extremo a extremo para conversaciones privadas.\n\nMás información en https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Primeros pasos",
+                "body": "Para usar Substitution, necesitas una cuenta Matrix. Así puedes comenzar:\n\n1. Elige un servidor: Un servidor es donde viven tu cuenta y tus datos. Las opciones populares incluyen matrix.org, pero hay muchas más. También puedes alojar el tuyo propio.\n\n2. Crea una cuenta: Visita el sitio web del servidor que hayas elegido para registrarte, o usa el enlace de registro en la pantalla de inicio de sesión.\n\n3. Inicia sesión en Substitution: Abre la app, ingresa la dirección de tu servidor e inicia sesión con tu nombre de usuario y contraseña. Algunos servidores también soportan inicio de sesión único (SSO).\n\n4. Explora: Una vez que hayas iniciado sesión, usa la pestaña Descubrir para encontrar salas que seguir, ¡o crea la tuya!"
+            },
+            "what_are_rooms": {
+                "title": "¿Qué son las salas?",
+                "body": "Las salas son el corazón de Substitution. Una sala es como un canal o feed donde se publica contenido.\n\nCada sala tiene:\n- Un nombre y una descripción opcional\n- Un dueño (el creador) que controla los permisos\n- Miembros que siguen e interactúan con el contenido\n- Un alias público opcional (como un nombre de usuario para la sala)\n\nLas salas pueden ser públicas (cualquiera puede encontrarlas y unirse a través del directorio de salas) o privadas (solo por invitación).\n\nEn Modo Blog, solo los moderadores y administradores pueden crear publicaciones, mientras que los demás pueden comentar y reaccionar. En Modo Comunidad, cualquier miembro puede publicar.\n\nLas salas también pueden cifrarse de extremo a extremo para comunidades privadas."
+            },
+            "follow_rooms": {
+                "title": "Cómo seguir salas",
+                "body": "Para descubrir y seguir salas:\n\n1. Ve a la pestaña Descubrir (ícono de brújula en la barra de navegación inferior).\n\n2. Elige un servidor del menú desplegable en la parte superior. Puedes explorar salas en cualquier servidor Matrix, no solo en el tuyo. Toca «Agregar servidor» para agregar nuevos.\n\n3. Busca salas por nombre usando el campo de búsqueda.\n\n4. Toca una sala para ver una vista previa con su descripción, número de miembros y últimas publicaciones.\n\n5. Toca «Unirse» para seguir la sala. Sus publicaciones aparecerán ahora en tu feed de Inicio.\n\nPara dejar de seguir una sala, encuéntrala en la pestaña Descubrir y toca «Salir», o ve al feed de la sala y usa el menú."
+            },
+            "create_room": {
+                "title": "Cómo crear una sala",
+                "body": "Para crear tu propia sala:\n\n1. Abre el menú de navegación (menú hamburguesa) y toca «Mis feeds», o ve a Configuración y encuentra tus salas.\n\n2. Toca «Crear una nueva sala».\n\n3. Llena los detalles de la sala:\n   - Nombre de la sala: El nombre visible de tu sala (obligatorio).\n   - Alias de la sala: Una dirección pública opcional (ej.: «mi-arte»). Esto facilita encontrar y compartir la sala.\n   - Descripción: Cuéntale a la gente de qué trata tu sala.\n\n4. Configura los ajustes:\n   - Sala pública: Actívalo para incluir tu sala en el directorio del servidor y que cualquiera pueda encontrarla. Desactívalo para que sea solo por invitación.\n   - Cifrado de extremo a extremo: Actívalo para salas privadas. Advertencia: ¡esta acción no se puede deshacer!\n   - Modo Blog: Actívalo para que solo tú (y los moderadores) puedan publicar. Desactívalo para permitir que cualquier miembro publique.\n\n5. Opcionalmente, invita a usuarios buscando su nombre o su identificador Matrix.\n\n6. ¡Toca «Crear» y listo!\n\nLa sala se creará en tu servidor, pero usuarios de cualquier servidor podrán unirse."
+            },
+            "manage_room": {
+                "title": "Administrar tus salas",
+                "body": "Como dueño o administrador de una sala, tienes control total sobre tus salas:\n\nEditar ajustes de la sala:\nVe a «Mis feeds» en el menú lateral y luego toca el ícono de ajustes de tu sala. Aquí puedes cambiar el nombre, la descripción, el alias, el avatar, la visibilidad y el modo de publicación.\n\nAdministrar miembros:\nEn los ajustes de la sala, desplázate hasta la sección Miembros. Puedes:\n- Asignar roles: Promover miembros a Moderador o Administrador, o regresarlos a Usuario.\n- Expulsar miembros: Sacar a un miembro de la sala (puede volver a unirse si la sala es pública).\n- Vetar miembros: Bloquear permanentemente a un miembro de la sala. Puedes quitarle el veto más adelante.\n\nMiembros vetados:\nConsulta y administra los miembros vetados en la sección «Miembros vetados» de los ajustes de la sala.\n\nEliminar una sala:\nEn la parte inferior de los ajustes de la sala, encontrarás la Zona de peligro con la opción de eliminar la sala. Esta acción es permanente y no se puede deshacer."
+            },
+            "write_post": {
+                "title": "Cómo escribir una publicación",
+                "body": "Para crear una nueva publicación:\n\n1. Toca el botón + (botón de acción flotante) en la pestaña Inicio.\n\n2. Elige el tipo de publicación:\n   - Publicación de texto: Escribe texto enriquecido con formato (negrita, cursiva, encabezados, listas, enlaces y más).\n   - Publicación de archivo: Sube imágenes, videos u otros archivos con una leyenda opcional.\n\n3. Selecciona la sala en la que quieres publicar. Solo aparecerán las salas donde tengas permiso para publicar.\n\n4. Escribe tu contenido:\n   - Para publicaciones de texto, usa la barra de herramientas del editor de texto enriquecido para dar formato.\n   - Para publicaciones de archivo, selecciona tus archivos y opcionalmente agrega un título y una leyenda.\n\n5. Toca el botón de enviar para publicar tu publicación.\n\nTu publicación aparecerá en el feed de la sala y en el feed de Inicio de todos los que sigan esa sala."
+            },
+            "share_rooms": {
+                "title": "Compartir salas con amigos",
+                "body": "Puedes compartir fácilmente salas, perfiles y publicaciones con tus amigos:\n\nCompartir una sala:\nCuando estés viendo el feed de una sala, toca el ícono de compartir en la barra superior. Esto copia o comparte un enlace que cualquiera puede abrir.\n\nCompartir un perfil:\nEn la página de perfil de cualquier usuario, toca el ícono de compartir para compartir el enlace de su perfil.\n\nCompartir una publicación:\nEn la página de detalle de una publicación, toca el ícono de compartir para compartir un enlace directo a esa publicación.\n\nCuando tu amigo abre el enlace:\n- En la web: Se abre directamente en la aplicación web de Substitution.\n- En su teléfono (con la app instalada): Se abre en la aplicación Substitution con un mensaje de confirmación antes de navegar.\n\n¡Esta es la forma más fácil de invitar a amigos a tus salas — simplemente comparte el enlace!"
+            },
+            "direct_messages": {
+                "title": "Mensajes directos",
+                "body": "Substitution incluye mensajería directa para conversaciones privadas:\n\n1. Ve al perfil de un usuario tocando su nombre o avatar en cualquier publicación.\n\n2. Toca el botón «Mensaje» en su perfil.\n\n3. Se crea una sala de chat privada entre tú y ese usuario.\n\n4. Puedes encontrar todas tus conversaciones en la pestaña Mensajes (ícono de chat en la navegación inferior).\n\nLos mensajes directos son independientes de las publicaciones de las salas. Son conversaciones privadas individuales entre tú y otro usuario."
+            },
+            "opening_links": {
+                "title": "Abrir enlaces de amigos",
+                "body": "Cuando alguien comparte un enlace de Substitution contigo, esto es lo que pasa:\n\nEnlaces web (https://app.substitution.art/...):\nEstos se abren en tu navegador web y cargan la aplicación web de Substitution. Puedes ver la sala, perfil o publicación directamente. Inicia sesión si se te pide.\n\nEnlaces de la app (substitution://...):\nSi tienes la aplicación Substitution instalada en tu teléfono, estos enlaces se abren directamente en la app. Verás un diálogo de confirmación preguntándote si quieres navegar a la sala, perfil o publicación. Toca «Continuar» para proceder o «Cancelar» para quedarte donde estás.\n\nEste paso de confirmación es una medida de seguridad — te asegura saber a dónde te llevará un enlace antes de navegar."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Abrir enlace",
+            "room": "Estás a punto de abrir la sala:\n\n{}",
+            "user": "Estás a punto de ver el perfil de:\n\n{}",
+            "post": "Estás a punto de abrir una publicación.",
+            "generic": "Estás a punto de navegar a:\n\n{}",
+            "continue_button": "Continuar",
+            "cancel_button": "Cancelar",
+            "login_required": "Necesitas iniciar sesión para abrir este enlace. ¿Quieres iniciar sesión ahora?",
+            "login_button": "Iniciar sesión"
+        }
+    },
+    "share": {
+        "link_copied": "¡Enlace copiado al portapapeles!",
+        "share_room": "Mira esta sala en Substitution",
+        "share_profile": "Mira este perfil en Substitution",
+        "share_post": "Mira esta publicación en Substitution"
     }
 }

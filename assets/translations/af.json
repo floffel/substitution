@@ -305,5 +305,74 @@
         "error_loading": "Kon nie hierdie gesprek laai nie.",
         "error_sending": "Kon nie boodskap stuur nie.",
         "view_profile": "Bekyk profiel"
+    },
+    "help": {
+        "title": "Hulp",
+        "subtitle": "Leer hoe om Substitution te gebruik",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Wat is Substitution?",
+                "body": "Substitution is 'n gedesentraliseerde sosiale netwerk vir die deel van kuns en kreatiewe inhoud. Anders as tradisionele sosiale media, is Substitution gebou bo-op die Matrix-protokol, wat beteken dat geen enkele maatskappy jou data of die netwerk beheer nie.\n\nJou plasings, boodskappe en profiel leef op die Matrix-tuisbediener wat jy kies — nie op bedieners wat deur Substitution bedryf word nie. Dit gee jou volle eienaarskap van jou inhoud en die vryheid om enige tyd van bediener te verander.\n\nSubstitution is oopbron en word deur die gemeenskap aangedryf. Dit is ontwerp om gesentraliseerde sosiale netwerke te vervang met iets meer regverdig, deursigtig en in besit van die gebruikers."
+            },
+            "what_is_matrix": {
+                "title": "Wat is die Matrix-protokol?",
+                "body": "Matrix is 'n oop, gedesentraliseerde kommunikasieprotokol. Dink daaraan soos e-pos: net soos jy 'n e-pos van Gmail na Outlook kan stuur, laat Matrix jou toe om oor verskillende bedieners te kommunikeer.\n\nBelangrike voordele van Matrix:\n\n- Gedesentraliseerd: Geen enkele punt van mislukking of beheer nie. As een bediener afgaan, hou die res van die netwerk aan met werk.\n- Gefedereer: Bedieners praat met mekaar. Jy kan kamers volg en boodskappe stuur na gebruikers op enige Matrix-bediener, nie net jou eie nie.\n- Oopbron: Die protokol en die meeste bedienersagteware is ten volle oopbron.\n- Geënkripteer: Matrix ondersteun end-tot-end enkripsie vir private gesprekke.\n\nLees meer by https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Aan die gang",
+                "body": "Om Substitution te gebruik, het jy 'n Matrix-rekening nodig. So kom jy aan die gang:\n\n1. Kies 'n tuisbediener: 'n Tuisbediener is waar jou rekening en data woon. Gewilde keuses sluit matrix.org in, maar daar is baie ander. Jy kan ook jou eie een huisves.\n\n2. Skep 'n rekening: Besoek die webwerf van jou gekose tuisbediener om te registreer, of gebruik die registrasieskakel op die aanmeldskerm.\n\n3. Meld aan by Substitution: Maak die toepassing oop, voer jou tuisbedieneradres in en meld aan met jou gebruikersnaam en wagwoord. Sommige bedieners ondersteun ook Single Sign-On (SSO).\n\n4. Verken: Sodra jy aangemeld is, gebruik die Ontdek-oortjie om kamers te vind om te volg, of skep jou eie!"
+            },
+            "what_are_rooms": {
+                "title": "Wat is kamers?",
+                "body": "Kamers is die kern van Substitution. 'n Kamer is soos 'n kanaal of voer waar inhoud geplaas word.\n\nElke kamer het:\n- 'n Naam en opsionele beskrywing\n- 'n Eienaar (die skepper) wat toestemmings beheer\n- Lede wat die inhoud volg en daarmee interaksie het\n- 'n Opsionele openbare alias (soos 'n gebruikersnaam vir die kamer)\n\nKamers kan openbaar wees (enigiemand kan dit vind en aansluit via die kamergids) of privaat (slegs op uitnodiging).\n\nIn Blogmodus kan slegs moderators en administrateurs plasings maak, terwyl almal anders kan kommentaar lewer en reageer. In Gemeenskapsmodus kan enige lid plaas.\n\nKamers kan ook end-tot-end geënkripteer wees vir private gemeenskappe."
+            },
+            "follow_rooms": {
+                "title": "Hoe om kamers te volg",
+                "body": "Om kamers te ontdek en te volg:\n\n1. Gaan na die Ontdek-oortjie (kompas-ikoon in die onderste navigasiebalk).\n\n2. Kies 'n bediener uit die aftreklys bo-aan. Jy kan kamers op enige Matrix-bediener blaai, nie net jou eie nie. Tik op 'Voeg bediener by' om nuwes by te voeg.\n\n3. Soek kamers op naam met die soekveld.\n\n4. Tik op 'n kamer om 'n voorskou te sien met die beskrywing, aantal lede en nuutste plasings.\n\n5. Tik op 'Sluit aan' om die kamer te volg. Die plasings sal nou in jou Tuis-voer verskyn.\n\nOm 'n kamer te ontvolg, vind dit op die Ontdek-oortjie en tik op 'Verlaat', of gaan na die kamer se voer en gebruik die kieslys."
+            },
+            "create_room": {
+                "title": "Hoe om 'n kamer te skep",
+                "body": "Om jou eie kamer te skep:\n\n1. Maak die navigasielaai oop (hamboergerkieslys) en tik op 'Eie Voere', of gaan na Instellings en vind jou kamers.\n\n2. Tik op 'Skep 'n nuwe kamer'.\n\n3. Vul die kamerbesonderhede in:\n   - Kamernaam: Die vertoonnaam vir jou kamer (verpligtend).\n   - Kameralias: 'n Opsionele openbare adres (bv. 'my-kuns'). Dit maak die kamer makliker om te vind en te deel.\n   - Beskrywing: Vertel mense waaroor jou kamer gaan.\n\n4. Stel instellings op:\n   - Openbare kamer: Aktiveer om jou kamer in die bediener se gids te lys sodat enigiemand dit kan vind. Deaktiveer vir slegs op uitnodiging.\n   - End-tot-end enkripsie: Aktiveer vir private kamers. Waarskuwing: dit kan nie ongedaan gemaak word nie!\n   - Blogmodus: Aktiveer sodat slegs jy (en moderators) kan plaas. Deaktiveer om enige lid te laat plaas.\n\n5. Nooi opsioneel gebruikers uit deur te soek na hul naam of Matrix-ID.\n\n6. Tik op 'Skep kamer' en jy is klaar!\n\nDie kamer sal op jou tuisbediener geskep word, maar gebruikers van enige bediener kan aansluit."
+            },
+            "manage_room": {
+                "title": "Bestuur jou kamers",
+                "body": "As 'n kamereienaar of administrateur het jy volle beheer oor jou kamers:\n\nWysig kamerinstellings:\nGaan na 'Eie Voere' in die laaikieslys, en tik dan op die instellings-ikoon op jou kamer. Hier kan jy die naam, beskrywing, alias, avatar, sigbaarheid en plasingmodus verander.\n\nBestuur lede:\nIn die kamerinstellings, blaai na die Lede-afdeling. Jy kan:\n- Rolle stel: Bevorder lede tot Moderator of Administrateur, of degradeer hulle terug na Gebruiker.\n- Lede verwyder: Verwyder 'n lid uit die kamer (hulle kan weer aansluit as die kamer openbaar is).\n- Lede verban: Blokkeer 'n lid permanent uit die kamer. Jy kan hulle later ontverban.\n\nVerbande lede:\nBekyk en bestuur verbande lede in die 'Verbande lede'-afdeling van die kamerinstellings.\n\nVerwyder 'n kamer:\nOnderaan die kamerinstellings sal jy die Gevaarsone vind met die opsie om die kamer te verwyder. Hierdie aksie is permanent en kan nie ongedaan gemaak word nie."
+            },
+            "write_post": {
+                "title": "Hoe om 'n plasing te skryf",
+                "body": "Om 'n nuwe plasing te maak:\n\n1. Tik op die + knoppie (drywende aksieknoppie) op die Tuis-oortjie.\n\n2. Kies die tipe plasing:\n   - Teksplasing: Skryf ryk teks met formatering (vetdruk, kursief, opskrifte, lyste, skakels en meer).\n   - Lêerplasing: Laai prente, video's of ander lêers op met 'n opsionele onderskrif.\n\n3. Kies die kamer waarin jy wil plaas. Slegs kamers waar jy toestemming het om te plaas, sal verskyn.\n\n4. Skryf jou inhoud:\n   - Vir teksplasings, gebruik die ryk-teksredigeerder se nutsbalk vir formatering.\n   - Vir lêerplasings, kies jou lêers en voeg opsioneel 'n titel en onderskrif by.\n\n5. Tik op die stuur-knoppie om jou plasing te publiseer.\n\nJou plasing sal in die kamer se voer verskyn en in die Tuis-voer van almal wat daardie kamer volg."
+            },
+            "share_rooms": {
+                "title": "Deel kamers met vriende",
+                "body": "Jy kan maklik kamers, profiele en plasings met vriende deel:\n\nDeel 'n kamer:\nWanneer jy 'n kamer se voer bekyk, tik op die deel-ikoon in die boonste balk. Dit kopieer of deel 'n skakel wat enigiemand kan oopmaak.\n\nDeel 'n profiel:\nOp enige gebruiker se profielbladsy, tik op die deel-ikoon om hul profielskakel te deel.\n\nDeel 'n plasing:\nOp die plasingsdetailbladsy, tik op die deel-ikoon om 'n direkte skakel na daardie spesifieke plasing te deel.\n\nWanneer jou vriend die skakel oopmaak:\n- Op die web: Dit maak direk oop in die Substitution-webtoepassing.\n- Op hul foon (met die toepassing geïnstalleer): Dit maak oop in die Substitution-toepassing met 'n bevestigingsprompt voor navigering.\n\nDit is die maklikste manier om vriende na jou kamers te nooi — deel net die skakel!"
+            },
+            "direct_messages": {
+                "title": "Direkte boodskappe",
+                "body": "Substitution sluit direkte boodskappe in vir private gesprekke:\n\n1. Gaan na 'n gebruiker se profiel deur op hul naam of avatar op enige plasing te tik.\n\n2. Tik op die 'Boodskap'-knoppie op hul profiel.\n\n3. 'n Private kletskamer word geskep tussen jou en daardie gebruiker.\n\n4. Jy kan al jou gesprekke vind op die Boodskappe-oortjie (klets-ikoon in die onderste navigasie).\n\nDirekte boodskappe is afsonderlik van kamerplasings. Dit is private een-tot-een-gesprekke tussen jou en 'n ander gebruiker."
+            },
+            "opening_links": {
+                "title": "Maak skakels van vriende oop",
+                "body": "Wanneer iemand 'n Substitution-skakel met jou deel, gebeur die volgende:\n\nWebskakels (https://app.substitution.art/...):\nHierdie maak oop in jou webblaaier en laai die Substitution-webtoepassing. Jy kan die kamer, profiel of plasing direk bekyk. Meld aan as dit gevra word.\n\nToepassing-skakels (substitution://...):\nAs jy die Substitution-toepassing op jou foon geïnstalleer het, maak hierdie skakels direk in die toepassing oop. Jy sal 'n bevestigingsdialoog sien wat vra of jy na die kamer, profiel of plasing wil navigeer. Tik op 'Gaan voort' om voort te gaan of 'Kanselleer' om te bly waar jy is.\n\nHierdie bevestigingstap is 'n veiligheidskensmerk — dit verseker dat jy weet waarheen 'n skakel jou neem voordat jy navigeer."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Maak skakel oop",
+            "room": "Jy is op die punt om die kamer oop te maak:\n\n{}",
+            "user": "Jy is op die punt om die profiel te bekyk van:\n\n{}",
+            "post": "Jy is op die punt om 'n plasing oop te maak.",
+            "generic": "Jy is op die punt om te navigeer na:\n\n{}",
+            "continue_button": "Gaan voort",
+            "cancel_button": "Kanselleer",
+            "login_required": "Jy moet aangemeld wees om hierdie skakel oop te maak. Wil jy nou aanmeld?",
+            "login_button": "Meld aan"
+        }
+    },
+    "share": {
+        "link_copied": "Skakel na knipbord gekopieer!",
+        "share_room": "Kyk na hierdie kamer op Substitution",
+        "share_profile": "Kyk na hierdie profiel op Substitution",
+        "share_post": "Kyk na hierdie plasing op Substitution"
     }
 }

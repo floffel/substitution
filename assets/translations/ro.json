@@ -305,5 +305,74 @@
         "error_loading": "Nu s-a putut încărca această conversație.",
         "error_sending": "Trimiterea mesajului a eșuat.",
         "view_profile": "Vezi profilul"
+    },
+    "help": {
+        "title": "Ajutor",
+        "subtitle": "Află cum să folosești Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Ce este Substitution?",
+                "body": "Substitution este o rețea socială descentralizată pentru partajarea artei și a conținutului creativ. Spre deosebire de rețelele sociale tradiționale, Substitution este construit pe protocolul Matrix, ceea ce înseamnă că nicio companie nu controlează datele tale sau rețeaua.\n\nPostările, mesajele și profilul tău se află pe serverul Matrix pe care îl alegi — nu pe servere operate de Substitution. Asta îți oferă proprietatea deplină asupra conținutului tău și libertatea de a schimba serverul oricând.\n\nSubstitution este open source și condus de comunitate. Este conceput pentru a înlocui rețelele sociale centralizate cu ceva mai echitabil, transparent și deținut de utilizatori."
+            },
+            "what_is_matrix": {
+                "title": "Ce este protocolul Matrix?",
+                "body": "Matrix este un protocol de comunicare deschis și descentralizat. Gândește-te la el ca la email: la fel cum poți trimite un email de pe Gmail către Outlook, Matrix îți permite să comunici între servere diferite.\n\nBeneficii cheie ale Matrix:\n\n- Descentralizat: Fără un singur punct de defecțiune sau control. Dacă un server cade, restul rețelei continuă să funcționeze.\n- Federat: Serverele comunică între ele. Poți urmări camere și trimite mesaje utilizatorilor de pe orice server Matrix, nu doar de pe al tău.\n- Open source: Protocolul și majoritatea software-ului de server sunt complet open source.\n- Criptat: Matrix suportă criptare end-to-end pentru conversații private.\n\nAflă mai multe pe https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Primii pași",
+                "body": "Pentru a folosi Substitution, ai nevoie de un cont Matrix. Iată cum să începi:\n\n1. Alege un homeserver: Un homeserver este locul unde contul și datele tale sunt stocate. Opțiunile populare includ matrix.org, dar există multe altele. Poți, de asemenea, să găzduiești propriul tău server.\n\n2. Creează un cont: Vizitează site-ul web al homeserverului ales pentru a te înregistra, sau folosește linkul de înregistrare de pe ecranul de conectare.\n\n3. Conectează-te la Substitution: Deschide aplicația, introdu adresa homeserverului tău și conectează-te cu numele de utilizator și parola. Unele servere suportă și autentificarea unică (SSO).\n\n4. Explorează: După ce te-ai conectat, folosește tab-ul Descoperă pentru a găsi camere de urmărit, sau creează-ți propria cameră!"
+            },
+            "what_are_rooms": {
+                "title": "Ce sunt camerele?",
+                "body": "Camerele sunt nucleul Substitution. O cameră este ca un canal sau flux unde se publică conținut.\n\nFiecare cameră are:\n- Un nume și o descriere opțională\n- Un proprietar (creatorul) care controlează permisiunile\n- Membri care urmăresc și interacționează cu conținutul\n- Un alias public opțional (ca un nume de utilizator pentru cameră)\n\nCamerele pot fi publice (oricine le poate găsi și se poate alătura prin directorul de camere) sau private (doar cu invitație).\n\nÎn Modul Blog, doar moderatorii și administratorii pot crea postări, în timp ce ceilalți pot comenta și reacționa. În Modul Comunitate, orice membru poate posta.\n\nCamerele pot fi, de asemenea, criptate end-to-end pentru comunitățile private."
+            },
+            "follow_rooms": {
+                "title": "Cum să urmărești camere",
+                "body": "Pentru a descoperi și urmări camere:\n\n1. Mergi la tab-ul Descoperă (icoana busolei din bara de navigare de jos).\n\n2. Alege un server din meniul derulant de sus. Poți explora camerele de pe orice server Matrix, nu doar de pe al tău. Apasă pe «Adaugă server» pentru a adăuga altele noi.\n\n3. Caută camere după nume folosind câmpul de căutare.\n\n4. Apasă pe o cameră pentru a vedea o previzualizare cu descrierea sa, numărul de membri și cele mai recente postări.\n\n5. Apasă «Intră» pentru a urmări camera. Postările sale vor apărea acum în fluxul tău de Acasă.\n\nPentru a renunța la urmărirea unei camere, găsește-o în tab-ul Descoperă și apasă «Părăsește», sau mergi la fluxul camerei și folosește meniul."
+            },
+            "create_room": {
+                "title": "Cum să creezi o cameră",
+                "body": "Pentru a-ți crea propria cameră:\n\n1. Deschide meniul de navigare (meniul hamburger) și apasă pe «Fluxuri proprii», sau mergi la Setări și găsește-ți camerele.\n\n2. Apasă pe «Creează o cameră nouă».\n\n3. Completează detaliile camerei:\n   - Numele camerei: Numele afișat al camerei tale (obligatoriu).\n   - Alias cameră: O adresă publică opțională (ex.: «arta-mea»). Acest lucru face camera mai ușor de găsit și partajat.\n   - Descriere: Spune-le oamenilor despre ce este camera ta.\n\n4. Configurează setările:\n   - Cameră publică: Activează pentru a lista camera în directorul serverului, astfel încât oricine o poate găsi. Dezactivează pentru acces doar cu invitație.\n   - Criptare end-to-end: Activează pentru camerele private. Atenție: această acțiune nu poate fi anulată!\n   - Modul Blog: Activează pentru ca doar tu (și moderatorii) să puteți posta. Dezactivează pentru a permite oricărui membru să posteze.\n\n5. Opțional, invită utilizatori căutându-le numele sau ID-ul Matrix.\n\n6. Apasă «Creează» și gata!\n\nCamera va fi creată pe homeserverul tău, dar utilizatorii de pe orice server se pot alătura."
+            },
+            "manage_room": {
+                "title": "Gestionarea camerelor tale",
+                "body": "Ca proprietar sau administrator al unei camere, ai control deplin asupra camerelor tale:\n\nEditarea setărilor camerei:\nMergi la «Fluxuri proprii» în meniul lateral, apoi apasă pe icoana de setări a camerei tale. Aici poți schimba numele, descrierea, aliasul, avatarul, vizibilitatea și modul de postare.\n\nGestionarea membrilor:\nÎn setările camerei, derulează la secțiunea Membri. Poți:\n- Stabili roluri: Promova membri la Moderator sau Administrator, sau retrograda la Utilizator.\n- Expulza membri: Elimina un membru din cameră (se poate realătura dacă camera este publică).\n- Interzice membri: Bloca permanent un membru din cameră. Poți ridica interdicția mai târziu.\n\nMembri interziși:\nVizualizează și gestionează membrii interziși în secțiunea «Membri interziși» din setările camerei.\n\nȘtergerea unei camere:\nÎn partea de jos a setărilor camerei, vei găsi Zona de pericol cu opțiunea de a șterge camera. Această acțiune este permanentă și nu poate fi anulată."
+            },
+            "write_post": {
+                "title": "Cum să scrii o postare",
+                "body": "Pentru a crea o postare nouă:\n\n1. Apasă butonul + (butonul de acțiune flotant) în tab-ul Acasă.\n\n2. Alege tipul de postare:\n   - Postare text: Scrie text formatat (bold, italic, titluri, liste, linkuri și altele).\n   - Postare fișier: Încarcă imagini, videoclipuri sau alte fișiere cu o descriere opțională.\n\n3. Selectează camera în care dorești să postezi. Vor apărea doar camerele în care ai permisiunea de a posta.\n\n4. Scrie-ți conținutul:\n   - Pentru postări text, folosește bara de instrumente a editorului de text formatat.\n   - Pentru postări fișier, selectează fișierele și opțional adaugă un titlu și o descriere.\n\n5. Apasă butonul de trimitere pentru a publica postarea.\n\nPostarea ta va apărea în fluxul camerei și în fluxul de Acasă al tuturor celor care urmăresc acea cameră."
+            },
+            "share_rooms": {
+                "title": "Partajarea camerelor cu prietenii",
+                "body": "Poți partaja cu ușurință camere, profiluri și postări cu prietenii tăi:\n\nPartajarea unei camere:\nCând vizualizezi fluxul unei camere, apasă pe icoana de partajare din bara de sus. Aceasta copiază sau partajează un link pe care oricine îl poate deschide.\n\nPartajarea unui profil:\nPe pagina de profil a oricărui utilizator, apasă pe icoana de partajare pentru a partaja linkul profilului.\n\nPartajarea unei postări:\nPe pagina de detalii a postării, apasă pe icoana de partajare pentru a partaja un link direct către acea postare specifică.\n\nCând prietenul tău deschide linkul:\n- Pe web: Se deschide direct în aplicația web Substitution.\n- Pe telefonul lor (cu aplicația instalată): Se deschide în aplicația Substitution cu o solicitare de confirmare înainte de navigare.\n\nAceasta este cea mai ușoară modalitate de a invita prietenii în camerele tale — doar partajează linkul!"
+            },
+            "direct_messages": {
+                "title": "Mesaje directe",
+                "body": "Substitution include mesaje directe pentru conversații private:\n\n1. Mergi la profilul unui utilizator apăsând pe numele sau avatarul său pe orice postare.\n\n2. Apasă butonul «Mesaj» pe profilul său.\n\n3. Se creează o cameră de chat privată între tine și acel utilizator.\n\n4. Poți găsi toate conversațiile tale în tab-ul Mesaje (icoana de chat din navigarea de jos).\n\nMesajele directe sunt separate de postările din camere. Sunt conversații private individuale între tine și un alt utilizator."
+            },
+            "opening_links": {
+                "title": "Deschiderea linkurilor de la prieteni",
+                "body": "Când cineva partajează un link Substitution cu tine, iată ce se întâmplă:\n\nLinkuri web (https://app.substitution.art/...):\nAcestea se deschid în browserul tău web și încarcă aplicația web Substitution. Poți vizualiza direct camera, profilul sau postarea. Conectează-te dacă ți se solicită.\n\nLinkuri aplicație (substitution://...):\nDacă ai aplicația Substitution instalată pe telefonul tău, aceste linkuri se deschid direct în aplicație. Vei vedea un dialog de confirmare care te întreabă dacă dorești să navighezi la camera, profilul sau postarea respectivă. Apasă «Continuă» pentru a continua sau «Anulare» pentru a rămâne unde ești.\n\nAcest pas de confirmare este o măsură de securitate — se asigură că știi unde te va duce un link înainte de a naviga."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Deschide linkul",
+            "room": "Ești pe cale să deschizi camera:\n\n{}",
+            "user": "Ești pe cale să vizualizezi profilul lui:\n\n{}",
+            "post": "Ești pe cale să deschizi o postare.",
+            "generic": "Ești pe cale să navighezi la:\n\n{}",
+            "continue_button": "Continuă",
+            "cancel_button": "Anulare",
+            "login_required": "Trebuie să fii conectat pentru a deschide acest link. Dorești să te conectezi acum?",
+            "login_button": "Conectare"
+        }
+    },
+    "share": {
+        "link_copied": "Link copiat în clipboard!",
+        "share_room": "Descoperă această cameră pe Substitution",
+        "share_profile": "Descoperă acest profil pe Substitution",
+        "share_post": "Descoperă această postare pe Substitution"
     }
 }

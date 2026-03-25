@@ -305,5 +305,74 @@
         "error_loading": "Nevarēja ielādēt šo sarunu.",
         "error_sending": "Neizdevās nosūtīt ziņojumu.",
         "view_profile": "Skatīt profilu"
+    },
+    "help": {
+        "title": "Palīdzība",
+        "subtitle": "Uzziniet, kā izmantot Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Kas ir Substitution?",
+                "body": "Substitution ir decentralizēts sociālais tīkls mākslas un radošā satura kopīgošanai. Atšķirībā no tradicionālajām sociālo mediju platformām, Substitution ir veidots uz Matrix protokola bāzes, kas nozīmē, ka neviens uzņēmums nekontrolē jūsu datus vai tīklu.\n\nJūsu ieraksti, ziņojumi un profils atrodas jūsu izvēlētajā Matrix mājas serverī — nevis Substitution pārvaldītajos serveros. Tas nodrošina jums pilnu īpašumtiesību pār savu saturu un brīvību jebkurā laikā pāriet starp serveriem.\n\nSubstitution ir atvērtā koda un kopienas vadīts. Tas ir izstrādāts, lai aizstātu centralizētos sociālos tīklus ar kaut ko taisnīgāku, caurspīdīgāku un lietotājiem piederošu."
+            },
+            "what_is_matrix": {
+                "title": "Kas ir Matrix protokols?",
+                "body": "Matrix ir atvērts, decentralizēts komunikācijas protokols. Iedomājieties to kā e-pastu: tāpat kā varat nosūtīt e-pastu no Gmail uz Outlook, Matrix ļauj sazināties starp dažādiem serveriem.\n\nMatrix galvenās priekšrocības:\n\n- Decentralizēts: Nav viena kļūmes vai kontroles punkta. Ja viens serveris neizdodas, pārējais tīkls turpina darboties.\n- Federēts: Serveri sarunājas savā starpā. Varat sekot istabām un sūtīt ziņojumus lietotājiem jebkurā Matrix serverī, ne tikai savā.\n- Atvērtā koda: Protokols un lielākā daļa servera programmatūras ir pilnībā atvērtā koda.\n- Šifrēts: Matrix atbalsta pilnīgu šifrēšanu privātām sarunām.\n\nUzziniet vairāk: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Darba sākšana",
+                "body": "Lai izmantotu Substitution, nepieciešams Matrix konts. Lūk, kā sākt:\n\n1. Izvēlieties mājas serveri: Mājas serveris ir vieta, kur atrodas jūsu konts un dati. Populāra izvēle ir matrix.org, bet ir arī daudz citu. Varat arī uzturēt savu serveri.\n\n2. Izveidojiet kontu: Apmeklējiet izvēlētā mājas servera tīmekļa vietni, lai reģistrētos, vai izmantojiet pieteikšanās ekrāna reģistrācijas saiti.\n\n3. Piesakieties Substitution: Atveriet lietotni, ievadiet mājas servera adresi un piesakieties ar savu lietotājvārdu un paroli. Daži serveri atbalsta arī vienreizējo pieteikšanos (SSO).\n\n4. Izpētiet: Pēc pieteikšanās izmantojiet cilni Atklāt, lai atrastu istabas sekošanai, vai izveidojiet savu!"
+            },
+            "what_are_rooms": {
+                "title": "Kas ir istabas?",
+                "body": "Istabas ir Substitution pamats. Istaba ir kā kanāls vai plūsma, kurā tiek publicēts saturs.\n\nKatrai istabai ir:\n- Nosaukums un izvēles apraksts\n- Īpašnieks (izveidotājs), kurš kontrolē atļaujas\n- Dalībnieki, kuri seko saturam un mijiedarbojas ar to\n- Izvēles publisks aizstājvārds (kā lietotājvārds istabai)\n\nIstabas var būt publiskas (ikviens var atrast un pievienoties caur istabu katalogu) vai privātas (tikai ar ielūgumu).\n\nEmuāra režīmā tikai moderatori un administratori var veidot ierakstus, kamēr visi pārējie var komentēt un reaģēt. Kopienas režīmā jebkurš dalībnieks var publicēt.\n\nIstabas var būt arī pilnībā šifrētas privātām kopienām."
+            },
+            "follow_rooms": {
+                "title": "Kā sekot istabām",
+                "body": "Lai atklātu un sekotu istabām:\n\n1. Dodieties uz cilni Atklāt (kompasa ikona apakšējā navigācijas joslā).\n\n2. Izvēlieties serveri no nolaižamās izvēlnes augšpusē. Varat pārlūkot istabas jebkurā Matrix serverī, ne tikai savā. Lai pievienotu jaunus serverus, pieskarieties 'Pievienot serveri'.\n\n3. Meklējiet istabas pēc nosaukuma, izmantojot meklēšanas lauku.\n\n4. Pieskarieties istabai, lai redzētu tās aprakstu, dalībnieku skaitu un jaunākos ierakstus.\n\n5. Pieskarieties 'Pievienoties', lai sekotu istabai. Tās ieraksti tagad parādīsies jūsu Sākuma plūsmā.\n\nLai pārstātu sekot istabai, atrodiet to cilnē Atklāt un pieskarieties 'Pamest' vai dodieties uz istabas plūsmu un izmantojiet izvēlni."
+            },
+            "create_room": {
+                "title": "Kā izveidot istabu",
+                "body": "Lai izveidotu savu istabu:\n\n1. Atveriet navigācijas atvilktni (hamburgera izvēlne) un pieskarieties 'Manas plūsmas' vai dodieties uz Iestatījumiem un atrodiet savas istabas.\n\n2. Pieskarieties 'Izveidot jaunu istabu'.\n\n3. Aizpildiet istabas informāciju:\n   - Istabas nosaukums: Istabas parādāmais nosaukums (obligāts).\n   - Istabas aizstājvārds: Izvēles publiskā adrese (piem., 'mana-maksla'). Tas atvieglo istabas atrašanu un kopīgošanu.\n   - Apraksts: Pastāstiet cilvēkiem, par ko ir jūsu istaba.\n\n4. Konfigurējiet iestatījumus:\n   - Publiska istaba: Iespējojiet, lai jūsu istaba tiktu norādīta servera katalogā un ikviens to varētu atrast. Atspējojiet tikai ielūguma istabām.\n   - Pilnīga šifrēšana: Iespējojiet privātām istabām. Brīdinājums: to nevar atcelt!\n   - Emuāra režīms: Iespējojiet, lai tikai jūs (un moderatori) varētu publicēt. Atspējojiet, lai jebkurš dalībnieks varētu publicēt.\n\n5. Pēc izvēles uzaiciniet lietotājus, meklējot tos pēc vārda vai Matrix ID.\n\n6. Pieskarieties 'Izveidot' un gatavs!\n\nIstaba tiks izveidota jūsu mājas serverī, bet jebkura servera lietotāji var pievienoties."
+            },
+            "manage_room": {
+                "title": "Istabu pārvaldīšana",
+                "body": "Kā istabas īpašnieks vai administrators, jums ir pilna kontrole pār savām istabām:\n\nIstabas iestatījumu rediģēšana:\nAtvilktnes izvēlnē dodieties uz 'Manas plūsmas', tad pieskarieties istabas iestatījumu ikonai. Šeit varat mainīt nosaukumu, aprakstu, aizstājvārdu, avatāru, redzamību un publicēšanas režīmu.\n\nDalībnieku pārvaldīšana:\nIstabas iestatījumos ritiniet uz Dalībnieku sadaļu. Jūs varat:\n- Noteikt lomas: Paaugstiniet dalībniekus par Moderatoru vai Administratoru, vai pazeminiet atpakaļ par Lietotāju.\n- Izslēgt dalībniekus: Izņemiet dalībnieku no istabas (publiskā istabā var pievienoties atkārtoti).\n- Aizliegt dalībniekus: Pastāvīgi bloķējiet dalībnieku no istabas. Vēlāk varat atcelt aizliegumu.\n\nAizliegtie dalībnieki:\nIstabas iestatījumu 'Aizliegtie dalībnieki' sadaļā varat skatīt un pārvaldīt aizliegtos dalībniekus.\n\nIstabas dzēšana:\nIstabas iestatījumu apakšā atradīsiet Bīstamo zonu ar istabas dzēšanas iespēju. Šī darbība ir neatgriezeniska."
+            },
+            "write_post": {
+                "title": "Kā rakstīt ierakstu",
+                "body": "Lai izveidotu jaunu ierakstu:\n\n1. Pieskarieties + pogai (peldošā darbības poga) Sākuma cilnē.\n\n2. Izvēlieties ieraksta veidu:\n   - Teksta ieraksts: Rakstiet bagātinātu tekstu ar formatējumu (treknraksts, slīpraksts, virsraksti, saraksti, saites un vairāk).\n   - Faila ieraksts: Augšupielādējiet attēlus, videoklipus vai citus failus ar izvēles parakstu.\n\n3. Izvēlieties istabu, kurā vēlaties publicēt. Parādīsies tikai tās istabas, kurās jums ir publicēšanas atļauja.\n\n4. Rakstiet savu saturu:\n   - Teksta ierakstiem izmantojiet formatēšanas rīkjoslu.\n   - Failu ierakstiem izvēlieties failus un pēc izvēles pievienojiet nosaukumu un parakstu.\n\n5. Pieskarieties sūtīšanas pogai, lai publicētu savu ierakstu.\n\nJūsu ieraksts parādīsies istabas plūsmā un katra lietotāja Sākuma plūsmā, kurš seko šai istabai."
+            },
+            "share_rooms": {
+                "title": "Istabu kopīgošana ar draugiem",
+                "body": "Jūs varat viegli kopīgot istabas, profilus un ierakstus ar draugiem:\n\nIstabas kopīgošana:\nSkatot istabas plūsmu, pieskarieties kopīgošanas ikonai augšējā joslā. Tas kopē vai kopīgo saiti, ko ikviens var atvērt.\n\nProfila kopīgošana:\nJebkura lietotāja profila lapā pieskarieties kopīgošanas ikonai, lai kopīgotu profila saiti.\n\nIeraksta kopīgošana:\nIeraksta detaļu lapā pieskarieties kopīgošanas ikonai, lai kopīgotu tiešu saiti uz konkrēto ierakstu.\n\nKad draugs atver saiti:\n- Tīmeklī: Tā atveras tieši Substitution tīmekļa lietotnē.\n- Viņu tālrunī (ar instalētu lietotni): Tā atveras Substitution lietotnē ar apstiprinājuma uzvedni pirms navigēšanas.\n\nTas ir vienkāršākais veids, kā uzaicināt draugus savās istabās — vienkārši kopīgojiet saiti!"
+            },
+            "direct_messages": {
+                "title": "Tiešie ziņojumi",
+                "body": "Substitution iekļauj tiešo ziņojumu funkciju privātām sarunām:\n\n1. Dodieties uz lietotāja profilu, pieskaroties viņa vārdam vai avatāram jebkurā ierakstā.\n\n2. Pieskarieties 'Ziņojums' pogai viņu profilā.\n\n3. Starp jums un šo lietotāju tiek izveidota privāta sarunu istaba.\n\n4. Visas savas sarunas varat atrast cilnē Ziņojumi (sarunu ikona apakšējā navigācijas joslā).\n\nTiešie ziņojumi ir atsevišķi no istabas ierakstiem. Tie ir privātas sarunas starp jums un citu lietotāju."
+            },
+            "opening_links": {
+                "title": "No draugiem saņemto saišu atvēršana",
+                "body": "Kad kāds ar jums kopīgo Substitution saiti, notiek šādi:\n\nTīmekļa saites (https://app.substitution.art/...):\nTās atveras jūsu tīmekļa pārlūkprogrammā un ielādē Substitution tīmekļa lietotni. Jūs varat tieši skatīt istabu, profilu vai ierakstu. Piesakieties, ja tiek pieprasīts.\n\nLietotnes saites (substitution://...):\nJa jūsu tālrunī ir instalēta Substitution lietotne, šīs saites atveras tieši lietotnē. Jūs redzēsiet apstiprinājuma dialogu, kas jautā, vai vēlaties pāriet uz istabu, profilu vai ierakstu. Pieskarieties 'Turpināt', lai turpinātu, vai 'Atcelt', lai paliktu.\n\nŠis apstiprinājuma solis ir drošības funkcija — tas nodrošina, ka jūs zināt, kurp saite jūs aizvedīs, pirms navigēšanas."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Atvērt saiti",
+            "room": "Jūs gatavojaties atvērt istabu:\n\n{}",
+            "user": "Jūs gatavojaties apskatīt lietotāja profilu:\n\n{}",
+            "post": "Jūs gatavojaties atvērt ierakstu.",
+            "generic": "Jūs gatavojaties pāriet uz:\n\n{}",
+            "continue_button": "Turpināt",
+            "cancel_button": "Atcelt",
+            "login_required": "Lai atvērtu šo saiti, jums jāpiesakās. Vai vēlaties piesakīties tagad?",
+            "login_button": "Pieteikties"
+        }
+    },
+    "share": {
+        "link_copied": "Saite nokopēta starpliktuvē!",
+        "share_room": "Apskatiet šo istabu Substitution",
+        "share_profile": "Apskatiet šo profilu Substitution",
+        "share_post": "Apskatiet šo ierakstu Substitution"
     }
 }

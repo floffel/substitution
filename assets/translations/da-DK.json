@@ -305,5 +305,74 @@
         "error_loading": "Kunne ikke indlæse denne samtale.",
         "error_sending": "Kunne ikke sende besked.",
         "view_profile": "Se profil"
+    },
+    "help": {
+        "title": "Hjælp",
+        "subtitle": "Lær hvordan du bruger Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Hvad er Substitution?",
+                "body": "Substitution er et decentraliseret socialt netværk til deling af kunst og kreativt indhold. I modsætning til traditionelle sociale medier er Substitution bygget oven på Matrix-protokollen, hvilket betyder at intet enkelt firma kontrollerer dine data eller netværket.\n\nDine opslag, beskeder og profil lever på den Matrix-hjemmeserver, du vælger — ikke på servere drevet af Substitution. Dette giver dig fuldt ejerskab over dit indhold og friheden til at skifte server når som helst.\n\nSubstitution er open source og drevet af fællesskabet. Det er designet til at erstatte centraliserede sociale netværk med noget mere retfærdigt, gennemsigtigt og ejet af brugerne."
+            },
+            "what_is_matrix": {
+                "title": "Hvad er Matrix-protokollen?",
+                "body": "Matrix er en åben, decentraliseret kommunikationsprotokol. Tænk på det som e-mail: ligesom du kan sende en e-mail fra Gmail til Outlook, lader Matrix dig kommunikere på tværs af forskellige servere.\n\nVigtige fordele ved Matrix:\n\n- Decentraliseret: Intet enkelt fejlpunkt eller kontrolpunkt. Hvis én server går ned, fortsætter resten af netværket med at fungere.\n- Fødereret: Servere taler med hinanden. Du kan følge rum og sende beskeder til brugere på enhver Matrix-server, ikke kun din egen.\n- Open source: Protokollen og det meste serversoftware er fuldt open source.\n- Krypteret: Matrix understøtter ende-til-ende-kryptering for private samtaler.\n\nLæs mere på https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Kom godt i gang",
+                "body": "For at bruge Substitution skal du have en Matrix-konto. Sådan kommer du i gang:\n\n1. Vælg en hjemmeserver: En hjemmeserver er, hvor din konto og dine data bor. Populære valg inkluderer matrix.org, men der er mange andre. Du kan også hoste din egen.\n\n2. Opret en konto: Besøg din valgte hjemmeservers hjemmeside for at registrere dig, eller brug registreringslinket på loginskærmen.\n\n3. Log ind på Substitution: Åbn appen, indtast din hjemmeserveradresse og log ind med dit brugernavn og adgangskode. Nogle servere understøtter også Single Sign-On (SSO).\n\n4. Udforsk: Når du er logget ind, brug fanen Udforsk til at finde rum at følge, eller opret dit eget!"
+            },
+            "what_are_rooms": {
+                "title": "Hvad er rum?",
+                "body": "Rum er kernen i Substitution. Et rum er som en kanal eller et feed, hvor indhold bliver lagt op.\n\nHvert rum har:\n- Et navn og en valgfri beskrivelse\n- En ejer (skaberen) der styrer tilladelser\n- Medlemmer der følger og interagerer med indholdet\n- Et valgfrit offentligt alias (som et brugernavn for rummet)\n\nRum kan være offentlige (alle kan finde og deltage via rumfortegnelsen) eller private (kun på invitation).\n\nI Blogtilstand kan kun moderatorer og administratorer oprette opslag, mens alle andre kan kommentere og reagere. I Fællesskabstilstand kan ethvert medlem slå op.\n\nRum kan også være ende-til-ende-krypterede for private fællesskaber."
+            },
+            "follow_rooms": {
+                "title": "Sådan følger du rum",
+                "body": "For at opdage og følge rum:\n\n1. Gå til fanen Udforsk (kompasikon i den nederste navigeringslinje).\n\n2. Vælg en server fra rullemenuen øverst. Du kan gennemse rum på enhver Matrix-server, ikke kun din egen. Tryk på 'Tilføj server' for at tilføje nye.\n\n3. Søg efter rum ved navn ved hjælp af søgefeltet.\n\n4. Tryk på et rum for at se en forhåndsvisning med dets beskrivelse, antal medlemmer og seneste opslag.\n\n5. Tryk på 'Deltag' for at følge rummet. Dets opslag vil nu vises i dit Hjem-feed.\n\nFor at stoppe med at følge et rum, find det i fanen Udforsk og tryk på 'Forlad', eller gå til rummets feed og brug menuen."
+            },
+            "create_room": {
+                "title": "Sådan opretter du et rum",
+                "body": "For at oprette dit eget rum:\n\n1. Åbn navigationsskuffen (hamburgermenu) og tryk på 'Egne feeds', eller gå til Indstillinger og find dine rum.\n\n2. Tryk på 'Opret et nyt rum'.\n\n3. Udfyld rumdetaljerne:\n   - Rumnavn: Visningsnavnet for dit rum (påkrævet).\n   - Rumalias: En valgfri offentlig adresse (f.eks. 'min-kunst'). Dette gør rummet lettere at finde og dele.\n   - Beskrivelse: Fortæl folk, hvad dit rum handler om.\n\n4. Konfigurer indstillinger:\n   - Offentligt rum: Aktivér for at liste dit rum i serverens fortegnelse, så alle kan finde det. Deaktivér for kun invitation.\n   - Ende-til-ende-kryptering: Aktivér for private rum. Advarsel: dette kan ikke fortrydes!\n   - Blogtilstand: Aktivér så kun du (og moderatorer) kan slå op. Deaktivér for at lade ethvert medlem slå op.\n\n5. Invitér eventuelt brugere ved at søge efter deres navn eller Matrix-ID.\n\n6. Tryk på 'Opret rum' og du er færdig!\n\nRummet oprettes på din hjemmeserver, men brugere fra enhver server kan deltage."
+            },
+            "manage_room": {
+                "title": "Administrer dine rum",
+                "body": "Som rumejer eller administrator har du fuld kontrol over dine rum:\n\nRedigering af rumindstillinger:\nGå til 'Egne feeds' i skuffemenuen, og tryk derefter på indstillingsikonet på dit rum. Her kan du ændre navn, beskrivelse, alias, avatar, synlighed og opslagstilstand.\n\nAdministration af medlemmer:\nI rumindstillingerne, rul ned til afsnittet Medlemmer. Du kan:\n- Tildele roller: Forfrem medlemmer til Moderator eller Administrator, eller degradér dem tilbage til Bruger.\n- Fjerne medlemmer: Fjern et medlem fra rummet (de kan deltage igen, hvis rummet er offentligt).\n- Udelukke medlemmer: Blokér et medlem permanent fra rummet. Du kan ophæve udelukkelsen senere.\n\nUdelukkede medlemmer:\nSe og administrer udelukkede medlemmer i afsnittet 'Udelukkede medlemmer' i rumindstillingerne.\n\nSletning af et rum:\nNederst i rumindstillingerne finder du Farezonen med mulighed for at slette rummet. Denne handling er permanent og kan ikke fortrydes."
+            },
+            "write_post": {
+                "title": "Sådan skriver du et opslag",
+                "body": "For at oprette et nyt opslag:\n\n1. Tryk på + knappen (flydende handlingsknap) på fanen Hjem.\n\n2. Vælg typen af opslag:\n   - Tekstopslag: Skriv rig tekst med formatering (fed, kursiv, overskrifter, lister, links og mere).\n   - Filopslag: Upload billeder, videoer eller andre filer med en valgfri billedtekst.\n\n3. Vælg det rum, du vil slå op i. Kun rum, hvor du har tilladelse til at slå op, vises.\n\n4. Skriv dit indhold:\n   - For tekstopslag, brug den rige teksteditors værktøjslinje til formatering.\n   - For filopslag, vælg dine filer og tilføj eventuelt en titel og billedtekst.\n\n5. Tryk på send-knappen for at udgive dit opslag.\n\nDit opslag vises i rummets feed og i Hjem-feedet for alle, der følger det rum."
+            },
+            "share_rooms": {
+                "title": "Del rum med venner",
+                "body": "Du kan nemt dele rum, profiler og opslag med venner:\n\nDel et rum:\nNår du ser et rums feed, tryk på delingsikonet i den øverste bjælke. Dette kopierer eller deler et link, som alle kan åbne.\n\nDel en profil:\nPå en brugers profilside, tryk på delingsikonet for at dele deres profillink.\n\nDel et opslag:\nPå opslagets detaljeside, tryk på delingsikonet for at dele et direkte link til det specifikke opslag.\n\nNår din ven åbner linket:\n- På nettet: Det åbner direkte i Substitution-webappen.\n- På deres telefon (med appen installeret): Det åbner i Substitution-appen med en bekræftelsesprompt før navigation.\n\nDette er den nemmeste måde at invitere venner til dine rum — del bare linket!"
+            },
+            "direct_messages": {
+                "title": "Direkte beskeder",
+                "body": "Substitution inkluderer direkte beskeder til private samtaler:\n\n1. Gå til en brugers profil ved at trykke på deres navn eller avatar på et opslag.\n\n2. Tryk på knappen 'Besked' på deres profil.\n\n3. Et privat chatrum oprettes mellem dig og den bruger.\n\n4. Du kan finde alle dine samtaler under fanen Beskeder (chatikon i den nederste navigation).\n\nDirekte beskeder er adskilt fra rumopslag. De er private en-til-en-samtaler mellem dig og en anden bruger."
+            },
+            "opening_links": {
+                "title": "Åbning af links fra venner",
+                "body": "Når nogen deler et Substitution-link med dig, sker følgende:\n\nWeblinks (https://app.substitution.art/...):\nDisse åbner i din webbrowser og indlæser Substitution-webappen. Du kan se rummet, profilen eller opslaget direkte. Log ind, hvis du bliver bedt om det.\n\nApp-links (substitution://...):\nHvis du har Substitution-appen installeret på din telefon, åbner disse links direkte i appen. Du vil se en bekræftelsesdialog, der spørger, om du vil navigere til rummet, profilen eller opslaget. Tryk på 'Fortsæt' for at gå videre eller 'Annuller' for at blive, hvor du er.\n\nDette bekræftelsestrin er en sikkerhedsfunktion — det sikrer, at du ved, hvor et link fører dig hen, før du navigerer."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Åbn link",
+            "room": "Du er ved at åbne rummet:\n\n{}",
+            "user": "Du er ved at se profilen for:\n\n{}",
+            "post": "Du er ved at åbne et opslag.",
+            "generic": "Du er ved at navigere til:\n\n{}",
+            "continue_button": "Fortsæt",
+            "cancel_button": "Annuller",
+            "login_required": "Du skal være logget ind for at åbne dette link. Vil du logge ind nu?",
+            "login_button": "Log ind"
+        }
+    },
+    "share": {
+        "link_copied": "Link kopieret til udklipsholder!",
+        "share_room": "Tjek dette rum ud på Substitution",
+        "share_profile": "Tjek denne profil ud på Substitution",
+        "share_post": "Tjek dette opslag ud på Substitution"
     }
 }

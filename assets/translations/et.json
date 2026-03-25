@@ -305,5 +305,74 @@
         "error_loading": "Seda vestlust ei saanud laadida.",
         "error_sending": "Sõnumi saatmine ebaõnnestus.",
         "view_profile": "Vaata profiili"
+    },
+    "help": {
+        "title": "Abi",
+        "subtitle": "Õppige Substitutiont kasutama",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Mis on Substitution?",
+                "body": "Substitution on detsentraliseeritud sotsiaalvõrgustik kunsti ja loomingulise sisu jagamiseks. Erinevalt traditsioonilistest sotsiaalmeediaplatvormidest on Substitution ehitatud Matrix protokolli peale, mis tähendab, et ükski ettevõte ei kontrolli teie andmeid ega võrgustikku.\n\nTeie postitused, sõnumid ja profiil asuvad teie valitud Matrix koduserveris – mitte Substitutioni hallatavates serverites. See annab teile täieliku omandiõiguse oma sisu üle ja vabaduse igal ajal serverite vahel liikuda.\n\nSubstitution on avatud lähtekoodiga ja kogukonna juhitud. See on loodud asendama tsentraliseeritud sotsiaalvõrgustikke millegi õiglasema, läbipaistvama ja kasutajatele kuuluvaga."
+            },
+            "what_is_matrix": {
+                "title": "Mis on Matrix protokoll?",
+                "body": "Matrix on avatud, detsentraliseeritud kommunikatsiooniprotokoll. Mõelge sellele nagu e-postile: nagu saate saata e-kirja Gmailist Outlooki, võimaldab Matrix suhelda erinevate serverite vahel.\n\nMatrixi peamised eelised:\n\n- Detsentraliseeritud: Ühtegi ühte rikke- ega juhtimispunkti pole. Kui üks server läheb maha, jätkab ülejäänud võrgustik toimimist.\n- Födereeritud: Serverid suhtlevad omavahel. Saate jälgida ruume ja saata sõnumeid kasutajatele mis tahes Matrix serveris, mitte ainult enda omas.\n- Avatud lähtekood: Protokoll ja enamik serveritarkvara on täielikult avatud lähtekoodiga.\n- Krüpteeritud: Matrix toetab otsast otsani krüpteerimist privaatsete vestluste jaoks.\n\nLisateave: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Alustamine",
+                "body": "Substitutiont kasutamiseks vajate Matrix kontot. Kuidas alustada:\n\n1. Valige koduserver: Koduserver on koht, kus teie konto ja andmed asuvad. Populaarsed valikud on matrix.org, aga on ka palju teisi. Saate ka ise serverit majutada.\n\n2. Looge konto: Registreerimiseks külastage valitud koduserveri veebisaiti või kasutage sisselogimisekraanil olevat registreerimislinki.\n\n3. Logige Substitutioni sisse: Avage rakendus, sisestage oma koduserveri aadress ja logige sisse oma kasutajanime ja parooliga. Mõned serverid toetavad ka ühekordset sisselogimist (SSO).\n\n4. Avastage: Sisselogituna kasutage vahelehte Avasta, et leida jälgitavaid ruume, või looge oma!"
+            },
+            "what_are_rooms": {
+                "title": "Mis on ruumid?",
+                "body": "Ruumid on Substitutiont tuum. Ruum on nagu kanal või voog, kuhu sisu postitatakse.\n\nIgal ruumil on:\n- Nimi ja valikuline kirjeldus\n- Omanik (looja), kes kontrollib õigusi\n- Liikmed, kes jälgivad sisu ja suhtlevad sellega\n- Valikuline avalik alias (nagu kasutajanimi ruumile)\n\nRuumid võivad olla avalikud (igaüks saab leida ja liituda ruumide kataloogi kaudu) või privaatsed (ainult kutsega).\n\nBlogirežiimis saavad ainult moderaatorid ja administraatorid postitusi luua, samas kui kõik teised saavad kommenteerida ja reageerida. Kogukonna režiimis saab iga liige postitada.\n\nRuumid võivad olla ka otsast otsani krüpteeritud privaatsete kogukondade jaoks."
+            },
+            "follow_rooms": {
+                "title": "Kuidas ruume jälgida",
+                "body": "Ruumide avastamiseks ja jälgimiseks:\n\n1. Minge vahelehele Avasta (kompassiikoon alanavigatsiooniribal).\n\n2. Valige server ülaosas olevast rippmenüüst. Saate sirvida ruume mis tahes Matrix serveris, mitte ainult enda omas. Uute serverite lisamiseks puudutage 'Lisa server'.\n\n3. Otsige ruume nime järgi, kasutades otsinguvälija.\n\n4. Puudutage ruumi, et näha selle kirjeldust, liikmete arvu ja viimaseid postitusi.\n\n5. Puudutage 'Liitu', et ruumi jälgida. Selle postitused ilmuvad nüüd teie Avalehe voos.\n\nRuumi jälgimise lõpetamiseks leidke see vahelehelt Avasta ja puudutage 'Lahku' või minge ruumi voogu ja kasutage menüüd."
+            },
+            "create_room": {
+                "title": "Kuidas ruumi luua",
+                "body": "Oma ruumi loomiseks:\n\n1. Avage navigatsioonipaneel (hamburgermenüü) ja puudutage 'Oma vood' või minge Seadetesse ja leidke oma ruumid.\n\n2. Puudutage 'Loo uus ruum'.\n\n3. Täitke ruumi andmed:\n   - Ruumi nimi: Ruumi kuvatav nimi (kohustuslik).\n   - Ruumi alias: Valikuline avalik aadress (nt 'minu-kunst'). See teeb ruumi leidmise ja jagamise lihtsamaks.\n   - Kirjeldus: Rääkige inimestele, millest teie ruum räägib.\n\n4. Seadistage sätted:\n   - Avalik ruum: Lubage, et teie ruum oleks loetletud serveri kataloogis ja igaüks saaks selle leida. Keelake ainult kutsega ruumide jaoks.\n   - Otsast otsani krüpteering: Lubage privaatsete ruumide jaoks. Hoiatus: seda ei saa tagasi võtta!\n   - Blogirežiim: Lubage, et ainult teie (ja moderaatorid) saaksid postitada. Keelake, et iga liige saaks postitada.\n\n5. Soovi korral kutsuge kasutajaid, otsides neid nime või Matrix ID järgi.\n\n6. Puudutage 'Loo' ja ongi valmis!\n\nRuum luuakse teie koduserveris, kuid mis tahes serveri kasutajad saavad liituda."
+            },
+            "manage_room": {
+                "title": "Ruumide haldamine",
+                "body": "Ruumi omaniku või administraatorina on teil täielik kontroll oma ruumide üle:\n\nRuumi sätete muutmine:\nMinge paneelmenüüs 'Oma vood' ja puudutage oma ruumi sätete ikooni. Siin saate muuta nime, kirjeldust, aliast, avatari, nähtavust ja postitamise režiimi.\n\nLiikmete haldamine:\nRuumi sätetes kerige Liikmete sektsiooni. Saate:\n- Rolle määrata: Edutage liikmeid Moderaatoriks või Administraatoriks või laske nad tagasi Kasutaja tasemele.\n- Liikmeid eemaldada: Eemaldage liige ruumist (avaliku ruumi puhul saab uuesti liituda).\n- Liikmeid keelustada: Blokeerige liige ruumist jäädavalt. Hiljem saate keelustamise tühistada.\n\nKeelustatud liikmed:\nRuumi sätete 'Keelustatud liikmed' sektsioonis saate vaadata ja hallata keelustatud liikmeid.\n\nRuumi kustutamine:\nRuumi sätete allosas leiate Ohuala ruumi kustutamise valikuga. See toiming on püsiv ja seda ei saa tagasi võtta."
+            },
+            "write_post": {
+                "title": "Kuidas postitust kirjutada",
+                "body": "Uue postituse loomiseks:\n\n1. Puudutage + nuppu (hõljuv tegevusnupp) Avalehe vahelehel.\n\n2. Valige postituse tüüp:\n   - Tekstipostitus: Kirjutage rikasteksti koos vormindusega (paks, kaldkiri, pealkirjad, loendid, lingid ja muud).\n   - Failipostitus: Laadige üles pilte, videoid või muid faile valikulise pealkirjaga.\n\n3. Valige ruum, kuhu soovite postitada. Ainult need ruumid, kus teil on postitamisõigus, kuvatakse.\n\n4. Kirjutage oma sisu:\n   - Tekstipostituste puhul kasutage rikasteksti redaktori tööriistariba.\n   - Failipostituste puhul valige failid ja lisage soovi korral pealkiri ja pealdis.\n\n5. Puudutage saatmisnuppu oma postituse avaldamiseks.\n\nTeie postitus ilmub ruumi voos ja iga seda ruumi jälgiva kasutaja Avalehe voos."
+            },
+            "share_rooms": {
+                "title": "Ruumide jagamine sõpradega",
+                "body": "Saate hõlpsalt jagada ruume, profiile ja postitusi oma sõpradega:\n\nRuumi jagamine:\nRuumi voo vaatamisel puudutage ülaosas jagamisikooni. See kopeerib või jagab lingi, mida igaüks saab avada.\n\nProfiili jagamine:\nMis tahes kasutaja profiililehel puudutage jagamisikooni profiililingi jagamiseks.\n\nPostituse jagamine:\nPostituse üksikasjade lehel puudutage jagamisikooni selle konkreetse postituse otselingi jagamiseks.\n\nKui teie sõber avab lingi:\n- Veebis: See avaneb otse Substitutiont veebirakenduses.\n- Oma telefonis (rakendus paigaldatud): See avaneb Substitutiont rakenduses kinnitusviibaga enne navigeerimist.\n\nSee on lihtsaim viis sõpru oma ruumidesse kutsuda – lihtsalt jagage linki!"
+            },
+            "direct_messages": {
+                "title": "Otsesõnumid",
+                "body": "Substitution sisaldab otsesõnumite funktsiooni privaatsete vestluste jaoks:\n\n1. Minge kasutaja profiilile, puudutades tema nime või avatari mis tahes postitusel.\n\n2. Puudutage 'Sõnum' nuppu nende profiilil.\n\n3. Teie ja selle kasutaja vahel luuakse privaatne vestlusruum.\n\n4. Kõik vestlused leiate vahelehelt Sõnumid (vestluse ikoon alanavigatsiooniribal).\n\nOtsesõnumid on eraldi ruumipostitustest. Need on privaatsed üks-ühele vestlused teie ja teise kasutaja vahel."
+            },
+            "opening_links": {
+                "title": "Sõpradelt saadud linkide avamine",
+                "body": "Kui keegi jagab teiega Substitutioni linki, juhtub järgmine:\n\nVeebilingid (https://app.substitution.art/...):\nNeed avanevad teie veebibrauseris ja laadivad Substitutiont veebirakenduse. Saate vaadata ruumi, profiili või postitust otse. Logige sisse, kui palutakse.\n\nRakenduse lingid (substitution://...):\nKui teie telefonis on Substitutiont rakendus paigaldatud, avanevad need lingid otse rakenduses. Näete kinnitusdialoogi, mis küsib, kas soovite navigeerida ruumi, profiili või postituse juurde. Puudutage 'Jätka' jätkamiseks või 'Tühista' paigale jäämiseks.\n\nSee kinnitusetapp on turvafunktsioon – see tagab, et teate, kuhu link teid viib, enne navigeerimist."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Ava link",
+            "room": "Olete avamas ruumi:\n\n{}",
+            "user": "Olete vaatamas kasutaja profiili:\n\n{}",
+            "post": "Olete avamas postitust.",
+            "generic": "Olete navigeerimas kohta:\n\n{}",
+            "continue_button": "Jätka",
+            "cancel_button": "Tühista",
+            "login_required": "Selle lingi avamiseks peate sisse logima. Kas soovite nüüd sisse logida?",
+            "login_button": "Logi sisse"
+        }
+    },
+    "share": {
+        "link_copied": "Link kopeeritud lõikelauale!",
+        "share_room": "Vaadake seda ruumi Substitutionis",
+        "share_profile": "Vaadake seda profiili Substitutionis",
+        "share_post": "Vaadake seda postitust Substitutionis"
     }
 }

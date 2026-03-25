@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '/shared/extensions/client_extensions.dart';
 import '/shared/extensions/go_router_extensions.dart';
 import '/shared/widgets/avatar.dart';
+import '/shared/utils/share_helper.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String userId;
@@ -271,6 +272,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+
+              // --- Share Button ---
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed:
+                        () => ShareHelper.shareProfile(context, widget.userId),
+                    icon: Icon(
+                      Icons.share_outlined,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    tooltip: 'share.share_profile'.tr(),
+                  ),
                 ),
               ),
 

@@ -71,6 +71,9 @@ class _MenuState extends State<Menu> {
           } else if (index == 7) {
             // Legal
             context.push("/settings/legal");
+          } else if (index == 8) {
+            // Help
+            context.push("/help");
           }
         } else {
           if (index == 0) {
@@ -91,6 +94,12 @@ class _MenuState extends State<Menu> {
           } else if (index == 3) {
             // Eigene Feeds
             context.push("/settings/ownfeeds");
+          } else if (index == 4) {
+            // Legal (not logged in)
+            context.push("/settings/legal");
+          } else if (index == 5) {
+            // Help (not logged in)
+            context.push("/help");
           }
         }
       },
@@ -190,6 +199,11 @@ class _MenuState extends State<Menu> {
           icon: const Icon(Icons.gavel_outlined),
           selectedIcon: const Icon(Icons.gavel),
           label: const Text('settings.legal.title').tr(),
+        ),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.help_outline_rounded),
+          selectedIcon: const Icon(Icons.help_rounded),
+          label: const Text('help.title').tr(),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -114,5 +114,74 @@
         "no_conversations": "Azikho izingxoxo okwamanje", "no_conversations_hint": "Vakashela iphrofayili yomsebenzisi bese ucindezela 'Umlayezo' ukuze uqale ingxoxo.",
         "media_message": "Imidiya", "conversation_started": "Ingxoxo iqalile",
         "error_loading": "Ayikwazanga ukulayisha le ngxoxo.", "error_sending": "Yehlulekile ukuthumela umlayezo.", "view_profile": "Buka iphrofayili"
+    },
+    "help": {
+        "title": "Usizo",
+        "subtitle": "Funda ukuthi usebenzisa kanjani i-Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Iyini i-Substitution?",
+                "body": "I-Substitution iyinethiwekhi yezenhlalakahle engaxhunyiwe ndawonye yokwabelana ngobuciko nokuqukethwe okudaliwe. Ngokungafani nemithombo yezokuxhumana ejwayelekile, i-Substitution yakhiwe phezu kwephrothokholi ye-Matrix, okusho ukuthi ayikho inkampani eyodwa elawula idatha yakho noma inethiwekhi.\n\nOkuthunyelwe kwakho, imilayezo yakho nephrofayili yakho kuhlala kuseva ye-Matrix oyikhethayo — hhayi kumaseva aqhutshwa yi-Substitution. Lokhu kukunika ubunikazi obuphelele bokuqukethwe kwakho nenkululeko yokushintsha phakathi kwamaseva nganoma yisiphi isikhathi.\n\nI-Substitution iyisoftware evulekile futhi iqhutshwa umphakathi. Yenzelwe ukushintsha izinethiwekhi zezenhlalakahle ezixhunyiwe ndawonye ngento enobulungisa obukhulu, esobala futhi engeyabasebenzisi."
+            },
+            "what_is_matrix": {
+                "title": "Iyini iphrothokholi ye-Matrix?",
+                "body": "I-Matrix iyiphrothokholi yokuxhumana evulekile engaxhunyiwe ndawonye. Cabanga ngayo njenge-imeyili: njengoba ungakwazi ukuthumela i-imeyili ukusuka ku-Gmail uye ku-Outlook, i-Matrix ikuvumela ukuxhumana phakathi kwamaseva ahlukene.\n\nIzinzuzo eziyinhloko ze-Matrix:\n\n- Engaxhunyiwe ndawonye: Ayikho indawo eyodwa yokwehluleka noma yokulawula. Uma iseva eyodwa yehla, yonke enye inethiwekhi iyaqhubeka isebenza.\n- Ifederal: Amaseva ayaxoxa. Ungalandela amagumbi futhi uthumele imilayezo kubasebenzisi kunoma iyiphi iseva ye-Matrix, hhayi eyakho kuphela.\n- Ivulekile: Iphrothokholi kanye nesoftware yamaseva amaningi ivuleke ngokuphelele.\n- Ibethelwe: I-Matrix isekela ukubethela okuphakathi nendawo ezingxoxweni eziyimfihlo.\n\nFunda kabanzi: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Ukuqala",
+                "body": "Ukuze usebenzise i-Substitution, udinga i-akhawunti ye-Matrix. Nansi indlela yokuqala:\n\n1. Khetha iseva yekhaya: Iseva yekhaya yilapho i-akhawunti yakho nedatha yakho kuhlala khona. Ukukhetha okuthandwayo kufaka i-matrix.org, kodwa kukhona ezinye eziningi. Ungaphinda uphathise eyakho iseva.\n\n2. Yenza i-akhawunti: Vakashela iwebhusayithi yeseva yekhaya oyikhethile ukuze ubhalise, noma usebenzise isixhumanisi sokubhalisa kusikrini sokungena.\n\n3. Ngena ku-Substitution: Vula uhlelo lokusebenza, faka ikheli leseva yakho yekhaya futhi ungene ngegama lakho lomsebenzisi nephasiwedi. Amanye amaseva asekela nokuNgena Kanye (SSO).\n\n4. Hlola: Uma usungenile, sebenzisa ithebhu ethi Thola ukuthola amagumbi ozowalandela, noma wenze awakho!"
+            },
+            "what_are_rooms": {
+                "title": "Ayini amagumbi?",
+                "body": "Amagumbi angumgogodla we-Substitution. Igumbi linjenge-channel noma ifidi lapho okuqukethwe kuthunyelwa khona.\n\nIgumbi ngalinye linakho:\n- Igama nencazelo engeyona eyemfuneko\n- Umnikazi (umdali) olawula izimvume\n- Amalungu alandelayo futhi axoxisana nokuqukethwe\n- Inkomba yomphakathi engeyona eyemfuneko (njengegama lomsebenzisi legumbi)\n\nAmagumbi angaba ngawomphakathi (noma ubani angawathola futhi ajoyine ngomkhombandlela wamagumbi) noma angasese (ngememo kuphela).\n\nKu-Blog Mode, abaphathi nabalawuli kuphela abangenza okuthunyelwe, kanti wonke umuntu omunye angapha amazwana futhi aphendule. Ku-Community Mode, noma yiliphi ilungu lingathunyelwa.\n\nAmagumbi angaphinda abethelwe ukusuka ekuqaleni kuye ekugcineni kwamakomidi angasese."
+            },
+            "follow_rooms": {
+                "title": "Indlela yokulandela amagumbi",
+                "body": "Ukuthola nokulandela amagumbi:\n\n1. Iya kuthebhu ethi Thola (isithonjana sekhomphasi kubha yokusesha engezansi).\n\n2. Khetha iseva ohlwini oluvulekayo phezulu. Ungabrawuza amagumbi kunoma iyiphi iseva ye-Matrix, hhayi eyakho kuphela. Cindezela 'Engeza Iseva' ukuze wengeze ezintsha.\n\n3. Sesha amagumbi ngegama usebenzisa indawo yokusesha.\n\n4. Cindezela igumbi ukuze ubone incazelo yalo, inani lamalungu nokuthunyelwe kwakamuva.\n\n5. Cindezela 'Joyina' ukuze ulandele igumbi. Okuthunyelwe kwalo manje kuzovela kufidi yakho yaseKhaya.\n\nUkuyeka ukulandela igumbi, lithole kuthebhu ethi Thola bese ucindezela 'Shiya', noma uye kufidi yegumbi usebenzise imenyu."
+            },
+            "create_room": {
+                "title": "Indlela yokwenza igumbi",
+                "body": "Ukwenza igumbi lakho:\n\n1. Vula idrowa yokusesha (imenyu ye-hamburger) bese ucindezela 'Amafidi Ami', noma uye kuZilungiselelo uthole amagumbi akho.\n\n2. Cindezela 'Dala igumbi elisha'.\n\n3. Gcwalisa imininingwane yegumbi:\n   - Igama Legumbi: Igama elibonisayo legumbi lakho (liyadingeka).\n   - Inkomba Yegumbi: Ikheli lomphakathi elingeyona eliyimfuneko (isb. 'ubuciko-bami'). Lokhu kwenza igumbi libe lula ukutholakala nokwabelana.\n   - Incazelo: Tshela abantu ukuthi igumbi lakho lingani.\n\n4. Lungiselela izilungiselelo:\n   - Igumbi Lomphakathi: Vumela ukuze igumbi lakho libekwe ohlwini lweseva ukuze noma ubani alikwazi ukulithola. Khubaza ukuze libe ngememo kuphela.\n   - Ukubethela Ekuqaleni Kuye Ekugcineni: Vumela kumagumbi angasese. Isexwayiso: lokhu akuphindiseki!\n   - I-Blog Mode: Vumela ukuze wena (nabaphathi) kuphela nikwazi ukuthunyelwa. Khubaza ukuze noma yiliphi ilungu likwazi ukuthunyelwa.\n\n5. Ngokukhethela, mema abasebenzisi ngokusesha igama labo noma i-ID ye-Matrix.\n\n6. Cindezela 'Dala' bese uqedile!\n\nIgumbi lizokwenziwa eseveni yakho yekhaya, kodwa abasebenzisi abasuka kunoma iyiphi iseva bangajoyina."
+            },
+            "manage_room": {
+                "title": "Ukuphatha amagumbi akho",
+                "body": "Njengomnikazi wegumbi noma umlawuli, unolawulo oluphelele ngamagumbi akho:\n\nUkuhlela izilungiselelo zegumbi:\nYa ku-'Amafidi Ami' kumenyú yedrowa, bese ucindezela isithonjana sezilungiselelo egumbini lakho. Lapha ungashintsha igama, incazelo, inkomba, isithombe, ukubonakala kanye nomodi yokuthunyelwa.\n\nUkuphatha amalungu:\nEzilungiselelweni zegumbi, skrolela esigabeni samaLungu. Ungakwazi:\n- Ukumisa izindima: Phakamisa amalungu abe nguMphathi noma uMlawuli, noma wehlise abuyele kuMsebenzisi.\n- Ukukhipha amalungu: Susa ilungu egumbini (lingajoyina futhi uma igumbi lingawomphakathi).\n- Ukuvimbela amalungu: Vimbela ilungu ngokuphavulayo egumbini. Ungasusa ukuvimbela kamuva.\n\nAmalungu avimbelwe:\nBuka uphinde uphathe amalungu avimbelwe esigabeni 'Amalungu Avimbelwe' sezilungiselelo zegumbi.\n\nUkususa igumbi:\nNgaphansi kwezilungiselelo zegumbi, uzothola iNdawo Yengozi enokukhetha kokususa igumbi. Lesi senzo siyaphavulana futhi asiphindiseki."
+            },
+            "write_post": {
+                "title": "Indlela yokubhala okuthunyelwe",
+                "body": "Ukwenza okuthunyelwe okusha:\n\n1. Cindezela inkinobho ethi + (inkinobho yesenzo esintantayo) kuthebhu yaseKhaya.\n\n2. Khetha uhlobo lokuthunyelwe:\n   - Okuthunyelwe Kombhalo: Bhala umbhalo onothile nokuhlela (okugqamile, okuxekile, izihloko, uhlu, izixhumanisi nokunye).\n   - Okuthunyelwe Kwefayela: Layisha izithombe, amavidiyo noma amanye amafayela ngombhalo ongeyona owemfuneko.\n\n3. Khetha igumbi ofuna ukuthunyelwa kulo. Amagumbi kuphela anemvume yokuthunyelwa azobonakala.\n\n4. Bhala okuqukethwe kwakho:\n   - Kokuthunyelwe kombhalo, sebenzisa ibha yamathuluzi okuhlela.\n   - Kokuthunyelwe kwefayela, khetha amafayela akho futhi ngokukhethela wengeze isihloko nombhalo.\n\n5. Cindezela inkinobho yokuthumela ukuze ushicilele okuthunyelwe kwakho.\n\nOkuthunyelwe kwakho kuzovela kufidi yegumbi nakufidi yaseKhaya yawo wonke umuntu olandela lelo gumbi."
+            },
+            "share_rooms": {
+                "title": "Ukwabelana ngamagumbi nabangani",
+                "body": "Ungabelana ngamagumbi, amaphrofayili nokuthunyelwe nabangani kalula:\n\nUkwabelana Ngegumbi:\nUma ubuka ifidi yegumbi, cindezela isithonjana sokwabelana kubha ephezulu. Lokhu kukopisha noma kwabelana ngesixhumanisi noma ubani angasivula.\n\nUkwabelana Ngephrofayili:\nKukhasi lephrofayili lanoma yimuphi umsebenzisi, cindezela isithonjana sokwabelana ukuze wabelane ngesixhumanisi sephrofayili yabo.\n\nUkwabelana Ngokuthunyelwe:\nKukhasi lemininingwane yokuthunyelwe, cindezela isithonjana sokwabelana ukuze wabelane ngesixhumanisi esiqondile salokho okuthunyelwe.\n\nUma umngani wakho evula isixhumanisi:\n- Kuwebhu: Sivuleka ngqo kuhlelo lokusebenza lwewebhu le-Substitution.\n- Ocingweni lwabo (uhlelo lokusebenza lufakiwe): Sivuleka kuhlelo lokusebenza lwe-Substitution nesicelo sokuqinisekisa ngaphambi kokuzulazula.\n\nLena yindlela elula kunazo zonke yokumema abangani emagumbini akho — abelana ngesixhumanisi nje!"
+            },
+            "direct_messages": {
+                "title": "Imilayezo Eqondile",
+                "body": "I-Substitution ihlanganisa imilayezo eqondile yezingxoxo eziyimfihlo:\n\n1. Iya kuphrofayili yomsebenzisi ngokucindezela igama labo noma isithombe sabo kunoma yikuphi okuthunyelwe.\n\n2. Cindezela inkinobho ethi 'Umlayezo' kuphrofayili yabo.\n\n3. Igumbi lengxoxo eyimfihlo lidalwa phakathi kwakho nalowo msebenzisi.\n\n4. Ungathola zonke izingxoxo zakho kuthebhu ethi Imilayezo (isithonjana sengxoxo kubha yokusesha engezansi).\n\nImilayezo eqondile ihlukile kokuthunyelwe kwegumbi. Izingxoxo eziyimfihlo zomuntu oyedwa phakathi kwakho nomunye umsebenzisi."
+            },
+            "opening_links": {
+                "title": "Ukuvula izixhumanisi ezivela kubangani",
+                "body": "Uma othile ebelana nawe ngesixhumanisi se-Substitution, nansi okwenzekayo:\n\nIzixhumanisi zewebhu (https://app.substitution.art/...):\nLezi zivuleka kubhrawuza yakho yewebhu futhi zilayishe uhlelo lokusebenza lwewebhu le-Substitution. Ungabuka igumbi, iphrofayili noma okuthunyelwe ngqo. Ngena uma ucelwa.\n\nIzixhumanisi zohlelo lokusebenza (substitution://...):\nUma uhlelo lokusebenza lwe-Substitution lufakiwe ocingweni lwakho, lezi zixhumanisi zivuleka ngqo kuhlelo lokusebenza. Uzobona ibhokisi lokuqinisekisa elikubuza ukuthi ufuna ukuzulazula uye egumbini, ephrofayilini noma kokuthunyelwe. Cindezela 'Qhubeka' ukuze uqhubeke noma 'Khansela' ukuze uhlale.\n\nLesi sinyathelo sokuqinisekisa siyisici sokuphepha — siqinisekisa ukuthi uyazi ukuthi isixhumanisi sizokuyisa kuphi ngaphambi kokuzulazula."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Vula Isixhumanisi",
+            "room": "Usuzovula igumbi:\n\n{}",
+            "user": "Usuzobuka iphrofayili ka:\n\n{}",
+            "post": "Usuzovula okuthunyelwe.",
+            "generic": "Usuzozulazula uye ku:\n\n{}",
+            "continue_button": "Qhubeka",
+            "cancel_button": "Khansela",
+            "login_required": "Udinga ukungena ukuze uvule lesi sixhumanisi. Ungathanda ukungena manje?",
+            "login_button": "Ngena"
+        }
+    },
+    "share": {
+        "link_copied": "Isixhumanisi sikopishwe kubhodi yokunamathisela!",
+        "share_room": "Buka leli gumbi ku-Substitution",
+        "share_profile": "Buka le phrofayili ku-Substitution",
+        "share_post": "Buka lokhu okuthunyelwe ku-Substitution"
     }
 }

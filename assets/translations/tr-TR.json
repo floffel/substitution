@@ -116,5 +116,74 @@
         "no_conversations": "Henüz konuşma yok", "no_conversations_hint": "Bir kullanıcının profilini ziyaret edin ve sohbet başlatmak için 'Mesaj' düğmesine dokunun.",
         "media_message": "Medya", "conversation_started": "Konuşma başlatıldı",
         "error_loading": "Bu konuşma yüklenemedi.", "error_sending": "Mesaj gönderilemedi.", "view_profile": "Profili görüntüle"
+    },
+    "help": {
+        "title": "Yardım",
+        "subtitle": "Substitution'ı nasıl kullanacağınızı öğrenin",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Substitution Nedir?",
+                "body": "Substitution, sanat ve yaratıcı içerik paylaşımı için merkezi olmayan bir sosyal ağdır. Geleneksel sosyal medyanın aksine, Substitution, Matrix protokolü üzerine inşa edilmiştir; bu da hiçbir şirketin verilerinizi veya ağı kontrol etmediği anlamına gelir.\n\nGönderileriniz, mesajlarınız ve profiliniz, Substitution tarafından değil, sizin seçtiğiniz Matrix ana sunucusunda bulunur. Bu, içeriğiniz üzerinde tam sahiplik ve istediğiniz zaman sunucular arasında geçiş yapma özgürlüğü sağlar.\n\nSubstitution açık kaynaklı ve topluluk odaklıdır. Merkezi sosyal ağları daha adil, şeffaf ve kullanıcıya ait bir şeyle değiştirmek için tasarlanmıştır."
+            },
+            "what_is_matrix": {
+                "title": "Matrix Protokolü Nedir?",
+                "body": "Matrix, açık ve merkezi olmayan bir iletişim protokolüdür. Bunu e-posta gibi düşünün: nasıl Gmail'den Outlook'a e-posta gönderebiliyorsanız, Matrix de farklı sunucular arasında iletişim kurmanızı sağlar.\n\nMatrix'in temel avantajları:\n\n- Merkezi olmayan: Tek bir arıza noktası veya kontrol noktası yoktur. Bir sunucu çökerse, ağın geri kalanı çalışmaya devam eder.\n- Federasyonlu: Sunucular birbirleriyle konuşur. Yalnızca kendi sunucunuzdaki değil, herhangi bir Matrix sunucusundaki odaları takip edebilir ve kullanıcılara mesaj gönderebilirsiniz.\n- Açık kaynak: Protokol ve çoğu sunucu yazılımı tamamen açık kaynaklıdır.\n- Şifreli: Matrix, özel görüşmeler için uçtan uca şifrelemeyi destekler.\n\nDaha fazla bilgi için: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Başlarken",
+                "body": "Substitution'ı kullanmak için bir Matrix hesabına ihtiyacınız var. İşte nasıl başlayacağınız:\n\n1. Bir ana sunucu seçin: Ana sunucu, hesabınızın ve verilerinizin bulunduğu yerdir. Popüler seçenekler arasında matrix.org bulunur, ancak birçok başka seçenek de vardır. Kendi sunucunuzu da barındırabilirsiniz.\n\n2. Bir hesap oluşturun: Kayıt olmak için seçtiğiniz ana sunucunun web sitesini ziyaret edin veya giriş ekranındaki kayıt bağlantısını kullanın.\n\n3. Substitution'a giriş yapın: Uygulamayı açın, ana sunucu adresinizi girin ve kullanıcı adınız ile şifrenizle giriş yapın. Bazı sunucular Tek Oturum Açma (SSO) desteği de sunar.\n\n4. Keşfedin: Giriş yaptıktan sonra, takip etmek için odalar bulmak üzere Keşfet sekmesini kullanın veya kendi odanızı oluşturun!"
+            },
+            "what_are_rooms": {
+                "title": "Odalar Nedir?",
+                "body": "Odalar, Substitution'ın temelidir. Bir oda, içeriğin paylaşıldığı bir kanal veya akış gibidir.\n\nHer odanın:\n- Bir adı ve isteğe bağlı bir açıklaması\n- İzinleri kontrol eden bir sahibi (oluşturucu)\n- İçeriği takip eden ve etkileşimde bulunan üyeleri\n- İsteğe bağlı bir genel takma adı (oda için bir kullanıcı adı gibi) vardır\n\nOdalar herkese açık (herkes oda dizininden bulup katılabilir) veya özel (yalnızca davetli) olabilir.\n\nBlog Modunda yalnızca moderatörler ve yöneticiler gönderi oluşturabilirken, diğer herkes yorum yapabilir ve tepki verebilir. Topluluk Modunda ise herhangi bir üye gönderi paylaşabilir.\n\nOdalar, özel topluluklar için uçtan uca şifrelenmiş olabilir."
+            },
+            "follow_rooms": {
+                "title": "Odaları Nasıl Takip Edebilirsiniz",
+                "body": "Odaları keşfetmek ve takip etmek için:\n\n1. Keşfet sekmesine gidin (alt gezinme çubuğundaki pusula simgesi).\n\n2. Üst kısımdaki açılır menüden bir sunucu seçin. Yalnızca kendi sunucunuzdaki değil, herhangi bir Matrix sunucusundaki odaları göz atabilirsiniz. Yeni sunucular eklemek için 'Sunucu Ekle' düğmesine dokunun.\n\n3. Arama alanını kullanarak ada göre oda arayın.\n\n4. Açıklamasını, üye sayısını ve son gönderilerini görmek için bir odaya dokunun.\n\n5. Odayı takip etmek için 'Katıl' düğmesine dokunun. Gönderileri artık Ana Sayfa akışınızda görünecektir.\n\nBir odayı takipten çıkmak için Keşfet sekmesinden odayı bulup 'Ayrıl' düğmesine dokunun veya odanın akışına gidip menüyü kullanın."
+            },
+            "create_room": {
+                "title": "Nasıl Oda Oluşturulur",
+                "body": "Kendi odanızı oluşturmak için:\n\n1. Gezinme çekmecesini (hamburger menüsü) açın ve 'Kendi Akışlarım' düğmesine dokunun veya Ayarlar'a gidip odalarınızı bulun.\n\n2. 'Yeni Oda Oluştur' düğmesine dokunun.\n\n3. Oda ayrıntılarını doldurun:\n   - Oda Adı: Odanızın görünen adı (gerekli).\n   - Oda Takma Adı: İsteğe bağlı bir genel adres (örn. 'sanatım'). Bu, odanın daha kolay bulunmasını ve paylaşılmasını sağlar.\n   - Açıklama: Odanızın ne hakkında olduğunu anlatın.\n\n4. Ayarları yapılandırın:\n   - Herkese Açık Oda: Herkesin bulabilmesi için odanızı sunucunun dizininde listelemeyi etkinleştirin. Yalnızca davetli için devre dışı bırakın.\n   - Uçtan Uca Şifreleme: Özel odalar için etkinleştirin. Uyarı: bu geri alınamaz!\n   - Blog Modu: Yalnızca sizin (ve moderatörlerin) gönderi paylaşabilmesi için etkinleştirin. Herhangi bir üyenin gönderi paylaşabilmesi için devre dışı bırakın.\n\n5. İsteğe bağlı olarak adlarına veya Matrix kimliklerine göre arayarak kullanıcıları davet edin.\n\n6. 'Oda Oluştur' düğmesine dokunun ve işlem tamamlandı!\n\nOda sizin ana sunucunuzda oluşturulacaktır, ancak herhangi bir sunucudaki kullanıcılar katılabilir."
+            },
+            "manage_room": {
+                "title": "Odalarınızı Yönetme",
+                "body": "Bir oda sahibi veya yöneticisi olarak, odalarınız üzerinde tam kontrole sahipsiniz:\n\nOda Ayarlarını Düzenleme:\nÇekmece menüsünde 'Kendi Akışlarım'a gidin, ardından odanızdaki ayarlar simgesine dokunun. Burada adı, açıklamayı, takma adı, avatarı, görünürlüğü ve gönderi modunu değiştirebilirsiniz.\n\nÜyeleri Yönetme:\nOda ayarlarında Üyeler bölümüne kaydırın. Şunları yapabilirsiniz:\n- Roller belirleyin: Üyeleri Moderatör veya Yönetici olarak yükseltin veya tekrar Kullanıcı'ya indirgeyin.\n- Üyeleri atın: Bir üyeyi odadan çıkarın (oda herkese açıksa tekrar katılabilirler).\n- Üyeleri yasaklayın: Bir üyeyi odadan kalıcı olarak engelleyin. Daha sonra yasağı kaldırabilirsiniz.\n\nYasaklanan Üyeler:\nOda ayarlarının 'Yasaklanan Üyeler' bölümünde yasaklanan üyeleri görüntüleyin ve yönetin.\n\nOda Silme:\nOda ayarlarının altında, odayı silme seçeneğiyle birlikte Tehlikeli Bölge'yi bulacaksınız. Bu işlem kalıcıdır ve geri alınamaz."
+            },
+            "write_post": {
+                "title": "Nasıl Gönderi Yazılır",
+                "body": "Yeni bir gönderi oluşturmak için:\n\n1. Ana Sayfa sekmesindeki + düğmesine (kayan eylem düğmesi) dokunun.\n\n2. Gönderi türünü seçin:\n   - Metin Gönderisi: Biçimlendirmeli (kalın, italik, başlıklar, listeler, bağlantılar ve daha fazlası) zengin metin yazın.\n   - Dosya Gönderisi: İsteğe bağlı bir başlık ile resim, video veya diğer dosyaları yükleyin.\n\n3. Gönderi yapmak istediğiniz odayı seçin. Yalnızca gönderi izniniz olan odalar görünecektir.\n\n4. İçeriğinizi yazın:\n   - Metin gönderileri için biçimlendirme araç çubuğunu kullanın.\n   - Dosya gönderileri için dosyalarınızı seçin ve isteğe bağlı olarak bir başlık ve açıklama ekleyin.\n\n5. Gönderinizi yayımlamak için gönder düğmesine dokunun.\n\nGönderiniz odanın akışında ve o odayı takip eden herkesin Ana Sayfa akışında görünecektir."
+            },
+            "share_rooms": {
+                "title": "Odaları Arkadaşlarınızla Paylaşma",
+                "body": "Odaları, profilleri ve gönderileri arkadaşlarınızla kolayca paylaşabilirsiniz:\n\nOda Paylaşma:\nBir odanın akışını görüntülerken, üst çubuktaki paylaşım simgesine dokunun. Bu, herkesin açabileceği bir bağlantıyı kopyalar veya paylaşır.\n\nProfil Paylaşma:\nHerhangi bir kullanıcının profil sayfasında, profil bağlantısını paylaşmak için paylaşım simgesine dokunun.\n\nGönderi Paylaşma:\nGönderi detay sayfasında, o gönderiye doğrudan bağlantı paylaşmak için paylaşım simgesine dokunun.\n\nArkadaşınız bağlantıyı açtığında:\n- Web'de: Doğrudan Substitution web uygulamasında açılır.\n- Telefonlarında (uygulama yüklüyse): Gezinmeden önce bir onay istemiyle birlikte Substitution uygulamasında açılır.\n\nBu, arkadaşlarınızı odalarınıza davet etmenin en kolay yoludur — sadece bağlantıyı paylaşın!"
+            },
+            "direct_messages": {
+                "title": "Doğrudan Mesajlar",
+                "body": "Substitution, özel görüşmeler için doğrudan mesajlaşma özelliği içerir:\n\n1. Herhangi bir gönderideki adına veya avatarına dokunarak bir kullanıcının profiline gidin.\n\n2. Profillerindeki 'Mesaj' düğmesine dokunun.\n\n3. Sizinle o kullanıcı arasında özel bir sohbet odası oluşturulur.\n\n4. Tüm görüşmelerinizi Mesajlar sekmesinde (alt gezinme çubuğundaki sohbet simgesi) bulabilirsiniz.\n\nDoğrudan mesajlar, oda gönderilerinden ayrıdır. Sizinle başka bir kullanıcı arasındaki özel bire bir görüşmelerdir."
+            },
+            "opening_links": {
+                "title": "Arkadaşlardan Gelen Bağlantıları Açma",
+                "body": "Birisi sizinle bir Substitution bağlantısı paylaştığında şunlar olur:\n\nWeb Bağlantıları (https://app.substitution.art/...):\nBunlar web tarayıcınızda açılır ve Substitution web uygulamasını yükler. Odayı, profili veya gönderiyi doğrudan görüntüleyebilirsiniz. İstenirse giriş yapın.\n\nUygulama Bağlantıları (substitution://...):\nTelefonunuzda Substitution uygulaması yüklüyse, bu bağlantılar doğrudan uygulamada açılır. Odaya, profile veya gönderiye gitmek isteyip istemediğinizi soran bir onay iletişim kutusu göreceksiniz. Devam etmek için 'Devam Et' düğmesine veya kalmak için 'İptal' düğmesine dokunun.\n\nBu onay adımı bir güvenlik özelliğidir — bir bağlantının sizi nereye götüreceğini gezinmeden önce bilmenizi sağlar."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Bağlantıyı Aç",
+            "room": "Şu odayı açmak üzeresiniz:\n\n{}",
+            "user": "Şu kişinin profilini görüntülemek üzeresiniz:\n\n{}",
+            "post": "Bir gönderiyi açmak üzeresiniz.",
+            "generic": "Şuraya gitmek üzeresiniz:\n\n{}",
+            "continue_button": "Devam Et",
+            "cancel_button": "İptal",
+            "login_required": "Bu bağlantıyı açmak için giriş yapmanız gerekiyor. Şimdi giriş yapmak ister misiniz?",
+            "login_button": "Giriş Yap"
+        }
+    },
+    "share": {
+        "link_copied": "Bağlantı panoya kopyalandı!",
+        "share_room": "Substitution'daki bu odaya göz atın",
+        "share_profile": "Substitution'daki bu profile göz atın",
+        "share_post": "Substitution'daki bu gönderiye göz atın"
     }
 }

@@ -305,5 +305,74 @@
         "error_loading": "Impossible de charger cette conversation.",
         "error_sending": "Échec de l'envoi du message.",
         "view_profile": "Voir le profil"
+    },
+    "help": {
+        "title": "Aide",
+        "subtitle": "Apprenez à utiliser Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Qu'est-ce que Substitution ?",
+                "body": "Substitution est un réseau social décentralisé pour le partage d'art et de contenu créatif. Contrairement aux réseaux sociaux traditionnels, Substitution est construit sur le protocole Matrix, ce qui signifie qu'aucune entreprise ne contrôle vos données ou le réseau.\n\nVos publications, messages et profil sont hébergés sur le serveur Matrix que vous choisissez — pas sur des serveurs exploités par Substitution. Cela vous donne la pleine propriété de votre contenu et la liberté de changer de serveur à tout moment.\n\nSubstitution est open source et porté par la communauté. Il est conçu pour remplacer les réseaux sociaux centralisés par quelque chose de plus juste, transparent et appartenant aux utilisateurs."
+            },
+            "what_is_matrix": {
+                "title": "Qu'est-ce que le protocole Matrix ?",
+                "body": "Matrix est un protocole de communication ouvert et décentralisé. Pensez-y comme l'e-mail : tout comme vous pouvez envoyer un e-mail de Gmail à Outlook, Matrix vous permet de communiquer entre différents serveurs.\n\nAvantages clés de Matrix :\n\n- Décentralisé : Aucun point unique de défaillance ou de contrôle. Si un serveur tombe en panne, le reste du réseau continue de fonctionner.\n- Fédéré : Les serveurs communiquent entre eux. Vous pouvez suivre des salles et envoyer des messages à des utilisateurs sur n'importe quel serveur Matrix, pas seulement le vôtre.\n- Open source : Le protocole et la plupart des logiciels serveur sont entièrement open source.\n- Chiffré : Matrix prend en charge le chiffrement de bout en bout pour les conversations privées.\n\nEn savoir plus sur https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Premiers pas",
+                "body": "Pour utiliser Substitution, vous avez besoin d'un compte Matrix. Voici comment commencer :\n\n1. Choisissez un serveur : Un serveur est l'endroit où votre compte et vos données sont hébergés. Les choix populaires incluent matrix.org, mais il en existe bien d'autres. Vous pouvez aussi héberger le vôtre.\n\n2. Créez un compte : Visitez le site web du serveur que vous avez choisi pour vous inscrire, ou utilisez le lien d'inscription sur l'écran de connexion.\n\n3. Connectez-vous à Substitution : Ouvrez l'application, entrez l'adresse de votre serveur et connectez-vous avec votre nom d'utilisateur et votre mot de passe. Certains serveurs prennent aussi en charge l'authentification unique (SSO).\n\n4. Explorez : Une fois connecté, utilisez l'onglet Découvrir pour trouver des salles à suivre, ou créez la vôtre !"
+            },
+            "what_are_rooms": {
+                "title": "Que sont les salles ?",
+                "body": "Les salles sont au cœur de Substitution. Une salle est comme un canal ou un fil d'actualité où du contenu est publié.\n\nChaque salle possède :\n- Un nom et une description facultative\n- Un propriétaire (le créateur) qui contrôle les permissions\n- Des membres qui suivent et interagissent avec le contenu\n- Un alias public facultatif (comme un nom d'utilisateur pour la salle)\n\nLes salles peuvent être publiques (tout le monde peut les trouver et les rejoindre via l'annuaire des salles) ou privées (sur invitation uniquement).\n\nEn Mode Blog, seuls les modérateurs et administrateurs peuvent créer des publications, tandis que les autres peuvent commenter et réagir. En Mode Communauté, tout membre peut publier.\n\nLes salles peuvent également être chiffrées de bout en bout pour les communautés privées."
+            },
+            "follow_rooms": {
+                "title": "Comment suivre des salles",
+                "body": "Pour découvrir et suivre des salles :\n\n1. Allez dans l'onglet Découvrir (icône boussole dans la barre de navigation en bas).\n\n2. Choisissez un serveur dans le menu déroulant en haut. Vous pouvez parcourir les salles de n'importe quel serveur Matrix, pas seulement le vôtre. Appuyez sur « Ajouter un serveur » pour en ajouter de nouveaux.\n\n3. Recherchez des salles par nom à l'aide du champ de recherche.\n\n4. Appuyez sur une salle pour voir un aperçu avec sa description, le nombre de membres et les dernières publications.\n\n5. Appuyez sur « Rejoindre » pour suivre la salle. Ses publications apparaîtront désormais dans votre fil d'Accueil.\n\nPour ne plus suivre une salle, trouvez-la dans l'onglet Découvrir et appuyez sur « Quitter », ou allez dans le fil de la salle et utilisez le menu."
+            },
+            "create_room": {
+                "title": "Comment créer une salle",
+                "body": "Pour créer votre propre salle :\n\n1. Ouvrez le menu de navigation (menu hamburger) et appuyez sur « Mes flux », ou allez dans les Paramètres et trouvez vos salles.\n\n2. Appuyez sur « Créer une nouvelle salle ».\n\n3. Remplissez les détails de la salle :\n   - Nom de la salle : Le nom d'affichage de votre salle (obligatoire).\n   - Alias de la salle : Une adresse publique facultative (ex. : « mon-art »). Cela rend la salle plus facile à trouver et à partager.\n   - Description : Dites aux gens de quoi parle votre salle.\n\n4. Configurez les paramètres :\n   - Salle publique : Activez pour lister votre salle dans l'annuaire du serveur afin que tout le monde puisse la trouver. Désactivez pour une salle sur invitation.\n   - Chiffrement de bout en bout : Activez pour les salles privées. Attention : cette action est irréversible !\n   - Mode Blog : Activez pour que seul vous (et les modérateurs) puissiez publier. Désactivez pour permettre à tout membre de publier.\n\n5. Invitez éventuellement des utilisateurs en recherchant leur nom ou leur identifiant Matrix.\n\n6. Appuyez sur « Créer » et c'est terminé !\n\nLa salle sera créée sur votre serveur, mais les utilisateurs de n'importe quel serveur peuvent la rejoindre."
+            },
+            "manage_room": {
+                "title": "Gérer vos salles",
+                "body": "En tant que propriétaire ou administrateur d'une salle, vous avez un contrôle total sur vos salles :\n\nModifier les paramètres de la salle :\nAllez dans « Mes flux » dans le menu latéral, puis appuyez sur l'icône de paramètres de votre salle. Ici, vous pouvez modifier le nom, la description, l'alias, l'avatar, la visibilité et le mode de publication.\n\nGérer les membres :\nDans les paramètres de la salle, faites défiler jusqu'à la section Membres. Vous pouvez :\n- Définir les rôles : Promouvoir des membres au rang de Modérateur ou Administrateur, ou les rétrograder au rang d'Utilisateur.\n- Expulser des membres : Retirer un membre de la salle (il peut la rejoindre à nouveau si la salle est publique).\n- Bannir des membres : Bloquer définitivement un membre de la salle. Vous pouvez le débannir ultérieurement.\n\nMembres bannis :\nConsultez et gérez les membres bannis dans la section « Membres bannis » des paramètres de la salle.\n\nSupprimer une salle :\nEn bas des paramètres de la salle, vous trouverez la Zone de danger avec l'option de supprimer la salle. Cette action est permanente et irréversible."
+            },
+            "write_post": {
+                "title": "Comment écrire une publication",
+                "body": "Pour créer une nouvelle publication :\n\n1. Appuyez sur le bouton + (bouton d'action flottant) dans l'onglet Accueil.\n\n2. Choisissez le type de publication :\n   - Publication texte : Écrivez du texte enrichi avec mise en forme (gras, italique, titres, listes, liens et plus).\n   - Publication fichier : Téléchargez des images, vidéos ou autres fichiers avec une légende facultative.\n\n3. Sélectionnez la salle dans laquelle vous souhaitez publier. Seules les salles où vous avez la permission de publier apparaîtront.\n\n4. Rédigez votre contenu :\n   - Pour les publications texte, utilisez la barre d'outils de l'éditeur de texte enrichi pour la mise en forme.\n   - Pour les publications fichier, sélectionnez vos fichiers et ajoutez éventuellement un titre et une légende.\n\n5. Appuyez sur le bouton d'envoi pour publier votre publication.\n\nVotre publication apparaîtra dans le fil de la salle et dans le fil d'Accueil de tous ceux qui suivent cette salle."
+            },
+            "share_rooms": {
+                "title": "Partager des salles avec des amis",
+                "body": "Vous pouvez facilement partager des salles, des profils et des publications avec vos amis :\n\nPartager une salle :\nLorsque vous consultez le fil d'une salle, appuyez sur l'icône de partage dans la barre supérieure. Cela copie ou partage un lien que n'importe qui peut ouvrir.\n\nPartager un profil :\nSur la page de profil de n'importe quel utilisateur, appuyez sur l'icône de partage pour partager le lien de son profil.\n\nPartager une publication :\nSur la page de détail d'une publication, appuyez sur l'icône de partage pour partager un lien direct vers cette publication spécifique.\n\nQuand votre ami ouvre le lien :\n- Sur le web : Il s'ouvre directement dans l'application web Substitution.\n- Sur son téléphone (avec l'application installée) : Il s'ouvre dans l'application Substitution avec une demande de confirmation avant la navigation.\n\nC'est le moyen le plus simple d'inviter des amis dans vos salles — partagez simplement le lien !"
+            },
+            "direct_messages": {
+                "title": "Messages directs",
+                "body": "Substitution inclut la messagerie directe pour les conversations privées :\n\n1. Allez sur le profil d'un utilisateur en appuyant sur son nom ou son avatar sur n'importe quelle publication.\n\n2. Appuyez sur le bouton « Message » sur son profil.\n\n3. Une salle de discussion privée est créée entre vous et cet utilisateur.\n\n4. Vous pouvez retrouver toutes vos conversations dans l'onglet Messages (icône de chat dans la navigation en bas).\n\nLes messages directs sont distincts des publications de salles. Ce sont des conversations privées en tête-à-tête entre vous et un autre utilisateur."
+            },
+            "opening_links": {
+                "title": "Ouvrir des liens d'amis",
+                "body": "Quand quelqu'un partage un lien Substitution avec vous, voici ce qui se passe :\n\nLiens web (https://app.substitution.art/...) :\nCeux-ci s'ouvrent dans votre navigateur web et chargent l'application web Substitution. Vous pouvez consulter directement la salle, le profil ou la publication. Connectez-vous si nécessaire.\n\nLiens d'application (substitution://...) :\nSi vous avez l'application Substitution installée sur votre téléphone, ces liens s'ouvrent directement dans l'application. Vous verrez une boîte de dialogue de confirmation vous demandant si vous souhaitez naviguer vers la salle, le profil ou la publication. Appuyez sur « Continuer » pour poursuivre ou « Annuler » pour rester où vous êtes.\n\nCette étape de confirmation est une mesure de sécurité — elle vous permet de savoir où un lien vous mènera avant de naviguer."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Ouvrir le lien",
+            "room": "Vous êtes sur le point d'ouvrir la salle :\n\n{}",
+            "user": "Vous êtes sur le point de consulter le profil de :\n\n{}",
+            "post": "Vous êtes sur le point d'ouvrir une publication.",
+            "generic": "Vous êtes sur le point de naviguer vers :\n\n{}",
+            "continue_button": "Continuer",
+            "cancel_button": "Annuler",
+            "login_required": "Vous devez être connecté pour ouvrir ce lien. Souhaitez-vous vous connecter maintenant ?",
+            "login_button": "Se connecter"
+        }
+    },
+    "share": {
+        "link_copied": "Lien copié dans le presse-papiers !",
+        "share_room": "Découvrez cette salle sur Substitution",
+        "share_profile": "Découvrez ce profil sur Substitution",
+        "share_post": "Découvrez cette publication sur Substitution"
     }
 }

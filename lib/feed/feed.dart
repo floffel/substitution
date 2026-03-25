@@ -8,6 +8,7 @@ import '/chat/pages/chat_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '/shared/utils/share_helper.dart';
 
 @immutable
 class Feed extends StatefulWidget {
@@ -54,6 +55,11 @@ class FeedState extends State<Feed> {
           centerTitle: true,
           // Keep menu icon for backward compat with integration tests
           actions: <Widget>[
+            IconButton(
+              onPressed: () => ShareHelper.shareRoom(context, widget.roomId!),
+              icon: const Icon(Icons.share_outlined),
+              tooltip: 'share.share_room'.tr(),
+            ),
             Builder(
               builder: (context) {
                 return IconButton(

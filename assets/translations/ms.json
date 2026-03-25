@@ -305,5 +305,74 @@
         "error_loading": "Tidak dapat memuatkan perbualan ini.",
         "error_sending": "Gagal menghantar mesej.",
         "view_profile": "Lihat profil"
+    },
+    "help": {
+        "title": "Bantuan",
+        "subtitle": "Ketahui cara menggunakan Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Apa itu Substitution?",
+                "body": "Substitution ialah rangkaian sosial terdesentralisasi untuk berkongsi seni dan kandungan kreatif. Tidak seperti media sosial tradisional, Substitution dibina di atas protokol Matrix, yang bermakna tiada satu syarikat pun mengawal data atau rangkaian anda.\n\nSiaran, mesej dan profil anda disimpan di pelayan utama Matrix yang anda pilih — bukan di pelayan yang dikendalikan oleh Substitution. Ini memberikan anda pemilikan penuh terhadap kandungan anda dan kebebasan untuk berpindah antara pelayan pada bila-bila masa.\n\nSubstitution ialah sumber terbuka dan dipacu oleh komuniti. Ia direka untuk menggantikan rangkaian sosial berpusat dengan sesuatu yang lebih adil, telus dan dimiliki pengguna."
+            },
+            "what_is_matrix": {
+                "title": "Apa itu Protokol Matrix?",
+                "body": "Matrix ialah protokol komunikasi terbuka dan terdesentralisasi. Fikirkan ia seperti e-mel: sama seperti anda boleh menghantar e-mel dari Gmail ke Outlook, Matrix membolehkan anda berkomunikasi merentasi pelayan yang berbeza.\n\nKelebihan utama Matrix:\n\n- Terdesentralisasi: Tiada satu titik kegagalan atau kawalan. Jika satu pelayan mati, rangkaian yang lain terus berfungsi.\n- Berpersekutuan: Pelayan berkomunikasi antara satu sama lain. Anda boleh mengikuti bilik dan menghantar mesej kepada pengguna di mana-mana pelayan Matrix, bukan hanya pelayan anda sendiri.\n- Sumber terbuka: Protokol dan kebanyakan perisian pelayan adalah sumber terbuka sepenuhnya.\n- Disulitkan: Matrix menyokong penyulitan hujung ke hujung untuk perbualan peribadi.\n\nKetahui lebih lanjut di https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Bermula",
+                "body": "Untuk menggunakan Substitution, anda memerlukan akaun Matrix. Berikut cara untuk bermula:\n\n1. Pilih pelayan utama: Pelayan utama ialah tempat akaun dan data anda disimpan. Pilihan popular termasuk matrix.org, tetapi terdapat banyak lagi. Anda juga boleh mengehoskan pelayan anda sendiri.\n\n2. Cipta akaun: Layari laman web pelayan utama pilihan anda untuk mendaftar, atau gunakan pautan pendaftaran di skrin log masuk.\n\n3. Log masuk ke Substitution: Buka aplikasi, masukkan alamat pelayan utama anda dan log masuk dengan nama pengguna dan kata laluan. Sesetengah pelayan juga menyokong Log Masuk Tunggal (SSO).\n\n4. Teroka: Setelah log masuk, gunakan tab Teroka untuk mencari bilik untuk diikuti, atau cipta bilik anda sendiri!"
+            },
+            "what_are_rooms": {
+                "title": "Apa itu Bilik?",
+                "body": "Bilik ialah teras Substitution. Bilik adalah seperti saluran atau suapan di mana kandungan disiarkan.\n\nSetiap bilik mempunyai:\n- Nama dan penerangan pilihan\n- Pemilik (pencipta) yang mengawal kebenaran\n- Ahli yang mengikuti dan berinteraksi dengan kandungan\n- Alias awam pilihan (seperti nama pengguna untuk bilik)\n\nBilik boleh menjadi awam (sesiapa sahaja boleh mencari dan menyertai melalui direktori bilik) atau peribadi (jemputan sahaja).\n\nDalam Mod Blog, hanya moderator dan pentadbir boleh mencipta siaran, manakala orang lain boleh mengulas dan bertindak balas. Dalam Mod Komuniti, mana-mana ahli boleh menyiarkan.\n\nBilik juga boleh disulitkan hujung ke hujung untuk komuniti peribadi."
+            },
+            "follow_rooms": {
+                "title": "Cara Mengikuti Bilik",
+                "body": "Untuk menemui dan mengikuti bilik:\n\n1. Pergi ke tab Teroka (ikon kompas di bar navigasi bawah).\n\n2. Pilih pelayan daripada menu lungsur di bahagian atas. Anda boleh melayari bilik di mana-mana pelayan Matrix, bukan hanya pelayan anda sendiri. Ketik 'Tambah Pelayan' untuk menambah pelayan baharu.\n\n3. Cari bilik mengikut nama menggunakan medan carian.\n\n4. Ketik pada bilik untuk melihat pratonton dengan penerangannya, bilangan ahli dan siaran terkini.\n\n5. Ketik 'Sertai' untuk mengikuti bilik. Siarannya akan muncul di suapan Utama anda.\n\nUntuk berhenti mengikuti bilik, cari ia di tab Teroka dan ketik 'Keluar', atau pergi ke suapan bilik dan gunakan menu."
+            },
+            "create_room": {
+                "title": "Cara Mencipta Bilik",
+                "body": "Untuk mencipta bilik anda sendiri:\n\n1. Buka laci navigasi (menu hamburger) dan ketik 'Suapan Sendiri', atau pergi ke Tetapan dan cari bilik anda.\n\n2. Ketik 'Cipta Bilik Baharu'.\n\n3. Isi butiran bilik:\n   - Nama Bilik: Nama paparan untuk bilik anda (wajib).\n   - Alias Bilik: Alamat awam pilihan (cth., 'my-art'). Ini menjadikan bilik lebih mudah dicari dan dikongsi.\n   - Penerangan: Beritahu orang tentang bilik anda.\n\n4. Konfigurasikan tetapan:\n   - Bilik Awam: Dayakan untuk menyenaraikan bilik anda di direktori pelayan supaya sesiapa sahaja boleh menemuinya. Nyahdayakan untuk jemputan sahaja.\n   - Penyulitan Hujung ke Hujung: Dayakan untuk bilik peribadi. Amaran: ini tidak boleh dibatalkan!\n   - Mod Blog: Dayakan supaya hanya anda (dan moderator) boleh menyiarkan. Nyahdayakan untuk membenarkan mana-mana ahli menyiarkan.\n\n5. Secara pilihan jemput pengguna dengan mencari nama atau Matrix ID mereka.\n\n6. Ketik 'Cipta Bilik' dan selesai!\n\nBilik akan dicipta di pelayan utama anda, tetapi pengguna dari mana-mana pelayan boleh menyertai."
+            },
+            "manage_room": {
+                "title": "Mengurus Bilik Anda",
+                "body": "Sebagai pemilik atau pentadbir bilik, anda mempunyai kawalan penuh ke atas bilik anda:\n\nMengedit Tetapan Bilik:\nPergi ke 'Suapan Sendiri' di menu laci, kemudian ketik ikon tetapan pada bilik anda. Di sini anda boleh menukar nama, penerangan, alias, avatar, keterlihatan dan mod siaran.\n\nMengurus Ahli:\nDalam tetapan bilik, tatal ke bahagian Ahli. Anda boleh:\n- Tetapkan peranan: Naikkan pangkat ahli kepada Moderator atau Pentadbir, atau turunkan pangkat mereka kembali kepada Pengguna.\n- Tendang ahli: Keluarkan ahli dari bilik (mereka boleh menyertai semula jika bilik adalah awam).\n- Haramkan ahli: Sekat ahli secara kekal daripada bilik. Anda boleh membatalkan larangan kemudian.\n\nAhli yang Diharamkan:\nLihat dan urus ahli yang diharamkan di bahagian 'Ahli yang Diharamkan' dalam tetapan bilik.\n\nMemadam Bilik:\nDi bahagian bawah tetapan bilik, anda akan menemui Zon Bahaya dengan pilihan untuk memadamkan bilik. Tindakan ini kekal dan tidak boleh dibatalkan."
+            },
+            "write_post": {
+                "title": "Cara Menulis Siaran",
+                "body": "Untuk mencipta siaran baharu:\n\n1. Ketik butang + (butang tindakan terapung) di tab Utama.\n\n2. Pilih jenis siaran:\n   - Siaran Teks: Tulis teks kaya dengan pemformatan (tebal, italik, tajuk, senarai, pautan dan banyak lagi).\n   - Siaran Fail: Muat naik imej, video atau fail lain dengan kapsyen pilihan.\n\n3. Pilih bilik tempat anda ingin menyiarkan. Hanya bilik di mana anda mempunyai kebenaran menyiarkan akan muncul.\n\n4. Tulis kandungan anda:\n   - Untuk siaran teks, gunakan bar alat editor teks kaya untuk pemformatan.\n   - Untuk siaran fail, pilih fail anda dan secara pilihan tambah tajuk dan kapsyen.\n\n5. Ketik butang hantar untuk menerbitkan siaran anda.\n\nSiaran anda akan muncul dalam suapan bilik dan dalam suapan Utama semua orang yang mengikuti bilik tersebut."
+            },
+            "share_rooms": {
+                "title": "Berkongsi Bilik dengan Rakan",
+                "body": "Anda boleh berkongsi bilik, profil dan siaran dengan rakan dengan mudah:\n\nBerkongsi Bilik:\nSemasa melihat suapan bilik, ketik ikon kongsi di bar atas. Ini menyalin atau berkongsi pautan yang sesiapa sahaja boleh buka.\n\nBerkongsi Profil:\nDi halaman profil mana-mana pengguna, ketik ikon kongsi untuk berkongsi pautan profil mereka.\n\nBerkongsi Siaran:\nDi halaman butiran siaran, ketik ikon kongsi untuk berkongsi pautan terus ke siaran tersebut.\n\nApabila rakan anda membuka pautan:\n- Di web: Ia dibuka terus dalam aplikasi web Substitution.\n- Di telefon mereka (dengan aplikasi dipasang): Ia dibuka dalam aplikasi Substitution dengan gesaan pengesahan sebelum menavigasi.\n\nIni ialah cara paling mudah untuk menjemput rakan ke bilik anda — hanya kongsi pautan!"
+            },
+            "direct_messages": {
+                "title": "Mesej Langsung",
+                "body": "Substitution termasuk ciri mesej langsung untuk perbualan peribadi:\n\n1. Pergi ke profil pengguna dengan mengetik nama atau avatar mereka pada mana-mana siaran.\n\n2. Ketik butang 'Mesej' pada profil mereka.\n\n3. Bilik sembang peribadi dicipta antara anda dan pengguna tersebut.\n\n4. Anda boleh mencari semua perbualan anda di tab Mesej (ikon sembang di navigasi bawah).\n\nMesej langsung adalah berasingan daripada siaran bilik. Ia adalah perbualan peribadi satu-satu antara anda dan pengguna lain."
+            },
+            "opening_links": {
+                "title": "Membuka Pautan dari Rakan",
+                "body": "Apabila seseorang berkongsi pautan Substitution dengan anda, inilah yang berlaku:\n\nPautan Web (https://app.substitution.art/...):\nPautan ini dibuka dalam pelayar web anda dan memuatkan aplikasi web Substitution. Anda boleh melihat bilik, profil atau siaran secara terus. Log masuk jika digesa.\n\nPautan Aplikasi (substitution://...):\nJika anda mempunyai aplikasi Substitution dipasang di telefon anda, pautan ini dibuka terus dalam aplikasi. Anda akan melihat dialog pengesahan bertanya sama ada anda ingin menavigasi ke bilik, profil atau siaran. Ketik 'Teruskan' untuk meneruskan atau 'Batal' untuk kekal di tempat anda.\n\nLangkah pengesahan ini ialah ciri keselamatan — ia memastikan anda tahu ke mana pautan akan membawa anda sebelum menavigasi."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Buka Pautan",
+            "room": "Anda akan membuka bilik:\n\n{}",
+            "user": "Anda akan melihat profil:\n\n{}",
+            "post": "Anda akan membuka siaran.",
+            "generic": "Anda akan menavigasi ke:\n\n{}",
+            "continue_button": "Teruskan",
+            "cancel_button": "Batal",
+            "login_required": "Anda perlu log masuk untuk membuka pautan ini. Adakah anda ingin log masuk sekarang?",
+            "login_button": "Log Masuk"
+        }
+    },
+    "share": {
+        "link_copied": "Pautan disalin ke papan keratan!",
+        "share_room": "Lihat bilik ini di Substitution",
+        "share_profile": "Lihat profil ini di Substitution",
+        "share_post": "Lihat siaran ini di Substitution"
     }
 }

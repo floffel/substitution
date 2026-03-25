@@ -305,5 +305,74 @@
         "error_loading": "Nepavyko įkelti šio pokalbio.",
         "error_sending": "Nepavyko išsiųsti žinutės.",
         "view_profile": "Peržiūrėti profilį"
+    },
+    "help": {
+        "title": "Pagalba",
+        "subtitle": "Sužinokite, kaip naudoti Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Kas yra Substitution?",
+                "body": "Substitution yra decentralizuotas socialinis tinklas meniniam ir kūrybiniam turiniui dalintis. Skirtingai nuo tradicinių socialinių tinklų, Substitution yra pastatytas ant Matrix protokolo, o tai reiškia, kad jokia įmonė nekontroliuoja jūsų duomenų ar tinklo.\n\nJūsų įrašai, žinutės ir profilis gyvena jūsų pasirinktame Matrix namų serveryje — ne Substitution valdomuose serveriuose. Tai suteikia jums visišką turinio nuosavybę ir laisvę bet kada pereiti tarp serverių.\n\nSubstitution yra atviro kodo ir bendruomenės valdomas. Jis sukurtas pakeisti centralizuotus socialinius tinklus kažkuo teisingesniu, skaidresniu ir naudotojams priklausančiu."
+            },
+            "what_is_matrix": {
+                "title": "Kas yra Matrix protokolas?",
+                "body": "Matrix yra atviras, decentralizuotas komunikacijos protokolas. Galvokite apie tai kaip apie el. paštą: lygiai taip pat, kaip galite siųsti el. laišką iš Gmail į Outlook, Matrix leidžia bendrauti tarp skirtingų serverių.\n\nPagrindiniai Matrix privalumai:\n\n- Decentralizuotas: Nėra vieno gedimo taško ar kontrolės centro. Jei vienas serveris sugenda, likusi tinklo dalis toliau veikia.\n- Federacinis: Serveriai kalbasi tarpusavyje. Galite sekti kambarius ir siųsti žinutes naudotojams bet kuriame Matrix serveryje, ne tik savo.\n- Atviras kodas: Protokolas ir dauguma serverio programinės įrangos yra visiškai atviro kodo.\n- Šifruotas: Matrix palaiko visapusį šifravimą privatiems pokalbiams.\n\nDaugiau informacijos: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Darbo pradžia",
+                "body": "Norint naudoti Substitution, reikia Matrix paskyros. Kaip pradėti:\n\n1. Pasirinkite namų serverį: Namų serveris yra vieta, kur gyvena jūsų paskyra ir duomenys. Populiarūs pasirinkimai yra matrix.org, bet yra ir daug kitų. Taip pat galite turėti savo serverį.\n\n2. Sukurkite paskyrą: Apsilankykite pasirinkto namų serverio svetainėje, kad užsiregistruotumėte, arba naudokite registracijos nuorodą prisijungimo ekrane.\n\n3. Prisijunkite prie Substitution: Atidarykite programėlę, įveskite savo namų serverio adresą ir prisijunkite su savo naudotojo vardu ir slaptažodžiu. Kai kurie serveriai taip pat palaiko vienkartinius prisijungimus (SSO).\n\n4. Tyrinėkite: Prisijungę naudokite skirtuką Atrasti, kad rastumėte kambarių sekimui, arba sukurkite savo!"
+            },
+            "what_are_rooms": {
+                "title": "Kas yra kambariai?",
+                "body": "Kambariai yra Substitution pagrindas. Kambarys yra kaip kanalas ar srautas, kuriame skelbiamas turinys.\n\nKiekvienas kambarys turi:\n- Pavadinimą ir pasirinktinį aprašymą\n- Savininką (kūrėją), kuris valdo leidimus\n- Narius, kurie seka ir sąveikauja su turiniu\n- Pasirinktinį viešą slapyvardį (kaip naudotojo vardas kambariui)\n\nKambariai gali būti vieši (bet kas gali rasti ir prisijungti per kambarių katalogą) arba privatūs (tik su kvietimu).\n\nTinklaraščio režime tik moderatoriai ir administratoriai gali kurti įrašus, o visi kiti gali komentuoti ir reaguoti. Bendruomenės režime bet kuris narys gali skelbti.\n\nKambariai taip pat gali būti visapusiškai šifruoti privačioms bendruomenėms."
+            },
+            "follow_rooms": {
+                "title": "Kaip sekti kambarius",
+                "body": "Norint atrasti ir sekti kambarius:\n\n1. Eikite į skirtuką Atrasti (kompaso piktograma apatinėje navigacijos juostoje).\n\n2. Pasirinkite serverį iš viršutinio išskleidžiamojo meniu. Galite naršyti kambarius bet kuriame Matrix serveryje, ne tik savo. Paspausdami 'Pridėti serverį' galite pridėti naujus.\n\n3. Ieškokite kambarių pagal pavadinimą naudodami paieškos laukelį.\n\n4. Bakstelėkite kambarį, kad pamatytumėte jo aprašymą, narių skaičių ir naujausius įrašus.\n\n5. Bakstelėkite 'Prisijungti', kad sektumėte kambarį. Jo įrašai dabar bus rodomi jūsų Pradžios sraute.\n\nNorėdami nustoti sekti kambarį, raskite jį skirtuke Atrasti ir bakstelėkite 'Išeiti' arba eikite į kambario srautą ir naudokite meniu."
+            },
+            "create_room": {
+                "title": "Kaip sukurti kambarį",
+                "body": "Norėdami sukurti savo kambarį:\n\n1. Atidarykite navigacijos stalčių (mėsainio meniu) ir bakstelėkite 'Savi srautai' arba eikite į Nustatymus ir raskite savo kambarius.\n\n2. Bakstelėkite 'Sukurti naują kambarį'.\n\n3. Užpildykite kambario duomenis:\n   - Kambario pavadinimas: Rodomas kambario pavadinimas (privalomas).\n   - Kambario slapyvardis: Pasirinktinis viešas adresas (pvz., 'mano-menas'). Tai palengvina kambario radimą ir dalijimąsi.\n   - Aprašymas: Pasakykite žmonėms, apie ką jūsų kambarys.\n\n4. Sukonfigūruokite nustatymus:\n   - Viešas kambarys: Įjunkite, kad kambarys būtų rodomas serverio kataloge ir jį galėtų rasti bet kas. Išjunkite tik kvietimams.\n   - Visapusis šifravimas: Įjunkite privatiems kambariams. Įspėjimas: to negalima atšaukti!\n   - Tinklaraščio režimas: Įjunkite, kad tik jūs (ir moderatoriai) galėtumėte skelbti. Išjunkite, kad bet kuris narys galėtų skelbti.\n\n5. Pasirinktinai pakvieskite naudotojus ieškodami jų vardo arba Matrix ID.\n\n6. Bakstelėkite 'Sukurti' ir viskas!\n\nKambarys bus sukurtas jūsų namų serveryje, bet bet kurio serverio naudotojai gali prisijungti."
+            },
+            "manage_room": {
+                "title": "Kambarių valdymas",
+                "body": "Kaip kambario savininkas ar administratorius, turite visišką savo kambarių kontrolę:\n\nKambario nustatymų redagavimas:\nStalčiaus meniu eikite į 'Savi srautai', tada bakstelėkite kambario nustatymų piktogramą. Čia galite keisti pavadinimą, aprašymą, slapyvardį, avatarą, matomumą ir skelbimo režimą.\n\nNarių valdymas:\nKambario nustatymuose slinkite iki Nariai sekcijos. Galite:\n- Nustatyti vaidmenis: Pakelkite narius iki Moderatoriaus ar Administratoriaus arba nuleiskite atgal iki Naudotojo.\n- Pašalinti narius: Pašalinkite narį iš kambario (viešame kambaryje gali prisijungti iš naujo).\n- Užblokuoti narius: Visam laikui užblokuokite narį kambaryje. Vėliau galite atblokuoti.\n\nUžblokuoti nariai:\nKambario nustatymų 'Užblokuoti nariai' sekcijoje galite peržiūrėti ir valdyti užblokuotus narius.\n\nKambario ištrinimas:\nKambario nustatymų apačioje rasite Pavojingą zoną su kambario ištrinimo parinktimi. Šis veiksmas yra negrįžtamas."
+            },
+            "write_post": {
+                "title": "Kaip rašyti įrašą",
+                "body": "Norėdami sukurti naują įrašą:\n\n1. Bakstelėkite + mygtuką (slankusis veiksmų mygtukas) Pradžios skirtuke.\n\n2. Pasirinkite įrašo tipą:\n   - Tekstinis įrašas: Rašykite formatuotą tekstą (paryškintas, kursyvas, antraštės, sąrašai, nuorodos ir daugiau).\n   - Failo įrašas: Įkelkite nuotraukas, vaizdo įrašus ar kitus failus su pasirinktiniu užrašu.\n\n3. Pasirinkite kambarį, kuriame norite skelbti. Bus rodomi tik tie kambariai, kuriuose turite skelbimo teises.\n\n4. Parašykite savo turinį:\n   - Tekstiniams įrašams naudokite formatavimo įrankių juostą.\n   - Failų įrašams pasirinkite failus ir pasirinktinai pridėkite pavadinimą bei antraštę.\n\n5. Bakstelėkite siuntimo mygtuką, kad paskelbtumėte savo įrašą.\n\nJūsų įrašas bus rodomas kambario sraute ir kiekvieno, kuris seka tą kambarį, Pradžios sraute."
+            },
+            "share_rooms": {
+                "title": "Kambarių dalijimasis su draugais",
+                "body": "Galite lengvai dalintis kambariais, profiliais ir įrašais su draugais:\n\nKambario dalijimasis:\nPeržiūrėdami kambario srautą, bakstelėkite dalijimosi piktogramą viršutinėje juostoje. Tai nukopijuoja arba pasidalina nuoroda, kurią bet kas gali atidaryti.\n\nProfilio dalijimasis:\nBet kurio naudotojo profilio puslapyje bakstelėkite dalijimosi piktogramą, kad pasidalintumėte profilio nuoroda.\n\nĮrašo dalijimasis:\nĮrašo detalių puslapyje bakstelėkite dalijimosi piktogramą, kad pasidalintumėte tiesioginę nuorodą į tą konkretų įrašą.\n\nKai jūsų draugas atidaro nuorodą:\n- Žiniatinklyje: Ji atidaroma tiesiogiai Substitution žiniatinklio programėlėje.\n- Telefone (su įdiegta programėle): Ji atidaroma Substitution programėlėje su patvirtinimo raginimu prieš navigaciją.\n\nTai paprasčiausias būdas pakviesti draugus į savo kambarius — tiesiog pasidalinkite nuoroda!"
+            },
+            "direct_messages": {
+                "title": "Tiesioginės žinutės",
+                "body": "Substitution turi tiesioginių žinučių funkciją privatiems pokalbiams:\n\n1. Eikite į naudotojo profilį bakstelėdami jo vardą ar avatarą bet kuriame įraše.\n\n2. Bakstelėkite 'Žinutė' mygtuką jų profilyje.\n\n3. Sukuriamas privatus pokalbio kambarys tarp jūsų ir to naudotojo.\n\n4. Visus savo pokalbius galite rasti Žinutės skirtuke (pokalbio piktograma apatinėje navigacijos juostoje).\n\nTiesioginės žinutės yra atskirtos nuo kambarių įrašų. Tai privatūs vienas-su-vienu pokalbiai tarp jūsų ir kito naudotojo."
+            },
+            "opening_links": {
+                "title": "Nuorodų iš draugų atidarymas",
+                "body": "Kai kas nors pasidalina su jumis Substitution nuoroda, štai kas vyksta:\n\nŽiniatinklio nuorodos (https://app.substitution.art/...):\nJos atidaromos jūsų žiniatinklio naršyklėje ir įkelia Substitution žiniatinklio programėlę. Galite tiesiogiai peržiūrėti kambarį, profilį ar įrašą. Prisijunkite, jei prašoma.\n\nProgramėlės nuorodos (substitution://...):\nJei jūsų telefone įdiegta Substitution programėlė, šios nuorodos atidaromos tiesiogiai programėlėje. Pamatysite patvirtinimo dialogą, kuriame klausiama, ar norite pereiti prie kambario, profilio ar įrašo. Bakstelėkite 'Tęsti' norėdami tęsti arba 'Atšaukti' norėdami likti.\n\nŠis patvirtinimo žingsnis yra saugumo funkcija — ji užtikrina, kad žinote, kur nuoroda jus nuves, prieš naršymą."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Atidaryti nuorodą",
+            "room": "Ketinate atidaryti kambarį:\n\n{}",
+            "user": "Ketinate peržiūrėti naudotojo profilį:\n\n{}",
+            "post": "Ketinate atidaryti įrašą.",
+            "generic": "Ketinate pereiti į:\n\n{}",
+            "continue_button": "Tęsti",
+            "cancel_button": "Atšaukti",
+            "login_required": "Norėdami atidaryti šią nuorodą, turite prisijungti. Ar norite prisijungti dabar?",
+            "login_button": "Prisijungti"
+        }
+    },
+    "share": {
+        "link_copied": "Nuoroda nukopijuota į iškarpinę!",
+        "share_room": "Peržiūrėkite šį kambarį Substitution",
+        "share_profile": "Peržiūrėkite šį profilį Substitution",
+        "share_post": "Peržiūrėkite šį įrašą Substitution"
     }
 }

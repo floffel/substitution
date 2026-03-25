@@ -305,5 +305,74 @@
         "error_loading": "Tätä keskustelua ei voitu ladata.",
         "error_sending": "Viestin lähetys epäonnistui.",
         "view_profile": "Näytä profiili"
+    },
+    "help": {
+        "title": "Ohje",
+        "subtitle": "Opi käyttämään Substitutionia",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Mikä on Substitution?",
+                "body": "Substitution on hajautettu sosiaalinen verkosto taiteen ja luovan sisällön jakamiseen. Toisin kuin perinteiset sosiaalisen median alustat, Substitution on rakennettu Matrix-protokollan päälle, mikä tarkoittaa, ettei yksikään yritys hallitse tietojasi tai verkkoa.\n\nJulkaisusi, viestisi ja profiilisi sijaitsevat valitsemallasi Matrix-kotipalvelimella – ei Substitutionin ylläpitämillä palvelimilla. Tämä antaa sinulle täyden omistajuuden sisällöstäsi ja vapauden vaihtaa palvelimien välillä milloin tahansa.\n\nSubstitution on avoimen lähdekoodin ja yhteisövetoinen. Se on suunniteltu korvaamaan keskitetyt sosiaaliset verkostot jollakin oikeudenmukaisemmalla, läpinäkyvämmällä ja käyttäjien omistamalla."
+            },
+            "what_is_matrix": {
+                "title": "Mikä on Matrix-protokolla?",
+                "body": "Matrix on avoin, hajautettu viestintäprotokolla. Ajattele sitä kuten sähköpostia: aivan kuten voit lähettää sähköpostia Gmailista Outlookiin, Matrix mahdollistaa viestinnän eri palvelimien välillä.\n\nMatrixin tärkeimmät edut:\n\n- Hajautettu: Ei yhtä vikaantumispistettä tai hallintapistettä. Jos yksi palvelin kaatuu, muu verkko jatkaa toimintaansa.\n- Federoitu: Palvelimet keskustelevat keskenään. Voit seurata huoneita ja lähettää viestejä käyttäjille millä tahansa Matrix-palvelimella, ei vain omallasi.\n- Avoin lähdekoodi: Protokolla ja useimmat palvelinohjelmistot ovat täysin avointa lähdekoodia.\n- Salattu: Matrix tukee päästä päähän -salausta yksityisiin keskusteluihin.\n\nLisätietoja: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Näin pääset alkuun",
+                "body": "Substitutionin käyttämiseen tarvitset Matrix-tilin. Näin pääset alkuun:\n\n1. Valitse kotipalvelin: Kotipalvelin on paikka, jossa tilisi ja tietosi sijaitsevat. Suosittuja vaihtoehtoja ovat matrix.org, mutta monia muitakin on tarjolla. Voit myös ylläpitää omaa palvelinta.\n\n2. Luo tili: Vieraile valitsemasi kotipalvelimen verkkosivustolla rekisteröityäksesi, tai käytä kirjautumisruudun rekisteröintilinkkiä.\n\n3. Kirjaudu Substitutioniin: Avaa sovellus, syötä kotipalvelimesi osoite ja kirjaudu sisään käyttäjänimelläsi ja salasanallasi. Jotkut palvelimet tukevat myös kertakirjautumista (SSO).\n\n4. Tutustu: Kun olet kirjautunut sisään, käytä Tutustu-välilehteä löytääksesi seurattavia huoneita tai luo omasi!"
+            },
+            "what_are_rooms": {
+                "title": "Mitä huoneet ovat?",
+                "body": "Huoneet ovat Substitutionin ydin. Huone on kuin kanava tai syöte, johon sisältöä julkaistaan.\n\nJokaisella huoneella on:\n- Nimi ja valinnainen kuvaus\n- Omistaja (luoja), joka hallitsee oikeuksia\n- Jäseniä, jotka seuraavat sisältöä ja ovat vuorovaikutuksessa sen kanssa\n- Valinnainen julkinen alias (kuten käyttäjänimi huoneelle)\n\nHuoneet voivat olla julkisia (kuka tahansa voi löytää ja liittyä niihin huoneluettelon kautta) tai yksityisiä (vain kutsulla).\n\nBlogitilassa vain moderaattorit ja ylläpitäjät voivat luoda julkaisuja, kun muut voivat kommentoida ja reagoida. Yhteisötilassa kuka tahansa jäsen voi julkaista.\n\nHuoneet voivat myös olla päästä päähän -salattuja yksityisiä yhteisöjä varten."
+            },
+            "follow_rooms": {
+                "title": "Kuinka seurata huoneita",
+                "body": "Huoneiden löytämiseksi ja seuraamiseksi:\n\n1. Siirry Tutustu-välilehteen (kompassikuvake alanavigoinnissa).\n\n2. Valitse palvelin yläosan pudotusvalikosta. Voit selata huoneita millä tahansa Matrix-palvelimella, ei vain omallasi. Lisää uusia palvelimia napauttamalla 'Lisää palvelin'.\n\n3. Etsi huoneita nimen perusteella hakukentän avulla.\n\n4. Napauta huonetta nähdäksesi kuvauksen, jäsenmäärän ja viimeisimmät julkaisut.\n\n5. Napauta 'Liity' seurataksesi huonetta. Sen julkaisut näkyvät nyt Koti-syötteessäsi.\n\nLopettaaksesi huoneen seuraamisen, etsi se Tutustu-välilehdeltä ja napauta 'Poistu', tai siirry huoneen syötteeseen ja käytä valikkoa."
+            },
+            "create_room": {
+                "title": "Kuinka luoda huone",
+                "body": "Oman huoneen luomiseksi:\n\n1. Avaa navigointipaneeli (hampurilaisvalikko) ja napauta 'Omat syötteet', tai siirry Asetuksiin ja etsi huoneesi.\n\n2. Napauta 'Luo uusi huone'.\n\n3. Täytä huoneen tiedot:\n   - Huoneen nimi: Huoneen näyttönimi (pakollinen).\n   - Huoneen alias: Valinnainen julkinen osoite (esim. 'taidettani'). Tämä helpottaa huoneen löytämistä ja jakamista.\n   - Kuvaus: Kerro, mistä huoneessasi on kyse.\n\n4. Määritä asetukset:\n   - Julkinen huone: Ota käyttöön, jotta huoneesi näkyy palvelimen luettelossa ja kuka tahansa voi löytää sen. Poista käytöstä vain kutsulla liityttäville huoneille.\n   - Päästä päähän -salaus: Ota käyttöön yksityisille huoneille. Varoitus: tätä ei voi perua!\n   - Blogitila: Ota käyttöön, jotta vain sinä (ja moderaattorit) voitte julkaista. Poista käytöstä, jotta kuka tahansa jäsen voi julkaista.\n\n5. Halutessasi kutsu käyttäjiä hakemalla heitä nimen tai Matrix-tunnuksen perusteella.\n\n6. Napauta 'Luo' ja valmista!\n\nHuone luodaan kotipalvelimellesi, mutta minkä tahansa palvelimen käyttäjät voivat liittyä."
+            },
+            "manage_room": {
+                "title": "Huoneiden hallinta",
+                "body": "Huoneen omistajana tai ylläpitäjänä sinulla on täysi hallinta huoneistasi:\n\nHuoneen asetusten muokkaaminen:\nSiirry paneelivalikossa 'Omat syötteet' -kohtaan ja napauta huoneesi asetuskuvaketta. Täällä voit muuttaa nimeä, kuvausta, aliasta, avataria, näkyvyyttä ja julkaisutilaa.\n\nJäsenten hallinta:\nHuoneen asetuksissa vieritä Jäsenet-osioon. Voit:\n- Asettaa rooleja: Ylennä jäseniä Moderaattoriksi tai Ylläpitäjäksi, tai alenna takaisin Käyttäjäksi.\n- Poistaa jäseniä: Poista jäsen huoneesta (julkiseen huoneeseen voi liittyä uudelleen).\n- Estää jäseniä: Estä jäsen pysyvästi huoneesta. Voit myöhemmin poistaa eston.\n\nEstetyt jäsenet:\nTarkastele ja hallinnoi estettyjä jäseniä huoneen asetusten 'Estetyt jäsenet' -osiossa.\n\nHuoneen poistaminen:\nHuoneen asetusten alareunasta löydät Vaaravyöhykkeen, jossa on huoneen poistamisvaihtoehto. Tämä toiminto on pysyvä eikä sitä voi perua."
+            },
+            "write_post": {
+                "title": "Kuinka kirjoittaa julkaisu",
+                "body": "Uuden julkaisun luomiseksi:\n\n1. Napauta + -painiketta (kelluva toimintopainike) Koti-välilehdellä.\n\n2. Valitse julkaisun tyyppi:\n   - Tekstijulkaisu: Kirjoita rikasta tekstiä muotoilulla (lihavointi, kursiivi, otsikot, listat, linkit ja muuta).\n   - Tiedostojulkaisu: Lataa kuvia, videoita tai muita tiedostoja valinnaisella kuvatekstillä.\n\n3. Valitse huone, johon haluat julkaista. Vain huoneet, joissa sinulla on julkaisuoikeus, näkyvät.\n\n4. Kirjoita sisältösi:\n   - Tekstijulkaisuissa käytä muotoilutyökalupalkkia.\n   - Tiedostojulkaisuissa valitse tiedostot ja lisää halutessasi otsikko ja kuvateksti.\n\n5. Napauta lähetyspainiketta julkaistaksesi julkaisusi.\n\nJulkaisusi näkyy huoneen syötteessä ja jokaisen Koti-syötteessä, joka seuraa kyseistä huonetta."
+            },
+            "share_rooms": {
+                "title": "Huoneiden jakaminen ystäville",
+                "body": "Voit helposti jakaa huoneita, profiileja ja julkaisuja ystävillesi:\n\nHuoneen jakaminen:\nHuoneen syötettä katsellessasi napauta jakokuvaketta yläpalkissa. Tämä kopioi tai jakaa linkin, jonka kuka tahansa voi avata.\n\nProfiilin jakaminen:\nMinkä tahansa käyttäjän profiilisivulla napauta jakokuvaketta jakaaksesi profiilin linkin.\n\nJulkaisun jakaminen:\nJulkaisun tietosivulla napauta jakokuvaketta jakaaksesi suoran linkin kyseiseen julkaisuun.\n\nKun ystäväsi avaa linkin:\n- Verkossa: Se avautuu suoraan Substitutionin verkkosovelluksessa.\n- Puhelimessaan (sovellus asennettuna): Se avautuu Substitution-sovelluksessa vahvistuskehotteen kanssa ennen siirtymistä.\n\nTämä on helpoin tapa kutsua ystäviä huoneisiisi – jaa vain linkki!"
+            },
+            "direct_messages": {
+                "title": "Suoraviestit",
+                "body": "Substitution sisältää suoraviestiominaisuuden yksityisiin keskusteluihin:\n\n1. Siirry käyttäjän profiiliin napauttamalla hänen nimeään tai avatariaan missä tahansa julkaisussa.\n\n2. Napauta 'Viesti' -painiketta heidän profiilissaan.\n\n3. Yksityinen keskusteluhuone luodaan sinun ja kyseisen käyttäjän välille.\n\n4. Löydät kaikki keskustelusi Viestit-välilehdeltä (keskustelukuvake alanavigoinnissa).\n\nSuoraviestit ovat erillisiä huonejulkaisuista. Ne ovat yksityisiä kahdenkeskisiä keskusteluja sinun ja toisen käyttäjän välillä."
+            },
+            "opening_links": {
+                "title": "Ystäviltä saatujen linkkien avaaminen",
+                "body": "Kun joku jakaa sinulle Substitution-linkin, näin tapahtuu:\n\nVerkkolinkit (https://app.substitution.art/...):\nNämä avautuvat verkkoselaimessasi ja lataavat Substitutionin verkkosovelluksen. Voit katsella huonetta, profiilia tai julkaisua suoraan. Kirjaudu sisään, jos pyydetään.\n\nSovelluslinkit (substitution://...):\nJos puhelimessasi on Substitution-sovellus asennettuna, nämä linkit avautuvat suoraan sovelluksessa. Näet vahvistusikkunan, joka kysyy, haluatko siirtyä huoneeseen, profiiliin tai julkaisuun. Napauta 'Jatka' jatkaaksesi tai 'Peruuta' pysyäksesi paikallasi.\n\nTämä vahvistusvaihe on turvallisuusominaisuus – se varmistaa, että tiedät, minne linkki vie sinut ennen siirtymistä."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Avaa linkki",
+            "room": "Olet avaamassa huonetta:\n\n{}",
+            "user": "Olet tarkastelemassa käyttäjän profiilia:\n\n{}",
+            "post": "Olet avaamassa julkaisua.",
+            "generic": "Olet siirtymässä kohteeseen:\n\n{}",
+            "continue_button": "Jatka",
+            "cancel_button": "Peruuta",
+            "login_required": "Sinun täytyy kirjautua sisään avataksesi tämän linkin. Haluatko kirjautua sisään nyt?",
+            "login_button": "Kirjaudu sisään"
+        }
+    },
+    "share": {
+        "link_copied": "Linkki kopioitu leikepöydälle!",
+        "share_room": "Tutustu tähän huoneeseen Substitutionissa",
+        "share_profile": "Tutustu tähän profiiliin Substitutionissa",
+        "share_post": "Tutustu tähän julkaisuun Substitutionissa"
     }
 }

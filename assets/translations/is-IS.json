@@ -305,5 +305,74 @@
         "error_loading": "Gat ekki hlaðið þessu samtali.",
         "error_sending": "Sending skilaboða mistókst.",
         "view_profile": "Skoða prófíl"
+    },
+    "help": {
+        "title": "Hjálp",
+        "subtitle": "Lærðu hvernig á að nota Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Hvað er Substitution?",
+                "body": "Substitution er dreifð samfélagsnet til að deila list og skapandi efni. Ólíkt hefðbundnum samfélagsmiðlum er Substitution byggt ofan á Matrix samskiptareglunum, sem þýðir að ekkert einstakt fyrirtæki stjórnar gögnunum þínum eða netinu.\n\nFærslurnar þínar, skilaboð og prófíll búa á Matrix heimaþjóninum sem þú velur — ekki á þjónum sem Substitution rekur. Þetta gefur þér fullt eignarhald á efninu þínu og frelsi til að skipta um þjón hvenær sem er.\n\nSubstitution er opinn hugbúnaður og drifið af samfélaginu. Það er hannað til að koma í stað miðstýrðra samfélagsneta með einhverju réttlátara, gagnsærra og í eigu notenda."
+            },
+            "what_is_matrix": {
+                "title": "Hvað eru Matrix samskiptareglurnar?",
+                "body": "Matrix er opinn, dreifður samskiptastaðall. Hugsaðu um það eins og tölvupóst: rétt eins og þú getur sent tölvupóst frá Gmail til Outlook, leyfir Matrix þér að eiga samskipti á milli mismunandi þjóna.\n\nHelstu kostir Matrix:\n\n- Dreift: Enginn einn bilunarpunktur eða stjórnunarpunktur. Ef einn þjónn fer niður heldur restin af netinu áfram að virka.\n- Samþjóna: Þjónar tala saman. Þú getur fylgst með herbergjum og sent skilaboð til notenda á hvaða Matrix þjóni sem er, ekki bara þínum eigin.\n- Opinn hugbúnaður: Samskiptareglurnar og mestur hluti þjónahugbúnaðarins eru algjörlega opinn hugbúnaður.\n- Dulkóðað: Matrix styður enda-í-enda dulkóðun fyrir einkasamtöl.\n\nFrekari upplýsingar á https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Byrjaðu hér",
+                "body": "Til að nota Substitution þarftu Matrix reikning. Svona byrjarðu:\n\n1. Veldu heimaþjón: Heimaþjónn er þar sem reikningurinn þinn og gögnin þín búa. Vinsælir valkostir eru meðal annars matrix.org, en það eru margir fleiri. Þú getur líka hýst þinn eigin.\n\n2. Búðu til reikning: Farðu á vefsíðu þíns valda heimaþjóns til að skrá þig, eða notaðu skráningartengilinn á innskráningarskjánum.\n\n3. Skráðu þig inn á Substitution: Opnaðu forritið, sláðu inn vistfang heimaþjónsins og skráðu þig inn með notandanafni og lykilorði. Sumir þjónar styðja einnig Single Sign-On (SSO).\n\n4. Kannaðu: Þegar þú ert skráð/ur inn, notaðu flipann Uppgötva til að finna herbergi til að fylgjast með, eða búðu til þitt eigið!"
+            },
+            "what_are_rooms": {
+                "title": "Hvað eru herbergi?",
+                "body": "Herbergi eru kjarninn í Substitution. Herbergi er eins og rás eða straumur þar sem efni er birt.\n\nHvert herbergi hefur:\n- Nafn og valfrjálsa lýsingu\n- Eiganda (skaparann) sem stjórnar heimildum\n- Meðlimi sem fylgjast með og eiga samskipti við efnið\n- Valfrjálst opinbert samnefni (eins og notandanafn fyrir herbergið)\n\nHerbergi geta verið opinber (allir geta fundið þau og gengið inn í gegnum herbergiskrána) eða einkamál (eingöngu á boð).\n\nÍ Bloggstillingu geta aðeins umsjónarmenn og stjórnendur búið til færslur, á meðan allir aðrir geta tjáð sig og brugðist við. Í Samfélagsstillingu getur hvaða meðlimur sem er birt.\n\nHerbergi geta einnig verið enda-í-enda dulkóðuð fyrir einkasamfélög."
+            },
+            "follow_rooms": {
+                "title": "Hvernig á að fylgjast með herbergjum",
+                "body": "Til að uppgötva og fylgjast með herbergjum:\n\n1. Farðu í flipann Uppgötva (áttavititákn í neðri leiðsögustikunni).\n\n2. Veldu þjón úr fellilistanum efst. Þú getur skoðað herbergi á hvaða Matrix þjóni sem er, ekki bara þínum eigin. Ýttu á 'Bæta við þjóni' til að bæta við nýjum.\n\n3. Leitaðu að herbergjum eftir nafni með leitarsviðinu.\n\n4. Ýttu á herbergi til að sjá forskoðun með lýsingu þess, fjölda meðlima og nýjustu færslum.\n\n5. Ýttu á 'Ganga inn' til að fylgjast með herberginu. Færslur þess munu nú birtast í Heim-straumnum þínum.\n\nTil að hætta að fylgjast með herbergi, finndu það í flipanum Uppgötva og ýttu á 'Yfirgefa', eða farðu í straum herbergisins og notaðu valmyndina."
+            },
+            "create_room": {
+                "title": "Hvernig á að búa til herbergi",
+                "body": "Til að búa til þitt eigið herbergi:\n\n1. Opnaðu leiðsögnsskúffuna (hamborgaravalmynd) og ýttu á 'Eigin straumar', eða farðu í Stillingar og finndu herbergin þín.\n\n2. Ýttu á 'Búa til nýtt herbergi'.\n\n3. Fylltu út herbergisupplýsingarnar:\n   - Heiti herbergis: Birtingarnafn herbergisins þíns (nauðsynlegt).\n   - Samnefni herbergis: Valfrjálst opinbert vistfang (t.d. 'mín-list'). Þetta gerir herbergið auðveldara að finna og deila.\n   - Lýsing: Segðu fólki hvað herbergið þitt snýst um.\n\n4. Stilltu valkosti:\n   - Opinbert herbergi: Virkjaðu til að skrá herbergið þitt í þjónaskrána svo allir geti fundið það. Slökktu á fyrir eingöngu á boð.\n   - Enda-í-enda dulkóðun: Virkjaðu fyrir einkaherbergi. Viðvörun: þetta er ekki hægt að afturkalla!\n   - Bloggstilling: Virkjaðu svo aðeins þú (og umsjónarmenn) getið birt. Slökktu á til að leyfa öllum meðlimum að birta.\n\n5. Bjóddu valfrjálst notendum með því að leita að nafni þeirra eða Matrix-auðkenni.\n\n6. Ýttu á 'Búa til herbergi' og þú ert búin/n!\n\nHerbergið verður búið til á heimaþjóninum þínum, en notendur frá hvaða þjóni sem er geta gengið inn."
+            },
+            "manage_room": {
+                "title": "Stjórna herbergjunum þínum",
+                "body": "Sem herbergiseigandi eða stjórnandi hefur þú fulla stjórn á herbergjunum þínum:\n\nBreyta herbergisstillingum:\nFarðu í 'Eigin straumar' í skúffuvalmyndinni og ýttu síðan á stillingatáknið á herberginu þínu. Hér getur þú breytt nafni, lýsingu, samnefni, prófílmynd, sýnileika og birtingarstillingu.\n\nStjórna meðlimum:\nÍ herbergisstillingunum, skrollaðu niður í hlutann Meðlimir. Þú getur:\n- Sett hlutverk: Hækkað meðlimi í Umsjónarmann eða Stjórnanda, eða lækkað þá aftur í Notanda.\n- Sparkað meðlimum: Fjarlægt meðlim úr herberginu (þeir geta gengið inn aftur ef herbergið er opinbert).\n- Bannað meðlimi: Varanlega lokað á meðlim úr herberginu. Þú getur aflétt banninu síðar.\n\nBannaðir meðlimir:\nSkoðaðu og stjórnaðu bönnuðum meðlimum í hlutanum 'Bannaðir meðlimir' í herbergisstillingunum.\n\nEyða herbergi:\nNeðst í herbergisstillingunum finnur þú Hættusvæðið með möguleikanum á að eyða herberginu. Þessi aðgerð er varanleg og er ekki hægt að afturkalla."
+            },
+            "write_post": {
+                "title": "Hvernig á að skrifa færslu",
+                "body": "Til að búa til nýja færslu:\n\n1. Ýttu á + hnappinn (fljótandi aðgerðahnapp) á Heim-flipanum.\n\n2. Veldu tegund færslu:\n   - Textafærsla: Skrifaðu sniðinn texta með formúnun (feitletrað, skáletrað, fyrirsagnir, listar, tenglar og fleira).\n   - Skráarfærsla: Hladdu upp myndum, myndböndum eða öðrum skrám með valfrjálsum myndatexta.\n\n3. Veldu herbergið sem þú vilt birta í. Aðeins herbergi þar sem þú hefur heimild til að birta munu birtast.\n\n4. Skrifaðu efnið þitt:\n   - Fyrir textafærslur, notaðu verkfærastiku textaritilsins til formúnunar.\n   - Fyrir skráarfærslur, veldu skrárnar þínar og bættu valfrjálst við titli og myndatexta.\n\n5. Ýttu á sendihnappinn til að birta færsluna þína.\n\nFærslan þín birtist í straum herbergisins og í Heim-straum allra sem fylgjast með því herbergi."
+            },
+            "share_rooms": {
+                "title": "Deila herbergjum með vinum",
+                "body": "Þú getur auðveldlega deilt herbergjum, prófílum og færslum með vinum:\n\nDeila herbergi:\nÞegar þú skoðar straum herbergis, ýttu á deilingartáknið í efri stikunni. Þetta afritar eða deilir tengli sem allir geta opnað.\n\nDeila prófíli:\nÁ prófílsíðu notanda, ýttu á deilingartáknið til að deila prófíltengli þeirra.\n\nDeila færslu:\nÁ upplýsingasíðu færslu, ýttu á deilingartáknið til að deila beinum tengli á þá tilteknu færslu.\n\nÞegar vinur þinn opnar tengilinn:\n- Á vefnum: Hann opnast beint í Substitution vefforritinu.\n- Á símanum þeirra (með forritið uppsett): Hann opnast í Substitution-forritinu með staðfestingarboði áður en ferðast er á viðeigandi stað.\n\nÞetta er auðveldasta leiðin til að bjóða vinum í herbergin þín — deildu bara tenglinum!"
+            },
+            "direct_messages": {
+                "title": "Bein skilaboð",
+                "body": "Substitution inniheldur bein skilaboð fyrir einkasamtöl:\n\n1. Farðu á prófíl notanda með því að ýta á nafn þeirra eða prófílmynd á færslu.\n\n2. Ýttu á hnappinn 'Skilaboð' á prófíli þeirra.\n\n3. Einka-spjallherbergi er búið til á milli þín og þess notanda.\n\n4. Þú getur fundið öll samtöl þín í flipanum Skilaboð (spjalltákn í neðri leiðsögn).\n\nBein skilaboð eru aðskilin frá herbergisfærslum. Þau eru einka einn-á-einn samtöl á milli þín og annars notanda."
+            },
+            "opening_links": {
+                "title": "Opna tengla frá vinum",
+                "body": "Þegar einhver deilir Substitution-tengli með þér, gerist eftirfarandi:\n\nVeftenglar (https://app.substitution.art/...):\nÞessir opnast í vafranum þínum og hlaða Substitution vefforritinu. Þú getur skoðað herbergið, prófílinn eða færsluna beint. Skráðu þig inn ef beðið er um það.\n\nForritstenglar (substitution://...):\nEf þú ert með Substitution-forritið uppsett á símanum þínum, opnast þessir tenglar beint í forritinu. Þú munt sjá staðfestingarglugga sem spyr hvort þú viljir fara á herbergið, prófílinn eða færsluna. Ýttu á 'Halda áfram' til að halda áfram eða 'Hætta við' til að vera þar sem þú ert.\n\nÞetta staðfestingarskref er öryggiseiginleiki — það tryggir að þú vitir hvert tengill fer áður en þú ferð."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Opna tengil",
+            "room": "Þú ert að fara að opna herbergið:\n\n{}",
+            "user": "Þú ert að fara að skoða prófíl:\n\n{}",
+            "post": "Þú ert að fara að opna færslu.",
+            "generic": "Þú ert að fara að fara á:\n\n{}",
+            "continue_button": "Halda áfram",
+            "cancel_button": "Hætta við",
+            "login_required": "Þú þarft að vera skráð/ur inn til að opna þennan tengil. Viltu skrá þig inn núna?",
+            "login_button": "Skrá inn"
+        }
+    },
+    "share": {
+        "link_copied": "Tengill afritaður á klippiborð!",
+        "share_room": "Skoðaðu þetta herbergi á Substitution",
+        "share_profile": "Skoðaðu þennan prófíl á Substitution",
+        "share_post": "Skoðaðu þessa færslu á Substitution"
     }
 }

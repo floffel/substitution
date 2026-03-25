@@ -114,5 +114,74 @@
         "no_conversations": "Zatiaľ žiadne konverzácie", "no_conversations_hint": "Navštívte profil používateľa a klepnite na 'Správa' pre začatie konverzácie.",
         "media_message": "Médiá", "conversation_started": "Konverzácia začala",
         "error_loading": "Nepodarilo sa načítať túto konverzáciu.", "error_sending": "Odoslanie správy zlyhalo.", "view_profile": "Zobraziť profil"
+    },
+    "help": {
+        "title": "Pomoc",
+        "subtitle": "Naučte sa používať Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Čo je Substitution?",
+                "body": "Substitution je decentralizovaná sociálna sieť na zdieľanie umenia a kreatívneho obsahu. Na rozdiel od tradičných sociálnych médií je Substitution postavený na protokole Matrix, čo znamená, že žiadna jednotlivá spoločnosť nekontroluje vaše údaje ani sieť.\n\nVaše príspevky, správy a profil žijú na domovskom serveri Matrix, ktorý si vyberiete — nie na serveroch prevádzkovaných Substitution. To vám dáva plné vlastníctvo vášho obsahu a slobodu presunúť sa medzi servermi kedykoľvek.\n\nSubstitution je open source a riadený komunitou. Je navrhnutý tak, aby nahradil centralizované sociálne siete niečím spravodlivejším, transparentnejším a vlastneným používateľmi."
+            },
+            "what_is_matrix": {
+                "title": "Čo je protokol Matrix?",
+                "body": "Matrix je otvorený, decentralizovaný komunikačný protokol. Predstavte si ho ako e-mail: rovnako ako môžete poslať e-mail z Gmailu do Outlooku, Matrix vám umožňuje komunikovať medzi rôznymi servermi.\n\nKľúčové výhody Matrix:\n\n- Decentralizovaný: Žiadny jediný bod zlyhania alebo kontroly. Ak jeden server vypadne, zvyšok siete funguje ďalej.\n- Federovaný: Servery medzi sebou komunikujú. Môžete sledovať miestnosti a posielať správy používateľom na akomkoľvek serveri Matrix, nielen na vlastnom.\n- Open source: Protokol a väčšina serverového softvéru sú úplne otvorené.\n- Šifrovaný: Matrix podporuje end-to-end šifrovanie pre súkromné konverzácie.\n\nViac informácií nájdete na https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Začíname",
+                "body": "Na používanie Substitution potrebujete účet Matrix. Tu je postup, ako začať:\n\n1. Vyberte si domovský server: Domovský server je miesto, kde žije váš účet a údaje. Populárne voľby zahŕňajú matrix.org, ale existuje mnoho ďalších. Môžete si tiež prevádzkovať vlastný.\n\n2. Vytvorte si účet: Navštívte webovú stránku vami zvoleného domovského servera a zaregistrujte sa, alebo použite registračný odkaz na prihlasovacej obrazovke.\n\n3. Prihláste sa do Substitution: Otvorte aplikáciu, zadajte adresu vášho domovského servera a prihláste sa pomocou používateľského mena a hesla. Niektoré servery tiež podporujú jednotné prihlásenie (SSO).\n\n4. Objavujte: Po prihlásení použite kartu Objavovať na nájdenie miestností na sledovanie, alebo si vytvorte vlastnú!"
+            },
+            "what_are_rooms": {
+                "title": "Čo sú miestnosti?",
+                "body": "Miestnosti sú jadrom Substitution. Miestnosť je ako kanál alebo feed, kde sa zverejňuje obsah.\n\nKaždá miestnosť má:\n- Názov a voliteľný popis\n- Vlastníka (tvorcu), ktorý ovláda oprávnenia\n- Členov, ktorí sledujú a interagujú s obsahom\n- Voliteľný verejný alias (ako používateľské meno pre miestnosť)\n\nMiestnosti môžu byť verejné (ktokoľvek ich môže nájsť a pripojiť sa cez adresár miestností) alebo súkromné (len na pozvanie).\n\nV blogovom režime môžu príspevky vytvárať len moderátori a administrátori, zatiaľ čo všetci ostatní môžu komentovať a reagovať. V komunitnom režime môže prispievať akýkoľvek člen.\n\nMiestnosti môžu byť tiež end-to-end šifrované pre súkromné komunity."
+            },
+            "follow_rooms": {
+                "title": "Ako sledovať miestnosti",
+                "body": "Ak chcete objavovať a sledovať miestnosti:\n\n1. Prejdite na kartu Objavovať (ikona kompasu v dolnej navigačnej lište).\n\n2. Vyberte server z rozbaľovacieho zoznamu v hornej časti. Môžete prehliadať miestnosti na akomkoľvek serveri Matrix, nielen na vlastnom. Klepnite na „Pridať server” pre pridanie nových.\n\n3. Vyhľadajte miestnosti podľa názvu pomocou vyhľadávacieho poľa.\n\n4. Klepnite na miestnosť pre zobrazenie náhľadu s popisom, počtom členov a najnovšími príspevkami.\n\n5. Klepnite na „Vstúpiť” pre sledovanie miestnosti. Jej príspevky sa teraz budú zobrazovať vo vašom domovskom feede.\n\nAk chcete prestať sledovať miestnosť, nájdite ju na karte Objavovať a klepnite na „Opustiť”, alebo prejdite do feedu miestnosti a použite ponuku."
+            },
+            "create_room": {
+                "title": "Ako vytvoriť miestnosť",
+                "body": "Ak chcete vytvoriť vlastnú miestnosť:\n\n1. Otvorte navigačný panel (hamburgerové menu) a klepnite na „Vlastné kanály”, alebo prejdite do Nastavení a nájdite svoje miestnosti.\n\n2. Klepnite na „Vytvoriť novú miestnosť”.\n\n3. Vyplňte údaje o miestnosti:\n   - Názov miestnosti: Zobrazovaný názov vašej miestnosti (povinné).\n   - Alias miestnosti: Voliteľná verejná adresa (napr. 'my-art'). Vďaka tomu sa miestnosť ľahšie nájde a zdieľa.\n   - Popis: Povedzte ľuďom, o čom vaša miestnosť je.\n\n4. Nakonfigurujte nastavenia:\n   - Verejná miestnosť: Zapnite pre zobrazenie vašej miestnosti v adresári servera, aby ju mohol nájsť ktokoľvek. Vypnite pre prístup len na pozvanie.\n   - End-to-end šifrovanie: Zapnite pre súkromné miestnosti. Upozornenie: toto sa nedá vrátiť späť!\n   - Blogový režim: Zapnite, aby mohli prispievať len vy (a moderátori). Vypnite, aby mohol prispievať akýkoľvek člen.\n\n5. Voliteľne pozvite používateľov vyhľadaním ich mena alebo Matrix ID.\n\n6. Klepnite na „Vytvoriť miestnosť” a ste hotoví!\n\nMiestnosť bude vytvorená na vašom domovskom serveri, ale používatelia z akéhokoľvek servera sa môžu pripojiť."
+            },
+            "manage_room": {
+                "title": "Správa vašich miestností",
+                "body": "Ako vlastník alebo administrátor miestnosti máte plnú kontrolu nad svojimi miestnosťami:\n\nÚprava nastavení miestnosti:\nPrejdite do „Vlastné kanály” v navigačnom menu a klepnite na ikonu nastavení pri vašej miestnosti. Tu môžete zmeniť názov, popis, alias, avatar, viditeľnosť a režim prispievania.\n\nSpráva členov:\nV nastaveniach miestnosti prejdite na sekciu Členovia. Môžete:\n- Nastaviť role: Povýšiť členov na Moderátora alebo Administrátora, alebo ich degradovať späť na Používateľa.\n- Vyhodiť členov: Odstrániť člena z miestnosti (môže sa znova pripojiť, ak je miestnosť verejná).\n- Zabanovať členov: Natrvalo zablokovať člena v miestnosti. Neskôr ich môžete odbanovať.\n\nZabonovaní členovia:\nZobrazenie a správa zabonovaných členov v sekcii „Zabonovaní členovia” v nastaveniach miestnosti.\n\nOdstránenie miestnosti:\nV dolnej časti nastavení miestnosti nájdete Nebezpečnú zónu s možnosťou odstránenia miestnosti. Táto akcia je trvalá a nedá sa vrátiť späť."
+            },
+            "write_post": {
+                "title": "Ako napísať príspevok",
+                "body": "Ak chcete vytvoriť nový príspevok:\n\n1. Klepnite na tlačidlo + (plávajúce akčné tlačidlo) na karte Domov.\n\n2. Vyberte typ príspevku:\n   - Textový príspevok: Napíšte formátovaný text s formátovaním (tučné, kurzíva, nadpisy, zoznamy, odkazy a ďalšie).\n   - Súborový príspevok: Nahrajte obrázky, videá alebo iné súbory s voliteľným popisom.\n\n3. Vyberte miestnosť, v ktorej chcete prispievať. Zobrazia sa len miestnosti, kde máte oprávnenie na prispievanie.\n\n4. Napíšte svoj obsah:\n   - Pre textové príspevky použite panel nástrojov editora formátovaného textu.\n   - Pre súborové príspevky vyberte súbory a voliteľne pridajte názov a popis.\n\n5. Klepnite na tlačidlo odoslania pre zverejnenie príspevku.\n\nVáš príspevok sa zobrazí vo feede miestnosti a v domovskom feede všetkých, ktorí túto miestnosť sledujú."
+            },
+            "share_rooms": {
+                "title": "Zdieľanie miestností s priateľmi",
+                "body": "Miestnosti, profily a príspevky môžete jednoducho zdieľať s priateľmi:\n\nZdieľanie miestnosti:\nPri prezeraní feedu miestnosti klepnite na ikonu zdieľania v hornej lište. Tým sa skopíruje alebo zdieľa odkaz, ktorý môže otvoriť ktokoľvek.\n\nZdieľanie profilu:\nNa profilovej stránke akéhokoľvek používateľa klepnite na ikonu zdieľania pre zdieľanie odkazu na jeho profil.\n\nZdieľanie príspevku:\nNa stránke s podrobnosťami príspevku klepnite na ikonu zdieľania pre zdieľanie priameho odkazu na tento konkrétny príspevok.\n\nKeď váš priateľ otvorí odkaz:\n- Na webe: Otvorí sa priamo vo webovej aplikácii Substitution.\n- Na telefóne (s nainštalovanou aplikáciou): Otvorí sa v aplikácii Substitution s potvrdením pred navigáciou.\n\nToto je najjednoduchší spôsob, ako pozvať priateľov do svojich miestností — stačí zdieľať odkaz!"
+            },
+            "direct_messages": {
+                "title": "Priame správy",
+                "body": "Substitution obsahuje priame správy pre súkromné konverzácie:\n\n1. Prejdite na profil používateľa klepnutím na jeho meno alebo avatar pri akomkoľvek príspevku.\n\n2. Klepnite na tlačidlo „Správa” na jeho profile.\n\n3. Medzi vami a týmto používateľom sa vytvorí súkromná chatová miestnosť.\n\n4. Všetky vaše konverzácie nájdete na karte Správy (ikona chatu v dolnej navigačnej lište).\n\nPriame správy sú oddelené od príspevkov v miestnostiach. Sú to súkromné konverzácie medzi vami a iným používateľom."
+            },
+            "opening_links": {
+                "title": "Otváranie odkazov od priateľov",
+                "body": "Keď vám niekto zdieľa odkaz na Substitution, stane sa nasledovné:\n\nWebové odkazy (https://app.substitution.art/...):\nTieto sa otvoria vo vašom webovom prehliadači a načítajú webovú aplikáciu Substitution. Môžete priamo zobraziť miestnosť, profil alebo príspevok. Ak sa zobrazí výzva, prihláste sa.\n\nOdkazy aplikácie (substitution://...):\nAk máte na telefóne nainštalovanú aplikáciu Substitution, tieto odkazy sa otvoria priamo v aplikácii. Zobrazí sa potvrdzovací dialóg s otázkou, či chcete prejsť na miestnosť, profil alebo príspevok. Klepnite na „Pokračovať” pre pokračovanie alebo „Zrušiť” pre zotrvaní na mieste.\n\nTento potvrdzovací krok je bezpečnostná funkcia — zabezpečuje, že viete, kam vás odkaz zavedie, predtým než prejdete ďalej."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Otvoriť odkaz",
+            "room": "Chystáte sa otvoriť miestnosť:\n\n{}",
+            "user": "Chystáte sa zobraziť profil:\n\n{}",
+            "post": "Chystáte sa otvoriť príspevok.",
+            "generic": "Chystáte sa prejsť na:\n\n{}",
+            "continue_button": "Pokračovať",
+            "cancel_button": "Zrušiť",
+            "login_required": "Na otvorenie tohto odkazu sa musíte prihlásiť. Chcete sa teraz prihlásiť?",
+            "login_button": "Prihlásiť sa"
+        }
+    },
+    "share": {
+        "link_copied": "Odkaz bol skopírovaný do schránky!",
+        "share_room": "Pozrite si túto miestnosť na Substitution",
+        "share_profile": "Pozrite si tento profil na Substitution",
+        "share_post": "Pozrite si tento príspevok na Substitution"
     }
 }

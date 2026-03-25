@@ -114,5 +114,74 @@
         "no_conversations": "Chưa có cuộc trò chuyện nào", "no_conversations_hint": "Truy cập trang cá nhân của người dùng và nhấn 'Nhắn tin' để bắt đầu cuộc trò chuyện.",
         "media_message": "Phương tiện", "conversation_started": "Cuộc trò chuyện đã bắt đầu",
         "error_loading": "Không thể tải cuộc trò chuyện này.", "error_sending": "Gửi tin nhắn thất bại.", "view_profile": "Xem trang cá nhân"
+    },
+    "help": {
+        "title": "Trợ giúp",
+        "subtitle": "Tìm hiểu cách sử dụng Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Substitution là gì?",
+                "body": "Substitution là một mạng xã hội phi tập trung để chia sẻ nghệ thuật và nội dung sáng tạo. Khác với mạng xã hội truyền thống, Substitution được xây dựng trên giao thức Matrix, nghĩa là không có công ty nào kiểm soát dữ liệu hoặc mạng lưới của bạn.\n\nBài đăng, tin nhắn và hồ sơ của bạn được lưu trữ trên máy chủ Matrix mà bạn chọn — không phải trên các máy chủ do Substitution vận hành. Điều này mang lại cho bạn quyền sở hữu hoàn toàn đối với nội dung của mình và tự do chuyển đổi giữa các máy chủ bất cứ lúc nào.\n\nSubstitution là mã nguồn mở và được cộng đồng vận hành. Nó được thiết kế để thay thế các mạng xã hội tập trung bằng một thứ gì đó công bằng hơn, minh bạch hơn và do người dùng sở hữu."
+            },
+            "what_is_matrix": {
+                "title": "Giao thức Matrix là gì?",
+                "body": "Matrix là một giao thức truyền thông mở và phi tập trung. Hãy nghĩ nó giống như email: giống như bạn có thể gửi email từ Gmail đến Outlook, Matrix cho phép bạn giao tiếp qua các máy chủ khác nhau.\n\nCác lợi ích chính của Matrix:\n\n- Phi tập trung: Không có điểm lỗi hoặc kiểm soát duy nhất. Nếu một máy chủ gặp sự cố, phần còn lại của mạng vẫn hoạt động.\n- Liên kết: Các máy chủ giao tiếp với nhau. Bạn có thể theo dõi phòng và nhắn tin cho người dùng trên bất kỳ máy chủ Matrix nào, không chỉ máy chủ của bạn.\n- Mã nguồn mở: Giao thức và hầu hết phần mềm máy chủ đều hoàn toàn là mã nguồn mở.\n- Mã hóa: Matrix hỗ trợ mã hóa đầu cuối cho các cuộc trò chuyện riêng tư.\n\nTìm hiểu thêm tại https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Bắt đầu",
+                "body": "Để sử dụng Substitution, bạn cần một tài khoản Matrix. Đây là cách bắt đầu:\n\n1. Chọn máy chủ: Máy chủ là nơi tài khoản và dữ liệu của bạn được lưu trữ. Các lựa chọn phổ biến bao gồm matrix.org, nhưng còn nhiều lựa chọn khác. Bạn cũng có thể tự lưu trữ máy chủ riêng.\n\n2. Tạo tài khoản: Truy cập trang web của máy chủ bạn chọn để đăng ký, hoặc sử dụng liên kết đăng ký trong màn hình đăng nhập.\n\n3. Đăng nhập Substitution: Mở ứng dụng, nhập địa chỉ máy chủ của bạn và đăng nhập bằng tên người dùng và mật khẩu. Một số máy chủ cũng hỗ trợ Đăng nhập một lần (SSO).\n\n4. Khám phá: Sau khi đăng nhập, sử dụng tab Khám phá để tìm phòng theo dõi, hoặc tạo phòng của riêng bạn!"
+            },
+            "what_are_rooms": {
+                "title": "Phòng là gì?",
+                "body": "Phòng là cốt lõi của Substitution. Phòng giống như một kênh hoặc bảng tin nơi nội dung được đăng.\n\nMỗi phòng có:\n- Tên và mô tả (tùy chọn)\n- Chủ sở hữu (người tạo) kiểm soát quyền hạn\n- Thành viên theo dõi và tương tác với nội dung\n- Bí danh công khai (tùy chọn) (giống như tên người dùng cho phòng)\n\nPhòng có thể là công khai (bất kỳ ai cũng có thể tìm và tham gia qua danh mục phòng) hoặc riêng tư (chỉ theo lời mời).\n\nTrong Chế độ Blog, chỉ quản trị viên và người kiểm duyệt mới có thể tạo bài đăng, trong khi mọi người khác có thể bình luận và phản ứng. Trong Chế độ Cộng đồng, bất kỳ thành viên nào cũng có thể đăng bài.\n\nPhòng cũng có thể được mã hóa đầu cuối cho các cộng đồng riêng tư."
+            },
+            "follow_rooms": {
+                "title": "Cách theo dõi phòng",
+                "body": "Để khám phá và theo dõi phòng:\n\n1. Vào tab Khám phá (biểu tượng la bàn trong thanh điều hướng dưới cùng).\n\n2. Chọn một máy chủ từ menu thả xuống ở trên cùng. Bạn có thể duyệt phòng trên bất kỳ máy chủ Matrix nào, không chỉ máy chủ của mình. Nhấn 'Thêm máy chủ' để thêm máy chủ mới.\n\n3. Tìm kiếm phòng theo tên bằng trường tìm kiếm.\n\n4. Nhấn vào phòng để xem trước mô tả, số lượng thành viên và bài đăng mới nhất.\n\n5. Nhấn 'Tham gia' để theo dõi phòng. Bài đăng của phòng sẽ xuất hiện trong bảng tin Trang chủ.\n\nĐể hủy theo dõi phòng, tìm phòng trong tab Khám phá và nhấn 'Rời phòng', hoặc vào bảng tin của phòng và sử dụng menu."
+            },
+            "create_room": {
+                "title": "Cách tạo phòng",
+                "body": "Để tạo phòng riêng:\n\n1. Mở ngăn điều hướng (menu hamburger) và nhấn 'Bảng tin của tôi', hoặc vào Cài đặt để tìm phòng của bạn.\n\n2. Nhấn 'Tạo phòng mới'.\n\n3. Điền thông tin phòng:\n   - Tên phòng: Tên hiển thị cho phòng (bắt buộc).\n   - Bí danh phòng: Địa chỉ công khai tùy chọn (ví dụ: 'my-art'). Điều này giúp phòng dễ tìm và chia sẻ hơn.\n   - Mô tả: Cho mọi người biết phòng của bạn về chủ đề gì.\n\n4. Cấu hình cài đặt:\n   - Phòng công khai: Bật để liệt kê phòng trong danh mục máy chủ để bất kỳ ai cũng có thể tìm. Tắt để chỉ mời.\n   - Mã hóa đầu cuối: Bật cho phòng riêng tư. Cảnh báo: không thể hoàn tác!\n   - Chế độ Blog: Bật để chỉ bạn (và người kiểm duyệt) mới đăng được. Tắt để cho phép mọi thành viên đăng bài.\n\n5. Tùy chọn mời người dùng bằng cách tìm kiếm tên hoặc Matrix ID của họ.\n\n6. Nhấn 'Tạo phòng' là xong!\n\nPhòng sẽ được tạo trên máy chủ của bạn, nhưng người dùng từ bất kỳ máy chủ nào cũng có thể tham gia."
+            },
+            "manage_room": {
+                "title": "Quản lý phòng của bạn",
+                "body": "Với tư cách chủ phòng hoặc quản trị viên, bạn có toàn quyền kiểm soát phòng:\n\nChỉnh sửa cài đặt phòng:\nVào 'Bảng tin của tôi' trong menu ngăn, sau đó nhấn biểu tượng cài đặt trên phòng. Tại đây bạn có thể thay đổi tên, mô tả, bí danh, ảnh đại diện, hiển thị và chế độ đăng bài.\n\nQuản lý thành viên:\nTrong cài đặt phòng, cuộn đến phần Thành viên. Bạn có thể:\n- Đặt vai trò: Thăng cấp thành viên thành Người kiểm duyệt hoặc Quản trị viên, hoặc hạ cấp về Người dùng.\n- Đuổi thành viên: Xóa thành viên khỏi phòng (họ có thể tham gia lại nếu phòng là công khai).\n- Cấm thành viên: Chặn vĩnh viễn thành viên khỏi phòng. Bạn có thể gỡ cấm sau.\n\nThành viên bị cấm:\nXem và quản lý thành viên bị cấm trong phần 'Thành viên bị cấm' của cài đặt phòng.\n\nXóa phòng:\nỞ cuối cài đặt phòng, bạn sẽ tìm thấy Vùng nguy hiểm với tùy chọn xóa phòng. Hành động này là vĩnh viễn và không thể hoàn tác."
+            },
+            "write_post": {
+                "title": "Cách viết bài đăng",
+                "body": "Để tạo bài đăng mới:\n\n1. Nhấn nút + (nút hành động nổi) trên tab Trang chủ.\n\n2. Chọn loại bài đăng:\n   - Bài đăng văn bản: Viết văn bản phong phú với định dạng (in đậm, in nghiêng, tiêu đề, danh sách, liên kết và hơn thế nữa).\n   - Bài đăng tệp: Tải lên hình ảnh, video hoặc các tệp khác kèm chú thích tùy chọn.\n\n3. Chọn phòng bạn muốn đăng. Chỉ những phòng bạn có quyền đăng bài mới hiển thị.\n\n4. Viết nội dung:\n   - Với bài đăng văn bản, sử dụng thanh công cụ trình soạn thảo văn bản phong phú để định dạng.\n   - Với bài đăng tệp, chọn tệp và tùy chọn thêm tiêu đề và chú thích.\n\n5. Nhấn nút gửi để đăng bài.\n\nBài đăng sẽ xuất hiện trong bảng tin của phòng và trong bảng tin Trang chủ của tất cả những ai theo dõi phòng đó."
+            },
+            "share_rooms": {
+                "title": "Chia sẻ phòng với bạn bè",
+                "body": "Bạn có thể dễ dàng chia sẻ phòng, hồ sơ và bài đăng với bạn bè:\n\nChia sẻ phòng:\nKhi xem bảng tin của phòng, nhấn biểu tượng chia sẻ trên thanh trên cùng. Thao tác này sao chép hoặc chia sẻ liên kết mà bất kỳ ai cũng có thể mở.\n\nChia sẻ hồ sơ:\nTrên trang hồ sơ của người dùng, nhấn biểu tượng chia sẻ để chia sẻ liên kết hồ sơ.\n\nChia sẻ bài đăng:\nTrên trang chi tiết bài đăng, nhấn biểu tượng chia sẻ để chia sẻ liên kết trực tiếp đến bài đăng đó.\n\nKhi bạn bè mở liên kết:\n- Trên web: Mở trực tiếp trong ứng dụng web Substitution.\n- Trên điện thoại (đã cài ứng dụng): Mở trong ứng dụng Substitution với thông báo xác nhận trước khi điều hướng.\n\nĐây là cách dễ nhất để mời bạn bè vào phòng — chỉ cần chia sẻ liên kết!"
+            },
+            "direct_messages": {
+                "title": "Tin nhắn trực tiếp",
+                "body": "Substitution bao gồm tính năng tin nhắn trực tiếp cho các cuộc trò chuyện riêng tư:\n\n1. Vào trang cá nhân của người dùng bằng cách nhấn tên hoặc ảnh đại diện của họ trên bất kỳ bài đăng nào.\n\n2. Nhấn nút 'Nhắn tin' trên trang cá nhân của họ.\n\n3. Một phòng trò chuyện riêng tư sẽ được tạo giữa bạn và người dùng đó.\n\n4. Bạn có thể tìm tất cả cuộc trò chuyện trong tab Tin nhắn (biểu tượng chat trong thanh điều hướng dưới cùng).\n\nTin nhắn trực tiếp tách biệt với bài đăng trong phòng. Đó là cuộc trò chuyện riêng tư một-một giữa bạn và người dùng khác."
+            },
+            "opening_links": {
+                "title": "Mở liên kết từ bạn bè",
+                "body": "Khi ai đó chia sẻ liên kết Substitution với bạn, đây là những gì xảy ra:\n\nLiên kết web (https://app.substitution.art/...):\nCác liên kết này mở trong trình duyệt web và tải ứng dụng web Substitution. Bạn có thể xem phòng, hồ sơ hoặc bài đăng trực tiếp. Đăng nhập nếu được yêu cầu.\n\nLiên kết ứng dụng (substitution://...):\nNếu bạn đã cài đặt ứng dụng Substitution trên điện thoại, các liên kết này sẽ mở trực tiếp trong ứng dụng. Bạn sẽ thấy hộp thoại xác nhận hỏi bạn có muốn điều hướng đến phòng, hồ sơ hoặc bài đăng hay không. Nhấn 'Tiếp tục' để tiếp tục hoặc 'Hủy' để ở lại trang hiện tại.\n\nBước xác nhận này là tính năng an toàn — đảm bảo bạn biết liên kết sẽ đưa bạn đến đâu trước khi điều hướng."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Mở liên kết",
+            "room": "Bạn sắp mở phòng:\n\n{}",
+            "user": "Bạn sắp xem hồ sơ của:\n\n{}",
+            "post": "Bạn sắp mở một bài đăng.",
+            "generic": "Bạn sắp điều hướng đến:\n\n{}",
+            "continue_button": "Tiếp tục",
+            "cancel_button": "Hủy",
+            "login_required": "Bạn cần đăng nhập để mở liên kết này. Bạn có muốn đăng nhập ngay không?",
+            "login_button": "Đăng nhập"
+        }
+    },
+    "share": {
+        "link_copied": "Đã sao chép liên kết vào bộ nhớ tạm!",
+        "share_room": "Xem phòng này trên Substitution",
+        "share_profile": "Xem hồ sơ này trên Substitution",
+        "share_post": "Xem bài đăng này trên Substitution"
     }
 }

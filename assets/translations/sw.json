@@ -114,5 +114,74 @@
         "no_conversations": "Hakuna mazungumzo bado", "no_conversations_hint": "Tembelea wasifu wa mtumiaji na ubonyeze 'Ujumbe' ili kuanza mazungumzo.",
         "media_message": "Midia", "conversation_started": "Mazungumzo yameanza",
         "error_loading": "Imeshindwa kupakia mazungumzo haya.", "error_sending": "Imeshindwa kutuma ujumbe.", "view_profile": "Tazama wasifu"
+    },
+    "help": {
+        "title": "Msaada",
+        "subtitle": "Jifunze jinsi ya kutumia Substitution",
+        "articles": {
+            "what_is_substitution": {
+                "title": "Substitution ni nini?",
+                "body": "Substitution ni mtandao wa kijamii usio na kituo kwa ajili ya kushiriki sanaa na maudhui ya ubunifu. Tofauti na mitandao ya kijamii ya kawaida, Substitution imejengwa juu ya itifaki ya Matrix, ikimaanisha hakuna kampuni moja inayodhibiti data yako au mtandao.\n\nMachapisho yako, ujumbe wako na wasifu wako vinaishi kwenye seva ya Matrix unayochagua — si kwenye seva zinazoendeshwa na Substitution. Hii inakupa umiliki kamili wa maudhui yako na uhuru wa kuhamia kati ya seva wakati wowote.\n\nSubstitution ni chanzo huria na inaongozwa na jamii. Imeundwa kubadilisha mitandao ya kijamii ya kituo na kitu cha haki zaidi, uwazi zaidi na kinachomilikiwa na watumiaji."
+            },
+            "what_is_matrix": {
+                "title": "Itifaki ya Matrix ni nini?",
+                "body": "Matrix ni itifaki ya mawasiliano ya wazi na isiyo na kituo. Ifikirie kama barua pepe: kama unavyoweza kutuma barua pepe kutoka Gmail kwenda Outlook, Matrix inakuruhusu kuwasiliana kati ya seva tofauti.\n\nFaida kuu za Matrix:\n\n- Isiyo na kituo: Hakuna sehemu moja ya kushindwa au kudhibiti. Ikiwa seva moja itashuka, mtandao mzima unaendelea kufanya kazi.\n- Shirikishi: Seva zinazungumza na kila moja. Unaweza kufuata vyumba na kutuma ujumbe kwa watumiaji kwenye seva yoyote ya Matrix, si yako tu.\n- Chanzo huria: Itifaki na programu nyingi za seva ni chanzo huria kabisa.\n- Iliyosimbwa: Matrix inaunga mkono usimbaji fiche wa mwisho hadi mwisho kwa mazungumzo ya faragha.\n\nJifunze zaidi: https://matrix.org"
+            },
+            "getting_started": {
+                "title": "Kuanza",
+                "body": "Kutumia Substitution, unahitaji akaunti ya Matrix. Hivi ndivyo unavyoanza:\n\n1. Chagua seva ya nyumbani: Seva ya nyumbani ndipo akaunti yako na data yako vinaishi. Chaguo maarufu ni pamoja na matrix.org, lakini kuna nyingine nyingi. Pia unaweza kuendesha seva yako mwenyewe.\n\n2. Tengeneza akaunti: Tembelea tovuti ya seva ya nyumbani uliyochagua ili kusajili, au tumia kiungo cha usajili kwenye skrini ya kuingia.\n\n3. Ingia kwenye Substitution: Fungua programu, ingiza anwani ya seva yako ya nyumbani na uingie kwa jina lako la mtumiaji na nenosiri. Seva zingine pia zinaunga mkono Kuingia Mara Moja (SSO).\n\n4. Chunguza: Baada ya kuingia, tumia kichupo cha Gundua kupata vyumba vya kufuata, au tengeneza chako!"
+            },
+            "what_are_rooms": {
+                "title": "Vyumba ni nini?",
+                "body": "Vyumba ndio msingi wa Substitution. Chumba ni kama chaneli au mlisho ambapo maudhui huchapishwa.\n\nKila chumba kina:\n- Jina na maelezo ya hiari\n- Mmiliki (muundaji) anayedhibiti ruhusa\n- Wanachama wanaofuata na kuingiliana na maudhui\n- Lakabu ya umma ya hiari (kama jina la mtumiaji kwa chumba)\n\nVyumba vinaweza kuwa vya umma (mtu yeyote anaweza kupata na kujiunga kupitia saraka ya vyumba) au vya faragha (kwa mwaliko tu).\n\nKatika Hali ya Blogu, ni wasimamizi na watawala pekee wanaoweza kuunda machapisho, wakati kila mtu mwingine anaweza kutoa maoni na kuguswa. Katika Hali ya Jamii, mwanachama yeyote anaweza kuchapisha.\n\nVyumba pia vinaweza kusimbwa kwa njia ya mwisho hadi mwisho kwa jamii za faragha."
+            },
+            "follow_rooms": {
+                "title": "Jinsi ya kufuata vyumba",
+                "body": "Kugundua na kufuata vyumba:\n\n1. Nenda kwenye kichupo cha Gundua (ikoni ya dira kwenye upau wa urambazaji wa chini).\n\n2. Chagua seva kutoka kwenye orodha ya kushuka juu. Unaweza kuvinjari vyumba kwenye seva yoyote ya Matrix, si yako tu. Bonyeza 'Ongeza Seva' kuongeza mpya.\n\n3. Tafuta vyumba kwa jina kwa kutumia sehemu ya utafutaji.\n\n4. Bonyeza chumba kuona maelezo yake, idadi ya wanachama na machapisho ya hivi karibuni.\n\n5. Bonyeza 'Jiunge' kufuata chumba. Machapisho yake yataonekana sasa kwenye mlisho wako wa Nyumbani.\n\nKuacha kufuata chumba, kitafute kwenye kichupo cha Gundua na ubonyeze 'Ondoka', au nenda kwenye mlisho wa chumba na utumie menyu."
+            },
+            "create_room": {
+                "title": "Jinsi ya kuunda chumba",
+                "body": "Kuunda chumba chako:\n\n1. Fungua droo ya urambazaji (menyu ya hamburger) na ubonyeze 'Milisho Yangu', au nenda kwenye Mipangilio na utafute vyumba vyako.\n\n2. Bonyeza 'Unda Chumba Kipya'.\n\n3. Jaza maelezo ya chumba:\n   - Jina la Chumba: Jina la kuonyesha la chumba chako (lazima).\n   - Lakabu ya Chumba: Anwani ya umma ya hiari (mfano 'sanaa-yangu'). Hii inafanya chumba kiwe rahisi kupata na kushiriki.\n   - Maelezo: Waambie watu chumba chako kinahusu nini.\n\n4. Weka mipangilio:\n   - Chumba cha Umma: Wezesha ili chumba chako kionekane kwenye saraka ya seva ili mtu yeyote aweze kukipata. Lemaza kwa chumba cha mwaliko tu.\n   - Usimbaji wa Mwisho hadi Mwisho: Wezesha kwa vyumba vya faragha. Onyo: hii haiwezi kutenduliwa!\n   - Hali ya Blogu: Wezesha ili wewe (na wasimamizi) tu mweze kuchapisha. Lemaza ili mwanachama yeyote aweze kuchapisha.\n\n5. Kwa hiari, alika watumiaji kwa kutafuta jina lao au kitambulisho cha Matrix.\n\n6. Bonyeza 'Unda' na umemaliza!\n\nChumba kitaundwa kwenye seva yako ya nyumbani, lakini watumiaji kutoka seva yoyote wanaweza kujiunga."
+            },
+            "manage_room": {
+                "title": "Kudhibiti vyumba vyako",
+                "body": "Kama mmiliki au mtawala wa chumba, una udhibiti kamili juu ya vyumba vyako:\n\nKuhariri mipangilio ya chumba:\nNenda kwenye 'Milisho Yangu' kwenye menyu ya droo, kisha bonyeza ikoni ya mipangilio kwenye chumba chako. Hapa unaweza kubadilisha jina, maelezo, lakabu, picha, uonekano na hali ya kuchapisha.\n\nKudhibiti wanachama:\nKatika mipangilio ya chumba, sogeza hadi sehemu ya Wanachama. Unaweza:\n- Weka majukumu: Pandisha wanachama kuwa Msimamizi au Mtawala, au wawashushe tena kuwa Mtumiaji.\n- Ondoa wanachama: Mwondoe mwanachama kutoka kwenye chumba (anaweza kujiunga tena ikiwa chumba ni cha umma).\n- Zuia wanachama: Mzuie mwanachama kutoka kwenye chumba milele. Unaweza kumzuilia baadaye.\n\nWanachama waliozuiwa:\nTazama na udhibiti wanachama waliozuiwa katika sehemu ya 'Wanachama Waliozuiwa' ya mipangilio ya chumba.\n\nKufuta chumba:\nChini ya mipangilio ya chumba, utapata Eneo la Hatari na chaguo la kufuta chumba. Kitendo hiki ni cha kudumu na hakiwezi kutenduliwa."
+            },
+            "write_post": {
+                "title": "Jinsi ya kuandika chapisho",
+                "body": "Kuunda chapisho jipya:\n\n1. Bonyeza kitufe cha + (kitufe cha hatua kinachoelea) kwenye kichupo cha Nyumbani.\n\n2. Chagua aina ya chapisho:\n   - Chapisho la Maandishi: Andika maandishi tajiri na muundo (nzito, mlazo, vichwa, orodha, viungo na zaidi).\n   - Chapisho la Faili: Pakia picha, video au faili nyingine na maelezo ya hiari.\n\n3. Chagua chumba unachotaka kuchapisha. Vyumba tu ambavyo una ruhusa ya kuchapisha ndivyo vitakavyoonekana.\n\n4. Andika maudhui yako:\n   - Kwa machapisho ya maandishi, tumia upau wa zana za muundo.\n   - Kwa machapisho ya faili, chagua faili zako na kwa hiari ongeza kichwa na maelezo.\n\n5. Bonyeza kitufe cha kutuma kuchapisha chapisho lako.\n\nChapisho lako litaonekana kwenye mlisho wa chumba na kwenye mlisho wa Nyumbani wa kila mtu anayefuata chumba hicho."
+            },
+            "share_rooms": {
+                "title": "Kushiriki vyumba na marafiki",
+                "body": "Unaweza kushiriki vyumba, wasifu na machapisho na marafiki kwa urahisi:\n\nKushiriki Chumba:\nUnapotazama mlisho wa chumba, bonyeza ikoni ya kushiriki kwenye upau wa juu. Hii inanakili au inashiriki kiungo ambacho mtu yeyote anaweza kufungua.\n\nKushiriki Wasifu:\nKwenye ukurasa wa wasifu wa mtumiaji yeyote, bonyeza ikoni ya kushiriki kushiriki kiungo cha wasifu wao.\n\nKushiriki Chapisho:\nKwenye ukurasa wa maelezo ya chapisho, bonyeza ikoni ya kushiriki kushiriki kiungo cha moja kwa moja kwa chapisho hilo.\n\nRafiki yako anapofungua kiungo:\n- Kwenye wavuti: Kinafunguliwa moja kwa moja kwenye programu ya wavuti ya Substitution.\n- Kwenye simu yao (programu ikiwa imewekwa): Kinafunguliwa kwenye programu ya Substitution na kidokezo cha uthibitisho kabla ya kuvinjari.\n\nHii ndiyo njia rahisi zaidi ya kuwaalika marafiki kwenye vyumba vyako — shiriki kiungo tu!"
+            },
+            "direct_messages": {
+                "title": "Ujumbe wa Moja kwa Moja",
+                "body": "Substitution inajumuisha ujumbe wa moja kwa moja kwa mazungumzo ya faragha:\n\n1. Nenda kwenye wasifu wa mtumiaji kwa kubonyeza jina lao au picha yao kwenye chapisho lolote.\n\n2. Bonyeza kitufe cha 'Ujumbe' kwenye wasifu wao.\n\n3. Chumba cha mazungumzo ya faragha kinaundwa kati yako na mtumiaji huyo.\n\n4. Unaweza kupata mazungumzo yako yote kwenye kichupo cha Ujumbe (ikoni ya mazungumzo kwenye upau wa urambazaji wa chini).\n\nUjumbe wa moja kwa moja ni tofauti na machapisho ya chumba. Ni mazungumzo ya faragha ya mtu mmoja kwa mtu mmoja kati yako na mtumiaji mwingine."
+            },
+            "opening_links": {
+                "title": "Kufungua viungo kutoka kwa marafiki",
+                "body": "Mtu anaposhiriki nawe kiungo cha Substitution, hivi ndivyo inavyotokea:\n\nViungo vya wavuti (https://app.substitution.art/...):\nHivi vinafunguliwa kwenye kivinjari chako cha wavuti na kupakia programu ya wavuti ya Substitution. Unaweza kutazama chumba, wasifu au chapisho moja kwa moja. Ingia ikiwa utaombwa.\n\nViungo vya programu (substitution://...):\nIkiwa programu ya Substitution imewekwa kwenye simu yako, viungo hivi vinafunguliwa moja kwa moja kwenye programu. Utaona kidirisha cha uthibitisho kinachokuuliza kama unataka kuvinjari kwenda kwenye chumba, wasifu au chapisho. Bonyeza 'Endelea' kuendelea au 'Ghairi' kubaki.\n\nHatua hii ya uthibitisho ni kipengele cha usalama — inahakikisha unajua kiungo kitakupeleka wapi kabla ya kuvinjari."
+            }
+        }
+    },
+    "deep_link": {
+        "confirm": {
+            "title": "Fungua Kiungo",
+            "room": "Unakaribia kufungua chumba:\n\n{}",
+            "user": "Unakaribia kutazama wasifu wa:\n\n{}",
+            "post": "Unakaribia kufungua chapisho.",
+            "generic": "Unakaribia kuvinjari kwenda:\n\n{}",
+            "continue_button": "Endelea",
+            "cancel_button": "Ghairi",
+            "login_required": "Unahitaji kuingia ili kufungua kiungo hiki. Ungependa kuingia sasa?",
+            "login_button": "Ingia"
+        }
+    },
+    "share": {
+        "link_copied": "Kiungo kimenakiliwa kwenye ubao wa kunakili!",
+        "share_room": "Angalia chumba hiki kwenye Substitution",
+        "share_profile": "Angalia wasifu huu kwenye Substitution",
+        "share_post": "Angalia chapisho hili kwenye Substitution"
     }
 }
