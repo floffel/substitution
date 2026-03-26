@@ -34,6 +34,18 @@ void main() {
       }
     });
 
+    tearDown(() async {
+      // Ensure the Matrix client is fully disposed after each test so that
+      // subsequent tests in the same shard don't share state or compete for
+      // Matrix server resources.
+      try {
+        app.globalMatrixClient?.abortSync();
+        await app.globalMatrixClient?.dispose();
+      } catch (_) {}
+      app.globalMatrixClient = null;
+      app.globalSubstitutionService = null;
+    });
+
     testWidgets(
       'Legal page accessibility check',
       (tester) async {
