@@ -123,6 +123,11 @@ void main() {
         // 3. Verify RoomSelectPage and pick our fresh room
         expect($(RoomSelectPage).exists, true);
         debugPrint('POST_CREATION: Picking room $roomName...');
+        // Wait explicitly for the room to appear in the list — Android emulators
+        // can be slow to reflect newly created rooms in the UI.
+        await $(
+          find.textContaining(roomName),
+        ).waitUntilVisible(timeout: const Duration(seconds: 60));
         await $(find.textContaining(roomName)).tap();
         for (int i = 0; i < 10; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
@@ -155,11 +160,13 @@ void main() {
         await sendButton.tap();
 
         // 7. Wait for navigation back to feed
+        // Use a generous timeout: sendEvent can be slow on loaded CI runners
+        // and the Matrix server round-trip may take over a minute under load.
         debugPrint('POST_CREATION: Waiting for redirect to feed...');
         await fastWait(
           $.tester,
-          () => $(HomePage).exists,
-          timeout: const Duration(seconds: 60),
+          () => $(HomePage).exists && $(TextMessageWrite).exists == false,
+          timeout: const Duration(minutes: 3),
         );
         for (int i = 0; i < 10; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
