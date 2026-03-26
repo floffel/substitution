@@ -59,22 +59,27 @@ class StickerMessageWriteState extends State<StickerMessageWrite> {
         messageKey: 'write.textmessage.send_start',
       );
 
-      final currentEvent = await event;
-      if (currentEvent?.relationshipType == RelationshipTypes.thread) {
-        eventThreadId = currentEvent?.relationshipEventId;
-      }
+      try {
+        final currentEvent = await event;
+        if (currentEvent?.relationshipType == RelationshipTypes.thread) {
+          eventThreadId = currentEvent?.relationshipEventId;
+        }
 
-      final url = sticker.url.toString();
-      ret = await room!.sendEvent(
-        {
-          'body': stickerKey,
-          'url': url,
-          if (sticker.info != null) 'info': sticker.info,
-        },
-        type: EventTypes.Sticker,
-        threadRootEventId: eventThreadId,
-        inReplyTo: currentEvent,
-      );
+        final url = sticker.url.toString();
+        ret = await room!.sendEvent(
+          {
+            'body': stickerKey,
+            'url': url,
+            if (sticker.info != null) 'info': sticker.info,
+          },
+          type: EventTypes.Sticker,
+          threadRootEventId: eventThreadId,
+          inReplyTo: currentEvent,
+        );
+      } catch (e) {
+        debugPrint('Sticker send error: $e');
+        // ret stays null so the error dialog below is shown
+      }
 
       navigator.pop();
 

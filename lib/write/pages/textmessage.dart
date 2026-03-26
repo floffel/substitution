@@ -110,21 +110,26 @@ class TextMessageWriteState extends State<TextMessageWrite> {
         messageKey: 'write.textmessage.send_start',
       );
 
-      if ((await event)?.relationshipType == RelationshipTypes.thread) {
-        // commenting a comment => we can't start a new thread, rather use the existing one
-        eventThreadId = (await event)?.relationshipEventId;
-      }
+      try {
+        if ((await event)?.relationshipType == RelationshipTypes.thread) {
+          // commenting a comment => we can't start a new thread, rather use the existing one
+          eventThreadId = (await event)?.relationshipEventId;
+        }
 
-      ret = await room!.sendEvent(
-        {
-          "body": _controller.document.toPlainText(),
-          'format': 'org.matrix.custom.html',
-          'formatted_body': html,
-          'msgtype': MessageTypes.Text,
-        },
-        threadRootEventId: eventThreadId,
-        inReplyTo: await event,
-      );
+        ret = await room!.sendEvent(
+          {
+            "body": _controller.document.toPlainText(),
+            'format': 'org.matrix.custom.html',
+            'formatted_body': html,
+            'msgtype': MessageTypes.Text,
+          },
+          threadRootEventId: eventThreadId,
+          inReplyTo: await event,
+        );
+      } catch (e) {
+        debugPrint('Send error: $e');
+        // ret stays null so the error dialog below is shown
+      }
 
       navigator.pop(); // pop the send started window
 

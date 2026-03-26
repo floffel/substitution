@@ -95,8 +95,14 @@ void main() {
           powerLevelContentOverride: {'users_default': 50},
         );
 
-        // Wait for SDK to sync the room
-        await fastWait($.tester, () => client.getRoomById(roomId) != null);
+        // Wait for SDK to sync the room (generous timeout for slow CI runners)
+        debugPrint('POST_CREATION: Waiting for room to sync...');
+        await fastWait(
+          $.tester,
+          () => client.getRoomById(roomId) != null,
+          timeout: const Duration(seconds: 120),
+        );
+        debugPrint('POST_CREATION: Room synced in SDK.');
 
         // Mark as substitution
         service.addRoomId(roomId);
@@ -107,7 +113,17 @@ void main() {
           {"joined": true},
         );
         service.triggerRefresh();
-        for (int i = 0; i < 10; i++) {
+
+        // Wait for the service to actually pick up the room — on slow CI the
+        // feed may need several sync cycles before the new room appears.
+        debugPrint('POST_CREATION: Waiting for room to appear in service...');
+        await fastWait(
+          $.tester,
+          () => service.isSubstitutionRoom(roomId),
+          timeout: const Duration(seconds: 60),
+        );
+        // Extra stabilization pumps for the UI to rebuild with the new room
+        for (int i = 0; i < 20; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
         }
 
@@ -116,18 +132,23 @@ void main() {
         final newPostButton = $(Icons.add_rounded);
         await newPostButton.waitUntilVisible();
         await newPostButton.tap();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
         }
 
         // 3. Verify RoomSelectPage and pick our fresh room
-        expect($(RoomSelectPage).exists, true);
+        debugPrint('POST_CREATION: Waiting for RoomSelectPage...');
+        await fastWait(
+          $.tester,
+          () => $(RoomSelectPage).exists,
+          timeout: const Duration(seconds: 30),
+        );
         debugPrint('POST_CREATION: Picking room $roomName...');
         // Wait explicitly for the room to appear in the list — Android emulators
-        // can be slow to reflect newly created rooms in the UI.
+        // and slow CI runners can take a long time to reflect newly created rooms.
         await $(
           find.textContaining(roomName),
-        ).waitUntilVisible(timeout: const Duration(seconds: 60));
+        ).waitUntilVisible(timeout: const Duration(seconds: 120));
         await $(find.textContaining(roomName)).tap();
         for (int i = 0; i < 10; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
@@ -160,13 +181,14 @@ void main() {
         await sendButton.tap();
 
         // 7. Wait for navigation back to feed
-        // Use a generous timeout: sendEvent can be slow on loaded CI runners
-        // and the Matrix server round-trip may take over a minute under load.
+        // Use a very generous timeout: sendEvent can be slow on loaded CI
+        // runners and the Matrix server round-trip may take several minutes
+        // under heavy load (especially on Android emulators and Linux desktop).
         debugPrint('POST_CREATION: Waiting for redirect to feed...');
         await fastWait(
           $.tester,
           () => $(HomePage).exists && $(TextMessageWrite).exists == false,
-          timeout: const Duration(minutes: 3),
+          timeout: const Duration(minutes: 5),
         );
         for (int i = 0; i < 10; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));

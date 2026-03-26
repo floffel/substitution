@@ -146,21 +146,26 @@ class LocationMessageWriteState extends State<LocationMessageWrite> {
         messageKey: 'write.locationmessage.send_start',
       );
 
-      final currentEvent = await event;
-      if (currentEvent?.relationshipType == RelationshipTypes.thread) {
-        eventThreadId = currentEvent?.relationshipEventId;
-      }
+      try {
+        final currentEvent = await event;
+        if (currentEvent?.relationshipType == RelationshipTypes.thread) {
+          eventThreadId = currentEvent?.relationshipEventId;
+        }
 
-      // Use sendEvent directly (sendLocation lacks reply/thread support)
-      ret = await room!.sendEvent(
-        {
-          'msgtype': MessageTypes.Location,
-          'body': description,
-          'geo_uri': geoUri,
-        },
-        threadRootEventId: eventThreadId,
-        inReplyTo: currentEvent,
-      );
+        // Use sendEvent directly (sendLocation lacks reply/thread support)
+        ret = await room!.sendEvent(
+          {
+            'msgtype': MessageTypes.Location,
+            'body': description,
+            'geo_uri': geoUri,
+          },
+          threadRootEventId: eventThreadId,
+          inReplyTo: currentEvent,
+        );
+      } catch (e) {
+        debugPrint('Location send error: $e');
+        // ret stays null so the error dialog below is shown
+      }
 
       navigator.pop();
 

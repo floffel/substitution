@@ -79,16 +79,21 @@ class EmoteMessageWriteState extends State<EmoteMessageWrite> {
         messageKey: 'write.textmessage.send_start',
       );
 
-      final currentEvent = await event;
-      if (currentEvent?.relationshipType == RelationshipTypes.thread) {
-        eventThreadId = currentEvent?.relationshipEventId;
-      }
+      try {
+        final currentEvent = await event;
+        if (currentEvent?.relationshipType == RelationshipTypes.thread) {
+          eventThreadId = currentEvent?.relationshipEventId;
+        }
 
-      ret = await room!.sendEvent(
-        {'msgtype': MessageTypes.Emote, 'body': text},
-        threadRootEventId: eventThreadId,
-        inReplyTo: currentEvent,
-      );
+        ret = await room!.sendEvent(
+          {'msgtype': MessageTypes.Emote, 'body': text},
+          threadRootEventId: eventThreadId,
+          inReplyTo: currentEvent,
+        );
+      } catch (e) {
+        debugPrint('Emote send error: $e');
+        // ret stays null so the error dialog below is shown
+      }
 
       navigator.pop();
 

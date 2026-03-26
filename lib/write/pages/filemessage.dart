@@ -160,12 +160,17 @@ class FileMessageWriteState extends State<FileMessageWrite> {
       messageKey: 'write.filemessage.upload_start',
     );
 
-    Event? answerEvent = await event;
+    Event? answerEvent;
     var eventThreadId = widget.eventId;
 
-    if (answerEvent?.relationshipType == RelationshipTypes.thread) {
-      // commenting a comment => we can't start a new thread, rather use the existing one
-      eventThreadId = answerEvent?.relationshipEventId;
+    try {
+      answerEvent = await event;
+      if (answerEvent?.relationshipType == RelationshipTypes.thread) {
+        // commenting a comment => we can't start a new thread, rather use the existing one
+        eventThreadId = answerEvent?.relationshipEventId;
+      }
+    } catch (e) {
+      debugPrint('Event fetch error: $e');
     }
 
     navigator.pop(); // pop the "starting upload" overlay
@@ -187,20 +192,25 @@ class FileMessageWriteState extends State<FileMessageWrite> {
           args: [uploadFileName],
         );
 
-        final MatrixFile uploadFile = MatrixFile(
-          bytes: await f.file.readAsBytes(),
-          name: uploadFileName,
-        );
-        final caption = f.captionController.text.trim();
-        ret = await room!.sendFileEvent(
-          uploadFile,
-          threadRootEventId: eventThreadId,
-          inReplyTo: answerEvent,
-          extraContent:
-              caption.isNotEmpty
-                  ? {'body': caption, 'filename': uploadFileName}
-                  : null,
-        );
+        try {
+          final MatrixFile uploadFile = MatrixFile(
+            bytes: await f.file.readAsBytes(),
+            name: uploadFileName,
+          );
+          final caption = f.captionController.text.trim();
+          ret = await room!.sendFileEvent(
+            uploadFile,
+            threadRootEventId: eventThreadId,
+            inReplyTo: answerEvent,
+            extraContent:
+                caption.isNotEmpty
+                    ? {'body': caption, 'filename': uploadFileName}
+                    : null,
+          );
+        } catch (e) {
+          debugPrint('File upload error: $e');
+          // ret stays null so the error dialog below is shown
+        }
 
         navigator.pop(); // pop the Uploading file ... dialog
 

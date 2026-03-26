@@ -153,38 +153,43 @@ class VoiceMessageWriteState extends State<VoiceMessageWrite> {
         messageKey: 'write.voicemessage.send_start',
       );
 
-      final currentEvent = await event;
-      if (currentEvent?.relationshipType == RelationshipTypes.thread) {
-        eventThreadId = currentEvent?.relationshipEventId;
-      }
+      try {
+        final currentEvent = await event;
+        if (currentEvent?.relationshipType == RelationshipTypes.thread) {
+          eventThreadId = currentEvent?.relationshipEventId;
+        }
 
-      final bytes = await File(_recordingPath!).readAsBytes();
-      final audioFile = MatrixAudioFile(
-        bytes: bytes,
-        name: 'voice_message.m4a',
-        duration: _duration.inMilliseconds,
-      );
+        final bytes = await File(_recordingPath!).readAsBytes();
+        final audioFile = MatrixAudioFile(
+          bytes: bytes,
+          name: 'voice_message.m4a',
+          duration: _duration.inMilliseconds,
+        );
 
-      // Build waveform from amplitudes (normalize to 0-1024)
-      final waveform =
-          _amplitudes.isNotEmpty
-              ? _amplitudes
-                  .map((a) => ((a + 60) / 60 * 1024).clamp(0, 1024).round())
-                  .toList()
-              : null;
+        // Build waveform from amplitudes (normalize to 0-1024)
+        final waveform =
+            _amplitudes.isNotEmpty
+                ? _amplitudes
+                    .map((a) => ((a + 60) / 60 * 1024).clamp(0, 1024).round())
+                    .toList()
+                : null;
 
-      ret = await room!.sendFileEvent(
-        audioFile,
-        threadRootEventId: eventThreadId,
-        inReplyTo: currentEvent,
-        extraContent: {
-          'org.matrix.msc1767.audio': {
-            'duration': _duration.inMilliseconds,
-            if (waveform != null) 'waveform': waveform,
+        ret = await room!.sendFileEvent(
+          audioFile,
+          threadRootEventId: eventThreadId,
+          inReplyTo: currentEvent,
+          extraContent: {
+            'org.matrix.msc1767.audio': {
+              'duration': _duration.inMilliseconds,
+              if (waveform != null) 'waveform': waveform,
+            },
+            'org.matrix.msc3245.voice': {},
           },
-          'org.matrix.msc3245.voice': {},
-        },
-      );
+        );
+      } catch (e) {
+        debugPrint('Voice send error: $e');
+        // ret stays null so the error dialog below is shown
+      }
 
       navigator.pop();
 
