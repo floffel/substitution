@@ -15,6 +15,14 @@ import '/shared/widgets/mxc_image.dart';
 /// Full-page form to create a new room or edit an existing one.
 ///
 /// Pass [roomId] to enter edit mode (existing room), omit it for create mode.
+///
+/// TODO(decompose): This class is large (~1500 lines). Planned extractions:
+/// - `RoomAvatarPicker` widget (lines ~1146–1237 + state fields)
+/// - `RoomBasicInfoForm` widget (name/alias/topic fields)
+/// - `RoomSettingsSection` widget (visibility/encryption/blog-mode toggles)
+/// - `RoomMembersSection` widget (member list, kick/ban/power-level)
+/// - `RoomDangerZone` widget (delete room)
+/// - `RoomFormController` ChangeNotifier (data loading + save/create logic)
 class RoomFormPage extends StatefulWidget {
   /// The Matrix room ID to edit. When `null` the page is in create mode.
   final String? roomId;
@@ -42,7 +50,7 @@ class _RoomFormPageState extends State<RoomFormPage> {
   Uri? _existingAvatarUrl; // mxc:// from existing room (edit mode)
 
   // Settings toggles
-  bool? _isPublic; // null = unset in create mode (user must choose)
+  bool? _isPublic = false; // defaults to private in create mode
   bool? _isEncrypted; // null = unset in create mode
   bool _isBlogMode = false;
 
@@ -181,19 +189,6 @@ class _RoomFormPageState extends State<RoomFormPage> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-
-    // Require a visibility choice in create mode
-    if (widget.isCreateMode && _isPublic == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Please choose whether the room should be public or private.',
-          ),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      return;
-    }
 
     setState(() => _isSaving = true);
 
@@ -703,7 +698,9 @@ class _RoomFormPageState extends State<RoomFormPage> {
 
   String _roleLabel(int powerLevel) {
     if (powerLevel >= 100) return 'settings.room_form.member_role_admin'.tr();
-    if (powerLevel >= 50) { return 'settings.room_form.member_role_moderator'.tr(); }
+    if (powerLevel >= 50) {
+      return 'settings.room_form.member_role_moderator'.tr();
+    }
     return 'settings.room_form.member_role_user'.tr();
   }
 
@@ -961,11 +958,9 @@ class _RoomFormPageState extends State<RoomFormPage> {
                   subtitle:
                       _isPublic == true
                           ? 'settings.room_form.visibility_public_desc'.tr()
-                          : _isPublic == false
-                          ? 'settings.room_form.visibility_private_desc'.tr()
-                          : 'Choose whether this room is public or private',
+                          : 'settings.room_form.visibility_private_desc'.tr(),
                   value: _isPublic ?? false,
-                  tristate: widget.isCreateMode && _isPublic == null,
+                  tristate: false,
                   onChanged: (v) => setState(() => _isPublic = v),
                 ),
                 const Divider(height: 1),
