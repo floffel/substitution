@@ -169,7 +169,7 @@ void main() {
         final state = $.tester.state<TextMessageWriteState>(
           find.byType(TextMessageWrite),
         );
-        state.controller.document.insert(0, uniqueBody);
+        state.controller.replaceText(0, 0, uniqueBody, null);
         for (int i = 0; i < 10; i++) {
           await $.tester.pump(const Duration(milliseconds: 300));
         }
