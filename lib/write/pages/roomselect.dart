@@ -108,8 +108,14 @@ class RoomSelectPageState extends State<RoomSelectPage> {
       Room? r = client.getRoomById(roomId);
       if (r == null) continue;
 
-      if (!substitutionService.isSubstitutionRoom(roomId) ||
-          r.ownPowerLevel < 50) {
+      if (!substitutionService.isSubstitutionRoom(roomId)) continue;
+
+      // In blog mode (events_default >= 50), only moderators/admins can post.
+      // In community mode (events_default < 50), anyone can post.
+      final powerLevelEvent = r.getState('m.room.power_levels');
+      final eventsDefault =
+          (powerLevelEvent?.content['events_default'] as num?)?.toInt() ?? 0;
+      if (eventsDefault >= 50 && r.ownPowerLevel < 50) {
         continue;
       }
 
@@ -255,6 +261,7 @@ class _PostTypeGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      alignment: WrapAlignment.center,
       spacing: 8,
       runSpacing: 8,
       children:

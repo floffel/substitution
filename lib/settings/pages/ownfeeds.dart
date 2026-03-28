@@ -51,7 +51,12 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
         continue;
       }
 
-      if (r.ownPowerLevel < 50) {
+      // In blog mode (events_default >= 50), only moderators/admins see the room.
+      // In community mode (events_default < 50), anyone can manage/post.
+      final powerLevelEvent = r.getState('m.room.power_levels');
+      final eventsDefault =
+          (powerLevelEvent?.content['events_default'] as num?)?.toInt() ?? 0;
+      if (eventsDefault >= 50 && r.ownPowerLevel < 50) {
         continue;
       }
 

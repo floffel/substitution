@@ -131,6 +131,12 @@ class SubstitutionService extends ChangeNotifier {
     _substitutionRoomIds.add(roomId);
   }
 
+  /// Directly remove a room ID from the in-memory set without touching Matrix
+  /// account data. Counterpart to [addRoomId].
+  void removeRoomId(String roomId) {
+    _substitutionRoomIds.remove(roomId);
+  }
+
   /// External trigger to notify about changes if needed (e.g. after sync)
   void triggerRefresh() {
     notifyListeners();

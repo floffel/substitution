@@ -73,6 +73,22 @@ class HomePageState extends State<HomePage> {
   Map<String, List<({Event origEvent, Event displayEvent})>>
   _carryForwardCandidates = {};
 
+  /// Returns `true` if [event] should be shown as a feed post.
+  ///
+  /// In blog-mode rooms (`events_default >= 50`), only posts from users with
+  /// power level >= 50 are shown. In community-mode rooms everyone's posts
+  /// are visible.
+  static bool _isVisiblePost(Event event) {
+    final room = event.room;
+    final powerLevelEvent = room.getState('m.room.power_levels');
+    final eventsDefault =
+        (powerLevelEvent?.content['events_default'] as num?)?.toInt() ?? 0;
+    if (eventsDefault >= 50) {
+      return room.getPowerLevelByUserId(event.senderId) >= 50;
+    }
+    return true;
+  }
+
   Future<List<Timeline>> _fetchTimelines() async {
     List<Room> rooms = [];
     if (!mounted) return [];
@@ -166,7 +182,7 @@ class HomePageState extends State<HomePage> {
               e.relationshipType != RelationshipTypes.reference &&
               e.relationshipType != RelationshipTypes.thread &&
               e.relationshipType != RelationshipTypes.edit &&
-              e.room.getPowerLevelByUserId(e.senderId) >= 50) {
+              _isVisiblePost(e)) {
             newEvents.add((
               origEvent: e,
               displayEvent: e.getDisplayEvent(timeline),
@@ -303,13 +319,12 @@ class HomePageState extends State<HomePage> {
           final isNotThread =
               event.relationshipType != RelationshipTypes.thread;
           final isNotEdit = event.relationshipType != RelationshipTypes.edit;
-          final powerLevel = event.room.getPowerLevelByUserId(event.senderId);
 
           if (isMsg &&
               isNotReply &&
               isNotThread &&
               isNotEdit &&
-              powerLevel >= 50) {
+              _isVisiblePost(event)) {
             roomCandidates.add((
               origEvent: event,
               displayEvent: event.getDisplayEvent(timeline),

@@ -9,6 +9,7 @@ import 'package:matrix/matrix.dart' as matrix_lib;
 import 'package:provider/provider.dart';
 
 import '/settings/widgets/user_search_field.dart';
+import '/shared/services/substitution_service.dart';
 import '/shared/widgets/avatar.dart';
 import '/shared/widgets/mxc_image.dart';
 
@@ -53,6 +54,7 @@ class _RoomFormPageState extends State<RoomFormPage> {
   bool? _isPublic = false; // defaults to private in create mode
   bool? _isEncrypted; // null = unset in create mode
   bool _isBlogMode = false;
+  bool _isSubstitutionRoom = true; // default to true for create mode
 
   // Invite
   List<String> _inviteUserIds = [];
@@ -69,6 +71,7 @@ class _RoomFormPageState extends State<RoomFormPage> {
 
   // For identifying which encryption state we're in during edit
   bool _alreadyEncrypted = false;
+  bool _originalIsSubstitutionRoom = false;
 
   @override
   void initState() {
@@ -137,6 +140,16 @@ class _RoomFormPageState extends State<RoomFormPage> {
         aliasLocal = canonicalAlias.split(':').first.replaceFirst('#', '');
       }
 
+      // Substitution room status
+      final substitutionService = Provider.of<SubstitutionService>(
+        context,
+        listen: false,
+      );
+      await substitutionService.init();
+      final isSubstitution = substitutionService.isSubstitutionRoom(
+        widget.roomId!,
+      );
+
       // Members
       final members = room.getParticipants();
       final activeMembers =
@@ -160,6 +173,8 @@ class _RoomFormPageState extends State<RoomFormPage> {
         _isPublic = isPublic;
         _isEncrypted = isEncrypted;
         _alreadyEncrypted = isEncrypted;
+        _isSubstitutionRoom = isSubstitution;
+        _originalIsSubstitutionRoom = isSubstitution;
         _members = activeMembers;
         _bannedMembers = bannedMembers;
         _isLoadingRoom = false;
@@ -292,10 +307,18 @@ class _RoomFormPageState extends State<RoomFormPage> {
       }
     }
 
-    // Mark as substitution room
+    // Mark as substitution room (server + local cache)
     await client.setAccountDataPerRoom(client.userID!, roomId, 'substitution', {
       'joined': true,
     });
+    if (mounted) {
+      final substitutionService = Provider.of<SubstitutionService>(
+        context,
+        listen: false,
+      );
+      substitutionService.addRoomId(roomId);
+      substitutionService.triggerRefresh();
+    }
 
     if (!mounted) return;
 
@@ -398,6 +421,32 @@ class _RoomFormPageState extends State<RoomFormPage> {
         );
       } catch (e) {
         errors.add('Posting mode: $e');
+      }
+    }
+
+    // Substitution room status
+    if (_isSubstitutionRoom != _originalIsSubstitutionRoom) {
+      try {
+        await client.setAccountDataPerRoom(
+          client.userID!,
+          _room!.id,
+          'substitution',
+          _isSubstitutionRoom ? {'joined': true} : {},
+        );
+        if (mounted) {
+          final substitutionService = Provider.of<SubstitutionService>(
+            context,
+            listen: false,
+          );
+          if (_isSubstitutionRoom) {
+            substitutionService.addRoomId(_room!.id);
+          } else {
+            substitutionService.removeRoomId(_room!.id);
+          }
+          substitutionService.triggerRefresh();
+        }
+      } catch (e) {
+        errors.add('Substitution status: $e');
       }
     }
 
@@ -1030,6 +1079,26 @@ class _RoomFormPageState extends State<RoomFormPage> {
                     ],
                   ),
                 const Divider(height: 1),
+
+                // Substitution room toggle (edit mode only)
+                if (isEditMode) ...[
+                  _buildToggleTile(
+                    theme: theme,
+                    colorScheme: colorScheme,
+                    icon:
+                        _isSubstitutionRoom
+                            ? Icons.dynamic_feed_rounded
+                            : Icons.dynamic_feed_outlined,
+                    title: 'settings.room_form.substitution_label'.tr(),
+                    subtitle:
+                        _isSubstitutionRoom
+                            ? 'settings.room_form.substitution_on_desc'.tr()
+                            : 'settings.room_form.substitution_off_desc'.tr(),
+                    value: _isSubstitutionRoom,
+                    onChanged: (v) => setState(() => _isSubstitutionRoom = v),
+                  ),
+                  const Divider(height: 1),
+                ],
 
                 // Posting mode
                 _buildToggleTile(
