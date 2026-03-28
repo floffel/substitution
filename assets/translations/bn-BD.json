@@ -37,7 +37,9 @@
             "not_found": "পোস্ট পাওয়া যায়নি বা অনুপলব্ধ।"
         },
         "menu": {
-            "report_block": "রিপোর্ট / ব্লক"
+            "report_block": "রিপোর্ট / ব্লক",
+            "edit": "সম্পাদনা",
+            "delete": "মুছুন"
         },
         "e2e": {
             "encrypted": "এন্ড-টু-এন্ড এনক্রিপ্টেড",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "পোস্ট সম্পাদনা",
+            "save_button": "পরিবর্তনগুলি সংরক্ষণ করুন",
+            "send_start": "সম্পাদনা সংরক্ষণ হচ্ছে...",
+            "send_failed": "সম্পাদনা সংরক্ষণ করা যায়নি। পুনরায় চেষ্টা করবেন?",
+            "send_complete": "পোস্ট আপডেট হয়েছে।"
+        },
+        "delete": {
+            "title": "পোস্ট মুছুন",
+            "body": "এটি সবার জন্য পোস্টটি স্থায়ীভাবে মুছে ফেলবে। এটি পূর্বাবস্থায় ফেরানো যাবে না।",
+            "confirm": "মুছুন",
+            "cancel": "বাতিল",
+            "success": "পোস্ট মুছে ফেলা হয়েছে।",
+            "error": "পোস্ট মুছে ফেলা যায়নি: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "সম্প্রতি ব্যবহৃত"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "কথোপকথন শুরু হয়েছে",
         "error_loading": "এই কথোপকথন লোড করা যায়নি।",
         "error_sending": "বার্তা পাঠাতে ব্যর্থ।",
-        "view_profile": "প্রোফাইল দেখুন"
+        "view_profile": "প্রোফাইল দেখুন",
+        "attach_file": "ফাইল সংযুক্ত করুন",
+        "upload_start": "ফাইল আপলোড হচ্ছে...",
+        "upload_error": "আপলোড ব্যর্থ। পুনরায় চেষ্টা করবেন?",
+        "upload_complete": "ফাইল পাঠানো হয়েছে!"
     },
     "help": {
         "title": "সাহায্য",
@@ -507,5 +529,26 @@
         "share_room": "Substitution-এ এই রুমটি দেখুন",
         "share_profile": "Substitution-এ এই প্রোফাইলটি দেখুন",
         "share_post": "Substitution-এ এই পোস্টটি দেখুন"
+    },
+    "search": {
+        "hint": "পোস্ট অনুসন্ধান করুন...",
+        "empty": "\"{}\" এর জন্য কোনো পোস্ট পাওয়া যায়নি।",
+        "error": "অনুসন্ধান ব্যর্থ হয়েছে। অনুগ্রহ করে পুনরায় চেষ্টা করুন।"
+    },
+    "notifications": {
+        "settings_title": "বিজ্ঞপ্তি",
+        "enable": "বিজ্ঞপ্তি সক্রিয় করুন",
+        "mute_all": "সমস্ত বিজ্ঞপ্তি নিঃশব্দ করুন",
+        "channel_name": "Substitution বিজ্ঞপ্তি",
+        "channel_desc": "নতুন বার্তা এবং পোস্টের জন্য বিজ্ঞপ্তি",
+        "new_message": "{} থেকে নতুন বার্তা",
+        "new_post": "{}-এ নতুন পোস্ট",
+        "tap_to_open": "খুলতে ট্যাপ করুন"
+    },
+    "members": {
+        "title": "সদস্য",
+        "count": "{} সদস্য",
+        "empty": "কোনো সদস্য পাওয়া যায়নি।",
+        "error": "সদস্য লোড করা যায়নি।"
     }
 }

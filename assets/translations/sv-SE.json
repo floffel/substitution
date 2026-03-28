@@ -37,7 +37,9 @@
             "not_found": "Inlägget hittades inte eller är otillgängligt."
         },
         "menu": {
-            "report_block": "Rapportera / Blockera"
+            "report_block": "Rapportera / Blockera",
+            "edit": "Redigera",
+            "delete": "Radera"
         },
         "e2e": {
             "encrypted": "Ende-till-ende-krypterat",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Redigera inlägg",
+            "save_button": "Spara ändringar",
+            "send_start": "Sparar redigering...",
+            "send_failed": "Kunde inte spara redigeringen. Försöka igen?",
+            "send_complete": "Inlägget uppdaterat."
+        },
+        "delete": {
+            "title": "Radera inlägg",
+            "body": "Detta raderar permanent inlägget för alla. Detta kan inte ångras.",
+            "confirm": "Radera",
+            "cancel": "Avbryt",
+            "success": "Inlägget raderat.",
+            "error": "Kunde inte radera inlägget: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nyligen använda"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Konversation startad",
         "error_loading": "Kunde inte ladda denna konversation.",
         "error_sending": "Kunde inte skicka meddelandet.",
-        "view_profile": "Visa profil"
+        "view_profile": "Visa profil",
+        "attach_file": "Bifoga fil",
+        "upload_start": "Laddar upp fil...",
+        "upload_error": "Uppladdning misslyckades. Försöka igen?",
+        "upload_complete": "Fil skickad!"
     },
     "help": {
         "title": "Hjälp",
@@ -507,5 +529,26 @@
         "share_room": "Kolla in det här rummet på Substitution",
         "share_profile": "Kolla in den här profilen på Substitution",
         "share_post": "Kolla in det här inlägget på Substitution"
+    },
+    "search": {
+        "hint": "Sök inlägg...",
+        "empty": "Inga inlägg hittades för \"{}\".",
+        "error": "Sökningen misslyckades. Försök igen."
+    },
+    "notifications": {
+        "settings_title": "Aviseringar",
+        "enable": "Aktivera aviseringar",
+        "mute_all": "Tysta alla aviseringar",
+        "channel_name": "Substitution-aviseringar",
+        "channel_desc": "Aviseringar för nya meddelanden och inlägg",
+        "new_message": "Nytt meddelande från {}",
+        "new_post": "Nytt inlägg i {}",
+        "tap_to_open": "Tryck för att öppna"
+    },
+    "members": {
+        "title": "Medlemmar",
+        "count": "{} medlemmar",
+        "empty": "Inga medlemmar hittades.",
+        "error": "Kunde inte ladda medlemmar."
     }
 }

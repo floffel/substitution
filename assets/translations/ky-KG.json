@@ -37,7 +37,9 @@
             "not_found": "Жазуу табылган жок же жеткиликтүү эмес."
         },
         "menu": {
-            "report_block": "Кайрылуу / Бөгөттөө"
+            "report_block": "Кайрылуу / Бөгөттөө",
+            "edit": "Өзгөртүү",
+            "delete": "Жок кылуу"
         },
         "e2e": {
             "encrypted": "Учтан-учка шифрленген",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Жазууну өзгөртүү",
+            "save_button": "Өзгөртүүлөрдү сактоо",
+            "send_start": "Өзгөртүү сакталууда...",
+            "send_failed": "Өзгөртүүнү сактоо мүмкүн болгон жок. Кайра аракет кылуу керекпи?",
+            "send_complete": "Жазуу жаңыртылды."
+        },
+        "delete": {
+            "title": "Жазууну жок кылуу",
+            "body": "Бул жазуу баары үчүн биротоло жок кылынат. Бул аракетти кайтаруу мүмкүн эмес.",
+            "confirm": "Жок кылуу",
+            "cancel": "Жокко чыгаруу",
+            "success": "Жазуу жок кылынды.",
+            "error": "Жазууну жок кылуу мүмкүн болгон жок: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Жакында колдонулган"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Сүйлөшүү башталды",
         "error_loading": "Бул сүйлөшүүнү жүктөө мүмкүн болгон жок.",
         "error_sending": "Билдирүү жөнөтүү ишке ашкан жок.",
-        "view_profile": "Профилди көрүү"
+        "view_profile": "Профилди көрүү",
+        "attach_file": "Файл тиркөө",
+        "upload_start": "Файл жүктөлүүдө...",
+        "upload_error": "Жүктөө ишке ашкан жок. Кайра аракет кылуу керекпи?",
+        "upload_complete": "Файл жөнөтүлдү!"
     },
     "help": {
         "title": "Жардам",
@@ -507,5 +529,26 @@
         "share_room": "Substitution-дагы бул бөлмөнү караңыз",
         "share_profile": "Substitution-дагы бул профилди караңыз",
         "share_post": "Substitution-дагы бул жазууну караңыз"
+    },
+    "search": {
+        "hint": "Жазууларды издөө...",
+        "empty": "\"{}\" боюнча жазуу табылган жок.",
+        "error": "Издөө ишке ашкан жок. Кайра аракет кылыңыз."
+    },
+    "notifications": {
+        "settings_title": "Эскертмелер",
+        "enable": "Эскертмелерди иштетүү",
+        "mute_all": "Бардык эскертмелерди өчүрүү",
+        "channel_name": "Substitution эскертмелери",
+        "channel_desc": "Жаңы билдирүүлөр жана жазуулар үчүн эскертмелер",
+        "new_message": "{} жөнөткөн жаңы билдирүү",
+        "new_post": "{} бөлмөсүндөгү жаңы жазуу",
+        "tap_to_open": "Ачуу үчүн басыңыз"
+    },
+    "members": {
+        "title": "Мүчөлөр",
+        "count": "{} мүчө",
+        "empty": "Мүчө табылган жок.",
+        "error": "Мүчөлөрдү жүктөө мүмкүн болгон жок."
     }
 }

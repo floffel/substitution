@@ -37,7 +37,9 @@
             "not_found": "Жазба табылмады немесе қол жетімсіз."
         },
         "menu": {
-            "report_block": "Хабарлау / Бұғаттау"
+            "report_block": "Хабарлау / Бұғаттау",
+            "edit": "Өңдеу",
+            "delete": "Жою"
         },
         "e2e": {
             "encrypted": "Толық шифрланған",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Жазбаны өңдеу",
+            "save_button": "Өзгерістерді сақтау",
+            "send_start": "Өңдеу сақталуда...",
+            "send_failed": "Өңдеуді сақтау мүмкін болмады. Қайталау керек пе?",
+            "send_complete": "Жазба жаңартылды."
+        },
+        "delete": {
+            "title": "Жазбаны жою",
+            "body": "Бұл жазбаны барлығы үшін мүлдем жояды. Бұл әрекетті қайтару мүмкін емес.",
+            "confirm": "Жою",
+            "cancel": "Бас тарту",
+            "success": "Жазба жойылды.",
+            "error": "Жазбаны жою мүмкін болмады: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Жақында қолданылған"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Әңгіме басталды",
         "error_loading": "Бұл әңгімені жүктеу мүмкін болмады.",
         "error_sending": "Хабарлама жіберу сәтсіз аяқталды.",
-        "view_profile": "Профильді көру"
+        "view_profile": "Профильді көру",
+        "attach_file": "Файл тіркеу",
+        "upload_start": "Файл жүктелуде...",
+        "upload_error": "Жүктеу сәтсіз аяқталды. Қайталау керек пе?",
+        "upload_complete": "Файл жіберілді!"
     },
     "help": {
         "title": "Көмек",
@@ -507,5 +529,26 @@
         "share_room": "Substitution-дағы бұл бөлмені қараңыз",
         "share_profile": "Substitution-дағы бұл профильді қараңыз",
         "share_post": "Substitution-дағы бұл жазбаны қараңыз"
+    },
+    "search": {
+        "hint": "Жазбаларды іздеу...",
+        "empty": "\"{}\" бойынша жазбалар табылмады.",
+        "error": "Іздеу сәтсіз аяқталды. Қайталап көріңіз."
+    },
+    "notifications": {
+        "settings_title": "Хабарландырулар",
+        "enable": "Хабарландыруларды қосу",
+        "mute_all": "Барлық хабарландыруларды өшіру",
+        "channel_name": "Substitution хабарландырулары",
+        "channel_desc": "Жаңа хабарламалар мен жазбалар туралы хабарландырулар",
+        "new_message": "{} жіберген жаңа хабарлама",
+        "new_post": "{} ішіндегі жаңа жазба",
+        "tap_to_open": "Ашу үшін басыңыз"
+    },
+    "members": {
+        "title": "Мүшелер",
+        "count": "{} мүше",
+        "empty": "Мүшелер табылмады.",
+        "error": "Мүшелерді жүктеу мүмкін болмады."
     }
 }

@@ -37,7 +37,9 @@
             "not_found": "Публикацията не е намерена или не е достъпна."
         },
         "menu": {
-            "report_block": "Докладване / Блокиране"
+            "report_block": "Докладване / Блокиране",
+            "edit": "Редактиране",
+            "delete": "Изтриване"
         },
         "e2e": {
             "encrypted": "Криптирано от край до край",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Редактиране на публикация",
+            "save_button": "Запазване на промените",
+            "send_start": "Запазване на редакцията...",
+            "send_failed": "Редакцията не може да бъде запазена. Повторен опит?",
+            "send_complete": "Публикацията е обновена."
+        },
+        "delete": {
+            "title": "Изтриване на публикация",
+            "body": "Това ще изтрие публикацията завинаги за всички. Това не може да бъде отменено.",
+            "confirm": "Изтриване",
+            "cancel": "Отказ",
+            "success": "Публикацията е изтрита.",
+            "error": "Публикацията не може да бъде изтрита: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Наскоро използвани"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Разговорът е започнат",
         "error_loading": "Неуспешно зареждане на този разговор.",
         "error_sending": "Неуспешно изпращане на съобщението.",
-        "view_profile": "Преглед на профила"
+        "view_profile": "Преглед на профила",
+        "attach_file": "Прикачване на файл",
+        "upload_start": "Качване на файл...",
+        "upload_error": "Качването е неуспешно. Повторен опит?",
+        "upload_complete": "Файлът е изпратен!"
     },
     "help": {
         "title": "Помощ",
@@ -507,5 +529,26 @@
         "share_room": "Вижте тази стая в Substitution",
         "share_profile": "Вижте този профил в Substitution",
         "share_post": "Вижте тази публикация в Substitution"
+    },
+    "search": {
+        "hint": "Търсене на публикации...",
+        "empty": "Не са намерени публикации за \"{}\".",
+        "error": "Търсенето е неуспешно. Моля, опитайте отново."
+    },
+    "notifications": {
+        "settings_title": "Известия",
+        "enable": "Активиране на известия",
+        "mute_all": "Заглушаване на всички известия",
+        "channel_name": "Известия от Substitution",
+        "channel_desc": "Известия за нови съобщения и публикации",
+        "new_message": "Ново съобщение от {}",
+        "new_post": "Нова публикация в {}",
+        "tap_to_open": "Натиснете за отваряне"
+    },
+    "members": {
+        "title": "Членове",
+        "count": "{} членове",
+        "empty": "Не са намерени членове.",
+        "error": "Неуспешно зареждане на членовете."
     }
 }

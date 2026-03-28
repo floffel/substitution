@@ -37,7 +37,9 @@
             "not_found": "പോസ്റ്റ് കണ്ടെത്തിയില്ല അല്ലെങ്കിൽ ലഭ്യമല്ല."
         },
         "menu": {
-            "report_block": "റിപ്പോർട്ട് / ബ്ലോക്ക്"
+            "report_block": "റിപ്പോർട്ട് / ബ്ലോക്ക്",
+            "edit": "എഡിറ്റ് ചെയ്യുക",
+            "delete": "ഇല്ലാതാക്കുക"
         },
         "e2e": {
             "encrypted": "എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്തത്",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "പോസ്റ്റ് എഡിറ്റ് ചെയ്യുക",
+            "save_button": "മാറ്റങ്ങൾ സേവ് ചെയ്യുക",
+            "send_start": "എഡിറ്റ് സേവ് ചെയ്യുന്നു...",
+            "send_failed": "എഡിറ്റ് സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കണോ?",
+            "send_complete": "പോസ്റ്റ് അപ്‌ഡേറ്റ് ചെയ്തു."
+        },
+        "delete": {
+            "title": "പോസ്റ്റ് ഇല്ലാതാക്കുക",
+            "body": "ഇത് എല്ലാവർക്കുമായി പോസ്റ്റ് ശാശ്വതമായി ഇല്ലാതാക്കും. ഇത് പഴയപടിയാക്കാൻ കഴിയില്ല.",
+            "confirm": "ഇല്ലാതാക്കുക",
+            "cancel": "റദ്ദാക്കുക",
+            "success": "പോസ്റ്റ് ഇല്ലാതാക്കി.",
+            "error": "പോസ്റ്റ് ഇല്ലാതാക്കാൻ കഴിഞ്ഞില്ല: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "അടുത്തിടെ ഉപയോഗിച്ചവ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "സംഭാഷണം ആരംഭിച്ചു",
         "error_loading": "ഈ സംഭാഷണം ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
         "error_sending": "സന്ദേശം അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു.",
-        "view_profile": "പ്രൊഫൈൽ കാണുക"
+        "view_profile": "പ്രൊഫൈൽ കാണുക",
+        "attach_file": "ഫയൽ അറ്റാച്ച് ചെയ്യുക",
+        "upload_start": "ഫയൽ അപ്‌ലോഡ് ചെയ്യുന്നു...",
+        "upload_error": "അപ്‌ലോഡ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കണോ?",
+        "upload_complete": "ഫയൽ അയച്ചു!"
     },
     "help": {
         "title": "സഹായം",
@@ -507,5 +529,26 @@
         "share_room": "Substitution-ൽ ഈ റൂം കാണുക",
         "share_profile": "Substitution-ൽ ഈ പ്രൊഫൈൽ കാണുക",
         "share_post": "Substitution-ൽ ഈ പോസ്റ്റ് കാണുക"
+    },
+    "search": {
+        "hint": "പോസ്റ്റുകൾ തിരയുക...",
+        "empty": "\"{}\" ന് പോസ്റ്റുകൾ കണ്ടെത്തിയില്ല.",
+        "error": "തിരയൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+    },
+    "notifications": {
+        "settings_title": "അറിയിപ്പുകൾ",
+        "enable": "അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക",
+        "mute_all": "എല്ലാ അറിയിപ്പുകളും മ്യൂട്ട് ചെയ്യുക",
+        "channel_name": "Substitution അറിയിപ്പുകൾ",
+        "channel_desc": "പുതിയ സന്ദേശങ്ങളും പോസ്റ്റുകളും സംബന്ധിച്ച അറിയിപ്പുകൾ",
+        "new_message": "{} ൽ നിന്ന് പുതിയ സന്ദേശം",
+        "new_post": "{} ൽ പുതിയ പോസ്റ്റ്",
+        "tap_to_open": "തുറക്കാൻ ടാപ്പ് ചെയ്യുക"
+    },
+    "members": {
+        "title": "അംഗങ്ങൾ",
+        "count": "{} അംഗങ്ങൾ",
+        "empty": "അംഗങ്ങൾ കണ്ടെത്തിയില്ല.",
+        "error": "അംഗങ്ങളെ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല."
     }
 }

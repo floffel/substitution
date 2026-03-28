@@ -37,7 +37,9 @@
             "not_found": "帖子未找到或不可用。"
         },
         "menu": {
-            "report_block": "举报 / 拉黑"
+            "report_block": "举报 / 拉黑",
+            "edit": "编辑",
+            "delete": "删除"
         },
         "e2e": {
             "encrypted": "端到端加密",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "编辑帖子",
+            "save_button": "保存更改",
+            "send_start": "正在保存编辑...",
+            "send_failed": "无法保存编辑。重试？",
+            "send_complete": "帖子已更新。"
+        },
+        "delete": {
+            "title": "删除帖子",
+            "body": "这将为所有人永久删除此帖子。此操作无法撤销。",
+            "confirm": "删除",
+            "cancel": "取消",
+            "success": "帖子已删除。",
+            "error": "无法删除帖子：{}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "最近使用"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "会话已开始",
         "error_loading": "无法加载此会话。",
         "error_sending": "消息发送失败。",
-        "view_profile": "查看个人资料"
+        "view_profile": "查看个人资料",
+        "attach_file": "附加文件",
+        "upload_start": "正在上传文件...",
+        "upload_error": "上传失败。重试？",
+        "upload_complete": "文件已发送！"
     },
     "help": {
         "title": "帮助",
@@ -507,5 +529,26 @@
         "share_room": "来看看 Substitution 上的这个房间",
         "share_profile": "来看看 Substitution 上的这个个人资料",
         "share_post": "来看看 Substitution 上的这篇帖子"
+    },
+    "search": {
+        "hint": "搜索帖子...",
+        "empty": "未找到与\u201C{}\u201D相关的帖子。",
+        "error": "搜索失败。请重试。"
+    },
+    "notifications": {
+        "settings_title": "通知",
+        "enable": "启用通知",
+        "mute_all": "静音所有通知",
+        "channel_name": "Substitution 通知",
+        "channel_desc": "新消息和新帖子通知",
+        "new_message": "来自 {} 的新消息",
+        "new_post": "{} 中的新帖子",
+        "tap_to_open": "点击打开"
+    },
+    "members": {
+        "title": "成员",
+        "count": "{} 位成员",
+        "empty": "未找到成员。",
+        "error": "无法加载成员。"
     }
 }

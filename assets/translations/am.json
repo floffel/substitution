@@ -37,7 +37,9 @@
             "not_found": "ልጥፍ አልተገኘም ወይም አይገኝም።"
         },
         "menu": {
-            "report_block": "ሪፖርት / አግድ"
+            "report_block": "ሪፖርት / አግድ",
+            "edit": "አርትዕ",
+            "delete": "ሰርዝ"
         },
         "e2e": {
             "encrypted": "ከጫፍ ለጫፍ የተመሰጠረ",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "ልጥፍ አርትዕ",
+            "save_button": "ለውጦችን አስቀምጥ",
+            "send_start": "ማስተካከያ በመቀመጥ ላይ...",
+            "send_failed": "ማስተካከያውን ማስቀመጥ አልተቻለም። ደግመህ ሞክር?",
+            "send_complete": "ልጥፍ ተዘምኗል።"
+        },
+        "delete": {
+            "title": "ልጥፍ ሰርዝ",
+            "body": "ይህ ልጥፉን ለሁሉም ሰው ለዘለቄታው ይሰርዛል። ይህ ሊቀለበስ አይችልም።",
+            "confirm": "ሰርዝ",
+            "cancel": "ሰርዝ",
+            "success": "ልጥፍ ተሰርዟል።",
+            "error": "ልጥፍ መሰረዝ አልተቻለም: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "በቅርብ ጊዜ የተጠቀሙ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "ውይይት ተጀምሯል",
         "error_loading": "ይህንን ውይይት መጫን አልተቻለም።",
         "error_sending": "መልእክት መላክ አልተሳካም።",
-        "view_profile": "ፕሮፋይል ይመልከቱ"
+        "view_profile": "ፕሮፋይል ይመልከቱ",
+        "attach_file": "ፋይል አያይዝ",
+        "upload_start": "ፋይል በመስቀል ላይ...",
+        "upload_error": "መስቀል አልተሳካም። ደግመህ ሞክር?",
+        "upload_complete": "ፋይል ተልኳል!"
     },
     "help": {
         "title": "እገዛ",
@@ -507,5 +529,26 @@
         "share_room": "ይህንን ክፍል በ Substitution ላይ ይመልከቱ",
         "share_profile": "ይህንን ፕሮፋይል በ Substitution ላይ ይመልከቱ",
         "share_post": "ይህንን ልጥፍ በ Substitution ላይ ይመልከቱ"
+    },
+    "search": {
+        "hint": "ልጥፎችን ፈልግ...",
+        "empty": "ለ \"{}\" ምንም ልጥፎች አልተገኙም።",
+        "error": "ፍለጋ አልተሳካም። እባክዎ ደግመው ይሞክሩ።"
+    },
+    "notifications": {
+        "settings_title": "ማሳወቂያዎች",
+        "enable": "ማሳወቂያዎችን አንቃ",
+        "mute_all": "ሁሉንም ማሳወቂያዎች ዝጋ",
+        "channel_name": "Substitution ማሳወቂያዎች",
+        "channel_desc": "ለአዳዲስ መልእክቶች እና ልጥፎች ማሳወቂያዎች",
+        "new_message": "ከ {} አዲስ መልእክት",
+        "new_post": "በ {} ውስጥ አዲስ ልጥፍ",
+        "tap_to_open": "ለመክፈት ይንኩ"
+    },
+    "members": {
+        "title": "አባላት",
+        "count": "{} አባላት",
+        "empty": "ምንም አባላት አልተገኙም።",
+        "error": "አባላትን መጫን አልተቻለም።"
     }
 }

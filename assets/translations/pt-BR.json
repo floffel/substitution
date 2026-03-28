@@ -37,7 +37,9 @@
             "not_found": "Publicação não encontrada ou indisponível."
         },
         "menu": {
-            "report_block": "Denunciar / Bloquear"
+            "report_block": "Denunciar / Bloquear",
+            "edit": "Editar",
+            "delete": "Excluir"
         },
         "e2e": {
             "encrypted": "Criptografia de ponta a ponta",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Editar Publicação",
+            "save_button": "Salvar Alterações",
+            "send_start": "Salvando edição...",
+            "send_failed": "Não foi possível salvar a edição. Tentar novamente?",
+            "send_complete": "Publicação atualizada."
+        },
+        "delete": {
+            "title": "Excluir Publicação",
+            "body": "Isso excluirá permanentemente a publicação para todos. Essa ação não pode ser desfeita.",
+            "confirm": "Excluir",
+            "cancel": "Cancelar",
+            "success": "Publicação excluída.",
+            "error": "Não foi possível excluir a publicação: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Usados recentemente"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Conversa iniciada",
         "error_loading": "Não foi possível carregar esta conversa.",
         "error_sending": "Falha ao enviar mensagem.",
-        "view_profile": "Ver perfil"
+        "view_profile": "Ver perfil",
+        "attach_file": "Anexar arquivo",
+        "upload_start": "Enviando arquivo...",
+        "upload_error": "O envio falhou. Tentar novamente?",
+        "upload_complete": "Arquivo enviado!"
     },
     "help": {
         "title": "Ajuda",
@@ -507,5 +529,26 @@
         "share_room": "Confira esta sala no Substitution",
         "share_profile": "Confira este perfil no Substitution",
         "share_post": "Confira esta publicação no Substitution"
+    },
+    "search": {
+        "hint": "Buscar publicações...",
+        "empty": "Nenhuma publicação encontrada para \"{}\".",
+        "error": "A busca falhou. Tente novamente."
+    },
+    "notifications": {
+        "settings_title": "Notificações",
+        "enable": "Ativar notificações",
+        "mute_all": "Silenciar todas as notificações",
+        "channel_name": "Notificações do Substitution",
+        "channel_desc": "Notificações de novas mensagens e publicações",
+        "new_message": "Nova mensagem de {}",
+        "new_post": "Nova publicação em {}",
+        "tap_to_open": "Toque para abrir"
+    },
+    "members": {
+        "title": "Membros",
+        "count": "{} membros",
+        "empty": "Nenhum membro encontrado.",
+        "error": "Não foi possível carregar os membros."
     }
 }

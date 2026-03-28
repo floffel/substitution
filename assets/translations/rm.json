@@ -37,7 +37,9 @@
             "not_found": "Contribuziun betg chattada u betg disponibla."
         },
         "menu": {
-            "report_block": "Rapportar / Bloccar"
+            "report_block": "Rapportar / Bloccar",
+            "edit": "Modifitgar",
+            "delete": "Stizzar"
         },
         "e2e": {
             "encrypted": "Criptà da fin a fin",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Modifitgar contribuziun",
+            "save_button": "Memorisar midadas",
+            "send_start": "Memorisar la modificaziun...",
+            "send_failed": "Impussibel da memorisar la modificaziun. Empruvar anc ina giada?",
+            "send_complete": "Contribuziun actualisada."
+        },
+        "delete": {
+            "title": "Stizzar contribuziun",
+            "body": "Quai stizza la contribuziun permanentamain per tuts. Quai na po betg vegnir revocà.",
+            "confirm": "Stizzar",
+            "cancel": "Interrumper",
+            "success": "Contribuziun stizzada.",
+            "error": "Impussibel da stizzar la contribuziun: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Utilisà dacurt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Conversaziun cumenzada",
         "error_loading": "Impussibel da chargiar questa conversaziun.",
         "error_sending": "Il trametter dal messadi è fallì.",
-        "view_profile": "Mussar il profil"
+        "view_profile": "Mussar il profil",
+        "attach_file": "Agiuntar datoteca",
+        "upload_start": "Transferir datoteca...",
+        "upload_error": "Il transferiment è fallì. Empruvar anc ina giada?",
+        "upload_complete": "Datoteca tramessa!"
     },
     "help": {
         "title": "Agid",
@@ -507,5 +529,26 @@
         "share_room": "Guardai questa stanza sin Substitution",
         "share_profile": "Guardai quest profil sin Substitution",
         "share_post": "Guardai questa contribuziun sin Substitution"
+    },
+    "search": {
+        "hint": "Tschertgar contribuziuns...",
+        "empty": "Naginas contribuziuns chattadas per \"{}\".",
+        "error": "La tschertga è fallida. Empruvai per plaschair anc ina giada."
+    },
+    "notifications": {
+        "settings_title": "Communicaziuns",
+        "enable": "Activar communicaziuns",
+        "mute_all": "Silenziar tut las communicaziuns",
+        "channel_name": "Communicaziuns da Substitution",
+        "channel_desc": "Communicaziuns per novs messadis e contribuziuns",
+        "new_message": "Nov messadi da {}",
+        "new_post": "Nova contribuziun en {}",
+        "tap_to_open": "Tutgar per avrir"
+    },
+    "members": {
+        "title": "Commembers",
+        "count": "{} commembers",
+        "empty": "Nagins commembers chattads.",
+        "error": "Impussibel da chargiar ils commembers."
     }
 }

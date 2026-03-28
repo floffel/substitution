@@ -37,7 +37,24 @@
             "not_found": "Argitalpena ez da aurkitu edo ez dago eskuragarri."
         },
         "menu": {
-            "report_block": "Salatu / Blokeatu"
+            "report_block": "Salatu / Blokeatu",
+            "edit": "Editatu",
+            "delete": "Ezabatu"
+        },
+        "edit": {
+            "title": "Argitalpena editatu",
+            "save_button": "Aldaketak gorde",
+            "send_start": "Edizioa gordetzen...",
+            "send_failed": "Ezin izan da edizioa gorde. Saiatu berriro?",
+            "send_complete": "Argitalpena eguneratuta."
+        },
+        "delete": {
+            "title": "Argitalpena ezabatu",
+            "body": "Honek argitalpena behin betiko ezabatuko du guztientzat. Ekintza hau ezin da desegin.",
+            "confirm": "Ezabatu",
+            "cancel": "Utzi",
+            "success": "Argitalpena ezabatuta.",
+            "error": "Ezin izan da argitalpena ezabatu: {}"
         },
         "e2e": {
             "encrypted": "Muturretik muturrera zifratua",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Berriki erabilitakoak"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Elkarrizketa hasi da",
         "error_loading": "Ezin izan da elkarrizketa hau kargatu.",
         "error_sending": "Mezua bidaltzeak huts egin du.",
-        "view_profile": "Ikusi profila"
+        "view_profile": "Ikusi profila",
+        "attach_file": "Fitxategia erantsi",
+        "upload_start": "Fitxategia igotzen...",
+        "upload_error": "Igotzeak huts egin du. Saiatu berriro?",
+        "upload_complete": "Fitxategia bidalita!"
+    },
+    "search": {
+        "hint": "Bilatu argitalpenak...",
+        "empty": "Ez da argitalpenik aurkitu \"{}\" bilaketarako.",
+        "error": "Bilaketak huts egin du. Mesedez, saiatu berriro."
+    },
+    "notifications": {
+        "settings_title": "Jakinarazpenak",
+        "enable": "Jakinarazpenak gaitu",
+        "mute_all": "Jakinarazpen guztiak isilarazi",
+        "channel_name": "Substitution jakinarazpenak",
+        "channel_desc": "Mezu eta argitalpen berrien jakinarazpenak",
+        "new_message": "{}-ren mezu berria",
+        "new_post": "Argitalpen berria {}-n",
+        "tap_to_open": "Sakatu irekitzeko"
+    },
+    "members": {
+        "title": "Kideak",
+        "count": "{} kide",
+        "empty": "Ez da kiderik aurkitu.",
+        "error": "Ezin izan dira kideak kargatu."
     },
     "help": {
         "title": "Laguntza",

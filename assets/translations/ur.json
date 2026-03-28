@@ -37,7 +37,9 @@
             "not_found": "پوسٹ نہیں ملی یا دستیاب نہیں ہے۔"
         },
         "menu": {
-            "report_block": "رپورٹ / بلاک"
+            "report_block": "رپورٹ / بلاک",
+            "edit": "ترمیم",
+            "delete": "حذف"
         },
         "e2e": {
             "encrypted": "اینڈ ٹو اینڈ انکرپٹڈ",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "پوسٹ میں ترمیم",
+            "save_button": "تبدیلیاں محفوظ کریں",
+            "send_start": "ترمیم محفوظ ہو رہی ہے...",
+            "send_failed": "ترمیم محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں؟",
+            "send_complete": "پوسٹ اپ ڈیٹ ہو گئی۔"
+        },
+        "delete": {
+            "title": "پوسٹ حذف کریں",
+            "body": "یہ پوسٹ سب کے لیے مستقل طور پر حذف ہو جائے گی۔ یہ عمل واپس نہیں ہو سکتا۔",
+            "confirm": "حذف",
+            "cancel": "منسوخ",
+            "success": "پوسٹ حذف ہو گئی۔",
+            "error": "پوسٹ حذف نہیں ہو سکی: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "حال ہی میں استعمال شدہ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "بات چیت شروع ہو گئی",
         "error_loading": "یہ بات چیت لوڈ نہیں ہو سکی۔",
         "error_sending": "پیغام بھیجنے میں ناکامی۔",
-        "view_profile": "پروفائل دیکھیں"
+        "view_profile": "پروفائل دیکھیں",
+        "attach_file": "فائل منسلک کریں",
+        "upload_start": "فائل اپ لوڈ ہو رہی ہے...",
+        "upload_error": "اپ لوڈ ناکام ہو گیا۔ دوبارہ کوشش کریں؟",
+        "upload_complete": "فائل بھیج دی گئی!"
     },
     "help": {
         "title": "مدد",
@@ -507,5 +529,26 @@
         "share_room": "Substitution پر یہ روم دیکھیں",
         "share_profile": "Substitution پر یہ پروفائل دیکھیں",
         "share_post": "Substitution پر یہ پوسٹ دیکھیں"
+    },
+    "search": {
+        "hint": "پوسٹس تلاش کریں...",
+        "empty": "\"{}\" کے لیے کوئی پوسٹ نہیں ملی۔",
+        "error": "تلاش ناکام ہو گئی۔ براہ کرم دوبارہ کوشش کریں۔"
+    },
+    "notifications": {
+        "settings_title": "اطلاعات",
+        "enable": "اطلاعات فعال کریں",
+        "mute_all": "تمام اطلاعات خاموش کریں",
+        "channel_name": "Substitution اطلاعات",
+        "channel_desc": "نئے پیغامات اور پوسٹس کے لیے اطلاعات",
+        "new_message": "{} کی طرف سے نیا پیغام",
+        "new_post": "{} میں نئی پوسٹ",
+        "tap_to_open": "کھولنے کے لیے ٹیپ کریں"
+    },
+    "members": {
+        "title": "اراکین",
+        "count": "{} اراکین",
+        "empty": "کوئی اراکین نہیں ملے۔",
+        "error": "اراکین لوڈ نہیں ہو سکے۔"
     }
 }

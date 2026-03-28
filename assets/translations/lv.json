@@ -37,7 +37,9 @@
             "not_found": "Ieraksts nav atrasts vai nav pieejams."
         },
         "menu": {
-            "report_block": "Ziņot / Bloķēt"
+            "report_block": "Ziņot / Bloķēt",
+            "edit": "Rediģēt",
+            "delete": "Dzēst"
         },
         "e2e": {
             "encrypted": "Pilnīga šifrēšana",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Rediģēt ierakstu",
+            "save_button": "Saglabāt izmaiņas",
+            "send_start": "Saglabā izmaiņas...",
+            "send_failed": "Nevarēja saglabāt izmaiņas. Mēģināt vēlreiz?",
+            "send_complete": "Ieraksts atjaunināts."
+        },
+        "delete": {
+            "title": "Dzēst ierakstu",
+            "body": "Tas neatgriezeniski izdzēsīs ierakstu visiem. Šo darbību nevar atsaukt.",
+            "confirm": "Dzēst",
+            "cancel": "Atcelt",
+            "success": "Ieraksts izdzēsts.",
+            "error": "Nevarēja izdzēst ierakstu: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nesen izmantotie"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Saruna sākta",
         "error_loading": "Nevarēja ielādēt šo sarunu.",
         "error_sending": "Neizdevās nosūtīt ziņojumu.",
-        "view_profile": "Skatīt profilu"
+        "view_profile": "Skatīt profilu",
+        "attach_file": "Pievienot failu",
+        "upload_start": "Augšupielādē failu...",
+        "upload_error": "Augšupielāde neizdevās. Mēģināt vēlreiz?",
+        "upload_complete": "Fails nosūtīts!"
     },
     "help": {
         "title": "Palīdzība",
@@ -507,5 +529,26 @@
         "share_room": "Apskatiet šo istabu Substitution",
         "share_profile": "Apskatiet šo profilu Substitution",
         "share_post": "Apskatiet šo ierakstu Substitution"
+    },
+    "search": {
+        "hint": "Meklēt ierakstus...",
+        "empty": "Nav atrasti ieraksti vaicājumam \"{}\".",
+        "error": "Meklēšana neizdevās. Lūdzu, mēģiniet vēlreiz."
+    },
+    "notifications": {
+        "settings_title": "Paziņojumi",
+        "enable": "Iespējot paziņojumus",
+        "mute_all": "Izslēgt visus paziņojumus",
+        "channel_name": "Substitution paziņojumi",
+        "channel_desc": "Paziņojumi par jauniem ziņojumiem un ierakstiem",
+        "new_message": "Jauns ziņojums no {}",
+        "new_post": "Jauns ieraksts {}",
+        "tap_to_open": "Pieskarieties, lai atvērtu"
+    },
+    "members": {
+        "title": "Dalībnieki",
+        "count": "{} dalībnieki",
+        "empty": "Nav atrasts neviens dalībnieks.",
+        "error": "Nevarēja ielādēt dalībniekus."
     }
 }

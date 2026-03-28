@@ -37,7 +37,9 @@
             "not_found": "ไม่พบโพสต์หรือไม่สามารถใช้งานได้"
         },
         "menu": {
-            "report_block": "รายงาน / บล็อก"
+            "report_block": "รายงาน / บล็อก",
+            "edit": "แก้ไข",
+            "delete": "ลบ"
         },
         "e2e": {
             "encrypted": "เข้ารหัสแบบต้นทางถึงปลายทาง",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "แก้ไขโพสต์",
+            "save_button": "บันทึกการเปลี่ยนแปลง",
+            "send_start": "กำลังบันทึกการแก้ไข...",
+            "send_failed": "ไม่สามารถบันทึกการแก้ไขได้ ลองใหม่?",
+            "send_complete": "อัปเดตโพสต์แล้ว"
+        },
+        "delete": {
+            "title": "ลบโพสต์",
+            "body": "การดำเนินการนี้จะลบโพสต์อย่างถาวรสำหรับทุกคน ไม่สามารถย้อนกลับได้",
+            "confirm": "ลบ",
+            "cancel": "ยกเลิก",
+            "success": "ลบโพสต์แล้ว",
+            "error": "ไม่สามารถลบโพสต์ได้: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ใช้ล่าสุด"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "เริ่มการสนทนาแล้ว",
         "error_loading": "ไม่สามารถโหลดการสนทนานี้ได้",
         "error_sending": "ส่งข้อความไม่สำเร็จ",
-        "view_profile": "ดูโปรไฟล์"
+        "view_profile": "ดูโปรไฟล์",
+        "attach_file": "แนบไฟล์",
+        "upload_start": "กำลังอัปโหลดไฟล์...",
+        "upload_error": "อัปโหลดล้มเหลว ลองใหม่?",
+        "upload_complete": "ส่งไฟล์แล้ว!"
     },
     "help": {
         "title": "ช่วยเหลือ",
@@ -507,5 +529,26 @@
         "share_room": "ลองดูห้องนี้บน Substitution",
         "share_profile": "ลองดูโปรไฟล์นี้บน Substitution",
         "share_post": "ลองดูโพสต์นี้บน Substitution"
+    },
+    "search": {
+        "hint": "ค้นหาโพสต์...",
+        "empty": "ไม่พบโพสต์สำหรับ \"{}\"",
+        "error": "การค้นหาล้มเหลว กรุณาลองใหม่อีกครั้ง"
+    },
+    "notifications": {
+        "settings_title": "การแจ้งเตือน",
+        "enable": "เปิดใช้งานการแจ้งเตือน",
+        "mute_all": "ปิดเสียงการแจ้งเตือนทั้งหมด",
+        "channel_name": "การแจ้งเตือน Substitution",
+        "channel_desc": "การแจ้งเตือนสำหรับข้อความใหม่และโพสต์ใหม่",
+        "new_message": "ข้อความใหม่จาก {}",
+        "new_post": "โพสต์ใหม่ใน {}",
+        "tap_to_open": "แตะเพื่อเปิด"
+    },
+    "members": {
+        "title": "สมาชิก",
+        "count": "{} สมาชิก",
+        "empty": "ไม่พบสมาชิก",
+        "error": "ไม่สามารถโหลดสมาชิกได้"
     }
 }

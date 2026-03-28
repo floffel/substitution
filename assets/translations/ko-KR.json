@@ -37,7 +37,9 @@
             "not_found": "게시물을 찾을 수 없거나 사용할 수 없습니다."
         },
         "menu": {
-            "report_block": "신고 / 차단"
+            "report_block": "신고 / 차단",
+            "edit": "편집",
+            "delete": "삭제"
         },
         "e2e": {
             "encrypted": "종단 간 암호화됨",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "게시물 편집",
+            "save_button": "변경 사항 저장",
+            "send_start": "편집 저장 중...",
+            "send_failed": "편집을 저장할 수 없습니다. 재시도하시겠습니까?",
+            "send_complete": "게시물이 업데이트되었습니다."
+        },
+        "delete": {
+            "title": "게시물 삭제",
+            "body": "이 게시물은 모든 사람에게 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
+            "confirm": "삭제",
+            "cancel": "취소",
+            "success": "게시물이 삭제되었습니다.",
+            "error": "게시물을 삭제할 수 없습니다: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "최근 사용"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "대화가 시작되었습니다",
         "error_loading": "이 대화를 불러올 수 없습니다.",
         "error_sending": "메시지 전송에 실패했습니다.",
-        "view_profile": "프로필 보기"
+        "view_profile": "프로필 보기",
+        "attach_file": "파일 첨부",
+        "upload_start": "파일 업로드 중...",
+        "upload_error": "업로드에 실패했습니다. 재시도하시겠습니까?",
+        "upload_complete": "파일이 전송되었습니다!"
     },
     "help": {
         "title": "도움말",
@@ -507,5 +529,26 @@
         "share_room": "Substitution에서 이 방을 확인해 보세요",
         "share_profile": "Substitution에서 이 프로필을 확인해 보세요",
         "share_post": "Substitution에서 이 게시물을 확인해 보세요"
+    },
+    "search": {
+        "hint": "게시물 검색...",
+        "empty": "\"{}\"에 대한 게시물을 찾을 수 없습니다.",
+        "error": "검색에 실패했습니다. 다시 시도해 주세요."
+    },
+    "notifications": {
+        "settings_title": "알림",
+        "enable": "알림 활성화",
+        "mute_all": "모든 알림 음소거",
+        "channel_name": "Substitution 알림",
+        "channel_desc": "새 메시지 및 게시물 알림",
+        "new_message": "{}님의 새 메시지",
+        "new_post": "{}에 새 게시물",
+        "tap_to_open": "탭하여 열기"
+    },
+    "members": {
+        "title": "멤버",
+        "count": "멤버 {}명",
+        "empty": "멤버를 찾을 수 없습니다.",
+        "error": "멤버를 불러올 수 없습니다."
     }
 }

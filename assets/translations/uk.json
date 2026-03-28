@@ -37,7 +37,9 @@
             "not_found": "Публікацію не знайдено або вона недоступна."
         },
         "menu": {
-            "report_block": "Поскаржитися / Заблокувати"
+            "report_block": "Поскаржитися / Заблокувати",
+            "edit": "Редагувати",
+            "delete": "Видалити"
         },
         "e2e": {
             "encrypted": "Наскрізне шифрування",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Редагувати публікацію",
+            "save_button": "Зберегти зміни",
+            "send_start": "Збереження змін...",
+            "send_failed": "Не вдалося зберегти зміни. Повторити?",
+            "send_complete": "Публікацію оновлено."
+        },
+        "delete": {
+            "title": "Видалити публікацію",
+            "body": "Це назавжди видалить публікацію для всіх. Цю дію неможливо скасувати.",
+            "confirm": "Видалити",
+            "cancel": "Скасувати",
+            "success": "Публікацію видалено.",
+            "error": "Не вдалося видалити публікацію: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Нещодавно використані"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Розмову розпочато",
         "error_loading": "Не вдалося завантажити цю розмову.",
         "error_sending": "Не вдалося надіслати повідомлення.",
-        "view_profile": "Переглянути профіль"
+        "view_profile": "Переглянути профіль",
+        "attach_file": "Прикріпити файл",
+        "upload_start": "Завантаження файлу...",
+        "upload_error": "Завантаження не вдалося. Повторити?",
+        "upload_complete": "Файл надіслано!"
     },
     "help": {
         "title": "Довідка",
@@ -507,5 +529,26 @@
         "share_room": "Перегляньте цю кімнату в Substitution",
         "share_profile": "Перегляньте цей профіль в Substitution",
         "share_post": "Перегляньте цю публікацію в Substitution"
+    },
+    "search": {
+        "hint": "Шукати публікації...",
+        "empty": "Публікацій за запитом \"{}\" не знайдено.",
+        "error": "Помилка пошуку. Спробуйте ще раз."
+    },
+    "notifications": {
+        "settings_title": "Сповіщення",
+        "enable": "Увімкнути сповіщення",
+        "mute_all": "Вимкнути всі сповіщення",
+        "channel_name": "Сповіщення Substitution",
+        "channel_desc": "Сповіщення про нові повідомлення та публікації",
+        "new_message": "Нове повідомлення від {}",
+        "new_post": "Нова публікація в {}",
+        "tap_to_open": "Натисніть, щоб відкрити"
+    },
+    "members": {
+        "title": "Учасники",
+        "count": "{} учасників",
+        "empty": "Учасників не знайдено.",
+        "error": "Не вдалося завантажити учасників."
     }
 }

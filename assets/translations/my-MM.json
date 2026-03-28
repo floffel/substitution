@@ -37,7 +37,9 @@
             "not_found": "ပို့စ်ကို ရှာမတွေ့ပါ သို့မဟုတ် မရရှိနိုင်ပါ။"
         },
         "menu": {
-            "report_block": "တိုင်ကြား / ပိတ်ဆို့"
+            "report_block": "တိုင်ကြား / ပိတ်ဆို့",
+            "edit": "တည်းဖြတ်",
+            "delete": "ဖျက်"
         },
         "e2e": {
             "encrypted": "အဆုံးမှအဆုံး ကုဒ်ဝှက်ထားသည်",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "ပို့စ် တည်းဖြတ်",
+            "save_button": "ပြောင်းလဲမှုများ သိမ်းဆည်း",
+            "send_start": "တည်းဖြတ်မှု သိမ်းဆည်းနေသည်...",
+            "send_failed": "တည်းဖြတ်မှုကို သိမ်းဆည်း၍မရပါ။ ပြန်လည်ကြိုးစားမည်လား?",
+            "send_complete": "ပို့စ် အပ်ဒိတ်လုပ်ပြီးပါပြီ။"
+        },
+        "delete": {
+            "title": "ပို့စ် ဖျက်ရန်",
+            "body": "ဤလုပ်ဆောင်ချက်သည် လူတိုင်းအတွက် ပို့စ်ကို အပြီးအပိုင် ဖျက်ပစ်မည်ဖြစ်သည်။ ဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍မရပါ။",
+            "confirm": "ဖျက်",
+            "cancel": "ပယ်ဖျက်",
+            "success": "ပို့စ် ဖျက်ပြီးပါပြီ။",
+            "error": "ပို့စ်ကို ဖျက်၍မရပါ: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "မကြာသေးမီ အသုံးပြုထားသော"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "စကားဝိုင်း စတင်ပြီ",
         "error_loading": "ဤစကားဝိုင်းကို ဖွင့်၍မရပါ။",
         "error_sending": "မက်ဆေ့ချ် ပို့ခြင်း မအောင်မြင်ပါ။",
-        "view_profile": "ပရိုဖိုင် ကြည့်ရှု"
+        "view_profile": "ပရိုဖိုင် ကြည့်ရှု",
+        "attach_file": "ဖိုင် ပူးတွဲ",
+        "upload_start": "ဖိုင် တင်နေသည်...",
+        "upload_error": "တင်ခြင်း မအောင်မြင်ပါ။ ပြန်လည်ကြိုးစားမည်လား?",
+        "upload_complete": "ဖိုင် ပို့ပြီးပါပြီ!"
     },
     "help": {
         "title": "အကူအညီ",
@@ -507,5 +529,26 @@
         "share_room": "Substitution ရှိ ဤအခန်းကို ကြည့်ပါ",
         "share_profile": "Substitution ရှိ ဤပရိုဖိုင်ကို ကြည့်ပါ",
         "share_post": "Substitution ရှိ ဤပို့စ်ကို ကြည့်ပါ"
+    },
+    "search": {
+        "hint": "ပို့စ်များ ရှာဖွေ...",
+        "empty": "\"{}\" အတွက် ပို့စ်များ ရှာမတွေ့ပါ။",
+        "error": "ရှာဖွေမှု မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ ထပ်မံကြိုးစားပါ။"
+    },
+    "notifications": {
+        "settings_title": "အသိပေးချက်များ",
+        "enable": "အသိပေးချက်များ ဖွင့်ပါ",
+        "mute_all": "အသိပေးချက်အားလုံး ပိတ်ပါ",
+        "channel_name": "Substitution အသိပေးချက်များ",
+        "channel_desc": "မက်ဆေ့ချ်အသစ်များနှင့် ပို့စ်အသစ်များအတွက် အသိပေးချက်များ",
+        "new_message": "{} မှ မက်ဆေ့ချ်အသစ်",
+        "new_post": "{} တွင် ပို့စ်အသစ်",
+        "tap_to_open": "ဖွင့်ရန် နှိပ်ပါ"
+    },
+    "members": {
+        "title": "အဖွဲ့ဝင်များ",
+        "count": "အဖွဲ့ဝင် {} ဦး",
+        "empty": "အဖွဲ့ဝင်များ ရှာမတွေ့ပါ။",
+        "error": "အဖွဲ့ဝင်များကို ဖွင့်၍မရပါ။"
     }
 }

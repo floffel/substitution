@@ -37,7 +37,24 @@
             "not_found": "Publication introuvable ou non disponible."
         },
         "menu": {
-            "report_block": "Signaler / Bloquer"
+            "report_block": "Signaler / Bloquer",
+            "edit": "Modifier",
+            "delete": "Supprimer"
+        },
+        "edit": {
+            "title": "Modifier la publication",
+            "save_button": "Enregistrer les modifications",
+            "send_start": "Enregistrement de la modification...",
+            "send_failed": "Impossible d'enregistrer la modification. Réessayer?",
+            "send_complete": "Publication mise à jour."
+        },
+        "delete": {
+            "title": "Supprimer la publication",
+            "body": "Cela supprimera définitivement la publication pour tout le monde. Cette action est irréversible.",
+            "confirm": "Supprimer",
+            "cancel": "Annuler",
+            "success": "Publication supprimée.",
+            "error": "Impossible de supprimer la publication : {}"
         },
         "e2e": {
             "encrypted": "Chiffré de bout en bout",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Récemment utilisés"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Conversation commencée",
         "error_loading": "Impossible de charger cette conversation.",
         "error_sending": "Échec de l'envoi du message.",
-        "view_profile": "Voir le profil"
+        "view_profile": "Voir le profil",
+        "attach_file": "Joindre un fichier",
+        "upload_start": "Téléversement du fichier...",
+        "upload_error": "Échec du téléversement. Réessayer?",
+        "upload_complete": "Fichier envoyé!"
+    },
+    "search": {
+        "hint": "Rechercher des publications...",
+        "empty": "Aucune publication trouvée pour \"{}\".",
+        "error": "La recherche a échoué. Veuillez réessayer."
+    },
+    "notifications": {
+        "settings_title": "Notifications",
+        "enable": "Activer les notifications",
+        "mute_all": "Désactiver toutes les notifications",
+        "channel_name": "Notifications Substitution",
+        "channel_desc": "Notifications pour les nouveaux messages et publications",
+        "new_message": "Nouveau message de {}",
+        "new_post": "Nouvelle publication dans {}",
+        "tap_to_open": "Appuyez pour ouvrir"
+    },
+    "members": {
+        "title": "Membres",
+        "count": "{} membres",
+        "empty": "Aucun membre trouvé.",
+        "error": "Impossible de charger les membres."
     },
     "help": {
         "title": "Aide",

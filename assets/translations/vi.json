@@ -37,7 +37,9 @@
             "not_found": "Không tìm thấy bài đăng hoặc bài đăng không khả dụng."
         },
         "menu": {
-            "report_block": "Báo cáo / Chặn"
+            "report_block": "Báo cáo / Chặn",
+            "edit": "Chỉnh sửa",
+            "delete": "Xóa"
         },
         "e2e": {
             "encrypted": "Mã hóa đầu cuối",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Chỉnh sửa bài đăng",
+            "save_button": "Lưu thay đổi",
+            "send_start": "Đang lưu chỉnh sửa...",
+            "send_failed": "Không thể lưu chỉnh sửa. Thử lại?",
+            "send_complete": "Bài đăng đã được cập nhật."
+        },
+        "delete": {
+            "title": "Xóa bài đăng",
+            "body": "Thao tác này sẽ xóa vĩnh viễn bài đăng cho tất cả mọi người. Không thể hoàn tác.",
+            "confirm": "Xóa",
+            "cancel": "Hủy",
+            "success": "Bài đăng đã bị xóa.",
+            "error": "Không thể xóa bài đăng: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Đã dùng gần đây"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Cuộc trò chuyện đã bắt đầu",
         "error_loading": "Không thể tải cuộc trò chuyện này.",
         "error_sending": "Gửi tin nhắn thất bại.",
-        "view_profile": "Xem trang cá nhân"
+        "view_profile": "Xem trang cá nhân",
+        "attach_file": "Đính kèm tệp",
+        "upload_start": "Đang tải tệp lên...",
+        "upload_error": "Tải lên thất bại. Thử lại?",
+        "upload_complete": "Đã gửi tệp!"
     },
     "help": {
         "title": "Trợ giúp",
@@ -507,5 +529,26 @@
         "share_room": "Xem phòng này trên Substitution",
         "share_profile": "Xem hồ sơ này trên Substitution",
         "share_post": "Xem bài đăng này trên Substitution"
+    },
+    "search": {
+        "hint": "Tìm kiếm bài đăng...",
+        "empty": "Không tìm thấy bài đăng nào cho \"{}\".",
+        "error": "Tìm kiếm thất bại. Vui lòng thử lại."
+    },
+    "notifications": {
+        "settings_title": "Thông báo",
+        "enable": "Bật thông báo",
+        "mute_all": "Tắt tất cả thông báo",
+        "channel_name": "Thông báo Substitution",
+        "channel_desc": "Thông báo cho tin nhắn mới và bài đăng mới",
+        "new_message": "Tin nhắn mới từ {}",
+        "new_post": "Bài đăng mới trong {}",
+        "tap_to_open": "Nhấn để mở"
+    },
+    "members": {
+        "title": "Thành viên",
+        "count": "{} thành viên",
+        "empty": "Không tìm thấy thành viên nào.",
+        "error": "Không thể tải danh sách thành viên."
     }
 }

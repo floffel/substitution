@@ -37,7 +37,9 @@
             "not_found": "Færsla fannst ekki eða er ekki tiltæk."
         },
         "menu": {
-            "report_block": "Tilkynna / Loka á"
+            "report_block": "Tilkynna / Loka á",
+            "edit": "Breyta",
+            "delete": "Eyða"
         },
         "e2e": {
             "encrypted": "Enda-í-enda dulkóðað",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Breyta færslu",
+            "save_button": "Vista breytingar",
+            "send_start": "Vista breytingar...",
+            "send_failed": "Ekki tókst að vista breytinguna. Reyna aftur?",
+            "send_complete": "Færsla uppfærð."
+        },
+        "delete": {
+            "title": "Eyða færslu",
+            "body": "Þetta mun eyða færslunni varanlega fyrir alla. Þetta er ekki hægt að afturkalla.",
+            "confirm": "Eyða",
+            "cancel": "Hætta við",
+            "success": "Færslu eytt.",
+            "error": "Ekki tókst að eyða færslu: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nýlega notað"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Samtal hafið",
         "error_loading": "Gat ekki hlaðið þessu samtali.",
         "error_sending": "Sending skilaboða mistókst.",
-        "view_profile": "Skoða prófíl"
+        "view_profile": "Skoða prófíl",
+        "attach_file": "Hengja við skrá",
+        "upload_start": "Hleð upp skrá...",
+        "upload_error": "Upphleðsla mistókst. Reyna aftur?",
+        "upload_complete": "Skrá send!"
     },
     "help": {
         "title": "Hjálp",
@@ -507,5 +529,26 @@
         "share_room": "Skoðaðu þetta herbergi á Substitution",
         "share_profile": "Skoðaðu þennan prófíl á Substitution",
         "share_post": "Skoðaðu þessa færslu á Substitution"
+    },
+    "search": {
+        "hint": "Leita að færslum...",
+        "empty": "Engar færslur fundust fyrir \"{}\".",
+        "error": "Leit mistókst. Vinsamlegast reyndu aftur."
+    },
+    "notifications": {
+        "settings_title": "Tilkynningar",
+        "enable": "Virkja tilkynningar",
+        "mute_all": "Þagga allar tilkynningar",
+        "channel_name": "Substitution tilkynningar",
+        "channel_desc": "Tilkynningar um ný skilaboð og færslur",
+        "new_message": "Ný skilaboð frá {}",
+        "new_post": "Ný færsla í {}",
+        "tap_to_open": "Ýttu til að opna"
+    },
+    "members": {
+        "title": "Meðlimir",
+        "count": "{} meðlimir",
+        "empty": "Engir meðlimir fundust.",
+        "error": "Ekki tókst að hlaða meðlimum."
     }
 }

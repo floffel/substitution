@@ -37,7 +37,24 @@
             "not_found": "Publicación non atopada ou non dispoñible."
         },
         "menu": {
-            "report_block": "Denunciar / Bloquear"
+            "report_block": "Denunciar / Bloquear",
+            "edit": "Editar",
+            "delete": "Eliminar"
+        },
+        "edit": {
+            "title": "Editar publicación",
+            "save_button": "Gardar cambios",
+            "send_start": "Gardando edición...",
+            "send_failed": "Non se puido gardar a edición. Reintentar?",
+            "send_complete": "Publicación actualizada."
+        },
+        "delete": {
+            "title": "Eliminar publicación",
+            "body": "Isto eliminará permanentemente a publicación para todos. Esta acción non se pode desfacer.",
+            "confirm": "Eliminar",
+            "cancel": "Cancelar",
+            "success": "Publicación eliminada.",
+            "error": "Non se puido eliminar a publicación: {}"
         },
         "e2e": {
             "encrypted": "Cifrado de extremo a extremo",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Usados recentemente"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Conversa iniciada",
         "error_loading": "Non se puido cargar esta conversa.",
         "error_sending": "Non se puido enviar a mensaxe.",
-        "view_profile": "Ver perfil"
+        "view_profile": "Ver perfil",
+        "attach_file": "Adxuntar ficheiro",
+        "upload_start": "Subindo ficheiro...",
+        "upload_error": "Erro na subida. Reintentar?",
+        "upload_complete": "Ficheiro enviado!"
+    },
+    "search": {
+        "hint": "Buscar publicacións...",
+        "empty": "Non se atoparon publicacións para \"{}\".",
+        "error": "A busca fallou. Por favor, inténtao de novo."
+    },
+    "notifications": {
+        "settings_title": "Notificacións",
+        "enable": "Activar notificacións",
+        "mute_all": "Silenciar todas as notificacións",
+        "channel_name": "Notificacións de Substitution",
+        "channel_desc": "Notificacións de novas mensaxes e publicacións",
+        "new_message": "Nova mensaxe de {}",
+        "new_post": "Nova publicación en {}",
+        "tap_to_open": "Toca para abrir"
+    },
+    "members": {
+        "title": "Membros",
+        "count": "{} membros",
+        "empty": "Non se atoparon membros.",
+        "error": "Non se puideron cargar os membros."
     },
     "help": {
         "title": "Axuda",

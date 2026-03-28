@@ -37,7 +37,24 @@
             "not_found": "Publicación no encontrada o no disponible."
         },
         "menu": {
-            "report_block": "Reportar / Bloquear"
+            "report_block": "Reportar / Bloquear",
+            "edit": "Editar",
+            "delete": "Eliminar"
+        },
+        "edit": {
+            "title": "Editar publicación",
+            "save_button": "Guardar cambios",
+            "send_start": "Guardando edición...",
+            "send_failed": "No se pudo guardar la edición. ¿Reintentar?",
+            "send_complete": "Publicación actualizada."
+        },
+        "delete": {
+            "title": "Eliminar publicación",
+            "body": "Esto eliminará permanentemente la publicación para todos. Esta acción no se puede deshacer.",
+            "confirm": "Eliminar",
+            "cancel": "Cancelar",
+            "success": "Publicación eliminada.",
+            "error": "No se pudo eliminar la publicación: {}"
         },
         "e2e": {
             "encrypted": "Cifrado de extremo a extremo",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Usados recientemente"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Conversación iniciada",
         "error_loading": "No se pudo cargar esta conversación.",
         "error_sending": "Error al enviar el mensaje.",
-        "view_profile": "Ver perfil"
+        "view_profile": "Ver perfil",
+        "attach_file": "Adjuntar archivo",
+        "upload_start": "Subiendo archivo...",
+        "upload_error": "Error en la subida. ¿Reintentar?",
+        "upload_complete": "¡Archivo enviado!"
+    },
+    "search": {
+        "hint": "Buscar publicaciones...",
+        "empty": "No se encontraron publicaciones para \"{}\".",
+        "error": "La búsqueda falló. Por favor, intenta de nuevo."
+    },
+    "notifications": {
+        "settings_title": "Notificaciones",
+        "enable": "Activar notificaciones",
+        "mute_all": "Silenciar todas las notificaciones",
+        "channel_name": "Notificaciones de Substitution",
+        "channel_desc": "Notificaciones de nuevos mensajes y publicaciones",
+        "new_message": "Nuevo mensaje de {}",
+        "new_post": "Nueva publicación en {}",
+        "tap_to_open": "Toca para abrir"
+    },
+    "members": {
+        "title": "Miembros",
+        "count": "{} miembros",
+        "empty": "No se encontraron miembros.",
+        "error": "No se pudieron cargar los miembros."
     },
     "help": {
         "title": "Ayuda",

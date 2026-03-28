@@ -37,7 +37,9 @@
             "not_found": "La publicació no s'ha trobat o no està disponible."
         },
         "menu": {
-            "report_block": "Denuncia / Bloqueja"
+            "report_block": "Denuncia / Bloqueja",
+            "edit": "Edita",
+            "delete": "Elimina"
         },
         "e2e": {
             "encrypted": "Xifrat d'extrem a extrem",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Edita la publicació",
+            "save_button": "Desa els canvis",
+            "send_start": "Desant l'edició...",
+            "send_failed": "No s'ha pogut desar l'edició. Reintentar?",
+            "send_complete": "Publicació actualitzada."
+        },
+        "delete": {
+            "title": "Elimina la publicació",
+            "body": "Això eliminarà permanentment la publicació per a tothom. Aquesta acció no es pot desfer.",
+            "confirm": "Elimina",
+            "cancel": "Cancel·la",
+            "success": "Publicació eliminada.",
+            "error": "No s'ha pogut eliminar la publicació: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Utilitzats recentment"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Conversa iniciada",
         "error_loading": "No s'ha pogut carregar aquesta conversa.",
         "error_sending": "No s'ha pogut enviar el missatge.",
-        "view_profile": "Veure perfil"
+        "view_profile": "Veure perfil",
+        "attach_file": "Adjunta un fitxer",
+        "upload_start": "Pujant el fitxer...",
+        "upload_error": "La pujada ha fallat. Reintentar?",
+        "upload_complete": "Fitxer enviat!"
     },
     "help": {
         "title": "Ajuda",
@@ -507,5 +529,26 @@
         "share_room": "Mira aquesta sala a Substitution",
         "share_profile": "Mira aquest perfil a Substitution",
         "share_post": "Mira aquesta publicació a Substitution"
+    },
+    "search": {
+        "hint": "Cerca publicacions...",
+        "empty": "No s'han trobat publicacions per a \"{}\".",
+        "error": "La cerca ha fallat. Si us plau, torna-ho a provar."
+    },
+    "notifications": {
+        "settings_title": "Notificacions",
+        "enable": "Activa les notificacions",
+        "mute_all": "Silencia totes les notificacions",
+        "channel_name": "Notificacions de Substitution",
+        "channel_desc": "Notificacions per a nous missatges i publicacions",
+        "new_message": "Nou missatge de {}",
+        "new_post": "Nova publicació a {}",
+        "tap_to_open": "Toca per obrir"
+    },
+    "members": {
+        "title": "Membres",
+        "count": "{} membres",
+        "empty": "No s'han trobat membres.",
+        "error": "No s'han pogut carregar els membres."
     }
 }

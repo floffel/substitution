@@ -37,7 +37,9 @@
             "not_found": "පළ කිරීම සොයා ගත නොහැකි හෝ ලබා ගත නොහැකිය."
         },
         "menu": {
-            "report_block": "වාර්තා කරන්න / අවහිර කරන්න"
+            "report_block": "වාර්තා කරන්න / අවහිර කරන්න",
+            "edit": "සංස්කරණය",
+            "delete": "මකන්න"
         },
         "e2e": {
             "encrypted": "අන්තයේ සිට අන්තය දක්වා සංකේතනය කර ඇත",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "පළ කිරීම සංස්කරණය",
+            "save_button": "වෙනස්කම් සුරකින්න",
+            "send_start": "සංස්කරණය සුරකිමින්...",
+            "send_failed": "සංස්කරණය සුරැකීමට නොහැකි විය. නැවත උත්සාහ කරන්නද?",
+            "send_complete": "පළ කිරීම යාවත්කාලීන විය."
+        },
+        "delete": {
+            "title": "පළ කිරීම මකන්න",
+            "body": "මෙය සියලු දෙනා සඳහා පළ කිරීම ස්ථිරවම මකනු ඇත. මෙය පසුගැනිය නොහැක.",
+            "confirm": "මකන්න",
+            "cancel": "අවලංගු කරන්න",
+            "success": "පළ කිරීම මකා දමන ලදී.",
+            "error": "පළ කිරීම මකා දැමිය නොහැකි විය: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "මෑතකදී භාවිත කළ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "සංවාදය ආරම්භ විය",
         "error_loading": "මෙම සංවාදය පූරණය කිරීමට නොහැකි විය.",
         "error_sending": "පණිවිඩය යැවීම අසාර්ථක විය.",
-        "view_profile": "පැතිකඩ බලන්න"
+        "view_profile": "පැතිකඩ බලන්න",
+        "attach_file": "ගොනුව අමුණන්න",
+        "upload_start": "ගොනුව උඩුගත කරමින්...",
+        "upload_error": "උඩුගත කිරීම අසාර්ථක විය. නැවත උත්සාහ කරන්නද?",
+        "upload_complete": "ගොනුව යවන ලදී!"
     },
     "help": {
         "title": "උදව්",
@@ -507,5 +529,26 @@
         "share_room": "Substitution හි මෙම කාමරය බලන්න",
         "share_profile": "Substitution හි මෙම පැතිකඩ බලන්න",
         "share_post": "Substitution හි මෙම පළ කිරීම බලන්න"
+    },
+    "search": {
+        "hint": "පළ කිරීම් සොයන්න...",
+        "empty": "\"{}\" සඳහා පළ කිරීම් හමු නොවීය.",
+        "error": "සෙවීම අසාර්ථක විය. කරුණාකර නැවත උත්සාහ කරන්න."
+    },
+    "notifications": {
+        "settings_title": "දැනුම්දීම්",
+        "enable": "දැනුම්දීම් සක්‍රිය කරන්න",
+        "mute_all": "සියලු දැනුම්දීම් නිශ්ශබ්ද කරන්න",
+        "channel_name": "Substitution දැනුම්දීම්",
+        "channel_desc": "නව පණිවිඩ සහ පළ කිරීම් සඳහා දැනුම්දීම්",
+        "new_message": "{} ගෙන් නව පණිවිඩය",
+        "new_post": "{} හි නව පළ කිරීම",
+        "tap_to_open": "විවෘත කිරීමට ඔබන්න"
+    },
+    "members": {
+        "title": "සාමාජිකයින්",
+        "count": "සාමාජිකයින් {}",
+        "empty": "සාමාජිකයින් හමු නොවීය.",
+        "error": "සාමාජිකයින් පූරණය කිරීමට නොහැකි විය."
     }
 }

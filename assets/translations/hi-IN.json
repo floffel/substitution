@@ -37,7 +37,24 @@
             "not_found": "पोस्ट नहीं मिली या उपलब्ध नहीं है।"
         },
         "menu": {
-            "report_block": "रिपोर्ट / ब्लॉक"
+            "report_block": "रिपोर्ट / ब्लॉक",
+            "edit": "संपादित करें",
+            "delete": "हटाएं"
+        },
+        "edit": {
+            "title": "पोस्ट संपादित करें",
+            "save_button": "बदलाव सहेजें",
+            "send_start": "संपादन सहेजा जा रहा है...",
+            "send_failed": "संपादन सहेजा नहीं जा सका। पुनः प्रयास करें?",
+            "send_complete": "पोस्ट अपडेट हो गई।"
+        },
+        "delete": {
+            "title": "पोस्ट हटाएं",
+            "body": "यह सभी के लिए पोस्ट को स्थायी रूप से हटा देगा। इसे पूर्ववत नहीं किया जा सकता।",
+            "confirm": "हटाएं",
+            "cancel": "रद्द करें",
+            "success": "पोस्ट हटा दी गई।",
+            "error": "पोस्ट हटाई नहीं जा सकी: {}"
         },
         "e2e": {
             "encrypted": "एंड-टू-एंड एन्क्रिप्टेड",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "हाल ही में उपयोग किए गए"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "बातचीत शुरू हुई",
         "error_loading": "यह बातचीत लोड नहीं हो सकी।",
         "error_sending": "संदेश भेजने में विफल।",
-        "view_profile": "प्रोफ़ाइल देखें"
+        "view_profile": "प्रोफ़ाइल देखें",
+        "attach_file": "फ़ाइल संलग्न करें",
+        "upload_start": "फ़ाइल अपलोड हो रही है...",
+        "upload_error": "अपलोड विफल। पुनः प्रयास करें?",
+        "upload_complete": "फ़ाइल भेज दी गई!"
+    },
+    "search": {
+        "hint": "पोस्ट खोजें...",
+        "empty": "\"{}\" के लिए कोई पोस्ट नहीं मिली।",
+        "error": "खोज विफल। कृपया पुनः प्रयास करें।"
+    },
+    "notifications": {
+        "settings_title": "सूचनाएं",
+        "enable": "सूचनाएं सक्षम करें",
+        "mute_all": "सभी सूचनाएं म्यूट करें",
+        "channel_name": "Substitution सूचनाएं",
+        "channel_desc": "नए संदेशों और पोस्ट के लिए सूचनाएं",
+        "new_message": "{} का नया संदेश",
+        "new_post": "{} में नई पोस्ट",
+        "tap_to_open": "खोलने के लिए टैप करें"
+    },
+    "members": {
+        "title": "सदस्य",
+        "count": "{} सदस्य",
+        "empty": "कोई सदस्य नहीं मिले।",
+        "error": "सदस्य लोड नहीं हो सके।"
     },
     "help": {
         "title": "सहायता",

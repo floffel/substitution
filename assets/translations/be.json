@@ -37,7 +37,9 @@
             "not_found": "Публікацыя не знойдзена або недаступная."
         },
         "menu": {
-            "report_block": "Паскардзіцца / Заблакіраваць"
+            "report_block": "Паскардзіцца / Заблакіраваць",
+            "edit": "Рэдагаваць",
+            "delete": "Выдаліць"
         },
         "e2e": {
             "encrypted": "Скразное шыфраванне",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Рэдагаваць публікацыю",
+            "save_button": "Захаваць змены",
+            "send_start": "Захаванне рэдагавання...",
+            "send_failed": "Не ўдалося захаваць рэдагаванне. Паўтарыць?",
+            "send_complete": "Публікацыя абноўлена."
+        },
+        "delete": {
+            "title": "Выдаліць публікацыю",
+            "body": "Гэта назаўжды выдаліць публікацыю для ўсіх. Гэта нельга адмяніць.",
+            "confirm": "Выдаліць",
+            "cancel": "Адмяніць",
+            "success": "Публікацыя выдалена.",
+            "error": "Не ўдалося выдаліць публікацыю: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Нядаўна выкарыстаныя"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Размова пачалася",
         "error_loading": "Не ўдалося загрузіць гэтую размову.",
         "error_sending": "Не ўдалося адправіць паведамленне.",
-        "view_profile": "Прагляд профілю"
+        "view_profile": "Прагляд профілю",
+        "attach_file": "Прыкрапіць файл",
+        "upload_start": "Загрузка файла...",
+        "upload_error": "Загрузка не ўдалася. Паўтарыць?",
+        "upload_complete": "Файл адпраўлены!"
     },
     "help": {
         "title": "Дапамога",
@@ -507,5 +529,26 @@
         "share_room": "Паглядзіце гэты пакой у Substitution",
         "share_profile": "Паглядзіце гэты профіль у Substitution",
         "share_post": "Паглядзіце гэтую публікацыю ў Substitution"
+    },
+    "search": {
+        "hint": "Пошук публікацый...",
+        "empty": "Публікацыі для \"{}\" не знойдзены.",
+        "error": "Пошук не ўдаўся. Паспрабуйце яшчэ раз."
+    },
+    "notifications": {
+        "settings_title": "Апавяшчэнні",
+        "enable": "Уключыць апавяшчэнні",
+        "mute_all": "Заглушыць усе апавяшчэнні",
+        "channel_name": "Апавяшчэнні Substitution",
+        "channel_desc": "Апавяшчэнні пра новыя паведамленні і публікацыі",
+        "new_message": "Новае паведамленне ад {}",
+        "new_post": "Новая публікацыя ў {}",
+        "tap_to_open": "Націсніце, каб адкрыць"
+    },
+    "members": {
+        "title": "Удзельнікі",
+        "count": "{} удзельнікаў",
+        "empty": "Удзельнікі не знойдзены.",
+        "error": "Не ўдалося загрузіць удзельнікаў."
     }
 }

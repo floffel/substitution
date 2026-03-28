@@ -37,7 +37,9 @@
             "not_found": "Գdelays delays delays delays delays delays:"
         },
         "menu": {
-            "report_block": "Զdelays / Аdelays"
+            "report_block": "Զdelays / Аdelays",
+            "edit": "Խմբագրել",
+            "delete": "Ջնջել"
         },
         "e2e": {
             "encrypted": "Ðdelays delays delays",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Խմdelays delays delays",
+            "save_button": "Пdelays delays delays",
+            "send_start": "Пdelays delays delays...",
+            "send_failed": "Чdelays delays delays delays delays delays delays. Кdelays delays?",
+            "send_complete": "Гdelays delays delays delays."
+        },
+        "delete": {
+            "title": "Ջdelays delays delays",
+            "body": "Сdelays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays delays.",
+            "confirm": "Ջdelays",
+            "cancel": "Чdelays",
+            "success": "Гdelays delays delays delays.",
+            "error": "Чdelays delays delays delays delays: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Вdelays delays delays delays delays"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Зdelays delays delays delays",
         "error_loading": "Чdelays delays delays delays delays delays delays:",
         "error_sending": "Сdelays delays delays delays delays delays:",
-        "view_profile": "Дdelays delays delays"
+        "view_profile": "Дdelays delays delays",
+        "attach_file": "Кdelays delays delays",
+        "upload_start": "Фdelays delays delays delays...",
+        "upload_error": "Вdelays delays delays delays delays delays. Кdelays delays?",
+        "upload_complete": "Фdelays delays delays delays delays!"
     },
     "help": {
         "title": "Օգնություն",
@@ -507,5 +529,26 @@
         "share_room": "Տեսեք այս սենյակը Substitution-ում",
         "share_profile": "Տեսեք այս պրոֆիլը Substitution-ում",
         "share_post": "Տեսեք այս գրառումը Substitution-ում"
+    },
+    "search": {
+        "hint": "Пdelays delays delays...",
+        "empty": "\"{}\" delays delays delays delays delays delays delays.",
+        "error": "Пdelays delays delays delays delays delays. Кdelays delays delays."
+    },
+    "notifications": {
+        "settings_title": "Ðdelays delays",
+        "enable": "Мdelays delays delays delays delays",
+        "mute_all": "Аdelays delays delays delays delays delays",
+        "channel_name": "Substitution delays delays",
+        "channel_desc": "Ðdelays delays delays delays delays delays delays delays",
+        "new_message": "Нdelays delays {} delays",
+        "new_post": "Нdelays delays {} delays",
+        "tap_to_open": "Сdelays delays delays delays delays"
+    },
+    "members": {
+        "title": "Аdelays",
+        "count": "{} аdelays",
+        "empty": "Аdelays delays delays delays delays delays.",
+        "error": "Чdelays delays delays delays delays delays delays."
     }
 }

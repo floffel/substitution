@@ -37,7 +37,9 @@
             "not_found": "Објава није пронађена или није доступна."
         },
         "menu": {
-            "report_block": "Пријави / Блокирај"
+            "report_block": "Пријави / Блокирај",
+            "edit": "Уреди",
+            "delete": "Обриши"
         },
         "e2e": {
             "encrypted": "Шифровано од краја до краја",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Уреди објаву",
+            "save_button": "Сачувај измене",
+            "send_start": "Чување измене...",
+            "send_failed": "Није могуће сачувати измену. Покушати поново?",
+            "send_complete": "Објава ажурирана."
+        },
+        "delete": {
+            "title": "Обриши објаву",
+            "body": "Ово ће трајно обрисати објаву за све. Ова радња се не може поништити.",
+            "confirm": "Обриши",
+            "cancel": "Откажи",
+            "success": "Објава обрисана.",
+            "error": "Није могуће обрисати објаву: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Недавно коришћено"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Разговор је започет",
         "error_loading": "Није могуће учитати овај разговор.",
         "error_sending": "Слање поруке није успело.",
-        "view_profile": "Прикажи профил"
+        "view_profile": "Прикажи профил",
+        "attach_file": "Приложи фајл",
+        "upload_start": "Отпремање фајла...",
+        "upload_error": "Отпремање није успело. Покушати поново?",
+        "upload_complete": "Фајл послат!"
     },
     "help": {
         "title": "Помоћ",
@@ -507,5 +529,26 @@
         "share_room": "Погледајте ову собу на Substitution",
         "share_profile": "Погледајте овај профил на Substitution",
         "share_post": "Погледајте ову објаву на Substitution"
+    },
+    "search": {
+        "hint": "Претражи објаве...",
+        "empty": "Нису пронађене објаве за \u201E{}\u201C.",
+        "error": "Претрага није успела. Покушајте поново."
+    },
+    "notifications": {
+        "settings_title": "Обавештења",
+        "enable": "Омогући обавештења",
+        "mute_all": "Утишај сва обавештења",
+        "channel_name": "Обавештења Substitution",
+        "channel_desc": "Обавештења о новим порукама и објавама",
+        "new_message": "Нова порука од {}",
+        "new_post": "Нова објава у {}",
+        "tap_to_open": "Додирните за отварање"
+    },
+    "members": {
+        "title": "Чланови",
+        "count": "{} чланова",
+        "empty": "Нису пронађени чланови.",
+        "error": "Није могуће учитати чланове."
     }
 }

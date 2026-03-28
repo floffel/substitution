@@ -37,7 +37,9 @@
             "not_found": "Postingan tidak ditemukan atau tidak tersedia."
         },
         "menu": {
-            "report_block": "Laporkan / Blokir"
+            "report_block": "Laporkan / Blokir",
+            "edit": "Edit",
+            "delete": "Hapus"
         },
         "e2e": {
             "encrypted": "Terenkripsi ujung ke ujung",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Edit Postingan",
+            "save_button": "Simpan Perubahan",
+            "send_start": "Menyimpan perubahan...",
+            "send_failed": "Tidak dapat menyimpan perubahan. Coba lagi?",
+            "send_complete": "Postingan diperbarui."
+        },
+        "delete": {
+            "title": "Hapus Postingan",
+            "body": "Ini akan menghapus postingan secara permanen untuk semua orang. Tindakan ini tidak dapat dibatalkan.",
+            "confirm": "Hapus",
+            "cancel": "Batal",
+            "success": "Postingan dihapus.",
+            "error": "Tidak dapat menghapus postingan: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Baru Digunakan"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Percakapan dimulai",
         "error_loading": "Tidak dapat memuat percakapan ini.",
         "error_sending": "Gagal mengirim pesan.",
-        "view_profile": "Lihat profil"
+        "view_profile": "Lihat profil",
+        "attach_file": "Lampirkan file",
+        "upload_start": "Mengunggah file...",
+        "upload_error": "Unggahan gagal. Coba lagi?",
+        "upload_complete": "File terkirim!"
     },
     "help": {
         "title": "Bantuan",
@@ -507,5 +529,26 @@
         "share_room": "Lihat ruangan ini di Substitution",
         "share_profile": "Lihat profil ini di Substitution",
         "share_post": "Lihat postingan ini di Substitution"
+    },
+    "search": {
+        "hint": "Cari postingan...",
+        "empty": "Tidak ditemukan postingan untuk \"{}\".",
+        "error": "Pencarian gagal. Silakan coba lagi."
+    },
+    "notifications": {
+        "settings_title": "Notifikasi",
+        "enable": "Aktifkan notifikasi",
+        "mute_all": "Bisukan semua notifikasi",
+        "channel_name": "Notifikasi Substitution",
+        "channel_desc": "Notifikasi untuk pesan dan postingan baru",
+        "new_message": "Pesan baru dari {}",
+        "new_post": "Postingan baru di {}",
+        "tap_to_open": "Ketuk untuk membuka"
+    },
+    "members": {
+        "title": "Anggota",
+        "count": "{} anggota",
+        "empty": "Tidak ada anggota ditemukan.",
+        "error": "Tidak dapat memuat anggota."
     }
 }

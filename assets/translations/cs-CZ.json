@@ -37,7 +37,9 @@
             "not_found": "Příspěvek nebyl nalezen nebo je nedostupný."
         },
         "menu": {
-            "report_block": "Nahlásit / Zablokovat"
+            "report_block": "Nahlásit / Zablokovat",
+            "edit": "Upravit",
+            "delete": "Smazat"
         },
         "e2e": {
             "encrypted": "Šifrováno end-to-end",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Upravit příspěvek",
+            "save_button": "Uložit změny",
+            "send_start": "Ukládání úpravy...",
+            "send_failed": "Nepodařilo se uložit úpravu. Zkusit znovu?",
+            "send_complete": "Příspěvek aktualizován."
+        },
+        "delete": {
+            "title": "Smazat příspěvek",
+            "body": "Toto trvale smaže příspěvek pro všechny. Tuto akci nelze vrátit zpět.",
+            "confirm": "Smazat",
+            "cancel": "Zrušit",
+            "success": "Příspěvek smazán.",
+            "error": "Nepodařilo se smazat příspěvek: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nedávno použité"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Konverzace zahájena",
         "error_loading": "Nepodařilo se načíst tuto konverzaci.",
         "error_sending": "Odeslání zprávy se nezdařilo.",
-        "view_profile": "Zobrazit profil"
+        "view_profile": "Zobrazit profil",
+        "attach_file": "Připojit soubor",
+        "upload_start": "Nahrávání souboru...",
+        "upload_error": "Nahrávání selhalo. Zkusit znovu?",
+        "upload_complete": "Soubor odeslán!"
     },
     "help": {
         "title": "Nápověda",
@@ -507,5 +529,26 @@
         "share_room": "Podívejte se na tuto místnost v Substitution",
         "share_profile": "Podívejte se na tento profil v Substitution",
         "share_post": "Podívejte se na tento příspěvek v Substitution"
+    },
+    "search": {
+        "hint": "Hledat příspěvky...",
+        "empty": "Pro \"{}\" nebyly nalezeny žádné příspěvky.",
+        "error": "Vyhledávání selhalo. Zkuste to prosím znovu."
+    },
+    "notifications": {
+        "settings_title": "Oznámení",
+        "enable": "Povolit oznámení",
+        "mute_all": "Ztlumit všechna oznámení",
+        "channel_name": "Oznámení Substitution",
+        "channel_desc": "Oznámení o nových zprávách a příspěvcích",
+        "new_message": "Nová zpráva od {}",
+        "new_post": "Nový příspěvek v {}",
+        "tap_to_open": "Klepněte pro otevření"
+    },
+    "members": {
+        "title": "Členové",
+        "count": "{} členů",
+        "empty": "Nebyli nalezeni žádní členové.",
+        "error": "Nepodařilo se načíst členy."
     }
 }

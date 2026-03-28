@@ -37,7 +37,9 @@
             "not_found": "Objava ni bila najdena ali ni na voljo."
         },
         "menu": {
-            "report_block": "Prijavi / Blokiraj"
+            "report_block": "Prijavi / Blokiraj",
+            "edit": "Uredi",
+            "delete": "Izbriši"
         },
         "e2e": {
             "encrypted": "Šifrirano od konca do konca",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Uredi objavo",
+            "save_button": "Shrani spremembe",
+            "send_start": "Shranjujem urejanje...",
+            "send_failed": "Urejanja ni bilo mogoče shraniti. Poskusiti znova?",
+            "send_complete": "Objava posodobljena."
+        },
+        "delete": {
+            "title": "Izbriši objavo",
+            "body": "To bo trajno izbrisalo objavo za vse. Tega ni mogoče razveljaviti.",
+            "confirm": "Izbriši",
+            "cancel": "Prekliči",
+            "success": "Objava izbrisana.",
+            "error": "Objave ni bilo mogoče izbrisati: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nedavno uporabljeno"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Pogovor se je začel",
         "error_loading": "Tega pogovora ni bilo mogoče naložiti.",
         "error_sending": "Pošiljanje sporočila ni uspelo.",
-        "view_profile": "Prikaži profil"
+        "view_profile": "Prikaži profil",
+        "attach_file": "Priloži datoteko",
+        "upload_start": "Nalaganje datoteke...",
+        "upload_error": "Nalaganje ni uspelo. Poskusiti znova?",
+        "upload_complete": "Datoteka poslana!"
     },
     "help": {
         "title": "Pomoč",
@@ -507,5 +529,26 @@
         "share_room": "Oglejte si to sobo na Substitution",
         "share_profile": "Oglejte si ta profil na Substitution",
         "share_post": "Oglejte si to objavo na Substitution"
+    },
+    "search": {
+        "hint": "Iskanje objav...",
+        "empty": "Za \u201E{}\u201C ni bilo najdenih objav.",
+        "error": "Iskanje ni uspelo. Poskusite znova."
+    },
+    "notifications": {
+        "settings_title": "Obvestila",
+        "enable": "Omogoči obvestila",
+        "mute_all": "Utišaj vsa obvestila",
+        "channel_name": "Obvestila Substitution",
+        "channel_desc": "Obvestila o novih sporočilih in objavah",
+        "new_message": "Novo sporočilo od {}",
+        "new_post": "Nova objava v {}",
+        "tap_to_open": "Tapnite za odprtje"
+    },
+    "members": {
+        "title": "Člani",
+        "count": "{} članov",
+        "empty": "Člani niso bili najdeni.",
+        "error": "Članov ni bilo mogoče naložiti."
     }
 }

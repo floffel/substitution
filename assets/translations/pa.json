@@ -37,7 +37,9 @@
             "not_found": "ਪੋਸਟ ਨਹੀਂ ਮਿਲੀ ਜਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"
         },
         "menu": {
-            "report_block": "ਰਿਪੋਰਟ / ਬਲਾਕ ਕਰੋ"
+            "report_block": "ਰਿਪੋਰਟ / ਬਲਾਕ ਕਰੋ",
+            "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+            "delete": "ਮਿਟਾਓ"
         },
         "e2e": {
             "encrypted": "ਐਂਡ-ਟੂ-ਐਂਡ ਐਨਕ੍ਰਿਪਟਿਡ",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "ਪੋਸਟ ਸੰਪਾਦਿਤ ਕਰੋ",
+            "save_button": "ਬਦਲਾਅ ਸੇਵ ਕਰੋ",
+            "send_start": "ਸੰਪਾਦਨ ਸੇਵ ਹੋ ਰਿਹਾ ਹੈ...",
+            "send_failed": "ਸੰਪਾਦਨ ਸੇਵ ਨਹੀਂ ਹੋ ਸਕਿਆ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ?",
+            "send_complete": "ਪੋਸਟ ਅੱਪਡੇਟ ਹੋ ਗਈ।"
+        },
+        "delete": {
+            "title": "ਪੋਸਟ ਮਿਟਾਓ",
+            "body": "ਇਹ ਪੋਸਟ ਸਾਰਿਆਂ ਲਈ ਪੱਕੇ ਤੌਰ 'ਤੇ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ। ਇਹ ਵਾਪਸ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।",
+            "confirm": "ਮਿਟਾਓ",
+            "cancel": "ਰੱਦ ਕਰੋ",
+            "success": "ਪੋਸਟ ਮਿਟਾ ਦਿੱਤੀ ਗਈ।",
+            "error": "ਪੋਸਟ ਮਿਟਾਈ ਨਹੀਂ ਜਾ ਸਕੀ: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ਹਾਲ ਹੀ ਵਿੱਚ ਵਰਤੇ ਗਏ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "ਗੱਲਬਾਤ ਸ਼ੁਰੂ ਹੋਈ",
         "error_loading": "ਇਹ ਗੱਲਬਾਤ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀ।",
         "error_sending": "ਸੁਨੇਹਾ ਭੇਜਣਾ ਅਸਫਲ ਰਿਹਾ।",
-        "view_profile": "ਪ੍ਰੋਫਾਈਲ ਦੇਖੋ"
+        "view_profile": "ਪ੍ਰੋਫਾਈਲ ਦੇਖੋ",
+        "attach_file": "ਫ਼ਾਈਲ ਨੱਥੀ ਕਰੋ",
+        "upload_start": "ਫ਼ਾਈਲ ਅੱਪਲੋਡ ਹੋ ਰਹੀ ਹੈ...",
+        "upload_error": "ਅੱਪਲੋਡ ਅਸਫਲ ਰਿਹਾ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ?",
+        "upload_complete": "ਫ਼ਾਈਲ ਭੇਜੀ ਗਈ!"
     },
     "help": {
         "title": "ਮਦਦ",
@@ -507,5 +529,26 @@
         "share_room": "Substitution 'ਤੇ ਇਹ ਕਮਰਾ ਦੇਖੋ",
         "share_profile": "Substitution 'ਤੇ ਇਹ ਪ੍ਰੋਫਾਈਲ ਦੇਖੋ",
         "share_post": "Substitution 'ਤੇ ਇਹ ਪੋਸਟ ਦੇਖੋ"
+    },
+    "search": {
+        "hint": "ਪੋਸਟਾਂ ਖੋਜੋ...",
+        "empty": "\"{}\" ਲਈ ਕੋਈ ਪੋਸਟ ਨਹੀਂ ਮਿਲੀ।",
+        "error": "ਖੋਜ ਅਸਫਲ ਰਹੀ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+    },
+    "notifications": {
+        "settings_title": "ਸੂਚਨਾਵਾਂ",
+        "enable": "ਸੂਚਨਾਵਾਂ ਚਾਲੂ ਕਰੋ",
+        "mute_all": "ਸਾਰੀਆਂ ਸੂਚਨਾਵਾਂ ਬੰਦ ਕਰੋ",
+        "channel_name": "Substitution ਸੂਚਨਾਵਾਂ",
+        "channel_desc": "ਨਵੇਂ ਸੁਨੇਹਿਆਂ ਅਤੇ ਪੋਸਟਾਂ ਲਈ ਸੂਚਨਾਵਾਂ",
+        "new_message": "{} ਤੋਂ ਨਵਾਂ ਸੁਨੇਹਾ",
+        "new_post": "{} ਵਿੱਚ ਨਵੀਂ ਪੋਸਟ",
+        "tap_to_open": "ਖੋਲ੍ਹਣ ਲਈ ਟੈਪ ਕਰੋ"
+    },
+    "members": {
+        "title": "ਮੈਂਬਰ",
+        "count": "{} ਮੈਂਬਰ",
+        "empty": "ਕੋਈ ਮੈਂਬਰ ਨਹੀਂ ਮਿਲੇ।",
+        "error": "ਮੈਂਬਰ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੇ।"
     }
 }

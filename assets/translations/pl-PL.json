@@ -37,7 +37,9 @@
             "not_found": "Post nie został znaleziony lub jest niedostępny."
         },
         "menu": {
-            "report_block": "Zgłoś / Zablokuj"
+            "report_block": "Zgłoś / Zablokuj",
+            "edit": "Edytuj",
+            "delete": "Usuń"
         },
         "e2e": {
             "encrypted": "Szyfrowanie end-to-end",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Edytuj post",
+            "save_button": "Zapisz zmiany",
+            "send_start": "Zapisywanie zmian...",
+            "send_failed": "Nie udało się zapisać zmian. Ponowić?",
+            "send_complete": "Post zaktualizowany."
+        },
+        "delete": {
+            "title": "Usuń post",
+            "body": "Spowoduje to trwałe usunięcie postu dla wszystkich. Tej czynności nie można cofnąć.",
+            "confirm": "Usuń",
+            "cancel": "Anuluj",
+            "success": "Post usunięty.",
+            "error": "Nie udało się usunąć postu: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Ostatnio używane"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Rozmowa rozpoczęta",
         "error_loading": "Nie udało się załadować tej rozmowy.",
         "error_sending": "Nie udało się wysłać wiadomości.",
-        "view_profile": "Zobacz profil"
+        "view_profile": "Zobacz profil",
+        "attach_file": "Dołącz plik",
+        "upload_start": "Przesyłanie pliku...",
+        "upload_error": "Przesyłanie nie powiodło się. Ponowić?",
+        "upload_complete": "Plik wysłany!"
     },
     "help": {
         "title": "Pomoc",
@@ -507,5 +529,26 @@
         "share_room": "Zobacz ten pokój w Substitution",
         "share_profile": "Zobacz ten profil w Substitution",
         "share_post": "Zobacz ten post w Substitution"
+    },
+    "search": {
+        "hint": "Szukaj postów...",
+        "empty": "Nie znaleziono postów dla \"{}\".",
+        "error": "Wyszukiwanie nie powiodło się. Spróbuj ponownie."
+    },
+    "notifications": {
+        "settings_title": "Powiadomienia",
+        "enable": "Włącz powiadomienia",
+        "mute_all": "Wycisz wszystkie powiadomienia",
+        "channel_name": "Powiadomienia Substitution",
+        "channel_desc": "Powiadomienia o nowych wiadomościach i postach",
+        "new_message": "Nowa wiadomość od {}",
+        "new_post": "Nowy post w {}",
+        "tap_to_open": "Dotknij, aby otworzyć"
+    },
+    "members": {
+        "title": "Członkowie",
+        "count": "{} członków",
+        "empty": "Nie znaleziono członków.",
+        "error": "Nie udało się załadować członków."
     }
 }

@@ -37,7 +37,24 @@
             "not_found": "A bejegyzés nem található vagy nem elérhető."
         },
         "menu": {
-            "report_block": "Jelentés / Letiltás"
+            "report_block": "Jelentés / Letiltás",
+            "edit": "Szerkesztés",
+            "delete": "Törlés"
+        },
+        "edit": {
+            "title": "Bejegyzés szerkesztése",
+            "save_button": "Változtatások mentése",
+            "send_start": "Szerkesztés mentése...",
+            "send_failed": "A szerkesztés mentése sikertelen. Újrapróbálja?",
+            "send_complete": "Bejegyzés frissítve."
+        },
+        "delete": {
+            "title": "Bejegyzés törlése",
+            "body": "Ez véglegesen törli a bejegyzést mindenki számára. Ez a művelet nem vonható vissza.",
+            "confirm": "Törlés",
+            "cancel": "Mégse",
+            "success": "Bejegyzés törölve.",
+            "error": "A bejegyzés törlése sikertelen: {}"
         },
         "e2e": {
             "encrypted": "Végpontok közötti titkosítás",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nemrég használt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Beszélgetés elkezdődött",
         "error_loading": "Nem sikerült betölteni ezt a beszélgetést.",
         "error_sending": "Nem sikerült elküldeni az üzenetet.",
-        "view_profile": "Profil megtekintése"
+        "view_profile": "Profil megtekintése",
+        "attach_file": "Fájl csatolása",
+        "upload_start": "Fájl feltöltése...",
+        "upload_error": "A feltöltés sikertelen. Újrapróbálja?",
+        "upload_complete": "Fájl elküldve!"
+    },
+    "search": {
+        "hint": "Bejegyzések keresése...",
+        "empty": "Nem találhatók bejegyzések a(z) \"{}\" keresésre.",
+        "error": "A keresés sikertelen. Kérjük, próbálja újra."
+    },
+    "notifications": {
+        "settings_title": "Értesítések",
+        "enable": "Értesítések engedélyezése",
+        "mute_all": "Összes értesítés némítása",
+        "channel_name": "Substitution értesítések",
+        "channel_desc": "Értesítések új üzenetekről és bejegyzésekről",
+        "new_message": "Új üzenet tőle: {}",
+        "new_post": "Új bejegyzés itt: {}",
+        "tap_to_open": "Koppintson a megnyitáshoz"
+    },
+    "members": {
+        "title": "Tagok",
+        "count": "{} tag",
+        "empty": "Nem találhatók tagok.",
+        "error": "A tagok betöltése sikertelen."
     },
     "help": {
         "title": "Súgó",

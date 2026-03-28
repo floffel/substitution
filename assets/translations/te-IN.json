@@ -37,7 +37,9 @@
             "not_found": "పోస్ట్ కనుగొనబడలేదు లేదా అందుబాటులో లేదు."
         },
         "menu": {
-            "report_block": "రిపోర్ట్ / బ్లాక్"
+            "report_block": "రిపోర్ట్ / బ్లాక్",
+            "edit": "సవరించు",
+            "delete": "తొలగించు"
         },
         "e2e": {
             "encrypted": "ఎండ్-టు-ఎండ్ ఎన్‌క్రిప్టెడ్",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "పోస్ట్ సవరించు",
+            "save_button": "మార్పులు సేవ్ చేయి",
+            "send_start": "సవరణ సేవ్ అవుతోంది...",
+            "send_failed": "సవరణ సేవ్ చేయడం సాధ్యం కాలేదు. మళ్ళీ ప్రయత్నించాలా?",
+            "send_complete": "పోస్ట్ నవీకరించబడింది."
+        },
+        "delete": {
+            "title": "పోస్ట్ తొలగించు",
+            "body": "ఇది అందరికీ పోస్ట్‌ను శాశ్వతంగా తొలగిస్తుంది. దీన్ని రద్దు చేయలేరు.",
+            "confirm": "తొలగించు",
+            "cancel": "రద్దు చేయి",
+            "success": "పోస్ట్ తొలగించబడింది.",
+            "error": "పోస్ట్ తొలగించడం సాధ్యం కాలేదు: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ఇటీవల ఉపయోగించినవి"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "సంభాషణ ప్రారంభమైంది",
         "error_loading": "ఈ సంభాషణను లోడ్ చేయడం సాధ్యం కాలేదు.",
         "error_sending": "సందేశం పంపడం విఫలమైంది.",
-        "view_profile": "ప్రొఫైల్ చూడండి"
+        "view_profile": "ప్రొఫైల్ చూడండి",
+        "attach_file": "ఫైల్ జోడించు",
+        "upload_start": "ఫైల్ అప్‌లోడ్ అవుతోంది...",
+        "upload_error": "అప్‌లోడ్ విఫలమైంది. మళ్ళీ ప్రయత్నించాలా?",
+        "upload_complete": "ఫైల్ పంపబడింది!"
     },
     "help": {
         "title": "సహాయం",
@@ -507,5 +529,26 @@
         "share_room": "Substitution లో ఈ గదిని చూడండి",
         "share_profile": "Substitution లో ఈ ప్రొఫైల్ చూడండి",
         "share_post": "Substitution లో ఈ పోస్ట్ చూడండి"
+    },
+    "search": {
+        "hint": "పోస్ట్‌లు వెతకండి...",
+        "empty": "\"{}\" కోసం పోస్ట్‌లు కనుగొనబడలేదు.",
+        "error": "శోధన విఫలమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి."
+    },
+    "notifications": {
+        "settings_title": "నోటిఫికేషన్‌లు",
+        "enable": "నోటిఫికేషన్‌లు ఎనేబుల్ చేయి",
+        "mute_all": "అన్ని నోటిఫికేషన్‌లు మ్యూట్ చేయి",
+        "channel_name": "Substitution నోటిఫికేషన్‌లు",
+        "channel_desc": "కొత్త సందేశాలు మరియు పోస్ట్‌ల కోసం నోటిఫికేషన్‌లు",
+        "new_message": "{} నుండి కొత్త సందేశం",
+        "new_post": "{} లో కొత్త పోస్ట్",
+        "tap_to_open": "తెరవడానికి నొక్కండి"
+    },
+    "members": {
+        "title": "సభ్యులు",
+        "count": "{} సభ్యులు",
+        "empty": "సభ్యులు కనుగొనబడలేదు.",
+        "error": "సభ్యులను లోడ్ చేయడం సాధ్యం కాలేదు."
     }
 }

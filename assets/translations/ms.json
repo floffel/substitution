@@ -37,7 +37,9 @@
             "not_found": "Siaran tidak ditemui atau tidak tersedia."
         },
         "menu": {
-            "report_block": "Lapor / Sekat"
+            "report_block": "Lapor / Sekat",
+            "edit": "Sunting",
+            "delete": "Padam"
         },
         "e2e": {
             "encrypted": "Disulitkan hujung ke hujung",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Sunting Siaran",
+            "save_button": "Simpan Perubahan",
+            "send_start": "Menyimpan suntingan...",
+            "send_failed": "Tidak dapat menyimpan suntingan. Cuba semula?",
+            "send_complete": "Siaran dikemas kini."
+        },
+        "delete": {
+            "title": "Padam Siaran",
+            "body": "Ini akan memadamkan siaran secara kekal untuk semua orang. Tindakan ini tidak boleh dibatalkan.",
+            "confirm": "Padam",
+            "cancel": "Batal",
+            "success": "Siaran dipadamkan.",
+            "error": "Tidak dapat memadamkan siaran: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Baru Digunakan"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Perbualan dimulakan",
         "error_loading": "Tidak dapat memuatkan perbualan ini.",
         "error_sending": "Gagal menghantar mesej.",
-        "view_profile": "Lihat profil"
+        "view_profile": "Lihat profil",
+        "attach_file": "Lampirkan fail",
+        "upload_start": "Memuat naik fail...",
+        "upload_error": "Muat naik gagal. Cuba semula?",
+        "upload_complete": "Fail dihantar!"
     },
     "help": {
         "title": "Bantuan",
@@ -507,5 +529,26 @@
         "share_room": "Lihat bilik ini di Substitution",
         "share_profile": "Lihat profil ini di Substitution",
         "share_post": "Lihat siaran ini di Substitution"
+    },
+    "search": {
+        "hint": "Cari siaran...",
+        "empty": "Tiada siaran ditemui untuk \"{}\".",
+        "error": "Carian gagal. Sila cuba semula."
+    },
+    "notifications": {
+        "settings_title": "Pemberitahuan",
+        "enable": "Dayakan pemberitahuan",
+        "mute_all": "Senyapkan semua pemberitahuan",
+        "channel_name": "Pemberitahuan Substitution",
+        "channel_desc": "Pemberitahuan untuk mesej dan siaran baharu",
+        "new_message": "Mesej baharu daripada {}",
+        "new_post": "Siaran baharu dalam {}",
+        "tap_to_open": "Ketik untuk buka"
+    },
+    "members": {
+        "title": "Ahli",
+        "count": "{} ahli",
+        "empty": "Tiada ahli ditemui.",
+        "error": "Tidak dapat memuatkan ahli."
     }
 }

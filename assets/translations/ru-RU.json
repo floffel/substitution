@@ -37,7 +37,9 @@
             "not_found": "Публикация не найдена или недоступна."
         },
         "menu": {
-            "report_block": "Пожаловаться / Заблокировать"
+            "report_block": "Пожаловаться / Заблокировать",
+            "edit": "Редактировать",
+            "delete": "Удалить"
         },
         "e2e": {
             "encrypted": "Сквозное шифрование",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Редактировать публикацию",
+            "save_button": "Сохранить изменения",
+            "send_start": "Сохранение изменений...",
+            "send_failed": "Не удалось сохранить изменения. Повторить?",
+            "send_complete": "Публикация обновлена."
+        },
+        "delete": {
+            "title": "Удалить публикацию",
+            "body": "Это навсегда удалит публикацию для всех. Это действие нельзя отменить.",
+            "confirm": "Удалить",
+            "cancel": "Отмена",
+            "success": "Публикация удалена.",
+            "error": "Не удалось удалить публикацию: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Недавно использованные"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Диалог начат",
         "error_loading": "Не удалось загрузить этот диалог.",
         "error_sending": "Не удалось отправить сообщение.",
-        "view_profile": "Посмотреть профиль"
+        "view_profile": "Посмотреть профиль",
+        "attach_file": "Прикрепить файл",
+        "upload_start": "Загрузка файла...",
+        "upload_error": "Загрузка не удалась. Повторить?",
+        "upload_complete": "Файл отправлен!"
     },
     "help": {
         "title": "Помощь",
@@ -507,5 +529,26 @@
         "share_room": "Посмотрите эту комнату в Substitution",
         "share_profile": "Посмотрите этот профиль в Substitution",
         "share_post": "Посмотрите эту публикацию в Substitution"
+    },
+    "search": {
+        "hint": "Поиск публикаций...",
+        "empty": "Публикации по запросу \"{}\" не найдены.",
+        "error": "Ошибка поиска. Попробуйте ещё раз."
+    },
+    "notifications": {
+        "settings_title": "Уведомления",
+        "enable": "Включить уведомления",
+        "mute_all": "Отключить все уведомления",
+        "channel_name": "Уведомления Substitution",
+        "channel_desc": "Уведомления о новых сообщениях и публикациях",
+        "new_message": "Новое сообщение от {}",
+        "new_post": "Новая публикация в {}",
+        "tap_to_open": "Нажмите, чтобы открыть"
+    },
+    "members": {
+        "title": "Участники",
+        "count": "{} участников",
+        "empty": "Участники не найдены.",
+        "error": "Не удалось загрузить участников."
     }
 }

@@ -37,7 +37,9 @@
             "not_found": "Gönderi bulunamadı veya kullanılamıyor."
         },
         "menu": {
-            "report_block": "Bildir / Engelle"
+            "report_block": "Bildir / Engelle",
+            "edit": "Düzenle",
+            "delete": "Sil"
         },
         "e2e": {
             "encrypted": "Uçtan uca şifreli",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Gönderiyi Düzenle",
+            "save_button": "Değişiklikleri Kaydet",
+            "send_start": "Düzenleme kaydediliyor...",
+            "send_failed": "Düzenleme kaydedilemedi. Tekrar denensin mi?",
+            "send_complete": "Gönderi güncellendi."
+        },
+        "delete": {
+            "title": "Gönderiyi Sil",
+            "body": "Bu, gönderiyi herkes için kalıcı olarak silecektir. Bu işlem geri alınamaz.",
+            "confirm": "Sil",
+            "cancel": "İptal",
+            "success": "Gönderi silindi.",
+            "error": "Gönderi silinemedi: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Son kullanılanlar"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Konuşma başlatıldı",
         "error_loading": "Bu konuşma yüklenemedi.",
         "error_sending": "Mesaj gönderilemedi.",
-        "view_profile": "Profili görüntüle"
+        "view_profile": "Profili görüntüle",
+        "attach_file": "Dosya ekle",
+        "upload_start": "Dosya yükleniyor...",
+        "upload_error": "Yükleme başarısız. Tekrar denensin mi?",
+        "upload_complete": "Dosya gönderildi!"
     },
     "help": {
         "title": "Yardım",
@@ -507,5 +529,26 @@
         "share_room": "Substitution'daki bu odaya göz atın",
         "share_profile": "Substitution'daki bu profile göz atın",
         "share_post": "Substitution'daki bu gönderiye göz atın"
+    },
+    "search": {
+        "hint": "Gönderi ara...",
+        "empty": "\"{}\" için gönderi bulunamadı.",
+        "error": "Arama başarısız oldu. Lütfen tekrar deneyin."
+    },
+    "notifications": {
+        "settings_title": "Bildirimler",
+        "enable": "Bildirimleri etkinleştir",
+        "mute_all": "Tüm bildirimleri sessize al",
+        "channel_name": "Substitution Bildirimleri",
+        "channel_desc": "Yeni mesajlar ve gönderiler için bildirimler",
+        "new_message": "{} kişisinden yeni mesaj",
+        "new_post": "{} içinde yeni gönderi",
+        "tap_to_open": "Açmak için dokunun"
+    },
+    "members": {
+        "title": "Üyeler",
+        "count": "{} üye",
+        "empty": "Üye bulunamadı.",
+        "error": "Üyeler yüklenemedi."
     }
 }

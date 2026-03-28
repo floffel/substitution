@@ -37,7 +37,24 @@
             "not_found": "Objava nije pronađena ili nije dostupna."
         },
         "menu": {
-            "report_block": "Prijavi / Blokiraj"
+            "report_block": "Prijavi / Blokiraj",
+            "edit": "Uredi",
+            "delete": "Obriši"
+        },
+        "edit": {
+            "title": "Uredi objavu",
+            "save_button": "Spremi promjene",
+            "send_start": "Spremanje izmjene...",
+            "send_failed": "Nije moguće spremiti izmjenu. Pokušati ponovo?",
+            "send_complete": "Objava ažurirana."
+        },
+        "delete": {
+            "title": "Obriši objavu",
+            "body": "Ovo će trajno obrisati objavu za sve. Ova radnja se ne može poništiti.",
+            "confirm": "Obriši",
+            "cancel": "Odustani",
+            "success": "Objava obrisana.",
+            "error": "Nije moguće obrisati objavu: {}"
         },
         "e2e": {
             "encrypted": "Enkripcija s kraja na kraj",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nedavno korišteno"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Razgovor je započet",
         "error_loading": "Nije moguće učitati ovaj razgovor.",
         "error_sending": "Slanje poruke nije uspjelo.",
-        "view_profile": "Pogledaj profil"
+        "view_profile": "Pogledaj profil",
+        "attach_file": "Priloži datoteku",
+        "upload_start": "Prijenos datoteke...",
+        "upload_error": "Prijenos nije uspio. Pokušati ponovo?",
+        "upload_complete": "Datoteka poslana!"
+    },
+    "search": {
+        "hint": "Pretraži objave...",
+        "empty": "Nisu pronađene objave za \"{}\".",
+        "error": "Pretraživanje nije uspjelo. Pokušajte ponovo."
+    },
+    "notifications": {
+        "settings_title": "Obavijesti",
+        "enable": "Omogući obavijesti",
+        "mute_all": "Utišaj sve obavijesti",
+        "channel_name": "Substitution obavijesti",
+        "channel_desc": "Obavijesti o novim porukama i objavama",
+        "new_message": "Nova poruka od {}",
+        "new_post": "Nova objava u {}",
+        "tap_to_open": "Dodirnite za otvaranje"
+    },
+    "members": {
+        "title": "Članovi",
+        "count": "{} članova",
+        "empty": "Nisu pronađeni članovi.",
+        "error": "Nije moguće učitati članove."
     },
     "help": {
         "title": "Pomoć",

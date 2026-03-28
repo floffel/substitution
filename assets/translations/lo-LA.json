@@ -37,7 +37,9 @@
             "not_found": "ບໍ່ພົບໂພສ ຫຼື ບໍ່ສາມາດເຂົ້າເຖິງໄດ້."
         },
         "menu": {
-            "report_block": "ລາຍງານ / ບລັອກ"
+            "report_block": "ລາຍງານ / ບລັອກ",
+            "edit": "ແກ້ໄຂ",
+            "delete": "ລົບ"
         },
         "e2e": {
             "encrypted": "ເຂົ້າລະຫັດແບບຕົ້ນທາງຫາປາຍທາງ",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "ແກ້ໄຂໂພສ",
+            "save_button": "ບັນທຶກການປ່ຽນແປງ",
+            "send_start": "ກຳລັງບັນທຶກການແກ້ໄຂ...",
+            "send_failed": "ບໍ່ສາມາດບັນທຶກການແກ້ໄຂໄດ້. ລອງໃໝ່?",
+            "send_complete": "ໂພສຖືກອັບເດດແລ້ວ."
+        },
+        "delete": {
+            "title": "ລົບໂພສ",
+            "body": "ນີ້ຈະລົບໂພສຖາວອນສຳລັບທຸກຄົນ. ບໍ່ສາມາດຍົກເລີກໄດ້.",
+            "confirm": "ລົບ",
+            "cancel": "ຍົກເລີກ",
+            "success": "ໂພສຖືກລົບແລ້ວ.",
+            "error": "ບໍ່ສາມາດລົບໂພສໄດ້: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ໃຊ້ລ່າສຸດ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "ການສົນທະນາເລີ່ມແລ້ວ",
         "error_loading": "ບໍ່ສາມາດໂຫລດການສົນທະນານີ້ໄດ້.",
         "error_sending": "ການສົ່ງຂໍ້ຄວາມລົ້ມເຫຼວ.",
-        "view_profile": "ເບິ່ງໂປຣໄຟລ໌"
+        "view_profile": "ເບິ່ງໂປຣໄຟລ໌",
+        "attach_file": "ແນບໄຟລ໌",
+        "upload_start": "ກຳລັງອັບໂຫລດໄຟລ໌...",
+        "upload_error": "ການອັບໂຫລດລົ້ມເຫຼວ. ລອງໃໝ່?",
+        "upload_complete": "ໄຟລ໌ຖືກສົ່ງແລ້ວ!"
     },
     "help": {
         "title": "ຊ່ວຍເຫຼືອ",
@@ -507,5 +529,26 @@
         "share_room": "ເບິ່ງຫ້ອງນີ້ເທິງ Substitution",
         "share_profile": "ເບິ່ງໂປຣໄຟລ໌ນີ້ເທິງ Substitution",
         "share_post": "ເບິ່ງໂພສນີ້ເທິງ Substitution"
+    },
+    "search": {
+        "hint": "ຄົ້ນຫາໂພສ...",
+        "empty": "ບໍ່ພົບໂພສສຳລັບ \"{}\".",
+        "error": "ການຄົ້ນຫາລົ້ມເຫຼວ. ກະລຸນາລອງໃໝ່."
+    },
+    "notifications": {
+        "settings_title": "ການແຈ້ງເຕືອນ",
+        "enable": "ເປີດການແຈ້ງເຕືອນ",
+        "mute_all": "ປິດສຽງການແຈ້ງເຕືອນທັງໝົດ",
+        "channel_name": "ການແຈ້ງເຕືອນ Substitution",
+        "channel_desc": "ການແຈ້ງເຕືອນສຳລັບຂໍ້ຄວາມ ແລະ ໂພສໃໝ່",
+        "new_message": "ຂໍ້ຄວາມໃໝ່ຈາກ {}",
+        "new_post": "ໂພສໃໝ່ໃນ {}",
+        "tap_to_open": "ແຕະເພື່ອເປີດ"
+    },
+    "members": {
+        "title": "ສະມາຊິກ",
+        "count": "{} ສະມາຊິກ",
+        "empty": "ບໍ່ພົບສະມາຊິກ.",
+        "error": "ບໍ່ສາມາດໂຫລດສະມາຊິກໄດ້."
     }
 }

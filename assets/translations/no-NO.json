@@ -37,7 +37,9 @@
             "not_found": "Innlegget ble ikke funnet eller er utilgjengelig."
         },
         "menu": {
-            "report_block": "Rapporter / Blokker"
+            "report_block": "Rapporter / Blokker",
+            "edit": "Rediger",
+            "delete": "Slett"
         },
         "e2e": {
             "encrypted": "Ende-til-ende-kryptert",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Rediger innlegg",
+            "save_button": "Lagre endringer",
+            "send_start": "Lagrer redigering...",
+            "send_failed": "Kunne ikke lagre redigeringen. Prøve igjen?",
+            "send_complete": "Innlegget er oppdatert."
+        },
+        "delete": {
+            "title": "Slett innlegg",
+            "body": "Dette vil permanent slette innlegget for alle. Dette kan ikke angres.",
+            "confirm": "Slett",
+            "cancel": "Avbryt",
+            "success": "Innlegget er slettet.",
+            "error": "Kunne ikke slette innlegget: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nylig brukt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Samtale startet",
         "error_loading": "Kunne ikke laste denne samtalen.",
         "error_sending": "Kunne ikke sende melding.",
-        "view_profile": "Vis profil"
+        "view_profile": "Vis profil",
+        "attach_file": "Legg ved fil",
+        "upload_start": "Laster opp fil...",
+        "upload_error": "Opplasting mislyktes. Prøve igjen?",
+        "upload_complete": "Fil sendt!"
     },
     "help": {
         "title": "Hjelp",
@@ -507,5 +529,26 @@
         "share_room": "Sjekk ut dette rommet på Substitution",
         "share_profile": "Sjekk ut denne profilen på Substitution",
         "share_post": "Sjekk ut dette innlegget på Substitution"
+    },
+    "search": {
+        "hint": "Søk i innlegg...",
+        "empty": "Ingen innlegg funnet for \"{}\".",
+        "error": "Søket mislyktes. Vennligst prøv igjen."
+    },
+    "notifications": {
+        "settings_title": "Varsler",
+        "enable": "Aktiver varsler",
+        "mute_all": "Demp alle varsler",
+        "channel_name": "Substitution-varsler",
+        "channel_desc": "Varsler for nye meldinger og innlegg",
+        "new_message": "Ny melding fra {}",
+        "new_post": "Nytt innlegg i {}",
+        "tap_to_open": "Trykk for å åpne"
+    },
+    "members": {
+        "title": "Medlemmer",
+        "count": "{} medlemmer",
+        "empty": "Ingen medlemmer funnet.",
+        "error": "Kunne ikke laste medlemmer."
     }
 }

@@ -37,7 +37,9 @@
             "not_found": "Paylaşım tapılmadı və ya əlçatan deyil."
         },
         "menu": {
-            "report_block": "Şikayət / Blokla"
+            "report_block": "Şikayət / Blokla",
+            "edit": "Redaktə et",
+            "delete": "Sil"
         },
         "e2e": {
             "encrypted": "Uçdan-uca şifrələnmiş",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Paylaşımı Redaktə Et",
+            "save_button": "Dəyişiklikləri Saxla",
+            "send_start": "Düzəliş saxlanılır...",
+            "send_failed": "Düzəliş saxlanıla bilmədi. Yenidən cəhd edilsin?",
+            "send_complete": "Paylaşım yeniləndi."
+        },
+        "delete": {
+            "title": "Paylaşımı Sil",
+            "body": "Bu, paylaşımı hamı üçün həmişəlik siləcək. Bu geri qaytarıla bilməz.",
+            "confirm": "Sil",
+            "cancel": "Ləğv et",
+            "success": "Paylaşım silindi.",
+            "error": "Paylaşım silinə bilmədi: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Son İstifadə Edilən"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Söhbət başladı",
         "error_loading": "Bu söhbət yüklənə bilmədi.",
         "error_sending": "Mesaj göndərilmədi.",
-        "view_profile": "Profili gör"
+        "view_profile": "Profili gör",
+        "attach_file": "Fayl əlavə et",
+        "upload_start": "Fayl yüklənir...",
+        "upload_error": "Yükləmə uğursuz oldu. Yenidən cəhd edilsin?",
+        "upload_complete": "Fayl göndərildi!"
     },
     "help": {
         "title": "Kömək",
@@ -507,5 +529,26 @@
         "share_room": "Substitution-da bu otağa baxın",
         "share_profile": "Substitution-da bu profilə baxın",
         "share_post": "Substitution-da bu paylaşıma baxın"
+    },
+    "search": {
+        "hint": "Paylaşımları axtar...",
+        "empty": "\"{}\" üçün paylaşım tapılmadı.",
+        "error": "Axtarış uğursuz oldu. Zəhmət olmasa yenidən cəhd edin."
+    },
+    "notifications": {
+        "settings_title": "Bildirişlər",
+        "enable": "Bildirişləri aktiv et",
+        "mute_all": "Bütün bildirişləri susdur",
+        "channel_name": "Substitution Bildirişləri",
+        "channel_desc": "Yeni mesajlar və paylaşımlar üçün bildirişlər",
+        "new_message": "{} tərəfindən yeni mesaj",
+        "new_post": "{} kanalında yeni paylaşım",
+        "tap_to_open": "Açmaq üçün toxunun"
+    },
+    "members": {
+        "title": "Üzvlər",
+        "count": "{} üzv",
+        "empty": "Heç bir üzv tapılmadı.",
+        "error": "Üzvlər yüklənə bilmədi."
     }
 }

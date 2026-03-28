@@ -37,7 +37,24 @@
             "not_found": "Julkaisua ei löytynyt tai se ei ole saatavilla."
         },
         "menu": {
-            "report_block": "Ilmianna / Estä"
+            "report_block": "Ilmianna / Estä",
+            "edit": "Muokkaa",
+            "delete": "Poista"
+        },
+        "edit": {
+            "title": "Muokkaa julkaisua",
+            "save_button": "Tallenna muutokset",
+            "send_start": "Tallennetaan muokkausta...",
+            "send_failed": "Muokkausta ei voitu tallentaa. Yritä uudelleen?",
+            "send_complete": "Julkaisu päivitetty."
+        },
+        "delete": {
+            "title": "Poista julkaisu",
+            "body": "Tämä poistaa julkaisun pysyvästi kaikilta. Tätä ei voi perua.",
+            "confirm": "Poista",
+            "cancel": "Peruuta",
+            "success": "Julkaisu poistettu.",
+            "error": "Julkaisua ei voitu poistaa: {}"
         },
         "e2e": {
             "encrypted": "Päästä päähän salattu",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Äskettäin käytetyt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Keskustelu aloitettu",
         "error_loading": "Tätä keskustelua ei voitu ladata.",
         "error_sending": "Viestin lähetys epäonnistui.",
-        "view_profile": "Näytä profiili"
+        "view_profile": "Näytä profiili",
+        "attach_file": "Liitä tiedosto",
+        "upload_start": "Ladataan tiedostoa...",
+        "upload_error": "Lataus epäonnistui. Yritä uudelleen?",
+        "upload_complete": "Tiedosto lähetetty!"
+    },
+    "search": {
+        "hint": "Hae julkaisuja...",
+        "empty": "Julkaisuja ei löytynyt haulle \"{}\".",
+        "error": "Haku epäonnistui. Yritä uudelleen."
+    },
+    "notifications": {
+        "settings_title": "Ilmoitukset",
+        "enable": "Ota ilmoitukset käyttöön",
+        "mute_all": "Mykistä kaikki ilmoitukset",
+        "channel_name": "Substitution-ilmoitukset",
+        "channel_desc": "Ilmoitukset uusista viesteistä ja julkaisuista",
+        "new_message": "Uusi viesti käyttäjältä {}",
+        "new_post": "Uusi julkaisu huoneessa {}",
+        "tap_to_open": "Avaa napauttamalla"
+    },
+    "members": {
+        "title": "Jäsenet",
+        "count": "{} jäsentä",
+        "empty": "Jäseniä ei löytynyt.",
+        "error": "Jäseniä ei voitu ladata."
     },
     "help": {
         "title": "Ohje",

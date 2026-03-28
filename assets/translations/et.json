@@ -37,7 +37,24 @@
             "not_found": "Postitust ei leitud või pole saadaval."
         },
         "menu": {
-            "report_block": "Teata / Blokeeri"
+            "report_block": "Teata / Blokeeri",
+            "edit": "Muuda",
+            "delete": "Kustuta"
+        },
+        "edit": {
+            "title": "Muuda postitust",
+            "save_button": "Salvesta muudatused",
+            "send_start": "Muudatuse salvestamine...",
+            "send_failed": "Muudatust ei saanud salvestada. Proovida uuesti?",
+            "send_complete": "Postitus uuendatud."
+        },
+        "delete": {
+            "title": "Kustuta postitus",
+            "body": "See kustutab postituse jäädavalt kõigi jaoks. Seda ei saa tagasi võtta.",
+            "confirm": "Kustuta",
+            "cancel": "Tühista",
+            "success": "Postitus kustutatud.",
+            "error": "Postitust ei saanud kustutada: {}"
         },
         "e2e": {
             "encrypted": "Otsast otsani krüpteeritud",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Hiljuti kasutatud"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Vestlus alustatud",
         "error_loading": "Seda vestlust ei saanud laadida.",
         "error_sending": "Sõnumi saatmine ebaõnnestus.",
-        "view_profile": "Vaata profiili"
+        "view_profile": "Vaata profiili",
+        "attach_file": "Lisa fail",
+        "upload_start": "Faili üleslaadimine...",
+        "upload_error": "Üleslaadimine ebaõnnestus. Proovida uuesti?",
+        "upload_complete": "Fail saadetud!"
+    },
+    "search": {
+        "hint": "Otsi postitusi...",
+        "empty": "Päringule \"{}\" ei leitud postitusi.",
+        "error": "Otsing ebaõnnestus. Palun proovige uuesti."
+    },
+    "notifications": {
+        "settings_title": "Teavitused",
+        "enable": "Luba teavitused",
+        "mute_all": "Vaigista kõik teavitused",
+        "channel_name": "Substitutiont teavitused",
+        "channel_desc": "Teavitused uute sõnumite ja postituste kohta",
+        "new_message": "Uus sõnum kasutajalt {}",
+        "new_post": "Uus postitus ruumis {}",
+        "tap_to_open": "Puuduta avamiseks"
+    },
+    "members": {
+        "title": "Liikmed",
+        "count": "{} liiget",
+        "empty": "Liikmeid ei leitud.",
+        "error": "Liikmete laadimine ebaõnnestus."
     },
     "help": {
         "title": "Abi",

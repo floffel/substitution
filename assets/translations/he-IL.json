@@ -37,7 +37,24 @@
             "not_found": "הפוסט לא נמצא או אינו זמין."
         },
         "menu": {
-            "report_block": "דיווח / חסימה"
+            "report_block": "דיווח / חסימה",
+            "edit": "עריכה",
+            "delete": "מחיקה"
+        },
+        "edit": {
+            "title": "עריכת פוסט",
+            "save_button": "שמור שינויים",
+            "send_start": "שומר עריכה...",
+            "send_failed": "לא ניתן לשמור את העריכה. לנסות שוב?",
+            "send_complete": "הפוסט עודכן."
+        },
+        "delete": {
+            "title": "מחיקת פוסט",
+            "body": "פעולה זו תמחק את הפוסט לצמיתות עבור כולם. לא ניתן לבטל פעולה זו.",
+            "confirm": "מחק",
+            "cancel": "ביטול",
+            "success": "הפוסט נמחק.",
+            "error": "לא ניתן למחוק את הפוסט: {}"
         },
         "e2e": {
             "encrypted": "מוצפן מקצה לקצה",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "בשימוש לאחרונה"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "השיחה החלה",
         "error_loading": "לא ניתן לטעון שיחה זו.",
         "error_sending": "שליחת ההודעה נכשלה.",
-        "view_profile": "צפה בפרופיל"
+        "view_profile": "צפה בפרופיל",
+        "attach_file": "צרף קובץ",
+        "upload_start": "מעלה קובץ...",
+        "upload_error": "ההעלאה נכשלה. לנסות שוב?",
+        "upload_complete": "הקובץ נשלח!"
+    },
+    "search": {
+        "hint": "חיפוש פוסטים...",
+        "empty": "לא נמצאו פוסטים עבור \"{}\".",
+        "error": "החיפוש נכשל. אנא נסה שוב."
+    },
+    "notifications": {
+        "settings_title": "התראות",
+        "enable": "הפעל התראות",
+        "mute_all": "השתק את כל ההתראות",
+        "channel_name": "התראות Substitution",
+        "channel_desc": "התראות על הודעות ופוסטים חדשים",
+        "new_message": "הודעה חדשה מ-{}",
+        "new_post": "פוסט חדש ב-{}",
+        "tap_to_open": "הקש לפתיחה"
+    },
+    "members": {
+        "title": "חברים",
+        "count": "{} חברים",
+        "empty": "לא נמצאו חברים.",
+        "error": "לא ניתן לטעון חברים."
     },
     "help": {
         "title": "עזרה",

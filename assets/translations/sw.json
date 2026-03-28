@@ -37,7 +37,9 @@
             "not_found": "Chapisho halipatikani au halipatikani."
         },
         "menu": {
-            "report_block": "Ripoti / Zuia"
+            "report_block": "Ripoti / Zuia",
+            "edit": "Hariri",
+            "delete": "Futa"
         },
         "e2e": {
             "encrypted": "Imesimbwa kwa njia ya mwisho hadi mwisho",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Hariri Chapisho",
+            "save_button": "Hifadhi Mabadiliko",
+            "send_start": "Inahifadhi mabadiliko...",
+            "send_failed": "Imeshindwa kuhifadhi mabadiliko. Jaribu tena?",
+            "send_complete": "Chapisho limesasishwa."
+        },
+        "delete": {
+            "title": "Futa Chapisho",
+            "body": "Hii itafuta chapisho milele kwa kila mtu. Hii haiwezi kutenduliwa.",
+            "confirm": "Futa",
+            "cancel": "Ghairi",
+            "success": "Chapisho limefutwa.",
+            "error": "Imeshindwa kufuta chapisho: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Zilizotumika hivi karibuni"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Mazungumzo yameanza",
         "error_loading": "Imeshindwa kupakia mazungumzo haya.",
         "error_sending": "Imeshindwa kutuma ujumbe.",
-        "view_profile": "Tazama wasifu"
+        "view_profile": "Tazama wasifu",
+        "attach_file": "Ambatisha faili",
+        "upload_start": "Inapakia faili...",
+        "upload_error": "Kupakia kumeshindwa. Jaribu tena?",
+        "upload_complete": "Faili imetumwa!"
     },
     "help": {
         "title": "Msaada",
@@ -507,5 +529,26 @@
         "share_room": "Angalia chumba hiki kwenye Substitution",
         "share_profile": "Angalia wasifu huu kwenye Substitution",
         "share_post": "Angalia chapisho hili kwenye Substitution"
+    },
+    "search": {
+        "hint": "Tafuta machapisho...",
+        "empty": "Hakuna machapisho yaliyopatikana kwa \"{}\".",
+        "error": "Utafutaji umeshindwa. Tafadhali jaribu tena."
+    },
+    "notifications": {
+        "settings_title": "Arifa",
+        "enable": "Wezesha arifa",
+        "mute_all": "Nyamazisha arifa zote",
+        "channel_name": "Arifa za Substitution",
+        "channel_desc": "Arifa za ujumbe mpya na machapisho",
+        "new_message": "Ujumbe mpya kutoka kwa {}",
+        "new_post": "Chapisho jipya katika {}",
+        "tap_to_open": "Gusa ili kufungua"
+    },
+    "members": {
+        "title": "Wanachama",
+        "count": "Wanachama {}",
+        "empty": "Hakuna wanachama waliopatikana.",
+        "error": "Imeshindwa kupakia wanachama."
     }
 }

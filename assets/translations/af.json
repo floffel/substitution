@@ -37,7 +37,9 @@
             "not_found": "Plasing nie gevind of onbeskikbaar nie."
         },
         "menu": {
-            "report_block": "Rapporteer / Blokkeer"
+            "report_block": "Rapporteer / Blokkeer",
+            "edit": "Wysig",
+            "delete": "Verwyder"
         },
         "e2e": {
             "encrypted": "End-tot-end geënkripteer",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Wysig Plasing",
+            "save_button": "Stoor Veranderinge",
+            "send_start": "Wysigings word gestoor...",
+            "send_failed": "Kon nie die wysiging stoor nie. Probeer weer?",
+            "send_complete": "Plasing opgedateer."
+        },
+        "delete": {
+            "title": "Verwyder Plasing",
+            "body": "Dit sal die plasing permanent vir almal verwyder. Dit kan nie ongedaan gemaak word nie.",
+            "confirm": "Verwyder",
+            "cancel": "Kanselleer",
+            "success": "Plasing verwyder.",
+            "error": "Kon nie plasing verwyder nie: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Onlangs Gebruik"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Gesprek begin",
         "error_loading": "Kon nie hierdie gesprek laai nie.",
         "error_sending": "Kon nie boodskap stuur nie.",
-        "view_profile": "Bekyk profiel"
+        "view_profile": "Bekyk profiel",
+        "attach_file": "Heg lêer aan",
+        "upload_start": "Lêer word opgelaai...",
+        "upload_error": "Oplaai het misluk. Probeer weer?",
+        "upload_complete": "Lêer gestuur!"
     },
     "help": {
         "title": "Hulp",
@@ -507,5 +529,26 @@
         "share_room": "Kyk na hierdie kamer op Substitution",
         "share_profile": "Kyk na hierdie profiel op Substitution",
         "share_post": "Kyk na hierdie plasing op Substitution"
+    },
+    "search": {
+        "hint": "Soek plasings...",
+        "empty": "Geen plasings gevind vir \"{}\" nie.",
+        "error": "Soektog het misluk. Probeer asseblief weer."
+    },
+    "notifications": {
+        "settings_title": "Kennisgewings",
+        "enable": "Aktiveer kennisgewings",
+        "mute_all": "Demp alle kennisgewings",
+        "channel_name": "Substitution-kennisgewings",
+        "channel_desc": "Kennisgewings vir nuwe boodskappe en plasings",
+        "new_message": "Nuwe boodskap van {}",
+        "new_post": "Nuwe plasing in {}",
+        "tap_to_open": "Tik om oop te maak"
+    },
+    "members": {
+        "title": "Lede",
+        "count": "{} lede",
+        "empty": "Geen lede gevind nie.",
+        "error": "Kon nie lede laai nie."
     }
 }

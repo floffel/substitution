@@ -37,7 +37,9 @@
             "not_found": "المنشور غير موجود أو غير متاح."
         },
         "menu": {
-            "report_block": "إبلاغ / حظر"
+            "report_block": "إبلاغ / حظر",
+            "edit": "تعديل",
+            "delete": "حذف"
         },
         "e2e": {
             "encrypted": "مشفّر من طرف إلى طرف",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "تعديل المنشور",
+            "save_button": "حفظ التغييرات",
+            "send_start": "جارٍ حفظ التعديل...",
+            "send_failed": "تعذّر حفظ التعديل. إعادة المحاولة؟",
+            "send_complete": "تم تحديث المنشور."
+        },
+        "delete": {
+            "title": "حذف المنشور",
+            "body": "سيؤدي هذا إلى حذف المنشور نهائياً للجميع. لا يمكن التراجع عن هذا الإجراء.",
+            "confirm": "حذف",
+            "cancel": "إلغاء",
+            "success": "تم حذف المنشور.",
+            "error": "تعذّر حذف المنشور: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "المستخدمة مؤخراً"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "بدأت المحادثة",
         "error_loading": "تعذّر تحميل هذه المحادثة.",
         "error_sending": "فشل إرسال الرسالة.",
-        "view_profile": "عرض الملف الشخصي"
+        "view_profile": "عرض الملف الشخصي",
+        "attach_file": "إرفاق ملف",
+        "upload_start": "جارٍ رفع الملف...",
+        "upload_error": "فشل الرفع. إعادة المحاولة؟",
+        "upload_complete": "تم إرسال الملف!"
     },
     "help": {
         "title": "المساعدة",
@@ -507,5 +529,26 @@
         "share_room": "ألقِ نظرة على هذه الغرفة في Substitution",
         "share_profile": "ألقِ نظرة على هذا الملف الشخصي في Substitution",
         "share_post": "ألقِ نظرة على هذا المنشور في Substitution"
+    },
+    "search": {
+        "hint": "البحث في المنشورات...",
+        "empty": "لم يتم العثور على منشورات لـ \"{}\".",
+        "error": "فشل البحث. يرجى المحاولة مرة أخرى."
+    },
+    "notifications": {
+        "settings_title": "الإشعارات",
+        "enable": "تفعيل الإشعارات",
+        "mute_all": "كتم جميع الإشعارات",
+        "channel_name": "إشعارات Substitution",
+        "channel_desc": "إشعارات للرسائل والمنشورات الجديدة",
+        "new_message": "رسالة جديدة من {}",
+        "new_post": "منشور جديد في {}",
+        "tap_to_open": "اضغط للفتح"
+    },
+    "members": {
+        "title": "الأعضاء",
+        "count": "{} عضو",
+        "empty": "لم يتم العثور على أعضاء.",
+        "error": "تعذّر تحميل الأعضاء."
     }
 }

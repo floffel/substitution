@@ -37,7 +37,24 @@
             "not_found": "પોસ્ટ મળી નથી અથવા ઉપલબ્ધ નથી."
         },
         "menu": {
-            "report_block": "રિપોર્ટ / બ્લોક"
+            "report_block": "રિપોર્ટ / બ્લોક",
+            "edit": "સંપાદિત કરો",
+            "delete": "કાઢી નાખો"
+        },
+        "edit": {
+            "title": "પોસ્ટ સંપાદિત કરો",
+            "save_button": "ફેરફારો સાચવો",
+            "send_start": "સંપાદન સાચવી રહ્યા છીએ...",
+            "send_failed": "સંપાદન સાચવી શકાયું નહીં. ફરી પ્રયાસ કરશો?",
+            "send_complete": "પોસ્ટ અપડેટ થઈ."
+        },
+        "delete": {
+            "title": "પોસ્ટ કાઢી નાખો",
+            "body": "આ પોસ્ટ બધા માટે કાયમ માટે કાઢી નાખવામાં આવશે. આ પૂર્વવત્ થઈ શકતું નથી.",
+            "confirm": "કાઢી નાખો",
+            "cancel": "રદ કરો",
+            "success": "પોસ્ટ કાઢી નાખવામાં આવી.",
+            "error": "પોસ્ટ કાઢી શકાઈ નહીં: {}"
         },
         "e2e": {
             "encrypted": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "તાજેતરમાં વપરાયેલ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "વાતચીત શરૂ થઈ",
         "error_loading": "આ વાતચીત લોડ કરી શકાઈ નહીં.",
         "error_sending": "સંદેશ મોકલવામાં નિષ્ફળ.",
-        "view_profile": "પ્રોફાઇલ જુઓ"
+        "view_profile": "પ્રોફાઇલ જુઓ",
+        "attach_file": "ફાઇલ જોડો",
+        "upload_start": "ફાઇલ અપલોડ થઈ રહી છે...",
+        "upload_error": "અપલોડ નિષ્ફળ. ફરી પ્રયાસ કરશો?",
+        "upload_complete": "ફાઇલ મોકલાઈ!"
+    },
+    "search": {
+        "hint": "પોસ્ટ્સ શોધો...",
+        "empty": "\"{}\" માટે કોઈ પોસ્ટ મળી નથી.",
+        "error": "શોધ નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો."
+    },
+    "notifications": {
+        "settings_title": "સૂચનાઓ",
+        "enable": "સૂચનાઓ સક્ષમ કરો",
+        "mute_all": "બધી સૂચનાઓ મ્યૂટ કરો",
+        "channel_name": "Substitution સૂચનાઓ",
+        "channel_desc": "નવા સંદેશાઓ અને પોસ્ટ્સ માટે સૂચનાઓ",
+        "new_message": "{} તરફથી નવો સંદેશ",
+        "new_post": "{} માં નવી પોસ્ટ",
+        "tap_to_open": "ખોલવા માટે ટેપ કરો"
+    },
+    "members": {
+        "title": "સભ્યો",
+        "count": "{} સભ્યો",
+        "empty": "કોઈ સભ્યો મળ્યા નથી.",
+        "error": "સભ્યો લોડ કરી શકાયા નહીં."
     },
     "help": {
         "title": "મદદ",

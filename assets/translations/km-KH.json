@@ -37,7 +37,9 @@
             "not_found": "រកមិនឃើញការបង្ហោះ ឬមិនអាចប្រើបាន។"
         },
         "menu": {
-            "report_block": "រាយការណ៍ / ទប់ស្កាត់"
+            "report_block": "រាយការណ៍ / ទប់ស្កាត់",
+            "edit": "កែសម្រួល",
+            "delete": "លុប"
         },
         "e2e": {
             "encrypted": "បានអ៊ិនគ្រីបពីចុងដល់ចុង",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "កែសម្រួលការបង្ហោះ",
+            "save_button": "រក្សាទុកការផ្លាស់ប្ដូរ",
+            "send_start": "កំពុងរក្សាទុកការកែសម្រួល...",
+            "send_failed": "មិនអាចរក្សាទុកការកែសម្រួលបានទេ។ ព្យាយាមម្ដងទៀត?",
+            "send_complete": "ការបង្ហោះត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
+        },
+        "delete": {
+            "title": "លុបការបង្ហោះ",
+            "body": "នេះនឹងលុបការបង្ហោះជាអចិន្ត្រៃយ៍សម្រាប់អ្នកគ្រប់គ្នា។ សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។",
+            "confirm": "លុប",
+            "cancel": "បោះបង់",
+            "success": "ការបង្ហោះត្រូវបានលុប។",
+            "error": "មិនអាចលុបការបង្ហោះបានទេ: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "បានប្រើថ្មីៗ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "ការសន្ទនាបានចាប់ផ្ដើម",
         "error_loading": "មិនអាចផ្ទុកការសន្ទនានេះ។",
         "error_sending": "បរាជ័យក្នុងការផ្ញើសារ។",
-        "view_profile": "មើលប្រវត្តិរូប"
+        "view_profile": "មើលប្រវត្តិរូប",
+        "attach_file": "ភ្ជាប់ឯកសារ",
+        "upload_start": "កំពុងផ្ទុកឡើងឯកសារ...",
+        "upload_error": "ការផ្ទុកឡើងបានបរាជ័យ។ ព្យាយាមម្ដងទៀត?",
+        "upload_complete": "ឯកសារត្រូវបានផ្ញើ!"
     },
     "help": {
         "title": "ជំនួយ",
@@ -507,5 +529,26 @@
         "share_room": "មើលបន្ទប់នេះនៅលើ Substitution",
         "share_profile": "មើលប្រវត្តិរូបនេះនៅលើ Substitution",
         "share_post": "មើលការបង្ហោះនេះនៅលើ Substitution"
+    },
+    "search": {
+        "hint": "ស្វែងរកការបង្ហោះ...",
+        "empty": "រកមិនឃើញការបង្ហោះសម្រាប់ \"{}\"។",
+        "error": "ការស្វែងរកបានបរាជ័យ។ សូមព្យាយាមម្ដងទៀត។"
+    },
+    "notifications": {
+        "settings_title": "ការជូនដំណឹង",
+        "enable": "បើកការជូនដំណឹង",
+        "mute_all": "បិទសំឡេងការជូនដំណឹងទាំងអស់",
+        "channel_name": "ការជូនដំណឹង Substitution",
+        "channel_desc": "ការជូនដំណឹងសម្រាប់សារ និងការបង្ហោះថ្មី",
+        "new_message": "សារថ្មីពី {}",
+        "new_post": "ការបង្ហោះថ្មីក្នុង {}",
+        "tap_to_open": "ចុចដើម្បីបើក"
+    },
+    "members": {
+        "title": "សមាជិក",
+        "count": "{} សមាជិក",
+        "empty": "រកមិនឃើញសមាជិក។",
+        "error": "មិនអាចផ្ទុកសមាជិកបានទេ។"
     }
 }

@@ -37,7 +37,9 @@
             "not_found": "Postarea nu a fost găsită sau nu este disponibilă."
         },
         "menu": {
-            "report_block": "Raportare / Blocare"
+            "report_block": "Raportare / Blocare",
+            "edit": "Editează",
+            "delete": "Șterge"
         },
         "e2e": {
             "encrypted": "Criptat end-to-end",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Editează Postarea",
+            "save_button": "Salvează Modificările",
+            "send_start": "Se salvează editarea...",
+            "send_failed": "Nu s-a putut salva editarea. Reîncerci?",
+            "send_complete": "Postare actualizată."
+        },
+        "delete": {
+            "title": "Șterge Postarea",
+            "body": "Aceasta va șterge definitiv postarea pentru toți. Această acțiune nu poate fi anulată.",
+            "confirm": "Șterge",
+            "cancel": "Anulare",
+            "success": "Postare ștearsă.",
+            "error": "Nu s-a putut șterge postarea: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Folosite recent"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Conversație începută",
         "error_loading": "Nu s-a putut încărca această conversație.",
         "error_sending": "Trimiterea mesajului a eșuat.",
-        "view_profile": "Vezi profilul"
+        "view_profile": "Vezi profilul",
+        "attach_file": "Atașează fișier",
+        "upload_start": "Se încarcă fișierul...",
+        "upload_error": "Încărcarea a eșuat. Reîncerci?",
+        "upload_complete": "Fișier trimis!"
     },
     "help": {
         "title": "Ajutor",
@@ -507,5 +529,26 @@
         "share_room": "Descoperă această cameră pe Substitution",
         "share_profile": "Descoperă acest profil pe Substitution",
         "share_post": "Descoperă această postare pe Substitution"
+    },
+    "search": {
+        "hint": "Caută postări...",
+        "empty": "Nicio postare găsită pentru \"{}\".",
+        "error": "Căutarea a eșuat. Te rugăm să încerci din nou."
+    },
+    "notifications": {
+        "settings_title": "Notificări",
+        "enable": "Activează notificările",
+        "mute_all": "Dezactivează toate notificările",
+        "channel_name": "Notificări Substitution",
+        "channel_desc": "Notificări pentru mesaje și postări noi",
+        "new_message": "Mesaj nou de la {}",
+        "new_post": "Postare nouă în {}",
+        "tap_to_open": "Apasă pentru a deschide"
+    },
+    "members": {
+        "title": "Membri",
+        "count": "{} membri",
+        "empty": "Niciun membru găsit.",
+        "error": "Nu s-au putut încărca membrii."
     }
 }

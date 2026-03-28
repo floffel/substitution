@@ -37,7 +37,9 @@
             "not_found": "Η δημοσίευση δεν βρέθηκε ή δεν είναι διαθέσιμη."
         },
         "menu": {
-            "report_block": "Αναφορά / Αποκλεισμός"
+            "report_block": "Αναφορά / Αποκλεισμός",
+            "edit": "Επεξεργασία",
+            "delete": "Διαγραφή"
         },
         "e2e": {
             "encrypted": "Κρυπτογραφημένο από άκρο σε άκρο",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Επεξεργασία δημοσίευσης",
+            "save_button": "Αποθήκευση αλλαγών",
+            "send_start": "Αποθήκευση επεξεργασίας...",
+            "send_failed": "Δεν ήταν δυνατή η αποθήκευση της επεξεργασίας. Επανάληψη;",
+            "send_complete": "Η δημοσίευση ενημερώθηκε."
+        },
+        "delete": {
+            "title": "Διαγραφή δημοσίευσης",
+            "body": "Αυτό θα διαγράψει μόνιμα τη δημοσίευση για όλους. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+            "confirm": "Διαγραφή",
+            "cancel": "Ακύρωση",
+            "success": "Η δημοσίευση διαγράφηκε.",
+            "error": "Δεν ήταν δυνατή η διαγραφή της δημοσίευσης: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Πρόσφατα χρησιμοποιημένα"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Η συνομιλία ξεκίνησε",
         "error_loading": "Δεν ήταν δυνατή η φόρτωση αυτής της συνομιλίας.",
         "error_sending": "Αποτυχία αποστολής μηνύματος.",
-        "view_profile": "Προβολή προφίλ"
+        "view_profile": "Προβολή προφίλ",
+        "attach_file": "Επισύναψη αρχείου",
+        "upload_start": "Μεταφόρτωση αρχείου...",
+        "upload_error": "Η μεταφόρτωση απέτυχε. Επανάληψη;",
+        "upload_complete": "Το αρχείο στάλθηκε!"
     },
     "help": {
         "title": "Βοήθεια",
@@ -507,5 +529,26 @@
         "share_room": "Δείτε αυτό το δωμάτιο στο Substitution",
         "share_profile": "Δείτε αυτό το προφίλ στο Substitution",
         "share_post": "Δείτε αυτή τη δημοσίευση στο Substitution"
+    },
+    "search": {
+        "hint": "Αναζήτηση δημοσιεύσεων...",
+        "empty": "Δεν βρέθηκαν δημοσιεύσεις για \"{}\".",
+        "error": "Η αναζήτηση απέτυχε. Παρακαλώ δοκιμάστε ξανά."
+    },
+    "notifications": {
+        "settings_title": "Ειδοποιήσεις",
+        "enable": "Ενεργοποίηση ειδοποιήσεων",
+        "mute_all": "Σίγαση όλων των ειδοποιήσεων",
+        "channel_name": "Ειδοποιήσεις Substitution",
+        "channel_desc": "Ειδοποιήσεις για νέα μηνύματα και δημοσιεύσεις",
+        "new_message": "Νέο μήνυμα από {}",
+        "new_post": "Νέα δημοσίευση σε {}",
+        "tap_to_open": "Πατήστε για άνοιγμα"
+    },
+    "members": {
+        "title": "Μέλη",
+        "count": "{} μέλη",
+        "empty": "Δεν βρέθηκαν μέλη.",
+        "error": "Δεν ήταν δυνατή η φόρτωση των μελών."
     }
 }

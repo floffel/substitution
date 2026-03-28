@@ -37,7 +37,9 @@
             "not_found": "帖子未找到或無法使用。"
         },
         "menu": {
-            "report_block": "舉報 / 封鎖"
+            "report_block": "舉報 / 封鎖",
+            "edit": "編輯",
+            "delete": "刪除"
         },
         "e2e": {
             "encrypted": "端對端加密",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "編輯帖子",
+            "save_button": "儲存更改",
+            "send_start": "正在儲存編輯...",
+            "send_failed": "無法儲存編輯。重試？",
+            "send_complete": "帖子已更新。"
+        },
+        "delete": {
+            "title": "刪除帖子",
+            "body": "呢個操作會為所有人永久刪除呢篇帖子。無法復原。",
+            "confirm": "刪除",
+            "cancel": "取消",
+            "success": "帖子已刪除。",
+            "error": "無法刪除帖子：{}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "最近使用"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "對話已開始",
         "error_loading": "無法載入此對話。",
         "error_sending": "訊息發送失敗。",
-        "view_profile": "查看個人檔案"
+        "view_profile": "查看個人檔案",
+        "attach_file": "附加檔案",
+        "upload_start": "正在上傳檔案...",
+        "upload_error": "上傳失敗。重試？",
+        "upload_complete": "檔案已傳送！"
     },
     "help": {
         "title": "幫助",
@@ -507,5 +529,26 @@
         "share_room": "嚟睇下 Substitution 上嘅呢個房間",
         "share_profile": "嚟睇下 Substitution 上嘅呢個個人檔案",
         "share_post": "嚟睇下 Substitution 上嘅呢篇帖子"
+    },
+    "search": {
+        "hint": "搜尋帖子...",
+        "empty": "搵唔到同「{}」相關嘅帖子。",
+        "error": "搜尋失敗。請重試。"
+    },
+    "notifications": {
+        "settings_title": "通知",
+        "enable": "開啟通知",
+        "mute_all": "靜音所有通知",
+        "channel_name": "Substitution 通知",
+        "channel_desc": "新訊息同新帖子嘅通知",
+        "new_message": "嚟自 {} 嘅新訊息",
+        "new_post": "{} 入面嘅新帖子",
+        "tap_to_open": "撳嚟打開"
+    },
+    "members": {
+        "title": "成員",
+        "count": "{} 位成員",
+        "empty": "搵唔到成員。",
+        "error": "無法載入成員。"
     }
 }

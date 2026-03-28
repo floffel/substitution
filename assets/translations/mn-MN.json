@@ -37,7 +37,9 @@
             "not_found": "Нийтлэл олдсонгүй эсвэл боломжгүй байна."
         },
         "menu": {
-            "report_block": "Мэдээлэх / Блоклох"
+            "report_block": "Мэдээлэх / Блоклох",
+            "edit": "Засах",
+            "delete": "Устгах"
         },
         "e2e": {
             "encrypted": "Төгсгөлөөс төгсгөл хүртэл шифрлэгдсэн",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Нийтлэл засах",
+            "save_button": "Өөрчлөлтүүдийг хадгалах",
+            "send_start": "Засварыг хадгалж байна...",
+            "send_failed": "Засварыг хадгалж чадсангүй. Дахин оролдох уу?",
+            "send_complete": "Нийтлэл шинэчлэгдсэн."
+        },
+        "delete": {
+            "title": "Нийтлэл устгах",
+            "body": "Энэ нь нийтлэлийг бүх хүмүүст байнга устгана. Энэ үйлдлийг буцаах боломжгүй.",
+            "confirm": "Устгах",
+            "cancel": "Цуцлах",
+            "success": "Нийтлэл устгагдсан.",
+            "error": "Нийтлэлийг устгаж чадсангүй: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Саяхан ашигласан"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Яриа эхэлсэн",
         "error_loading": "Энэ яриаг ачаалж чадсангүй.",
         "error_sending": "Мессеж илгээж чадсангүй.",
-        "view_profile": "Профайл харах"
+        "view_profile": "Профайл харах",
+        "attach_file": "Файл хавсаргах",
+        "upload_start": "Файл байршуулж байна...",
+        "upload_error": "Байршуулалт амжилтгүй болсон. Дахин оролдох уу?",
+        "upload_complete": "Файл илгээгдсэн!"
     },
     "help": {
         "title": "Тусламж",
@@ -507,5 +529,26 @@
         "share_room": "Substitution дээрх энэ өрөөг үзээрэй",
         "share_profile": "Substitution дээрх энэ профайлыг үзээрэй",
         "share_post": "Substitution дээрх энэ нийтлэлийг үзээрэй"
+    },
+    "search": {
+        "hint": "Нийтлэлүүд хайх...",
+        "empty": "\"{}\" -д тохирох нийтлэл олдсонгүй.",
+        "error": "Хайлт амжилтгүй болсон. Дахин оролдоно уу."
+    },
+    "notifications": {
+        "settings_title": "Мэдэгдлүүд",
+        "enable": "Мэдэгдлүүдийг идэвхжүүлэх",
+        "mute_all": "Бүх мэдэгдлийг хаах",
+        "channel_name": "Substitution мэдэгдлүүд",
+        "channel_desc": "Шинэ мессеж болон нийтлэлийн мэдэгдлүүд",
+        "new_message": "{} -ээс шинэ мессеж",
+        "new_post": "{} дотор шинэ нийтлэл",
+        "tap_to_open": "Нээхийн тулд товшино уу"
+    },
+    "members": {
+        "title": "Гишүүд",
+        "count": "{} гишүүд",
+        "empty": "Гишүүд олдсонгүй.",
+        "error": "Гишүүдийг ачаалж чадсангүй."
     }
 }

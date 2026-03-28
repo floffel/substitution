@@ -37,7 +37,24 @@
             "not_found": "پست یافت نشد یا در دسترس نیست."
         },
         "menu": {
-            "report_block": "گزارش / مسدود کردن"
+            "report_block": "گزارش / مسدود کردن",
+            "edit": "ویرایش",
+            "delete": "حذف"
+        },
+        "edit": {
+            "title": "ویرایش پست",
+            "save_button": "ذخیره تغییرات",
+            "send_start": "در حال ذخیره ویرایش...",
+            "send_failed": "ذخیره ویرایش ممکن نشد. تلاش مجدد؟",
+            "send_complete": "پست به‌روز شد."
+        },
+        "delete": {
+            "title": "حذف پست",
+            "body": "این پست برای همه به‌طور دائمی حذف خواهد شد. این عمل قابل بازگشت نیست.",
+            "confirm": "حذف",
+            "cancel": "لغو",
+            "success": "پست حذف شد.",
+            "error": "حذف پست ممکن نشد: {}"
         },
         "e2e": {
             "encrypted": "رمزنگاری سرتاسری",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "اخیراً استفاده شده"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "گفتگو آغاز شد",
         "error_loading": "بارگذاری این گفتگو ممکن نشد.",
         "error_sending": "ارسال پیام ناموفق بود.",
-        "view_profile": "مشاهده پروفایل"
+        "view_profile": "مشاهده پروفایل",
+        "attach_file": "پیوست فایل",
+        "upload_start": "در حال بارگذاری فایل...",
+        "upload_error": "بارگذاری ناموفق بود. تلاش مجدد؟",
+        "upload_complete": "فایل ارسال شد!"
+    },
+    "search": {
+        "hint": "جستجوی پست‌ها...",
+        "empty": "پستی برای \"{}\" یافت نشد.",
+        "error": "جستجو ناموفق بود. لطفاً دوباره تلاش کنید."
+    },
+    "notifications": {
+        "settings_title": "اعلان‌ها",
+        "enable": "فعال‌سازی اعلان‌ها",
+        "mute_all": "بی‌صدا کردن همه اعلان‌ها",
+        "channel_name": "اعلان‌های Substitution",
+        "channel_desc": "اعلان‌ها برای پیام‌ها و پست‌های جدید",
+        "new_message": "پیام جدید از {}",
+        "new_post": "پست جدید در {}",
+        "tap_to_open": "برای باز کردن ضربه بزنید"
+    },
+    "members": {
+        "title": "اعضا",
+        "count": "{} عضو",
+        "empty": "عضوی یافت نشد.",
+        "error": "بارگذاری اعضا ممکن نشد."
     },
     "help": {
         "title": "راهنما",

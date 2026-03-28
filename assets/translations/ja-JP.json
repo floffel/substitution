@@ -37,7 +37,9 @@
             "not_found": "投稿が見つからないか、利用できません。"
         },
         "menu": {
-            "report_block": "報告 / ブロック"
+            "report_block": "報告 / ブロック",
+            "edit": "編集",
+            "delete": "削除"
         },
         "e2e": {
             "encrypted": "エンドツーエンド暗号化済み",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "投稿を編集",
+            "save_button": "変更を保存",
+            "send_start": "編集を保存中...",
+            "send_failed": "編集を保存できませんでした。再試行しますか？",
+            "send_complete": "投稿が更新されました。"
+        },
+        "delete": {
+            "title": "投稿を削除",
+            "body": "この投稿は全員に対して完全に削除されます。この操作は元に戻せません。",
+            "confirm": "削除",
+            "cancel": "キャンセル",
+            "success": "投稿が削除されました。",
+            "error": "投稿を削除できませんでした: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "最近使用したもの"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "会話が開始されました",
         "error_loading": "この会話を読み込めませんでした。",
         "error_sending": "メッセージの送信に失敗しました。",
-        "view_profile": "プロフィールを表示"
+        "view_profile": "プロフィールを表示",
+        "attach_file": "ファイルを添付",
+        "upload_start": "ファイルをアップロード中...",
+        "upload_error": "アップロードに失敗しました。再試行しますか？",
+        "upload_complete": "ファイルが送信されました！"
     },
     "help": {
         "title": "ヘルプ",
@@ -507,5 +529,26 @@
         "share_room": "Substitutionのこのルームをチェック",
         "share_profile": "Substitutionのこのプロフィールをチェック",
         "share_post": "Substitutionのこの投稿をチェック"
+    },
+    "search": {
+        "hint": "投稿を検索...",
+        "empty": "\"{}\"に一致する投稿が見つかりません。",
+        "error": "検索に失敗しました。もう一度お試しください。"
+    },
+    "notifications": {
+        "settings_title": "通知",
+        "enable": "通知を有効にする",
+        "mute_all": "すべての通知をミュート",
+        "channel_name": "Substitution通知",
+        "channel_desc": "新しいメッセージと投稿の通知",
+        "new_message": "{}からの新しいメッセージ",
+        "new_post": "{}での新しい投稿",
+        "tap_to_open": "タップして開く"
+    },
+    "members": {
+        "title": "メンバー",
+        "count": "{}人のメンバー",
+        "empty": "メンバーが見つかりません。",
+        "error": "メンバーを読み込めませんでした。"
     }
 }

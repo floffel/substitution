@@ -37,7 +37,9 @@
             "not_found": "Įrašas nerastas arba nepasiekiamas."
         },
         "menu": {
-            "report_block": "Pranešti / Blokuoti"
+            "report_block": "Pranešti / Blokuoti",
+            "edit": "Redaguoti",
+            "delete": "Ištrinti"
         },
         "e2e": {
             "encrypted": "Visapusis šifravimas",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Redaguoti įrašą",
+            "save_button": "Išsaugoti pakeitimus",
+            "send_start": "Saugomi pakeitimai...",
+            "send_failed": "Nepavyko išsaugoti pakeitimo. Bandyti dar kartą?",
+            "send_complete": "Įrašas atnaujintas."
+        },
+        "delete": {
+            "title": "Ištrinti įrašą",
+            "body": "Tai visam laikui ištrins įrašą visiems. Šio veiksmo negalima atšaukti.",
+            "confirm": "Ištrinti",
+            "cancel": "Atšaukti",
+            "success": "Įrašas ištrintas.",
+            "error": "Nepavyko ištrinti įrašo: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Neseniai naudoti"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Pokalbis pradėtas",
         "error_loading": "Nepavyko įkelti šio pokalbio.",
         "error_sending": "Nepavyko išsiųsti žinutės.",
-        "view_profile": "Peržiūrėti profilį"
+        "view_profile": "Peržiūrėti profilį",
+        "attach_file": "Prisegti failą",
+        "upload_start": "Įkeliamas failas...",
+        "upload_error": "Įkėlimas nepavyko. Bandyti dar kartą?",
+        "upload_complete": "Failas išsiųstas!"
     },
     "help": {
         "title": "Pagalba",
@@ -507,5 +529,26 @@
         "share_room": "Peržiūrėkite šį kambarį Substitution",
         "share_profile": "Peržiūrėkite šį profilį Substitution",
         "share_post": "Peržiūrėkite šį įrašą Substitution"
+    },
+    "search": {
+        "hint": "Ieškoti įrašų...",
+        "empty": "Nerasta įrašų pagal \"{}\".",
+        "error": "Paieška nepavyko. Bandykite dar kartą."
+    },
+    "notifications": {
+        "settings_title": "Pranešimai",
+        "enable": "Įjungti pranešimus",
+        "mute_all": "Nutildyti visus pranešimus",
+        "channel_name": "Substitution pranešimai",
+        "channel_desc": "Pranešimai apie naujas žinutes ir įrašus",
+        "new_message": "Nauja žinutė nuo {}",
+        "new_post": "Naujas įrašas {}",
+        "tap_to_open": "Bakstelėkite, kad atidarytumėte"
+    },
+    "members": {
+        "title": "Nariai",
+        "count": "{} nariai",
+        "empty": "Narių nerasta.",
+        "error": "Nepavyko įkelti narių."
     }
 }

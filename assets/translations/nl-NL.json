@@ -37,7 +37,9 @@
             "not_found": "Bericht niet gevonden of niet beschikbaar."
         },
         "menu": {
-            "report_block": "Rapporteren / Blokkeren"
+            "report_block": "Rapporteren / Blokkeren",
+            "edit": "Bewerken",
+            "delete": "Verwijderen"
         },
         "e2e": {
             "encrypted": "End-to-end versleuteld",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Bericht bewerken",
+            "save_button": "Wijzigingen opslaan",
+            "send_start": "Bewerking opslaan...",
+            "send_failed": "Kon de bewerking niet opslaan. Opnieuw proberen?",
+            "send_complete": "Bericht bijgewerkt."
+        },
+        "delete": {
+            "title": "Bericht verwijderen",
+            "body": "Dit verwijdert het bericht permanent voor iedereen. Dit kan niet ongedaan worden gemaakt.",
+            "confirm": "Verwijderen",
+            "cancel": "Annuleren",
+            "success": "Bericht verwijderd.",
+            "error": "Kon bericht niet verwijderen: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Recent gebruikt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Gesprek gestart",
         "error_loading": "Kon dit gesprek niet laden.",
         "error_sending": "Kon bericht niet verzenden.",
-        "view_profile": "Profiel bekijken"
+        "view_profile": "Profiel bekijken",
+        "attach_file": "Bestand bijvoegen",
+        "upload_start": "Bestand wordt geüpload...",
+        "upload_error": "Upload mislukt. Opnieuw proberen?",
+        "upload_complete": "Bestand verzonden!"
     },
     "help": {
         "title": "Help",
@@ -507,5 +529,26 @@
         "share_room": "Bekijk deze kamer op Substitution",
         "share_profile": "Bekijk dit profiel op Substitution",
         "share_post": "Bekijk dit bericht op Substitution"
+    },
+    "search": {
+        "hint": "Berichten zoeken...",
+        "empty": "Geen berichten gevonden voor \"{}\".",
+        "error": "Zoeken mislukt. Probeer het opnieuw."
+    },
+    "notifications": {
+        "settings_title": "Meldingen",
+        "enable": "Meldingen inschakelen",
+        "mute_all": "Alle meldingen dempen",
+        "channel_name": "Substitution-meldingen",
+        "channel_desc": "Meldingen voor nieuwe berichten en posts",
+        "new_message": "Nieuw bericht van {}",
+        "new_post": "Nieuw bericht in {}",
+        "tap_to_open": "Tik om te openen"
+    },
+    "members": {
+        "title": "Leden",
+        "count": "{} leden",
+        "empty": "Geen leden gevonden.",
+        "error": "Kon leden niet laden."
     }
 }

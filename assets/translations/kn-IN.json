@@ -37,7 +37,9 @@
             "not_found": "ಪೋಸ್ಟ್ ಕಂಡುಬಂದಿಲ್ಲ ಅಥವಾ ಲಭ್ಯವಿಲ್ಲ."
         },
         "menu": {
-            "report_block": "ವರದಿ / ನಿರ್ಬಂಧಿಸಿ"
+            "report_block": "ವರದಿ / ನಿರ್ಬಂಧಿಸಿ",
+            "edit": "ಸಂಪಾದಿಸಿ",
+            "delete": "ಅಳಿಸಿ"
         },
         "e2e": {
             "encrypted": "ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಟೆಡ್",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "ಪೋಸ್ಟ್ ಸಂಪಾದಿಸಿ",
+            "save_button": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ",
+            "send_start": "ಸಂಪಾದನೆ ಉಳಿಸಲಾಗುತ್ತಿದೆ...",
+            "send_failed": "ಸಂಪಾದನೆ ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಮರುಪ್ರಯತ್ನಿಸುವುದೇ?",
+            "send_complete": "ಪೋಸ್ಟ್ ನವೀಕರಿಸಲಾಗಿದೆ."
+        },
+        "delete": {
+            "title": "ಪೋಸ್ಟ್ ಅಳಿಸಿ",
+            "body": "ಇದು ಎಲ್ಲರಿಗೂ ಪೋಸ್ಟ್ ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ರದ್ದುಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
+            "confirm": "ಅಳಿಸಿ",
+            "cancel": "ರದ್ದುಮಾಡಿ",
+            "success": "ಪೋಸ್ಟ್ ಅಳಿಸಲಾಗಿದೆ.",
+            "error": "ಪೋಸ್ಟ್ ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ಇತ್ತೀಚೆಗೆ ಬಳಸಿದ"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭವಾಯಿತು",
         "error_loading": "ಈ ಸಂಭಾಷಣೆಯನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
         "error_sending": "ಸಂದೇಶ ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ.",
-        "view_profile": "ಪ್ರೊಫೈಲ್ ವೀಕ್ಷಿಸಿ"
+        "view_profile": "ಪ್ರೊಫೈಲ್ ವೀಕ್ಷಿಸಿ",
+        "attach_file": "ಫೈಲ್ ಲಗತ್ತಿಸಿ",
+        "upload_start": "ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+        "upload_error": "ಅಪ್‌ಲೋಡ್ ವಿಫಲವಾಗಿದೆ. ಮರುಪ್ರಯತ್ನಿಸುವುದೇ?",
+        "upload_complete": "ಫೈಲ್ ಕಳುಹಿಸಲಾಗಿದೆ!"
     },
     "help": {
         "title": "ಸಹಾಯ",
@@ -507,5 +529,26 @@
         "share_room": "Substitution ನಲ್ಲಿ ಈ ಕೊಠಡಿ ನೋಡಿ",
         "share_profile": "Substitution ನಲ್ಲಿ ಈ ಪ್ರೊಫೈಲ್ ನೋಡಿ",
         "share_post": "Substitution ನಲ್ಲಿ ಈ ಪೋಸ್ಟ್ ನೋಡಿ"
+    },
+    "search": {
+        "hint": "ಪೋಸ್ಟ್‌ಗಳನ್ನು ಹುಡುಕಿ...",
+        "empty": "\"{}\" ಗಾಗಿ ಯಾವುದೇ ಪೋಸ್ಟ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+        "error": "ಹುಡುಕಾಟ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+    },
+    "notifications": {
+        "settings_title": "ಅಧಿಸೂಚನೆಗಳು",
+        "enable": "ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ",
+        "mute_all": "ಎಲ್ಲಾ ಅಧಿಸೂಚನೆಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ",
+        "channel_name": "Substitution ಅಧಿಸೂಚನೆಗಳು",
+        "channel_desc": "ಹೊಸ ಸಂದೇಶಗಳು ಮತ್ತು ಪೋಸ್ಟ್‌ಗಳಿಗೆ ಅಧಿಸೂಚನೆಗಳು",
+        "new_message": "{} ಅವರಿಂದ ಹೊಸ ಸಂದೇಶ",
+        "new_post": "{} ನಲ್ಲಿ ಹೊಸ ಪೋಸ್ಟ್",
+        "tap_to_open": "ತೆರೆಯಲು ಟ್ಯಾಪ್ ಮಾಡಿ"
+    },
+    "members": {
+        "title": "ಸದಸ್ಯರು",
+        "count": "{} ಸದಸ್ಯರು",
+        "empty": "ಯಾವುದೇ ಸದಸ್ಯರು ಕಂಡುಬಂದಿಲ್ಲ.",
+        "error": "ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
     }
 }

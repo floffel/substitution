@@ -37,7 +37,24 @@
             "not_found": "Hindi nahanap o hindi available ang post."
         },
         "menu": {
-            "report_block": "I-report / I-block"
+            "report_block": "I-report / I-block",
+            "edit": "I-edit",
+            "delete": "I-delete"
+        },
+        "edit": {
+            "title": "I-edit ang Post",
+            "save_button": "I-save ang mga Pagbabago",
+            "send_start": "Sine-save ang pag-edit...",
+            "send_failed": "Hindi ma-save ang pag-edit. Subukan muli?",
+            "send_complete": "Na-update na ang post."
+        },
+        "delete": {
+            "title": "I-delete ang Post",
+            "body": "Permanenteng ide-delete ang post na ito para sa lahat. Hindi na ito maaaring i-undo.",
+            "confirm": "I-delete",
+            "cancel": "Kanselahin",
+            "success": "Na-delete na ang post.",
+            "error": "Hindi ma-delete ang post: {}"
         },
         "e2e": {
             "encrypted": "End-to-end encrypted",
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Kamakailang Ginamit"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,32 @@
         "conversation_started": "Nagsimula ang usapan",
         "error_loading": "Hindi ma-load ang usapang ito.",
         "error_sending": "Nabigong ipadala ang mensahe.",
-        "view_profile": "Tingnan ang profile"
+        "view_profile": "Tingnan ang profile",
+        "attach_file": "Mag-attach ng file",
+        "upload_start": "Ina-upload ang file...",
+        "upload_error": "Nabigo ang pag-upload. Subukan muli?",
+        "upload_complete": "Naipadala na ang file!"
+    },
+    "search": {
+        "hint": "Maghanap ng mga post...",
+        "empty": "Walang nahanap na post para sa \"{}\".",
+        "error": "Nabigo ang paghahanap. Pakisubukan muli."
+    },
+    "notifications": {
+        "settings_title": "Mga Notification",
+        "enable": "I-enable ang mga notification",
+        "mute_all": "I-mute lahat ng notification",
+        "channel_name": "Mga Notification ng Substitution",
+        "channel_desc": "Mga notification para sa mga bagong mensahe at post",
+        "new_message": "Bagong mensahe mula kay {}",
+        "new_post": "Bagong post sa {}",
+        "tap_to_open": "I-tap para buksan"
+    },
+    "members": {
+        "title": "Mga Miyembro",
+        "count": "{} miyembro",
+        "empty": "Walang nahanap na miyembro.",
+        "error": "Hindi ma-load ang mga miyembro."
     },
     "help": {
         "title": "Tulong",

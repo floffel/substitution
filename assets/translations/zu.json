@@ -37,7 +37,9 @@
             "not_found": "Okuthunyelwe akutholakali noma akutholakali."
         },
         "menu": {
-            "report_block": "Bika / Vimbela"
+            "report_block": "Bika / Vimbela",
+            "edit": "Hlela",
+            "delete": "Susa"
         },
         "e2e": {
             "encrypted": "Kubethelwe ngokuphelele",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Hlela Okuthunyelwe",
+            "save_button": "Gcina Izinguquko",
+            "send_start": "Kugcinwa ukuhlela...",
+            "send_failed": "Ayikwazanga ukugcina ukuhlela. Zama futhi?",
+            "send_complete": "Okuthunyelwe kubuyekezwe."
+        },
+        "delete": {
+            "title": "Susa Okuthunyelwe",
+            "body": "Lokhu kuzosusa okuthunyelwe ngokuphavulayo kubo bonke. Lokhu akuphindiseki.",
+            "confirm": "Susa",
+            "cancel": "Khansela",
+            "success": "Okuthunyelwe kususiwe.",
+            "error": "Ayikwazanga ukususa okuthunyelwe: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Okusetshenziswe kamuva"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Ingxoxo iqalile",
         "error_loading": "Ayikwazanga ukulayisha le ngxoxo.",
         "error_sending": "Yehlulekile ukuthumela umlayezo.",
-        "view_profile": "Buka iphrofayili"
+        "view_profile": "Buka iphrofayili",
+        "attach_file": "Namathisela ifayela",
+        "upload_start": "Ilayisha ifayela...",
+        "upload_error": "Ukulayisha kuhlulekile. Zama futhi?",
+        "upload_complete": "Ifayela lithunyelwe!"
     },
     "help": {
         "title": "Usizo",
@@ -507,5 +529,26 @@
         "share_room": "Buka leli gumbi ku-Substitution",
         "share_profile": "Buka le phrofayili ku-Substitution",
         "share_post": "Buka lokhu okuthunyelwe ku-Substitution"
+    },
+    "search": {
+        "hint": "Sesha okuthunyelwe...",
+        "empty": "Akukho okuthunyelwe okutholakele ngo-\"{}\".",
+        "error": "Ukusesha kuhlulekile. Sicela uzame futhi."
+    },
+    "notifications": {
+        "settings_title": "Izaziso",
+        "enable": "Vumela izaziso",
+        "mute_all": "Thulisa zonke izaziso",
+        "channel_name": "Izaziso ze-Substitution",
+        "channel_desc": "Izaziso zomilayezo emisha nokuthunyelwe okusha",
+        "new_message": "Umlayezo omusha ovela ku-{}",
+        "new_post": "Okuthunyelwe okusha ku-{}",
+        "tap_to_open": "Cindezela ukuze uvule"
+    },
+    "members": {
+        "title": "Amalungu",
+        "count": "{} amalungu",
+        "empty": "Awekho amalungu atholakele.",
+        "error": "Ayikwazanga ukulayisha amalungu."
     }
 }

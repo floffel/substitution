@@ -37,7 +37,9 @@
             "not_found": "პოსტი ვერ მოიძებნა ან მიუწვდომელია."
         },
         "menu": {
-            "report_block": "შეტყობინება / დაბლოკვა"
+            "report_block": "შეტყობინება / დაბლოკვა",
+            "edit": "რედაქტირება",
+            "delete": "წაშლა"
         },
         "e2e": {
             "encrypted": "ბოლოდან ბოლომდე დაშიფრული",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "პოსტის რედაქტირება",
+            "save_button": "ცვლილებების შენახვა",
+            "send_start": "ცვლილებების შენახვა...",
+            "send_failed": "ცვლილების შენახვა ვერ მოხერხდა. ხელახლა ცდა?",
+            "send_complete": "პოსტი განახლებულია."
+        },
+        "delete": {
+            "title": "პოსტის წაშლა",
+            "body": "ეს სამუდამოდ წაშლის პოსტს ყველასთვის. ამის გაუქმება შეუძლებელია.",
+            "confirm": "წაშლა",
+            "cancel": "გაუქმება",
+            "success": "პოსტი წაშლილია.",
+            "error": "პოსტის წაშლა ვერ მოხერხდა: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "ბოლოს გამოყენებული"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "საუბარი დაიწყო",
         "error_loading": "ამ საუბრის ჩატვირთვა ვერ მოხერხდა.",
         "error_sending": "შეტყობინების გაგზავნა ვერ მოხერხდა.",
-        "view_profile": "პროფილის ნახვა"
+        "view_profile": "პროფილის ნახვა",
+        "attach_file": "ფაილის მიმაგრება",
+        "upload_start": "ფაილის ატვირთვა...",
+        "upload_error": "ატვირთვა ვერ მოხერხდა. ხელახლა ცდა?",
+        "upload_complete": "ფაილი გაგზავნილია!"
     },
     "help": {
         "title": "დახმარება",
@@ -507,5 +529,26 @@
         "share_room": "ნახეთ ეს ოთახი Substitution-ში",
         "share_profile": "ნახეთ ეს პროფილი Substitution-ში",
         "share_post": "ნახეთ ეს პოსტი Substitution-ში"
+    },
+    "search": {
+        "hint": "პოსტების ძიება...",
+        "empty": "\"{}\" -ისთვის პოსტები ვერ მოიძებნა.",
+        "error": "ძიება ვერ მოხერხდა. გთხოვთ, სცადეთ ხელახლა."
+    },
+    "notifications": {
+        "settings_title": "შეტყობინებები",
+        "enable": "შეტყობინებების ჩართვა",
+        "mute_all": "ყველა შეტყობინების გათიშვა",
+        "channel_name": "Substitution შეტყობინებები",
+        "channel_desc": "შეტყობინებები ახალი მესიჯებისა და პოსტებისთვის",
+        "new_message": "ახალი შეტყობინება {}-ისგან",
+        "new_post": "ახალი პოსტი {}-ში",
+        "tap_to_open": "შეეხეთ გასახსნელად"
+    },
+    "members": {
+        "title": "წევრები",
+        "count": "{} წევრი",
+        "empty": "წევრები ვერ მოიძებნა.",
+        "error": "წევრების ჩატვირთვა ვერ მოხერხდა."
     }
 }

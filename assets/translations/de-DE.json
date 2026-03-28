@@ -37,7 +37,9 @@
             "not_found": "Beitrag nicht gefunden oder nicht verfügbar."
         },
         "menu": {
-            "report_block": "Melden / Blockieren"
+            "report_block": "Melden / Blockieren",
+            "edit": "Bearbeiten",
+            "delete": "Löschen"
         },
         "e2e": {
             "encrypted": "Ende-zu-Ende-verschlüsselt",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Beitrag bearbeiten",
+            "save_button": "Änderungen speichern",
+            "send_start": "Bearbeitung wird gespeichert...",
+            "send_failed": "Bearbeitung konnte nicht gespeichert werden. Erneut versuchen?",
+            "send_complete": "Beitrag aktualisiert."
+        },
+        "delete": {
+            "title": "Beitrag löschen",
+            "body": "Dies löscht den Beitrag dauerhaft für alle. Dies kann nicht rückgängig gemacht werden.",
+            "confirm": "Löschen",
+            "cancel": "Abbrechen",
+            "success": "Beitrag gelöscht.",
+            "error": "Beitrag konnte nicht gelöscht werden: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Kürzlich verwendet"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Unterhaltung gestartet",
         "error_loading": "Unterhaltung konnte nicht geladen werden.",
         "error_sending": "Nachricht konnte nicht gesendet werden.",
-        "view_profile": "Profil anzeigen"
+        "view_profile": "Profil anzeigen",
+        "attach_file": "Datei anhängen",
+        "upload_start": "Datei wird hochgeladen...",
+        "upload_error": "Upload fehlgeschlagen. Erneut versuchen?",
+        "upload_complete": "Datei gesendet!"
     },
     "help": {
         "title": "Hilfe",
@@ -507,5 +529,26 @@
         "share_room": "Schau dir diesen Raum auf Substitution an",
         "share_profile": "Schau dir dieses Profil auf Substitution an",
         "share_post": "Schau dir diesen Beitrag auf Substitution an"
+    },
+    "search": {
+        "hint": "Beiträge suchen...",
+        "empty": "Keine Beiträge gefunden für \"{}\".",
+        "error": "Suche fehlgeschlagen. Bitte erneut versuchen."
+    },
+    "notifications": {
+        "settings_title": "Benachrichtigungen",
+        "enable": "Benachrichtigungen aktivieren",
+        "mute_all": "Alle Benachrichtigungen stummschalten",
+        "channel_name": "Substitution-Benachrichtigungen",
+        "channel_desc": "Benachrichtigungen für neue Nachrichten und Beiträge",
+        "new_message": "Neue Nachricht von {}",
+        "new_post": "Neuer Beitrag in {}",
+        "tap_to_open": "Tippen zum Öffnen"
+    },
+    "members": {
+        "title": "Mitglieder",
+        "count": "{} Mitglieder",
+        "empty": "Keine Mitglieder gefunden.",
+        "error": "Mitglieder konnten nicht geladen werden."
     }
 }

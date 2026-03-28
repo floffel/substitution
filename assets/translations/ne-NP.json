@@ -37,7 +37,9 @@
             "not_found": "पोस्ट फेला परेन वा उपलब्ध छैन।"
         },
         "menu": {
-            "report_block": "रिपोर्ट / ब्लक"
+            "report_block": "रिपोर्ट / ब्लक",
+            "edit": "सम्पादन",
+            "delete": "मेटाउनुहोस्"
         },
         "e2e": {
             "encrypted": "एन्ड-टु-एन्ड इन्क्रिप्टेड",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "पोस्ट सम्पादन गर्नुहोस्",
+            "save_button": "परिवर्तनहरू सुरक्षित गर्नुहोस्",
+            "send_start": "सम्पादन सुरक्षित गर्दै...",
+            "send_failed": "सम्पादन सुरक्षित गर्न सकिएन। पुनः प्रयास गर्ने?",
+            "send_complete": "पोस्ट अपडेट गरियो।"
+        },
+        "delete": {
+            "title": "पोस्ट मेटाउनुहोस्",
+            "body": "यसले सबैका लागि पोस्ट स्थायी रूपमा मेटाउनेछ। यो पूर्ववत गर्न सकिँदैन।",
+            "confirm": "मेटाउनुहोस्",
+            "cancel": "रद्द गर्नुहोस्",
+            "success": "पोस्ट मेटाइयो।",
+            "error": "पोस्ट मेटाउन सकिएन: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "भर्खरै प्रयोग गरिएको"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "कुराकानी सुरु भयो",
         "error_loading": "यो कुराकानी लोड गर्न सकिएन।",
         "error_sending": "सन्देश पठाउन असफल भयो।",
-        "view_profile": "प्रोफाइल हेर्नुहोस्"
+        "view_profile": "प्रोफाइल हेर्नुहोस्",
+        "attach_file": "फाइल संलग्न गर्नुहोस्",
+        "upload_start": "फाइल अपलोड हुँदैछ...",
+        "upload_error": "अपलोड असफल भयो। पुनः प्रयास गर्ने?",
+        "upload_complete": "फाइल पठाइयो!"
     },
     "help": {
         "title": "मद्दत",
@@ -507,5 +529,26 @@
         "share_room": "Substitution मा यो कोठा हेर्नुहोस्",
         "share_profile": "Substitution मा यो प्रोफाइल हेर्नुहोस्",
         "share_post": "Substitution मा यो पोस्ट हेर्नुहोस्"
+    },
+    "search": {
+        "hint": "पोस्टहरू खोज्नुहोस्...",
+        "empty": "\"{}\" का लागि कुनै पोस्ट फेला परेन।",
+        "error": "खोज असफल भयो। कृपया पुनः प्रयास गर्नुहोस्।"
+    },
+    "notifications": {
+        "settings_title": "सूचनाहरू",
+        "enable": "सूचनाहरू सक्षम गर्नुहोस्",
+        "mute_all": "सबै सूचनाहरू म्यूट गर्नुहोस्",
+        "channel_name": "Substitution सूचनाहरू",
+        "channel_desc": "नयाँ सन्देश र पोस्टहरूका लागि सूचनाहरू",
+        "new_message": "{} बाट नयाँ सन्देश",
+        "new_post": "{} मा नयाँ पोस्ट",
+        "tap_to_open": "खोल्न ट्याप गर्नुहोस्"
+    },
+    "members": {
+        "title": "सदस्यहरू",
+        "count": "{} सदस्यहरू",
+        "empty": "सदस्यहरू फेला परेनन्।",
+        "error": "सदस्यहरू लोड गर्न सकिएन।"
     }
 }

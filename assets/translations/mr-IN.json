@@ -37,7 +37,9 @@
             "not_found": "पोस्ट सापडली नाही किंवा उपलब्ध नाही."
         },
         "menu": {
-            "report_block": "तक्रार / ब्लॉक"
+            "report_block": "तक्रार / ब्लॉक",
+            "edit": "संपादित करा",
+            "delete": "हटवा"
         },
         "e2e": {
             "encrypted": "एंड-टू-एंड एन्क्रिप्टेड",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "पोस्ट संपादित करा",
+            "save_button": "बदल जतन करा",
+            "send_start": "संपादन जतन होत आहे...",
+            "send_failed": "संपादन जतन करता आले नाही. पुन्हा प्रयत्न करायचा?",
+            "send_complete": "पोस्ट अद्ययावत केली."
+        },
+        "delete": {
+            "title": "पोस्ट हटवा",
+            "body": "हे सर्वांसाठी पोस्ट कायमचे हटवेल. हे पूर्ववत करता येणार नाही.",
+            "confirm": "हटवा",
+            "cancel": "रद्द करा",
+            "success": "पोस्ट हटवली.",
+            "error": "पोस्ट हटवता आली नाही: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "अलीकडे वापरलेले"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "संभाषण सुरू झाले",
         "error_loading": "हे संभाषण लोड करता आले नाही.",
         "error_sending": "संदेश पाठवणे अयशस्वी.",
-        "view_profile": "प्रोफाइल पहा"
+        "view_profile": "प्रोफाइल पहा",
+        "attach_file": "फाइल जोडा",
+        "upload_start": "फाइल अपलोड होत आहे...",
+        "upload_error": "अपलोड अयशस्वी. पुन्हा प्रयत्न करायचा?",
+        "upload_complete": "फाइल पाठवली!"
     },
     "help": {
         "title": "मदत",
@@ -507,5 +529,26 @@
         "share_room": "Substitution वर हा रूम पहा",
         "share_profile": "Substitution वर हे प्रोफाइल पहा",
         "share_post": "Substitution वर ही पोस्ट पहा"
+    },
+    "search": {
+        "hint": "पोस्ट शोधा...",
+        "empty": "\"{}\" साठी कोणतीही पोस्ट सापडली नाही.",
+        "error": "शोध अयशस्वी. कृपया पुन्हा प्रयत्न करा."
+    },
+    "notifications": {
+        "settings_title": "सूचना",
+        "enable": "सूचना सक्षम करा",
+        "mute_all": "सर्व सूचना बंद करा",
+        "channel_name": "Substitution सूचना",
+        "channel_desc": "नवीन संदेश आणि पोस्टसाठी सूचना",
+        "new_message": "{} कडून नवीन संदेश",
+        "new_post": "{} मध्ये नवीन पोस्ट",
+        "tap_to_open": "उघडण्यासाठी टॅप करा"
+    },
+    "members": {
+        "title": "सदस्य",
+        "count": "{} सदस्य",
+        "empty": "सदस्य सापडले नाहीत.",
+        "error": "सदस्य लोड करता आले नाहीत."
     }
 }

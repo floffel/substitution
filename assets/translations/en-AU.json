@@ -37,7 +37,9 @@
             "not_found": "Post not found or unavailable."
         },
         "menu": {
-            "report_block": "Report / Block"
+            "report_block": "Report / Block",
+            "edit": "Edit",
+            "delete": "Delete"
         },
         "e2e": {
             "encrypted": "End-to-end encrypted",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Edit Post",
+            "save_button": "Save Changes",
+            "send_start": "Saving edit...",
+            "send_failed": "Could not save the edit. Retry?",
+            "send_complete": "Post updated."
+        },
+        "delete": {
+            "title": "Delete Post",
+            "body": "This will permanently delete the post for everyone. This cannot be undone.",
+            "confirm": "Delete",
+            "cancel": "Cancel",
+            "success": "Post deleted.",
+            "error": "Could not delete post: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Recently Used"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Conversation started",
         "error_loading": "Could not load this conversation.",
         "error_sending": "Failed to send message.",
-        "view_profile": "View profile"
+        "view_profile": "View profile",
+        "attach_file": "Attach file",
+        "upload_start": "Uploading file...",
+        "upload_error": "Upload failed. Retry?",
+        "upload_complete": "File sent!"
     },
     "help": {
         "title": "Help",
@@ -507,5 +529,26 @@
         "share_room": "Check out this room on Substitution",
         "share_profile": "Check out this profile on Substitution",
         "share_post": "Check out this post on Substitution"
+    },
+    "search": {
+        "hint": "Search posts...",
+        "empty": "No posts found for \"{}\".",
+        "error": "Search failed. Please try again."
+    },
+    "notifications": {
+        "settings_title": "Notifications",
+        "enable": "Enable notifications",
+        "mute_all": "Mute all notifications",
+        "channel_name": "Substitution Notifications",
+        "channel_desc": "Notifications for new messages and posts",
+        "new_message": "New message from {}",
+        "new_post": "New post in {}",
+        "tap_to_open": "Tap to open"
+    },
+    "members": {
+        "title": "Members",
+        "count": "{} members",
+        "empty": "No members found.",
+        "error": "Could not load members."
     }
 }

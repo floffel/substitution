@@ -37,7 +37,9 @@
             "not_found": "Opslag ikke fundet eller utilgængeligt."
         },
         "menu": {
-            "report_block": "Rapportér / Bloker"
+            "report_block": "Rapportér / Bloker",
+            "edit": "Rediger",
+            "delete": "Slet"
         },
         "e2e": {
             "encrypted": "Ende-til-ende-krypteret",
@@ -99,7 +101,22 @@
             "shared": "Shared a location",
             "tap_to_open": "Tap to open"
         },
-        "voice_message": "Voice message"
+        "voice_message": "Voice message",
+        "edit": {
+            "title": "Rediger opslag",
+            "save_button": "Gem ændringer",
+            "send_start": "Gemmer redigering...",
+            "send_failed": "Kunne ikke gemme redigeringen. Prøv igen?",
+            "send_complete": "Opslag opdateret."
+        },
+        "delete": {
+            "title": "Slet opslag",
+            "body": "Dette vil permanent slette opslaget for alle. Dette kan ikke fortrydes.",
+            "confirm": "Slet",
+            "cancel": "Annuller",
+            "success": "Opslag slettet.",
+            "error": "Kunne ikke slette opslag: {}"
+        }
     },
     "settings": {
         "legal": {
@@ -390,7 +407,8 @@
         "stickermessage": {
             "no_stickers": "No sticker packs found. Join a room with sticker packs or add one in your account settings.",
             "select_prompt": "Select a sticker",
-            "send_button": "Send sticker: {}"
+            "send_button": "Send sticker: {}",
+            "recently_used": "Nyligt brugt"
         },
         "voicemessage": {
             "discard": "Discard recording",
@@ -437,7 +455,11 @@
         "conversation_started": "Samtale startet",
         "error_loading": "Kunne ikke indlæse denne samtale.",
         "error_sending": "Kunne ikke sende besked.",
-        "view_profile": "Se profil"
+        "view_profile": "Se profil",
+        "attach_file": "Vedhæft fil",
+        "upload_start": "Uploader fil...",
+        "upload_error": "Upload mislykkedes. Prøv igen?",
+        "upload_complete": "Fil sendt!"
     },
     "help": {
         "title": "Hjælp",
@@ -507,5 +529,26 @@
         "share_room": "Tjek dette rum ud på Substitution",
         "share_profile": "Tjek denne profil ud på Substitution",
         "share_post": "Tjek dette opslag ud på Substitution"
+    },
+    "search": {
+        "hint": "Søg i opslag...",
+        "empty": "Ingen opslag fundet for \"{}\".",
+        "error": "Søgning mislykkedes. Prøv venligst igen."
+    },
+    "notifications": {
+        "settings_title": "Notifikationer",
+        "enable": "Aktiver notifikationer",
+        "mute_all": "Slå alle notifikationer fra",
+        "channel_name": "Substitution-notifikationer",
+        "channel_desc": "Notifikationer for nye beskeder og opslag",
+        "new_message": "Ny besked fra {}",
+        "new_post": "Nyt opslag i {}",
+        "tap_to_open": "Tryk for at åbne"
+    },
+    "members": {
+        "title": "Medlemmer",
+        "count": "{} medlemmer",
+        "empty": "Ingen medlemmer fundet.",
+        "error": "Kunne ikke indlæse medlemmer."
     }
 }
