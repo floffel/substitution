@@ -345,16 +345,14 @@ void main() async {
       GoRoute(
         redirect: testRedirect,
         path: '/settings/room/create',
-        builder:
-            (context, state) =>
-                ScaffoldWithNavigation(child: const RoomFormPage()),
+        builder: (context, state) => const RoomFormPage(),
       ),
       GoRoute(
         redirect: testRedirect,
         path: '/settings/room/:roomId/edit',
         builder: (context, state) {
           final roomId = state.pathParameters['roomId']!;
-          return ScaffoldWithNavigation(child: RoomFormPage(roomId: roomId));
+          return RoomFormPage(roomId: roomId);
         },
       ),
       GoRoute(
