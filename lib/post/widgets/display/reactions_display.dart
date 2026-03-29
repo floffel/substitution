@@ -38,10 +38,6 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     >
   >
   _loadReactions() async {
-    if (AppConstants.isIntegrationTest) {
-      return {};
-    }
-
     Map<
       String,
       ({List<String> userNames, bool isOwnSmiley, Event? displayEvent})

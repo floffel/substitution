@@ -49,6 +49,12 @@
 	<string>Substitution needs microphone access to record voice messages.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Substitution needs your location to share it in messages.</string>
+	<!-- Background modes for local notification delivery via background fetch -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

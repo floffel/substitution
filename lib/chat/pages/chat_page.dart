@@ -5,9 +5,12 @@ import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file_selector/file_selector.dart';
 
 import '/shared/utils/relative_time.dart';
 import '/shared/widgets/avatar.dart';
+import '/shared/widgets/mxc_image.dart';
+import '/write/widgets/send_progress_dialog.dart';
 
 class ChatPage extends StatefulWidget {
   final String roomId;
@@ -120,6 +123,70 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  Future<void> _pickAndSendFile() async {
+    final room = _room;
+    if (room == null) return;
+
+    final imgTypeGroup = XTypeGroup(
+      label: 'Images',
+      extensions: const ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+    );
+    final videoTypeGroup = XTypeGroup(
+      label: 'Videos',
+      extensions: const ['mp4', 'mov', 'webm'],
+    );
+    final docTypeGroup = XTypeGroup(
+      label: 'Documents',
+      extensions: const ['pdf', 'doc', 'docx', 'txt', 'zip'],
+    );
+
+    final List<XFile> picked = await openFiles(
+      acceptedTypeGroups: [imgTypeGroup, videoTypeGroup, docTypeGroup],
+    );
+    if (picked.isEmpty) return;
+
+    // Capture context-dependent objects before any await.
+    // ignore: use_build_context_synchronously
+    final navigator = Navigator.of(context);
+    // ignore: use_build_context_synchronously
+    final scavMsg = ScaffoldMessenger.of(context);
+
+    for (final xfile in picked) {
+      String? ret;
+      bool userCancel = false;
+
+      while (ret == null && !userCancel) {
+        if (!mounted) return;
+
+        showSendLoadingDialog(context, messageKey: 'chat.upload_start');
+
+        try {
+          final bytes = await xfile.readAsBytes();
+          final matrixFile = MatrixFile(bytes: bytes, name: xfile.name);
+          ret = await room.sendFileEvent(matrixFile);
+        } catch (e) {
+          debugPrint('Chat: file upload error: $e');
+        }
+
+        navigator.pop(); // pop loading dialog
+
+        if (ret == null) {
+          if (!mounted) break;
+          userCancel = await showSendErrorDialog(
+            context,
+            errorMessageKey: 'chat.upload_error',
+          );
+        } else {
+          if (mounted) {
+            scavMsg.showSnackBar(
+              SnackBar(content: Text('chat.upload_complete'.tr())),
+            );
+          }
+        }
+      }
+    }
+  }
+
   // ── Message list ───────────────────────────────────────────────────────────
 
   /// Returns messages in newest-first order (matches ListView reverse:true).
@@ -164,10 +231,49 @@ class _ChatPageState extends State<ChatPage> {
           color: isMe ? colorScheme.onPrimary : colorScheme.onSurface,
         ),
       );
+    } else if (event.messageType == MessageTypes.Image) {
+      // Inline image rendering using MxcImage
+      final mxcUrl = event.content.tryGet<String>('url');
+      final uri = mxcUrl != null ? Uri.tryParse(mxcUrl) : null;
+      if (uri != null) {
+        content = ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 220, maxHeight: 220),
+            child: MxcImage(
+              uri: uri,
+              client: client,
+              fit: BoxFit.cover,
+              isThumbnail: true,
+              errorBuilder:
+                  (context, error) => Icon(
+                    Icons.broken_image_rounded,
+                    size: 48,
+                    color:
+                        isMe
+                            ? colorScheme.onPrimary.withValues(alpha: 0.5)
+                            : colorScheme.onSurfaceVariant,
+                  ),
+            ),
+          ),
+        );
+      } else {
+        content = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.image_rounded,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 6),
+            Text(event.body, style: theme.textTheme.bodyMedium),
+          ],
+        );
+      }
     } else {
-      // Other media types: image, video, audio, file
+      // Video, audio, file
       final IconData mediaIcon = switch (event.messageType) {
-        MessageTypes.Image => Icons.image_rounded,
         MessageTypes.Video => Icons.videocam_rounded,
         MessageTypes.Audio => Icons.audiotrack_rounded,
         _ => Icons.attach_file_rounded,
@@ -192,7 +298,11 @@ class _ChatPageState extends State<ChatPage> {
               const SizedBox(width: 6),
               Flexible(
                 child: Text(
-                  hasCaption ? filename : (event.body.isNotEmpty ? event.body : 'chat.media_message'.tr()),
+                  hasCaption
+                      ? filename
+                      : (event.body.isNotEmpty
+                          ? event.body
+                          : 'chat.media_message'.tr()),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: isMe ? colorScheme.onPrimary : colorScheme.onSurface,
                     fontStyle: FontStyle.italic,
@@ -432,6 +542,21 @@ class _ChatPageState extends State<ChatPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                // Attachment button
+                IconButton(
+                  onPressed: _isSending ? null : _pickAndSendFile,
+                  icon: Icon(
+                    Icons.attach_file_rounded,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  tooltip: 'chat.attach_file'.tr(),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(
+                    minWidth: 40,
+                    minHeight: 40,
+                  ),
+                ),
+                const SizedBox(width: 4),
                 Expanded(
                   child: TextField(
                     controller: _inputController,

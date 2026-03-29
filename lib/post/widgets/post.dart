@@ -5,6 +5,7 @@ import '/post/widgets/display/reactions_display.dart';
 import '/shared/widgets/mxc_image.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/widgets/dialog_report_block.dart';
+import '/post/widgets/dialog_delete_post.dart';
 import '/shared/utils/relative_time.dart';
 import '/shared/extensions/go_router_extensions.dart';
 import '/shared/widgets/avatar.dart';
@@ -218,21 +219,68 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                               displayEvent: widget.displayEvent,
                             ),
                       );
+                    } else if (value == 'delete') {
+                      showDialog(
+                        context: context,
+                        builder: (_) => DialogDeletePost(event: widget.event),
+                      );
+                    } else if (value == 'edit') {
+                      context.push(
+                        Uri(
+                          path:
+                              '/edit/${widget.event.roomId}/${widget.event.eventId}',
+                        ).toString(),
+                      );
                     }
                   },
-                  itemBuilder:
-                      (context) => [
+                  itemBuilder: (context) {
+                    final isOwnPost =
+                        client.userID == widget.displayEvent.senderId;
+                    final canRedact =
+                        isOwnPost || (widget.event.room.ownPowerLevel >= 50);
+                    return [
+                      if (isOwnPost &&
+                          widget.displayEvent.messageType == MessageTypes.Text)
                         PopupMenuItem<String>(
-                          value: 'report_block',
+                          value: 'edit',
                           child: Row(
                             children: [
-                              const Icon(Icons.flag_outlined, size: 20),
+                              const Icon(Icons.edit_outlined, size: 20),
                               const SizedBox(width: 8),
-                              const Text('post.menu.report_block').tr(),
+                              const Text('post.menu.edit').tr(),
                             ],
                           ),
                         ),
-                      ],
+                      if (canRedact)
+                        PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.delete_outline_rounded,
+                                size: 20,
+                                color: colorScheme.error,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'post.menu.delete'.tr(),
+                                style: TextStyle(color: colorScheme.error),
+                              ),
+                            ],
+                          ),
+                        ),
+                      PopupMenuItem<String>(
+                        value: 'report_block',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.flag_outlined, size: 20),
+                            const SizedBox(width: 8),
+                            const Text('post.menu.report_block').tr(),
+                          ],
+                        ),
+                      ),
+                    ];
+                  },
                 ),
               ],
             ),
@@ -311,6 +359,19 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
               child: FileDisplayContainer(
                 event: widget.event,
                 displayEvent: widget.displayEvent,
+              ),
+            ),
+
+          // --- Edited indicator ---
+          if (widget.event.eventId != widget.displayEvent.eventId)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'edited',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
 

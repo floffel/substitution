@@ -58,6 +58,14 @@ class HomePageState extends State<HomePage> {
   late Stream<bool> _connectivityStream;
   StreamSubscription<bool>? _connectivitySubscription;
 
+  // ── Search state ────────────────────────────────────────────────────────────
+  bool _isSearchActive = false;
+  String _searchQuery = '';
+  List<({Event origEvent, Event displayEvent})> _searchResults = [];
+  bool _isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
+  int _searchGeneration = 0;
+
   late final Client _client;
   late final ConnectivityService _connectivityService;
   late final SubstitutionService _substitutionService;
@@ -411,6 +419,142 @@ class HomePageState extends State<HomePage> {
     return (events: ret, nextKey: nextKey.isEmpty ? null : nextKey);
   }
 
+  // ── Search logic ────────────────────────────────────────────────────────────
+
+  Future<void> _runSearch(String query) async {
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) {
+      setState(() {
+        _searchResults = [];
+        _isSearching = false;
+      });
+      return;
+    }
+
+    _searchGeneration++;
+    final generation = _searchGeneration;
+    setState(() => _isSearching = true);
+
+    try {
+      final timelines = await _timelinesFuture;
+      final allResults = <({Event origEvent, Event displayEvent})>[];
+
+      for (final timeline in timelines) {
+        if (generation != _searchGeneration) return; // stale query
+        final room = timeline.room;
+        final lowerQuery = trimmed.toLowerCase();
+
+        // Search events in local database + server fallback.
+        final result = await room.searchEvents(
+          searchTerm: trimmed,
+          searchFunc: (event) {
+            if (event.type != 'm.room.message') return false;
+            if (!_isVisiblePost(event)) return false;
+            if (event.relationshipType == RelationshipTypes.edit ||
+                event.relationshipType == RelationshipTypes.thread ||
+                event.relationshipType == RelationshipTypes.reference) {
+              return false;
+            }
+            final body = event.body.toLowerCase();
+            final sender =
+                (event.senderFromMemoryOrFallback.displayName ?? '')
+                    .toLowerCase();
+            return body.contains(lowerQuery) || sender.contains(lowerQuery);
+          },
+          limit: 50,
+        );
+
+        for (final event in result.events) {
+          allResults.add((
+            origEvent: event,
+            displayEvent: event.getDisplayEvent(timeline),
+          ));
+        }
+      }
+
+      // Sort merged results newest-first
+      allResults.sort(
+        (a, b) =>
+            b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
+      );
+
+      if (generation == _searchGeneration && mounted) {
+        setState(() {
+          _searchResults = allResults;
+          _isSearching = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Feed search error: $e');
+      if (generation == _searchGeneration && mounted) {
+        setState(() => _isSearching = false);
+      }
+    }
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearchActive = !_isSearchActive;
+      if (!_isSearchActive) {
+        _searchQuery = '';
+        _searchResults = [];
+        _searchController.clear();
+      }
+    });
+  }
+
+  Widget _buildSearchResults(ThemeData theme, ColorScheme colorScheme) {
+    if (_isSearching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_searchResults.isEmpty && _searchQuery.isNotEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.search_off_rounded,
+                size: 64,
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'search.empty'.tr(args: [_searchQuery]),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemCount: _searchResults.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 2),
+      itemBuilder: (context, index) {
+        final item = _searchResults[index];
+        return GestureDetector(
+          onTap:
+              () => context.pushIfNew(
+                Uri(
+                  path: '/post/${item.origEvent.eventId}',
+                  queryParameters: {'room': item.origEvent.roomId},
+                ).toString(),
+              ),
+          child: PostWidget(
+            event: item.origEvent,
+            displayEvent: item.displayEvent,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -597,6 +741,7 @@ class HomePageState extends State<HomePage> {
     _substitutionService.removeListener(_handleRoomChanges);
     _scrollController.dispose();
     _pagingController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -606,6 +751,14 @@ class HomePageState extends State<HomePage> {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
+      // Search button in the app bar – only shown on home/room feeds, not per-post.
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: _toggleSearch,
+        tooltip: 'search.hint'.tr(),
+        child: Icon(
+          _isSearchActive ? Icons.search_off_rounded : Icons.search_rounded,
+        ),
+      ),
       body: Stack(
         children: [
           RefreshIndicator(
@@ -616,7 +769,49 @@ class HomePageState extends State<HomePage> {
             },
             child: Column(
               children: [
-                if (widget.roomId != null) ...[
+                // Search bar
+                if (_isSearchActive) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                    child: TextField(
+                      controller: _searchController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: 'search.hint'.tr(),
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        suffixIcon:
+                            _searchQuery.isNotEmpty
+                                ? IconButton(
+                                  icon: const Icon(Icons.clear_rounded),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() {
+                                      _searchQuery = '';
+                                      _searchResults = [];
+                                    });
+                                  },
+                                )
+                                : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: colorScheme.surfaceContainerHighest,
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() => _searchQuery = value);
+                        _runSearch(value);
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.roomId != null && !_isSearchActive) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -629,104 +824,111 @@ class HomePageState extends State<HomePage> {
                       avatar: const Icon(Icons.tag, size: 16),
                     ),
                   ),
+                ] else if (widget.roomId != null && _isSearchActive) ...[
+                  const SizedBox(height: 4),
                 ],
-                Expanded(
-                  // ListenableBuilder ensures only the list subtree rebuilds
-                  // when the paging state changes, avoiding the full-widget
-                  // rebuild loop that blocks pumpAndSettle in integration tests.
-                  child: ListenableBuilder(
-                    listenable: _pagingController,
-                    builder:
-                        (context, _) => PagedListView<
-                          Map<
-                            Timeline,
-                            ({String? lastEventId, bool wasExhausted})
-                          >?,
-                          ({Event origEvent, Event displayEvent})
-                        >.separated(
-                          key: const ValueKey('feedListView'),
-                          scrollController: _scrollController,
-                          state: _pagingController.value,
-                          fetchNextPage: _pagingController.fetchNextPage,
-                          // Use spacing instead of dividers for modern look
-                          separatorBuilder:
-                              (context, index) => const SizedBox(height: 2),
-                          builderDelegate: PagedChildBuilderDelegate<
+                // Search results or normal feed
+                if (_isSearchActive && _searchQuery.isNotEmpty)
+                  Expanded(child: _buildSearchResults(theme, colorScheme))
+                else if (!_isSearchActive || _searchQuery.isEmpty)
+                  Expanded(
+                    // ListenableBuilder ensures only the list subtree rebuilds
+                    // when the paging state changes, avoiding the full-widget
+                    // rebuild loop that blocks pumpAndSettle in integration tests.
+                    child: ListenableBuilder(
+                      listenable: _pagingController,
+                      builder:
+                          (context, _) => PagedListView<
+                            Map<
+                              Timeline,
+                              ({String? lastEventId, bool wasExhausted})
+                            >?,
                             ({Event origEvent, Event displayEvent})
-                          >(
-                            // Loading is indicated by the TopLoadingBar — no
-                            // in-list spinners or skeletons that would cause layout
-                            // shifts when real content arrives.
-                            firstPageProgressIndicatorBuilder:
-                                (context) => const SizedBox.shrink(),
-                            newPageProgressIndicatorBuilder:
-                                (context) => const SizedBox.shrink(),
-                            noItemsFoundIndicatorBuilder:
-                                (context) => Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 32,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.art_track_outlined,
-                                          size: 72,
-                                          color: colorScheme.onSurfaceVariant
-                                              .withValues(alpha: 0.3),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text(
-                                          "feed.pages.home.empty",
-                                          style: theme.textTheme.titleMedium
-                                              ?.copyWith(
-                                                color:
-                                                    colorScheme
-                                                        .onSurfaceVariant,
-                                              ),
-                                          textAlign: TextAlign.center,
-                                        ).tr(),
-                                        const SizedBox(height: 16),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            if (widget.onDiscoverTap != null) {
-                                              widget.onDiscoverTap!();
-                                            } else {
-                                              context.push('/settings/feed');
-                                            }
-                                          },
-                                          child:
-                                              Text(
-                                                "feed.pages.home.empty_button",
-                                              ).tr(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                            itemBuilder:
-                                (context, item, index) => GestureDetector(
-                                  onTap:
-                                      () => context.pushIfNew(
-                                        Uri(
-                                          path:
-                                              "/post/${item.origEvent.eventId}",
-                                          queryParameters: {
-                                            'room': item.origEvent.roomId,
-                                          },
-                                        ).toString(),
+                          >.separated(
+                            key: const ValueKey('feedListView'),
+                            scrollController: _scrollController,
+                            state: _pagingController.value,
+                            fetchNextPage: _pagingController.fetchNextPage,
+                            // Use spacing instead of dividers for modern look
+                            separatorBuilder:
+                                (context, index) => const SizedBox(height: 2),
+                            builderDelegate: PagedChildBuilderDelegate<
+                              ({Event origEvent, Event displayEvent})
+                            >(
+                              // Loading is indicated by the TopLoadingBar — no
+                              // in-list spinners or skeletons that would cause layout
+                              // shifts when real content arrives.
+                              firstPageProgressIndicatorBuilder:
+                                  (context) => const SizedBox.shrink(),
+                              newPageProgressIndicatorBuilder:
+                                  (context) => const SizedBox.shrink(),
+                              noItemsFoundIndicatorBuilder:
+                                  (context) => Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 32,
                                       ),
-                                  child: PostWidget(
-                                    event: item.origEvent,
-                                    displayEvent: item.displayEvent,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.art_track_outlined,
+                                            size: 72,
+                                            color: colorScheme.onSurfaceVariant
+                                                .withValues(alpha: 0.3),
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Text(
+                                            "feed.pages.home.empty",
+                                            style: theme.textTheme.titleMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      colorScheme
+                                                          .onSurfaceVariant,
+                                                ),
+                                            textAlign: TextAlign.center,
+                                          ).tr(),
+                                          const SizedBox(height: 16),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (widget.onDiscoverTap !=
+                                                  null) {
+                                                widget.onDiscoverTap!();
+                                              } else {
+                                                context.push('/settings/feed');
+                                              }
+                                            },
+                                            child:
+                                                Text(
+                                                  "feed.pages.home.empty_button",
+                                                ).tr(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
+                              itemBuilder:
+                                  (context, item, index) => GestureDetector(
+                                    onTap:
+                                        () => context.pushIfNew(
+                                          Uri(
+                                            path:
+                                                "/post/${item.origEvent.eventId}",
+                                            queryParameters: {
+                                              'room': item.origEvent.roomId,
+                                            },
+                                          ).toString(),
+                                        ),
+                                    child: PostWidget(
+                                      event: item.origEvent,
+                                      displayEvent: item.displayEvent,
+                                    ),
+                                  ),
+                            ),
                           ),
-                        ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),

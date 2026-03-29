@@ -2,6 +2,8 @@ import '/auth/auth.dart';
 import '/auth/auth_state.dart';
 import '/feed/feed.dart';
 import '/post/post.dart';
+import '/post/pages/edit_post_page.dart';
+import '/profile/pages/room_members_page.dart';
 import '/settings/pages/followfeeds.dart';
 import '/settings/pages/ownfeeds.dart';
 import '/settings/pages/key_verification.dart';
@@ -33,6 +35,7 @@ import '/shared/theme/app_theme.dart';
 import '/shared/constants.dart';
 import '/shared/widgets/startroom_dialog.dart';
 import '/shared/utils/share_helper.dart';
+import '/shared/services/notification_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -47,6 +50,7 @@ import 'package:flutter_quill/flutter_quill.dart'
     show FlutterQuillLocalizations;
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 // import 'package:logging/logging.dart' as l; // see @logging
@@ -252,6 +256,14 @@ void main() async {
       ),
       GoRoute(
         redirect: testRedirect,
+        path: '/room/:roomId/members',
+        builder: (context, state) {
+          final roomId = Uri.decodeComponent(state.pathParameters['roomId']!);
+          return ScaffoldWithNavigation(child: RoomMembersPage(roomId: roomId));
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
         path: '/write/:roomid',
         builder: (contxt, state) {
           final String? eventId = state.uri.queryParameters['event'];
@@ -326,6 +338,17 @@ void main() async {
           final String roomId = state.pathParameters['roomid']!;
           return ScaffoldWithNavigation(
             child: StickerMessageWrite(eventId: eventId, roomId: roomId),
+          );
+        },
+      ),
+      GoRoute(
+        redirect: testRedirect,
+        path: '/edit/:roomId/:eventId',
+        builder: (context, state) {
+          final roomId = state.pathParameters['roomId']!;
+          final eventId = state.pathParameters['eventId']!;
+          return ScaffoldWithNavigation(
+            child: EditPostPage(roomId: roomId, eventId: eventId),
           );
         },
       ),
@@ -644,6 +667,12 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await client.init();
 
+  // Initialize local push notifications (no Firebase required).
+  // Skip in integration tests to avoid notification permission prompts.
+  if (!AppConstants.isIntegrationTest && !kIsWeb) {
+    unawaited(NotificationService.instance.init(client));
+  }
+
   // Listen for deep links while the app is already running (e.g. SSO callback
   // returning from Safari). Placed here so both `client` and `router` are ready.
   if (!kIsWeb) {
@@ -743,92 +772,123 @@ void main() async {
     });
   }
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('de', 'DE'),
-        Locale('fr', 'FR'),
-        Locale('af'),
-        Locale('am'),
-        Locale('ar'),
-        Locale('az', 'AZ'),
-        Locale('be'),
-        Locale('bg'),
-        Locale('bn', 'BD'),
-        Locale('ca'),
-        Locale('cs', 'CZ'),
-        Locale('da', 'DK'),
-        Locale('el', 'GR'),
-        Locale('en', 'AU'),
-        Locale('en', 'GB'),
-        Locale('en', 'IN'),
-        Locale('es', '419'),
-        Locale('es', 'ES'),
-        Locale('et'),
-        Locale('eu', 'ES'),
-        Locale('fa'),
-        Locale('fi', 'FI'),
-        Locale('fil'),
-        Locale('fr', 'CA'),
-        Locale('gl', 'ES'),
-        Locale('gu'),
-        Locale('he', 'IL'),
-        Locale('hi', 'IN'),
-        Locale('hr'),
-        Locale('hu', 'HU'),
-        Locale('hy', 'AM'),
-        Locale('id'),
-        Locale('is', 'IS'),
-        Locale('it', 'IT'),
-        Locale('ja', 'JP'),
-        Locale('ka', 'GE'),
-        Locale('kk'),
-        Locale('km', 'KH'),
-        Locale('kn', 'IN'),
-        Locale('ko', 'KR'),
-        Locale('ky', 'KG'),
-        Locale('lo', 'LA'),
-        Locale('lt'),
-        Locale('lv'),
-        Locale('ml', 'IN'),
-        Locale('mn', 'MN'),
-        Locale('mr', 'IN'),
-        Locale('ms'),
-        Locale('my', 'MM'),
-        Locale('ne', 'NP'),
-        Locale('nl', 'NL'),
-        Locale('no', 'NO'),
-        Locale('pa'),
-        Locale('pl', 'PL'),
-        Locale('pt', 'BR'),
-        Locale('pt', 'PT'),
-        Locale('rm'),
-        Locale('ro'),
-        Locale('ru', 'RU'),
-        Locale('si', 'LK'),
-        Locale('sk'),
-        Locale('sl'),
-        Locale('sr'),
-        Locale('sv', 'SE'),
-        Locale('sw'),
-        Locale('ta', 'IN'),
-        Locale('te', 'IN'),
-        Locale('th'),
-        Locale('tr', 'TR'),
-        Locale('uk'),
-        Locale('ur'),
-        Locale('vi'),
-        Locale('zh', 'CN'),
-        Locale('zh', 'HK'),
-        Locale('zh', 'TW'),
-        Locale('zu'),
-      ],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en', 'US'),
-      child: SubstitutionApp(client: client, router: router),
-    ),
-  );
+  // Initialize Sentry for crash reporting (self-hosted DSN can be configured).
+  // In integration tests, skip Sentry to avoid noise.
+  if (!AppConstants.isIntegrationTest) {
+    await SentryFlutter.init(
+      (options) {
+        // Set your DSN here or via --dart-define=SENTRY_DSN=...
+        options.dsn = const String.fromEnvironment(
+          'SENTRY_DSN',
+          defaultValue: '',
+        );
+        options.tracesSampleRate = 0.1;
+        // options.profilesSampleRate = 0.1; // experimental, enable when stable
+        options.sendDefaultPii = false; // do not send user identifiers
+        // Only send events when a real DSN is configured
+        if (options.dsn == null || options.dsn!.isEmpty) {
+          options.dsn = null; // disables Sentry gracefully
+        }
+      },
+      appRunner:
+          () => runApp(
+            EasyLocalization(
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('de', 'DE'),
+                Locale('fr', 'FR'),
+                Locale('af'),
+                Locale('am'),
+                Locale('ar'),
+                Locale('az', 'AZ'),
+                Locale('be'),
+                Locale('bg'),
+                Locale('bn', 'BD'),
+                Locale('ca'),
+                Locale('cs', 'CZ'),
+                Locale('da', 'DK'),
+                Locale('el', 'GR'),
+                Locale('en', 'AU'),
+                Locale('en', 'GB'),
+                Locale('en', 'IN'),
+                Locale('es', '419'),
+                Locale('es', 'ES'),
+                Locale('et'),
+                Locale('eu', 'ES'),
+                Locale('fa'),
+                Locale('fi', 'FI'),
+                Locale('fil'),
+                Locale('fr', 'CA'),
+                Locale('gl', 'ES'),
+                Locale('gu'),
+                Locale('he', 'IL'),
+                Locale('hi', 'IN'),
+                Locale('hr'),
+                Locale('hu', 'HU'),
+                Locale('hy', 'AM'),
+                Locale('id'),
+                Locale('is', 'IS'),
+                Locale('it', 'IT'),
+                Locale('ja', 'JP'),
+                Locale('ka', 'GE'),
+                Locale('kk'),
+                Locale('km', 'KH'),
+                Locale('kn', 'IN'),
+                Locale('ko', 'KR'),
+                Locale('ky', 'KG'),
+                Locale('lo', 'LA'),
+                Locale('lt'),
+                Locale('lv'),
+                Locale('ml', 'IN'),
+                Locale('mn', 'MN'),
+                Locale('mr', 'IN'),
+                Locale('ms'),
+                Locale('my', 'MM'),
+                Locale('ne', 'NP'),
+                Locale('nl', 'NL'),
+                Locale('no', 'NO'),
+                Locale('pa'),
+                Locale('pl', 'PL'),
+                Locale('pt', 'BR'),
+                Locale('pt', 'PT'),
+                Locale('rm'),
+                Locale('ro'),
+                Locale('ru', 'RU'),
+                Locale('si', 'LK'),
+                Locale('sk'),
+                Locale('sl'),
+                Locale('sr'),
+                Locale('sv', 'SE'),
+                Locale('sw'),
+                Locale('ta', 'IN'),
+                Locale('te', 'IN'),
+                Locale('th'),
+                Locale('tr', 'TR'),
+                Locale('uk'),
+                Locale('ur'),
+                Locale('vi'),
+                Locale('zh', 'CN'),
+                Locale('zh', 'HK'),
+                Locale('zh', 'TW'),
+                Locale('zu'),
+              ],
+              path: 'assets/translations',
+              fallbackLocale: const Locale('en', 'US'),
+              child: SubstitutionApp(client: client, router: router),
+            ),
+          ),
+    );
+  } else {
+    // Integration test path — no Sentry wrapper
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [Locale('en', 'US')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: SubstitutionApp(client: client, router: router),
+      ),
+    );
+  }
 }
 
 class SubstitutionApp extends StatelessWidget {

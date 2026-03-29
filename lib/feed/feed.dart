@@ -6,7 +6,9 @@ import '/shared/widgets/top_loading_bar.dart';
 import '/chat/pages/chat_list_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '/shared/utils/share_helper.dart';
 
@@ -45,16 +47,48 @@ class FeedState extends State<Feed> {
 
     // If viewing a specific room, show the old single-feed layout with back nav
     if (widget.roomId != null) {
+      final client = Provider.of<Client>(context, listen: false);
+      final room = client.getRoomById(widget.roomId!);
+      final memberCount = room?.summary.mJoinedMemberCount;
+      final roomName = room?.name ?? '';
+
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back),
           ),
-          title: const Text('app_name').tr(),
-          centerTitle: true,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                roomName.isNotEmpty ? roomName : 'app_name'.tr(),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (memberCount != null)
+                Text(
+                  'members.count'.tr(args: [memberCount.toString()]),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+            ],
+          ),
           // Keep menu icon for backward compat with integration tests
           actions: <Widget>[
+            if (room != null)
+              IconButton(
+                onPressed:
+                    () => context.push(
+                      '/room/${Uri.encodeComponent(widget.roomId!)}/members',
+                    ),
+                icon: const Icon(Icons.people_outline_rounded),
+                tooltip: 'members.title'.tr(),
+              ),
             IconButton(
               onPressed: () => ShareHelper.shareRoom(context, widget.roomId!),
               icon: const Icon(Icons.share_outlined),

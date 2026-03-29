@@ -449,20 +449,63 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               room.name,
                               style: theme.textTheme.titleSmall,
                             ),
-                            subtitle: Text(
-                              room.id,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            subtitle: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    room.id,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (room.summary.mJoinedMemberCount !=
+                                    null) ...[
+                                  const SizedBox(width: 4),
+                                  Icon(
+                                    Icons.people_outline_rounded,
+                                    size: 12,
+                                    color: colorScheme.onSurfaceVariant
+                                        .withValues(alpha: 0.6),
+                                  ),
+                                  const SizedBox(width: 2),
+                                  Text(
+                                    '${room.summary.mJoinedMemberCount}',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant
+                                          .withValues(alpha: 0.6),
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
-                            trailing: Icon(
-                              Icons.arrow_forward_rounded,
-                              color: colorScheme.onSurfaceVariant.withValues(
-                                alpha: 0.5,
-                              ),
-                              size: 20,
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // Members list button
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.people_rounded,
+                                    size: 18,
+                                    color: colorScheme.onSurfaceVariant
+                                        .withValues(alpha: 0.5),
+                                  ),
+                                  tooltip: 'members.title'.tr(),
+                                  onPressed: () {
+                                    context.push(
+                                      '/room/${Uri.encodeComponent(room.id)}/members',
+                                    );
+                                  },
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  color: colorScheme.onSurfaceVariant
+                                      .withValues(alpha: 0.5),
+                                  size: 20,
+                                ),
+                              ],
                             ),
                             onTap: () {
                               final roomId =

@@ -2,6 +2,8 @@ import '/post/widgets/display/file_display_container.dart';
 import '/post/widgets/display/reactions_display.dart';
 import '/post/mixins/iconpicker.dart';
 import '/post/interfaces/i_event.dart';
+import '/post/widgets/dialog_delete_post.dart';
+import '/post/widgets/dialog_report_block.dart';
 import '/shared/utils/relative_time.dart';
 import '/shared/extensions/go_router_extensions.dart';
 import '/shared/widgets/avatar.dart';
@@ -44,6 +46,56 @@ class CommentWidget extends IEventWidget {
 
 class CommentWidgetState extends State<CommentWidget> with IconPicker {
   Client get client => Provider.of<Client>(context, listen: false);
+
+  void _showCommentMenu(BuildContext context) {
+    final isOwnComment = client.userID == widget.displayEvent.senderId;
+    final canRedact = isOwnComment || widget.event.room.ownPowerLevel >= 50;
+
+    showModalBottomSheet<void>(
+      context: context,
+      builder:
+          (ctx) => SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (canRedact)
+                  ListTile(
+                    leading: Icon(
+                      Icons.delete_outline_rounded,
+                      color: Theme.of(ctx).colorScheme.error,
+                    ),
+                    title: Text(
+                      'post.menu.delete'.tr(),
+                      style: TextStyle(color: Theme.of(ctx).colorScheme.error),
+                    ),
+                    onTap: () {
+                      Navigator.of(ctx).pop();
+                      showDialog(
+                        context: context,
+                        builder: (_) => DialogDeletePost(event: widget.event),
+                      );
+                    },
+                  ),
+                ListTile(
+                  leading: const Icon(Icons.flag_outlined),
+                  title: const Text('post.menu.report_block').tr(),
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                    showDialog(
+                      context: context,
+                      builder:
+                          (_) => DialogReportBlock(
+                            event: widget.event,
+                            displayEvent: widget.displayEvent,
+                          ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
 
   bool showComment = true;
 
@@ -152,10 +204,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                   size: 18,
                   color: colorScheme.onSurfaceVariant,
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 40,
-                  minHeight: 40,
-                ),
+                constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                 tooltip: 'Reply',
               ),
               IconButton(
@@ -170,11 +219,18 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                   size: 18,
                   color: colorScheme.onSurfaceVariant,
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 40,
-                  minHeight: 40,
-                ),
+                constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                 tooltip: 'React',
+              ),
+              IconButton(
+                onPressed: () => _showCommentMenu(context),
+                icon: Icon(
+                  Icons.more_horiz,
+                  size: 18,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                ),
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                tooltip: 'More',
               ),
             ],
           ),
@@ -230,7 +286,9 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                     ),
                   ),
                 ),
-                child: FutureBuilder<List<({Event origEvent, Event displayEvent})>>(
+                child: FutureBuilder<
+                  List<({Event origEvent, Event displayEvent})>
+                >(
                   future: widget.comments,
                   builder: (ctx, snapshot) {
                     if (snapshot.hasError) {

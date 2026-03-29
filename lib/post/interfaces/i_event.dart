@@ -11,8 +11,8 @@ abstract class IEventWidget extends StatefulWidget {
   }); // displayEvent = event.getDisplayEvent(await timeline), this is mandatory b.c. of https://github.com/flutter/flutter/issues/99158 b.c. of https://web.dev/cls/
   //const PostWidget({super.key, required this.event, required this.timeline});
 
-  // TODO: alles ab hier in eine klasse stecken die dann nicht für das widget ist sondern das andere teil,
-  // damit wir auch event von eventId bekommen können etc.
+  // TODO: Extract everything below this point into a separate non-widget class,
+  // so we can also retrieve events by event ID without needing a widget context.
 
   // original event, needed for gathering aggregate events if the event was edited. For gathering threads, comments etc. wich are saved on the original event and not the displayEvent what has the content that should be displayed now, we need therefore both, the original event (this one) and the display event (see below)
   final Event event;
@@ -78,9 +78,8 @@ abstract class IEventWidget extends StatefulWidget {
     ret.retainWhere((e) => seen.add(e.origEvent.eventId));
     // sort from new to old by original timestamp so edits don't change position
     ret.sort(
-      (a, b) => b.origEvent.originServerTs.compareTo(
-        a.origEvent.originServerTs,
-      ),
+      (a, b) =>
+          b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
     );
 
     return ret;

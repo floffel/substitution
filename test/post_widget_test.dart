@@ -37,6 +37,10 @@ void main() {
     when(() => mockDisplayEvent.room).thenReturn(mockRoom);
     when(() => mockDisplayEvent.messageType).thenReturn(MessageTypes.Text);
     when(() => mockDisplayEvent.type).thenReturn(EventTypes.Message);
+    when(
+      () => mockDisplayEvent.eventId,
+    ).thenReturn(r'$123'); // same as event → not edited
+    when(() => mockDisplayEvent.senderId).thenReturn('@user:matrix.org');
     when(() => mockDisplayEvent.content).thenReturn({
       'msgtype': MessageTypes.Text,
       'body': 'Hello',
@@ -49,6 +53,9 @@ void main() {
     ).thenReturn(mockUser);
     when(() => mockDisplayEvent.originServerTs).thenReturn(DateTime.now());
     when(() => mockDisplayEvent.originalSource).thenReturn(null);
+
+    when(() => mockRoom.ownPowerLevel).thenReturn(50);
+    when(() => mockClient.userID).thenReturn('@me:matrix.org');
 
     when(() => mockUser.id).thenReturn('@user:matrix.org');
     when(() => mockUser.displayName).thenReturn('Test User');

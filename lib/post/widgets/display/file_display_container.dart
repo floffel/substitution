@@ -97,7 +97,7 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
               widget
                   .event
                   .senderId // sender has to be the same
-      // todo: filetype? oder wollen wir auch text zulassen?
+      // TODO: should we restrict to media files only, or also allow text message references?
       ) {
         ret.add((
           origEvent: e,

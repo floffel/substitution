@@ -78,7 +78,7 @@ class _DialogAddServerState extends State<DialogAddServer> {
   }
 
   Future<void> addRoom() async {
-    // TODO: server aufnehmen!
+    // TODO: Register the server once the room check is complete.
     /*Room room = Room(
                                         id: '#substitution:${_matrixServerAdressContrainer.text}',
                                         client: Provider.of<Client>(context, listen: false));*/
@@ -126,7 +126,9 @@ class _DialogAddServerState extends State<DialogAddServer> {
       }
     } catch (e) {
       if (!mounted) return;
-      scavMsg.showSnackBar(SnackBar(content: const Text("error").tr(args: ['$e'])));
+      scavMsg.showSnackBar(
+        SnackBar(content: const Text("error").tr(args: ['$e'])),
+      );
     } finally {
       if (mounted) {
         setState(() {
