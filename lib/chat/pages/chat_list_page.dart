@@ -69,6 +69,11 @@ class _ChatListPageState extends State<ChatListPage> {
       if (lastEvent.type == EventTypes.Message) {
         if (lastEvent.messageType == MessageTypes.Text) {
           lastMessageText = lastEvent.body;
+        } else if (lastEvent.messageType == MessageTypes.Emote) {
+          final senderName =
+              lastEvent.senderFromMemoryOrFallback.displayName ??
+              lastEvent.senderId;
+          lastMessageText = '* $senderName ${lastEvent.body}';
         } else {
           lastMessageText =
               '📎 ${lastEvent.body.isNotEmpty ? lastEvent.body : 'chat.media_message'.tr()}';

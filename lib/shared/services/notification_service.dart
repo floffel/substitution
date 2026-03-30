@@ -149,6 +149,10 @@ class NotificationService {
         return '📍 Location';
       case MessageTypes.Sticker:
         return '🏷 Sticker';
+      case MessageTypes.Emote:
+        final senderName =
+            event.senderFromMemoryOrFallback.displayName ?? event.senderId;
+        return '* $senderName ${event.body}';
       default:
         return event.plaintextBody.isNotEmpty
             ? event.plaintextBody

@@ -100,6 +100,21 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
         !isGenericFile &&
         messageType != MessageTypes.BadEncrypted;
 
+    // Emote posts get a special borderless inline layout instead of the card.
+    if (isEmotePost) {
+      return _EmotePostRow(
+        event: widget.event,
+        displayEvent: widget.displayEvent,
+        isDetailView: widget.isDetailView,
+        client: client,
+        timestamp: timestamp,
+        e2eIcon: _e2eIcon,
+        e2eColor: _e2eColor(colorScheme),
+        e2eTooltip: _e2eTooltip,
+        roomAddr: roomAddr,
+      );
+    }
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       elevation: 0,
@@ -286,7 +301,8 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
             ),
           ),
 
-          // --- Content: Text, Media, Location, Emote, Voice, Sticker, or File ---
+          // --- Content: Text, Media, Location, Voice, Sticker, or File ---
+          // Note: Emote posts are handled above via early return (_EmotePostRow).
           if (isTextPost)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -295,32 +311,6 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                     widget.displayEvent.formattedText.isNotEmpty
                         ? widget.displayEvent.formattedText
                         : widget.displayEvent.body,
-              ),
-            )
-          else if (isEmotePost)
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 4.0,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.mood_rounded,
-                    size: 16,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      '* ${widget.displayEvent.senderFromMemoryOrFallback.displayName ?? widget.displayEvent.senderId} ${widget.displayEvent.body}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                ],
               ),
             )
           else if (isLocationPost)
@@ -407,6 +397,275 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                 const Spacer(),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Borderless inline layout for emote (m.emote) posts.
+///
+/// Renders as a flat row without a card wrapper so the action feels like an
+/// ambient status update in the feed rather than a regular post.
+class _EmotePostRow extends StatefulWidget {
+  const _EmotePostRow({
+    required this.event,
+    required this.displayEvent,
+    required this.isDetailView,
+    required this.client,
+    required this.timestamp,
+    required this.e2eIcon,
+    required this.e2eColor,
+    required this.e2eTooltip,
+    required this.roomAddr,
+  });
+
+  final Event event;
+  final Event displayEvent;
+  final bool isDetailView;
+  final Client client;
+  final String timestamp;
+  final IconData e2eIcon;
+  final Color e2eColor;
+  final String e2eTooltip;
+  final String roomAddr;
+
+  @override
+  _EmotePostRowState createState() => _EmotePostRowState();
+}
+
+class _EmotePostRowState extends State<_EmotePostRow> with IconPicker {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final displayEvent = widget.displayEvent;
+
+    final senderName =
+        displayEvent.senderFromMemoryOrFallback.displayName ??
+        displayEvent.senderId;
+    final avatarUri = displayEvent.senderFromMemoryOrFallback.avatarUrl;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Thin left accent line
+          Container(
+            width: 2,
+            height: 40,
+            margin: const EdgeInsets.only(right: 10, top: 2),
+            decoration: BoxDecoration(
+              color: colorScheme.secondary.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+
+          // Avatar
+          GestureDetector(
+            onTap: () {
+              context.pushIfNew(
+                '/profile/${Uri.encodeComponent(displayEvent.senderId)}',
+              );
+            },
+            child: Avatar(
+              mxContent: avatarUri,
+              name: senderName,
+              client: widget.client,
+              size: 32,
+              fontSize: 13,
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          // Text + meta
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Emote text: bold username + italic action
+                RichText(
+                  text: TextSpan(
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: senderName,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      const TextSpan(text: ' '),
+                      TextSpan(
+                        text: displayEvent.body,
+                        style: const TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 2),
+
+                // Sub-row: room · timestamp · e2e  +  action buttons
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap:
+                          () => context.pushIfNew(
+                            '/feed/${widget.roomAddr.replaceAll('#', '')}',
+                          ),
+                      child: Text(
+                        displayEvent.room.name,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        '\u00B7',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      widget.timestamp,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.6,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Tooltip(
+                        message: widget.e2eTooltip,
+                        child: Icon(
+                          widget.e2eIcon,
+                          size: 11,
+                          color: widget.e2eColor,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    // Reaction button
+                    SizedBox(
+                      height: 28,
+                      width: 28,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: 15,
+                        icon: const Icon(Icons.favorite_border_rounded),
+                        color: colorScheme.onSurfaceVariant,
+                        tooltip: 'React',
+                        onPressed:
+                            () async => await pickIcon(context, widget.event),
+                      ),
+                    ),
+                    // Reply button
+                    if (!widget.isDetailView) ...[
+                      const SizedBox(width: 2),
+                      SizedBox(
+                        height: 28,
+                        width: 28,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          iconSize: 15,
+                          icon: const Icon(Icons.chat_bubble_outline_rounded),
+                          color: colorScheme.onSurfaceVariant,
+                          tooltip: 'Reply',
+                          onPressed: () {
+                            context.push(
+                              Uri(
+                                path: '/write/${widget.event.roomId}',
+                                queryParameters: {
+                                  'event': widget.event.eventId,
+                                },
+                              ).toString(),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+
+                // Reactions
+                ReactionsDisplay(event: widget.event),
+              ],
+            ),
+          ),
+
+          // Overflow menu
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_horiz,
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+              size: 16,
+            ),
+            onSelected: (value) {
+              if (value == 'report_block') {
+                showDialog(
+                  context: context,
+                  builder:
+                      (_) => DialogReportBlock(
+                        event: widget.event,
+                        displayEvent: widget.displayEvent,
+                      ),
+                );
+              } else if (value == 'delete') {
+                showDialog(
+                  context: context,
+                  builder: (_) => DialogDeletePost(event: widget.event),
+                );
+              }
+            },
+            itemBuilder: (context) {
+              final client = Provider.of<Client>(context, listen: false);
+              final isOwnPost = client.userID == displayEvent.senderId;
+              final canRedact =
+                  isOwnPost || (widget.event.room.ownPowerLevel >= 50);
+              return [
+                if (canRedact)
+                  PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.delete_outline_rounded,
+                          size: 20,
+                          color: colorScheme.error,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'post.menu.delete'.tr(),
+                          style: TextStyle(color: colorScheme.error),
+                        ),
+                      ],
+                    ),
+                  ),
+                PopupMenuItem<String>(
+                  value: 'report_block',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.flag_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      const Text('post.menu.report_block').tr(),
+                    ],
+                  ),
+                ),
+              ];
+            },
           ),
         ],
       ),
