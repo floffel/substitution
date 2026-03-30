@@ -55,7 +55,13 @@ class FeedState extends State<Feed> {
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () => context.pop(),
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go('/');
+              }
+            },
             icon: const Icon(Icons.arrow_back),
           ),
           title: Column(
@@ -110,6 +116,36 @@ class FeedState extends State<Feed> {
         ),
         body: HomePage(roomId: widget.roomId),
         endDrawer: const Menu(),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: 0,
+          onDestinationSelected: (_) => context.go('/'),
+          destinations: [
+            NavigationDestination(
+              key: const Key('navHome'),
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home_rounded),
+              label: 'feed.nav.home'.tr(),
+            ),
+            NavigationDestination(
+              key: const Key('navDiscover'),
+              icon: const Icon(Icons.explore_outlined),
+              selectedIcon: const Icon(Icons.explore),
+              label: 'feed.nav.discover'.tr(),
+            ),
+            NavigationDestination(
+              key: const Key('navMessages'),
+              icon: const Icon(Icons.message_outlined),
+              selectedIcon: const Icon(Icons.message_rounded),
+              label: 'feed.nav.messages'.tr(),
+            ),
+            NavigationDestination(
+              key: const Key('navSettings'),
+              icon: const Icon(Icons.settings_outlined),
+              selectedIcon: const Icon(Icons.settings),
+              label: 'feed.nav.settings'.tr(),
+            ),
+          ],
+        ),
       );
     }
 
