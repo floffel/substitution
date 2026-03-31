@@ -541,10 +541,7 @@ class HomePageState extends State<HomePage> {
         return GestureDetector(
           onTap:
               () => context.pushIfNew(
-                Uri(
-                  path: '/post/${item.origEvent.eventId}',
-                  queryParameters: {'room': item.origEvent.roomId},
-                ).toString(),
+                '/room/${item.origEvent.roomId}/${item.origEvent.eventId}',
               ),
           child: PostWidget(
             event: item.origEvent,
@@ -912,13 +909,7 @@ class HomePageState extends State<HomePage> {
                                   (context, item, index) => GestureDetector(
                                     onTap:
                                         () => context.pushIfNew(
-                                          Uri(
-                                            path:
-                                                "/post/${item.origEvent.eventId}",
-                                            queryParameters: {
-                                              'room': item.origEvent.roomId,
-                                            },
-                                          ).toString(),
+                                          '/room/${item.origEvent.roomId}/${item.origEvent.eventId}',
                                         ),
                                     child: PostWidget(
                                       event: item.origEvent,

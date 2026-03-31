@@ -119,12 +119,7 @@ class EmoteMessageWriteState extends State<EmoteMessageWrite> {
         await client.getOneRoomEvent(widget.roomId, eventThreadId),
         room!,
       );
-      goRouter.go(
-        Uri(
-          path: '/post/${answerEvent.eventId}',
-          queryParameters: {'room': answerEvent.room.id},
-        ).toString(),
-      );
+      goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
     } else if (room != null) {
       goRouter.go('/feed/${room!.id}');
     } else {

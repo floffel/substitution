@@ -59,19 +59,9 @@ mixin IconPicker {
     }
 
     if (postEvent != null) {
-      context.push(
-        Uri(
-          path: "/post/${postEvent.eventId}",
-          queryParameters: {'room': postEvent.roomId},
-        ).toString(),
-      );
+      context.push('/room/${postEvent.roomId}/${postEvent.eventId}');
     } else {
-      context.push(
-        Uri(
-          path: "/post/${event.eventId}",
-          queryParameters: {'room': event.roomId},
-        ).toString(),
-      );
+      context.push('/room/${event.roomId}/${event.eventId}');
     }
   }
 }

@@ -265,7 +265,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                 child: TextButton.icon(
                   onPressed: () {
                     context.pushIfNew(
-                      '/post/${widget.event.eventId}?room=${widget.event.roomId}',
+                      '/room/${widget.event.roomId}/${widget.event.eventId}',
                     );
                   },
                   icon: const Icon(Icons.arrow_forward, size: 16),

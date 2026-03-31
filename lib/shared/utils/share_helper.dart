@@ -28,7 +28,7 @@ class ShareHelper {
 
   /// Generates a web URL for a specific post.
   static String postUrl(String eventId, String roomId) {
-    return '${AppConstants.webBaseUrl}/post/$eventId?room=${Uri.encodeComponent(roomId)}';
+    return '${AppConstants.webBaseUrl}/room/${Uri.encodeComponent(roomId)}/$eventId';
   }
 
   /// Shares a room link via the native share sheet (mobile) or copies to

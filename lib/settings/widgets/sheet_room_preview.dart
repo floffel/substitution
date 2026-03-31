@@ -403,10 +403,7 @@ class _RoomPreviewSheetState extends State<RoomPreviewSheet> {
             onTap: () {
               Navigator.of(context).pop();
               context.push(
-                Uri(
-                  path: '/post/${post.origEvent.eventId}',
-                  queryParameters: {'room': post.origEvent.roomId},
-                ).toString(),
+                '/room/${post.origEvent.roomId}/${post.origEvent.eventId}',
               );
             },
             child: PostWidget(

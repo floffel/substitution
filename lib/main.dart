@@ -216,10 +216,10 @@ void main() async {
       ),
       GoRoute(
         redirect: testRedirect,
-        path: '/post/:id',
+        path: '/room/:roomId/:postId',
         builder: (context, state) {
-          final eventId = state.pathParameters['id']!;
-          final roomId = state.uri.queryParameters['room']!;
+          final eventId = state.pathParameters['postId']!;
+          final roomId = state.pathParameters['roomId']!;
           return ScaffoldWithNavigation(
             disableBodyPadding: true,
             extraActions: [
@@ -236,6 +236,7 @@ void main() async {
           );
         },
       ),
+
       GoRoute(
         redirect: testRedirect,
         path: '/profile/:userId',
@@ -746,7 +747,7 @@ void main() async {
         identifier = Uri.decodeComponent(
           routePath.substring('/profile/'.length),
         );
-      } else if (routePath.startsWith('/post/')) {
+      } else if (routePath.startsWith('/room/')) {
         linkType = DeepLinkType.post;
         identifier = null;
       }

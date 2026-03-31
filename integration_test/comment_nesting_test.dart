@@ -11,7 +11,8 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:matrix/matrix.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 
@@ -145,7 +146,7 @@ void main() {
         // 3. Navigate to Post View
         debugPrint('NESTING: Navigating to post view...');
         final navContext = $.tester.element(find.byType(HomePage));
-        navContext.go('/post/$rootId?room=${room.id}');
+        navContext.go('/room/${room.id}/$rootId');
         await settle($.tester);
 
         // 4. Wait for comments to load in UI
