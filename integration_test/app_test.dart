@@ -65,5 +65,13 @@ void main() {
     // Verify the app is running by checking for Scrollable (Feed)
     await fastWait($.tester, () => $.tester.any(find.byType(Scrollable)));
     debugPrint('Patrol: Base check passed.');
+
+    // Drain pending frames before tearDown disposes the Matrix client,
+    // otherwise LiveTestWidgetsFlutterBinding asserts '_pendingFrame == null'.
+    await tester.pumpAndSettle(
+      const Duration(milliseconds: 100),
+      EnginePhase.sendSemanticsUpdate,
+      const Duration(seconds: 5),
+    );
   });
 }

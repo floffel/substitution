@@ -177,7 +177,8 @@ jobs:
             libgtk-3-dev liblzma-dev libstdc++-12-dev \
             libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
             libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
-            libblkid-dev libdbus-1-dev libatk1.0-dev
+            libblkid-dev libdbus-1-dev libatk1.0-dev \
+            libcurl4-openssl-dev
 
       - name: 'Setup Flutter'
         uses: subosito/flutter-action@v2
@@ -268,6 +269,7 @@ jobs:
             libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
             libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
             libblkid-dev libdbus-1-dev libatk1.0-dev \
+            libcurl4-openssl-dev \
             xvfb
 
       - name: 'Setup Flutter'
@@ -1017,6 +1019,7 @@ jobs:
             libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
             libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
             libblkid-dev libdbus-1-dev libatk1.0-dev \
+            libcurl4-openssl-dev \
             libfuse2
 
       - name: 'Setup Flutter'

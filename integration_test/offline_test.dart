@@ -100,10 +100,17 @@ void main() {
         app.globalMatrixClient = null;
         app.globalSubstitutionService = null;
 
-        // Clear widget tree completely
+        // Clear widget tree completely and drain all pending frames
         await $.tester.pumpWidget(const SizedBox());
-        await Future.delayed(const Duration(seconds: 1));
         await $.tester.pump();
+        await Future.delayed(const Duration(seconds: 1));
+        // Drain any remaining scheduled frames before restarting the app,
+        // otherwise LiveTestWidgetsFlutterBinding asserts '_pendingFrame == null'.
+        await $.tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 5),
+        );
 
         app.main();
         await settle($.tester);
