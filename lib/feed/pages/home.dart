@@ -750,6 +750,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       // Search button in the app bar – only shown on home/room feeds, not per-post.
       floatingActionButton: FloatingActionButton.small(
+        heroTag: 'fabSearch',
         onPressed: _toggleSearch,
         tooltip: 'search.hint'.tr(),
         child: Icon(

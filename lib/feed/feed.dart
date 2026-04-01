@@ -251,6 +251,7 @@ class FeedState extends State<Feed> {
           _currentIndex == 0
               ? FloatingActionButton(
                 key: const Key('fabNewPost'),
+                heroTag: 'fabNewPost',
                 onPressed: () => context.push('/write/select/room'),
                 elevation: 2,
                 shape: RoundedRectangleBorder(
