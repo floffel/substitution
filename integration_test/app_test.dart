@@ -68,10 +68,9 @@ void main() {
 
     // Drain pending frames before tearDown disposes the Matrix client,
     // otherwise LiveTestWidgetsFlutterBinding asserts '_pendingFrame == null'.
-    await tester.pumpAndSettle(
-      const Duration(milliseconds: 100),
-      EnginePhase.sendSemanticsUpdate,
-      const Duration(seconds: 5),
-    );
+    // Cannot use pumpAndSettle because the Matrix sync loop never settles.
+    for (int i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
   });
 }
