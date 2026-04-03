@@ -786,10 +786,7 @@ void main() async {
         options.tracesSampleRate = 0.1;
         // options.profilesSampleRate = 0.1; // experimental, enable when stable
         options.sendDefaultPii = false; // do not send user identifiers
-        // Only send events when a real DSN is configured
-        if (options.dsn == null || options.dsn!.isEmpty) {
-          options.dsn = null; // disables Sentry gracefully
-        }
+        // Sentry 9.x disables itself when DSN is empty string; null throws.
       },
       appRunner:
           () => runApp(
