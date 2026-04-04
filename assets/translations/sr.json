@@ -462,7 +462,7 @@
         "upload_complete": "Фајл послат!"
     },
     "help": {
-        "title": "Помоћ",
+        "title": "FAQ",
         "subtitle": "Научите како да користите Substitution",
         "articles": {
             "what_is_substitution": {
@@ -532,7 +532,7 @@
     },
     "search": {
         "hint": "Претражи објаве...",
-        "empty": "Нису пронађене објаве за \u201E{}\u201C.",
+        "empty": "Нису пронађене објаве за „{}“.",
         "error": "Претрага није успела. Покушајте поново."
     },
     "notifications": {

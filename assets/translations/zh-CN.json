@@ -462,7 +462,7 @@
         "upload_complete": "文件已发送！"
     },
     "help": {
-        "title": "帮助",
+        "title": "FAQ",
         "subtitle": "了解如何使用 Substitution",
         "articles": {
             "what_is_substitution": {
@@ -532,7 +532,7 @@
     },
     "search": {
         "hint": "搜索帖子...",
-        "empty": "未找到与\u201C{}\u201D相关的帖子。",
+        "empty": "未找到与“{}”相关的帖子。",
         "error": "搜索失败。请重试。"
     },
     "notifications": {

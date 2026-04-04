@@ -17,7 +17,7 @@ import '/write/pages/emotemessage.dart';
 import '/write/pages/stickermessage.dart';
 import '/settings/pages/room_form_page.dart';
 import '/settings/pages/legal.dart';
-import '/help/pages/help_page.dart';
+import '/faq/pages/help_page.dart';
 import '/shared/widgets/deep_link_confirmation_dialog.dart';
 import '/auth/pages/host_page.dart';
 import '/auth/pages/login.dart';
@@ -407,7 +407,7 @@ void main() async {
                 const ScaffoldWithNavigation(child: LegalPage()),
       ),
       GoRoute(
-        path: '/help',
+        path: '/faq',
         builder:
             (context, state) => const ScaffoldWithNavigation(child: HelpPage()),
       ),

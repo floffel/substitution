@@ -69,8 +69,8 @@ class _MenuState extends State<Menu> {
             // Legal
             context.push("/settings/legal");
           } else if (index == 7) {
-            // Help
-            context.push("/help");
+            // FAQ
+            context.push("/faq");
           }
         } else {
           if (index == 0) {
@@ -92,8 +92,8 @@ class _MenuState extends State<Menu> {
             // Legal (not logged in)
             context.push("/settings/legal");
           } else if (index == 4) {
-            // Help (not logged in)
-            context.push("/help");
+            // FAQ (not logged in)
+            context.push("/faq");
           }
         }
       },
@@ -190,8 +190,8 @@ class _MenuState extends State<Menu> {
           label: const Text('settings.legal.title').tr(),
         ),
         NavigationDrawerDestination(
-          icon: const Icon(Icons.help_outline_rounded),
-          selectedIcon: const Icon(Icons.help_rounded),
+          icon: const Icon(Icons.question_answer_outlined),
+          selectedIcon: const Icon(Icons.question_answer_rounded),
           label: const Text('help.title').tr(),
         ),
         Padding(

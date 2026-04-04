@@ -462,7 +462,7 @@
         "upload_complete": "Datoteka poslana!"
     },
     "help": {
-        "title": "Pomoč",
+        "title": "FAQ",
         "subtitle": "Naučite se uporabljati Substitution",
         "articles": {
             "what_is_substitution": {
@@ -532,7 +532,7 @@
     },
     "search": {
         "hint": "Iskanje objav...",
-        "empty": "Za \u201E{}\u201C ni bilo najdenih objav.",
+        "empty": "Za „{}“ ni bilo najdenih objav.",
         "error": "Iskanje ni uspelo. Poskusite znova."
     },
     "notifications": {

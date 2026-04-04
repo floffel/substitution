@@ -462,7 +462,7 @@
         "upload_complete": "ファイルが送信されました！"
     },
     "help": {
-        "title": "ヘルプ",
+        "title": "FAQ",
         "subtitle": "Substitutionの使い方を学ぶ",
         "articles": {
             "what_is_substitution": {

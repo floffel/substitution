@@ -462,7 +462,7 @@
         "upload_complete": "Файл отправлен!"
     },
     "help": {
-        "title": "Помощь",
+        "title": "FAQ",
         "subtitle": "Узнайте, как пользоваться Substitution",
         "articles": {
             "what_is_substitution": {

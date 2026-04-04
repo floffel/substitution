@@ -96,7 +96,7 @@ class HelpPage extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.help_outline_rounded,
+                  Icons.question_answer_outlined,
                   size: 32,
                   color: colorScheme.primary,
                 ),

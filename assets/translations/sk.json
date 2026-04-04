@@ -462,7 +462,7 @@
         "upload_complete": "Súbor odoslaný!"
     },
     "help": {
-        "title": "Pomoc",
+        "title": "FAQ",
         "subtitle": "Naučte sa používať Substitution",
         "articles": {
             "what_is_substitution": {
@@ -532,7 +532,7 @@
     },
     "search": {
         "hint": "Hľadať príspevky...",
-        "empty": "Pre \u201E{}\u201C sa nenašli žiadne príspevky.",
+        "empty": "Pre „{}“ sa nenašli žiadne príspevky.",
         "error": "Vyhľadávanie zlyhalo. Skúste to znova."
     },
     "notifications": {

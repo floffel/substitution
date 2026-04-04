@@ -462,7 +462,7 @@
         "upload_complete": "파일이 전송되었습니다!"
     },
     "help": {
-        "title": "도움말",
+        "title": "FAQ",
         "subtitle": "Substitution 사용법 알아보기",
         "articles": {
             "what_is_substitution": {
