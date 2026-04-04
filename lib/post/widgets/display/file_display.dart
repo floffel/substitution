@@ -71,9 +71,7 @@ class FileDisplayState extends State<FileDisplay> {
         kIsWeb
             ? FutureBuilder(
               // download decrypted file and make it an url
-              future: _getDecryptedBlobUrlAndTrack(
-                widget.file.displayEvent,
-              ),
+              future: _getDecryptedBlobUrlAndTrack(widget.file.displayEvent),
               builder: (ctx, snapshot) {
                 if (snapshot.hasData) {
                   return Image.network(snapshot.data!, fit: BoxFit.contain);
@@ -106,9 +104,7 @@ class FileDisplayState extends State<FileDisplay> {
                         child: CircularProgressIndicator(strokeWidth: 2.5),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        "post.widgets.filedisplay.decrypting",
-                      ).tr(),
+                      const Text("post.widgets.filedisplay.decrypting").tr(),
                     ],
                   ),
                 );
@@ -149,9 +145,7 @@ class FileDisplayState extends State<FileDisplay> {
                         child: CircularProgressIndicator(strokeWidth: 2.5),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        "post.widgets.filedisplay.decrypting",
-                      ).tr(),
+                      const Text("post.widgets.filedisplay.decrypting").tr(),
                     ],
                   ),
                 );
@@ -181,9 +175,7 @@ class FileDisplayState extends State<FileDisplay> {
                               ],
                             ),
                           )
-                          : const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          : const Center(child: CircularProgressIndicator()),
                 ),
               ],
             ),
@@ -221,7 +213,20 @@ class FileDisplayState extends State<FileDisplay> {
                 ),
               ],
             ),
-      String() => Container(), // handled elsewhere
+      String() => Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.insert_drive_file_outlined,
+              size: 48,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 8),
+            const Text("post.widgets.filedisplay.unsupported_file").tr(),
+          ],
+        ),
+      ),
     };
   }
 }

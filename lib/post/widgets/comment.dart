@@ -243,18 +243,61 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                   }),
               child: Padding(
                 padding: const EdgeInsets.only(left: 42.0),
-                child:
-                    widget.displayEvent.messageType == MessageTypes.Text
-                        ? Html(
-                          data:
-                              widget.displayEvent.formattedText.isNotEmpty
-                                  ? widget.displayEvent.formattedText
-                                  : widget.displayEvent.body,
-                        )
-                        : FileDisplayContainer(
-                          event: widget.event,
-                          displayEvent: widget.displayEvent,
+                child: switch (widget.displayEvent.messageType) {
+                  MessageTypes.Text => Html(
+                    data:
+                        widget.displayEvent.formattedText.isNotEmpty
+                            ? widget.displayEvent.formattedText
+                            : widget.displayEvent.body,
+                  ),
+                  MessageTypes.Image ||
+                  MessageTypes.Video ||
+                  MessageTypes.Audio => FileDisplayContainer(
+                    event: widget.event,
+                    displayEvent: widget.displayEvent,
+                  ),
+                  MessageTypes.BadEncrypted => Row(
+                    children: [
+                      Icon(
+                        Icons.no_encryption_outlined,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          'post.widgets.bad_encrypted'.tr(),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                         ),
+                      ),
+                    ],
+                  ),
+                  _ => Row(
+                    children: [
+                      Icon(
+                        Icons.help_outline,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          'post.widgets.unsupported_message'.tr(),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                },
               ),
             ),
 

@@ -23,10 +23,15 @@ class PostWidget extends IEventWidget {
     required super.event,
     required super.displayEvent,
     this.isDetailView = false,
+    this.timeline,
   });
 
   /// When true, hides the reply button (used on detail page where inline reply input is shown instead).
   final bool isDetailView;
+
+  /// Optional pre-loaded timeline from the feed.  Passed to
+  /// [ReactionsDisplay] to avoid creating a separate timeline per post.
+  final Timeline? timeline;
 
   @override
   PostWidgetState createState() => PostWidgetState();
@@ -92,13 +97,19 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
     final isStickerPost = widget.displayEvent.type == EventTypes.Sticker;
     final isGenericFile = messageType == MessageTypes.File;
     final isMediaPost =
+        messageType == MessageTypes.Image ||
+        messageType == MessageTypes.Video ||
+        (messageType == MessageTypes.Audio && !isVoicePost);
+    final isBadEncrypted = messageType == MessageTypes.BadEncrypted;
+    final isUnsupportedPost =
         !isTextPost &&
         !isEmotePost &&
         !isLocationPost &&
         !isVoicePost &&
         !isStickerPost &&
         !isGenericFile &&
-        messageType != MessageTypes.BadEncrypted;
+        !isMediaPost &&
+        !isBadEncrypted;
 
     // Emote posts get a special borderless inline layout instead of the card.
     if (isEmotePost) {
@@ -112,6 +123,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
         e2eColor: _e2eColor(colorScheme),
         e2eTooltip: _e2eTooltip,
         roomAddr: roomAddr,
+        timeline: widget.timeline,
       );
     }
 
@@ -350,6 +362,56 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                 event: widget.event,
                 displayEvent: widget.displayEvent,
               ),
+            )
+          else if (isBadEncrypted)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.no_encryption_outlined,
+                    size: 20,
+                    color: colorScheme.error,
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      'post.widgets.bad_encrypted'.tr(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else if (isUnsupportedPost)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.help_outline,
+                    size: 20,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      'post.widgets.unsupported_message'.tr(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
           // --- Edited indicator ---
@@ -368,7 +430,10 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
           // --- Reactions ---
           Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0),
-            child: ReactionsDisplay(event: widget.event),
+            child: ReactionsDisplay(
+              event: widget.event,
+              timeline: widget.timeline,
+            ),
           ),
 
           // --- Action bar ---
@@ -419,6 +484,7 @@ class _EmotePostRow extends StatefulWidget {
     required this.e2eColor,
     required this.e2eTooltip,
     required this.roomAddr,
+    this.timeline,
   });
 
   final Event event;
@@ -430,6 +496,7 @@ class _EmotePostRow extends StatefulWidget {
   final Color e2eColor;
   final String e2eTooltip;
   final String roomAddr;
+  final Timeline? timeline;
 
   @override
   _EmotePostRowState createState() => _EmotePostRowState();
@@ -601,7 +668,10 @@ class _EmotePostRowState extends State<_EmotePostRow> with IconPicker {
                 ),
 
                 // Reactions
-                ReactionsDisplay(event: widget.event),
+                ReactionsDisplay(
+                  event: widget.event,
+                  timeline: widget.timeline,
+                ),
               ],
             ),
           ),
