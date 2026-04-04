@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "art.substitution.substitution"
-    compileSdkVersion 37
+    compileSdk "android-37.0"
     ndkVersion flutter.ndkVersion
 
     compileOptions {

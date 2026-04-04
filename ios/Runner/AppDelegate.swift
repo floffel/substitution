@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import workmanager
+import workmanager_apple
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,7 +11,7 @@ import workmanager
     GeneratedPluginRegistrant.register(with: self)
 
     // Register the workmanager background task for periodic sync.
-    WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh")
+    WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh", frequency: nil)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

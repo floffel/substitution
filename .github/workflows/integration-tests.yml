@@ -680,6 +680,11 @@ jobs:
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android,i686-linux-android
 
+      - name: 'Install Android SDK 37'
+        run: |
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-37.0" "build-tools;37.0.0" > /dev/null
+
       - name: 'Install dependencies'
         run: |
           flutter precache --android
@@ -934,6 +939,11 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android,i686-linux-android
+
+      - name: 'Install Android SDK 37'
+        run: |
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-37.0" "build-tools;37.0.0" > /dev/null
 
       - name: 'Build App Bundle'
         run: |
