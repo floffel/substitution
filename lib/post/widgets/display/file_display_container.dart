@@ -324,16 +324,35 @@ class _FullscreenImageViewerState extends State<_FullscreenImageViewer> {
   bool _controlsVisible = true;
   Timer? _hideTimer;
 
+  /// Tracks the current zoom scale so we can disable swipe-to-dismiss
+  /// while the user is zoomed in (scale > 1.0). Without this,
+  /// [DismissiblePage] wins the gesture arena and steals vertical drag
+  /// events from [InteractiveViewer], preventing pinch-to-zoom from working.
+  final TransformationController _transformationController =
+      TransformationController();
+  bool _isZoomedIn = false;
+
   @override
   void initState() {
     super.initState();
     _startHideTimer();
+    _transformationController.addListener(_onTransformChanged);
   }
 
   @override
   void dispose() {
     _hideTimer?.cancel();
+    _transformationController.removeListener(_onTransformChanged);
+    _transformationController.dispose();
     super.dispose();
+  }
+
+  void _onTransformChanged() {
+    final scale = _transformationController.value.getMaxScaleOnAxis();
+    final zoomed = scale > 1.01; // small tolerance to avoid float precision
+    if (zoomed != _isZoomedIn) {
+      setState(() => _isZoomedIn = zoomed);
+    }
   }
 
   void _startHideTimer() {
@@ -360,7 +379,10 @@ class _FullscreenImageViewerState extends State<_FullscreenImageViewer> {
       backgroundColor: Colors.transparent,
       body: DismissiblePage(
         onDismissed: () => Navigator.of(context).pop(),
-        direction: DismissiblePageDismissDirection.vertical,
+        direction:
+            _isZoomedIn
+                ? DismissiblePageDismissDirection.none
+                : DismissiblePageDismissDirection.vertical,
         isFullScreen: true,
         backgroundColor: Colors.transparent,
         child: GestureDetector(
@@ -371,6 +393,7 @@ class _FullscreenImageViewerState extends State<_FullscreenImageViewer> {
             children: [
               // --- Image with pinch-to-zoom ---
               InteractiveViewer(
+                transformationController: _transformationController,
                 minScale: 1.0,
                 maxScale: 5.0,
                 child: Center(child: FileDisplay(file: widget.file)),
