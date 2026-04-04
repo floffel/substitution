@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "art.substitution.substitution"
-    compileSdkPreview "Baklava"
+    compileSdkVersion 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
