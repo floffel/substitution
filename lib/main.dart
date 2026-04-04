@@ -6,7 +6,7 @@ import '/post/pages/edit_post_page.dart';
 import '/profile/pages/room_members_page.dart';
 import '/settings/pages/followfeeds.dart';
 import '/settings/pages/ownfeeds.dart';
-import '/settings/pages/key_verification.dart';
+import '/settings/pages/security_page.dart';
 import '/settings/pages/profile.dart';
 import '/write/pages/textmessage.dart';
 import '/write/pages/filemessage.dart';
@@ -19,6 +19,7 @@ import '/settings/pages/room_form_page.dart';
 import '/settings/pages/legal.dart';
 import '/faq/pages/help_page.dart';
 import '/shared/widgets/deep_link_confirmation_dialog.dart';
+import '/shared/widgets/verification_dialog.dart';
 import '/auth/pages/host_page.dart';
 import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
@@ -39,9 +40,11 @@ import '/shared/services/notification_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
+import 'package:matrix/encryption.dart';
 import 'package:path_provider/path_provider.dart'; // init matrix
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_vodozemac/flutter_vodozemac.dart' as flutter_vodozemac;
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -63,6 +66,9 @@ SubstitutionService? globalSubstitutionService;
 
 // Global database reference for test teardown use only
 Database? globalDatabase;
+
+// Global navigator key for showing dialogs from non-widget contexts
+late final GlobalKey<NavigatorState> rootNavigatorKey;
 
 /// Route guard used by all protected routes.
 /// Redirects to `/age-gate` if the user hasn't confirmed their age, or to
@@ -157,9 +163,7 @@ void main() async {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   }); // */
 
-  final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
-    debugLabel: "rootNav",
-  );
+  rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "rootNav");
 
   // Keep testRedirect as a convenience alias used by all protected routes.
   String? testRedirect(BuildContext context, GoRouterState state) =>
@@ -398,7 +402,7 @@ void main() async {
         path: '/settings/security',
         builder:
             (context, state) =>
-                ScaffoldWithNavigation(child: const KeyVerificationPage()),
+                ScaffoldWithNavigation(child: const SecurityPage()),
       ),
       GoRoute(
         path: '/settings/legal',
@@ -658,6 +662,17 @@ void main() async {
   final client = Client(
     "Substitution",
     database: matrixDatabase,
+    verificationMethods: {
+      KeyVerificationMethod.emoji,
+      KeyVerificationMethod.numbers,
+    },
+    nativeImplementations:
+        kIsWeb
+            ? NativeImplementations.dummy
+            : NativeImplementationsIsolate(
+              compute,
+              vodozemacInit: flutter_vodozemac.init,
+            ),
     supportedLoginTypes: {
       AuthenticationTypes.password,
       AuthenticationTypes.sso,
@@ -889,7 +904,7 @@ void main() async {
   }
 }
 
-class SubstitutionApp extends StatelessWidget {
+class SubstitutionApp extends StatefulWidget {
   final Client client;
   final GoRouter router;
 
@@ -898,6 +913,40 @@ class SubstitutionApp extends StatelessWidget {
     required this.client,
     required this.router,
   });
+
+  @override
+  State<SubstitutionApp> createState() => _SubstitutionAppState();
+}
+
+class _SubstitutionAppState extends State<SubstitutionApp> {
+  Client get client => widget.client;
+  GoRouter get router => widget.router;
+
+  StreamSubscription<KeyVerification>? _verificationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupVerificationListener();
+  }
+
+  @override
+  void dispose() {
+    _verificationSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _setupVerificationListener() {
+    _verificationSubscription = client.onKeyVerificationRequest.stream.listen((
+      KeyVerification request,
+    ) {
+      // Show verification dialog on incoming requests
+      final ctx = rootNavigatorKey.currentContext;
+      if (ctx != null && ctx.mounted) {
+        VerificationDialog.show(ctx, request: request);
+      }
+    });
+  }
 
   // This widget is the root of your application.
   @override

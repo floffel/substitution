@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'package:substitution/settings/pages/key_verification.dart';
+import 'package:substitution/settings/pages/security_page.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:go_router/go_router.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, settle;
@@ -81,13 +81,13 @@ void main() {
         }
 
         // 1. Navigate directly to Security page
-        debugPrint('SECURITY: Navigating to KeyVerificationPage...');
+        debugPrint('SECURITY: Navigating to SecurityPage...');
         final navContext = $.tester.element(find.byType(HomePage));
         navContext.push('/settings/security');
         await settle($.tester);
 
-        // 2. Verify KeyVerificationPage
-        expect($(KeyVerificationPage).exists, true);
+        // 2. Verify SecurityPage
+        expect($(SecurityPage).exists, true);
 
         // 3. Wait for UI to settle
         await settle($.tester);

@@ -73,7 +73,7 @@ class _SettingsTabState extends State<SettingsTab> {
                     _buildDivider(colorScheme),
                     _buildSettingsTile(
                       icon: Icons.security_outlined,
-                      label: 'Security',
+                      label: 'settings.menu.security_label'.tr(),
                       onTap: () => context.push('/settings/security'),
                     ),
                   ],
