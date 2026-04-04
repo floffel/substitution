@@ -69,7 +69,10 @@ SubstitutionService? globalSubstitutionService;
 Database? globalDatabase;
 
 // Global navigator key for showing dialogs from non-widget contexts
-late final GlobalKey<NavigatorState> rootNavigatorKey;
+// Not `late final` so integration tests can re-invoke main() without crashing.
+GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: "rootNav",
+);
 
 /// Route guard used by all protected routes.
 /// Redirects to `/age-gate` if the user hasn't confirmed their age, or to

@@ -91,7 +91,7 @@ class NotificationService {
     );
 
     await _plugin.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: _onNotificationResponse,
     );
 
@@ -162,10 +162,10 @@ class NotificationService {
     final notifId = _roomNotificationIds.putIfAbsent(roomId, () => _nextId++);
 
     await _plugin.show(
-      notifId,
-      title,
-      body,
-      NotificationDetails(
+      id: notifId,
+      title: title,
+      body: body,
+      notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
           _androidChannelId,
           _androidChannelName,
@@ -202,10 +202,10 @@ class NotificationService {
 
     // ID 0 is reserved for the group summary.
     await _plugin.show(
-      0,
-      'Substitution',
-      'New messages',
-      const NotificationDetails(
+      id: 0,
+      title: 'Substitution',
+      body: 'New messages',
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           _androidChannelId,
           _androidChannelName,
@@ -230,7 +230,7 @@ class NotificationService {
   Future<void> cancelForRoom(String roomId) async {
     final id = _roomNotificationIds.remove(roomId);
     if (id != null) {
-      await _plugin.cancel(id);
+      await _plugin.cancel(id: id);
     }
   }
 

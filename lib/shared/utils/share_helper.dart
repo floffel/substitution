@@ -75,7 +75,9 @@ class ShareHelper {
       }
     } else {
       // On native platforms, use the share sheet
-      final result = await Share.share(url, subject: subject);
+      final result = await SharePlus.instance.share(
+        ShareParams(text: url, subject: subject),
+      );
 
       // If the share was dismissed, fall back to clipboard copy
       if (result.status == ShareResultStatus.dismissed && context.mounted) {

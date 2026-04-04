@@ -48,7 +48,7 @@ void backgroundSyncCallbackDispatcher() {
       );
       const iosSettings = DarwinInitializationSettings();
       await plugin.initialize(
-        const InitializationSettings(
+        settings: const InitializationSettings(
           android: androidSettings,
           iOS: iosSettings,
           macOS: iosSettings,
@@ -95,10 +95,10 @@ void backgroundSyncCallbackDispatcher() {
         }
 
         await plugin.show(
-          notifId++,
-          title,
-          body,
-          NotificationDetails(
+          id: notifId++,
+          title: title,
+          body: body,
+          notificationDetails: NotificationDetails(
             android: AndroidNotificationDetails(
               _androidChannelId,
               _androidChannelName,
