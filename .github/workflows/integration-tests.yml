@@ -493,6 +493,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 'Select Xcode 26'
+        # connectivity_plus >=7.1.0 uses NWPath.isUltraConstrained which is
+        # only available in the iOS 26 SDK (ships with Xcode 26). The runner
+        # defaults to Xcode 16.4 so we must switch explicitly.
+        run: |
+          XCODE26=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$XCODE26" ]; then
+            echo "WARNING: No Xcode 26 found, falling back to default"
+          else
+            echo "Selecting $XCODE26"
+            sudo xcode-select -s "$XCODE26"
+          fi
+          xcodebuild -version
+
       - name: 'Boot iOS Simulator early'
         # Boot the simulator now so it is fully ready (or close to it) by the
         # time the test script runs.  On cold GitHub-hosted macOS VMs the

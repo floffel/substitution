@@ -77,7 +77,7 @@ dependencies:
   flutter_test:
     sdk: flutter
   shared_preferences: any
-  connectivity_plus: 7.0.0 # pinned: 7.1.0 uses isUltraConstrained (iOS 26 SDK only)
+  connectivity_plus: ^7.1.0
 dev_dependencies:
   patrol: ^4.3.0
   integration_test:
