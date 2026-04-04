@@ -1,9 +1,9 @@
 import '/feed/pages/home.dart';
 import '/settings/pages/followfeeds.dart';
-import '/settings/pages/settings_tab.dart';
 import '/settings/widgets/menu.dart';
 import '/shared/widgets/top_loading_bar.dart';
 import '/chat/pages/chat_list_page.dart';
+import '/chat/widgets/new_chat_sheet.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -39,6 +39,41 @@ class FeedState extends State<Feed> {
       _currentIndex = 1;
       _hasVisitedDiscover = true;
     });
+  }
+
+  Widget? _buildFab(BuildContext context) {
+    if (_currentIndex == 0) {
+      return FloatingActionButton(
+        key: const Key('fabNewPost'),
+        heroTag: 'fabNewPost',
+        onPressed: () => context.push('/write/select/room'),
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: const Icon(Icons.add_rounded, size: 28),
+      );
+    }
+    if (_currentIndex == 2) {
+      return FloatingActionButton(
+        key: const Key('fabNewChat'),
+        heroTag: 'fabNewChat',
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            useSafeArea: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            builder: (_) => const NewChatSheet(),
+          );
+        },
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        tooltip: 'chat.new_chat'.tr(),
+        child: const Icon(Icons.edit_rounded, size: 24),
+      );
+    }
+    return null;
   }
 
   @override
@@ -138,12 +173,6 @@ class FeedState extends State<Feed> {
               selectedIcon: const Icon(Icons.message_rounded),
               label: 'feed.nav.messages'.tr(),
             ),
-            NavigationDestination(
-              key: const Key('navSettings'),
-              icon: const Icon(Icons.settings_outlined),
-              selectedIcon: const Icon(Icons.settings),
-              label: 'feed.nav.settings'.tr(),
-            ),
           ],
         ),
       );
@@ -206,8 +235,6 @@ class FeedState extends State<Feed> {
             const SizedBox.shrink(),
           // Tab 2: Messages (DMs)
           const ChatListPage(),
-          // Tab 3: Settings
-          const SettingsTab(),
         ],
       ),
       // Keep endDrawer for backward compat with integration tests that open it
@@ -239,27 +266,9 @@ class FeedState extends State<Feed> {
             selectedIcon: const Icon(Icons.message_rounded),
             label: 'feed.nav.messages'.tr(),
           ),
-          NavigationDestination(
-            key: const Key('navSettings'),
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: 'feed.nav.settings'.tr(),
-          ),
         ],
       ),
-      floatingActionButton:
-          _currentIndex == 0
-              ? FloatingActionButton(
-                key: const Key('fabNewPost'),
-                heroTag: 'fabNewPost',
-                onPressed: () => context.push('/write/select/room'),
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(Icons.add_rounded, size: 28),
-              )
-              : null,
+      floatingActionButton: _buildFab(context),
     );
   }
 }

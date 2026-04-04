@@ -88,7 +88,9 @@ Future<void> takeNamedScreenshot(
   } on MissingPluginException {
     // `flutter test -d linux` doesn't provide the captureScreenshot
     // platform channel. Fall back to capturing from the render tree.
-    debugPrint('SCREENSHOT: takeScreenshot unavailable, using render tree capture');
+    debugPrint(
+      'SCREENSHOT: takeScreenshot unavailable, using render tree capture',
+    );
     bytes = await _captureFromRenderTree(tester);
   }
 
@@ -401,18 +403,6 @@ void main() {
           debugPrint(
             'SCREENSHOT: WARNING — No CircleAvatar found, skipping 07_profile',
           );
-        }
-
-        // ---- 08: Settings ----
-        debugPrint('SCREENSHOT: Navigating to Settings tab...');
-        final settingsNav = $(Key('navSettings'));
-        if (settingsNav.exists) {
-          await settingsNav.tap();
-          await settle($.tester, count: 5);
-          await takeNamedScreenshot(binding, tester, '08_settings');
-          debugPrint('SCREENSHOT: 08_settings captured');
-        } else {
-          debugPrint('SCREENSHOT: WARNING — navSettings not found');
         }
 
         debugPrint('SCREENSHOT: All screenshots captured successfully!');

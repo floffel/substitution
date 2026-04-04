@@ -35,7 +35,8 @@ class _MenuState extends State<Menu> {
       onDestinationSelected: (int index) async {
         if (client.isLogged()) {
           if (index == 0) {
-            // Profile header — no navigation
+            // Profile header — navigate to edit profile
+            context.push("/settings/profile");
           } else if (index == 1) {
             // Logout
             try {
@@ -60,15 +61,12 @@ class _MenuState extends State<Menu> {
             // Eigene Feeds
             context.push("/settings/ownfeeds");
           } else if (index == 4) {
-            // Edit Profile
-            context.push("/settings/profile");
-          } else if (index == 5) {
             // Security
             context.push("/settings/security");
-          } else if (index == 6) {
+          } else if (index == 5) {
             // Legal
             context.push("/settings/legal");
-          } else if (index == 7) {
+          } else if (index == 6) {
             // FAQ
             context.push("/faq");
           }
@@ -172,11 +170,6 @@ class _MenuState extends State<Menu> {
         ),
         if (client.isLogged()) ...[
           const SizedBox(height: 8),
-          NavigationDrawerDestination(
-            icon: const Icon(Icons.person_outlined),
-            selectedIcon: const Icon(Icons.person),
-            label: const Text('settings.menu.profile_label').tr(),
-          ),
           NavigationDrawerDestination(
             icon: const Icon(Icons.security_outlined),
             selectedIcon: const Icon(Icons.security),
