@@ -130,6 +130,10 @@ class _DialogReportBlockState extends State<DialogReportBlock> {
         ),
         ElevatedButton(
           onPressed: _isSubmitting ? null : _submit,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange,
+            foregroundColor: Colors.white,
+          ),
           child:
               _isSubmitting
                   ? const SizedBox(

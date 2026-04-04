@@ -158,6 +158,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     SnackBar(content: Text('profile.report_success'.tr())),
                   );
                 },
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                ),
                 child: Text('profile.report_submit'.tr()),
               ),
             ],
