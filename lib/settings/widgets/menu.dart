@@ -48,9 +48,6 @@ class _MenuState extends State<Menu> {
             if (!context.mounted) return;
             context.go("/");
           } else if (index == 2) {
-            // Home
-            context.go("/");
-          } else if (index == 3) {
             // Feeds/Räume — switch to Discover tab if inside Feed, else push route
             final feedState = context.findAncestorStateOfType<FeedState>();
             if (feedState != null) {
@@ -59,19 +56,19 @@ class _MenuState extends State<Menu> {
             } else {
               context.push("/settings/feed");
             }
-          } else if (index == 4) {
+          } else if (index == 3) {
             // Eigene Feeds
             context.push("/settings/ownfeeds");
-          } else if (index == 5) {
+          } else if (index == 4) {
             // Edit Profile
             context.push("/settings/profile");
-          } else if (index == 6) {
+          } else if (index == 5) {
             // Security
             context.push("/settings/security");
-          } else if (index == 7) {
+          } else if (index == 6) {
             // Legal
             context.push("/settings/legal");
-          } else if (index == 8) {
+          } else if (index == 7) {
             // Help
             context.push("/help");
           }
@@ -80,9 +77,6 @@ class _MenuState extends State<Menu> {
             // login
             context.push("/auth/host");
           } else if (index == 1) {
-            // Home
-            context.go("/");
-          } else if (index == 2) {
             // Feeds/Räume — switch to Discover tab if inside Feed, else push route
             final feedState = context.findAncestorStateOfType<FeedState>();
             if (feedState != null) {
@@ -91,13 +85,13 @@ class _MenuState extends State<Menu> {
             } else {
               context.push("/settings/feed");
             }
-          } else if (index == 3) {
+          } else if (index == 2) {
             // Eigene Feeds
             context.push("/settings/ownfeeds");
-          } else if (index == 4) {
+          } else if (index == 3) {
             // Legal (not logged in)
             context.push("/settings/legal");
-          } else if (index == 5) {
+          } else if (index == 4) {
             // Help (not logged in)
             context.push("/help");
           }
@@ -165,11 +159,6 @@ class _MenuState extends State<Menu> {
           ),
         ],
         const SizedBox(height: 22),
-        NavigationDrawerDestination(
-          icon: const Icon(Icons.home_outlined),
-          selectedIcon: const Icon(Icons.home),
-          label: const Text('settings.menu.home_site_label').tr(),
-        ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.signpost_outlined),
           selectedIcon: const Icon(Icons.signpost),
