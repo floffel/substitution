@@ -6,9 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ReactionsDisplay extends StatefulWidget {
-  const ReactionsDisplay({super.key, required this.event});
+  const ReactionsDisplay({super.key, required this.event, this.timeline});
 
   final Event event;
+
+  /// Optional pre-loaded timeline from the feed.  When provided, avoids
+  /// creating a separate [Timeline] object per post (expensive) and ensures
+  /// reactions are looked up from the same timeline the feed uses.
+  final Timeline? timeline;
 
   @override
   ReactionsDisplayState createState() => ReactionsDisplayState();
@@ -44,9 +49,15 @@ class ReactionsDisplayState extends State<ReactionsDisplay> {
     >
     ret = {};
 
-    Timeline timeline = await widget.event.room.getTimeline(
-      eventContextId: widget.event.eventId,
-    );
+    // Use the pre-loaded timeline from the feed when available.  This avoids
+    // creating a separate Timeline per post (expensive & may miss reactions
+    // outside the context window).  Falls back to creating one for standalone
+    // post pages / comments where no feed timeline is provided.
+    Timeline timeline =
+        widget.timeline ??
+        await widget.event.room.getTimeline(
+          eventContextId: widget.event.eventId,
+        );
 
     Set<Event> events = widget.event.aggregatedEvents(
       timeline,

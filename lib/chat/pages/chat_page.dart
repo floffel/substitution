@@ -10,6 +10,7 @@ import 'package:file_selector/file_selector.dart';
 import '/shared/utils/relative_time.dart';
 import '/shared/widgets/avatar.dart';
 import '/shared/widgets/mxc_image.dart';
+import '/shared/services/notification_service.dart';
 import '/write/widgets/send_progress_dialog.dart';
 
 class ChatPage extends StatefulWidget {
@@ -39,15 +40,27 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+
+    // Suppress notifications for this room while the user is viewing it.
+    NotificationService.instance.activeRoomId = widget.roomId;
+    // Clear any visible notification for this room.
+    NotificationService.instance.cancelForRoom(widget.roomId);
+
     _scrollController.addListener(_onScroll);
     _syncSub = client.onSync.stream.listen((_) {
-      if (mounted) setState(() {});
+      if (mounted) {
+        setState(() {});
+        // Mark new incoming messages as read while the chat is open.
+        _markAsRead();
+      }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => _initTimeline());
   }
 
   @override
   void dispose() {
+    // Stop suppressing notifications for this room.
+    NotificationService.instance.activeRoomId = null;
     _inputController.dispose();
     _scrollController.dispose();
     _syncSub?.cancel();
@@ -69,8 +82,24 @@ class _ChatPageState extends State<ChatPage> {
         _timeline = timeline;
         _isLoadingTimeline = false;
       });
+      // Mark messages as read once the timeline is loaded.
+      _markAsRead();
     } catch (_) {
       if (mounted) setState(() => _isLoadingTimeline = false);
+    }
+  }
+
+  // ── Read receipts ──────────────────────────────────────────────────────────
+
+  /// Sends a read marker to the server so the conversation's unread count is
+  /// cleared and the other participant sees a read receipt.
+  Future<void> _markAsRead() async {
+    final timeline = _timeline;
+    if (timeline == null) return;
+    try {
+      await timeline.setReadMarker();
+    } catch (e) {
+      debugPrint('ChatPage: failed to set read marker: $e');
     }
   }
 
@@ -213,6 +242,40 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
+  /// Returns true if at least one other user has a read receipt on this event.
+  bool _isReadByOther(Event event) {
+    try {
+      final receipts = event.receipts;
+      return receipts.any((r) => r.user.id != client.userID);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // ── Status icon for outgoing messages ──────────────────────────────────────
+
+  Widget _buildStatusIcon(Event event, ColorScheme colorScheme) {
+    final fadedColor = colorScheme.onPrimary.withValues(alpha: 0.65);
+    switch (event.status) {
+      case EventStatus.error:
+        return Tooltip(
+          message: 'chat.message_error'.tr(),
+          child: Icon(Icons.error_outline, size: 14, color: colorScheme.error),
+        );
+      case EventStatus.sending:
+        return Icon(Icons.access_time, size: 14, color: fadedColor);
+      case EventStatus.sent:
+        return Icon(Icons.check, size: 14, color: fadedColor);
+      case EventStatus.synced:
+        final isRead = _isReadByOther(event);
+        return Icon(
+          Icons.done_all,
+          size: 14,
+          color: isRead ? colorScheme.inversePrimary : fadedColor,
+        );
+    }
+  }
+
   // ── Message bubble ─────────────────────────────────────────────────────────
 
   Widget _buildMessageBubble(Event event) {
@@ -328,6 +391,29 @@ class _ChatPageState extends State<ChatPage> {
       );
     }
 
+    // Timestamp row — for outgoing messages also includes a status icon.
+    final timestampStyle = theme.textTheme.labelSmall?.copyWith(
+      fontSize: 10,
+      color:
+          isMe
+              ? colorScheme.onPrimary.withValues(alpha: 0.65)
+              : colorScheme.onSurfaceVariant.withValues(alpha: 0.65),
+    );
+
+    final Widget timestampRow;
+    if (isMe) {
+      timestampRow = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(timestamp, style: timestampStyle),
+          const SizedBox(width: 4),
+          _buildStatusIcon(event, colorScheme),
+        ],
+      );
+    } else {
+      timestampRow = Text(timestamp, style: timestampStyle);
+    }
+
     final bubble = Container(
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.72,
@@ -345,20 +431,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Column(
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          content,
-          const SizedBox(height: 4),
-          Text(
-            timestamp,
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: 10,
-              color:
-                  isMe
-                      ? colorScheme.onPrimary.withValues(alpha: 0.65)
-                      : colorScheme.onSurfaceVariant.withValues(alpha: 0.65),
-            ),
-          ),
-        ],
+        children: [content, const SizedBox(height: 4), timestampRow],
       ),
     );
 

@@ -252,6 +252,79 @@ void main() {
       verify(() => ownReaction.redactEvent()).called(1);
     });
 
+    testWidgets(
+      'Pre-loaded timeline is used instead of calling room.getTimeline()',
+      (WidgetTester tester) async {
+        // Arrange: pass timeline directly — room.getTimeline should NOT be called
+        final reaction = _createMockReactionEvent(
+          key: '🎯',
+          sender: mockSender,
+          parentEventId: r'$event123',
+          room: mockRoom,
+        );
+
+        when(
+          () => mockEvent.aggregatedEvents(any(), any()),
+        ).thenReturn({reaction});
+        when(() => mockEvent.eventId).thenReturn(r'$event123');
+
+        await pumpApp(
+          tester,
+          ReactionsDisplay(event: mockEvent, timeline: mockTimeline),
+          mockClient: mockClient,
+        );
+        await tester.pump();
+        await tester.pumpAndSettle();
+
+        // Verify the reaction rendered correctly
+        expect(find.text('🎯'), findsOneWidget);
+
+        // Verify room.getTimeline was NEVER called — the pre-loaded timeline
+        // should have been used directly, avoiding the expensive per-post
+        // timeline creation.
+        verifyNever(
+          () => mockRoom.getTimeline(
+            eventContextId: any(named: 'eventContextId'),
+          ),
+        );
+      },
+    );
+
+    testWidgets(
+      'Fallback: creates timeline when none provided (backward compat)',
+      (WidgetTester tester) async {
+        // Arrange: no timeline param — should call room.getTimeline
+        final reaction = _createMockReactionEvent(
+          key: '✅',
+          sender: mockSender,
+          parentEventId: r'$event123',
+          room: mockRoom,
+        );
+
+        when(
+          () => mockEvent.aggregatedEvents(any(), any()),
+        ).thenReturn({reaction});
+        when(() => mockEvent.eventId).thenReturn(r'$event123');
+
+        await pumpApp(
+          tester,
+          ReactionsDisplay(event: mockEvent), // no timeline param
+          mockClient: mockClient,
+        );
+        await tester.pump();
+        await tester.pumpAndSettle();
+
+        expect(find.text('✅'), findsOneWidget);
+
+        // Verify room.getTimeline WAS called as fallback
+        verify(
+          () => mockRoom.getTimeline(
+            eventContextId: any(named: 'eventContextId'),
+          ),
+        ).called(1);
+      },
+    );
+
     testWidgets('Reactions from other users do not show border decoration', (
       WidgetTester tester,
     ) async {

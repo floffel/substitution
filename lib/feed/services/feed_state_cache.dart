@@ -14,8 +14,9 @@ class FeedStateCache {
   double scrollOffset = 0.0;
 
   /// The latest next-page key from the PagingController so pagination can
-  /// continue from where it left off.
-  Map<Timeline, ({String? lastEventId, bool wasExhausted})>? lastPageKey;
+  /// continue from where it left off.  Keyed by room ID (not Timeline object)
+  /// so the key survives widget lifecycle changes without stale references.
+  Map<String, ({String? lastEventId, bool wasExhausted})>? lastPageKey;
 
   /// Map of room ID -> first (newest) event ID displayed for that room.
   /// Used by the "fetch future events" pull-to-refresh logic.
@@ -23,6 +24,16 @@ class FeedStateCache {
 
   /// Whether the page key was already initialized from timelines.
   bool wasPageKeyInitialized = false;
+
+  /// Carry-forward candidate event IDs per room.  Stored so that events
+  /// fetched but not yet displayed survive widget dispose/recreate cycles.
+  /// Each entry maps a room ID to a list of (origEventId, roomId) pairs that
+  /// can be resolved from the room's timeline on restore.
+  Map<String, List<String>>? carryForwardEventIds;
+
+  /// The frontier timestamp (oldest event shown on the last page).  Used for
+  /// frontier-aware loading decisions after cache restore.
+  DateTime? frontier;
 
   /// Whether there is cached data worth restoring.
   bool get hasCache => cachedItems?.isNotEmpty ?? false;
@@ -35,5 +46,7 @@ class FeedStateCache {
     lastPageKey = null;
     firstEventIds = null;
     wasPageKeyInitialized = false;
+    carryForwardEventIds = null;
+    frontier = null;
   }
 }

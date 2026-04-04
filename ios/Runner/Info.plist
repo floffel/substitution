@@ -55,6 +55,11 @@
 		<string>fetch</string>
 		<string>processing</string>
 	</array>
+	<!-- BGTaskScheduler task identifiers for workmanager background sync -->
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

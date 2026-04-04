@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> {
   static const int _pageSize = 20;
 
   late final PagingController<
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+    Map<String, ({String? lastEventId, bool wasExhausted})>?,
     ({Event origEvent, Event displayEvent})
   >
   _pagingController;
@@ -51,7 +51,7 @@ class HomePageState extends State<HomePage> {
   late Future<List<Timeline>> _timelinesFuture;
 
   // Track the latest key calculated by _fetchEvents to return it in getNextPageKey
-  Map<Timeline, ({String? lastEventId, bool wasExhausted})>? _latestNextPageKey;
+  Map<String, ({String? lastEventId, bool wasExhausted})>? _latestNextPageKey;
 
   bool _isOnline = true;
   bool _showOfflineBanner = false;
@@ -75,6 +75,16 @@ class HomePageState extends State<HomePage> {
   Set<String> _currentRoomIds = {};
   Set<String> get currentRoomIds => _currentRoomIds;
   bool _isFetchingFuture = false;
+
+  /// Maps room ID to the room's [Timeline] object.  Populated by
+  /// [_fetchTimelines] and used to resolve room IDs back to timelines
+  /// throughout the page lifecycle.
+  Map<String, Timeline> _timelineMap = {};
+
+  /// The oldest event timestamp shown on the last page.  Used for
+  /// frontier-aware loading: rooms whose newest candidate is older than this
+  /// don't need more history fetched from the server.
+  DateTime? _currentFrontier;
 
   /// Candidates fetched but not returned in the previous page, keyed by room ID.
   /// Carried forward to avoid re-fetching the same events on the next page.
@@ -159,7 +169,9 @@ class HomePageState extends State<HomePage> {
     final timelineFutures = rooms.map((r) => r.getTimeline()).toList();
     _currentRoomIds = rooms.map((r) => r.id).toSet();
     debugPrint("HomePage: Found ${_currentRoomIds.length} rooms for feed");
-    return Future.wait(timelineFutures);
+    final timelines = await Future.wait(timelineFutures);
+    _timelineMap = {for (final t in timelines) t.room.id: t};
+    return timelines;
   }
 
   // fetch events that are unknown by the _pagingController because they are too new
@@ -250,24 +262,28 @@ class HomePageState extends State<HomePage> {
 
   /// Fetches the next page of events across all followed timelines.
   ///
-  /// [pageKey] maps each timeline to its pagination state:
-  ///   - `lastEventId`: the last event ID that was added to the list
-  ///   - `wasExhausted`: whether the timeline has no more history to fetch
+  /// [pageKey] maps each **room ID** to its pagination state:
+  ///   - `lastEventId`: the last event ID that was *displayed* (returned in a
+  ///     previous page).  This is deliberately the last **displayed** event,
+  ///     not the last **scanned** event, so that if carry-forward candidates
+  ///     are lost (e.g. widget dispose/recreate) the events will be
+  ///     re-discovered on the next scan instead of being permanently skipped.
+  ///   - `wasExhausted`: whether the timeline has no more history to fetch.
   ///
   /// Returns the merged, chronologically sorted events and an updated key for
   /// the next page (or `null` when all timelines are exhausted).
   Future<
     ({
       List<({Event origEvent, Event displayEvent})> events,
-      Map<Timeline, ({String? lastEventId, bool wasExhausted})>? nextKey,
+      Map<String, ({String? lastEventId, bool wasExhausted})>? nextKey,
     })
   >
   _fetchEvents(
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? pageKey,
+    Map<String, ({String? lastEventId, bool wasExhausted})>? pageKey,
   ) async {
     List<({Event origEvent, Event displayEvent})> ret = [];
 
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})>? newPageKey =
+    Map<String, ({String? lastEventId, bool wasExhausted})>? newPageKey =
         pageKey;
 
     // Treat both `null` and an empty map as the "initialize from timelines"
@@ -284,27 +300,44 @@ class HomePageState extends State<HomePage> {
 
         newPageKey = {};
         for (Timeline timeline in timelineList) {
-          newPageKey[timeline] = (lastEventId: null, wasExhausted: false);
+          newPageKey[timeline.room.id] = (
+            lastEventId: null,
+            wasExhausted: false,
+          );
         }
       } else {
         return (events: ret, nextKey: newPageKey);
       }
     }
 
+    // Resolve room IDs to Timeline objects.  _timelineMap is populated by
+    // _fetchTimelines(); fall back to awaiting the future if it hasn't
+    // completed yet (e.g. on the very first fetch).
+    final Map<String, Timeline> timelineMap =
+        _timelineMap.isNotEmpty
+            ? _timelineMap
+            : {for (final t in await _timelinesFuture) t.room.id: t};
+
     List<({Event origEvent, Event displayEvent})> allCandidates = [];
-    Map<Timeline, List<({Event origEvent, Event displayEvent})>>
-    candidatesPerTimeline = {};
+    Map<String, List<({Event origEvent, Event displayEvent})>>
+    candidatesPerRoom = {};
 
-    for (Timeline timeline in newPageKey!.keys.toList()) {
-      ({String? lastEventId, bool wasExhausted}) meta = newPageKey[timeline]!;
+    for (String roomId in newPageKey!.keys.toList()) {
+      ({String? lastEventId, bool wasExhausted}) meta = newPageKey[roomId]!;
+      final timeline = timelineMap[roomId];
+      if (timeline == null) continue; // Room no longer available
 
-      // Start with any candidates carried forward from the previous page
+      // Start with any candidates carried forward from the previous page.
       List<({Event origEvent, Event displayEvent})> roomCandidates =
-          _carryForwardCandidates.remove(timeline.room.id) ?? [];
+          _carryForwardCandidates.remove(roomId) ?? [];
+      // Track IDs already in carry-forward to avoid duplicates during scan.
+      final Set<String> candidateIds =
+          roomCandidates.map((e) => e.origEvent.eventId).toSet();
+
       int retryCount = 0;
       int lastProcessedIndex = -1;
 
-      // Find the starting point in the current timeline events
+      // Find the starting point from the last *displayed* event.
       if (meta.lastEventId != null) {
         lastProcessedIndex = timeline.events.indexWhere(
           (e) => e.eventId == meta.lastEventId,
@@ -316,10 +349,13 @@ class HomePageState extends State<HomePage> {
 
         final int countBefore = timeline.events.length;
 
-        // Process events from the last point reached
+        // Process events from the last point reached.
         for (int i = lastProcessedIndex + 1; i < timeline.events.length; i++) {
           final event = timeline.events[i];
           lastProcessedIndex = i;
+
+          // Skip events already in carry-forward to avoid duplicates.
+          if (candidateIds.contains(event.eventId)) continue;
 
           final isMsg = event.type == "m.room.message";
           final isNotReply =
@@ -337,6 +373,19 @@ class HomePageState extends State<HomePage> {
               origEvent: event,
               displayEvent: event.getDisplayEvent(timeline),
             ));
+            candidateIds.add(event.eventId);
+          }
+        }
+
+        // ── Frontier-aware loading ──────────────────────────────────────
+        // If this room already has candidates and its *newest* candidate is
+        // older than the current display frontier, all further history from
+        // this room will be even older and won't be shown on the next page
+        // either.  Skip the expensive server request.
+        if (_currentFrontier != null && roomCandidates.isNotEmpty) {
+          final newestCandidate = roomCandidates.first.origEvent.originServerTs;
+          if (newestCandidate.isBefore(_currentFrontier!)) {
+            break;
           }
         }
 
@@ -344,7 +393,8 @@ class HomePageState extends State<HomePage> {
           await timeline.requestHistory(historyCount: _pageSize);
           if (!mounted) return (events: ret, nextKey: newPageKey);
 
-          // If count didn't increase, the server has no more history for us despite what canRequestHistory says
+          // If count didn't increase, the server has no more history for us
+          // despite what canRequestHistory says.
           if (timeline.events.length <= countBefore) {
             break;
           }
@@ -353,56 +403,66 @@ class HomePageState extends State<HomePage> {
         }
       }
 
-      candidatesPerTimeline[timeline] = roomCandidates;
+      candidatesPerRoom[roomId] = roomCandidates;
       allCandidates.addAll(roomCandidates);
     }
 
-    // Sort all candidates newest first by original timestamp so edits don't change position
+    // Sort all candidates newest first by original timestamp so edits don't
+    // change position.
     allCandidates.sort(
       (a, b) =>
           b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
     );
 
-    // Take top N posts for this page
+    // Take top N posts for this page.
     ret = allCandidates.take(_pageSize).toList();
+
+    // Update the frontier timestamp for next fetch.
+    if (ret.isNotEmpty) {
+      _currentFrontier = ret.last.origEvent.originServerTs;
+    }
 
     // Update the next key based on what we are actually returning,
     // and carry forward unused candidates to avoid re-fetching them.
-    Map<Timeline, ({String? lastEventId, bool wasExhausted})> nextKey = {};
+    Map<String, ({String? lastEventId, bool wasExhausted})> nextKey = {};
     final retEventIds = ret.map((e) => e.origEvent.eventId).toSet();
 
-    for (Timeline timeline in newPageKey.keys.toList()) {
-      final meta = newPageKey[timeline]!;
-      final timelineCandidates = candidatesPerTimeline[timeline] ?? [];
+    for (String roomId in newPageKey.keys.toList()) {
+      final meta = newPageKey[roomId]!;
+      final timeline = timelineMap[roomId];
+      final roomCandidates = candidatesPerRoom[roomId] ?? [];
       final eventsInRet =
-          ret.where((e) => e.origEvent.roomId == timeline.room.id).toList();
+          ret.where((e) => e.origEvent.roomId == roomId).toList();
 
-      // Advance lastId to the last candidate we processed, not just the last
-      // one in ret. This prevents re-scanning the same timeline segment.
+      // Track last *displayed* event (not last scanned).  If carry-forward
+      // is lost (widget dispose/recreate), the events between lastId and the
+      // actual scan position will be re-discovered on the next scan of the
+      // in-memory timeline list — no data loss.
       String? lastId =
-          timelineCandidates.isNotEmpty
-              ? timelineCandidates.last.origEvent.eventId
+          eventsInRet.isNotEmpty
+              ? eventsInRet.last.origEvent.eventId
               : meta.lastEventId;
 
-      if (eventsInRet.isNotEmpty && firstEventIds[timeline.room.id] == null) {
-        // Track the newest event ID we've displayed for this room
-        firstEventIds[timeline.room.id] = eventsInRet.first.origEvent.eventId;
+      if (eventsInRet.isNotEmpty && firstEventIds[roomId] == null) {
+        // Track the newest event ID we've displayed for this room.
+        firstEventIds[roomId] = eventsInRet.first.origEvent.eventId;
       }
 
       // Carry forward candidates that were fetched but didn't make it into
       // this page (e.g. because another room had newer events).
       final unused =
-          timelineCandidates
+          roomCandidates
               .where((e) => !retEventIds.contains(e.origEvent.eventId))
               .toList();
       if (unused.isNotEmpty) {
-        _carryForwardCandidates[timeline.room.id] = unused;
+        _carryForwardCandidates[roomId] = unused;
       }
 
-      bool isExhausted = !timeline.canRequestHistory && unused.isEmpty;
+      bool isExhausted =
+          (timeline != null && !timeline.canRequestHistory) && unused.isEmpty;
 
       if (!isExhausted) {
-        nextKey[timeline] = (lastEventId: lastId, wasExhausted: false);
+        nextKey[roomId] = (lastEventId: lastId, wasExhausted: false);
       }
     }
 
@@ -585,6 +645,42 @@ class HomePageState extends State<HomePage> {
       if (_feedStateCache.lastPageKey != null) {
         _latestNextPageKey = _feedStateCache.lastPageKey;
       }
+      _currentFrontier = _feedStateCache.frontier;
+
+      // Restore carry-forward from cached event IDs.  The actual Event
+      // objects are resolved from the (new) timelines once they're available.
+      // If timelines haven't loaded yet or the events can't be found, the
+      // carry-forward is simply empty — the lastId-based re-scan (which now
+      // tracks last *displayed* event) will safely re-discover them.
+      if (_feedStateCache.carryForwardEventIds != null) {
+        _timelinesFuture.then((timelines) {
+          if (!mounted) return;
+          final tMap = {for (final t in timelines) t.room.id: t};
+          for (final entry in _feedStateCache.carryForwardEventIds!.entries) {
+            final roomId = entry.key;
+            final eventIds = entry.value;
+            final timeline = tMap[roomId];
+            if (timeline == null) continue;
+
+            final resolved = <({Event origEvent, Event displayEvent})>[];
+            for (final eventId in eventIds) {
+              final idx = timeline.events.indexWhere(
+                (e) => e.eventId == eventId,
+              );
+              if (idx >= 0) {
+                final event = timeline.events[idx];
+                resolved.add((
+                  origEvent: event,
+                  displayEvent: event.getDisplayEvent(timeline),
+                ));
+              }
+            }
+            if (resolved.isNotEmpty) {
+              _carryForwardCandidates[roomId] = resolved;
+            }
+          }
+        });
+      }
     }
 
     // Initialize the scroll controller with the cached offset so the list
@@ -596,7 +692,7 @@ class HomePageState extends State<HomePage> {
     );
 
     _pagingController = PagingController<
-      Map<Timeline, ({String? lastEventId, bool wasExhausted})>?,
+      Map<String, ({String? lastEventId, bool wasExhausted})>?,
       ({Event origEvent, Event displayEvent})
     >(
       getNextPageKey: (state) {
@@ -711,6 +807,8 @@ class HomePageState extends State<HomePage> {
         pageKeyInitialized = false;
         _latestNextPageKey = null;
         _carryForwardCandidates = {};
+        _currentFrontier = null;
+        _timelineMap = {};
         _timelinesFuture = _fetchTimelines();
         _pagingController.refresh();
       });
@@ -731,6 +829,17 @@ class HomePageState extends State<HomePage> {
       _feedStateCache.lastPageKey = _latestNextPageKey;
       _feedStateCache.firstEventIds = Map<String, String>.from(firstEventIds);
       _feedStateCache.wasPageKeyInitialized = pageKeyInitialized;
+      _feedStateCache.frontier = _currentFrontier;
+
+      // Persist carry-forward event IDs so they survive widget lifecycle.
+      if (_carryForwardCandidates.isNotEmpty) {
+        _feedStateCache.carryForwardEventIds = _carryForwardCandidates.map(
+          (roomId, events) =>
+              MapEntry(roomId, events.map((e) => e.origEvent.eventId).toList()),
+        );
+      } else {
+        _feedStateCache.carryForwardEventIds = null;
+      }
     }
 
     _connectivitySubscription?.cancel();
@@ -838,7 +947,7 @@ class HomePageState extends State<HomePage> {
                       builder:
                           (context, _) => PagedListView<
                             Map<
-                              Timeline,
+                              String,
                               ({String? lastEventId, bool wasExhausted})
                             >?,
                             ({Event origEvent, Event displayEvent})
@@ -915,6 +1024,8 @@ class HomePageState extends State<HomePage> {
                                     child: PostWidget(
                                       event: item.origEvent,
                                       displayEvent: item.displayEvent,
+                                      timeline:
+                                          _timelineMap[item.origEvent.roomId],
                                     ),
                                   ),
                             ),

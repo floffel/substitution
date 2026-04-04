@@ -37,6 +37,7 @@ import '/shared/constants.dart';
 import '/shared/widgets/startroom_dialog.dart';
 import '/shared/utils/share_helper.dart';
 import '/shared/services/notification_service.dart';
+import '/shared/services/background_sync_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -687,6 +688,10 @@ void main() async {
   // Skip in integration tests to avoid notification permission prompts.
   if (!AppConstants.isIntegrationTest && !kIsWeb) {
     unawaited(NotificationService.instance.init(client));
+    // Register periodic background sync for notifications when the app is
+    // not in the foreground (uses WorkManager on Android and BGTaskScheduler
+    // on iOS with ~15 minute intervals).
+    unawaited(BackgroundSyncService.register());
   }
 
   // Listen for deep links while the app is already running (e.g. SSO callback
@@ -928,12 +933,34 @@ class _SubstitutionAppState extends State<SubstitutionApp> {
   void initState() {
     super.initState();
     _setupVerificationListener();
+    _setupNotificationNavigation();
   }
 
   @override
   void dispose() {
     _verificationSubscription?.cancel();
+    NotificationService.instance.onNavigate = null;
     super.dispose();
+  }
+
+  /// Wire up notification-tap navigation so tapping a notification opens the
+  /// corresponding chat room.
+  void _setupNotificationNavigation() {
+    // Live callback: invoked immediately when the user taps a notification
+    // while the app is running.
+    NotificationService.instance.onNavigate = (roomId, eventId) {
+      router.push('/chat/${Uri.encodeComponent(roomId)}');
+    };
+
+    // Cold-start: the user tapped a notification that launched the app.
+    // The intent was stored before the widget tree was ready, so consume it
+    // now on the next frame.
+    final pending = NotificationService.consumePendingNavigation();
+    if (pending != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        router.push('/chat/${Uri.encodeComponent(pending.roomId)}');
+      });
+    }
   }
 
   void _setupVerificationListener() {

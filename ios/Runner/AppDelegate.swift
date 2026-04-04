@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import workmanager
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,6 +9,10 @@ import UIKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+
+    // Register the workmanager background task for periodic sync.
+    WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh")
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 

@@ -581,7 +581,9 @@
         "search_empty": "No users found.",
         "search_error": "Search failed. Please try again.",
         "retry": "Retry",
-        "error_start_chat": "Could not start chat: {}"
+        "error_start_chat": "Could not start chat: {}",
+        "message_error": "Failed to send",
+        "read": "Read"
     },
     "search": {
         "hint": "Search posts...",
