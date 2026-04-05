@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:substitution/feed/services/feed_state_cache.dart';
 import 'package:substitution/shared/services/connectivity_service.dart';
+import 'package:substitution/shared/services/matrix_server_capabilities.dart';
 import 'package:substitution/shared/services/substitution_service.dart';
 import 'package:substitution/shared/services/loading_service.dart';
 
@@ -73,6 +74,9 @@ void main() {
               Provider<FeedStateCache>.value(value: FeedStateCache()),
               ChangeNotifierProvider<LoadingService>(
                 create: (_) => LoadingService(),
+              ),
+              ChangeNotifierProvider<MatrixServerCapabilities>(
+                create: (_) => MatrixServerCapabilities(mockClient),
               ),
             ],
             child: MaterialApp(home: const HomePage()),
@@ -145,6 +149,9 @@ void main() {
               ChangeNotifierProvider<LoadingService>(
                 create: (_) => LoadingService(),
               ),
+              ChangeNotifierProvider<MatrixServerCapabilities>(
+                create: (_) => MatrixServerCapabilities(mockClient),
+              ),
             ],
             child: MaterialApp(home: const HomePage()),
           ),
@@ -180,6 +187,9 @@ void main() {
               ChangeNotifierProvider<LoadingService>(
                 create: (_) => LoadingService(),
               ),
+              ChangeNotifierProvider<MatrixServerCapabilities>(
+                create: (_) => MatrixServerCapabilities(mockClient),
+              ),
             ],
             child: MaterialApp(home: const HomePage()),
           ),
@@ -214,6 +224,9 @@ void main() {
                 Provider<FeedStateCache>.value(value: FeedStateCache()),
                 ChangeNotifierProvider<LoadingService>(
                   create: (_) => LoadingService(),
+                ),
+                ChangeNotifierProvider<MatrixServerCapabilities>(
+                  create: (_) => MatrixServerCapabilities(mockClient),
                 ),
               ],
               child: MaterialApp(home: const HomePage()),
@@ -251,6 +264,9 @@ void main() {
               Provider<FeedStateCache>.value(value: FeedStateCache()),
               ChangeNotifierProvider<LoadingService>(
                 create: (_) => LoadingService(),
+              ),
+              ChangeNotifierProvider<MatrixServerCapabilities>(
+                create: (_) => MatrixServerCapabilities(mockClient),
               ),
             ],
             child: MaterialApp(home: const HomePage()),
@@ -318,6 +334,9 @@ void main() {
               Provider<FeedStateCache>.value(value: FeedStateCache()),
               ChangeNotifierProvider<LoadingService>(
                 create: (_) => LoadingService(),
+              ),
+              ChangeNotifierProvider<MatrixServerCapabilities>(
+                create: (_) => MatrixServerCapabilities(mockClient),
               ),
             ],
             child: MaterialApp(home: const HomePage()),

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:substitution/feed/services/feed_candidate.dart';
 import 'package:substitution/feed/services/feed_state_cache.dart';
 
 class MockEvent extends Mock implements Event {}
@@ -26,19 +27,22 @@ void main() {
 
     test('hasCache is true when cachedItems has entries', () {
       final e = MockEvent();
-      cache.cachedItems = [(origEvent: e, displayEvent: e)];
+      cache.cachedItems = [FeedCandidate(origEvent: e, displayEvent: e)];
       expect(cache.hasCache, isTrue);
     });
 
     test('lastPageKey uses String (room ID) keys, not Timeline objects', () {
       cache.lastPageKey = {
-        '!room1:matrix.org': (lastEventId: '\$ev1', wasExhausted: false),
-        '!room2:matrix.org': (lastEventId: null, wasExhausted: true),
+        '!room1:matrix.org': const RoomPageState(lastDisplayedEventId: '\$ev1'),
+        '!room2:matrix.org': const RoomPageState(exhausted: true),
       };
 
       expect(cache.lastPageKey!.containsKey('!room1:matrix.org'), isTrue);
-      expect(cache.lastPageKey!['!room1:matrix.org']!.lastEventId, '\$ev1');
-      expect(cache.lastPageKey!['!room2:matrix.org']!.wasExhausted, isTrue);
+      expect(
+        cache.lastPageKey!['!room1:matrix.org']!.lastDisplayedEventId,
+        '\$ev1',
+      );
+      expect(cache.lastPageKey!['!room2:matrix.org']!.exhausted, isTrue);
     });
 
     test('carryForwardEventIds stores event IDs per room', () {
@@ -59,10 +63,10 @@ void main() {
 
     test('clear() resets all fields', () {
       final e = MockEvent();
-      cache.cachedItems = [(origEvent: e, displayEvent: e)];
+      cache.cachedItems = [FeedCandidate(origEvent: e, displayEvent: e)];
       cache.scrollOffset = 123.0;
       cache.lastPageKey = {
-        '!room:matrix.org': (lastEventId: '\$ev', wasExhausted: false),
+        '!room:matrix.org': const RoomPageState(lastDisplayedEventId: '\$ev'),
       };
       cache.firstEventIds = {'!room:matrix.org': '\$ev'};
       cache.wasPageKeyInitialized = true;
@@ -96,17 +100,17 @@ void main() {
 
     test('cache round-trip: lastPageKey persists room-ID-based keys', () {
       // Simulate dispose() saving state
-      final key = <String, ({String? lastEventId, bool wasExhausted})>{
-        '!active:matrix.org': (lastEventId: '\$a5', wasExhausted: false),
-        '!inactive:matrix.org': (lastEventId: null, wasExhausted: false),
+      final key = <String, RoomPageState>{
+        '!active:matrix.org': const RoomPageState(lastDisplayedEventId: '\$a5'),
+        '!inactive:matrix.org': const RoomPageState(),
       };
       cache.lastPageKey = key;
 
       // Simulate initState() restoring state
       final restored = cache.lastPageKey!;
       expect(restored.length, 2);
-      expect(restored['!active:matrix.org']!.lastEventId, '\$a5');
-      expect(restored['!inactive:matrix.org']!.lastEventId, isNull);
+      expect(restored['!active:matrix.org']!.lastDisplayedEventId, '\$a5');
+      expect(restored['!inactive:matrix.org']!.lastDisplayedEventId, isNull);
 
       // The key is a String (room ID), not a Timeline object —
       // so it survives widget lifecycle changes where Timeline objects are

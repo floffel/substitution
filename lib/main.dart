@@ -27,6 +27,7 @@ import '/shared/pages/age_gate.dart';
 import '/profile/pages/user_profile.dart';
 import '/chat/pages/chat_page.dart';
 import '/feed/services/feed_state_cache.dart';
+import '/shared/services/matrix_server_capabilities.dart';
 import '/shared/services/theme_service.dart';
 import '/shared/services/connectivity_service.dart';
 import '/shared/services/loading_service.dart';
@@ -1016,6 +1017,9 @@ class _SubstitutionAppState extends State<SubstitutionApp> {
                   Provider<FeedStateCache>(create: (_) => FeedStateCache()),
                   ChangeNotifierProvider<LoadingService>(
                     create: (_) => LoadingService(),
+                  ),
+                  ChangeNotifierProvider<MatrixServerCapabilities>(
+                    create: (_) => MatrixServerCapabilities(client)..load(),
                   ),
                 ],
                 child: child,

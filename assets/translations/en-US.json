@@ -28,7 +28,10 @@
             "home": {
                 "roomlabel": "Room: {}",
                 "empty": "Your feed is empty. Follow some rooms to see posts!",
-                "empty_button": "Find new rooms"
+                "empty_button": "Find new rooms",
+                "server_warning_title": "Older homeserver detected",
+                "server_warning_body": "Your homeserver does not support Matrix v1.6+ (timestamp_to_event). The feed will still work but may be slower and less accurate for rooms with large gaps in activity. Consider migrating to a newer homeserver.",
+                "server_warning_badge": "Legacy server"
             }
         }
     },

@@ -1,6 +1,11 @@
+import '/feed/services/feed_candidate.dart';
+import '/feed/services/feed_paginator.dart';
 import '/feed/services/feed_state_cache.dart';
+import '/feed/services/matrix_room_timeline_adapter.dart';
+import '/feed/widgets/server_capability_banner.dart';
 import '/post/widgets/post.dart';
 import '/shared/services/loading_service.dart';
+import '/shared/services/matrix_server_capabilities.dart';
 
 import '/shared/services/connectivity_service.dart';
 
@@ -32,11 +37,7 @@ class HomePageState extends State<HomePage> {
   /// Number of events to fetch per page when paginating through timelines.
   static const int _pageSize = 20;
 
-  late final PagingController<
-    Map<String, ({String? lastEventId, bool wasExhausted})>?,
-    ({Event origEvent, Event displayEvent})
-  >
-  _pagingController;
+  late final PagingController<PageKey?, FeedCandidate> _pagingController;
 
   /// Whether the page key has been initialized from timelines. Set to true on
   /// the first [_fetchEvents] call because the key depends on an async
@@ -51,7 +52,15 @@ class HomePageState extends State<HomePage> {
   late Future<List<Timeline>> _timelinesFuture;
 
   // Track the latest key calculated by _fetchEvents to return it in getNextPageKey
-  Map<String, ({String? lastEventId, bool wasExhausted})>? _latestNextPageKey;
+  PageKey? _latestNextPageKey;
+
+  /// Per-room carry-forward candidates (events loaded but not yet displayed).
+  /// Passed into each paginate() call to avoid re-loading.
+  Map<String, List<FeedCandidate>> _carryForward = {};
+
+  /// The paginator instance; lazily built on first fetch once timelines are
+  /// ready. Recreated when the room set changes.
+  FeedPaginator? _paginator;
 
   bool _isOnline = true;
   bool _showOfflineBanner = false;
@@ -71,6 +80,7 @@ class HomePageState extends State<HomePage> {
   late final SubstitutionService _substitutionService;
   late final FeedStateCache _feedStateCache;
   late final LoadingService _loadingService;
+  late final MatrixServerCapabilities _serverCapabilities;
   late final ScrollController _scrollController;
   Set<String> _currentRoomIds = {};
   Set<String> get currentRoomIds => _currentRoomIds;
@@ -81,15 +91,9 @@ class HomePageState extends State<HomePage> {
   /// throughout the page lifecycle.
   Map<String, Timeline> _timelineMap = {};
 
-  /// The oldest event timestamp shown on the last page.  Used for
-  /// frontier-aware loading: rooms whose newest candidate is older than this
-  /// don't need more history fetched from the server.
+  /// The safe frontier (t_safe) from the last page. Persisted across widget
+  /// dispose/recreate via [FeedStateCache.frontier].
   DateTime? _currentFrontier;
-
-  /// Candidates fetched but not returned in the previous page, keyed by room ID.
-  /// Carried forward to avoid re-fetching the same events on the next page.
-  Map<String, List<({Event origEvent, Event displayEvent})>>
-  _carryForwardCandidates = {};
 
   /// Returns `true` if [event] should be shown as a feed post.
   ///
@@ -174,20 +178,21 @@ class HomePageState extends State<HomePage> {
     return timelines;
   }
 
-  // fetch events that are unknown by the _pagingController because they are too new
-
+  /// Scans timelines for events newer than the last displayed top-of-feed
+  /// (tracked via [firstEventIds]) and prepends them to page 0.
+  /// Called on pull-to-refresh and when connectivity returns.
   Future<void> _fetchFutureEvents() async {
     if (_isFetchingFuture) return;
     _isFetchingFuture = true;
 
     try {
-      List<({Event origEvent, Event displayEvent})> ret = [];
+      List<FeedCandidate> ret = [];
 
       final timelineLists = await _timelinesFuture;
       if (!mounted) return;
 
       for (Timeline timeline in timelineLists) {
-        List<({Event origEvent, Event displayEvent})> newEvents = [];
+        List<FeedCandidate> newEvents = [];
 
         String? lastCurrentEventId = firstEventIds[timeline.room.id];
 
@@ -203,10 +208,12 @@ class HomePageState extends State<HomePage> {
               e.relationshipType != RelationshipTypes.thread &&
               e.relationshipType != RelationshipTypes.edit &&
               _isVisiblePost(e)) {
-            newEvents.add((
-              origEvent: e,
-              displayEvent: e.getDisplayEvent(timeline),
-            ));
+            newEvents.add(
+              FeedCandidate(
+                origEvent: e,
+                displayEvent: e.getDisplayEvent(timeline),
+              ),
+            );
           }
 
           // If we didn't have a marker, only take the first N messages to avoid flooding
@@ -216,7 +223,7 @@ class HomePageState extends State<HomePage> {
         }
 
         if (newEvents.isNotEmpty) {
-          firstEventIds[timeline.room.id] = newEvents.first.origEvent.eventId;
+          firstEventIds[timeline.room.id] = newEvents.first.eventId;
           ret.addAll(newEvents);
         }
       }
@@ -224,10 +231,7 @@ class HomePageState extends State<HomePage> {
       if (ret.isEmpty) return;
 
       // sort by original event timestamp so edits don't change feed position
-      ret.sort(
-        (a, b) =>
-            b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
-      );
+      ret.sort((a, b) => b.ts.compareTo(a.ts));
 
       // add ret to the top
       final currentPages = _pagingController.value.pages ?? [];
@@ -243,11 +247,10 @@ class HomePageState extends State<HomePage> {
           debugPrint("HomePage: Skipping prepend — page fetch in progress");
           return;
         }
-        final List<List<({Event origEvent, Event displayEvent})>> updatedPages =
-            [
-              [...ret, ...currentPages.first],
-              ...currentPages.skip(1),
-            ];
+        final List<List<FeedCandidate>> updatedPages = [
+          [...ret, ...currentPages.first],
+          ...currentPages.skip(1),
+        ];
         _pagingController.value = _pagingController.value.copyWith(
           pages: updatedPages,
         );
@@ -260,223 +263,86 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  /// Fetches the next page of events across all followed timelines.
-  ///
-  /// [pageKey] maps each **room ID** to its pagination state:
-  ///   - `lastEventId`: the last event ID that was *displayed* (returned in a
-  ///     previous page).  This is deliberately the last **displayed** event,
-  ///     not the last **scanned** event, so that if carry-forward candidates
-  ///     are lost (e.g. widget dispose/recreate) the events will be
-  ///     re-discovered on the next scan instead of being permanently skipped.
-  ///   - `wasExhausted`: whether the timeline has no more history to fetch.
-  ///
-  /// Returns the merged, chronologically sorted events and an updated key for
-  /// the next page (or `null` when all timelines are exhausted).
-  Future<
-    ({
-      List<({Event origEvent, Event displayEvent})> events,
-      Map<String, ({String? lastEventId, bool wasExhausted})>? nextKey,
-    })
-  >
-  _fetchEvents(
-    Map<String, ({String? lastEventId, bool wasExhausted})>? pageKey,
+  /// Builds (or returns the cached) [FeedPaginator] for the current set of
+  /// timelines. Called lazily on first fetch so it can await the timelines
+  /// future. Invalidated (set to null) in [_handleRoomChanges] when the room
+  /// set changes.
+  Future<FeedPaginator> _ensurePaginator() async {
+    if (_paginator != null) return _paginator!;
+    if (_timelineMap.isEmpty) {
+      // Await the timelines future once to populate _timelineMap.
+      await _timelinesFuture;
+    }
+    final adapter = MatrixRoomTimelineAdapter(
+      client: _client,
+      timelines: _timelineMap,
+      capabilities: _serverCapabilities,
+      visibilityFilter: _isVisiblePost,
+      isMounted: () => mounted,
+    );
+    _paginator = FeedPaginator(
+      adapter: adapter,
+      pageSize: _pageSize,
+      minSafePageSize: _pageSize ~/ 2,
+    );
+    return _paginator!;
+  }
+
+  /// Fetches the next page of events. Delegates to [FeedPaginator] for
+  /// correctness-by-construction ordering. See `feed_paginator.dart` for
+  /// the algorithmic invariants.
+  Future<({List<FeedCandidate> events, PageKey? nextKey})> _fetchEvents(
+    PageKey? pageKey,
   ) async {
-    List<({Event origEvent, Event displayEvent})> ret = [];
-
-    Map<String, ({String? lastEventId, bool wasExhausted})>? newPageKey =
-        pageKey;
-
     // Treat both `null` and an empty map as the "initialize from timelines"
-    // signal.  The PagingController passes an empty map `{}` as the very
-    // first page key (see getNextPageKey), so we need to handle both cases.
+    // signal. The PagingController passes an empty map `{}` as the very
+    // first page key (see getNextPageKey), so we handle both cases.
     final bool isInitialLoad = pageKey == null || pageKey.isEmpty;
 
+    PageKey effectiveKey = pageKey ?? const {};
     if (isInitialLoad) {
       if (!pageKeyInitialized) {
         pageKeyInitialized = true;
-
         final timelineList = await _timelinesFuture;
-        if (!mounted) return (events: ret, nextKey: newPageKey);
-
-        newPageKey = {};
-        for (Timeline timeline in timelineList) {
-          newPageKey[timeline.room.id] = (
-            lastEventId: null,
-            wasExhausted: false,
-          );
-        }
+        if (!mounted) return (events: const <FeedCandidate>[], nextKey: null);
+        effectiveKey = {
+          for (final t in timelineList) t.room.id: const RoomPageState(),
+        };
       } else {
-        return (events: ret, nextKey: newPageKey);
+        // pageKeyInitialized==true but we're being asked to re-initialize →
+        // end pagination (avoids duplicate fetches triggered by refresh loops).
+        return (events: const <FeedCandidate>[], nextKey: null);
       }
     }
 
-    // Resolve room IDs to Timeline objects.  _timelineMap is populated by
-    // _fetchTimelines(); fall back to awaiting the future if it hasn't
-    // completed yet (e.g. on the very first fetch).
-    final Map<String, Timeline> timelineMap =
-        _timelineMap.isNotEmpty
-            ? _timelineMap
-            : {for (final t in await _timelinesFuture) t.room.id: t};
+    final paginator = await _ensurePaginator();
+    if (!mounted) return (events: const <FeedCandidate>[], nextKey: null);
 
-    List<({Event origEvent, Event displayEvent})> allCandidates = [];
-    Map<String, List<({Event origEvent, Event displayEvent})>>
-    candidatesPerRoom = {};
-
-    for (String roomId in newPageKey!.keys.toList()) {
-      ({String? lastEventId, bool wasExhausted}) meta = newPageKey[roomId]!;
-      final timeline = timelineMap[roomId];
-      if (timeline == null) continue; // Room no longer available
-
-      // Start with any candidates carried forward from the previous page.
-      List<({Event origEvent, Event displayEvent})> roomCandidates =
-          _carryForwardCandidates.remove(roomId) ?? [];
-      // Track IDs already in carry-forward to avoid duplicates during scan.
-      final Set<String> candidateIds =
-          roomCandidates.map((e) => e.origEvent.eventId).toSet();
-
-      int retryCount = 0;
-      int lastProcessedIndex = -1;
-
-      // Find the starting point from the last *displayed* event.
-      if (meta.lastEventId != null) {
-        lastProcessedIndex = timeline.events.indexWhere(
-          (e) => e.eventId == meta.lastEventId,
-        );
-      }
-
-      while (roomCandidates.length < _pageSize && retryCount < 3) {
-        retryCount++;
-
-        final int countBefore = timeline.events.length;
-
-        // Process events from the last point reached.
-        for (int i = lastProcessedIndex + 1; i < timeline.events.length; i++) {
-          final event = timeline.events[i];
-          lastProcessedIndex = i;
-
-          // Skip events already in carry-forward to avoid duplicates.
-          if (candidateIds.contains(event.eventId)) continue;
-
-          final isMsg = event.type == "m.room.message";
-          final isNotReply =
-              event.relationshipType != RelationshipTypes.reference;
-          final isNotThread =
-              event.relationshipType != RelationshipTypes.thread;
-          final isNotEdit = event.relationshipType != RelationshipTypes.edit;
-
-          if (isMsg &&
-              isNotReply &&
-              isNotThread &&
-              isNotEdit &&
-              _isVisiblePost(event)) {
-            roomCandidates.add((
-              origEvent: event,
-              displayEvent: event.getDisplayEvent(timeline),
-            ));
-            candidateIds.add(event.eventId);
-          }
-        }
-
-        // ── Frontier-aware loading ──────────────────────────────────────
-        // If this room already has candidates and its *newest* candidate is
-        // older than the current display frontier, all further history from
-        // this room will be even older and won't be shown on the next page
-        // either.  Skip the expensive server request.
-        if (_currentFrontier != null && roomCandidates.isNotEmpty) {
-          final newestCandidate = roomCandidates.first.origEvent.originServerTs;
-          if (newestCandidate.isBefore(_currentFrontier!)) {
-            break;
-          }
-        }
-
-        if (roomCandidates.length < _pageSize && timeline.canRequestHistory) {
-          await timeline.requestHistory(historyCount: _pageSize);
-          if (!mounted) return (events: ret, nextKey: newPageKey);
-
-          // If count didn't increase, the server has no more history for us
-          // despite what canRequestHistory says.
-          if (timeline.events.length <= countBefore) {
-            break;
-          }
-        } else {
-          break;
-        }
-      }
-
-      candidatesPerRoom[roomId] = roomCandidates;
-      allCandidates.addAll(roomCandidates);
-    }
-
-    // Sort all candidates newest first by original timestamp so edits don't
-    // change position.
-    allCandidates.sort(
-      (a, b) =>
-          b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
+    final result = await paginator.paginate(
+      pageKey: effectiveKey,
+      carryForward: _carryForward,
     );
+    if (!mounted) return (events: const <FeedCandidate>[], nextKey: null);
 
-    // Take top N posts for this page.
-    ret = allCandidates.take(_pageSize).toList();
+    // Persist the carry-forward for the next fetch.
+    _carryForward = result.carryForward;
+    _currentFrontier = result.frontier;
 
-    // Update the frontier timestamp for next fetch.
-    if (ret.isNotEmpty) {
-      _currentFrontier = ret.last.origEvent.originServerTs;
-    }
-
-    // Update the next key based on what we are actually returning,
-    // and carry forward unused candidates to avoid re-fetching them.
-    Map<String, ({String? lastEventId, bool wasExhausted})> nextKey = {};
-    final retEventIds = ret.map((e) => e.origEvent.eventId).toSet();
-
-    for (String roomId in newPageKey.keys.toList()) {
-      final meta = newPageKey[roomId]!;
-      final timeline = timelineMap[roomId];
-      final roomCandidates = candidatesPerRoom[roomId] ?? [];
-      final eventsInRet =
-          ret.where((e) => e.origEvent.roomId == roomId).toList();
-
-      // Track last *displayed* event (not last scanned).  If carry-forward
-      // is lost (widget dispose/recreate), the events between lastId and the
-      // actual scan position will be re-discovered on the next scan of the
-      // in-memory timeline list — no data loss.
-      String? lastId =
-          eventsInRet.isNotEmpty
-              ? eventsInRet.last.origEvent.eventId
-              : meta.lastEventId;
-
-      if (eventsInRet.isNotEmpty && firstEventIds[roomId] == null) {
-        // Track the newest event ID we've displayed for this room.
-        firstEventIds[roomId] = eventsInRet.first.origEvent.eventId;
-      }
-
-      // Carry forward candidates that were fetched but didn't make it into
-      // this page (e.g. because another room had newer events).
-      final unused =
-          roomCandidates
-              .where((e) => !retEventIds.contains(e.origEvent.eventId))
-              .toList();
-      if (unused.isNotEmpty) {
-        _carryForwardCandidates[roomId] = unused;
-      }
-
-      bool isExhausted =
-          (timeline != null && !timeline.canRequestHistory) && unused.isEmpty;
-
-      if (!isExhausted) {
-        nextKey[roomId] = (lastEventId: lastId, wasExhausted: false);
-      }
-    }
-
-    if (ret.isEmpty) {
-      return (
-        events: ret,
-        nextKey: null,
-      ); // Explicitly stop if no candidates found
+    // Track the newest event we've displayed per room (for pull-to-refresh).
+    for (final c in result.events) {
+      firstEventIds.putIfAbsent(c.roomId, () => c.eventId);
     }
 
     debugPrint(
-      "HomePage: Returning ${ret.length} events, nextKey.isEmpty=${nextKey.isEmpty}",
+      "HomePage: Returning ${result.events.length} events, "
+      "nextKey=${result.nextKey?.keys.length ?? 'null'}, "
+      "frontier=${result.frontier}",
     );
-    return (events: ret, nextKey: nextKey.isEmpty ? null : nextKey);
+
+    if (result.events.isEmpty && result.nextKey == null) {
+      return (events: const <FeedCandidate>[], nextKey: null);
+    }
+    return (events: result.events, nextKey: result.nextKey);
   }
 
   // ── Search logic ────────────────────────────────────────────────────────────
@@ -626,6 +492,10 @@ class HomePageState extends State<HomePage> {
     );
     _feedStateCache = Provider.of<FeedStateCache>(context, listen: false);
     _loadingService = Provider.of<LoadingService>(context, listen: false);
+    _serverCapabilities = Provider.of<MatrixServerCapabilities>(
+      context,
+      listen: false,
+    );
 
     // Initialize SubstitutionService cache
     _substitutionService.init();
@@ -647,11 +517,12 @@ class HomePageState extends State<HomePage> {
       }
       _currentFrontier = _feedStateCache.frontier;
 
-      // Restore carry-forward from cached event IDs.  The actual Event
+      // Restore carry-forward from cached event IDs. The actual Event
       // objects are resolved from the (new) timelines once they're available.
       // If timelines haven't loaded yet or the events can't be found, the
-      // carry-forward is simply empty — the lastId-based re-scan (which now
-      // tracks last *displayed* event) will safely re-discover them.
+      // carry-forward is simply empty — the paginator will re-scan the
+      // in-memory timeline (tracking last *displayed* event) and safely
+      // re-discover them without data loss.
       if (_feedStateCache.carryForwardEventIds != null) {
         _timelinesFuture.then((timelines) {
           if (!mounted) return;
@@ -662,21 +533,23 @@ class HomePageState extends State<HomePage> {
             final timeline = tMap[roomId];
             if (timeline == null) continue;
 
-            final resolved = <({Event origEvent, Event displayEvent})>[];
+            final resolved = <FeedCandidate>[];
             for (final eventId in eventIds) {
               final idx = timeline.events.indexWhere(
                 (e) => e.eventId == eventId,
               );
               if (idx >= 0) {
                 final event = timeline.events[idx];
-                resolved.add((
-                  origEvent: event,
-                  displayEvent: event.getDisplayEvent(timeline),
-                ));
+                resolved.add(
+                  FeedCandidate(
+                    origEvent: event,
+                    displayEvent: event.getDisplayEvent(timeline),
+                  ),
+                );
               }
             }
             if (resolved.isNotEmpty) {
-              _carryForwardCandidates[roomId] = resolved;
+              _carryForward[roomId] = resolved;
             }
           }
         });
@@ -691,20 +564,15 @@ class HomePageState extends State<HomePage> {
           restoreFromCache ? _feedStateCache.scrollOffset : 0.0,
     );
 
-    _pagingController = PagingController<
-      Map<String, ({String? lastEventId, bool wasExhausted})>?,
-      ({Event origEvent, Event displayEvent})
-    >(
+    _pagingController = PagingController<PageKey?, FeedCandidate>(
       getNextPageKey: (state) {
         if (state.keys == null) {
-          return {}; // Initial load key
+          return const <String, RoomPageState>{}; // Initial load key
         }
-
-        // Explicitly terminate if _latestNextPageKey is null or empty
+        // Explicitly terminate if _latestNextPageKey is null or empty.
         if (_latestNextPageKey == null || _latestNextPageKey!.isEmpty) {
           return null;
         }
-
         return _latestNextPageKey;
       },
       fetchPage: (pageKey) async {
@@ -806,9 +674,10 @@ class HomePageState extends State<HomePage> {
         // re-reads the updated timeline list instead of returning early.
         pageKeyInitialized = false;
         _latestNextPageKey = null;
-        _carryForwardCandidates = {};
+        _carryForward = {};
         _currentFrontier = null;
         _timelineMap = {};
+        _paginator = null; // force rebuild with new timelines
         _timelinesFuture = _fetchTimelines();
         _pagingController.refresh();
       });
@@ -832,10 +701,10 @@ class HomePageState extends State<HomePage> {
       _feedStateCache.frontier = _currentFrontier;
 
       // Persist carry-forward event IDs so they survive widget lifecycle.
-      if (_carryForwardCandidates.isNotEmpty) {
-        _feedStateCache.carryForwardEventIds = _carryForwardCandidates.map(
+      if (_carryForward.isNotEmpty) {
+        _feedStateCache.carryForwardEventIds = _carryForward.map(
           (roomId, events) =>
-              MapEntry(roomId, events.map((e) => e.origEvent.eventId).toList()),
+              MapEntry(roomId, events.map((e) => e.eventId).toList()),
         );
       } else {
         _feedStateCache.carryForwardEventIds = null;
@@ -876,6 +745,8 @@ class HomePageState extends State<HomePage> {
             },
             child: Column(
               children: [
+                // Legacy-server warning banner (only shows if server lacks v1.6)
+                if (widget.roomId == null) const ServerCapabilityBanner(),
                 // Search bar
                 if (_isSearchActive) ...[
                   Padding(
@@ -945,13 +816,10 @@ class HomePageState extends State<HomePage> {
                     child: ListenableBuilder(
                       listenable: _pagingController,
                       builder:
-                          (context, _) => PagedListView<
-                            Map<
-                              String,
-                              ({String? lastEventId, bool wasExhausted})
-                            >?,
-                            ({Event origEvent, Event displayEvent})
-                          >.separated(
+                          (
+                            context,
+                            _,
+                          ) => PagedListView<PageKey?, FeedCandidate>.separated(
                             key: const ValueKey('feedListView'),
                             scrollController: _scrollController,
                             state: _pagingController.value,
@@ -960,7 +828,7 @@ class HomePageState extends State<HomePage> {
                             separatorBuilder:
                                 (context, index) => const SizedBox(height: 2),
                             builderDelegate: PagedChildBuilderDelegate<
-                              ({Event origEvent, Event displayEvent})
+                              FeedCandidate
                             >(
                               // Loading is indicated by the TopLoadingBar — no
                               // in-list spinners or skeletons that would cause layout
@@ -1019,13 +887,12 @@ class HomePageState extends State<HomePage> {
                                   (context, item, index) => GestureDetector(
                                     onTap:
                                         () => context.pushIfNew(
-                                          '/room/${item.origEvent.roomId}/${item.origEvent.eventId}',
+                                          '/room/${item.roomId}/${item.eventId}',
                                         ),
                                     child: PostWidget(
                                       event: item.origEvent,
                                       displayEvent: item.displayEvent,
-                                      timeline:
-                                          _timelineMap[item.origEvent.roomId],
+                                      timeline: _timelineMap[item.roomId],
                                     ),
                                   ),
                             ),
