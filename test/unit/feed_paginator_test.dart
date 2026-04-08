@@ -119,6 +119,55 @@ class FakeRoomAdapter implements RoomTimelineAdapter {
   }
 }
 
+/// Adapter that can advance history without ever yielding feed candidates.
+///
+/// This models rooms where fetched history is composed of non-feed events
+/// (e.g. state changes), so `scanLocal` stays empty even though the
+/// timeline advances.
+class EmptyCandidateProgressAdapter implements RoomTimelineAdapter {
+  EmptyCandidateProgressAdapter({required this.maxHistoryAdvances});
+
+  final int maxHistoryAdvances;
+  int requestHistoryCalls = 0;
+
+  @override
+  Set<String> get roomIds => {'!room:test'};
+
+  @override
+  List<FeedCandidate> scanLocal(String roomId, {String? afterEventId}) =>
+      const [];
+
+  @override
+  Future<bool> requestMoreHistory(
+    String roomId, {
+    int historyCount = 20,
+  }) async {
+    requestHistoryCalls++;
+    return requestHistoryCalls <= maxHistoryAdvances;
+  }
+
+  @override
+  bool canRequestHistory(String roomId) =>
+      requestHistoryCalls < maxHistoryAdvances;
+
+  @override
+  bool supportsTimestampToEvent(String roomId) => false;
+
+  @override
+  Future<String?> findEventByTimestamp(
+    String roomId,
+    DateTime ts, {
+    Direction direction = Direction.b,
+  }) async => null;
+
+  @override
+  Future<bool> loadEventsBetween(
+    String roomId,
+    String anchorEventId,
+    DateTime untilTs,
+  ) async => false;
+}
+
 /// Minimal fake [Event] that only stubs the fields [FeedCandidate] uses.
 /// We implement only the accessors actually touched by the paginator.
 class _FakeEvent implements Event {
@@ -553,6 +602,32 @@ void main() {
         reason: 'Saturation must cap at maxSaturationRounds',
       );
     });
+
+    test(
+      'continues saturating when history advances without new candidates',
+      () async {
+        final adapter = EmptyCandidateProgressAdapter(maxHistoryAdvances: 10);
+        final paginator = FeedPaginator(
+          adapter: adapter,
+          pageSize: 20,
+          minSafePageSize: 10,
+          maxSaturationRounds: 3,
+        );
+
+        await paginator.paginate(
+          pageKey: {'!room:test': const RoomPageState()},
+          carryForward: const {},
+        );
+
+        expect(
+          adapter.requestHistoryCalls,
+          3,
+          reason:
+              'Paginator should keep saturating up to max rounds even when '
+              'newly loaded history yields no feed candidates.',
+        );
+      },
+    );
   });
 
   group('FeedPaginator — edge cases', () {

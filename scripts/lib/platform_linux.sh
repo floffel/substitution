@@ -13,12 +13,13 @@ run_linux_tests() {
     local current_platform=$(uname -s)
     if [[ "$current_platform" == "Darwin" ]]; then
         log_info "Running Linux tests in Docker container on macOS..."
-        
-        # Use a more robust approach with Ubuntu base image and Flutter
+
         local container_name="substitution-linux-test-$$"
-        
-        # Create comprehensive Linux test environment
+        local log_file="${RESULTS_DIR}/linux-tests.log"
+        mkdir -p "$RESULTS_DIR"
+
         docker run --rm \
+            --platform linux/amd64 \
             -v "$(pwd):/app" \
             -w /app \
             --name "$container_name" \
@@ -27,58 +28,50 @@ run_linux_tests() {
             -e MATRIX_SERVER="${MATRIX_SERVER:-http://host.docker.internal:8008}" \
             -e MATRIX_TEST_USER="${MATRIX_TEST_USER:-testuser1}" \
             -e MATRIX_TEST_PASSWORD="${MATRIX_TEST_PASSWORD:-testpass123}" \
-            ubuntu:24.04 \
-            bash -c "
-                set -e
-                
-                # Install system dependencies
+            -e SHARD_INDEX="${SHARD_INDEX:-}" \
+            -e TOTAL_SHARDS="${TOTAL_SHARDS:-}" \
+            -e TEST_FILTER="${TEST_FILTER:-}" \
+            ghcr.io/cirruslabs/flutter:stable \
+            bash -lc '
+                set -euo pipefail
                 export DEBIAN_FRONTEND=noninteractive
-                apt-get update && apt-get install -y \
-                    curl git unzip wget openjdk-17-jdk xvfb libgtk-3-0 \
-                    libnss3 libgconf-2-4 libx11-xcb1 libxss1 libxtst6 xauth netcat \
-                    > /dev/null 2>&1
-                
-                # Install Flutter if not already installed
-                if [ ! -f /flutter/bin/flutter ]; then
-                    curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz -o flutter.tar.xz && \
-                    tar xf flutter.tar.xz > /dev/null 2>&1 && \
-                    rm flutter.tar.xz
+
+                apt-get update -q
+                apt-get install -y \
+                    clang lld-18 cmake ninja-build pkg-config \
+                    libgtk-3-dev liblzma-dev libstdc++-12-dev \
+                    libsecret-1-dev libjsoncpp-dev libsqlite3-dev \
+                    libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+                    libblkid-dev libdbus-1-dev libatk1.0-dev \
+                    libcurl4-openssl-dev \
+                    xvfb netcat-traditional
+
+                args=(linux --no-docker)
+                if [[ -n "${SHARD_INDEX:-}" && -n "${TOTAL_SHARDS:-}" ]]; then
+                    args+=(--shard "$SHARD_INDEX" --total-shards "$TOTAL_SHARDS")
                 fi
-                
-                # Set up environment
-                export PATH='/flutter/bin:/opt/android-sdk/platform-tools:$PATH'
-                
-                # Enable Linux desktop support  
-                flutter config --enable-linux-desktop || true
-                flutter precache --linux > /dev/null 2>&1 || true
-                
-                # Get dependencies
-                cd /app && flutter pub get > /dev/null 2>&1 || true
-                
-                # Run tests with virtual display and enhanced error handling
-                xvfb-run --auto-servernum --server-args='-screen 0 1280x1024x24' \
-                flutter test --no-pub --device-id=linux \
-                    --reporter=expanded \
-                    --dart-define=MATRIX_SERVER=http://host.docker.internal:8008 \
-                    --dart-define=MATRIX_TEST_USER=testuser1 \
-                    --dart-define=MATRIX_TEST_PASSWORD=testpass123 \
-                    integration_test/ 2>&1
-            " > "${RESULTS_DIR}/linux-tests.log" 2>&1
-            
+                if [[ -n "${TEST_FILTER:-}" ]]; then
+                    args+=(--filter "$TEST_FILTER")
+                fi
+
+                ./scripts/test.sh "${args[@]}"
+            ' > "$log_file" 2>&1
+
         local exit_code=$?
-        
+
         if [[ $exit_code -eq 0 ]]; then
             log_success "Linux tests completed successfully in container"
+            record_target_result "linux" 0 0 0 0
         else  
             log_info "Linux test execution finished (exit code: $exit_code)"
-            
+
             # Show last few lines for debugging
             log_info "Last 10 lines of Linux test log:"
-            tail -n 10 "${RESULTS_DIR}/linux-tests.log" | sed 's/^/    /'
+            tail -n 10 "$log_file" | sed 's/^/    /'
+            record_target_result "linux" 0 1 0 0
         fi
-        
-        record_target_result "linux" 0 0 0 0
-        return 0
+
+        return $exit_code
         
     else
         # Running directly on Linux - use native runner  

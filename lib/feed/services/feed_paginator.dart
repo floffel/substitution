@@ -309,6 +309,7 @@ class FeedPaginator {
     final roomId = pool.roomId;
     final currentAlpha =
         pool.candidates.isEmpty ? null : pool.candidates.last.ts;
+    bool historyAdvanced = false;
 
     // Decide between timestamp_to_event and plain requestHistory.
     final useTimestampToEvent =
@@ -330,6 +331,7 @@ class FeedPaginator {
           historyCount: pageSize,
         );
         if (!ok) return false;
+        historyAdvanced = true;
       } else {
         // Load events between anchor (exclusive) and current α (exclusive).
         final ok = await adapter.loadEventsBetween(
@@ -344,6 +346,9 @@ class FeedPaginator {
             historyCount: pageSize,
           );
           if (!okHist) return false;
+          historyAdvanced = true;
+        } else {
+          historyAdvanced = true;
         }
       }
     } else {
@@ -352,6 +357,7 @@ class FeedPaginator {
         historyCount: pageSize,
       );
       if (!ok) return false;
+      historyAdvanced = true;
     }
 
     // Re-scan to pick up the newly loaded events.
@@ -366,7 +372,12 @@ class FeedPaginator {
         added++;
       }
     }
-    if (added == 0) return false;
+    if (added == 0) {
+      // Progress can happen even when no new feed candidates were added,
+      // e.g. if fetched history contains only non-feed events. Returning true
+      // lets the saturation loop recompute t_safe and/or continue advancing.
+      return historyAdvanced;
+    }
 
     pool.candidates.sort((a, b) => b.ts.compareTo(a.ts));
     return true;
