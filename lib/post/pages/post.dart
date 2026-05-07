@@ -16,6 +16,7 @@ class PostPage extends IEventWidget {
     super.key,
     required super.event,
     required super.displayEvent,
+    super.timeline,
   });
 
   @override
@@ -209,6 +210,7 @@ class PostPageState extends State<PostPage> {
                           event: widget.event,
                           displayEvent: widget.displayEvent,
                           isDetailView: true,
+                          timeline: widget.timeline,
                         ),
                       );
                     }
@@ -221,6 +223,7 @@ class PostPageState extends State<PostPage> {
                             event: widget.event,
                             displayEvent: widget.displayEvent,
                             isDetailView: true,
+                            timeline: widget.timeline,
                           ),
 
                           // --- Comments section header ---
@@ -282,6 +285,7 @@ class PostPageState extends State<PostPage> {
                                     event: e.origEvent,
                                     displayEvent: e.displayEvent,
                                     postEvent: widget.event,
+                                    timeline: widget.timeline,
                                     onReply: _onCommentReply,
                                   ),
                                   Divider(

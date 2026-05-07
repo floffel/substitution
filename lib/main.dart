@@ -85,6 +85,36 @@ String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
   return null;
 }
 
+Future<void> performSsoLoginFromUri(Client client, Uri uri) async {
+  final token = uri.queryParameters['loginToken'];
+  final homeserverStr = uri.queryParameters['homeserver'];
+
+  debugPrint(
+    "[SSO] callback token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr",
+  );
+
+  if (token == null) {
+    throw Exception('No login token received');
+  }
+
+  if (homeserverStr != null) {
+    client.homeserver = Uri.parse(homeserverStr);
+    debugPrint('[SSO] Configured homeserver to: $homeserverStr');
+  } else if (client.homeserver == null) {
+    debugPrint('[SSO] Warning: No homeserver configured for token login');
+  }
+
+  debugPrint('[SSO] Attempting token login...');
+  await client
+      .login(LoginType.mLoginToken, token: token)
+      .timeout(
+        const Duration(seconds: 15),
+        onTimeout:
+            () => throw TimeoutException('Login timed out after 15 seconds'),
+      );
+  debugPrint('[SSO] Login successful');
+}
+
 void main() async {
   // Check if we are running in an integration test environment
   AppConstants.isIntegrationTest = const bool.fromEnvironment(
@@ -179,7 +209,7 @@ void main() async {
   await AgeGatePage.initConfirmed();
 
   GoRouter router = GoRouter(
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: kDebugMode,
     navigatorKey: rootNavigatorKey,
     initialLocation: '/',
     routes: [
@@ -192,7 +222,7 @@ void main() async {
         pageBuilder: (_, _) {
           // needed b.c. /feed:roomId has the same widget
           return CustomTransitionPage<void>(
-            key: UniqueKey(),
+            key: const ValueKey('feedPage'),
             child: const Feed(),
             transitionsBuilder: (_, _, _, child) => child,
           );
@@ -446,53 +476,10 @@ void main() async {
       GoRoute(
         path: '/login-callback',
         builder: (context, state) {
+          final client = Provider.of<Client>(context, listen: false);
           return Scaffold(
             body: FutureBuilder<void>(
-              future: () async {
-                final token = state.uri.queryParameters['loginToken'];
-                final homeserverStr = state.uri.queryParameters['homeserver'];
-
-                debugPrint(
-                  "Callback params: token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr",
-                );
-
-                if (token == null) {
-                  throw Exception("No login token received");
-                }
-
-                final client = Provider.of<Client>(context, listen: false);
-
-                // Configure homeserver if provided and not set
-                if (homeserverStr != null) {
-                  client.homeserver = Uri.parse(homeserverStr);
-                  debugPrint("Configured client homeserver to: $homeserverStr");
-                } else if (client.homeserver == null) {
-                  debugPrint(
-                    "Warning: No homeserver configured for token login!",
-                  );
-                }
-
-                debugPrint("[SSO] Attempting login with token...");
-                try {
-                  // Fix: m.login.token requires 'token' parameter, not 'password'
-                  // Add timeout to detect hangs
-                  await client
-                      .login(LoginType.mLoginToken, token: token)
-                      .timeout(
-                        const Duration(seconds: 15),
-                        onTimeout: () {
-                          throw TimeoutException(
-                            "Login timed out after 15 seconds",
-                          );
-                        },
-                      );
-                  debugPrint("[SSO] Login successful!");
-                } catch (e, stack) {
-                  debugPrint("[SSO] Login ERROR: $e");
-                  debugPrint(stack.toString());
-                  rethrow;
-                }
-              }(),
+              future: performSsoLoginFromUri(client, state.uri),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   final theme = Theme.of(context);
@@ -585,10 +572,6 @@ void main() async {
                           FilledButton.icon(
                             onPressed: () async {
                               debugPrint("User clicked Continue button.");
-                              final client = Provider.of<Client>(
-                                context,
-                                listen: false,
-                              );
                               if (context.mounted) {
                                 await showStartroomDialog(context, client);
                               }
@@ -719,25 +702,8 @@ void main() async {
       // Handle SSO callback directly here — we have the client instance and
       // avoid any BuildContext/Provider dependency inside the route builder.
       if (routePath == '/login-callback') {
-        final token = uri.queryParameters['loginToken'];
-        final homeserverStr = uri.queryParameters['homeserver'];
-        debugPrint(
-          "[SSO] token=${token != null ? 'YES' : 'NO'}, hs=$homeserverStr",
-        );
-
-        if (token == null) {
-          debugPrint("[SSO] No loginToken in callback URL — aborting");
-          return;
-        }
-
         try {
-          if (homeserverStr != null) {
-            client.homeserver = Uri.parse(homeserverStr);
-            debugPrint("[SSO] Set homeserver to $homeserverStr");
-          }
-          debugPrint("[SSO] Attempting token login...");
-          await client.login(LoginType.mLoginToken, token: token);
-          debugPrint("[SSO] Login successful");
+          await performSsoLoginFromUri(client, uri);
           final navContext = rootNavigatorKey.currentContext;
           if (navContext != null && navContext.mounted) {
             await showStartroomDialog(navContext, client);
@@ -982,50 +948,44 @@ class _SubstitutionAppState extends State<SubstitutionApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeService(),
-      builder: (context, _) {
-        final themeService = context.watch<ThemeService>();
-        return MaterialApp.router(
-          routerDelegate: router.routerDelegate,
-          routeInformationParser: router.routeInformationParser,
-          routeInformationProvider: router.routeInformationProvider,
-          localizationsDelegates: [
-            ...context.localizationDelegates,
-            FlutterQuillLocalizations.delegate,
-          ],
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          theme: AppTheme.light(),
-          darkTheme: AppTheme.dark(),
-          themeMode: themeService.themeMode,
-          builder:
-              (context, child) => MultiProvider(
-                providers: [
-                  Provider<Client>(create: (context) => client),
-                  ChangeNotifierProvider<SubstitutionService>(
-                    create: (context) {
-                      final svc = SubstitutionService(client);
-                      globalSubstitutionService = svc;
-                      return svc;
-                    },
-                  ),
-                  Provider<ConnectivityService>(
-                    create: (_) => ConnectivityService(),
-                  ),
-                  ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
-                  Provider<FeedStateCache>(create: (_) => FeedStateCache()),
-                  ChangeNotifierProvider<LoadingService>(
-                    create: (_) => LoadingService(),
-                  ),
-                  ChangeNotifierProvider<MatrixServerCapabilities>(
-                    create: (_) => MatrixServerCapabilities(client)..load(),
-                  ),
-                ],
-                child: child,
-              ),
-        );
-      },
+    return MultiProvider(
+      providers: [
+        Provider<Client>(create: (_) => client),
+        ChangeNotifierProvider<SubstitutionService>(
+          create: (_) {
+            final svc = SubstitutionService(client);
+            globalSubstitutionService = svc;
+            return svc;
+          },
+        ),
+        Provider<ConnectivityService>(create: (_) => ConnectivityService()),
+        ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
+        Provider<FeedStateCache>(create: (_) => FeedStateCache()),
+        ChangeNotifierProvider<LoadingService>(create: (_) => LoadingService()),
+        ChangeNotifierProvider<MatrixServerCapabilities>(
+          create: (_) => MatrixServerCapabilities(client)..load(),
+        ),
+        ChangeNotifierProvider<ThemeService>(create: (_) => ThemeService()),
+      ],
+      child: Builder(
+        builder: (context) {
+          final themeService = context.watch<ThemeService>();
+          return MaterialApp.router(
+            routerDelegate: router.routerDelegate,
+            routeInformationParser: router.routeInformationParser,
+            routeInformationProvider: router.routeInformationProvider,
+            localizationsDelegates: [
+              ...context.localizationDelegates,
+              FlutterQuillLocalizations.delegate,
+            ],
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: AppTheme.light(),
+            darkTheme: AppTheme.dark(),
+            themeMode: themeService.themeMode,
+          );
+        },
+      ),
     );
   }
 }

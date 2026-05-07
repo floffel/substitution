@@ -28,6 +28,7 @@ class Feed extends StatefulWidget {
 
 class FeedState extends State<Feed> {
   int _currentIndex = 0;
+  static const _discoverPlaceholder = ValueKey('discoverPlaceholder');
 
   /// True once the user has navigated to the Discover tab (index 1).
   /// Used to lazily build FollowFeedSettings so it doesn't start background
@@ -178,6 +179,18 @@ class FeedState extends State<Feed> {
       );
     }
 
+    Widget buildCurrentTab() {
+      return switch (_currentIndex) {
+        0 => HomePage(onDiscoverTap: switchToDiscover),
+        1 =>
+          _hasVisitedDiscover
+              ? const FollowFeedSettings()
+              : const SizedBox.shrink(key: _discoverPlaceholder),
+        2 => const ChatListPage(),
+        _ => HomePage(onDiscoverTap: switchToDiscover),
+      };
+    }
+
     // Main feed with bottom navigation
     return Scaffold(
       appBar: AppBar(
@@ -218,24 +231,9 @@ class FeedState extends State<Feed> {
           child: TopLoadingBar(),
         ),
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          // Tab 0: Feed
-          HomePage(onDiscoverTap: switchToDiscover),
-          // Tab 1: Discover (feeds browser).
-          // Only build FollowFeedSettings once the user first navigates here.
-          // This prevents the paging fetch loop from running in the background
-          // while the user is on other tabs (IndexedStack keeps all children
-          // mounted, so without this guard it starts fetching immediately on
-          // app launch and loops during integration-test pumpAndSettle calls).
-          if (_hasVisitedDiscover)
-            const FollowFeedSettings()
-          else
-            const SizedBox.shrink(),
-          // Tab 2: Messages (DMs)
-          const ChatListPage(),
-        ],
+      body: KeyedSubtree(
+        key: ValueKey('feedTab$_currentIndex'),
+        child: buildCurrentTab(),
       ),
       // Keep endDrawer for backward compat with integration tests that open it
       endDrawer: const Menu(),

@@ -20,10 +20,12 @@ class FileDisplayContainer extends StatefulWidget {
     super.key,
     required this.event,
     required this.displayEvent,
+    this.timeline,
   });
 
   final Event event;
   final Event displayEvent;
+  final Timeline? timeline;
 
   @override
   FileDisplayContainerState createState() => FileDisplayContainerState();
@@ -79,9 +81,11 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
       ),
     ];
 
-    Timeline timeline = await widget.event.room.getTimeline(
-      eventContextId: widget.event.eventId,
-    );
+    final timeline =
+        widget.timeline ??
+        await widget.event.room.getTimeline(
+          eventContextId: widget.event.eventId,
+        );
 
     for (Event e in widget.event.aggregatedEvents(
       timeline,

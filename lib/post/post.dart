@@ -23,7 +23,8 @@ class Post extends StatefulWidget {
 }
 
 class PostState extends State<Post> {
-  late Future<({Event? origEvent, Event? displayEvent})?> _eventFuture;
+  late Future<({Event? origEvent, Event? displayEvent, Timeline? timeline})?>
+  _eventFuture;
 
   @override
   void initState() {
@@ -31,7 +32,8 @@ class PostState extends State<Post> {
     _eventFuture = _loadEvent();
   }
 
-  Future<({Event? origEvent, Event? displayEvent})?> _loadEvent() async {
+  Future<({Event? origEvent, Event? displayEvent, Timeline? timeline})?>
+  _loadEvent() async {
     final client = Provider.of<Client>(context, listen: false);
     final loadingService = Provider.of<LoadingService>(context, listen: false);
 
@@ -57,7 +59,11 @@ class PostState extends State<Post> {
         eventContextId: event.eventId,
       );
 
-      return (origEvent: event, displayEvent: event.getDisplayEvent(timeline));
+      return (
+        origEvent: event,
+        displayEvent: event.getDisplayEvent(timeline),
+        timeline: timeline,
+      );
     } finally {
       loadingService.setDone('post');
     }
@@ -65,7 +71,9 @@ class PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<({Event? origEvent, Event? displayEvent})?>(
+    return FutureBuilder<
+      ({Event? origEvent, Event? displayEvent, Timeline? timeline})?
+    >(
       future: _eventFuture,
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,6 +109,7 @@ class PostState extends State<Post> {
         return PostPage(
           event: data.origEvent!,
           displayEvent: data.displayEvent!,
+          timeline: data.timeline,
         );
       },
     );

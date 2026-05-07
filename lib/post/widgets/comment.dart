@@ -25,6 +25,7 @@ class CommentWidget extends IEventWidget {
     super.key,
     required super.event,
     required super.displayEvent,
+    super.timeline,
     required this.postEvent,
     this.depth = 0,
     this.onReply,
@@ -274,6 +275,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                     MessageTypes.Audio => FileDisplayContainer(
                       event: widget.event,
                       displayEvent: widget.displayEvent,
+                      timeline: widget.timeline,
                     ),
                     MessageTypes.BadEncrypted => Row(
                       children: [
@@ -379,6 +381,7 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
                                         event: e.origEvent,
                                         displayEvent: e.displayEvent,
                                         postEvent: widget.postEvent,
+                                        timeline: widget.timeline,
                                         depth: widget.depth + 1,
                                         onReply: widget.onReply,
                                       );

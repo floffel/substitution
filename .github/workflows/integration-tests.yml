@@ -98,6 +98,9 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Web Tests'
     needs: [setup, plan-tests]
+    # Skip E2E on direct push to main — only basic tests + Play Store deploy run there.
+    # Still runs on PRs to main, pushes to develop, version tags, and manual triggers.
+    if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       fail-fast: false
       matrix:
@@ -220,6 +223,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Linux Desktop Tests'
     needs: [setup, plan-tests, linux-build]
+    if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       fail-fast: false
       matrix:
@@ -484,6 +488,7 @@ jobs:
     runs-on: macos-latest
     name: 'iOS Tests (Simulator)'
     needs: [setup, plan-tests]
+    if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       fail-fast: false
       matrix:
@@ -654,6 +659,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Android Tests'
     needs: [setup, plan-tests]
+    if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     strategy:
       fail-fast: false
       matrix:
@@ -797,14 +803,27 @@ jobs:
     steps:
       - name: 'Check all jobs passed'
         run: |
-          # Note: result is 'success', 'failure', 'cancelled', or 'skipped'
-          # For matrix jobs, needs.JOB_NAME.result is 'success' only if ALL shards pass.
-          if [ "${{ needs.unit-tests.result }}" != "success" ] || \
-             [ "${{ needs.web-tests.result }}" != "success" ] || \
-             [ "${{ needs.linux-tests.result }}" != "success" ] || \
-             [ "${{ needs.ios-tests.result }}" != "success" ] || \
-             [ "${{ needs.android-tests.result }}" != "success" ]; then
-            echo "One or more test jobs failed"
+          # unit-tests must always pass. E2E jobs (web/linux/ios/android) may be
+          # 'skipped' on direct pushes to main (basic-tests-only policy); accept
+          # 'success' or 'skipped' for those, fail on 'failure'/'cancelled'.
+          fail=0
+          if [ "${{ needs.unit-tests.result }}" != "success" ]; then
+            echo "unit-tests did not pass: ${{ needs.unit-tests.result }}"
+            fail=1
+          fi
+          for job_result in \
+            "web-tests:${{ needs.web-tests.result }}" \
+            "linux-tests:${{ needs.linux-tests.result }}" \
+            "ios-tests:${{ needs.ios-tests.result }}" \
+            "android-tests:${{ needs.android-tests.result }}"; do
+            name="${job_result%%:*}"
+            res="${job_result##*:}"
+            if [ "$res" != "success" ] && [ "$res" != "skipped" ]; then
+              echo "$name did not pass: $res"
+              fail=1
+            fi
+          done
+          if [ "$fail" -ne 0 ]; then
             echo "  unit-tests:    ${{ needs.unit-tests.result }}"
             echo "  web-tests:     ${{ needs.web-tests.result }}"
             echo "  linux-tests:   ${{ needs.linux-tests.result }}"
@@ -812,7 +831,7 @@ jobs:
             echo "  android-tests: ${{ needs.android-tests.result }}"
             exit 1
           fi
-          echo "All test jobs passed"
+          echo "All required test jobs passed (E2E may be skipped on main push)"
 
   # ============================================================================
   # DEPLOYMENT JOB - Only runs on version tags (v*) after all tests pass

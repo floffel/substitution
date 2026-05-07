@@ -22,16 +22,12 @@ class PostWidget extends IEventWidget {
     super.key,
     required super.event,
     required super.displayEvent,
+    super.timeline,
     this.isDetailView = false,
-    this.timeline,
   });
 
   /// When true, hides the reply button (used on detail page where inline reply input is shown instead).
   final bool isDetailView;
-
-  /// Optional pre-loaded timeline from the feed.  Passed to
-  /// [ReactionsDisplay] to avoid creating a separate timeline per post.
-  final Timeline? timeline;
 
   @override
   PostWidgetState createState() => PostWidgetState();
@@ -361,6 +357,7 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
               child: FileDisplayContainer(
                 event: widget.event,
                 displayEvent: widget.displayEvent,
+                timeline: widget.timeline,
               ),
             )
           else if (isBadEncrypted)

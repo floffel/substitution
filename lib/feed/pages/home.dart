@@ -36,6 +36,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   /// Number of events to fetch per page when paginating through timelines.
   static const int _pageSize = 20;
+  static const int _timelineOpenConcurrency = 4;
 
   late final PagingController<PageKey?, FeedCandidate> _pagingController;
 
@@ -156,25 +157,41 @@ class HomePageState extends State<HomePage> {
       // Ensure SubstitutionService is initialized before querying rooms
       await _substitutionService.init();
 
-      final roomIds = await currentClient.getJoinedRooms();
-      if (!mounted) return [];
-
-      for (String roomId in roomIds) {
-        Room? r = currentClient.getRoomById(roomId);
-        if (r == null) continue;
-
-        if (_substitutionService.isSubstitutionRoom(r.id)) {
-          rooms.add(r);
-        }
-      }
+      final substitutionRoomIds = _substitutionService.substitutionRoomIds;
+      rooms =
+          currentClient.rooms
+              .where((room) => room.membership == Membership.join)
+              .where((room) => substitutionRoomIds.contains(room.id))
+              .toList();
     }
 
     if (!mounted) return [];
-    final timelineFutures = rooms.map((r) => r.getTimeline()).toList();
     _currentRoomIds = rooms.map((r) => r.id).toSet();
     debugPrint("HomePage: Found ${_currentRoomIds.length} rooms for feed");
-    final timelines = await Future.wait(timelineFutures);
+    final timelines = await _openTimelinesBatched(
+      rooms,
+      concurrency: _timelineOpenConcurrency,
+    );
     _timelineMap = {for (final t in timelines) t.room.id: t};
+    return timelines;
+  }
+
+  Future<List<Timeline>> _openTimelinesBatched(
+    List<Room> rooms, {
+    required int concurrency,
+  }) async {
+    if (rooms.isEmpty) return const [];
+
+    final normalizedConcurrency = concurrency < 1 ? 1 : concurrency;
+    final timelines = <Timeline>[];
+
+    for (var i = 0; i < rooms.length; i += normalizedConcurrency) {
+      final batch = rooms.skip(i).take(normalizedConcurrency).toList();
+      final openedBatch = await Future.wait(batch.map((r) => r.getTimeline()));
+      timelines.addAll(openedBatch);
+      if (!mounted) break;
+    }
+
     return timelines;
   }
 
@@ -645,12 +662,7 @@ class HomePageState extends State<HomePage> {
     if (!mounted) return;
 
     // Check if room IDs actually changed before doing a heavy refresh
-    final joinedRooms = await _client.getJoinedRooms();
-    final joinedRoomIds = joinedRooms.toSet();
-    final newSubstitutionRoomIds =
-        joinedRoomIds
-            .where((id) => _substitutionService.isSubstitutionRoom(id))
-            .toSet();
+    final newSubstitutionRoomIds = _substitutionService.substitutionRoomIds;
 
     bool roomsChanged =
         newSubstitutionRoomIds.length != _currentRoomIds.length ||

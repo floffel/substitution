@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:matrix/matrix.dart';
+
 import '../extensions/client_extensions.dart';
 
 class SubstitutionService extends ChangeNotifier {
@@ -8,6 +10,7 @@ class SubstitutionService extends ChangeNotifier {
   final Set<String> _substitutionRoomIds = {};
   Future<void>? _initFuture;
   StreamSubscription? _syncSubscription;
+  bool _isRefreshingFromLocal = false;
 
   /// Returns true if the service has finished its initial room discovery.
   bool get isInitialized => _initFuture != null;
@@ -15,11 +18,15 @@ class SubstitutionService extends ChangeNotifier {
   /// Returns the number of rooms currently tracked.
   int get roomCount => _substitutionRoomIds.length;
 
+  /// Read-only view of tracked substitution room IDs.
+  Set<String> get substitutionRoomIds => Set.unmodifiable(_substitutionRoomIds);
+
   SubstitutionService(this._client) {
     // Listen for sync completion to trigger UI updates (e.g. new messages)
     try {
       _syncSubscription = _client.onSyncStatus.stream.listen((status) {
         if (status.status == SyncStatus.finished) {
+          unawaited(_refreshFromLocalRooms());
           // Throttled notification to avoid rapid refresh loops in the UI
           final now = DateTime.now();
           if (_lastSyncNotify == null ||
@@ -66,7 +73,7 @@ class SubstitutionService extends ChangeNotifier {
     }
 
     final joined = await _client.getJoinedRooms();
-    bool changed = false;
+    final seeded = <String>{};
 
     final results = await Future.wait(
       joined.map((roomId) => _client.isRoomInSubstitution(roomId)),
@@ -74,15 +81,50 @@ class SubstitutionService extends ChangeNotifier {
 
     for (int i = 0; i < joined.length; i++) {
       if (results[i]) {
-        if (_substitutionRoomIds.add(joined[i])) {
-          changed = true;
-        }
+        seeded.add(joined[i]);
       }
     }
-    if (changed) {
+
+    _substitutionRoomIds
+      ..clear()
+      ..addAll(seeded);
+
+    await _refreshFromLocalRooms();
+    notifyListeners();
+  }
+
+  Future<void> _refreshFromLocalRooms() async {
+    if (_isRefreshingFromLocal) return;
+    _isRefreshingFromLocal = true;
+
+    try {
+      final localSubstitutionRooms =
+          _client.rooms
+              .where((r) => r.membership == Membership.join)
+              .where((r) {
+                final data = r.roomAccountData['substitution'];
+                return data?.content['joined'] == true;
+              })
+              .map((r) => r.id)
+              .toSet();
+
+      final changed =
+          localSubstitutionRooms.length != _substitutionRoomIds.length ||
+          !localSubstitutionRooms.containsAll(_substitutionRoomIds);
+
+      if (!changed) return;
+
+      _substitutionRoomIds
+        ..clear()
+        ..addAll(localSubstitutionRooms);
       notifyListeners();
+    } finally {
+      _isRefreshingFromLocal = false;
     }
   }
+
+  @visibleForTesting
+  Future<void> debugRefreshFromLocalRooms() => _refreshFromLocalRooms();
 
   bool isSubstitutionRoom(String roomId) {
     return _substitutionRoomIds.contains(roomId);
