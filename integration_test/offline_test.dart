@@ -124,14 +124,21 @@ void main() {
         );
 
         debugPrint('OFFLINE: Verifying message presence from local cache...');
+        // After restart, the Matrix SDK must (1) open the SQLite DB,
+        // (2) restore client state, (3) rebuild the timeline from cache,
+        // (4) the feed widget must subscribe + render. On CI this can take
+        // significantly longer than a few seconds, so use fastWait with a
+        // generous timeout instead of a short raw-pump loop.
         bool found = false;
-        for (int i = 0; i < 10; i++) {
-          if (find.textContaining(uniqueCacheMessage).evaluate().isNotEmpty) {
-            found = true;
-            break;
-          }
-          debugPrint('OFFLINE: Step $i, searching for cached message...');
-          await $.tester.pump(const Duration(seconds: 1));
+        try {
+          await fastWait(
+            $.tester,
+            () => find.textContaining(uniqueCacheMessage).evaluate().isNotEmpty,
+            timeout: const Duration(seconds: 120),
+          );
+          found = true;
+        } catch (_) {
+          found = false;
         }
 
         expect(found, true, reason: 'Message should be loaded from cache');

@@ -50,6 +50,9 @@ void main() {
       when(() => mockClient.isLogged()).thenReturn(true);
       when(() => mockClient.userID).thenReturn('@user:matrix.org');
       when(() => mockClient.getJoinedRooms()).thenAnswer((_) async => []);
+      // `Client.rooms` is non-nullable in the SDK; mocktail returns null for
+      // unstubbed getters, which crashes under DDC (web) strict casts.
+      when(() => mockClient.rooms).thenReturn(<Room>[]);
     });
 
     Widget buildTestWidget() {

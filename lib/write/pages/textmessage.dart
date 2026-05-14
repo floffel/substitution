@@ -168,89 +168,102 @@ class TextMessageWriteState extends State<TextMessageWrite> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Top section: reply preview + room info
-        if (widget.eventId != null || room != null)
-          Flexible(
-            flex: 0,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.eventId != null)
-                    ReplyPreviewWidget(future: eventData),
-                  if (room != null) ...[
-                    const SizedBox(height: 4),
-                    RoomHeaderWidget(room: room!),
-                  ],
-                  const SizedBox(height: 4),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Cap the reply preview + room header section so a long reply preview
+        // can never push the editor or send button off-screen (which used to
+        // cause a RenderFlex overflow on smaller / desktop viewports).
+        final maxHeaderHeight = constraints.maxHeight * 0.35;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Top section: reply preview + room info
+            if (widget.eventId != null || room != null)
+              Flexible(
+                flex: 0,
+                fit: FlexFit.loose,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: maxHeaderHeight),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (widget.eventId != null)
+                          ReplyPreviewWidget(future: eventData),
+                        if (room != null) ...[
+                          const SizedBox(height: 4),
+                          RoomHeaderWidget(room: room!),
+                        ],
+                        const SizedBox(height: 4),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
 
-        // Formatting toolbar
-        quill.QuillSimpleToolbar(
-          controller: _controller,
-          config: const quill.QuillSimpleToolbarConfig(
-            multiRowsDisplay: false,
-            showAlignmentButtons: false,
-            showBackgroundColorButton: false,
-            showCenterAlignment: false,
-            showClearFormat: false,
-            showCodeBlock: false,
-            showColorButton: false,
-            showDirection: false,
-            showFontFamily: false,
-            showFontSize: false,
-            showHeaderStyle: true,
-            showIndent: false,
-            showInlineCode: false,
-            showJustifyAlignment: false,
-            showLeftAlignment: false,
-            showRightAlignment: false,
-            showSearchButton: false,
-            showStrikeThrough: false,
-            showSubscript: false,
-            showSuperscript: false,
-          ),
-        ),
-        const SizedBox(height: 8),
-
-        // Editor area (fills remaining space)
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: colorScheme.outline),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: const EdgeInsets.all(12),
-            child: quill.QuillEditor(
+            // Formatting toolbar
+            quill.QuillSimpleToolbar(
               controller: _controller,
-              scrollController: _editorScrollController,
-              focusNode: _editorFocusNode,
-              config: quill.QuillEditorConfig(
-                placeholder: "write.textmessage.input_placeholder".tr(),
-                padding: const EdgeInsets.all(4),
+              config: const quill.QuillSimpleToolbarConfig(
+                multiRowsDisplay: false,
+                showAlignmentButtons: false,
+                showBackgroundColorButton: false,
+                showCenterAlignment: false,
+                showClearFormat: false,
+                showCodeBlock: false,
+                showColorButton: false,
+                showDirection: false,
+                showFontFamily: false,
+                showFontSize: false,
+                showHeaderStyle: true,
+                showIndent: false,
+                showInlineCode: false,
+                showJustifyAlignment: false,
+                showLeftAlignment: false,
+                showRightAlignment: false,
+                showSearchButton: false,
+                showStrikeThrough: false,
+                showSubscript: false,
+                showSuperscript: false,
               ),
             ),
-          ),
-        ),
-        const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
-        // Send button
-        FilledButton.icon(
-          onPressed: _isEmpty ? null : _send,
-          icon: const Icon(Icons.send_rounded),
-          label: Text('write.textmessage.send_button'.tr()),
-          style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-        ),
-        const SizedBox(height: 4),
-      ],
+            // Editor area (fills remaining space)
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: colorScheme.outline),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: quill.QuillEditor(
+                  controller: _controller,
+                  scrollController: _editorScrollController,
+                  focusNode: _editorFocusNode,
+                  config: quill.QuillEditorConfig(
+                    placeholder: "write.textmessage.input_placeholder".tr(),
+                    padding: const EdgeInsets.all(4),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Send button
+            FilledButton.icon(
+              onPressed: _isEmpty ? null : _send,
+              icon: const Icon(Icons.send_rounded),
+              label: Text('write.textmessage.send_button'.tr()),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+            const SizedBox(height: 4),
+          ],
+        );
+      },
     );
   }
 }

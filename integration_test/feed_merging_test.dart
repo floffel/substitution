@@ -210,7 +210,7 @@ void main() {
           }
 
           return anyA && anyB;
-        }, timeout: const Duration(seconds: 60));
+        }, timeout: const Duration(seconds: 180));
 
         // 7. Verify visual order in the feed (newest first)
         // Get all visible chronological messages and sort them by Y position

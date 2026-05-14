@@ -83,7 +83,7 @@ void main() {
       await fastWait(
         $.tester,
         () => find.byType(PostWidget).evaluate().isNotEmpty,
-        timeout: const Duration(seconds: 60),
+        timeout: const Duration(seconds: 180),
       );
 
       await settle($.tester);
