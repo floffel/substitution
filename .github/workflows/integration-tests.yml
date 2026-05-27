@@ -710,6 +710,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
+          ANDROID_TEST_TIMEOUT: 1800
         with:
           api-level: 29
           target: default
@@ -739,6 +740,7 @@ jobs:
           MATRIX_SERVER: http://localhost:8008
           MATRIX_TEST_USER: testuser1
           MATRIX_TEST_PASSWORD: testpass123
+          ANDROID_TEST_TIMEOUT: 1800
         with:
           api-level: 29
           target: default
