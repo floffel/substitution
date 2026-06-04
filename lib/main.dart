@@ -1,5 +1,6 @@
 import '/auth/auth.dart';
 import '/auth/auth_state.dart';
+import '/auth/pages/introduction_page.dart';
 import '/feed/feed.dart';
 import '/post/post.dart';
 import '/post/pages/edit_post_page.dart';
@@ -20,8 +21,6 @@ import '/settings/pages/legal.dart';
 import '/faq/pages/help_page.dart';
 import '/shared/widgets/deep_link_confirmation_dialog.dart';
 import '/shared/widgets/verification_dialog.dart';
-import '/auth/pages/host_page.dart';
-import '/auth/pages/login.dart';
 import '/shared/pages/scaffold_with_navigation.dart';
 import '/shared/pages/age_gate.dart';
 import '/profile/pages/user_profile.dart';
@@ -37,8 +36,10 @@ import '/shared/theme/app_theme.dart';
 import '/shared/constants.dart';
 import '/shared/widgets/startroom_dialog.dart';
 import '/shared/utils/share_helper.dart';
+import '/shared/utils/routing_utils.dart';
 import '/shared/services/notification_service.dart';
 import '/shared/services/background_sync_service.dart';
+import '/shared/widgets/startup_loading_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -49,7 +50,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_vodozemac/flutter_vodozemac.dart' as flutter_vodozemac;
 import 'package:provider/provider.dart'; // provide the client across widgets/pages/routes
 import 'package:go_router/go_router.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show FlutterQuillLocalizations;
@@ -76,12 +76,18 @@ GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
 );
 
 /// Route guard used by all protected routes.
+///
 /// Redirects to `/age-gate` if the user hasn't confirmed their age, or to
-/// `/intro` if they are not logged in. Returns `null` to allow navigation.
+/// `/intro` (with `?goto=<original-uri>`) if they are not logged in. The
+/// `goto` parameter lets the introduction / login flow return the user to
+/// the page they originally requested (e.g. a deep link to a room feed).
+/// Returns `null` to allow navigation.
 String? ageAndAuthRedirect(BuildContext context, GoRouterState state) {
   if (!AgeGatePage.confirmed) return '/age-gate';
   final client = globalMatrixClient;
-  if (client == null || !client.isLogged()) return '/intro';
+  if (client == null || !client.isLogged()) {
+    return preserveDestinationInIntroRedirect(state.uri) ?? '/intro';
+  }
   return null;
 }
 
@@ -189,7 +195,7 @@ void main() async {
   }
 
   // Show a branded loading screen immediately while heavy init runs.
-  runApp(const _StartupLoadingScreen());
+  runApp(const StartupLoadingScreen());
 
   /*
   // @logging This is to debug GoRouter, wich will not output anything without it
@@ -236,11 +242,18 @@ void main() async {
       ),
       GoRoute(
         path: '/intro',
-        builder:
-            (context, state) => const ScaffoldWithNavigation(
-              showNavigation: false,
-              child: IntroductionPage(),
-            ),
+        builder: (context, state) {
+          // The `?goto=` parameter carries the user's original deep-link
+          // destination so we can return them there after they complete
+          // the introduction / login flow. The page validates it via
+          // [safeGotoDestination] before navigating.
+          final rawGoto = state.uri.queryParameters['goto'];
+          final goto = safeGotoDestination(rawGoto);
+          return ScaffoldWithNavigation(
+            showNavigation: false,
+            child: IntroductionPage(goto: goto),
+          );
+        },
       ),
       GoRoute(
         redirect: testRedirect,
@@ -314,7 +327,12 @@ void main() async {
         },
       ),
       GoRoute(
-        // TODO: have some ?goto=/feed/... functionality, so we can link to /into and link back to the page the user originaly wanted to visit
+        // Deep-link ?goto= preservation is implemented in
+        // `ageAndAuthRedirect` at the top of this file. When a
+        // logged-out user hits a protected page (e.g. /feed/:id from
+        // a share link) they're bounced to /intro?goto=<original>,
+        // then routed to the original destination after they
+        // complete the intro/login flow.
         redirect: testRedirect,
         path: '/file/:roomid',
         builder: (contxt, state) {
@@ -987,379 +1005,5 @@ class _SubstitutionAppState extends State<SubstitutionApp> {
         },
       ),
     );
-  }
-}
-
-class IntroductionPage extends StatefulWidget {
-  const IntroductionPage({super.key});
-
-  @override
-  State<IntroductionPage> createState() => _IntroductionState();
-}
-
-class _IntroductionState extends State<IntroductionPage> {
-  late final Client client = Provider.of<Client>(context, listen: false);
-  final _introKey = GlobalKey<IntroductionScreenState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return IntroductionScreen(
-      key: _introKey,
-      pages: [
-        PageViewModel(
-          title: "intro.welcome.title".tr(),
-          image: Image(
-            image: const AssetImage('assets/icon/logo.png'),
-            errorBuilder:
-                (ctx, err, stack) =>
-                    const Icon(Icons.image_not_supported, size: 80),
-          ),
-          bodyWidget: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(child: const Text("intro.welcome.desc").tr()),
-                ],
-              ),
-            ],
-          ),
-        ),
-        PageViewModel(
-          title: "intro.account.title".tr(),
-          bodyWidget: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const Text("intro.account.desc").tr(),
-            ],
-          ),
-        ),
-        PageViewModel(
-          title: "intro.host.title".tr(),
-          bodyWidget: Column(
-            children: [
-              if (client.isLogged()) ...[
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primaryContainer.withValues(alpha: 0.4),
-                  ),
-                  child: Icon(
-                    Icons.check_circle_rounded,
-                    size: 56,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text("intro.isLoggedIn").tr(),
-              ] else ...[
-                HostPage(onComplete: () => {_introKey.currentState?.next()}),
-              ],
-            ],
-          ),
-        ),
-        PageViewModel(
-          title: "intro.login.title".tr(),
-          bodyWidget: Column(
-            children: [
-              if (client.isLogged()) ...[
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primaryContainer.withValues(alpha: 0.4),
-                  ),
-                  child: Icon(
-                    Icons.check_circle_rounded,
-                    size: 56,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text("intro.isLoggedIn").tr(),
-              ] else
-                LoginPage(
-                  onComplete: () {
-                    _introKey.currentState?.next();
-                    setState(() {});
-                  },
-                ),
-            ],
-          ),
-        ),
-        PageViewModel(
-          title: "intro.finished.title".tr(),
-          bodyWidget: Column(
-            children: [
-              if (!client.isLogged()) ...[
-                const Text("intro.isNotLoggedIn").tr(),
-              ] else ...[
-                const Text("intro.finished.desc").tr(),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    key: const Key('introGoButton'),
-                    onPressed: () async {
-                      final goRouter = GoRouter.of(context);
-                      await showStartroomDialog(context, client);
-                      if (mounted) {
-                        goRouter.go("/");
-                      }
-                    },
-                    icon: const Icon(Icons.arrow_forward_rounded),
-                    label: const Text("intro.finished.buttons.go").tr(),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ],
-      canProgress: (int toPage) {
-        if (toPage <= 2) {
-          // allow navigation to Welcome, Account, and Host pages
-          return true;
-        } else if (toPage == 3 &&
-            client.homeserver != null &&
-            client.homeserver.toString() != "") {
-          // only allow navigation to Login page if homeserver is set
-          return true;
-        } else if (toPage == 4 && client.isLogged()) {
-          // only allow navigation to Finished page if logged in
-          return true;
-        } else {
-          return false;
-        }
-      },
-      showNextButton: true,
-      showBackButton: true,
-      showDoneButton: false,
-      next: const Text("intro.buttons.next").tr(),
-      back: const Text("intro.buttons.back").tr(),
-    );
-  }
-}
-
-/// Branded animated loading screen shown immediately on startup while heavy
-/// async initialization (database, Matrix client, localization) completes.
-/// Uses no localization or providers — just the app's visual identity.
-class _StartupLoadingScreen extends StatefulWidget {
-  const _StartupLoadingScreen();
-
-  @override
-  State<_StartupLoadingScreen> createState() => _StartupLoadingScreenState();
-}
-
-class _StartupLoadingScreenState extends State<_StartupLoadingScreen>
-    with TickerProviderStateMixin {
-  static const _sage = Color(0xFF5B8C5A);
-  static const _lightBg = Color(0xFFFFFBF8);
-  static const _darkBg = Color(0xFF111315);
-
-  late final AnimationController _logoController;
-  late final AnimationController _textController;
-  late final AnimationController _dotsController;
-  late final AnimationController _glowController;
-
-  late final Animation<double> _logoScale;
-  late final Animation<double> _logoOpacity;
-  late final Animation<double> _textOpacity;
-  late final Animation<Offset> _textSlide;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Logo: scale up + fade in over 600ms
-    _logoController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _logoScale = Tween<double>(begin: 0.6, end: 1.0).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
-    );
-    _logoOpacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeOut));
-
-    // Text: fade + slide up, starts after logo
-    _textController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-    _textOpacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeOut));
-    _textSlide = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _textController, curve: Curves.easeOutCubic),
-    );
-
-    // Dots: looping for pulse effect
-    _dotsController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-
-    // Glow: slow pulsing radial gradient
-    _glowController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 3000),
-    );
-
-    // Sequence the animations
-    _logoController.forward().then((_) {
-      if (mounted) {
-        _textController.forward();
-        _dotsController.repeat();
-        _glowController.repeat(reverse: true);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _logoController.dispose();
-    _textController.dispose();
-    _dotsController.dispose();
-    _glowController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final brightness = MediaQuery.platformBrightnessOf(context);
-    final isDark = brightness == Brightness.dark;
-    final bg = isDark ? _darkBg : _lightBg;
-    final textColor =
-        isDark ? const Color(0xFFE3E2DF) : const Color(0xFF1A1C1E);
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      home: Scaffold(
-        backgroundColor: bg,
-        body: AnimatedBuilder(
-          animation: _glowController,
-          builder: (context, child) {
-            final glowSize = 0.4 + (_glowController.value * 0.15);
-            final glowOpacity = isDark ? 0.12 : 0.08;
-            return Container(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: const Alignment(0, -0.2),
-                  radius: glowSize,
-                  colors: [_sage.withValues(alpha: glowOpacity), bg],
-                ),
-              ),
-              child: child,
-            );
-          },
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Animated logo
-                AnimatedBuilder(
-                  animation: _logoController,
-                  builder: (context, child) {
-                    return Opacity(
-                      opacity: _logoOpacity.value,
-                      child: Transform.scale(
-                        scale: _logoScale.value,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: const Image(
-                    image: AssetImage('assets/icon/logo.png'),
-                    width: 88,
-                    height: 88,
-                    errorBuilder: _logoErrorBuilder,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // App name slides up
-                SlideTransition(
-                  position: _textSlide,
-                  child: FadeTransition(
-                    opacity: _textOpacity,
-                    child: Text(
-                      'substitution',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        color: textColor,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 36),
-
-                // Pulsing dots loader
-                AnimatedBuilder(
-                  animation: _dotsController,
-                  builder: (context, _) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(3, (i) {
-                        // Stagger each dot by 0.2 of the animation cycle
-                        final offset = i * 0.2;
-                        final t = (_dotsController.value - offset) % 1.0;
-                        // Smooth pulse: peak at 0.3, fade by 0.6
-                        final pulse =
-                            t < 0.3
-                                ? (t / 0.3)
-                                : t < 0.6
-                                ? 1.0 - ((t - 0.3) / 0.3)
-                                : 0.0;
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _sage.withValues(
-                              alpha: 0.25 + (pulse * 0.75),
-                            ),
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  static Widget _logoErrorBuilder(
-    BuildContext context,
-    Object error,
-    StackTrace? stackTrace,
-  ) {
-    return const Icon(Icons.spa_rounded, size: 88, color: _sage);
   }
 }

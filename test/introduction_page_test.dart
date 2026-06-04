@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:substitution/main.dart'; // Import IntroductionPage
+import 'package:substitution/auth/pages/introduction_page.dart'; // Import IntroductionPage
 
 class MockClient extends Mock implements Client {}
 
