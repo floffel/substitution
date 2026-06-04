@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '/shared/mixins/matrix_essentials.dart';
+import '/shared/utils/servers.dart';
 
 // Define a custom Form widget.
 class DialogAddServer extends StatefulWidget {
@@ -11,9 +13,8 @@ class DialogAddServer extends StatefulWidget {
   State<DialogAddServer> createState() => _DialogAddServerState();
 }
 
-class _DialogAddServerState extends State<DialogAddServer> {
-  Client get client => Provider.of<Client>(context, listen: false);
-
+class _DialogAddServerState extends State<DialogAddServer>
+    with MatrixEssentials {
   final _matrixServerAdressContrainer = TextEditingController();
   final _matrixServerPopupFormKey = GlobalKey<FormState>();
 
@@ -21,46 +22,46 @@ class _DialogAddServerState extends State<DialogAddServer> {
   bool isInvalidMatrixServer = true;
   bool _isLoading = false;
 
-  // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
-  // TODO: this throws an exception if the account data is not valid!
-  // so we have to ensure, that the account data exists!
-  Future<Map<String, Object?>> get accountData async {
-    try {
-      return await client.getAccountData(
-        client.userID!,
-        "substitution.servers",
-      );
-    } catch (e) {
-      // no account data (e.g. no server is set)
-      return {};
-    }
-  }
+  // Monotonic counter used to discard stale [checkHost] results. Each call
+  // captures the current value, and only the result with the matching value
+  // is allowed to mutate state. Without this, two near-simultaneous
+  // validations could complete in the wrong order (e.g. the user types
+  // "abc", then quickly "abcdef" — if the first server lookup finished
+  // after the second, the form could mark "abc" as valid).
+  int _validationSeq = 0;
+
+  // Account data may legitimately be empty for first-time users; treat
+  // any read error as "no data" instead of crashing. Callers must still
+  // guard for an empty map when interpreting the result.
+  Future<Map<String, Object?>> get accountData => getSubstitutionServers(client);
 
   Future checkHost(String serverAddr) async {
-    // TODO: this could possibly go wrong, if two validations occour and the second one is faster than the first one... sudo fix this!
+    // Capture our sequence number; if a later validation kicks off, we'll
+    // see the sequence advance and skip applying our (now stale) result.
+    final mySeq = ++_validationSeq;
 
     isInvalidMatrixServer = true;
 
     Room room = Room(
       id: '#substitution:$serverAddr',
-      client: Provider.of<Client>(context, listen: false),
+      client: client,
     );
 
     debugPrint("room.lastEvent: ${room.name}");
 
     if (room.lastEvent != null) {
+      // Only the latest validation gets to update state.
+      if (mySeq != _validationSeq || !mounted) return;
       isInvalidMatrixServer = false;
       lastValidatedMatrixServerAddr = serverAddr;
       _matrixServerPopupFormKey.currentState?.validate();
     }
 
-    /*try {
-        await client.checkHomeserver(Uri.https(serverAddr.trim(), ''));
-        isInvalidMatrixServer = false;
-      } catch (e) {}
-      */
-    // TODO: test if (public) space exists on this server
-    //final resp = await client.getDiscoveryInformationsByUserId(serverAddr);
+    // Note: the heavier "does this server have a public room directory?"
+    // check happens at submit time in [addRoom] (queryPublicRooms + the
+    // totalRoomCountEstimate gate). The validator above is intentionally
+    // sync (no await) — async lookups belong on the submit path, not in
+    // a sync validator that fires on every keystroke.
   }
 
   String? validateMatrixServer(String? serverAddr) {
@@ -78,11 +79,6 @@ class _DialogAddServerState extends State<DialogAddServer> {
   }
 
   Future<void> addRoom() async {
-    // TODO: Register the server once the room check is complete.
-    /*Room room = Room(
-                                        id: '#substitution:${_matrixServerAdressContrainer.text}',
-                                        client: Provider.of<Client>(context, listen: false));*/
-
     var navState = Navigator.of(context);
     var scavMsg = ScaffoldMessenger.of(context);
 
@@ -91,17 +87,19 @@ class _DialogAddServerState extends State<DialogAddServer> {
     });
 
     try {
-      // TODO: make this async test as soon as the user entered the new server
-      // TODO: mby wrap it in a try/catch block, b.c. it can error if the server won't allow querying (over federation/public)
+      // queryPublicRooms can fail with M_FORBIDDEN or a federation error
+      // when the target server doesn't allow public room listing; the
+      // catch below surfaces that to the user as a snackbar.
       QueryPublicRoomsResponse resp = await client.queryPublicRooms(
         server: _matrixServerAdressContrainer.text,
         limit: 1,
       );
 
       if ((resp.totalRoomCountEstimate ?? 0) > 0) {
-        await client.setAccountData(client.userID!, "substitution.servers", {
+        final existing = await getSubstitutionServers(client);
+        await setSubstitutionServers(client, {
           _matrixServerAdressContrainer.text: null,
-          ...await accountData,
+          ...existing,
         });
 
         if (!mounted) return;
@@ -156,20 +154,11 @@ class _DialogAddServerState extends State<DialogAddServer> {
             prefixText: 'https://',
             icon: const Icon(Icons.dns),
             labelText: "settings.dialog.add.input_placeholder".tr(),
-            /*suffixIcon: Icon(
-                                              (_matrixServerPopupFormKey
-                                                              .currentState !=
-                                                          null &&
-                                                      _matrixServerPopupFormKey
-                                                          .currentState!
-                                                          .validate())
-                                                  ? Icons.check_circle
-                                                  : Icons
-                                                      .cancel), // while checking: Icons.help, matrix-server: Icons.check_circle, no matrix server: Icons.cancel
-                                          */
-            // todo: do with validation
           ),
-          //validator: validateMatrixServer, TODO: I don't know how to check if a room really exists
+          // The sync validator delegates to checkHost() above. Heavier
+          // server-level checks (does the homeserver expose a public
+          // room directory?) run on submit in [addRoom].
+          validator: validateMatrixServer,
         ),
       ),
       actions: <Widget>[

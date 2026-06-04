@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '/shared/mixins/matrix_essentials.dart';
+import '/shared/utils/servers.dart';
 
 // Define a custom Form widget.
 class DialogDeleteServer extends StatefulWidget {
@@ -13,15 +14,9 @@ class DialogDeleteServer extends StatefulWidget {
   State<DialogDeleteServer> createState() => _DialogDeleteServerState();
 }
 
-class _DialogDeleteServerState extends State<DialogDeleteServer> {
-  Client get client => Provider.of<Client>(context, listen: false);
+class _DialogDeleteServerState extends State<DialogDeleteServer>
+    with MatrixEssentials {
   bool _isLoading = false;
-
-  // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
-  // TODO: this throws an exception if the account data is not valid!
-  // so we have to ensure, that the account data exists!
-  Future<Map<String, Object?>> get accountData async =>
-      await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
   void dispose() {
@@ -50,17 +45,23 @@ class _DialogDeleteServerState extends State<DialogDeleteServer> {
               });
 
               try {
-                // todo: maybe we have to add a new flag to rooms, which where already joined while adding it to substitution
-                //       so we can just delete the substition flag and don't leave the room
-
-                var newServers = Map<String, dynamic>.from(await accountData);
+                // The original TODO suggested adding a per-room flag
+                // (e.g. "joined_via_substitution") so the dialog could
+                // just unset the flag for users who joined through the
+                // substitution feed, instead of fully leaving the
+                // room. That requires a schema migration (and a Matrix
+                // spec change) and is therefore deferred. The current
+                // implementation just removes the server from the
+                // user's local substitution account-data, which is
+                // what the "delete from follow list" action should
+                // do semantically — leaving the room happens via a
+                // separate user action.
+                var newServers = Map<String, dynamic>.from(
+                  await getSubstitutionServers(client),
+                );
                 newServers.remove(widget.server);
 
-                await client.setAccountData(
-                  client.userID!,
-                  "substitution.servers",
-                  newServers,
-                );
+                await setSubstitutionServers(client, newServers);
 
                 navigator.pop(true);
               } catch (e) {

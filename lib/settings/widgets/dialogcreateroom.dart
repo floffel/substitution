@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart' as matrix;
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
+
+import '/shared/mixins/matrix_essentials.dart';
 
 // Define a custom Form widget.
 class DialogCreateRoom extends StatefulWidget {
@@ -12,9 +13,8 @@ class DialogCreateRoom extends StatefulWidget {
   DialogCreateRoomState createState() => DialogCreateRoomState();
 }
 
-class DialogCreateRoomState extends State<DialogCreateRoom> {
-  matrix.Client get client =>
-      Provider.of<matrix.Client>(context, listen: false);
+class DialogCreateRoomState extends State<DialogCreateRoom>
+    with MatrixEssentials {
   bool loading = false;
   String? error;
 
@@ -23,6 +23,42 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
   final _roomTopicContainer = TextEditingController();
   final _roomAliasContainer = TextEditingController();
 
+  /// Synchronous format check. Async availability check happens in
+  /// [_validateAliasAvailable] right before submission.
+  String? _validateAliasFormat(String? alias) {
+    final trimmed = (alias ?? '').trim();
+    if (trimmed.isEmpty) return null; // alias is optional
+    final valid = RegExp(r'^[a-z0-9._=\-/]+$').hasMatch(trimmed);
+    if (!valid) return 'settings.dialog.create.error_alias_invalid'.tr();
+    return null;
+  }
+
+  /// Asks the homeserver whether [alias] is already taken. Returns the
+  /// localized error string if it is, or `null` if it is free.
+  ///
+  /// Network or federation failures are treated as "could not verify" —
+  /// the caller should still attempt the create and let the server
+  /// reject on `M_ROOM_IN_USE` if the alias really is taken.
+  Future<String?> _validateAliasAvailable(String alias) async {
+    try {
+      // The matrix SDK throws M_NOT_FOUND when the alias is free and
+      // returns a non-null String when it is taken. The null check is
+      // kept defensively in case future SDK versions change the contract.
+      // ignore: unnecessary_null_comparison
+      final existing = await client.getRoomIdByAlias(alias);
+      // ignore: unnecessary_null_comparison
+      if (existing != null) {
+        return 'settings.dialog.create.error_alias_taken'.tr();
+      }
+      return null;
+    } catch (_) {
+      // M_NOT_FOUND means the alias is free; any other error means we
+      // couldn't verify. Fall through to "no error" so the user can
+      // still submit and the server will reject on M_ROOM_IN_USE.
+      return null;
+    }
+  }
+
   Future<void> _createRoom() async {
     setState(() {
       loading = true;
@@ -30,6 +66,23 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
     });
 
     String? roomId;
+
+    // Async availability check: ask the homeserver whether the chosen
+    // alias is already taken. If the user already saw the format error
+    // we wouldn't have reached here, so we can skip that re-check.
+    final alias = _roomAliasContainer.text.trim();
+    if (alias.isNotEmpty) {
+      final fullAlias = '#$alias:${client.userID!.split(':').last}';
+      final takenError = await _validateAliasAvailable(fullAlias);
+      if (takenError != null) {
+        if (!mounted) return;
+        setState(() {
+          error = takenError;
+          loading = false;
+        });
+        return;
+      }
+    }
 
     try {
       roomId = await client.createRoom(
@@ -62,7 +115,14 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        error = 'settings.dialog.create.error'.tr();
+        // If the server rejected because the alias is taken, surface that
+        // as a specific message instead of the generic "create failed".
+        final msg = e.toString();
+        if (msg.contains('M_ROOM_IN_USE')) {
+          error = 'settings.dialog.create.error_alias_taken'.tr();
+        } else {
+          error = 'settings.dialog.create.error'.tr();
+        }
         loading = false;
       });
       return;
@@ -88,6 +148,7 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
               ? const CircularProgressIndicator()
               : Form(
                 key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   children: [
                     TextFormField(
@@ -96,6 +157,13 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
                         labelText:
                             "settings.dialog.create.placeholder_name".tr(),
                       ),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return 'settings.dialog.create.error_name_required'
+                              .tr();
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
                       controller: _roomAliasContainer,
@@ -103,7 +171,9 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
                         labelText:
                             "settings.dialog.create.placeholder_alias".tr(),
                       ),
-                      // todo: validate if the alias is already taken
+                      // Sync format check only — async availability check
+                      // happens right before submission (see below).
+                      validator: _validateAliasFormat,
                     ),
                     TextFormField(
                       controller: _roomTopicContainer,
@@ -123,7 +193,10 @@ class DialogCreateRoomState extends State<DialogCreateRoom> {
         else
           TextButton(
             child: const Text('settings.dialog.create.submit').tr(),
-            onPressed: () async => await _createRoom(),
+            onPressed: () async {
+              if (!(_formKey.currentState?.validate() ?? false)) return;
+              await _createRoom();
+            },
           ),
       ],
     );
