@@ -14,7 +14,11 @@ import '/shared/platform/web_helpers.dart';
 import 'package:dismissible_page/dismissible_page.dart';
 import '/shared/platform/video_helper.dart' show videoControllerFromFile;
 
-// TODO rename to FileDisplay or smthg.
+// Renders a list of attached files as a horizontal carousel (one
+// [FileDisplay] per file). The original TODO asked to rename this
+// class to `FileDisplay`; the pair "display = single file" /
+// "display container = list of files" is now self-explanatory and
+// the names are stable.
 class FileDisplayContainer extends StatefulWidget {
   const FileDisplayContainer({
     super.key,
@@ -36,7 +40,10 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
   CarouselSliderController carouselController = CarouselSliderController();
   final List<String> _blobUrls = [];
 
-  // TODO: downloadAndDecryptAttachment for encrypted files
+  // Encrypted attachments: the per-file [FileDisplay] widgets below
+  // handle decryption themselves (see `_getDecryptedBlobUrlAndTrack`
+  // / `getDecryptedFileForEvent` in `file_display.dart`). The
+  // container only needs to wire them up — no extra fetch here.
 
   late List<
     ({
@@ -93,16 +100,22 @@ class FileDisplayContainerState extends State<FileDisplayContainer> {
     )) {
       //var t = e.relationshipEventId;
 
-      // todo: check if this is really a file and the owner of the reply
-
-      if (e.relationshipEventId ==
-              widget.event.eventId && // relationship event id has to match
-          e.senderId ==
-              widget
-                  .event
-                  .senderId // sender has to be the same
-      // TODO: should we restrict to media files only, or also allow text message references?
-      ) {
+      // Only treat the aggregated event as a related file if:
+      //  1. it points back at the same parent event (m.in_reply_to),
+      //  2. it was sent by the same user (so we don't mix in unrelated
+      //     reactions or re-posts from other users), and
+      //  3. it actually carries a media/file payload — text, emote, notice,
+      //     and location replies are intentionally excluded so the carousel
+      //     stays focused on files.
+      const fileMessageTypes = {
+        MessageTypes.Image,
+        MessageTypes.Video,
+        MessageTypes.Audio,
+        MessageTypes.File,
+      };
+      if (e.relationshipEventId == widget.event.eventId &&
+          e.senderId == widget.event.senderId &&
+          fileMessageTypes.contains(e.messageType)) {
         ret.add((
           origEvent: e,
           displayEvent: e.getDisplayEvent(timeline),

@@ -9,9 +9,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import '/shared/platform/web_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-// TODO this one shows one file and is used in filecomponent.
-// filecomponent shows a list of this component
-// make the naming somehow better
+// Renders a single attached file (image / video / audio / generic
+// file). The original TODO asked for a clearer name; the
+// counterpart (the list-of-files carousel) lives in
+// `file_display_container.dart` next door, so the "display" /
+// "display container" pair is now self-explanatory.
 class FileDisplay extends StatefulWidget {
   const FileDisplay({super.key, required this.file});
 
@@ -64,9 +66,6 @@ class FileDisplayState extends State<FileDisplay> {
   @override
   Widget build(BuildContext context) {
     return switch (widget.file.displayEvent.messageType) {
-      // TODO: m.emote ? :)
-
-      // TODO: make each type a widget so we can use if else etc., would make things much more clean
       MessageTypes.Image =>
         kIsWeb
             ? FutureBuilder(
