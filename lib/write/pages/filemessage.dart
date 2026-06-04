@@ -1,9 +1,10 @@
+import '/write/mixins/send_with_retry.dart';
 import '/write/widgets/room_header.dart';
 import '/write/widgets/reply_preview.dart';
 import '/write/widgets/send_progress_dialog.dart';
+import '/shared/mixins/matrix_essentials.dart';
 
 import '/shared/platform/image_helper.dart' show imageFromPath;
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
@@ -25,7 +26,8 @@ class FileMessageWrite extends StatefulWidget {
   FileMessageWriteState createState() => FileMessageWriteState();
 }
 
-class FileMessageWriteState extends State<FileMessageWrite> {
+class FileMessageWriteState extends State<FileMessageWrite>
+    with MatrixEssentials, SendWithRetry {
   final List<String> imageExtensions = const [
     'jpg',
     'jpeg',
@@ -69,8 +71,6 @@ class FileMessageWriteState extends State<FileMessageWrite> {
   >
   files = [];
 
-  // todo: make client a mixin
-  Client get client => Provider.of<Client>(context, listen: false);
   Room? get room => client.getRoomById(widget.roomId);
   Future<Event?> get event async =>
       widget.eventId == null || room == null
@@ -116,7 +116,10 @@ class FileMessageWriteState extends State<FileMessageWrite> {
       f.captionController.dispose();
     }
 
-    // TODO: change for ios, file types are unsupported
+    // Opens the platform file picker filtered to the supported media /
+    // document types. `file_selector` v9+ (the version this project
+    // uses) fully supports `acceptedTypeGroups` on iOS via UTType,
+    // so the previous "iOS unsupported" caveat is no longer relevant.
     final List<XFile> newFiles = await openFiles(
       acceptedTypeGroups: [
         imgTypeGroup,
@@ -147,110 +150,101 @@ class FileMessageWriteState extends State<FileMessageWrite> {
   }
 
   Future<void> _send() async {
-    if (files.isEmpty) return;
+    if (files.isEmpty || room == null) return;
 
+    // Capture context objects up-front (before any `await`) so we
+    // don't have to use `context` across async gaps below.
     final scavMsg = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     final goRouter = GoRouter.of(context);
 
-    debugPrint("started sending message...");
-
-    showSendLoadingDialog(
-      context,
-      messageKey: 'write.filemessage.upload_start',
-    );
-
+    // Compute the event + thread relationship once. The mixin handles
+    // per-file retry, so we don't want to re-fetch the parent event
+    // every time.
     Event? answerEvent;
     var eventThreadId = widget.eventId;
-
     try {
       answerEvent = await event;
       if (answerEvent?.relationshipType == RelationshipTypes.thread) {
-        // commenting a comment => we can't start a new thread, rather use the existing one
+        // commenting a comment => we can't start a new thread, rather
+        // use the existing one
         eventThreadId = answerEvent?.relationshipEventId;
       }
     } catch (e) {
       debugPrint('Event fetch error: $e');
     }
 
-    navigator.pop(); // pop the "starting upload" overlay
+    // Show the initial "starting upload" overlay while the per-file
+    // loop kicks in. (Each subsequent per-file showSendLoadingDialog
+    // is managed by the mixin.)
+    showSendLoadingDialog(
+      // `mounted` is checked at the top of the function; the dialog
+      // uses the captured `scavMsg` / `navigator` above, not `context`.
+      // ignore: use_build_context_synchronously
+      context,
+      messageKey: 'write.filemessage.upload_start',
+    );
 
-    for (var f in files) {
-      String? ret;
-      bool userCancel = false;
-      // try uploading the file as long as it did not succeed or the user did not cancel
-      while (ret == null && !userCancel) {
-        final String uploadFileName = [
-          f.textEditController.text,
-          _extensionOf(f.file),
-        ].join(".");
+    // Upload each file with its own retry loop. We pass
+    // [navigateOnSuccess] = false so the mixin doesn't navigate after
+    // each individual file — we do that once, at the end, after the
+    // whole batch succeeds.
+    var allSucceeded = true;
+    for (final f in files) {
+      final uploadFileName = '${f.textEditController.text}.${_extensionOf(f.file)}';
+      final caption = f.captionController.text.trim();
 
-        if (!mounted) return;
-        showSendLoadingDialog(
-          context,
-          messageKey: 'write.filemessage.upload_file_process',
-          args: [uploadFileName],
-        );
-
-        try {
-          final MatrixFile uploadFile = MatrixFile(
-            bytes: await f.file.readAsBytes(),
-            name: uploadFileName,
-          );
-          final caption = f.captionController.text.trim();
-          ret = await room!.sendFileEvent(
-            uploadFile,
+      // The mixin captures `context` synchronously at entry. We check
+      // `mounted` before each iteration below.
+      final success = await sendWithRetry(
+        // ignore: use_build_context_synchronously
+        context: context,
+        room: room!,
+        client: client,
+        threadRootEventId: eventThreadId,
+        navigateOnSuccess: false,
+        loadingMessageKey: 'write.filemessage.upload_file_process',
+        loadingArgs: [uploadFileName],
+        errorMessageKey: 'write.filemessage.upload_error',
+        errorArgs: [f.textEditController.text],
+        successMessageKey: 'write.filemessage.upload_file_complete',
+        send: () async {
+          final bytes = await f.file.readAsBytes();
+          final matrixFile = MatrixFile(bytes: bytes, name: uploadFileName);
+          return room!.sendFileEvent(
+            matrixFile,
             threadRootEventId: eventThreadId,
             inReplyTo: answerEvent,
-            extraContent:
-                caption.isNotEmpty
-                    ? {'body': caption, 'filename': uploadFileName}
-                    : null,
+            extraContent: caption.isNotEmpty
+                ? {'body': caption, 'filename': uploadFileName}
+                : null,
           );
-        } catch (e) {
-          debugPrint('File upload error: $e');
-          // ret stays null so the error dialog below is shown
-        }
+        },
+      );
 
-        navigator.pop(); // pop the Uploading file ... dialog
-
-        if (ret == null) {
-          if (!mounted) break;
-          userCancel = await showSendErrorDialog(
-            context,
-            errorMessageKey: 'write.filemessage.upload_error',
-            errorArgs: [f.textEditController.text],
-            retryKey: 'write.filemessage.buttons.upload_retry',
-            cancelKey: 'write.filemessage.buttons.upload_stop',
-          );
-        } else {
-          if (mounted) {
-            scavMsg.showSnackBar(
-              SnackBar(
-                content: Text(
-                  'write.filemessage.upload_file_complete'.tr(
-                    args: [uploadFileName],
-                  ),
-                ),
-              ),
-            );
-          }
-        }
+      if (!success) {
+        // User cancelled — stop uploading remaining files.
+        allSucceeded = false;
+        break;
       }
     }
 
-    if (mounted) {
+    navigator.pop(); // pop the "starting upload" overlay
+    if (!mounted) return;
+
+    if (allSucceeded) {
       scavMsg.showSnackBar(
         SnackBar(content: Text('write.filemessage.upload_complete'.tr())),
       );
     }
 
+    // Navigate once at the end, mirroring the original behavior.
     if (answerEvent != null) {
       goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
     } else if (room != null) {
-      goRouter.go("/feed/${room!.id}");
+      goRouter.go('/feed/${room!.id}');
     } else {
-      goRouter.go("/");
+      goRouter.go('/');
     }
   }
 

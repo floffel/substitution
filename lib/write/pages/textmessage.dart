@@ -1,9 +1,8 @@
+import '/write/mixins/send_with_retry.dart';
 import '/write/widgets/room_header.dart';
 import '/write/widgets/reply_preview.dart';
-import '/write/widgets/send_progress_dialog.dart';
+import '/shared/mixins/matrix_essentials.dart';
 
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -25,17 +24,16 @@ class TextMessageWrite extends StatefulWidget {
   TextMessageWriteState createState() => TextMessageWriteState();
 }
 
-class TextMessageWriteState extends State<TextMessageWrite> {
-  // todo: make client a mixin
-  Client get client => Provider.of<Client>(context, listen: false);
+class TextMessageWriteState extends State<TextMessageWrite>
+    with MatrixEssentials, SendWithRetry {
   Room? get room => client.getRoomById(widget.roomId);
   Future<Event?> get event async =>
       widget.eventId == null || room == null
           ? null
           : Event.fromMatrixEvent(
-            await client.getOneRoomEvent(widget.roomId, widget.eventId!),
-            room!,
-          );
+              await client.getOneRoomEvent(widget.roomId, widget.eventId!),
+              room!,
+            );
 
   Future<({Event event, Event displayEvent})?> get eventData async {
     final e = await event;
@@ -51,13 +49,6 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   final ScrollController _editorScrollController = ScrollController();
 
   bool _isEmpty = true;
-
-  // TODO: same method as in settings(pages/followfeeds.dart) -> make it abstract/mixin/...
-  // TODO: client id is only valid if a user logged in! Only show this option to logged in users!
-  // TODO: this throws an exception if the account data is not valid!
-  // so we have to ensure, that the account data exists!
-  Future<Map<String, Object?>> get accountData async =>
-      await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
   void initState() {
@@ -82,85 +73,53 @@ class TextMessageWriteState extends State<TextMessageWrite> {
   }
 
   Future<void> _send() async {
-    if (_isEmpty) return;
+    if (_isEmpty || room == null) return;
 
-    final scavMsg = ScaffoldMessenger.of(context);
-    final navigator = Navigator.of(context);
-    final goRouter = GoRouter.of(context);
-    debugPrint("started sending message...");
+    debugPrint('started sending message...');
 
+    // The thread relationship is decided once (before the retry loop):
+    // commenting on a comment joins its existing thread, anything else
+    // starts a new reply chain. Computing this inside the loop would
+    // re-fetch the same event on every retry, which is wasteful.
+    var eventThreadId = widget.eventId;
+    final parentEvent = await event;
+    if (parentEvent?.relationshipType == RelationshipTypes.thread) {
+      eventThreadId = parentEvent?.relationshipEventId;
+    }
+
+    // Compute the HTML body once — the quill document is constant during
+    // the retry loop, and re-converting on every retry would be a
+    // pointless duplicate of the same work.
     final deltaJson = _controller.document.toDelta().toJson();
     final converter = QuillDeltaToHtmlConverter(
       List.castFrom(deltaJson),
       ConverterOptions.forEmail(),
     );
-
     final html = converter.convert();
 
-    String? ret;
-    var eventThreadId = widget.eventId;
-    bool userCancel = false;
-    // try to send the message as long as it did not succeed or the user did not cancel
-    // TODO: this is the same as in filemessage.dart => make it modular somehow?
-    while (ret == null && !userCancel) {
-      // TODO: make it a mixin, its almost the same as in login.dart
-      if (!mounted) return;
-      showSendLoadingDialog(
-        context,
-        messageKey: 'write.textmessage.send_start',
-      );
-
-      try {
-        if ((await event)?.relationshipType == RelationshipTypes.thread) {
-          // commenting a comment => we can't start a new thread, rather use the existing one
-          eventThreadId = (await event)?.relationshipEventId;
-        }
-
-        ret = await room!.sendEvent(
-          {
-            "body": _controller.document.toPlainText(),
-            'format': 'org.matrix.custom.html',
-            'formatted_body': html,
-            'msgtype': MessageTypes.Text,
-          },
-          threadRootEventId: eventThreadId,
-          inReplyTo: await event,
-        );
-      } catch (e) {
-        debugPrint('Send error: $e');
-        // ret stays null so the error dialog below is shown
-      }
-
-      navigator.pop(); // pop the send started window
-
-      if (ret == null) {
-        if (!mounted) break;
-        userCancel = await showSendErrorDialog(
-          context,
-          errorMessageKey: 'write.textmessage.send_failed',
-          retryKey: 'write.textmessage.buttons.resend',
-          cancelKey: 'write.textmessage.buttons.send_stop',
-        );
-      } else {
-        if (mounted) {
-          scavMsg.showSnackBar(
-            SnackBar(content: Text('write.textmessage.send_complete'.tr())),
-          );
-        }
-      }
-    }
-
-    if (eventThreadId != null) {
-      Event answerEvent = Event.fromMatrixEvent(
-        await client.getOneRoomEvent(widget.roomId, eventThreadId),
-        room!,
-      );
-      goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
-    } else if (room != null) {
-      goRouter.go("/feed/${room!.id}");
-    } else {
-      goRouter.go("/");
-    }
+    // ignore: use_build_context_synchronously
+    // The mixin captures `context` synchronously at entry, so passing
+    // it across the `await` above is safe.
+    await sendWithRetry(
+      // ignore: use_build_context_synchronously
+      context: context,
+      room: room!,
+      client: client,
+      threadRootEventId: eventThreadId,
+      loadingMessageKey: 'write.textmessage.send_start',
+      errorMessageKey: 'write.textmessage.send_failed',
+      successMessageKey: 'write.textmessage.send_complete',
+      send: () => room!.sendEvent(
+        {
+          'body': _controller.document.toPlainText(),
+          'format': 'org.matrix.custom.html',
+          'formatted_body': html,
+          'msgtype': MessageTypes.Text,
+        },
+        threadRootEventId: eventThreadId,
+        inReplyTo: parentEvent,
+      ),
+    );
   }
 
   @override

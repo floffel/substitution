@@ -27,8 +27,11 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
   /// Runs [send] in a retry loop, showing loading / error dialogs until the
   /// operation succeeds or the user cancels.
   ///
-  /// On success, navigates to the post page for [threadRootEventId] (if given)
-  /// or to the room feed (if [roomId] is given), or to home.
+  /// On success, navigates to the post page for [threadRootEventId] (if
+  /// given) or to the room feed (if [roomId] is given), or to home.
+  /// Pass [navigateOnSuccess] = false to skip navigation — useful for
+  /// callers that batch multiple sends (e.g. uploading several files
+  /// one at a time) and want to navigate only after the whole batch.
   ///
   /// Returns `true` if the send succeeded, `false` if the user cancelled.
   Future<bool> sendWithRetry({
@@ -43,6 +46,7 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
     String? roomId,
     Room? room,
     Client? client,
+    bool navigateOnSuccess = true,
   }) async {
     // Capture context objects before entering the async retry loop.
     // ignore: use_build_context_synchronously
@@ -91,16 +95,18 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
 
     if (!userCancel && ret != null) {
       if (!mounted) return true;
-      if (threadRootEventId != null && client != null && room != null) {
-        final answerEvent = Event.fromMatrixEvent(
-          await client.getOneRoomEvent(room.id, threadRootEventId),
-          room,
-        );
-        goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
-      } else if (room != null) {
-        goRouter.go('/feed/${room.id}');
-      } else {
-        goRouter.go('/');
+      if (navigateOnSuccess) {
+        if (threadRootEventId != null && client != null && room != null) {
+          final answerEvent = Event.fromMatrixEvent(
+            await client.getOneRoomEvent(room.id, threadRootEventId),
+            room,
+          );
+          goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
+        } else if (room != null) {
+          goRouter.go('/feed/${room.id}');
+        } else {
+          goRouter.go('/');
+        }
       }
       return true;
     }
