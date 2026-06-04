@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/followfeeds.dart';
-import 'package:substitution/settings/widgets/roomwidget.dart';
+import 'package:substitution/shared/widgets/roomwidget.dart';
 import 'package:substitution/settings/widgets/sheet_room_preview.dart';
 import 'package:matrix/matrix.dart';
 import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;

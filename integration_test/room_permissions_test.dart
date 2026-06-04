@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:substitution/shared/pages/age_gate.dart';
-import 'package:substitution/settings/widgets/roomwidget.dart';
+import 'package:substitution/shared/widgets/roomwidget.dart';
 import 'package:substitution/settings/pages/room_form_page.dart';
 import 'helpers/integration_test_helper.dart'
     show skipIfNoMatrix, fastWait, settle;

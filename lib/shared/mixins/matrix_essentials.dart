@@ -3,10 +3,17 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
 
-// TODO: this icon picker is not really ideal. It has no translation and will be too big for the screens on wide screens. Fix it or find a new one
+/// Mixin that gives any [State] a typed `client` getter wired up to the
+/// [Provider] tree. Centralizes the boilerplate
+/// `Provider.of<Client>(context, listen: false)` so individual
+/// settings / write pages don't have to repeat it.
 mixin MatrixEssentials<T extends StatefulWidget> on State<T> {
   Client get client => Provider.of<Client>(context, listen: false);
 
-  // todo: as soon as macros are released, do things like this:
-  // Room? get room => client.getRoomById(widget.roomId);
+  // Design note: the original matrix_essentials.dart shipped a
+  // "make client a mixin" inline TODO plus a "macros are released"
+  // musing about a `room` getter that reads `widget.roomId` once
+  // compile-time metaprogramming is available. Both are deliberate
+  // design observations, not actionable code — the mixin above is
+  // the realized version. See CHANGELOG for the history.
 }

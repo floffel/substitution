@@ -1,11 +1,13 @@
 import 'dart:async';
 import '/settings/widgets/dialogaddserver.dart';
 import '/settings/widgets/dialogdeleteserver.dart';
-import '/settings/widgets/roomwidget.dart';
+import '/shared/widgets/roomwidget.dart';
 import '/settings/widgets/sheet_room_preview.dart';
 import '/shared/extensions/client_extensions.dart';
+import '/shared/mixins/matrix_essentials.dart';
 import '/shared/models/substitution_room.dart';
 import '/shared/services/substitution_service.dart';
+import '/shared/utils/servers.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +35,8 @@ class FollowFeedPageKey {
   FollowFeedPageKey({this.nextBatch});
 }
 
-class FollowFeedSettingsState extends State<FollowFeedSettings> {
+class FollowFeedSettingsState extends State<FollowFeedSettings>
+    with MatrixEssentials {
   String selectedServer = "";
   final roomSearchContrainer = TextEditingController();
 
@@ -46,8 +49,6 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   /// FutureBuilder always receives the same Future object and never resets to
   /// ConnectionState.waiting on rebuild — which would cause an infinite loop.
   Future<Map<String, Object?>>? _accountDataFuture;
-
-  Client get client => Provider.of<Client>(context, listen: false);
 
   void _resetList() {
     _searchGeneration++;
@@ -176,8 +177,7 @@ class FollowFeedSettingsState extends State<FollowFeedSettings> {
   Future<Map<String, Object?>> _buildAccountDataFuture() {
     final defaultServer =
         client.userID?.split(':').last ?? client.homeserver?.host;
-    return client
-        .getAccountData(client.userID!, "substitution.servers")
+    return getSubstitutionServers(client)
         .then((data) {
           if (defaultServer != null && !data.containsKey(defaultServer)) {
             final newData = Map<String, Object?>.from(data);

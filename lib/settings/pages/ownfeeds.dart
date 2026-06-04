@@ -1,12 +1,12 @@
-import '/settings/widgets/roomwidget.dart';
+import '/shared/widgets/roomwidget.dart';
 import '/shared/extensions/client_extensions.dart';
+import '/shared/mixins/matrix_essentials.dart';
 import '/shared/models/substitution_room.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:matrix/matrix.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @immutable
 class OwnFeedSettings extends StatefulWidget {
@@ -20,9 +20,8 @@ class OwnFeedSettings extends StatefulWidget {
   OwnFeedSettingsState createState() => OwnFeedSettingsState();
 }
 
-class OwnFeedSettingsState extends State<OwnFeedSettings> {
-  Client get client => Provider.of<Client>(context, listen: false);
-
+class OwnFeedSettingsState extends State<OwnFeedSettings>
+    with MatrixEssentials {
   String selectedServer = "";
 
   List<SubstitutionRoom> data = [];
@@ -73,9 +72,6 @@ class OwnFeedSettingsState extends State<OwnFeedSettings> {
 
     return newData;
   }
-
-  Future<Map<String, Object?>> get accountData async =>
-      await client.getAccountData(client.userID!, "substitution.servers");
 
   @override
   Widget build(BuildContext context) {

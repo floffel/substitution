@@ -1,4 +1,5 @@
-import '/settings/widgets/roomwidget.dart'; // todo: move into other file structure, as it is imported from more than one directory/page/...
+import '/shared/widgets/roomwidget.dart';
+import '/shared/mixins/matrix_essentials.dart';
 import '/shared/models/substitution_room.dart';
 import '/shared/services/substitution_service.dart';
 
@@ -82,9 +83,8 @@ class RoomSelectPage extends StatefulWidget {
   RoomSelectPageState createState() => RoomSelectPageState();
 }
 
-class RoomSelectPageState extends State<RoomSelectPage> {
-  // todo: make client a mixin
-  Client get client => Provider.of<Client>(context, listen: false);
+class RoomSelectPageState extends State<RoomSelectPage>
+    with MatrixEssentials {
   PostType _selectedType = PostType.text;
 
   late Future<List<SubstitutionRoom>> _joinedRoomsFuture;
