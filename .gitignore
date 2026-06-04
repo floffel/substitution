@@ -52,3 +52,9 @@ app.*.map.json
 .claude/
 *_jobs.json
 jobs_*.json
+
+# Test coverage reports
+coverage/
+
+# Sisyphus AI orchestrator working files
+.sisyphus/
