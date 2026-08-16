@@ -11,7 +11,8 @@ import 'package:substitution/settings/pages/followfeeds.dart';
 import 'package:substitution/shared/widgets/roomwidget.dart';
 import 'package:substitution/settings/widgets/sheet_room_preview.dart';
 import 'package:matrix/matrix.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 

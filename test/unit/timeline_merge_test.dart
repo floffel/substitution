@@ -53,15 +53,18 @@ void main() {
       when(() => event1.relationshipType).thenReturn(null);
       when(() => event2.relationshipType).thenReturn(null);
       when(() => event3.relationshipType).thenReturn(null);
+      when(() => event1.eventId).thenReturn(r'$event1');
+      when(() => event2.eventId).thenReturn(r'$event2');
+      when(() => event3.eventId).thenReturn(r'$event3');
       when(() => event1.senderId).thenReturn('@user:matrix.org');
       when(() => event2.senderId).thenReturn('@user:matrix.org');
       when(() => event3.senderId).thenReturn('@user:matrix.org');
       when(
         () => mockRoom1.getPowerLevelByUserId('@user:matrix.org'),
-      ).thenReturn(100);
+      ).thenReturn(PowerLevel.admin);
       when(
         () => mockRoom2.getPowerLevelByUserId('@user:matrix.org'),
-      ).thenReturn(100);
+      ).thenReturn(PowerLevel.admin);
       when(() => event1.room).thenReturn(mockRoom1);
       when(() => event2.room).thenReturn(mockRoom2);
       when(() => event3.room).thenReturn(mockRoom1);
@@ -73,25 +76,17 @@ void main() {
         (origEvent: event3, displayEvent: event3),
       ];
 
-      // Sort descending by timestamp
+      // Sort events by timestamp descending
       events.sort(
         (a, b) => b.displayEvent.originServerTs.compareTo(
           a.displayEvent.originServerTs,
         ),
       );
 
-      expect(
-        events[0].displayEvent.originServerTs,
-        DateTime(2025, 1, 1, 14, 0, 0),
-      );
-      expect(
-        events[1].displayEvent.originServerTs,
-        DateTime(2025, 1, 1, 13, 0, 0),
-      );
-      expect(
-        events[2].displayEvent.originServerTs,
-        DateTime(2025, 1, 1, 12, 0, 0),
-      );
+      // Verify the order
+      expect(events[0].displayEvent.eventId, r'$event2');
+      expect(events[1].displayEvent.eventId, r'$event3');
+      expect(events[2].displayEvent.eventId, r'$event1');
     });
 
     test('Only m.room.message events pass filter', () {
@@ -109,6 +104,32 @@ void main() {
       expect(isMessageEvent(messageEvent), true);
       expect(isMessageEvent(stateEvent), false);
       expect(isMessageEvent(reactionEvent), false);
+    });
+
+    test('Events from unauthorized senders filtered out in blog mode', () {
+      // This test validates the filtering logic pattern used in home.dart
+      final adminEvent = MockEvent();
+      final lowPowerEvent = MockEvent();
+
+      when(() => adminEvent.senderId).thenReturn('@admin:matrix.org');
+      when(() => lowPowerEvent.senderId).thenReturn('@user:matrix.org');
+
+      when(
+        () => mockRoom1.getPowerLevelByUserId('@admin:matrix.org'),
+      ).thenReturn(PowerLevel.admin);
+      when(
+        () => mockRoom1.getPowerLevelByUserId('@user:matrix.org'),
+      ).thenReturn(PowerLevel(25));
+
+      when(() => adminEvent.room).thenReturn(mockRoom1);
+      when(() => lowPowerEvent.room).thenReturn(mockRoom1);
+
+      // Filter function
+      bool hasSufficientPowerLevel(Event e) =>
+          e.room.getPowerLevelByUserId(e.senderId) >= PowerLevel.moderator;
+
+      expect(hasSufficientPowerLevel(adminEvent), true);
+      expect(hasSufficientPowerLevel(lowPowerEvent), false);
     });
 
     test('Replies/threads/edits excluded by relationshipType filter', () {
@@ -145,17 +166,17 @@ void main() {
 
       when(
         () => mockRoom1.getPowerLevelByUserId('@admin:matrix.org'),
-      ).thenReturn(100);
+      ).thenReturn(PowerLevel.admin);
       when(
         () => mockRoom1.getPowerLevelByUserId('@user:matrix.org'),
-      ).thenReturn(25);
+      ).thenReturn(PowerLevel(25));
 
       when(() => adminEvent.room).thenReturn(mockRoom1);
       when(() => lowPowerEvent.room).thenReturn(mockRoom1);
 
       // Filter function
       bool hasSufficientPowerLevel(Event e) =>
-          e.room.getPowerLevelByUserId(e.senderId) >= 50;
+          e.room.getPowerLevelByUserId(e.senderId) >= PowerLevel.moderator;
 
       expect(hasSufficientPowerLevel(adminEvent), true);
       expect(hasSufficientPowerLevel(lowPowerEvent), false);

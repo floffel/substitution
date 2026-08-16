@@ -33,7 +33,8 @@ class _DialogAddServerState extends State<DialogAddServer>
   // Account data may legitimately be empty for first-time users; treat
   // any read error as "no data" instead of crashing. Callers must still
   // guard for an empty map when interpreting the result.
-  Future<Map<String, Object?>> get accountData => getSubstitutionServers(client);
+  Future<Map<String, Object?>> get accountData =>
+      getSubstitutionServers(client);
 
   Future checkHost(String serverAddr) async {
     // Capture our sequence number; if a later validation kicks off, we'll
@@ -42,10 +43,7 @@ class _DialogAddServerState extends State<DialogAddServer>
 
     isInvalidMatrixServer = true;
 
-    Room room = Room(
-      id: '#substitution:$serverAddr',
-      client: client,
-    );
+    Room room = Room(id: '#substitution:$serverAddr', client: client);
 
     debugPrint("room.lastEvent: ${room.name}");
 

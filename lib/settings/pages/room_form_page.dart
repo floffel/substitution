@@ -45,7 +45,8 @@ class RoomFormPage extends StatefulWidget {
   State<RoomFormPage> createState() => _RoomFormPageState();
 }
 
-class _RoomFormPageState extends State<RoomFormPage> implements RoomFormPrompter {
+class _RoomFormPageState extends State<RoomFormPage>
+    implements RoomFormPrompter {
   // ── Controller ──────────────────────────────────────────────────────
   late final RoomFormController _controller;
   late final GlobalKey<FormState> _formKey;
@@ -123,8 +124,9 @@ class _RoomFormPageState extends State<RoomFormPage> implements RoomFormPrompter
       _showRetrySnackbar(
         widget.isCreateMode
             ? 'settings.room_form.create_error'.tr()
-            : 'settings.room_form.save_error'
-                .tr(args: [_controller.lastError ?? '']),
+            : 'settings.room_form.save_error'.tr(
+              args: [_controller.lastError ?? ''],
+            ),
         onRetry: _onSubmit,
       );
     }
@@ -424,7 +426,8 @@ class _RoomFormPageState extends State<RoomFormPage> implements RoomFormPrompter
     final colorScheme = theme.colorScheme;
     final isEditMode = !widget.isCreateMode;
     final isAdmin =
-        _controller.room == null || _controller.room!.ownPowerLevel >= 100;
+        _controller.room == null ||
+        _controller.room!.ownPowerLevel >= PowerLevel.admin;
 
     // ── Edit-mode loading / error / no-permission states ──────────────
 
@@ -642,8 +645,8 @@ class _RoomFormPageState extends State<RoomFormPage> implements RoomFormPrompter
               canChangeEncryption: !_controller.alreadyEncrypted,
               onIsEncryptedChanged: (v) => _controller.isEncrypted = v,
               isSubstitutionRoom: _controller.isSubstitutionRoom,
-              onIsSubstitutionRoomChanged: (v) =>
-                  _controller.isSubstitutionRoom = v,
+              onIsSubstitutionRoomChanged:
+                  (v) => _controller.isSubstitutionRoom = v,
               isBlogMode: _controller.isBlogMode,
               onIsBlogModeChanged: (v) => _controller.isBlogMode = v,
               isEditMode: isEditMode,

@@ -61,7 +61,9 @@ void main() {
       // getDisplayEvent returns itself (no edits)
       when(() => e.getDisplayEvent(any())).thenReturn(e);
       // Mock power level check
-      when(() => room.getPowerLevelByUserId(any())).thenReturn(100);
+      when(
+        () => room.getPowerLevelByUserId(any()),
+      ).thenReturn(PowerLevel.admin);
       when(() => room.getState('m.room.power_levels')).thenReturn(null);
       return e;
     }

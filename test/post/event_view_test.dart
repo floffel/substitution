@@ -28,9 +28,9 @@ void main() {
     User buildUser({String? displayName, String? avatarUrl}) {
       final user = MockUser();
       when(() => user.displayName).thenReturn(displayName);
-      when(() => user.avatarUrl).thenReturn(
-        avatarUrl == null ? null : Uri.parse(avatarUrl),
-      );
+      when(
+        () => user.avatarUrl,
+      ).thenReturn(avatarUrl == null ? null : Uri.parse(avatarUrl));
       return user;
     }
 
@@ -106,47 +106,50 @@ void main() {
     });
 
     group('comments', () {
-      test('returns deduplicated + sorted comments from aggregatedEvents', () async {
-        // Two aggregated events that point back at our eventId, plus a
-        // duplicate (same eventId) and one that points elsewhere.
-        final tsOld = DateTime(2026, 1, 1).millisecondsSinceEpoch;
-        final tsNew = DateTime(2026, 6, 1).millisecondsSinceEpoch;
+      test(
+        'returns deduplicated + sorted comments from aggregatedEvents',
+        () async {
+          // Two aggregated events that point back at our eventId, plus a
+          // duplicate (same eventId) and one that points elsewhere.
+          final tsOld = DateTime(2026, 1, 1).millisecondsSinceEpoch;
+          final tsNew = DateTime(2026, 6, 1).millisecondsSinceEpoch;
 
-        final e1 = buildComment(eventId: 'c1', ts: tsOld, pointsAt: 'post-1');
-        final e2 = buildComment(eventId: 'c2', ts: tsNew, pointsAt: 'post-1');
-        final e3 = buildComment(
-          eventId: 'c2', // duplicate
-          ts: tsNew,
-          pointsAt: 'post-1',
-        );
-        final e4 = buildComment(eventId: 'c4', ts: tsNew, pointsAt: 'other');
+          final e1 = buildComment(eventId: 'c1', ts: tsOld, pointsAt: 'post-1');
+          final e2 = buildComment(eventId: 'c2', ts: tsNew, pointsAt: 'post-1');
+          final e3 = buildComment(
+            eventId: 'c2', // duplicate
+            ts: tsNew,
+            pointsAt: 'post-1',
+          );
+          final e4 = buildComment(eventId: 'c4', ts: tsNew, pointsAt: 'other');
 
-        final timeline = MockTimeline();
-        when(() => event.eventId).thenReturn('post-1');
-        when(
-          () => event.aggregatedEvents(timeline, any()),
-        ).thenReturn({e1, e2, e3, e4});
-        when(() => e1.getDisplayEvent(timeline)).thenReturn(e1);
-        when(() => e2.getDisplayEvent(timeline)).thenReturn(e2);
-        when(() => e3.getDisplayEvent(timeline)).thenReturn(e3);
-        when(() => e4.getDisplayEvent(timeline)).thenReturn(e4);
+          final timeline = MockTimeline();
+          when(() => event.eventId).thenReturn('post-1');
+          when(
+            () => event.aggregatedEvents(timeline, any()),
+          ).thenReturn({e1, e2, e3, e4});
+          when(() => e1.getDisplayEvent(timeline)).thenReturn(e1);
+          when(() => e2.getDisplayEvent(timeline)).thenReturn(e2);
+          when(() => e3.getDisplayEvent(timeline)).thenReturn(e3);
+          when(() => e4.getDisplayEvent(timeline)).thenReturn(e4);
 
-        // We pass the timeline eagerly so the helper does not need to
-        // hit the network.
-        final viewWithTimeline = EventView(
-          event: event,
-          displayEvent: event,
-          timeline: timeline,
-        );
+          // We pass the timeline eagerly so the helper does not need to
+          // hit the network.
+          final viewWithTimeline = EventView(
+            event: event,
+            displayEvent: event,
+            timeline: timeline,
+          );
 
-        final comments = await viewWithTimeline.comments;
+          final comments = await viewWithTimeline.comments;
 
-        // Should keep only events whose m.relates_to.m.in_reply_to.event_id
-        // matches our post-1, deduped by eventId, sorted newest first.
-        expect(comments, hasLength(2));
-        expect(comments[0].origEvent.eventId, 'c2');
-        expect(comments[1].origEvent.eventId, 'c1');
-      });
+          // Should keep only events whose m.relates_to.m.in_reply_to.event_id
+          // matches our post-1, deduped by eventId, sorted newest first.
+          expect(comments, hasLength(2));
+          expect(comments[0].origEvent.eventId, 'c2');
+          expect(comments[1].origEvent.eventId, 'c1');
+        },
+      );
 
       test('returns an empty list when no aggregated events exist', () async {
         final timeline = MockTimeline();

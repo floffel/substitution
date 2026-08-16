@@ -24,16 +24,19 @@ void main() {
       expect(result, fake);
     });
 
-    test('returns an empty map when the call throws (first-time user)', () async {
-      // First-time users have no account data yet, so getAccountData
-      // throws. The helper must not crash the UI.
-      when(
-        () => client.getAccountData(any(), any()),
-      ).thenThrow(Exception('M_NOT_FOUND'));
+    test(
+      'returns an empty map when the call throws (first-time user)',
+      () async {
+        // First-time users have no account data yet, so getAccountData
+        // throws. The helper must not crash the UI.
+        when(
+          () => client.getAccountData(any(), any()),
+        ).thenThrow(Exception('M_NOT_FOUND'));
 
-      final result = await getSubstitutionServers(client);
-      expect(result, isEmpty);
-    });
+        final result = await getSubstitutionServers(client);
+        expect(result, isEmpty);
+      },
+    );
 
     test('returns an empty map when account data is malformed', () async {
       when(
@@ -51,9 +54,10 @@ void main() {
 
       await getSubstitutionServers(client);
 
-      final captured = verify(
-        () => client.getAccountData(captureAny(), captureAny()),
-      ).captured;
+      final captured =
+          verify(
+            () => client.getAccountData(captureAny(), captureAny()),
+          ).captured;
       expect(captured, hasLength(2));
       expect(captured[0], '@alice:matrix.org');
       expect(captured[1], substitutionServersAccountDataKey);
@@ -73,12 +77,17 @@ void main() {
         () => client.setAccountData(any(), any(), any()),
       ).thenAnswer((_) async => {});
 
-      final servers = <String, Object?>{'matrix.org': null, 'example.com': null};
+      final servers = <String, Object?>{
+        'matrix.org': null,
+        'example.com': null,
+      };
       await setSubstitutionServers(client, servers);
 
-      final captured = verify(
-        () => client.setAccountData(captureAny(), captureAny(), captureAny()),
-      ).captured;
+      final captured =
+          verify(
+            () =>
+                client.setAccountData(captureAny(), captureAny(), captureAny()),
+          ).captured;
       expect(captured, hasLength(3));
       expect(captured[0], '@alice:matrix.org');
       expect(captured[1], substitutionServersAccountDataKey);

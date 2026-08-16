@@ -46,7 +46,7 @@ void main() {
       when(() => mockRoom.canonicalAlias).thenReturn('#testroom:matrix.org');
       when(
         () => mockRoom.getPowerLevelByUserId('@user:matrix.org'),
-      ).thenReturn(100);
+      ).thenReturn(PowerLevel(100));
 
       // Setup user
       when(() => mockUser.id).thenReturn('@user:matrix.org');

@@ -4,10 +4,7 @@ import 'package:substitution/shared/utils/routing_utils.dart';
 void main() {
   group('preserveDestinationInIntroRedirect', () {
     test('returns null when already on /intro (no redirect needed)', () {
-      expect(
-        preserveDestinationInIntroRedirect(Uri.parse('/intro')),
-        isNull,
-      );
+      expect(preserveDestinationInIntroRedirect(Uri.parse('/intro')), isNull);
     });
 
     test('returns null when already on /auth/login', () {
@@ -51,7 +48,9 @@ void main() {
 
     test('preserves a simple path as goto', () {
       expect(
-        preserveDestinationInIntroRedirect(Uri.parse('/feed/photo_art:matrix.org')),
+        preserveDestinationInIntroRedirect(
+          Uri.parse('/feed/photo_art:matrix.org'),
+        ),
         '/intro?goto=${Uri.encodeComponent('/feed/photo_art:matrix.org')}',
       );
     });
@@ -76,18 +75,14 @@ void main() {
 
     test('preserves a chat deep link as goto', () {
       expect(
-        preserveDestinationInIntroRedirect(
-          Uri.parse('/chat/!room:server'),
-        ),
+        preserveDestinationInIntroRedirect(Uri.parse('/chat/!room:server')),
         '/intro?goto=${Uri.encodeComponent('/chat/!room:server')}',
       );
     });
 
     test('preserves a settings deep link as goto', () {
       expect(
-        preserveDestinationInIntroRedirect(
-          Uri.parse('/settings/security'),
-        ),
+        preserveDestinationInIntroRedirect(Uri.parse('/settings/security')),
         '/intro?goto=${Uri.encodeComponent('/settings/security')}',
       );
     });
@@ -96,8 +91,7 @@ void main() {
       // The result must round-trip: decoding the encoded goto gives back
       // the original request URI.
       final original = '/feed/photo_art:matrix.org';
-      final redirect =
-          preserveDestinationInIntroRedirect(Uri.parse(original));
+      final redirect = preserveDestinationInIntroRedirect(Uri.parse(original));
       expect(redirect, isNotNull);
 
       // Parse the redirect and extract the goto parameter.
@@ -114,13 +108,13 @@ void main() {
       // If the original was /write/foo?event=bar, the goto must include
       // the event=bar query so the post-edit page works.
       final original = '/write/!room:server?event=\$event-id';
-      final redirect =
-          preserveDestinationInIntroRedirect(Uri.parse(original));
+      final redirect = preserveDestinationInIntroRedirect(Uri.parse(original));
       expect(redirect, isNotNull);
 
       final redirectUri = Uri.parse(redirect!);
-      final decodedGoto =
-          Uri.decodeComponent(redirectUri.queryParameters['goto']!);
+      final decodedGoto = Uri.decodeComponent(
+        redirectUri.queryParameters['goto']!,
+      );
       expect(decodedGoto, original);
     });
   });
@@ -135,8 +129,10 @@ void main() {
     });
 
     test('accepts a simple internal path', () {
-      expect(safeGotoDestination('/feed/photo_art:matrix.org'),
-          '/feed/photo_art:matrix.org');
+      expect(
+        safeGotoDestination('/feed/photo_art:matrix.org'),
+        '/feed/photo_art:matrix.org',
+      );
     });
 
     test('accepts a path with query parameters', () {
@@ -167,8 +163,10 @@ void main() {
     });
 
     test('rejects a data: URL', () {
-      expect(safeGotoDestination('data:text/html,<script>alert(1)</script>'),
-          isNull);
+      expect(
+        safeGotoDestination('data:text/html,<script>alert(1)</script>'),
+        isNull,
+      );
     });
 
     test('rejects a protocol-relative URL (//example.com)', () {
@@ -211,11 +209,14 @@ void main() {
       expect(safeGotoDestination('/feed/intro'), '/feed/intro');
     });
 
-    test('accepts /auth/login-foo (path that starts with /auth/ but is not the exact page)', () {
-      // We only block the exact auth paths, not arbitrary paths that
-      // happen to start with /auth/.
-      expect(safeGotoDestination('/auth/login-foo'), '/auth/login-foo');
-    });
+    test(
+      'accepts /auth/login-foo (path that starts with /auth/ but is not the exact page)',
+      () {
+        // We only block the exact auth paths, not arbitrary paths that
+        // happen to start with /auth/.
+        expect(safeGotoDestination('/auth/login-foo'), '/auth/login-foo');
+      },
+    );
 
     test('trims query string before checking auth path', () {
       // The check extracts the path part before the query.

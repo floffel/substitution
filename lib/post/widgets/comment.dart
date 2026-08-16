@@ -50,7 +50,8 @@ class CommentWidgetState extends State<CommentWidget> with IconPicker {
 
   void _showCommentMenu(BuildContext context) {
     final isOwnComment = client.userID == widget.displayEvent.senderId;
-    final canRedact = isOwnComment || widget.event.room.ownPowerLevel >= 50;
+    final canRedact =
+        isOwnComment || widget.event.room.ownPowerLevel >= PowerLevel.moderator;
 
     showModalBottomSheet<void>(
       context: context,

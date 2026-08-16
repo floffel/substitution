@@ -39,7 +39,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     for (final room in allRooms) {
       final powerLevel = room.getPowerLevelByUserId(widget.userId);
-      if (powerLevel >= 50) {
+      if (powerLevel >= PowerLevel.moderator) {
         final isInSubstitution = await client.isRoomInSubstitution(room.id);
         if (isInSubstitution) {
           rooms.add(room);

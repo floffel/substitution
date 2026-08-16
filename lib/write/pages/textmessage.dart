@@ -31,9 +31,9 @@ class TextMessageWriteState extends State<TextMessageWrite>
       widget.eventId == null || room == null
           ? null
           : Event.fromMatrixEvent(
-              await client.getOneRoomEvent(widget.roomId, widget.eventId!),
-              room!,
-            );
+            await client.getOneRoomEvent(widget.roomId, widget.eventId!),
+            room!,
+          );
 
   Future<({Event event, Event displayEvent})?> get eventData async {
     final e = await event;
@@ -109,16 +109,17 @@ class TextMessageWriteState extends State<TextMessageWrite>
       loadingMessageKey: 'write.textmessage.send_start',
       errorMessageKey: 'write.textmessage.send_failed',
       successMessageKey: 'write.textmessage.send_complete',
-      send: () => room!.sendEvent(
-        {
-          'body': _controller.document.toPlainText(),
-          'format': 'org.matrix.custom.html',
-          'formatted_body': html,
-          'msgtype': MessageTypes.Text,
-        },
-        threadRootEventId: eventThreadId,
-        inReplyTo: parentEvent,
-      ),
+      send:
+          () => room!.sendEvent(
+            {
+              'body': _controller.document.toPlainText(),
+              'format': 'org.matrix.custom.html',
+              'formatted_body': html,
+              'msgtype': MessageTypes.Text,
+            },
+            threadRootEventId: eventThreadId,
+            inReplyTo: parentEvent,
+          ),
     );
   }
 

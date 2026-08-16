@@ -54,7 +54,7 @@ void main() {
     when(() => mockDisplayEvent.originServerTs).thenReturn(DateTime.now());
     when(() => mockDisplayEvent.originalSource).thenReturn(null);
 
-    when(() => mockRoom.ownPowerLevel).thenReturn(50);
+    when(() => mockRoom.ownPowerLevel).thenReturn(PowerLevel(50));
     when(() => mockClient.userID).thenReturn('@me:matrix.org');
 
     when(() => mockUser.id).thenReturn('@user:matrix.org');

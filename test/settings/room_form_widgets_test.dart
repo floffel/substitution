@@ -21,9 +21,7 @@ Widget _buildApp(Widget child) {
     supportedLocales: const [Locale('en', 'US')],
     path: 'assets/translations',
     fallbackLocale: const Locale('en', 'US'),
-    child: MaterialApp(
-      home: Scaffold(body: child),
-    ),
+    child: MaterialApp(home: Scaffold(body: child)),
   );
 }
 
@@ -41,10 +39,7 @@ void main() {
         _buildApp(
           FormSectionCard(
             title: 'Test section',
-            children: const [
-              Text('child one'),
-              Text('child two'),
-            ],
+            children: const [Text('child one'), Text('child two')],
           ),
         ),
       );
@@ -59,9 +54,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        _buildApp(
-          FormSectionCard(title: 'Empty section', children: const []),
-        ),
+        _buildApp(FormSectionCard(title: 'Empty section', children: const [])),
       );
       await tester.pump(const Duration(milliseconds: 100));
 
@@ -91,9 +84,7 @@ void main() {
       expect(find.byIcon(Icons.security_rounded), findsOneWidget);
     });
 
-    testWidgets('invokes onChanged when toggled', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('invokes onChanged when toggled', (WidgetTester tester) async {
       var currentValue = false;
       await tester.pumpWidget(
         _buildApp(
@@ -143,9 +134,7 @@ void main() {
   });
 
   group('RoomBasicInfoForm', () {
-    testWidgets('renders the three text fields', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('renders the three text fields', (WidgetTester tester) async {
       final nameCtl = TextEditingController();
       final aliasCtl = TextEditingController();
       final topicCtl = TextEditingController();
@@ -243,9 +232,7 @@ void main() {
       expect(formKey.currentState!.validate(), isTrue);
     });
 
-    testWidgets('name validator rejects empty', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('name validator rejects empty', (WidgetTester tester) async {
       final formKey = GlobalKey<FormState>();
       await tester.pumpWidget(
         _buildApp(
@@ -355,36 +342,37 @@ void main() {
       expect(find.byType(SwitchListTile), findsNWidgets(3));
     });
 
-    testWidgets('invokes onIsPublicChanged when the visibility switch is toggled', (
-      WidgetTester tester,
-    ) async {
-      var currentPublic = false;
-      await tester.pumpWidget(
-        _buildApp(
-          RoomSettingsSection(
-            isPublic: currentPublic,
-            onIsPublicChanged: (v) => currentPublic = v,
-            isEncrypted: null,
-            alreadyEncrypted: false,
-            onIsEncryptedChanged: (_) {},
-            isSubstitutionRoom: true,
-            onIsSubstitutionRoomChanged: (_) {},
-            isBlogMode: false,
-            onIsBlogModeChanged: (_) {},
-            isEditMode: true,
-            canChangeEncryption: true,
+    testWidgets(
+      'invokes onIsPublicChanged when the visibility switch is toggled',
+      (WidgetTester tester) async {
+        var currentPublic = false;
+        await tester.pumpWidget(
+          _buildApp(
+            RoomSettingsSection(
+              isPublic: currentPublic,
+              onIsPublicChanged: (v) => currentPublic = v,
+              isEncrypted: null,
+              alreadyEncrypted: false,
+              onIsEncryptedChanged: (_) {},
+              isSubstitutionRoom: true,
+              onIsSubstitutionRoomChanged: (_) {},
+              isBlogMode: false,
+              onIsBlogModeChanged: (_) {},
+              isEditMode: true,
+              canChangeEncryption: true,
+            ),
           ),
-        ),
-      );
-      await tester.pump(const Duration(milliseconds: 100));
+        );
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // First SwitchListTile is the visibility toggle.
-      final switchFinder = find.byType(SwitchListTile).first;
-      await tester.tap(switchFinder);
-      await tester.pump(const Duration(milliseconds: 100));
+        // First SwitchListTile is the visibility toggle.
+        final switchFinder = find.byType(SwitchListTile).first;
+        await tester.tap(switchFinder);
+        await tester.pump(const Duration(milliseconds: 100));
 
-      expect(currentPublic, isTrue);
-    });
+        expect(currentPublic, isTrue);
+      },
+    );
   });
 
   group('RoomMembersSection', () {
@@ -407,14 +395,8 @@ void main() {
       );
       await tester.pump(const Duration(milliseconds: 100));
 
-      expect(
-        find.text('settings.room_form.members_empty'),
-        findsOneWidget,
-      );
-      expect(
-        find.text('settings.room_form.banned_empty'),
-        findsOneWidget,
-      );
+      expect(find.text('settings.room_form.members_empty'), findsOneWidget);
+      expect(find.text('settings.room_form.banned_empty'), findsOneWidget);
     });
   });
 }

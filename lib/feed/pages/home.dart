@@ -107,7 +107,7 @@ class HomePageState extends State<HomePage> {
     final eventsDefault =
         (powerLevelEvent?.content['events_default'] as num?)?.toInt() ?? 0;
     if (eventsDefault >= 50) {
-      return room.getPowerLevelByUserId(event.senderId) >= 50;
+      return room.getPowerLevelByUserId(event.senderId) >= PowerLevel.moderator;
     }
     return true;
   }

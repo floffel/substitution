@@ -10,7 +10,8 @@ import 'package:substitution/shared/pages/age_gate.dart';
 import 'package:substitution/settings/pages/profile.dart';
 import 'package:substitution/feed/pages/home.dart';
 import 'package:go_router/go_router.dart';
-import 'helpers/integration_test_helper.dart' show skipIfNoMatrix, fastWait, settle;
+import 'helpers/integration_test_helper.dart'
+    show skipIfNoMatrix, fastWait, settle;
 import 'helpers/patrol_helper.dart' as patrol_helper;
 import 'helpers/patrol_wrapper.dart';
 

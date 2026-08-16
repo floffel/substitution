@@ -86,7 +86,7 @@ Future<bool> showStartroomDialog(BuildContext context, Client client) async {
   if (result == true) {
     try {
       final id = AppConstants.substitutionRoomAlias;
-      await client.joinRoom(id, serverName: ["matrix.org"]);
+      await client.joinRoom(id, via: ["matrix.org"]);
       await client.setAccountDataPerRoom(client.userID!, id, "substitution", {
         "joined": true,
       });

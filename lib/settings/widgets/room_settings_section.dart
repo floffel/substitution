@@ -111,10 +111,7 @@ class RoomSettingsSection extends StatelessWidget {
 
         // Posting mode
         FormToggleTile(
-          icon:
-              isBlogMode
-                  ? Icons.edit_off_rounded
-                  : Icons.edit_rounded,
+          icon: isBlogMode ? Icons.edit_off_rounded : Icons.edit_rounded,
           title: 'settings.room_form.posting_mode_label'.tr(),
           subtitle:
               isBlogMode

@@ -41,10 +41,7 @@ Future<RoomFormController> _makeLoadedController({
   when(() => service.init()).thenAnswer((_) async {});
   when(() => service.isSubstitutionRoom(any())).thenReturn(true);
 
-  final controller = RoomFormController(
-    client: client,
-    isCreateMode: false,
-  );
+  final controller = RoomFormController(client: client, isCreateMode: false);
   await controller.loadRoom(
     roomId: '!room:server',
     substitutionService: service,
@@ -60,10 +57,7 @@ void main() {
     setUp(() {
       client = MockClient();
       when(() => client.userID).thenReturn('@user:server');
-      controller = RoomFormController(
-        client: client,
-        isCreateMode: true,
-      );
+      controller = RoomFormController(client: client, isCreateMode: true);
     });
 
     test('starts with create-mode defaults', () {
@@ -127,10 +121,7 @@ void main() {
         id: '!room:server',
         powerLevel: 100,
       );
-      controller = RoomFormController(
-        client: client,
-        isCreateMode: false,
-      );
+      controller = RoomFormController(client: client, isCreateMode: false);
     });
 
     test('loadRoom() populates form fields from the room state', () async {
@@ -165,40 +156,46 @@ void main() {
       verify(() => service.init()).called(1);
     });
 
-    test('loadRoom() reports a friendly error when the room is missing', () async {
-      when(() => client.getRoomById('!missing:server')).thenReturn(null);
+    test(
+      'loadRoom() reports a friendly error when the room is missing',
+      () async {
+        when(() => client.getRoomById('!missing:server')).thenReturn(null);
 
-      await controller.loadRoom(
-        roomId: '!missing:server',
-        substitutionService: MockSubstitutionService(),
-      );
+        await controller.loadRoom(
+          roomId: '!missing:server',
+          substitutionService: MockSubstitutionService(),
+        );
 
-      expect(controller.isLoadingRoom, isFalse);
-      expect(controller.loadError, isNotNull);
-      expect(controller.room, isNull);
-    });
+        expect(controller.isLoadingRoom, isFalse);
+        expect(controller.loadError, isNotNull);
+        expect(controller.room, isNull);
+      },
+    );
 
-    test('loadRoom() tolerates a null SubstitutionService (test env)', () async {
-      when(() => client.getRoomById('!room:server')).thenReturn(room);
-      when(() => room.getState('m.room.power_levels')).thenReturn(null);
-      when(() => room.getState('m.room.join_rules')).thenReturn(null);
-      when(() => room.getState('m.room.encryption')).thenReturn(null);
-      when(() => room.avatar).thenReturn(null);
-      when(() => room.canonicalAlias).thenReturn('');
-      when(() => room.name).thenReturn('Existing Room');
-      when(() => room.topic).thenReturn('');
-      when(() => room.getParticipants()).thenReturn([]);
+    test(
+      'loadRoom() tolerates a null SubstitutionService (test env)',
+      () async {
+        when(() => client.getRoomById('!room:server')).thenReturn(room);
+        when(() => room.getState('m.room.power_levels')).thenReturn(null);
+        when(() => room.getState('m.room.join_rules')).thenReturn(null);
+        when(() => room.getState('m.room.encryption')).thenReturn(null);
+        when(() => room.avatar).thenReturn(null);
+        when(() => room.canonicalAlias).thenReturn('');
+        when(() => room.name).thenReturn('Existing Room');
+        when(() => room.topic).thenReturn('');
+        when(() => room.getParticipants()).thenReturn([]);
 
-      // No service — controller should still load and fall back to
-      // the create-mode default for the substitution toggle.
-      await controller.loadRoom(
-        roomId: '!room:server',
-        substitutionService: null,
-      );
+        // No service — controller should still load and fall back to
+        // the create-mode default for the substitution toggle.
+        await controller.loadRoom(
+          roomId: '!room:server',
+          substitutionService: null,
+        );
 
-      expect(controller.room, same(room));
-      expect(controller.isSubstitutionRoom, isTrue); // default
-    });
+        expect(controller.room, same(room));
+        expect(controller.isSubstitutionRoom, isTrue); // default
+      },
+    );
   });
 
   group('RoomFormController submit (create mode)', () {
@@ -214,10 +211,7 @@ void main() {
         id: '!new:server',
         powerLevel: 100,
       );
-      controller = RoomFormController(
-        client: client,
-        isCreateMode: true,
-      );
+      controller = RoomFormController(client: client, isCreateMode: true);
       controller.nameController.text = 'New Room';
       controller.topicController.text = 'A topic';
     });
@@ -241,12 +235,7 @@ void main() {
         () => client.waitForRoomInSync(any(), join: any(named: 'join')),
       ).thenAnswer((_) async => _SyncUpdateFake());
       when(
-        () => client.setAccountDataPerRoom(
-          any(),
-          any(),
-          any(),
-          any(),
-        ),
+        () => client.setAccountDataPerRoom(any(), any(), any(), any()),
       ).thenAnswer((_) async => {});
 
       final service = MockSubstitutionService();
@@ -290,8 +279,9 @@ void main() {
         ),
       ).thenThrow(Exception('boom'));
 
-      final ok =
-          await controller.submit(substitutionService: MockSubstitutionService());
+      final ok = await controller.submit(
+        substitutionService: MockSubstitutionService(),
+      );
 
       expect(ok, isFalse);
       expect(controller.isSaving, isFalse);
@@ -326,29 +316,32 @@ void main() {
       // the internal list before calling the action.
     });
 
-    test('kickMember() calls room.kick and refreshes the member list', () async {
-      // Set up the room to have one member, then verify kick + refresh.
-      when(() => room.getParticipants()).thenReturn([member]);
-      // Trigger a refresh by calling loadRoom again so _members has
-      // the right initial value.
-      final service = MockSubstitutionService();
-      when(() => service.isInitialized).thenReturn(true);
-      when(() => service.init()).thenAnswer((_) async {});
-      when(() => service.isSubstitutionRoom(any())).thenReturn(true);
-      await controller.loadRoom(
-        roomId: '!room:server',
-        substitutionService: service,
-      );
-      // Now stub kick to succeed and post-kick list to be empty.
-      when(() => room.kick('@user:server')).thenAnswer((_) async {});
-      when(() => room.getParticipants()).thenReturn([]);
+    test(
+      'kickMember() calls room.kick and refreshes the member list',
+      () async {
+        // Set up the room to have one member, then verify kick + refresh.
+        when(() => room.getParticipants()).thenReturn([member]);
+        // Trigger a refresh by calling loadRoom again so _members has
+        // the right initial value.
+        final service = MockSubstitutionService();
+        when(() => service.isInitialized).thenReturn(true);
+        when(() => service.init()).thenAnswer((_) async {});
+        when(() => service.isSubstitutionRoom(any())).thenReturn(true);
+        await controller.loadRoom(
+          roomId: '!room:server',
+          substitutionService: service,
+        );
+        // Now stub kick to succeed and post-kick list to be empty.
+        when(() => room.kick('@user:server')).thenAnswer((_) async {});
+        when(() => room.getParticipants()).thenReturn([]);
 
-      final ok = await controller.kickMember(member);
+        final ok = await controller.kickMember(member);
 
-      expect(ok, isTrue);
-      verify(() => room.kick('@user:server')).called(1);
-      expect(controller.members, isEmpty);
-    });
+        expect(ok, isTrue);
+        verify(() => room.kick('@user:server')).called(1);
+        expect(controller.members, isEmpty);
+      },
+    );
 
     test('banMember() calls room.ban and refreshes the member list', () async {
       when(() => room.ban('@user:server')).thenAnswer((_) async {});
@@ -361,15 +354,18 @@ void main() {
       expect(controller.members, isEmpty);
     });
 
-    test('unbanMember() calls room.unban and refreshes the member list', () async {
-      when(() => room.unban('@user:server')).thenAnswer((_) async {});
-      when(() => room.getParticipants()).thenReturn([]);
+    test(
+      'unbanMember() calls room.unban and refreshes the member list',
+      () async {
+        when(() => room.unban('@user:server')).thenAnswer((_) async {});
+        when(() => room.getParticipants()).thenReturn([]);
 
-      final ok = await controller.unbanMember(member);
+        final ok = await controller.unbanMember(member);
 
-      expect(ok, isTrue);
-      verify(() => room.unban('@user:server')).called(1);
-    });
+        expect(ok, isTrue);
+        verify(() => room.unban('@user:server')).called(1);
+      },
+    );
 
     test('setPowerLevel() calls room.setPower with the right level', () async {
       when(() => room.setPower(any(), any())).thenAnswer((_) async => '');

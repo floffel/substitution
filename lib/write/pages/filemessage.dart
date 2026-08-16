@@ -191,7 +191,8 @@ class FileMessageWriteState extends State<FileMessageWrite>
     // whole batch succeeds.
     var allSucceeded = true;
     for (final f in files) {
-      final uploadFileName = '${f.textEditController.text}.${_extensionOf(f.file)}';
+      final uploadFileName =
+          '${f.textEditController.text}.${_extensionOf(f.file)}';
       final caption = f.captionController.text.trim();
 
       // The mixin captures `context` synchronously at entry. We check
@@ -215,9 +216,10 @@ class FileMessageWriteState extends State<FileMessageWrite>
             matrixFile,
             threadRootEventId: eventThreadId,
             inReplyTo: answerEvent,
-            extraContent: caption.isNotEmpty
-                ? {'body': caption, 'filename': uploadFileName}
-                : null,
+            extraContent:
+                caption.isNotEmpty
+                    ? {'body': caption, 'filename': uploadFileName}
+                    : null,
           );
         },
       );

@@ -14,11 +14,7 @@ import 'package:matrix/matrix.dart';
 ///   methods that delegate to an internal [EventView] (backward-compat
 ///   path — see `lib/post/interfaces/i_event.dart`).
 class EventView {
-  EventView({
-    required this.event,
-    required this.displayEvent,
-    this.timeline,
-  });
+  EventView({required this.event, required this.displayEvent, this.timeline});
 
   /// The original Matrix event (used for aggregating comments, edits,
   /// reactions, etc.).
@@ -63,8 +59,7 @@ class EventView {
     final ret = <({Event origEvent, Event displayEvent})>[];
 
     final activeTimeline =
-        timeline ??
-        await event.room.getTimeline(eventContextId: event.eventId);
+        timeline ?? await event.room.getTimeline(eventContextId: event.eventId);
 
     for (final e in postEvent.aggregatedEvents(
       activeTimeline,
@@ -96,7 +91,8 @@ class EventView {
     final seen = <String>{};
     ret.retainWhere((e) => seen.add(e.origEvent.eventId));
     ret.sort(
-      (a, b) => b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
+      (a, b) =>
+          b.origEvent.originServerTs.compareTo(a.origEvent.originServerTs),
     );
 
     return ret;

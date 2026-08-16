@@ -43,7 +43,7 @@ class RoomWidgetState extends State<RoomWidget> {
 
   bool get isAdminRoom {
     final room = client.getRoomById(widget.room.id);
-    return room != null && room.ownPowerLevel >= 100;
+    return room != null && room.ownPowerLevel >= PowerLevel.admin;
   }
 
   Widget _buildLeadingAvatar(ColorScheme colorScheme) {

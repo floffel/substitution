@@ -218,9 +218,7 @@ class RoomFormController extends ChangeNotifier {
           await substitutionService.init();
           isSubstitution = substitutionService.isSubstitutionRoom(roomId);
         } catch (e) {
-          debugPrint(
-            'SubstitutionService lookup failed (non-fatal): $e',
-          );
+          debugPrint('SubstitutionService lookup failed (non-fatal): $e');
         }
       }
 
@@ -270,7 +268,9 @@ class RoomFormController extends ChangeNotifier {
   /// views). When null, the substitution-status side of the create /
   /// save flow is skipped (e.g. the `addRoomId` / `removeRoomId` /
   /// `triggerRefresh` calls are no-ops).
-  Future<bool> submit({required SubstitutionService? substitutionService}) async {
+  Future<bool> submit({
+    required SubstitutionService? substitutionService,
+  }) async {
     _lastError = null;
     _isSaving = true;
     notifyListeners();
@@ -438,12 +438,9 @@ class RoomFormController extends ChangeNotifier {
           'public';
       if (_isPublic != currentIsPublic) {
         try {
-          await _client.setRoomStateWithKey(
-            room.id,
-            'm.room.join_rules',
-            '',
-            {'join_rule': _isPublic! ? 'public' : 'invite'},
-          );
+          await _client.setRoomStateWithKey(room.id, 'm.room.join_rules', '', {
+            'join_rule': _isPublic! ? 'public' : 'invite',
+          });
         } catch (e) {
           errors.add('Visibility: $e');
         }
@@ -453,12 +450,9 @@ class RoomFormController extends ChangeNotifier {
     // Encryption (one-way: enable-only).
     if (_isEncrypted == true && !_alreadyEncrypted) {
       try {
-        await _client.setRoomStateWithKey(
-          room.id,
-          'm.room.encryption',
-          '',
-          {'algorithm': 'm.megolm.v1.aes-sha2'},
-        );
+        await _client.setRoomStateWithKey(room.id, 'm.room.encryption', '', {
+          'algorithm': 'm.megolm.v1.aes-sha2',
+        });
       } catch (e) {
         errors.add('Encryption: $e');
       }
@@ -601,9 +595,8 @@ class RoomFormController extends ChangeNotifier {
                   m.membership == Membership.invite,
             )
             .toList();
-    _bannedMembers = members
-        .where((m) => m.membership == Membership.ban)
-        .toList();
+    _bannedMembers =
+        members.where((m) => m.membership == Membership.ban).toList();
     notifyListeners();
   }
 

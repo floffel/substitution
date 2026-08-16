@@ -31,13 +31,13 @@ void main() {
       when(() => mockRooms[0].name).thenReturn('Room 1');
       when(
         () => mockRooms[0].getPowerLevelByUserId('@testuser:matrix.org'),
-      ).thenReturn(60);
+      ).thenReturn(PowerLevel(60));
 
       when(() => mockRooms[1].id).thenReturn('!room2:matrix.org');
       when(() => mockRooms[1].name).thenReturn('Room 2');
       when(
         () => mockRooms[1].getPowerLevelByUserId('@testuser:matrix.org'),
-      ).thenReturn(50);
+      ).thenReturn(PowerLevel(50));
 
       // Setup client
       when(

@@ -38,10 +38,7 @@ void main() {
         // though those characters are not strictly required to be encoded
         // in a path segment.
         final url = ShareHelper.profileUrl('@alice:matrix.org');
-        expect(
-          url,
-          '${AppConstants.webBaseUrl}/profile/%40alice%3Amatrix.org',
-        );
+        expect(url, '${AppConstants.webBaseUrl}/profile/%40alice%3Amatrix.org');
       });
 
       test('encodes spaces and special characters', () {

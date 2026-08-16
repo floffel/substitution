@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:matrix/matrix.dart';
 import 'package:mocktail/mocktail.dart';
 import '../helpers/test_helpers.dart';
 
@@ -86,7 +87,7 @@ void main() {
         id: '!adminroom:matrix.org',
         powerLevel: 100,
       );
-      expect(adminRoom.ownPowerLevel >= 100, isTrue);
+      expect(adminRoom.ownPowerLevel >= PowerLevel.admin, isTrue);
 
       // Test non-admin cannot access
       final memberRoom = createMockRoom(
@@ -94,7 +95,7 @@ void main() {
         id: '!memberroom:matrix.org',
         powerLevel: 50,
       );
-      expect(memberRoom.ownPowerLevel >= 100, isFalse);
+      expect(memberRoom.ownPowerLevel >= PowerLevel.admin, isFalse);
 
       // Test moderator cannot access
       final moderatorRoom = createMockRoom(
@@ -102,7 +103,7 @@ void main() {
         id: '!modroom:matrix.org',
         powerLevel: 75,
       );
-      expect(moderatorRoom.ownPowerLevel >= 100, isFalse);
+      expect(moderatorRoom.ownPowerLevel >= PowerLevel.admin, isFalse);
 
       // Test super admin can access
       final superAdminRoom = createMockRoom(
@@ -110,7 +111,7 @@ void main() {
         id: '!superadminroom:matrix.org',
         powerLevel: 150,
       );
-      expect(superAdminRoom.ownPowerLevel >= 100, isTrue);
+      expect(superAdminRoom.ownPowerLevel >= PowerLevel.admin, isTrue);
     });
   });
 }

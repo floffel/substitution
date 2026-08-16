@@ -39,7 +39,9 @@ class _RoomMembersPageState extends State<RoomMembersPage> {
     participants.sort((a, b) {
       final plA = room.getPowerLevelByUserId(a.id);
       final plB = room.getPowerLevelByUserId(b.id);
-      if (plA != plB) return plB.compareTo(plA); // higher power first
+      if (plA != plB) {
+        return plB.level.compareTo(plA.level); // higher power first
+      }
       return (a.displayName ?? a.id).compareTo(b.displayName ?? b.id);
     });
     return participants.where((u) => u.membership == Membership.join).toList();
@@ -132,7 +134,8 @@ class _RoomMembersPageState extends State<RoomMembersPage> {
             separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final user = members[index];
-              final powerLevel = room?.getPowerLevelByUserId(user.id) ?? 0;
+              final powerLevel =
+                  room?.getPowerLevelByUserId(user.id).level ?? 0;
               final roleLbl = _roleLabel(powerLevel);
               final roleClr = _roleColor(powerLevel, colorScheme);
 

@@ -82,7 +82,7 @@ void main() {
       when(
         () => mockClient.joinRoom(
           any(that: endsWith(':matrix.org')),
-          serverName: any(named: 'serverName'),
+          via: any(named: 'via'),
         ),
       ).thenAnswer((_) async => '!room:matrix.org');
 
@@ -148,7 +148,7 @@ void main() {
       WidgetTester tester,
     ) async {
       when(
-        () => mockClient.joinRoom(any(), serverName: any(named: 'serverName')),
+        () => mockClient.joinRoom(any(), via: any(named: 'via')),
       ).thenAnswer((_) async => '!room:matrix.org');
 
       when(

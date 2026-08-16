@@ -90,7 +90,7 @@ MockRoom createMockRoom({
   when(() => mockRoom.name).thenReturn(name);
   when(() => mockRoom.canonicalAlias).thenReturn('#$name:matrix.org');
   when(() => mockRoom.avatar).thenReturn(avatar);
-  when(() => mockRoom.ownPowerLevel).thenReturn(powerLevel);
+  when(() => mockRoom.ownPowerLevel).thenReturn(PowerLevel(powerLevel));
 
   return mockRoom;
 }

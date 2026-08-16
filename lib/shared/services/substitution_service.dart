@@ -132,7 +132,7 @@ class SubstitutionService extends ChangeNotifier {
 
   /// Joins a room and marks it as a 'substitution' room in account data.
   Future<void> joinRoom(String roomId, {List<String>? serverNames}) async {
-    await _client.joinRoom(roomId, serverName: serverNames);
+    await _client.joinRoom(roomId, via: serverNames);
 
     // Mark room in substitution app context
     if (_client.userID != null) {

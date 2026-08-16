@@ -69,8 +69,8 @@ class RoomAvatarPicker extends StatelessWidget {
             height: 104,
             fit: BoxFit.cover,
             placeholder: (_) => _defaultAvatarCircle(colorScheme, nameFallback),
-            errorBuilder: (_, _) =>
-                _defaultAvatarCircle(colorScheme, nameFallback),
+            errorBuilder:
+                (_, _) => _defaultAvatarCircle(colorScheme, nameFallback),
           ),
         ),
       );
@@ -112,10 +112,7 @@ class RoomAvatarPicker extends StatelessWidget {
     );
   }
 
-  static Widget _defaultAvatarCircle(
-    ColorScheme colorScheme,
-    String name,
-  ) {
+  static Widget _defaultAvatarCircle(ColorScheme colorScheme, String name) {
     return CircleAvatar(
       radius: 52,
       backgroundColor: colorScheme.primaryContainer,

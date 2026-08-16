@@ -39,7 +39,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
       }
 
       // Check if user is admin (power >= 100)
-      if (room!.ownPowerLevel < 100) {
+      if (room!.ownPowerLevel < PowerLevel.admin) {
         setState(() {
           errorMessage =
               'You do not have permission to manage room permissions';
@@ -146,7 +146,7 @@ class _RoomPermissionsPageState extends State<RoomPermissionsPage> {
     }
 
     // Check if user is admin
-    final isAdmin = room!.ownPowerLevel >= 100;
+    final isAdmin = room!.ownPowerLevel >= PowerLevel.admin;
 
     return isAdmin ? _buildAdminView() : _buildReadOnlyView();
   }

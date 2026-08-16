@@ -84,10 +84,7 @@ void main() {
         await patrol_helper.navigateThroughOnboarding($);
 
         // Wait for app to load Host input
-        await fastWait(
-          $.tester,
-          () => $(Key('hostServerInput')).exists,
-        );
+        await fastWait($.tester, () => $(Key('hostServerInput')).exists);
 
         // 1. Enter Host
         debugPrint('REGISTRATION: Entering host URL...');

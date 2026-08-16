@@ -58,9 +58,7 @@ class RoomMembersSection extends StatelessWidget {
           title: 'settings.room_form.section_members'.tr(),
           children: [
             if (members.isEmpty)
-              const _EmptyMessage(
-                keyValue: 'settings.room_form.members_empty',
-              )
+              const _EmptyMessage(keyValue: 'settings.room_form.members_empty')
             else
               ListView.builder(
                 shrinkWrap: true,
@@ -82,9 +80,7 @@ class RoomMembersSection extends StatelessWidget {
           title: 'settings.room_form.section_banned'.tr(),
           children: [
             if (bannedMembers.isEmpty)
-              const _EmptyMessage(
-                keyValue: 'settings.room_form.banned_empty',
-              )
+              const _EmptyMessage(keyValue: 'settings.room_form.banned_empty')
             else
               ListView.builder(
                 shrinkWrap: true,
@@ -129,9 +125,9 @@ class MemberTile extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     if (room == null) return const SizedBox.shrink();
-    final powerLevel = room!.getPowerLevelByUserId(member.id);
+    final int powerLevel = room!.getPowerLevelByUserId(member.id).level;
     final isSelf = member.id == client.userID;
-    final ownPowerLevel = room!.ownPowerLevel;
+    final int ownPowerLevel = room!.ownPowerLevel.level;
 
     return ListTile(
       contentPadding: EdgeInsets.zero,

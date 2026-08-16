@@ -24,15 +24,15 @@ void main() {
       const roomId = '!room123:matrix.org';
 
       when(
-        () => mockClient.joinRoom(roomId, serverName: any(named: 'serverName')),
+        () => mockClient.joinRoom(roomId, via: any(named: 'via')),
       ).thenAnswer((_) async => roomId);
 
       // Simulate joining a room
-      await mockClient.joinRoom(roomId, serverName: ['matrix.org']);
+      await mockClient.joinRoom(roomId, via: ['matrix.org']);
 
       // Verify joinRoom was called with correct room ID
       verify(
-        () => mockClient.joinRoom(roomId, serverName: any(named: 'serverName')),
+        () => mockClient.joinRoom(roomId, via: any(named: 'via')),
       ).called(1);
     });
 
@@ -41,7 +41,7 @@ void main() {
       const userId = '@user:matrix.org';
 
       when(
-        () => mockClient.joinRoom(roomId, serverName: any(named: 'serverName')),
+        () => mockClient.joinRoom(roomId, via: any(named: 'via')),
       ).thenAnswer((_) async => roomId);
 
       when(
@@ -56,7 +56,7 @@ void main() {
       when(() => mockClient.userID).thenReturn(userId);
 
       // Simulate joining and setting account data
-      await mockClient.joinRoom(roomId, serverName: ['matrix.org']);
+      await mockClient.joinRoom(roomId, via: ['matrix.org']);
       await mockClient.setAccountDataPerRoom(userId, roomId, 'substitution', {
         'joined': true,
       });

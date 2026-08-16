@@ -260,7 +260,9 @@ class PostWidgetState extends State<PostWidget> with IconPicker {
                     final isOwnPost =
                         client.userID == widget.displayEvent.senderId;
                     final canRedact =
-                        isOwnPost || (widget.event.room.ownPowerLevel >= 50);
+                        isOwnPost ||
+                        (widget.event.room.ownPowerLevel >=
+                            PowerLevel.moderator);
                     return [
                       if (isOwnPost &&
                           widget.displayEvent.messageType == MessageTypes.Text)
@@ -701,7 +703,8 @@ class _EmotePostRowState extends State<_EmotePostRow> with IconPicker {
               final client = Provider.of<Client>(context, listen: false);
               final isOwnPost = client.userID == displayEvent.senderId;
               final canRedact =
-                  isOwnPost || (widget.event.room.ownPowerLevel >= 50);
+                  isOwnPost ||
+                  (widget.event.room.ownPowerLevel >= PowerLevel.moderator);
               return [
                 if (canRedact)
                   PopupMenuItem<String>(

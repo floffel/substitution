@@ -83,8 +83,7 @@ class RoomSelectPage extends StatefulWidget {
   RoomSelectPageState createState() => RoomSelectPageState();
 }
 
-class RoomSelectPageState extends State<RoomSelectPage>
-    with MatrixEssentials {
+class RoomSelectPageState extends State<RoomSelectPage> with MatrixEssentials {
   PostType _selectedType = PostType.text;
 
   late Future<List<SubstitutionRoom>> _joinedRoomsFuture;
@@ -115,7 +114,7 @@ class RoomSelectPageState extends State<RoomSelectPage>
       final powerLevelEvent = r.getState('m.room.power_levels');
       final eventsDefault =
           (powerLevelEvent?.content['events_default'] as num?)?.toInt() ?? 0;
-      if (eventsDefault >= 50 && r.ownPowerLevel < 50) {
+      if (eventsDefault >= 50 && r.ownPowerLevel < PowerLevel.moderator) {
         continue;
       }
 
