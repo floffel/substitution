@@ -6,11 +6,13 @@ Future<void> showSendLoadingDialog(
   BuildContext context, {
   required String messageKey,
   List<String> args = const [],
+  void Function(BuildContext dialogContext)? onBuilt,
 }) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext ctx) {
+      onBuilt?.call(ctx);
       return AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,

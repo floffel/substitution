@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-09-08
+
 ### Added
 - **Deep-link destination preservation (`?goto=`)** — when a logged-out user follows
   a deep link to a protected page, the route guard now redirects to

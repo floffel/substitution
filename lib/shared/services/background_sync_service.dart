@@ -123,6 +123,9 @@ void backgroundSyncCallbackDispatcher() {
       debugPrint('BackgroundSync: task completed');
     } catch (e, stack) {
       debugPrint('BackgroundSync: error: $e\n$stack');
+      // Returning false lets WorkManager retry transient network or Matrix
+      // failures instead of marking the task as successfully completed.
+      return false;
     }
 
     return true;

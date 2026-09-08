@@ -176,8 +176,6 @@ class _ChatPageState extends State<ChatPage> {
 
     // Capture context-dependent objects before any await.
     // ignore: use_build_context_synchronously
-    final navigator = Navigator.of(context);
-    // ignore: use_build_context_synchronously
     final scavMsg = ScaffoldMessenger.of(context);
 
     for (final xfile in picked) {
@@ -187,7 +185,12 @@ class _ChatPageState extends State<ChatPage> {
       while (ret == null && !userCancel) {
         if (!mounted) return;
 
-        showSendLoadingDialog(context, messageKey: 'chat.upload_start');
+        BuildContext? loadingDialogContext;
+        showSendLoadingDialog(
+          context,
+          messageKey: 'chat.upload_start',
+          onBuilt: (dialogContext) => loadingDialogContext = dialogContext,
+        );
 
         try {
           final bytes = await xfile.readAsBytes();
@@ -197,7 +200,9 @@ class _ChatPageState extends State<ChatPage> {
           debugPrint('Chat: file upload error: $e');
         }
 
-        navigator.pop(); // pop loading dialog
+        if (loadingDialogContext?.mounted == true) {
+          Navigator.of(loadingDialogContext!).pop();
+        }
 
         if (ret == null) {
           if (!mounted) break;

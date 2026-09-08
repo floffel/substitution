@@ -288,7 +288,8 @@
                 "button": {
                     "submit": "Yes, leave it",
                     "cancel": "No, cancel"
-                }
+                },
+                "error": "Could not update the server list. Please try again."
             },
             "add": {
                 "title": "Add a new Server",

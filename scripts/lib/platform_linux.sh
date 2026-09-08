@@ -18,6 +18,15 @@ run_linux_tests() {
         local log_file="${RESULTS_DIR}/linux-tests.log"
         mkdir -p "$RESULTS_DIR"
 
+        # Inside the container, "localhost" is the container itself, not the
+        # host running the Matrix server. Map localhost/127.0.0.1 to
+        # host.docker.internal so the tests reach the host's compose stack.
+        local container_matrix_server="${MATRIX_SERVER:-http://host.docker.internal:8008}"
+        if [[ "$container_matrix_server" == "http://localhost:8008" || \
+              "$container_matrix_server" == "http://127.0.0.1:8008" ]]; then
+            container_matrix_server="http://host.docker.internal:8008"
+        fi
+
         docker run --rm \
             --platform linux/amd64 \
             -v "$(pwd):/app" \
@@ -25,7 +34,7 @@ run_linux_tests() {
             --name "$container_name" \
             -e DISPLAY=:99.0 \
             -e NO_AT_BRIDGE=1 \
-            -e MATRIX_SERVER="${MATRIX_SERVER:-http://host.docker.internal:8008}" \
+            -e MATRIX_SERVER="${container_matrix_server}" \
             -e MATRIX_TEST_USER="${MATRIX_TEST_USER:-testuser1}" \
             -e MATRIX_TEST_PASSWORD="${MATRIX_TEST_PASSWORD:-testpass123}" \
             -e SHARD_INDEX="${SHARD_INDEX:-}" \
@@ -45,6 +54,14 @@ run_linux_tests() {
                     libblkid-dev libdbus-1-dev libatk1.0-dev \
                     libcurl4-openssl-dev \
                     xvfb netcat-traditional
+
+                # flutter_vodozemac (Cargokit plugin) requires a Rust
+                # toolchain to compile its native library.
+                if ! command -v cargo >/dev/null 2>&1; then
+                    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+                        | sh -s -- -y --profile minimal --default-toolchain stable
+                fi
+                export PATH="$HOME/.cargo/bin:$PATH"
 
                 args=(linux --no-docker)
                 if [[ -n "${SHARD_INDEX:-}" && -n "${TOTAL_SHARDS:-}" ]]; then

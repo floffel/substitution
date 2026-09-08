@@ -40,6 +40,7 @@ class _DialogDeleteServerState extends State<DialogDeleteServer>
             child: const Text("settings.dialog.delete.button.submit").tr(),
             onPressed: () async {
               final navigator = Navigator.of(context);
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
               setState(() {
                 _isLoading = true;
               });
@@ -66,7 +67,13 @@ class _DialogDeleteServerState extends State<DialogDeleteServer>
                 navigator.pop(true);
               } catch (e) {
                 debugPrint("Error deleting server: $e");
-                // Show error?
+                if (mounted) {
+                  scaffoldMessenger.showSnackBar(
+                    SnackBar(
+                      content: Text('settings.dialog.delete.error'.tr()),
+                    ),
+                  );
+                }
               } finally {
                 if (mounted) {
                   setState(() {

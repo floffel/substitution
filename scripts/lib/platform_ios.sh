@@ -411,8 +411,8 @@ run_ios_tests() {
                 log_warn "FAILED: $test_file"
                 overall_exit=1
             elif [[ ${test_passed:-0} -gt 0 ]]; then
-                log_warn "flutter test exited $exit_code for $test_file but ${test_passed} passed, 0 failed — treating as success"
-                # Do NOT set overall_exit=1 here
+                log_warn "flutter test exited $exit_code for $test_file after ${test_passed} passed tests"
+                overall_exit=1
             else
                 log_warn "FAILED (no test output parsed): $test_file"
                 acc_failed=$((acc_failed + 1))

@@ -169,12 +169,18 @@ void main() {
 
         await waitForFeedReady($);
 
-        // Verify that seeded messages from test_general are present
-        await fastWait(
-          $.tester,
-          () => find.textContaining('Hello everyone').evaluate().isNotEmpty,
-          timeout: const Duration(seconds: 30),
-        );
+        // The seeded "Hello everyone" message can be pushed to a later
+        // page once other tests have posted newer messages into
+        // test_general. Scroll through feed pages until it becomes visible.
+        final feedScrollable = find.byType(Scrollable).first;
+        const maxPages = 10;
+        for (int i = 0;
+            i < maxPages &&
+                find.textContaining('Hello everyone').evaluate().isEmpty;
+            i++) {
+          await $.tester.drag(feedScrollable, const Offset(0, -800));
+          await settle($.tester, count: 3);
+        }
 
         expect(find.textContaining('Hello everyone'), findsAtLeastNWidgets(1));
         debugPrint('✓ ENGAGEMENT: Seeded messages verified in feed');

@@ -205,8 +205,9 @@ class MatrixRoomTimelineAdapter implements RoomTimelineAdapter {
       calls++;
     }
 
-    // Whether we found the anchor or not, we loaded SOME events, which
-    // advances the room's α. Return true if we made any progress.
-    return true;
+    // Callers use this result to decide whether it is safe to advance the
+    // merged feed cursor. Loading unrelated history is not enough: without
+    // the requested anchor, the cursor cannot be positioned reliably.
+    return anchorPresent();
   }
 }

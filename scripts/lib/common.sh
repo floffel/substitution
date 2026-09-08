@@ -201,8 +201,10 @@ fetch_dependencies() {
 
 # Start Xvfb virtual display (Linux only, for headless GUI tests)
 start_virtual_display() {
-    if [[ -n "$DISPLAY" ]]; then
-        log_debug "DISPLAY already set: $DISPLAY"
+    # Only skip when DISPLAY points at a live X server; the Docker container
+    # path sets DISPLAY=:99.0 without running Xvfb, so verify it responds.
+    if [[ -n "$DISPLAY" ]] && command -v xdpyinfo &>/dev/null && xdpyinfo -display "$DISPLAY" &>/dev/null; then
+        log_debug "DISPLAY already set and reachable: $DISPLAY"
         return 0
     fi
     if [[ "$(detect_os)" == "darwin" ]]; then
@@ -214,7 +216,7 @@ start_virtual_display() {
         return 1
     fi
     log_info "Starting Xvfb virtual display..."
-    Xvfb :99 -screen 0 1280x720x24 -ac -retro &>/dev/null &
+    Xvfb :99 -screen 0 1280x1024x24 -ac -retro &>/dev/null &
     XVFB_PID=$!
     export DISPLAY=:99
     sleep 2

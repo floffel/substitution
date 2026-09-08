@@ -11,9 +11,10 @@ class SubstitutionService extends ChangeNotifier {
   Future<void>? _initFuture;
   StreamSubscription? _syncSubscription;
   bool _isRefreshingFromLocal = false;
+  bool _initialized = false;
 
   /// Returns true if the service has finished its initial room discovery.
-  bool get isInitialized => _initFuture != null;
+  bool get isInitialized => _initialized;
 
   /// Returns the number of rooms currently tracked.
   int get roomCount => _substitutionRoomIds.length;
@@ -52,8 +53,19 @@ class SubstitutionService extends ChangeNotifier {
   /// Call once (e.g. in HomePage.initState) to pre-populate the local cache
   /// from the Matrix server's account data.
   Future<void> init() {
-    _initFuture ??= _ensureInitialized();
+    _initFuture ??= _initialize();
     return _initFuture!;
+  }
+
+  Future<void> _initialize() async {
+    try {
+      await _ensureInitialized();
+      _initialized = true;
+    } catch (_) {
+      // Allow a later sync or caller retry to run initialization again.
+      _initFuture = null;
+      rethrow;
+    }
   }
 
   Future<void> _ensureInitialized() async {
@@ -67,8 +79,13 @@ class SubstitutionService extends ChangeNotifier {
         await _client.onSync.stream
             .firstWhere((_) => _client.prevBatch != null)
             .timeout(const Duration(seconds: 30));
-      } catch (_) {
-        // Timeout reached, proceed anyway
+      } catch (e) {
+        if (e is TimeoutException) {
+          throw TimeoutException(
+            'Timed out waiting for the initial Matrix sync',
+          );
+        }
+        rethrow;
       }
     }
 
@@ -89,7 +106,6 @@ class SubstitutionService extends ChangeNotifier {
       ..clear()
       ..addAll(seeded);
 
-    await _refreshFromLocalRooms();
     notifyListeners();
   }
 

@@ -3,6 +3,7 @@ import '/write/widgets/send_progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Mixin that provides the shared send-with-retry loop used across all write
 /// pages (text, emote, sticker, voice, file).
@@ -52,8 +53,6 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
     // ignore: use_build_context_synchronously
     final scavMsg = ScaffoldMessenger.of(context);
     // ignore: use_build_context_synchronously
-    final navigator = Navigator.of(context);
-    // ignore: use_build_context_synchronously
     final goRouter = GoRouter.of(context);
 
     String? ret;
@@ -62,11 +61,13 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
     while (ret == null && !userCancel) {
       if (!mounted) return false;
 
+      BuildContext? loadingDialogContext;
       showSendLoadingDialog(
         // ignore: use_build_context_synchronously
         context,
         messageKey: loadingMessageKey,
         args: loadingArgs,
+        onBuilt: (dialogContext) => loadingDialogContext = dialogContext,
       );
 
       try {
@@ -76,7 +77,9 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
         // ret stays null so the error dialog below is shown
       }
 
-      navigator.pop(); // pop the loading dialog
+      if (loadingDialogContext?.mounted == true) {
+        Navigator.of(loadingDialogContext!).pop();
+      }
 
       if (ret == null) {
         if (!mounted) break;
@@ -88,7 +91,7 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
         );
       } else {
         if (mounted) {
-          scavMsg.showSnackBar(SnackBar(content: Text(successMessageKey)));
+          scavMsg.showSnackBar(SnackBar(content: Text(successMessageKey.tr())));
         }
       }
     }
@@ -97,11 +100,16 @@ mixin SendWithRetry<T extends StatefulWidget> on State<T> {
       if (!mounted) return true;
       if (navigateOnSuccess) {
         if (threadRootEventId != null && client != null && room != null) {
-          final answerEvent = Event.fromMatrixEvent(
-            await client.getOneRoomEvent(room.id, threadRootEventId),
-            room,
-          );
-          goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
+          try {
+            final answerEvent = Event.fromMatrixEvent(
+              await client.getOneRoomEvent(room.id, threadRootEventId),
+              room,
+            );
+            goRouter.go('/room/${answerEvent.room.id}/${answerEvent.eventId}');
+          } catch (e) {
+            debugPrint('SendWithRetry: failed to resolve thread root: $e');
+            goRouter.go('/feed/${room.id}');
+          }
         } else if (room != null) {
           goRouter.go('/feed/${room.id}');
         } else {
