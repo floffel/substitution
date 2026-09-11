@@ -75,6 +75,9 @@ dependencies:
   workmanager: ^0.10.7
   sentry_flutter: ^9.27.0
 
+  # flutter_html 3.0.0 uses the selector API removed in html 0.15.7.
+  html: 0.15.6
+
   flutter_test:
     sdk: flutter
   shared_preferences: any
